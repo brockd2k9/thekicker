@@ -55,7 +55,7 @@ func _build(col: VBoxContainer) -> void:
 	row.add_theme_constant_override("separation", 12)
 	col.add_child(row)
 	_face = AppearancePreview.new()
-	_face.custom_minimum_size = Vector2(150, 170)
+	_face.custom_minimum_size = Vector2(150, 200)
 	row.add_child(_face)
 	var opts := VBoxContainer.new()
 	opts.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -70,7 +70,7 @@ func _build(col: VBoxContainer) -> void:
 		var b := UiKit.button("-" if d < 0 else "+", func() -> void:
 			_number = wrapi(_number + d, 1, 100)
 			_refresh_look())
-		b.custom_minimum_size = Vector2(72, 56)
+		b.custom_minimum_size = Vector2(UiKit.BUTTON_HEIGHT, UiKit.BUTTON_HEIGHT)
 		num_row.add_child(b)
 	var skins: Array = look.get("skin", ["#e0ac7e"])
 	var hairs: Array = look.get("hair", ["#2b1d0e"])
@@ -81,7 +81,6 @@ func _build(col: VBoxContainer) -> void:
 		_hair = (_hair + 1) % hairs.size()
 		_refresh_look())
 	for b in [skin_b, hair_b]:
-		b.custom_minimum_size.y = 56
 		b.add_theme_font_size_override("font_size", 28)
 	opts.add_child(CareerUi.button_row([skin_b, hair_b]))
 

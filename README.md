@@ -37,10 +37,10 @@ aspect ratio works.
 
 | Menu item | What it does |
 |---|---|
-| Career Mode | In progress: 3 save slots, high school seasons played week by week (off-field scenarios, Game Day Outlook, games watched from the bench with field goals / extra points in the kick scene and kickoffs / onside kicks / warmups on a sideline pad). Data in `data/career/`, balance in `tuning/career_tuning.tres`. Full docs come with the last Career stage |
+| Career Mode | Freshman year to retirement: 3 save slots, a skippable first-time tutorial, week-by-week seasons (off-field scenarios, Game Day Outlook, games from the bench), recruiting and signing day, college, the draft and tryouts, pro contracts, and a career summary. See "Career Mode" below |
 | Challenge Mode | A run of kicks that get longer (25 yd → 60), windier (calm → 20 mph + gusts) and more pressured (none → clutch). **3 misses and the run ends** (blocks count). Results screen: Play Again / Main Menu |
 | Practice | The original Phase 1 loop: random kicks forever (not in the original menu spec, added so the existing mode is still reachable) |
-| My Stats | Session accuracy, all-time accuracy, longest make/miss streaks, longest field goal, misses by type, best Challenge run |
+| My Stats | Session accuracy, all-time accuracy, longest make/miss streaks, longest field goal, misses by type, best Challenge run, and a CAREER section (careers started / completed, best career, longest career, career kicks) |
 | Achievements | Locked/unlocked list with unlock dates. A toast slides in when one unlocks |
 | Settings | Sound volume, music volume, haptics, aim assist, Reset Stats (with confirmation) |
 
@@ -105,6 +105,11 @@ an all-time stat (`{"stat": "makes", "at_least": 100}`), a single kick
 Seeded: First Make, 5-in-a-Row, Automatic (10 in a row), 50+ Yard Make, Moonshot (60 yd),
 Clutch Kick, Windy Day (15+ mph at the moment of the kick), Century (100 makes), Gauntlet
 (10 makes in one Challenge run).
+Career achievements (condition `"on": "career"`, sent by Career Mode through
+`GameState.report_career_event()` with `event` + `match` / `min_value` filters):
+Scholarship Offer, Big Time (top program), Draft Day, Welcome to the League (first pro season),
+Walk-Off (game-winning kick), Complete Package (all 8 traits), Against the Odds (pro after the
+walk-on or junior college route), Full Career (retire after a pro season), Ironman (age 38).
 
 ## Tuning (one file)
 
@@ -247,12 +252,17 @@ listens in `_unhandled_input` and every HUD control is `mouse_filter = Ignore`.
 Future menu buttons will therefore take their own clicks without firing kicks. Swipe
 distances and speeds are measured in *screen heights*, so feel is resolution-independent.
 
-### Career Mode (in progress)
+### Career Mode
 Playable from freshman year to retirement: high school -> recruiting (offers by tier,
 GPA-gated) -> college (or walk-on tryout / junior college) -> draft (or training camp /
 open free-agent tryouts) -> pro contracts (re-sign, release, Retire, age cap 38) ->
 career summary. A long run of poor seasons and failed tryouts ends a career early.
-Polish, achievements and the final docs come in the last stage.
+A short tutorial runs the first time Career Mode opens (text: `data/career/tutorial.json`;
+"seen" flag: `career_tutorial_seen` in Settings; replay: "How Career Mode Works").
+Career milestones feed My Stats (CAREER section) and the career achievements.
+Old career saves load and are upgraded (format versions and steps in
+`scripts/career/career_save.gd`); content that was renamed or removed since a save was made is
+dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career Mode".
 
 | What | Where |
 |---|---|
@@ -319,6 +329,19 @@ The Android back button is handled by the game (`application/config/quit_on_go_b
 back to the menu from a screen, pause in a kick, quit from the main menu.
 Bump **Version Code** for every Play Store upload. `config/version` in Project Settings is
 what the Settings screen shows.
+
+Export filter: keep the default *Export all resources in the project* and add
+`tests_tmp/*, tools/*` to *Filters to exclude files* (the balance simulator is a dev tool).
+Career Mode's data files (`data/career/*.json`) are loaded as JSON resources, so they are
+exported automatically; no include filter is needed.
+
+**What has been verified (Stage 6):** a pack-only export for Android
+(`godot --headless --export-pack "Android" kicker.pck`, which needs no SDK or templates)
+contains all game resources including every `data/career/*.json`, and the exported pack boots
+and runs the menu, the Career tutorial and the Career Debug screen (which validates all career
+data) with no errors. A full signed `.apk` / `.aab` has **not** been built yet: that needs the
+Android SDK and export templates on the build machine (steps above). Please run one export to a
+real phone and check touch, vibration and the back button there.
 
 ## Desktop / Steam later
 - Add a Windows/Linux/macOS export preset. Mouse already works.

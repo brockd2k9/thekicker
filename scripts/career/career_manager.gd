@@ -61,16 +61,71 @@ static func create(slot: int, player_name: String, number: int, appearance: Dict
 	var m := CareerManager.new(c, t)
 	m._start_season(false)
 	m.save()
+	m._event({"event": "career_started"})
 	return m
 
 
 static func load_slot(slot: int) -> CareerManager:
 	var c := CareerSave.load_slot(slot)
-	return CareerManager.new(c) if c != null else null
+	if c == null:
+		return null
+	var m := CareerManager.new(c)
+	m._sanitize()
+	return m
+
+
+## Old saves can reference content that has since been renamed or removed
+## (Stage 3 placeholder scenarios, for example): drop unknown pending /
+## queued scenarios and game-day modifiers, and move on if a step is left
+## with nothing to show.
+func _sanitize() -> void:
+	data.pending_scenarios = data.pending_scenarios.filter(func(id: Variant) -> bool:
+		return not CareerContent.scenario(str(id)).is_empty())
+	data.queued_scenarios = data.queued_scenarios.filter(func(q: Variant) -> bool:
+		return not CareerContent.scenario(str(q.get("id", ""))).is_empty())
+	data.week_modifiers = data.week_modifiers.filter(func(id: Variant) -> bool:
+		return not CareerContent.modifier(str(id)).is_empty())
+	if data.phase in [PHASE_SCENARIO, PHASE_OFFSEASON] and data.pending_scenarios.is_empty():
+		_after_scenarios()
+	if data.schedule.is_empty() and in_season_loop() and data.phase != PHASE_OFFSEASON:
+		_start_season(true)
 
 
 func save() -> bool:
+	# New traits since the last save -> a career event (for "all traits").
+	if data.traits.size() > int(data.flags.get("traits_reported", 0)):
+		data.flags["traits_reported"] = data.traits.size()
+		_event({"event": "traits", "count": data.traits.size()})
 	return CareerSave.save(data)
+
+
+## Career milestones go to GameState (My Stats career totals + achievements).
+## In-memory careers (slot 0, the balance simulator) report nothing.
+func _event(e: Dictionary) -> void:
+	if data.slot != 0:
+		GameState.report_career_event(e)
+
+
+## How far this career has gone: {rank, text, seasons} for My Stats.
+## rank = stage (1 high school, 2 junior college, 3 college, 4 pro) * 100 + pro seasons.
+func career_result() -> Dictionary:
+	var pro := data.history.filter(func(h: Dictionary) -> bool: return h.get("stage", "") == CareerData.STAGE_PRO)
+	var col := data.history.filter(func(h: Dictionary) -> bool: return h.get("stage", "") == CareerData.STAGE_COLLEGE)
+	var jc := data.history.filter(func(h: Dictionary) -> bool: return h.get("stage", "") == CareerData.STAGE_JUCO)
+	var r := {"seasons": data.history.size()}
+	if not pro.is_empty():
+		r["rank"] = 400 + pro.size()
+		r["text"] = "Pro, %d season%s (%s)" % [pro.size(), "" if pro.size() == 1 else "s", pro[-1].get("team", "")]
+	elif not col.is_empty():
+		r["rank"] = 300
+		r["text"] = "College (%s)" % col[-1].get("team", "")
+	elif not jc.is_empty():
+		r["rank"] = 200
+		r["text"] = "Junior college (%s)" % jc[-1].get("team", "")
+	else:
+		r["rank"] = 100
+		r["text"] = "High school (%s)" % data.team.get("name", "")
+	return r
 
 
 ## Which screen this phase belongs on.
@@ -356,10 +411,14 @@ func finish_game(summary: Dictionary) -> void:
 	data.game_checkpoint = {}
 	data.phase = PHASE_RESULTS
 	save()
-	GameState.report_run({"mode": "career", "outcome": outcome,
-		"makes": int(_count(summary.get("kicks", []), true)),
-		"kicks": int(_count(summary.get("kicks", []), false)),
-		"stage": data.stage})
+	for k in summary.get("kicks", []):
+		if k.get("made", false) and "GAME WINNER" in str(k.get("label", "")):
+			_event({"event": "game_winner", "yards": int(k.get("yards", 0))})
+	if data.slot != 0:
+		GameState.report_run({"mode": "career", "outcome": outcome,
+			"makes": int(_count(summary.get("kicks", []), true)),
+			"kicks": int(_count(summary.get("kicks", []), false)),
+			"stage": data.stage})
 
 
 ## The stat changes a finished game causes (before the stat rules).
@@ -494,12 +553,16 @@ func end_season() -> void:
 	var h := {"stage": data.stage, "season": data.season, "season_in_stage": data.season_in_stage,
 		"year": class_year(), "team": data.team.get("name", ""), "age": data.age,
 		"record": data.record.duplicate(), "stats": data.season_stats.duplicate()}
+	# Recorded first, so a retirement at the age cap includes this season.
+	data.history.append(h)
 	match data.stage:
 		CareerData.STAGE_HIGH_SCHOOL, CareerData.STAGE_JUCO:
 			var gain := Progression.recruiting_gain(data, tuning)
 			data.recruiting_score = clampf(data.recruiting_score + gain, 0.0, 100.0)
 			data.gpa = clampf(data.gpa + Progression.gpa_drift(data, tuning), 0.0, 4.0)
 			var upd := Progression.update_offers(data, rng)
+			for off in upd["new"]:
+				_event({"event": "offer", "type": off["type"], "tier": off["tier"]})
 			upd["gain"] = gain
 			upd["final"] = _stage_done()
 			data.flags["recruiting_update"] = upd
@@ -520,7 +583,8 @@ func end_season() -> void:
 			data.retention_score = Progression.retention(data, tuning)
 			h["retention"] = data.retention_score
 			_pro_season_end()
-	data.history.append(h)
+	var res := career_result()
+	_event({"event": "season_end", "seasons": res["seasons"], "rank": res["rank"], "result_text": res["text"]})
 	save()
 
 
@@ -566,6 +630,9 @@ func _enter_stage(stage: String, team: Dictionary, route_text: String) -> void:
 	data.offers.clear()
 	data.tryout = {}
 	data.add_route(route_text)
+	if stage == CareerData.STAGE_PRO:
+		var comeback := bool(data.flags.get("walk_on", false)) or bool(data.flags.get("juco", false))
+		_event({"event": "pro_reached", "comeback": comeback})
 	_begin_offseason()
 
 
@@ -603,6 +670,7 @@ func choose_college(option: Dictionary) -> void:
 			data.draft_score = float(start.get(str(off["type"]), 0.0))
 			data.flags["walk_on"] = off["type"] == Progression.OFFER_WALK_ON
 			data.poor_streak = 0
+			_event({"event": "signed", "tier": str(off["tier"]), "type": str(off["type"])})
 			_enter_stage(CareerData.STAGE_COLLEGE, team, "Signed with %s (%s, %s)" % [s.get("name", ""),
 				Progression.OFFER_NAMES.get(off["type"], ""), Progression.tier(str(off["tier"])).get("name", "")])
 		"walk_on_tryout":
@@ -610,6 +678,7 @@ func choose_college(option: Dictionary) -> void:
 		"juco":
 			var jucos := CareerContent.jucos()
 			var s: Dictionary = jucos[rng.randi_range(0, jucos.size() - 1)]
+			data.flags["juco"] = true
 			_enter_stage(CareerData.STAGE_JUCO, Progression.team_from(s, CareerData.STAGE_JUCO),
 				"Went the junior college route at %s" % s.get("name", ""))
 	save()
@@ -690,6 +759,7 @@ func sign_drafted() -> void:
 	if data.phase != PHASE_DRAFT or str(d.get("kind", "")) != "drafted":
 		return
 	data.contract = Progression.contract(str(d["team"]), "drafted", int(d["round"]))
+	_event({"event": "drafted", "round": int(d["round"])})
 	var team := CareerContent.team_by_id(str(d["team"]))
 	_enter_stage(CareerData.STAGE_PRO, Progression.team_from(team, CareerData.STAGE_PRO),
 		"Drafted in round %d by the %s (%d years, %s)" % [int(d["round"]), team.get("name", ""),
@@ -724,6 +794,9 @@ func _free_agency(why: String) -> void:
 ## After a pro season: age cap, release, contract end, or keep going.
 func _pro_season_end() -> void:
 	data.contract["years_left"] = int(data.contract.get("years_left", 1)) - 1
+	var pro_seasons := data.history.filter(func(h: Dictionary) -> bool:
+		return h.get("stage", "") == CareerData.STAGE_PRO).size()
+	_event({"event": "pro_season", "pro_seasons": pro_seasons})
 	if data.age >= tuning.pro_age_cap:
 		retire("age_cap")
 		return
@@ -776,4 +849,9 @@ func retire(reason: String) -> void:
 	data.add_route(text)
 	data.stage = CareerData.STAGE_RETIRED
 	data.phase = PHASE_RETIRED
+	var res := career_result()
+	_event({"event": "retired", "reason": reason, "age": data.age, "seasons": res["seasons"],
+		"pro_seasons": data.history.filter(func(h: Dictionary) -> bool:
+			return h.get("stage", "") == CareerData.STAGE_PRO).size(),
+		"rank": res["rank"], "result_text": res["text"]})
 	save()

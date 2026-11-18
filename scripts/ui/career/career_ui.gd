@@ -40,7 +40,7 @@ static func toggle_row(text: String, on: bool, on_toggled: Callable) -> CheckBut
 	var b := CheckButton.new()
 	b.text = text
 	b.button_pressed = on
-	b.custom_minimum_size.y = 72
+	b.custom_minimum_size.y = UiKit.BUTTON_HEIGHT
 	b.add_theme_font_size_override("font_size", 28)
 	b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	b.focus_mode = Control.FOCUS_NONE if OS.has_feature("mobile") else Control.FOCUS_ALL

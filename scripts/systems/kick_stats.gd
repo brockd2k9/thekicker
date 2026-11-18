@@ -19,6 +19,18 @@ var longest_make_yards: int = 0
 var misses_by_type: Dictionary = {}
 var challenge_runs: int = 0
 var challenge_best_makes: int = 0
+## Career Mode, across every career (kicks = field goals, extra points and
+## tryout kicks reported with mode "career").
+var careers_started: int = 0
+var careers_completed: int = 0
+var career_attempts: int = 0
+var career_makes: int = 0
+## Longest career so far, in seasons played.
+var longest_career_seasons: int = 0
+## Best result so far: a rank (stage * 100 + pro seasons) and its text,
+## e.g. "Pro, 6 seasons (Metro Monarchs)".
+var best_career_rank: int = 0
+var best_career_text: String = ""
 
 
 func _init() -> void:
@@ -38,10 +50,21 @@ func reset() -> void:
 		misses_by_type[t] = 0
 	challenge_runs = 0
 	challenge_best_makes = 0
+	careers_started = 0
+	careers_completed = 0
+	career_attempts = 0
+	career_makes = 0
+	longest_career_seasons = 0
+	best_career_rank = 0
+	best_career_text = ""
 
 
 func record_kick(r: KickReport) -> void:
 	attempts += 1
+	if r.mode == &"career":
+		career_attempts += 1
+		if r.made:
+			career_makes += 1
 	if r.made:
 		makes += 1
 		current_make_streak += 1
@@ -63,6 +86,21 @@ func record_run(summary: Dictionary) -> void:
 		challenge_best_makes = maxi(challenge_best_makes, int(summary.get("makes", 0)))
 
 
+## e: a Career Mode event (see GameState.report_career_event).
+## "seasons", "rank" and "result_text" ride along on season_end / retired.
+func record_career_event(e: Dictionary) -> void:
+	match str(e.get("event", "")):
+		"career_started":
+			careers_started += 1
+		"retired":
+			careers_completed += 1
+	if e.has("seasons"):
+		longest_career_seasons = maxi(longest_career_seasons, int(e["seasons"]))
+	if e.has("rank") and int(e["rank"]) > best_career_rank:
+		best_career_rank = int(e["rank"])
+		best_career_text = str(e.get("result_text", ""))
+
+
 func accuracy_percent() -> int:
 	if attempts == 0:
 		return 0
@@ -71,8 +109,8 @@ func accuracy_percent() -> int:
 
 ## Named stat lookup for achievement conditions, e.g. value("makes").
 func value(key: String) -> float:
-	var d := to_dict()
-	return float(d.get(key, 0))
+	var v: Variant = to_dict().get(key, 0)
+	return float(v) if (v is int or v is float) else 0.0
 
 
 func to_dict() -> Dictionary:
@@ -87,6 +125,13 @@ func to_dict() -> Dictionary:
 		"misses_by_type": misses_by_type.duplicate(),
 		"challenge_runs": challenge_runs,
 		"challenge_best_makes": challenge_best_makes,
+		"careers_started": careers_started,
+		"careers_completed": careers_completed,
+		"career_attempts": career_attempts,
+		"career_makes": career_makes,
+		"longest_career_seasons": longest_career_seasons,
+		"best_career_rank": best_career_rank,
+		"best_career_text": best_career_text,
 	}
 
 
@@ -105,3 +150,10 @@ func from_dict(d: Dictionary) -> void:
 			misses_by_type[t] = int((m as Dictionary).get(t, 0))
 	challenge_runs = int(d.get("challenge_runs", 0))
 	challenge_best_makes = int(d.get("challenge_best_makes", 0))
+	careers_started = int(d.get("careers_started", 0))
+	careers_completed = int(d.get("careers_completed", 0))
+	career_attempts = int(d.get("career_attempts", 0))
+	career_makes = int(d.get("career_makes", 0))
+	longest_career_seasons = int(d.get("longest_career_seasons", 0))
+	best_career_rank = int(d.get("best_career_rank", 0))
+	best_career_text = str(d.get("best_career_text", ""))

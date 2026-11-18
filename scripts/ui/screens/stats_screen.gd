@@ -28,6 +28,16 @@ func _build(col: VBoxContainer) -> void:
 	list.add_child(UiKit.stat_row("Best Run", "%d makes" % s.challenge_best_makes))
 	list.add_child(UiKit.stat_row("Runs Played", str(s.challenge_runs)))
 
+	list.add_child(UiKit.section("CAREER"))
+	list.add_child(UiKit.stat_row("Careers Started", str(s.careers_started)))
+	list.add_child(UiKit.stat_row("Careers Completed", str(s.careers_completed)))
+	list.add_child(UiKit.stat_row("Best Career", s.best_career_text if s.best_career_text != "" else "-",
+		UiKit.ACCENT))
+	list.add_child(UiKit.stat_row("Longest Career",
+		("%d season%s" % [s.longest_career_seasons, "" if s.longest_career_seasons == 1 else "s"])
+		if s.longest_career_seasons > 0 else "-"))
+	list.add_child(UiKit.stat_row("Career Kicks", _accuracy(s.career_makes, s.career_attempts)))
+
 	add_back_button(col)
 
 

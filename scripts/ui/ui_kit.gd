@@ -231,6 +231,9 @@ static func button(text: String, on_pressed: Callable, color := Color(0, 0, 0, 0
 	var b := Button.new()
 	b.text = text
 	b.custom_minimum_size.y = BUTTON_HEIGHT
+	# Long text (e.g. a player's name) ends in "..." instead of widening the column.
+	b.clip_text = true
+	b.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	# Keyboard/gamepad focus on desktop (Steam); no lingering focus ring after taps on phones.
 	b.focus_mode = Control.FOCUS_NONE if OS.has_feature("mobile") else Control.FOCUS_ALL
 	if color.a > 0.0:
@@ -243,7 +246,9 @@ static func button(text: String, on_pressed: Callable, color := Color(0, 0, 0, 0
 	return b
 
 
-## A row with a name on the left and a value on the right.
+## A row with a name on the left and a value on the right. A long value
+## (Career Mode, e.g. "Pro, 6 seasons (Metro Monarchs)") wraps on the right
+## instead of squeezing the name; short values look exactly as before.
 static func stat_row(name: String, value: String, value_color := Color.WHITE) -> PanelContainer:
 	var p := PanelContainer.new()
 	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -256,6 +261,11 @@ static func stat_row(name: String, value: String, value_color := Color.WHITE) ->
 	var v := label(value, 34, value_color)
 	v.autowrap_mode = TextServer.AUTOWRAP_OFF
 	v.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	if value.length() > 16:
+		n.autowrap_mode = TextServer.AUTOWRAP_OFF
+		n.size_flags_horizontal = Control.SIZE_FILL
+		v.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	h.add_child(v)
 	return p
 

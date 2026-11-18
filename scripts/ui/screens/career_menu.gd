@@ -5,6 +5,9 @@ extends MenuScreen
 
 func _build(col: VBoxContainer) -> void:
 	GameState.career = null
+	if not GameState.settings.career_tutorial_seen:
+		Screens.go(Screens.CAREER_TUTORIAL)
+		return
 	var list := UiKit.scroll_list(col)
 	var last := CareerSave.last_slot()
 	if last > 0:
@@ -15,6 +18,8 @@ func _build(col: VBoxContainer) -> void:
 			cont.grab_focus.call_deferred()
 	for slot in range(1, CareerSave.SLOT_COUNT + 1):
 		list.add_child(_slot_panel(slot))
+	list.add_child(UiKit.button("How Career Mode Works", Screens.go.bind(Screens.CAREER_TUTORIAL),
+		Color(0.15, 0.3, 0.45)))
 	if OS.is_debug_build():
 		list.add_child(UiKit.button("Debug: Career Tuning", Screens.go.bind(Screens.CAREER_DEBUG),
 			Color(0.35, 0.25, 0.5)))

@@ -19,6 +19,8 @@ signal session_changed
 signal kick_resolved(report: KickReport)
 ## A Challenge run (or, later, a Career game) ended.
 signal run_finished(summary: Dictionary)
+## A Career Mode milestone (signed, drafted, retired...). See report_career_event().
+signal career_event(e: Dictionary)
 signal stats_changed
 signal achievement_unlocked(def: Dictionary)
 signal settings_changed
@@ -67,6 +69,17 @@ func report_kick(report: KickReport) -> void:
 ## Called by a mode when a run ends. summary needs at least "mode" and "makes".
 func report_run(summary: Dictionary) -> void:
 	run_finished.emit(summary)
+
+
+## Called by Career Mode for milestones: {"event": "drafted", "round": 5, ...}
+## (event names: AchievementDefs). Updates the career totals in My Stats,
+## checks career achievements, and saves.
+func report_career_event(e: Dictionary) -> void:
+	stats.record_career_event(e)
+	stats_changed.emit()
+	career_event.emit(e)
+	_announce(achievements.check_career(e, stats))
+	save_game()
 
 
 func _on_kick_resolved(r: KickReport) -> void:

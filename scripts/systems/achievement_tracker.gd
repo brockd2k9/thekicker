@@ -29,6 +29,11 @@ func check_run(summary: Dictionary, stats: KickStats) -> Array[Dictionary]:
 	return _check("run", summary, stats)
 
 
+## e: a Career Mode event, e.g. {"event": "drafted", "round": 5}.
+func check_career(e: Dictionary, stats: KickStats) -> Array[Dictionary]:
+	return _check("career", e, stats)
+
+
 func _check(event: String, data: Dictionary, stats: KickStats) -> Array[Dictionary]:
 	var fresh: Array[Dictionary] = []
 	var now := int(Time.get_unix_time_from_system())
@@ -60,6 +65,23 @@ static func _matches(c: Dictionary, event: String, data: Dictionary, stats: Kick
 		return false
 	if c.has("min_makes") and int(data.get("makes", 0)) < int(c["min_makes"]):
 		return false
+	# Career events: "event" names it; "match" fields must equal (or be one of
+	# a list); "min_value" fields must be at least the number.
+	if c.has("event") and str(data.get("event", "")) != str(c["event"]):
+		return false
+	var m: Dictionary = c.get("match", {})
+	for k in m:
+		var want: Variant = m[k]
+		var got: Variant = data.get(k)
+		if want is Array:
+			if not (got in want):
+				return false
+		elif got != want:
+			return false
+	var mins: Dictionary = c.get("min_value", {})
+	for k in mins:
+		if float(data.get(k, 0)) < float(mins[k]):
+			return false
 	return true
 
 
