@@ -75,6 +75,13 @@ holder kneeling at the spot. Every snap rolls a random block call (`rush_plan.gd
 
 Exactly one defender (the blocker) reaches the ball as the kick window closes, so if you're
 late it's BLOCKED, and there's always someone there to show for it.
+
+Blocks are also physical: every frame of the flight, the ball's path is checked against every
+defender's gloves (`hand_block_radius`). A hurried kick comes off the foot lower
+(`rushed_elevation_drop_deg`, starting at `rushed_from` of the way through the rush), so:
+kick early and you clear everyone; kick late and a leaper (or, at the very end, a lineman
+with his hands up) can tip it. Tipped kicks deflect up and back and count as BLOCKED.
+The debug readout shows the launch angle as `Loft`.
 Positions and colors are constants at the top of `field_builder.gd`; odds are in `RushPlan.roll()`.
 
 Wind gusts: some windy kicks are gusty. Gusts only add speed in the wind's direction, from

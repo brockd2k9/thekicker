@@ -15,6 +15,8 @@ class Shot:
 	var swipe_aim_deg: float
 	## Final yaw including pressure wobble and accuracy spread.
 	var final_aim_deg: float
+	## Launch angle after any rushed-kick drop.
+	var elevation_deg: float
 	var wobble_deg: float
 
 
@@ -39,8 +41,10 @@ func power_from_swipe(swipe: Swipe, tuning: KickTuning) -> float:
 	return pow(raw, tuning.power_curve)
 
 
+## rush: play progress at the moment of the kick (0 = snap, 1 = blocker at the
+## ball). Late, hurried kicks come off lower (see KickTuning "Blocks").
 func build_shot(swipe: Swipe, tuning: KickTuning, mods: KickModifiers,
-		wobble_deg: float, rng: RandomNumberGenerator) -> Shot:
+		wobble_deg: float, rng: RandomNumberGenerator, rush: float = 0.0) -> Shot:
 	var shot := Shot.new()
 	shot.power = power_from_swipe(swipe, tuning)
 	shot.swipe_aim_deg = clampf(swipe.tilt_deg() * tuning.aim_sensitivity,
@@ -53,7 +57,9 @@ func build_shot(swipe: Swipe, tuning: KickTuning, mods: KickModifiers,
 
 	var speed := lerpf(tuning.min_launch_speed, tuning.max_launch_speed * mods.power_mult, shot.power)
 	var yaw := deg_to_rad(shot.final_aim_deg)
-	var elev := deg_to_rad(tuning.launch_elevation_deg)
+	var hurried := smoothstep(tuning.rushed_from, 1.0, rush)
+	shot.elevation_deg = tuning.launch_elevation_deg - tuning.rushed_elevation_drop_deg * hurried
+	var elev := deg_to_rad(shot.elevation_deg)
 	shot.velocity = Vector3(
 		sin(yaw) * cos(elev),
 		sin(elev),

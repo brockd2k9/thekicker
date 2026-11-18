@@ -111,6 +111,17 @@ func reset_play(plan: RushPlan = null) -> void:
 	set_holder_pose(HolderPose.READY)
 
 
+## Glove positions of every defender, for checking whether a kick gets tipped.
+func defender_hands() -> Array[Vector3]:
+	var out: Array[Vector3] = []
+	for p in _dl:
+		out.append_array(p.hand_positions())
+	for p in _edges:
+		out.append_array(p.hand_positions())
+	out.append_array(_leaper.hand_positions())
+	return out
+
+
 ## x of each block-unit lineman, for RushPlan.roll().
 func dl_x_positions() -> PackedFloat32Array:
 	var xs := PackedFloat32Array()

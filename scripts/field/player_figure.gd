@@ -32,6 +32,7 @@ var _shoulder_l: Node3D
 var _shoulder_r: Node3D
 var _elbow_l: Node3D
 var _elbow_r: Node3D
+var _hands: Array[Node3D] = []
 var _bulk := 1.0
 var _stride_phase := 0.0
 var _stride_amount := 0.0
@@ -111,7 +112,8 @@ func build(kit: TeamKit, number: int, rng: RandomNumberGenerator,
 		_mesh(el, _capsule(0.056 * bulk, 0.3), forearm, Vector3(0.0, -0.14, 0.0))
 		_mesh(el, _cyl(0.06 * bulk, 0.04), kit.mat("wristband", Color(0.95, 0.95, 0.95), 0.8),
 			Vector3(0.0, -0.25, 0.0))
-		_mesh(el, _sphere(0.05), gloves, Vector3(0.0, -0.33, 0.0), Vector3(0.95, 1.5, 0.6))
+		_hands.append(_mesh(el, _sphere(0.05), gloves, Vector3(0.0, -0.33, 0.0),
+			Vector3(0.95, 1.5, 0.6)))
 		arms.append(sh)
 		arms.append(el)
 	_shoulder_l = arms[0]
@@ -195,6 +197,14 @@ static func _run_hip(th: float) -> float:
 ## Folds tightest as the thigh swings forward past vertical.
 static func _run_knee(th: float) -> float:
 	return -deg_to_rad(18.0 + 95.0 * pow(maxf(cos(th), 0.0), 1.5))
+
+
+## World positions of both gloves (used to block kicks).
+func hand_positions() -> Array[Vector3]:
+	var out: Array[Vector3] = []
+	for h in _hands:
+		out.append(h.global_position)
+	return out
 
 
 ## Elbow bend in degrees (0 = straight). Applied on the next set_pose().

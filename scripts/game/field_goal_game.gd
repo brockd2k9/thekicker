@@ -24,6 +24,8 @@ var _attempt_id := 0
 var _play_t := 0.0
 ## Seconds from snap to block: snap travel + hold + kick window.
 var _play_total := 1.0
+## Ball position last physics frame, for sweeping it past defenders' hands.
+var _ball_prev := Vector3.ZERO
 ## True while the finger that tapped "next kick" is still down.
 var _swallow_release := false
 
@@ -75,6 +77,36 @@ func _process(delta: float) -> void:
 
 func _physics_process(_delta: float) -> void:
 	ball.set_wind_accel(wind.acceleration(tuning))
+	if phase == Phase.FLIGHT:
+		_check_hands()
+
+
+## Did the ball pass through a defender's glove since last frame? Swept test,
+## because a fast kick moves ~0.5 m per frame.
+func _check_hands() -> void:
+	var now := ball.global_position
+	var from := _ball_prev
+	_ball_prev = now
+	if now.z < FieldBuilder.LOS_Z - 3.0:
+		return  # already past everyone
+	var r := tuning.hand_block_radius
+	for hand in field.defender_hands():
+		var closest := Geometry3D.get_closest_point_to_segment(hand, from, now)
+		if closest.distance_to(hand) <= r:
+			_tipped(closest, hand)
+			return
+
+
+func _tipped(at: Vector3, hand: Vector3) -> void:
+	# Knock it up and back off the hand, keeping a little of its speed.
+	var away := (at - hand).normalized()
+	var v := ball.velocity * 0.15 + Vector3(away.x * 3.0, _rng.randf_range(2.0, 5.0),
+		_rng.randf_range(2.0, 5.0))
+	ball.global_position = at
+	ball.launch(v, tuning.gravity, Vector3.ZERO, 1.0, -INF, tuning.ball_spin_speed * 1.5)
+	cam.shake(tuning.kick_shake * 2.0)
+	Haptics.pulse(tuning.block_vibration_ms)
+	_resolve(KickResult.Outcome.BLOCKED, "Tipped at the line!")
 
 
 # --- attempt flow ---------------------------------------------------------------
@@ -136,15 +168,16 @@ func _try_kick(swipe: Swipe) -> void:
 		hud.flash_hint(problem)
 		return
 	var shot: KickController.Shot = kicker.build_shot(
-		swipe, tuning, modifiers, pressure.wobble_deg(), _rng)
+		swipe, tuning, modifiers, pressure.wobble_deg(), _rng, _play_t)
 	phase = Phase.FLIGHT
 	aim_marker.visible = false
 	hud.set_window(0.0, false)
 	hud.set_hint("")
 	if tuning.show_debug_readout:
-		hud.show_shot_info("Power %d%%  Aim %+.1f°  Wobble %+.1f°" % [
-			roundi(shot.power * 100.0), shot.swipe_aim_deg, shot.wobble_deg])
+		hud.show_shot_info("Power %d%%  Aim %+.1f°  Wobble %+.1f°  Loft %.0f°" % [
+			roundi(shot.power * 100.0), shot.swipe_aim_deg, shot.wobble_deg, shot.elevation_deg])
 
+	_ball_prev = ball.global_position
 	ball.launch(shot.velocity, tuning.gravity, wind.acceleration(tuning),
 		tuning.flight_speed_scale, -situation.distance_m(), tuning.ball_spin_speed)
 	trail.start(ball)
@@ -169,7 +202,7 @@ func _kick_blocked() -> void:
 	_resolve(KickResult.Outcome.BLOCKED)
 
 
-func _resolve(outcome: KickResult.Outcome) -> void:
+func _resolve(outcome: KickResult.Outcome, note: String = "") -> void:
 	phase = Phase.RESULT
 	var my_id := _attempt_id
 	GameState.record_attempt(situation.distance_yards, situation.pressure, outcome)
@@ -184,6 +217,8 @@ func _resolve(outcome: KickResult.Outcome) -> void:
 	var detail := "%d yards" % situation.distance_yards
 	if GameState.streak > 1:
 		detail += "  -  %d in a row" % GameState.streak
+	if note != "":
+		detail = note + "\n" + detail
 	hud.set_hint("")
 	_play_slow_mo(my_id)
 	hud.show_result(outcome, detail)

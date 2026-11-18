@@ -51,3 +51,7 @@ Things that are built but **untuned**. Every value named here is in `tuning/kick
     pressure and ~6 m/s at max. If they still look slow, lower `base_kick_window` (faster rush,
     less time to kick) or move `EDGE_FROM` in `field_builder.gd` farther out. Run cycle:
     `_run_hip`/`_run_knee` in `player_figure.gd`, cadence `STRIDE_LENGTH` (2.6 m per cycle).
+22. **Tipped kicks.** Rushed kicks lose up to 16° of loft. With the defaults, kicks in the first
+    ~70% of the rush clear every hand; leapers can tip from ~80%; hands-up linemen only in the
+    last ~10%, and only softer kicks. If tips feel too common or too rare, change
+    `rushed_elevation_drop_deg`, `rushed_from`, or `hand_block_radius` (0.3 m).

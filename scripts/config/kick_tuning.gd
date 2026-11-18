@@ -74,6 +74,15 @@ extends Resource
 ## How much pressure shrinks the kick window (0 = never shrinks).
 @export_range(0.0, 1.0) var pressure_window_effect: float = 1.0
 
+@export_group("Blocks")
+## A kick rushed at the last moment comes off the foot this many degrees lower,
+## low enough for jumpers to get a hand on it. 0 = never lower.
+@export var rushed_elevation_drop_deg: float = 16.0
+## How far into the rush (0 = snap, 1 = blocker at the ball) kicks start coming out lower.
+@export_range(0.0, 1.0) var rushed_from: float = 0.5
+## How close (m) the ball must pass to a defender's glove to be tipped (glove + ball).
+@export var hand_block_radius: float = 0.3
+
 @export_group("Attempt")
 @export var min_distance_yards: int = 20
 @export var max_distance_yards: int = 60
