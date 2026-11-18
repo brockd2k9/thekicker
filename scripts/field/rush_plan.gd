@@ -18,13 +18,16 @@ var blocker: Blocker = Blocker.LEFT_EDGE
 ## The play's overall flavor (most linemen do this).
 var theme: Action = Action.PUSH
 
-## Per edge rusher [left, right]. reach: fraction of the path to the ball they
-## cover (1 = gets there, 0 = stays home to contain).
-var edge_reach: Array[float] = [0.0, 0.0]
+## Per edge rusher [left, right]. Both rush nonstop from the snap.
+## true = this one is the blocker and reaches the ball as the window closes.
+var edge_is_blocker: Array[bool] = [false, false]
+## For the non-blocker: play time at which the wing has pushed them wide of the
+## ball (they keep running past after that).
+var edge_wide_time: Array[float] = [0.9, 0.9]
 ## true = dive at the ball at the end, false = leap with arms up.
 var edge_dives: Array[bool] = [true, true]
-## Path timing exponent: higher = slow start, late burst.
-var edge_burst: Array[float] = [1.6, 1.6]
+## Fraction of the play spent accelerating off the snap (then constant speed).
+var edge_accel: Array[float] = [0.2, 0.2]
 
 ## Per block-unit lineman (same order as FieldBuilder.DL_SPOTS).
 var dl_action: Array[int] = []
@@ -34,6 +37,8 @@ var dl_timing: Array[float] = []
 var dl_shift: Array[Vector2] = []
 ## Lineman index who breaks through the middle (only when blocker == MIDDLE).
 var penetrator: int = -1
+## Fraction of the play the penetrator spends accelerating.
+var penetrator_accel: float = 0.2
 
 var leaper_action: Action = Action.LEAP
 var leaper_timing: float = 0.8
@@ -57,14 +62,10 @@ static func roll(rng: RandomNumberGenerator, dl_x: PackedFloat32Array) -> RushPl
 	for e in 2:
 		var designated := (e == EDGE_LEFT and p.blocker == Blocker.LEFT_EDGE) \
 			or (e == EDGE_RIGHT and p.blocker == Blocker.RIGHT_EDGE)
-		if designated:
-			p.edge_reach[e] = 1.0
-		elif rng.randf() < 0.35:
-			p.edge_reach[e] = 0.0  # stays home
-		else:
-			p.edge_reach[e] = rng.randf_range(0.3, 0.7)  # picked up by the wing
+		p.edge_is_blocker[e] = designated
+		p.edge_wide_time[e] = rng.randf_range(0.75, 1.05)
 		p.edge_dives[e] = rng.randf() < 0.6
-		p.edge_burst[e] = rng.randf_range(1.2, 2.2)
+		p.edge_accel[e] = rng.randf_range(0.1, 0.3)
 
 	var inside: Array[int] = []
 	for i in dl_x.size():
@@ -81,6 +82,7 @@ static func roll(rng: RandomNumberGenerator, dl_x: PackedFloat32Array) -> RushPl
 			inside.append(i)
 	if p.blocker == Blocker.MIDDLE and not inside.is_empty():
 		p.penetrator = inside[rng.randi_range(0, inside.size() - 1)]
+		p.penetrator_accel = rng.randf_range(0.1, 0.3)
 
 	p.leaper_action = Action.LEAP if p.theme == Action.LEAP or rng.randf() < 0.4 \
 		else _weighted_action(rng, [0.5, 0.5, 0.0, 0.0])

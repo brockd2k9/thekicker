@@ -63,7 +63,8 @@ func _process(delta: float) -> void:
 		aim_marker.set_aim(pressure.wobble_deg(), situation.distance_m())
 	if phase != Phase.SETUP:
 		# The rush runs on one clock from the snap, and carries on after the kick.
-		_play_t = minf(_play_t + delta / _play_total, 1.0)
+		# No clamp at 1: runners keep moving through the end of the play.
+		_play_t = minf(_play_t + delta / _play_total, 2.5)
 		field.set_play_progress(_play_t)
 	if phase == Phase.KICK_WINDOW:
 		_window_left -= delta

@@ -48,6 +48,8 @@ const EDGE_FROM := [Vector3(-4.7, 0.0, -7.0), Vector3(4.7, 0.0, -7.0)]
 const EDGE_TO := [Vector3(-0.8, 0.0, -0.9), Vector3(0.8, 0.0, -0.9)]
 ## Holder kneels on the kicker's left, facing the ball.
 const HOLDER_POS := Vector3(-0.8, 0.0, 0.3)
+## Meters per full running stride cycle (legs swing in step with the speed).
+const STRIDE_LENGTH := 1.7
 
 var _field_mat: ShaderMaterial
 var _ol: Array[PlayerFigure] = []
@@ -133,11 +135,12 @@ func set_holder_pose(pose: HolderPose) -> void:
 
 
 ## t: 0 = at the snap, 1 = kick window expired (the plan's blocker reaches the ball).
+## t keeps going past 1 after the kick so runners carry on through the play.
 func set_play_progress(t: float) -> void:
-	t = clampf(t, 0.0, 1.0)
+	t = maxf(t, 0.0)
 	var plan := _plan
 	var fire := smoothstep(0.0, 0.25, t)  # how far out of their stance
-	var push := pow(t, 1.3)
+	var push := pow(minf(t, 1.0), 1.3)
 	var stance_arms := lerpf(35.0, 85.0, fire)
 
 	for i in _ol.size():
@@ -153,7 +156,8 @@ func set_play_progress(t: float) -> void:
 		if i == plan.penetrator:
 			_animate_penetrator(_dl[i], home, t, fire)
 		else:
-			_animate_lineman(_dl[i], home, plan.dl_action[i], plan.dl_timing[i], t, fire, push)
+			_animate_lineman(_dl[i], home, plan.dl_action[i], plan.dl_timing[i], minf(t, 1.0),
+				fire, push)
 
 	_animate_leaper(t, fire)
 	for e in _edges.size():
@@ -191,14 +195,16 @@ func _animate_lineman(p: PlayerFigure, home: Vector3, action: int, timing: float
 	p.position = pos
 
 
-## Breaks through the middle and dives at the ball at the end.
+## Breaks through the middle at full speed and dives at the ball at the end.
 func _animate_penetrator(p: PlayerFigure, home: Vector3, t: float, fire: float) -> void:
 	var target := Vector3(signf(home.x) * 0.35, 0.0, -0.9)
+	var length := home.distance_to(target)
+	var dist := minf(run_fraction(t, _plan.penetrator_accel) * length, length)
 	var dir := (target - home).normalized()
-	p.position = home.lerp(target, pow(t, 1.5))
+	p.position = home + dir * dist
 	p.rotation.y = atan2(-dir.x, -dir.z)
-	var dive := smoothstep(0.82, 1.0, t)
-	p.set_stride(t * 7.0, fire * (1.0 - dive))
+	var dive := smoothstep(0.85, 1.0, t)
+	p.set_stride(dist / STRIDE_LENGTH, fire * (1.0 - dive))
 	p.set_elbows(lerpf(60.0, 5.0, dive), lerpf(60.0, 5.0, dive))
 	var arms := lerpf(lerpf(35.0, 70.0, fire), 160.0, dive)
 	p.set_pose(lerpf(1.0, 0.4, fire), arms, arms, 0.3 * sin(dive * PI), dive * 0.8)
@@ -209,8 +215,10 @@ func _animate_leaper(t: float, fire: float) -> void:
 	var timing := plan.leaper_timing
 	var rise := smoothstep(timing - 0.2, timing, t)
 	_leaper.rotation.y = PI
-	_leaper.position = Vector3(LEAPER_SPOT.x, 0.0,
-		LOS_Z + LEAPER_SPOT.y + 1.0 * smoothstep(0.1, timing - 0.1, t))
+	# Steady walk-up to the line, arriving just as he jumps.
+	var walk := clampf(run_fraction(t, 0.15) / run_fraction(timing - 0.1, 0.15), 0.0, 1.0)
+	_leaper.position = Vector3(LEAPER_SPOT.x, 0.0, LOS_Z + LEAPER_SPOT.y + 1.0 * walk)
+	_leaper.set_stride(walk * 1.2, 0.5 * fire * (1.0 - walk))
 	var arms := lerpf(40.0, 85.0, fire)
 	match plan.leaper_action:
 		RushPlan.Action.LEAP:
@@ -224,33 +232,36 @@ func _animate_leaper(t: float, fire: float) -> void:
 			_leaper.set_pose(0.6 - 0.3 * fire, arms, arms)
 
 
+## Edge rushers run nonstop from the snap. The designated blocker arrives at
+## the ball as the window closes; the other is pushed wide by the wing and keeps
+## running past the play.
 func _animate_edge(e: int, t: float, fire: float) -> void:
 	var plan := _plan
 	var p := _edges[e]
 	var from: Vector3 = EDGE_FROM[e]
 	var to: Vector3 = EDGE_TO[e]
-	var reach := plan.edge_reach[e]
-	var dir := (to - from).normalized()
-	p.rotation.y = atan2(-dir.x, -dir.z)
+	var accel := plan.edge_accel[e]
 	p.set_elbows(30.0, 30.0)
-	if reach <= 0.0:
-		# Stays home to contain: shuffles back a step, upright, watching.
-		p.set_stride(t * 3.0, 0.4 * (1.0 - smoothstep(0.2, 0.5, t)) * fire)
-		p.position = from + Vector3(0.0, 0.0, -0.6 * smoothstep(0.0, 0.5, t))
-		p.set_pose(0.9 - 0.7 * fire, 30.0, 30.0)
+
+	if not plan.edge_is_blocker[e]:
+		var side := signf(from.x)
+		var path := [from, Vector3(side * 2.7, 0.0, -1.8), Vector3(side * 2.5, 0.0, 3.5)]
+		var first_leg := from.distance_to(path[1])
+		var dist := run_fraction(t, accel) * first_leg / run_fraction(plan.edge_wide_time[e], accel)
+		p.position = _along(path, dist)
+		var ahead := _along(path, dist + 0.1) - p.position
+		p.rotation.y = atan2(-ahead.x, -ahead.z)
+		p.set_stride(dist / STRIDE_LENGTH, fire)
+		p.set_pose(0.9 - 0.6 * fire, 50.0, 50.0)
 		return
-	if reach < 1.0:
-		# Rushes, then gets picked up by the wing and stalls out.
-		var k := pow(minf(t / 0.6, 1.0), plan.edge_burst[e])
-		p.position = from.lerp(to, k * reach)
-		p.set_stride(t * 8.0, fire * (1.0 - smoothstep(0.5, 0.65, t)))
-		var arms := lerpf(40.0, 90.0, smoothstep(0.5, 0.7, t))
-		p.set_pose(0.9 - 0.5 * fire, arms, arms)
-		return
-	# The designated blocker: gets to the ball right as the window closes.
-	p.position = from.lerp(to, pow(t, plan.edge_burst[e]))
-	var finish := smoothstep(0.8, 1.0, t)
-	p.set_stride(t * 9.0, fire * (1.0 - finish))
+
+	var length := from.distance_to(to)
+	var dist := minf(run_fraction(t, accel) * length, length)
+	var dir := (to - from).normalized()
+	p.position = from + dir * dist
+	p.rotation.y = atan2(-dir.x, -dir.z)
+	var finish := smoothstep(0.85, 1.0, t)
+	p.set_stride(dist / STRIDE_LENGTH, fire * (1.0 - finish))
 	p.set_elbows(lerpf(70.0, 5.0, finish), lerpf(70.0, 5.0, finish))
 	if plan.edge_dives[e]:
 		var arms := lerpf(40.0, 160.0, finish)
@@ -258,6 +269,31 @@ func _animate_edge(e: int, t: float, fire: float) -> void:
 	else:
 		var arms := lerpf(40.0, 170.0, finish)
 		p.set_pose(lerpf(0.9 - 0.6 * fire, 0.0, finish), arms, arms, 0.45 * finish)
+
+
+## Fraction of a run covered at play time t: a short burst of acceleration off the
+## snap (accel = fraction of the play spent speeding up), then constant speed.
+## Reaches 1 at t = 1 and keeps growing after, so runners never slow or stop.
+static func run_fraction(t: float, accel: float) -> float:
+	if t <= 0.0:
+		return 0.0
+	var a := clampf(accel, 0.01, 0.9)
+	var norm := 1.0 - a * 0.5
+	if t < a:
+		return t * t / (2.0 * a) / norm
+	return (t - a * 0.5) / norm
+
+
+## Point at distance d along a polyline; carries on straight past the last point.
+static func _along(points: Array, d: float) -> Vector3:
+	for i in points.size() - 1:
+		var a: Vector3 = points[i]
+		var b: Vector3 = points[i + 1]
+		var seg := a.distance_to(b)
+		if d <= seg or i == points.size() - 2:
+			return a + (b - a).normalized() * d
+		d -= seg
+	return points[0]
 
 
 # --- building -------------------------------------------------------------------

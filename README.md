@@ -67,7 +67,8 @@ are `home_offset` / `look_down_deg` in `kick_camera.gd`. The ball is drawn large
 Formation: protection unit (blue) and block unit (red) line up 7 yards ahead, with a
 holder kneeling at the spot. Every snap rolls a random block call (`rush_plan.gd`):
 - who comes for the ball: the left edge, the right edge, or a lineman breaking through the middle
-- the other edge either stays home or rushes and gets picked up by the wing
+- the other edge rushes too but gets pushed wide by the wing and runs on past
+- everyone runs nonstop from the snap: a quick burst, then constant speed
 - the play's flavor: linemen pushing, getting their hands up, leaping, or diving forward,
   each with their own timing and slightly different alignment
 - whether the middle man leaps, gets his hands up, or just walks up into a gap
