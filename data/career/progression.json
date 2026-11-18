@@ -1,0 +1,160 @@
+{
+	"_doc": "Progression rules (tables). Scalar weights for the score formulas are in tuning/career_tuning.tres ('Recruiting', 'Draft', 'Pro Contracts'). College tiers: min_recruiting / min_gpa to get an offer from that tier; offer type by margin over min_recruiting (full scholarship >= full_margin, partial >= 0, preferred walk-on >= walk_on_margin). Tier also sets team strength, exposure (multiplies draft score gains), longest field goal attempts and extra pressure. Draft rounds by draft score; undrafted with score >= udfa_min gets a camp invite (tryout), below it an open free-agent tryout. Tryouts are field goal series in the kick scene: make at least 'need' of 'distances'.",
+	"college_tiers": {
+		"top": {
+			"name": "Top program",
+			"min_recruiting": 78,
+			"min_gpa": 2.8,
+			"exposure": 1.3,
+			"fg_max_yards": 55,
+			"pressure_bonus": 0.08,
+			"start_draft": {
+				"full": 12,
+				"partial": 8,
+				"walk_on": 4
+			}
+		},
+		"mid": {
+			"name": "Mid-major",
+			"min_recruiting": 58,
+			"min_gpa": 2.5,
+			"exposure": 1.0,
+			"fg_max_yards": 52,
+			"pressure_bonus": 0.04,
+			"start_draft": {
+				"full": 8,
+				"partial": 5,
+				"walk_on": 2
+			}
+		},
+		"small": {
+			"name": "Small school",
+			"min_recruiting": 42,
+			"min_gpa": 2.2,
+			"exposure": 0.7,
+			"fg_max_yards": 50,
+			"pressure_bonus": 0.0,
+			"start_draft": {
+				"full": 5,
+				"partial": 3,
+				"walk_on": 0
+			}
+		}
+	},
+	"juco": {
+		"name": "Junior college",
+		"exposure": 0.6,
+		"fg_max_yards": 48,
+		"pressure_bonus": 0.0
+	},
+	"offers": {
+		"full_margin": 12,
+		"walk_on_margin": -8,
+		"_offers_doc": "New offers after each high school season (index = season in stage, 1-based: freshman 0, sophomore 1, junior 2, senior 3). Each tier you qualify for adds up to per_tier schools. Offers whose tier you later fall below by more than rescind_margin (or whose GPA minimum you drop below) are withdrawn.",
+		"max_new_by_season": [
+			0,
+			0,
+			1,
+			2,
+			3
+		],
+		"per_tier": 1,
+		"rescind_margin": -15,
+		"juco_max_new": 4
+	},
+	"draft": {
+		"rounds": [
+			{
+				"round": 3,
+				"min": 90
+			},
+			{
+				"round": 4,
+				"min": 84
+			},
+			{
+				"round": 5,
+				"min": 78
+			},
+			{
+				"round": 6,
+				"min": 72
+			},
+			{
+				"round": 7,
+				"min": 66
+			}
+		],
+		"udfa_min": 52
+	},
+	"tryouts": {
+		"walk_on": {
+			"title": "WALK-ON TRYOUT",
+			"distances": [
+				28,
+				32,
+				36,
+				40,
+				44
+			],
+			"need": 3,
+			"pressure": 0.35,
+			"wind_max": 8,
+			"stage": "college"
+		},
+		"camp": {
+			"title": "TRAINING CAMP TRYOUT",
+			"distances": [
+				36,
+				40,
+				44,
+				48,
+				52
+			],
+			"need": 3,
+			"pressure": 0.5,
+			"wind_max": 10,
+			"stage": "pro"
+		},
+		"free_agent": {
+			"title": "FREE AGENT TRYOUT",
+			"distances": [
+				40,
+				44,
+				48,
+				52,
+				55
+			],
+			"need": 4,
+			"pressure": 0.7,
+			"wind_max": 12,
+			"stage": "pro"
+		}
+	},
+	"contracts": {
+		"_doc": "Salaries are fictional league dollars per season.",
+		"rookie_years": {
+			"3": 4,
+			"4": 4,
+			"5": 3,
+			"6": 3,
+			"7": 3
+		},
+		"rookie_salary": {
+			"3": 1400000,
+			"4": 1100000,
+			"5": 950000,
+			"6": 870000,
+			"7": 800000
+		},
+		"min_salary": 750000,
+		"camp_years": 2,
+		"free_agent_years": 1,
+		"resign_salary_base": 800000,
+		"resign_salary_per_point": 40000,
+		"resign_years": [
+			1,
+			3
+		]
+	}
+}

@@ -23,8 +23,9 @@ func _build(col: VBoxContainer) -> void:
 	hv.add_child(UiKit.label("%s   %d-%d%s" % [CareerScreen.team_name(c.team), int(c.record["w"]),
 		int(c.record["l"]), ("-%d" % int(c.record["t"])) if int(c.record["t"]) > 0 else ""], 30))
 
-	# Next up.
+	# Next up, and where the career is heading.
 	col.add_child(_next_card())
+	col.add_child(_status_card())
 	if c.notice != "":
 		col.add_child(UiKit.label(c.notice, 26, Color(1.0, 0.85, 0.5)))
 		c.notice = ""
@@ -73,7 +74,11 @@ func _next_card() -> PanelContainer:
 	v.add_theme_constant_override("separation", 2)
 	p.add_child(v)
 	var c := career.data
-	if c.phase in [CareerManager.PHASE_SEASON_END, CareerManager.PHASE_STAGE_END]:
+	if not career.in_season_loop():
+		v.add_child(UiKit.label(career.stage_name().to_upper(), 24, UiKit.MUTED))
+		v.add_child(UiKit.label("Decision time: see what's next.", 30))
+		return p
+	if c.phase == CareerManager.PHASE_SEASON_END:
 		v.add_child(UiKit.label("SEASON OVER", 24, UiKit.MUTED))
 		v.add_child(UiKit.label("Final record %d-%d" % [int(c.record["w"]), int(c.record["l"])], 32))
 		return p
@@ -90,6 +95,41 @@ func _next_card() -> PanelContainer:
 	v.add_child(UiKit.label("THIS WEEK  -  %s" % ("HOME" if e.get("home", true) else "AWAY"), 24, UiKit.MUTED))
 	v.add_child(UiKit.label("%s %s  %s" % ["vs" if e.get("home", true) else "at",
 		CareerScreen.team_name(opp), "(%s)" % CareerScreen.strength_word(float(opp.get("strength", 50)))], 30))
+	return p
+
+
+## Recruiting / draft stock / contract, depending on the stage.
+func _status_card() -> PanelContainer:
+	var c := career.data
+	var p := PanelContainer.new()
+	var h := HBoxContainer.new()
+	h.add_theme_constant_override("separation", 16)
+	p.add_child(h)
+	var left := UiKit.label("", 26)
+	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	h.add_child(left)
+	var right := UiKit.label("", 26, UiKit.MUTED)
+	right.autowrap_mode = TextServer.AUTOWRAP_OFF
+	right.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	h.add_child(right)
+	var t := career.tuning
+	match c.stage:
+		CareerData.STAGE_HIGH_SCHOOL, CareerData.STAGE_JUCO:
+			left.text = "Recruiting %d  -  %s" % [roundi(c.recruiting_score), CareerScreen.recruit_word(c)]
+			right.text = "GPA %.2f" % c.gpa
+			if c.offers.size() > 0:
+				left.text += "\n%d offer%s" % [c.offers.size(), "" if c.offers.size() == 1 else "s"]
+		CareerData.STAGE_COLLEGE:
+			left.text = "Draft stock %d  -  %s" % [roundi(c.draft_score), CareerScreen.draft_word(c)]
+			right.text = "GPA %.2f%s" % [c.gpa, "  INELIGIBLE" if c.gpa < t.college_min_gpa else ""]
+			if c.gpa < t.college_min_gpa:
+				right.add_theme_color_override("font_color", UiKit.BAD)
+		CareerData.STAGE_PRO:
+			left.text = "%s  -  %d yr left" % [Progression.money(int(c.contract.get("salary", 0))),
+				int(c.contract.get("years_left", 0))]
+			right.text = "Standing: %s" % CareerScreen.standing_word(c.retention_score if c.season_in_stage > 1 else 50.0, t)
+		_:
+			left.text = career.stage_name()
 	return p
 
 
@@ -124,8 +164,18 @@ func _main_text() -> String:
 			return "Week Results"
 		CareerManager.PHASE_SEASON_END:
 			return "Season Summary"
-		CareerManager.PHASE_STAGE_END:
-			return "Senior Year"
+		CareerManager.PHASE_RECRUITING:
+			return "Recruiting Update"
+		CareerManager.PHASE_COLLEGE_CHOICE:
+			return "Choose a College"
+		CareerManager.PHASE_TRYOUT:
+			return "Tryout"
+		CareerManager.PHASE_DRAFT:
+			return "Draft Day" if career.data.stage == CareerData.STAGE_COLLEGE else "Free Agency"
+		CareerManager.PHASE_CONTRACT:
+			return "Contract Review"
+		CareerManager.PHASE_RETIRED:
+			return "Career Summary"
 	return "Continue"
 
 

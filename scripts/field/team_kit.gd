@@ -51,6 +51,25 @@ static func away() -> TeamKit:
 	return k
 
 
+## A kit from a team's two colors (Career Mode schools and clubs).
+## dark_pants: road style (pants in the primary color).
+static func from_colors(primary: Color, secondary: Color, dark_pants := false) -> TeamKit:
+	var k := TeamKit.new()
+	k.jersey = primary
+	# Numbers in whichever of white / secondary reads better on the jersey.
+	k.number_color = secondary if absf(secondary.get_luminance() - primary.get_luminance()) > 0.35 \
+		else (Color(0.08, 0.08, 0.1) if primary.get_luminance() > 0.6 else Color(0.97, 0.97, 0.95))
+	k.trim = secondary
+	k.pants = primary.darkened(0.2) if dark_pants else Color(0.93, 0.92, 0.88)
+	k.pants_stripe = secondary
+	k.helmet = primary.darkened(0.15)
+	k.helmet_stripe = secondary
+	k.facemask = Color(0.75, 0.76, 0.78) if primary.get_luminance() < 0.5 else Color(0.12, 0.12, 0.14)
+	k.socks = primary
+	k.gloves = Color(0.95, 0.95, 0.95)
+	return k
+
+
 ## Shared standard material for one part of the uniform.
 func mat(key: String, color: Color, roughness: float = 0.8,
 		metallic: float = 0.0) -> StandardMaterial3D:

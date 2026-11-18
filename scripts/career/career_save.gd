@@ -32,6 +32,8 @@ static func load_slot(slot: int) -> CareerData:
 
 ## Writes the career to its slot (c.slot) and remembers it as the last played.
 static func save(c: CareerData) -> bool:
+	if c.slot == 0:
+		return false  # slot 0 = an in-memory career (balance simulator); never saved
 	if c.slot < 1 or c.slot > SLOT_COUNT:
 		push_warning("CareerSave: bad slot %d" % c.slot)
 		return false
@@ -76,11 +78,14 @@ static func summary(slot: int) -> Dictionary:
 
 static func _migrate(d: Dictionary) -> Dictionary:
 	var v := int(d.get("career_version", 0))
-	# Version 0 -> 1: nothing to convert yet.
-	# Future example:
-	#   if v < 2:
-	#       d["new_field"] = 0
-	#       v = 2
+	# Version 0 -> 1: nothing to convert.
+	# Version 1 -> 2 (Stage 5): "Senior year complete" (phase stage_end) was a
+	# placeholder; those careers continue at the senior-year recruiting screen.
+	# New fields (gpa, tryout, route...) get their defaults in from_dict.
+	if v < 2:
+		if str(d.get("phase", "")) == "stage_end":
+			d["phase"] = "recruiting"
+		v = 2
 	if v > CareerData.VERSION:
 		push_warning("CareerSave: career is from a newer version (%d)" % v)
 	d["career_version"] = CareerData.VERSION

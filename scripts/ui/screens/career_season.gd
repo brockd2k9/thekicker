@@ -1,23 +1,21 @@
 extends CareerScreen
-## End of a season: record and kicking line. Continue -> the offseason, or,
-## after senior year, the "Senior year complete" screen (a placeholder until
-## recruiting arrives in Stage 5) with the whole high school career.
+## End of a season: record and kicking line. Continue -> the stage's next step
+## (recruiting update, offseason, draft day or contract review).
 
 
 func _build(col: VBoxContainer) -> void:
 	var c := career.data
-	if c.phase == CareerManager.PHASE_STAGE_END:
-		_senior_year(col)
-		return
 	col.add_child(CareerUi.centered("SEASON %d COMPLETE" % c.season, 52, UiKit.ACCENT))
-	col.add_child(CareerUi.centered("%s year at %s" % [career.class_year(), CareerScreen.team_name(c.team)],
+	col.add_child(CareerUi.centered("%s  -  %s" % [career.class_year(), CareerScreen.team_name(c.team)],
 		28, UiKit.MUTED))
 	var list := UiKit.scroll_list(col)
 	list.add_child(UiKit.stat_row("Record", "%d-%d%s" % [int(c.record["w"]), int(c.record["l"]),
 		("-%d" % int(c.record["t"])) if int(c.record["t"]) > 0 else ""], UiKit.ACCENT))
 	_stat_rows(list, c.season_stats)
-	var last := c.season_in_stage >= career.tuning.high_school_seasons
-	var b := UiKit.button("Finish High School" if last else "Start Offseason", func() -> void:
+	if Progression.is_poor_season(c, career.tuning):
+		list.add_child(UiKit.label("A rough season: field goal percentage under %d%%. Another one or two like it "
+			% roundi(career.tuning.poor_fg_pct * 100.0) + "and your options start to dry up.", 24, UiKit.BAD))
+	var b := UiKit.button(_next_text(), func() -> void:
 		career.end_season()
 		go_to_current(), UiKit.ACCENT.darkened(0.45))
 	col.add_child(b)
@@ -25,23 +23,15 @@ func _build(col: VBoxContainer) -> void:
 		b.grab_focus.call_deferred()
 
 
-func _senior_year(col: VBoxContainer) -> void:
-	var c := career.data
-	col.add_child(CareerUi.centered("SENIOR YEAR COMPLETE", 50, UiKit.ACCENT))
-	col.add_child(CareerUi.centered("%s  -  %s" % [c.display_name(), CareerScreen.team_name(c.team)], 28))
-	var list := UiKit.scroll_list(col)
-	list.add_child(UiKit.label("College recruiting is coming in a future update. Your career is saved "
-		+ "right here, ready for it.", 26, UiKit.MUTED))
-	list.add_child(UiKit.section("HIGH SCHOOL CAREER"))
-	for h in c.history:
-		var r: Dictionary = h.get("record", {})
-		var s: Dictionary = h.get("stats", {})
-		list.add_child(UiKit.stat_row("%s (Season %d)" % [h.get("year", ""), int(h.get("season", 0))],
-			"%d-%d   FG %d/%d" % [int(r.get("w", 0)), int(r.get("l", 0)), int(s.get("fg_made", 0)),
-			int(s.get("fg_att", 0))]))
-	list.add_child(UiKit.section("CAREER TOTALS"))
-	_stat_rows(list, c.career_totals)
-	col.add_child(UiKit.button("Career Menu", Screens.go.bind(Screens.CAREER)))
+func _next_text() -> String:
+	match career.data.stage:
+		CareerData.STAGE_HIGH_SCHOOL, CareerData.STAGE_JUCO:
+			return "Recruiting Update"
+		CareerData.STAGE_COLLEGE:
+			return "Draft Day" if career.data.season_in_stage >= career.tuning.college_seasons else "Start Offseason"
+		CareerData.STAGE_PRO:
+			return "Contract Review"
+	return "Continue"
 
 
 static func _stat_rows(list: VBoxContainer, s: Dictionary) -> void:

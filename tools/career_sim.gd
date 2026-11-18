@@ -1,19 +1,18 @@
 extends Node
 ## Career balance simulator (not part of the game). Plays many careers with
 ## different choice strategies through the real CareerManager / ScenarioEngine
-## / GameSim / stat rules, with a simple make-chance model standing in for the
-## player's kicks, and writes a Markdown report.
+## / Progression / GameSim / stat rules, and writes a Markdown report.
 ##
 ## Run (from the project folder):
 ##   godot --headless res://tools/career_sim.tscn -- careers=40 seed=1
 ## Report: printed, and saved to user://career_sim_report.md
 ##
-## Until Stage 5 adds recruiting and the draft, this tool moves a career into
-## college (and pro) itself after senior year, with a placeholder team, so
-## college/pro scenarios and end-of-college traits can be measured.
-
-const COLLEGE_SEASONS := 4
-const PRO_SEASONS := 3
+## Careers run from freshman year to retirement through the real progression
+## (offers, college choice, tryouts, draft, contracts, release, age cap).
+## Sim player policy: take the best offer (else a walk-on tryout, else junior
+## college), sign when drafted, take every tryout, re-sign when offered, never
+## retire voluntarily. Kicks use a simple make-chance model (stats, distance,
+## pressure, narrower posts at higher stages) standing in for real swipes.
 
 ## Strategy -> how a choice is scored from its projected stat changes.
 ## Focused players always take the best-scoring choice; random/mixed don't.
@@ -32,6 +31,8 @@ const STRATEGIES := {
 }
 const FOCUSED := ["always-social", "always-train", "ambitious", "lean-charisma", "lean-ambition",
 	"lean-leadership", "lean-intelligence"]
+## Progression values scenario choices carry count a little for every strategy.
+const PROGRESS_WEIGHT := {"recruiting": 0.3, "draft": 0.3, "retention": 0.3, "grades": 3.0}
 
 var _kt: KickTuning
 var _rng := RandomNumberGenerator.new()
@@ -70,63 +71,33 @@ func _ready() -> void:
 func _play_career(strat: String, n: int) -> Dictionary:
 	var schools := CareerContent.high_schools()
 	var c := CareerData.create("Sim %d" % n, CareerTuning.get_default())
-	c.team = CareerManager._team_from_school(schools[_rng.randi_range(0, schools.size() - 1)])
+	c.team = Progression.team_from(schools[_rng.randi_range(0, schools.size() - 1)], CareerData.STAGE_HIGH_SCHOOL)
 	var m := CareerManager.new(c)
 	m.rng.seed = _rng.randi()
 	m._start_season(false)
-	var out := {"hs_traits": [], "col_traits": [], "pro_traits": [], "weeks": 0, "low_weeks": 0,
-		"life_sum": {}, "seen": {}}
-	_run_until_stage_end(m, strat, out, 999)
-	out["hs_traits"] = c.traits.duplicate()
-	out["hs_personality"] = c.personality.duplicate()
-	out["hs_life"] = c.life.duplicate()
-	out["hs_football"] = c.football.duplicate()
-	# Sim-only stand-in for recruiting (Stage 5): move on to college.
-	_move_to(m, CareerData.STAGE_COLLEGE, 62.0)
-	_run_until_stage_end(m, strat, out, COLLEGE_SEASONS)
-	out["col_traits"] = c.traits.duplicate()
-	out["col_personality"] = c.personality.duplicate()
-	out["col_life"] = c.life.duplicate()
-	out["col_football"] = c.football.duplicate()
-	_move_to(m, CareerData.STAGE_PRO, 60.0)
-	_run_until_stage_end(m, strat, out, PRO_SEASONS)
-	out["pro_traits"] = c.traits.duplicate()
-	for id in out["seen"]:
-		_scen_careers[id] = int(_scen_careers.get(id, 0)) + 1
-	return out
-
-
-func _move_to(m: CareerManager, stage: String, strength: float) -> void:
-	var c := m.data
-	c.stage = stage
-	c.season += 1
-	c.season_in_stage = 1
-	c.age += 1
-	c.team = {"id": "sim_" + stage, "name": "Sim U", "mascot": "Simulators", "short": "SIM",
-		"town": "Sim", "colors": ["#555555", "#aaaaaa"], "strength": strength, "level": stage}
-	m._start_season(true)
-
-
-## Plays seasons until the stage ends (HS: stage_end) or `seasons` seasons are done.
-func _run_until_stage_end(m: CareerManager, strat: String, out: Dictionary, seasons: int) -> void:
-	var c := m.data
-	var done := 0
+	var out := {"hs_traits": [], "col_traits": [], "weeks": 0, "low_weeks": 0, "life_sum": {},
+		"life_hist": {}, "seen": {}, "reached": {"high_school": true}, "events": [],
+		"college_tier": "", "college_type": "", "draft": {}}
 	var guard := 0
-	while guard < 5000:
+	while c.phase != CareerManager.PHASE_RETIRED and guard < 30000:
 		guard += 1
+		if c.stage == CareerData.STAGE_COLLEGE and out["college_tier"] == "":
+			out["college_tier"] = str(c.team.get("tier", ""))
+			out["college_type"] = str(c.team.get("offer_type", ""))
+		if not (c.stage in out["reached"]):
+			out["reached"][c.stage] = true
 		match c.phase:
 			CareerManager.PHASE_WEEK_START:
 				m.begin_week()
 				for id in c.pending_scenarios:
-					_scen_count[id] = int(_scen_count.get(id, 0)) + 1
-					out["seen"][id] = true
+					_count_scen(id, out)
 				_track_life(c, m.tuning, out)
 			CareerManager.PHASE_SCENARIO, CareerManager.PHASE_OFFSEASON:
-				if c.phase == CareerManager.PHASE_OFFSEASON and c.week == 0 and out.get("_off_counted", -1) != c.season:
-					out["_off_counted"] = c.season
+				var key := "%d_%s" % [c.season, c.stage]
+				if c.phase == CareerManager.PHASE_OFFSEASON and out.get("_off", "") != key:
+					out["_off"] = key
 					for id in c.pending_scenarios:
-						_scen_count[id] = int(_scen_count.get(id, 0)) + 1
-						out["seen"][id] = true
+						_count_scen(id, out)
 				m.choose(_choose(c, m.current_scenario(), strat, m.tuning))
 			CareerManager.PHASE_OUTLOOK:
 				m.start_game()
@@ -135,13 +106,70 @@ func _run_until_stage_end(m: CareerManager, strat: String, out: Dictionary, seas
 			CareerManager.PHASE_RESULTS:
 				m.end_week()
 			CareerManager.PHASE_SEASON_END:
-				done += 1
-				if done >= seasons and c.stage != CareerData.STAGE_HIGH_SCHOOL:
-					c.history.append({"stage": c.stage, "season": c.season, "record": c.record.duplicate()})
-					return
+				_snapshot(m, out)
 				m.end_season()
-			CareerManager.PHASE_STAGE_END:
-				return
+				if c.phase == CareerManager.PHASE_RECRUITING and m._stage_done() \
+						and c.stage == CareerData.STAGE_HIGH_SCHOOL:
+					out["hs_recruiting"] = c.recruiting_score
+					out["hs_gpa"] = c.gpa
+					out["hs_offers"] = c.offers.duplicate(true)
+				if c.phase == CareerManager.PHASE_DRAFT and c.stage == CareerData.STAGE_COLLEGE:
+					out["draft_score"] = c.draft_score
+					out["draft"] = c.draft_result.duplicate()
+			CareerManager.PHASE_RECRUITING:
+				m.continue_recruiting()
+			CareerManager.PHASE_COLLEGE_CHOICE:
+				var opts := m.college_options()
+				if opts.is_empty():
+					out["events"].append("no_options")
+					m.retire("no_options")
+				else:
+					var o: Dictionary = opts[0]
+					out["events"].append(("offer_" + str(o["offer"]["tier"])) if o["kind"] == "offer" else str(o["kind"]))
+					m.choose_college(o)
+			CareerManager.PHASE_TRYOUT:
+				var made := _tryout(c)
+				var ok := made >= int(c.tryout.get("need", 3))
+				out["events"].append("tryout_%s_%s" % [c.tryout.get("purpose", ""), "pass" if ok else "fail"])
+				m.finish_tryout(made)
+			CareerManager.PHASE_DRAFT:
+				if str(c.draft_result.get("kind", "")) == "drafted":
+					m.sign_drafted()
+				else:
+					m.take_tryout()
+			CareerManager.PHASE_CONTRACT:
+				var st := str(c.contract.get("status", ""))
+				if st in ["released", "not_resigned"]:
+					out["events"].append(st)
+				m.contract_continue()
+	out["end_traits"] = c.traits.duplicate()
+	out["retire_reason"] = str(c.retirement.get("reason", "unfinished"))
+	out["retire_age"] = c.age
+	out["pro_seasons"] = c.history.filter(func(h: Dictionary) -> bool:
+		return h.get("stage", "") == CareerData.STAGE_PRO).size()
+	for id in out["seen"]:
+		_scen_careers[id] = int(_scen_careers.get(id, 0)) + 1
+	return out
+
+
+## Stats at the end of high school and of college.
+func _snapshot(m: CareerManager, out: Dictionary) -> void:
+	var c := m.data
+	var tag := ""
+	if c.stage == CareerData.STAGE_HIGH_SCHOOL and c.season_in_stage >= m.tuning.high_school_seasons:
+		tag = "hs"
+	elif c.stage == CareerData.STAGE_COLLEGE and c.season_in_stage >= m.tuning.college_seasons:
+		tag = "col"
+	if tag == "":
+		return
+	out[tag + "_traits"] = c.traits.duplicate()
+	out[tag + "_personality"] = c.personality.duplicate()
+	out[tag + "_football"] = c.football.duplicate()
+
+
+func _count_scen(id: String, out: Dictionary) -> void:
+	_scen_count[id] = int(_scen_count.get(id, 0)) + 1
+	out["seen"][id] = true
 
 
 func _track_life(c: CareerData, t: CareerTuning, out: Dictionary) -> void:
@@ -152,6 +180,10 @@ func _track_life(c: CareerData, t: CareerTuning, out: Dictionary) -> void:
 		out["low_weeks"] += 1
 	for k in CareerData.GROUP_KEYS[CareerData.LIFE]:
 		out["life_sum"][k] = float(out["life_sum"].get(k, 0.0)) + c.stat(k)
+		var hist: Dictionary = out["life_hist"].get(k, {})
+		var b := clampi(int(c.stat(k) / 20.0), 0, 4)
+		hist[b] = int(hist.get(b, 0)) + 1
+		out["life_hist"][k] = hist
 
 
 func _choose(c: CareerData, s: Dictionary, strat: String, t: CareerTuning) -> int:
@@ -176,13 +208,39 @@ func _choose(c: CareerData, s: Dictionary, strat: String, t: CareerTuning) -> in
 		for g in p:
 			for k in p[g]:
 				score += float(p[g][k]) * float(weights.get(k, 0.0))
+		var prog := ScenarioEngine.progress_changes(choices[i])
+		for k in prog:
+			score += float(prog[k]) * float(PROGRESS_WEIGHT.get(k, 0.0))
 		if score > best_score:
 			best_score = score
 			best = i
 	return best
 
 
-## A whole game with a simple make-chance model (better stats = more makes).
+## Make chance stand-in for a real kick: stats, distance (past your range),
+## pressure, and narrower posts at higher stages.
+func _make_chance(c: CareerData, yards: int, pressure: float, stage: String) -> float:
+	var acc := c.stat("accuracy") / 100.0
+	var res := c.stat("resilience") / 100.0
+	var pw := c.stat("power") / 100.0
+	var narrow: float = {"college": 0.03, "juco": 0.03, "pro": 0.06, "free_agent": 0.06}.get(stage, 0.0)
+	var long_pen := maxf(float(yards) - (40.0 + 20.0 * pw), 0.0) * 0.03
+	var p := 0.97 - (yards - 20) * 0.011 * (1.6 - acc) - pressure * 0.12 * (1.3 - res) - narrow - long_pen
+	return clampf(p, 0.15, 0.98)
+
+
+func _tryout(c: CareerData) -> int:
+	var made := 0
+	var i := 0
+	for d in c.tryout.get("distances", []):
+		var p := _make_chance(c, int(d), float(c.tryout.get("pressure", 0.3)) + 0.08 * i, str(c.tryout.get("stage", "pro")))
+		if _rng.randf() < p:
+			made += 1
+		i += 1
+	return made
+
+
+## A whole game with the make-chance model.
 func _play_game(m: CareerManager) -> Dictionary:
 	var c := m.data
 	var sim := m.new_game_sim(_kt)
@@ -197,13 +255,10 @@ func _play_game(m: CareerManager) -> Dictionary:
 				var r := _rng.randf()
 				sim.set_warmup("pure" if r < 0.5 else ("loose" if r < 0.8 else "skipped"))
 			"call":
-				var acc := c.stat("accuracy") / 100.0
-				var res := c.stat("resilience") / 100.0
 				match str(e["kind"]):
 					"fg", "pat":
-						var p := 0.97 - (int(e["yards"]) - 20) * 0.012 * (1.6 - acc) \
-							- float(e.get("pressure", 0.0)) * 0.12 * (1.3 - res)
-						sim.resolve_call({"made": _rng.randf() < clampf(p, 0.2, 0.98)})
+						sim.resolve_call({"made": _rng.randf() < _make_chance(c, int(e["yards"]),
+							float(e.get("pressure", 0.0)), c.stage)})
 					"kickoff":
 						var q := clampf(_rng.randf() * 0.6 + c.stat("power") / 100.0 * 0.4, 0.0, 1.0)
 						sim.resolve_call({"quality": q, "carry": 40.0 + q * 25.0, "text": "Kickoff."})
@@ -216,58 +271,133 @@ func _play_game(m: CareerManager) -> Dictionary:
 
 func _report(results: Dictionary, n: int, problems: PackedStringArray, ms: int) -> String:
 	var t := CareerTuning.get_default()
+	var all: Array = []
+	for s in results:
+		all.append_array(results[s])
 	var L := PackedStringArray()
 	L.append("# Career balance report")
 	L.append("")
-	L.append("%d careers per strategy (%d total), %d HS + %d college + %d pro seasons each. %.1f s. Content problems: %d." % [
-		n, n * results.size(), t.high_school_seasons, COLLEGE_SEASONS, PRO_SEASONS, ms / 1000.0, problems.size()])
+	L.append("%d careers per strategy (%d total), freshman year to retirement. %.1f s. Content problems: %d." % [
+		n, all.size(), ms / 1000.0, problems.size()])
 	L.append("Personality change scale %.2f. Trait thresholds: %s." % [t.personality_change_scale, _thresholds()])
 	L.append("")
+	# --- progression
+	L.append("## How far careers get (share of careers)")
+	L.append("")
+	L.append("| Strategy | College | via JUCO | via walk-on | Pro | Drafted | Pro seasons (avg / max) | Retire age (avg) |")
+	L.append("|---|---|---|---|---|---|---|---|")
+	var rows := results.duplicate()
+	rows["ALL"] = all
+	for s in rows:
+		var rs: Array = rows[s]
+		var drafted := rs.filter(func(r): return str(r["draft"].get("kind", "")) == "drafted").size()
+		var ps: Array = rs.map(func(r): return int(r["pro_seasons"]))
+		L.append("| %s | %s | %s | %s | %s | %s | %.1f / %d | %.1f |" % [s,
+			_pct(rs.filter(func(r): return r["reached"].has("college")).size(), rs.size()),
+			_pct(rs.filter(func(r): return r["reached"].has("juco")).size(), rs.size()),
+			_pct(rs.filter(func(r): return "tryout_walk_on_pass" in r["events"]).size(), rs.size()),
+			_pct(rs.filter(func(r): return r["reached"].has("pro")).size(), rs.size()),
+			_pct(drafted, rs.size()), _avgf(ps), ps.max() if not ps.is_empty() else 0,
+			_avgf(rs.map(func(r): return int(r["retire_age"])))])
+	L.append("")
+	L.append("## Routes and fallbacks (all strategies)")
+	L.append("")
+	var ev := {}
+	for r in all:
+		var seen := {}
+		for e in r["events"]:
+			if not seen.has(e):
+				ev[e] = int(ev.get(e, 0)) + 1
+				seen[e] = true
+	L.append("| Event (at least once in a career) | Careers |")
+	L.append("|---|---|")
+	var keys := ev.keys()
+	keys.sort()
+	for k in keys:
+		L.append("| %s | %s |" % [k, _pct(ev[k], all.size())])
+	L.append("")
+	L.append("| College entered as | Top | Mid-major | Small |")
+	L.append("|---|---|---|---|")
+	for typ in ["full", "partial", "walk_on"]:
+		var cells := PackedStringArray()
+		for tier_id in ["top", "mid", "small"]:
+			cells.append(_pct(all.filter(func(r): return r["college_tier"] == tier_id and r["college_type"] == typ).size(), all.size()))
+		L.append("| %s | %s |" % [Progression.OFFER_NAMES.get(typ, typ), " | ".join(cells)])
+	L.append("")
+	L.append("| Draft result | Careers |")
+	L.append("|---|---|")
+	var dk := {}
+	for r in all:
+		var d: Dictionary = r["draft"]
+		var key := "never reached the draft" if d.is_empty() else \
+			("round %d" % int(d["round"]) if d.get("kind") == "drafted" else \
+			("undrafted, camp invite" if d.get("kind") == "camp" else "undrafted, open tryout"))
+		dk[key] = int(dk.get(key, 0)) + 1
+	var dkeys := dk.keys()
+	dkeys.sort()
+	for k in dkeys:
+		L.append("| %s | %s |" % [k, _pct(dk[k], all.size())])
+	L.append("")
+	L.append("| Retirement reason | Careers |")
+	L.append("|---|---|")
+	var rr := {}
+	for r in all:
+		rr[r["retire_reason"]] = int(rr.get(r["retire_reason"], 0)) + 1
+	for k in rr:
+		L.append("| %s | %s |" % [k, _pct(rr[k], all.size())])
+	L.append("")
+	L.append("## Recruiting and academics at the end of high school (mean, p10-p90)")
+	L.append("")
+	L.append("| Strategy | Recruiting score | GPA | Offers (avg) | Best offer: top / mid / small / none |")
+	L.append("|---|---|---|---|---|")
+	for s in results:
+		var rs: Array = results[s]
+		var best := {"top": 0, "mid": 0, "small": 0, "none": 0}
+		for r in rs:
+			var offs: Array = r.get("hs_offers", [])
+			best[str(offs[0]["tier"]) if not offs.is_empty() else "none"] += 1
+		L.append("| %s | %s | %s | %.1f | %s / %s / %s / %s |" % [s, _dist_key(rs, "hs_recruiting"),
+			_dist_key(rs, "hs_gpa", true), _avgf(rs.map(func(r): return (r.get("hs_offers", []) as Array).size())),
+			_pct(best["top"], rs.size()), _pct(best["mid"], rs.size()), _pct(best["small"], rs.size()), _pct(best["none"], rs.size())])
+	L.append("")
+	L.append("Draft score at the end of college (careers that got there): %s" % _dist_key(all.filter(func(r): return r.has("draft_score")), "draft_score"))
+	L.append("")
+	# --- traits
 	L.append("## Traits unlocked")
 	L.append("")
-	L.append("| Strategy | End of HS: avg | 0 / 1-2 / 3+ | End of college: avg | 0 / 1-2 / 3-4 / 5+ | After %d pro seasons: avg |" % PRO_SEASONS)
+	L.append("| Strategy | End of HS: avg | 0 / 1-2 / 3+ | End of college: avg | 0 / 1-2 / 3-4 / 5+ | End of career: avg |")
 	L.append("|---|---|---|---|---|---|")
 	for s in results:
+		var rc: Array = results[s].filter(func(r): return r.has("col_personality"))
 		var hs := _counts(results[s], "hs_traits")
-		var col := _counts(results[s], "col_traits")
-		var pro := _counts(results[s], "pro_traits")
-		L.append("| %s | %.1f | %s | %.1f | %s | %.1f |" % [s, _avg(hs),
-			_bucket(hs, [[0, 0], [1, 2], [3, 99]]), _avg(col),
-			_bucket(col, [[0, 0], [1, 2], [3, 4], [5, 99]]), _avg(pro)])
+		var col := _counts(rc, "col_traits")
+		L.append("| %s | %.1f | %s | %.1f | %s | %.1f |" % [s, _avg(hs), _bucket(hs, [[0, 0], [1, 2], [3, 99]]),
+			_avg(col), _bucket(col, [[0, 0], [1, 2], [3, 4], [5, 99]]), _avg(_counts(results[s], "end_traits"))])
 	L.append("")
-	L.append("## Which traits (share of careers, end of HS -> end of college)")
+	L.append("(End-of-college numbers only count careers that finished 4 college seasons.)")
 	L.append("")
-	var tids: Array = CareerContent.traits().map(func(x: Dictionary) -> String: return str(x["id"]))
-	L.append("| Strategy | " + " | ".join(PackedStringArray(tids.map(func(x: String) -> String:
-		return str(CareerContent.trait_def(x).get("name", x))))) + " |")
-	L.append("|---|" + "---|".repeat(tids.size()))
+	L.append("## Personality, end of high school (mean, p10-p90)")
+	L.append("")
+	L.append("| Strategy | Charisma | Ambition | Leadership | Intelligence |")
+	L.append("|---|---|---|---|---|")
 	for s in results:
 		var cells := PackedStringArray()
-		for id in tids:
-			cells.append("%d%% -> %d%%" % [_share(results[s], "hs_traits", id), _share(results[s], "col_traits", id)])
+		for k in CareerData.GROUP_KEYS[CareerData.PERSONALITY]:
+			cells.append(_dist(results[s], "hs_personality", k))
 		L.append("| %s | %s |" % [s, " | ".join(cells)])
 	L.append("")
-	for when in [["hs", "End of high school"], ["col", "End of college"]]:
-		L.append("## Personality, %s (mean, p10-p90)" % when[1].to_lower())
-		L.append("")
-		L.append("| Strategy | Charisma | Ambition | Leadership | Intelligence |")
-		L.append("|---|---|---|---|---|")
-		for s in results:
-			var cells := PackedStringArray()
-			for k in CareerData.GROUP_KEYS[CareerData.PERSONALITY]:
-				cells.append(_dist(results[s], when[0] + "_personality", k))
-			L.append("| %s | %s |" % [s, " | ".join(cells)])
-		L.append("")
 	L.append("## Football stats, end of HS -> end of college (mean)")
 	L.append("")
 	L.append("| Strategy | Power | Accuracy | Resilience | Toughness |")
 	L.append("|---|---|---|---|---|")
 	for s in results:
+		var rc: Array = results[s].filter(func(r): return r.has("col_football"))
 		var cells := PackedStringArray()
 		for k in CareerData.GROUP_KEYS[CareerData.FOOTBALL]:
-			cells.append("%d -> %d" % [roundi(_mean(results[s], "hs_football", k)), roundi(_mean(results[s], "col_football", k))])
+			cells.append("%d -> %d" % [roundi(_mean(results[s], "hs_football", k)), roundi(_mean(rc, "col_football", k))])
 		L.append("| %s | %s |" % [s, " | ".join(cells)])
 	L.append("")
+	# --- life
 	L.append("## Life stats (average over every week played; share of weeks with any life stat low)")
 	L.append("")
 	L.append("| Strategy | Health | Energy | Fun | Social | Weeks with a low stat |")
@@ -284,13 +414,26 @@ func _report(results: Dictionary, n: int, problems: PackedStringArray, ms: int) 
 		var cells := PackedStringArray()
 		for k in CareerData.GROUP_KEYS[CareerData.LIFE]:
 			cells.append(str(roundi(float(sums.get(k, 0.0)) / maxf(weeks, 1.0))))
-		L.append("| %s | %s | %d%% |" % [s, " | ".join(cells), roundi(100.0 * low / maxf(weeks, 1.0))])
+		L.append("| %s | %s | %s |" % [s, " | ".join(cells), _pct(roundi(low), roundi(weeks))])
 	L.append("")
+	L.append("Distribution of weekly values (all strategies):")
+	L.append("")
+	L.append("| Stat | 0-19 | 20-39 | 40-59 | 60-79 | 80-100 |")
+	L.append("|---|---|---|---|---|---|")
+	for k in CareerData.GROUP_KEYS[CareerData.LIFE]:
+		var hist := [0, 0, 0, 0, 0]
+		for r in all:
+			var h: Dictionary = r["life_hist"].get(k, {})
+			for b in h:
+				hist[int(b)] += int(h[b])
+		var tot: int = hist.reduce(func(a, x): return a + x, 0)
+		L.append("| %s | %s |" % [CareerData.STAT_NAMES[k], " | ".join(PackedStringArray(hist.map(func(x): return _pct(x, tot))))])
+	L.append("")
+	# --- scenarios
 	L.append("## Scenario appearances (all strategies; per career, and share of careers that saw it)")
 	L.append("")
 	L.append("| Scenario | Stage | Gate | Per career | Careers |")
 	L.append("|---|---|---|---|---|")
-	var total_careers := n * results.size()
 	for sc in CareerContent.scenarios():
 		var id := str(sc["id"])
 		var gate := ScenarioEngine.requirement_text(sc.get("requires", {}))
@@ -298,8 +441,10 @@ func _report(results: Dictionary, n: int, problems: PackedStringArray, ms: int) 
 			gate = "story beat"
 		elif sc.get("follow_up_only", false):
 			gate = "follow-up"
-		L.append("| %s | %s | %s | %.2f | %d%% |" % [id, ", ".join(PackedStringArray(sc.get("stages", []))).replace("high_school", "HS"),
-			gate, float(_scen_count.get(id, 0)) / total_careers, roundi(100.0 * _scen_careers.get(id, 0) / total_careers)])
+		elif gate == "" and not (sc.get("requires", {}) as Dictionary).is_empty():
+			gate = "stat/score requirement"
+		L.append("| %s | %s | %s | %.2f | %s |" % [id, ", ".join(PackedStringArray(sc.get("stages", []))).replace("high_school", "HS"),
+			gate, float(_scen_count.get(id, 0)) / all.size(), _pct(int(_scen_careers.get(id, 0)), all.size())])
 	return "\n".join(L) + "\n"
 
 
@@ -310,36 +455,63 @@ func _thresholds() -> String:
 	return ", ".join(parts)
 
 
+static func _pct(k: int, total: int) -> String:
+	return "%d%%" % roundi(100.0 * k / maxi(total, 1))
+
+
 static func _counts(rs: Array, key: String) -> Array:
-	return rs.map(func(r: Dictionary) -> int: return (r[key] as Array).size())
+	return rs.map(func(r: Dictionary) -> int: return (r.get(key, []) as Array).size())
 
 
 static func _avg(xs: Array) -> float:
 	return float(xs.reduce(func(a: float, x: int) -> float: return a + x, 0.0)) / maxi(xs.size(), 1)
 
 
+static func _avgf(xs: Array) -> float:
+	var s := 0.0
+	for x in xs:
+		s += float(x)
+	return s / maxi(xs.size(), 1)
+
+
 static func _bucket(xs: Array, ranges: Array) -> String:
 	var parts := PackedStringArray()
 	for r in ranges:
 		var k := xs.filter(func(x: int) -> bool: return x >= r[0] and x <= r[1]).size()
-		parts.append("%d%%" % roundi(100.0 * k / maxi(xs.size(), 1)))
+		parts.append(_pct(k, xs.size()))
 	return " / ".join(parts)
-
-
-static func _share(rs: Array, key: String, id: String) -> int:
-	var k := rs.filter(func(r: Dictionary) -> bool: return id in r[key]).size()
-	return roundi(100.0 * k / maxi(rs.size(), 1))
 
 
 static func _mean(rs: Array, key: String, stat: String) -> float:
 	var s := 0.0
+	var n := 0
 	for r in rs:
-		s += float(r[key][stat])
-	return s / maxi(rs.size(), 1)
+		if r.has(key):
+			s += float(r[key][stat])
+			n += 1
+	return s / maxi(n, 1)
 
 
 static func _dist(rs: Array, key: String, stat: String) -> String:
-	var v: Array = rs.map(func(r: Dictionary) -> float: return float(r[key][stat]))
+	var v: Array = rs.filter(func(r): return r.has(key)).map(func(r: Dictionary) -> float: return float(r[key][stat]))
+	return _fmt_dist(v, false)
+
+
+static func _dist_key(rs: Array, key: String, decimals := false) -> String:
+	var v: Array = rs.filter(func(r): return r.has(key)).map(func(r: Dictionary) -> float: return float(r[key]))
+	return _fmt_dist(v, decimals)
+
+
+static func _fmt_dist(v: Array, decimals: bool) -> String:
+	if v.is_empty():
+		return "-"
 	v.sort()
-	var p := func(q: float) -> int: return roundi(v[clampi(int(q * (v.size() - 1)), 0, v.size() - 1)])
-	return "%d (%d-%d)" % [roundi(_mean(rs, key, stat)), p.call(0.1), p.call(0.9)]
+	var mean := 0.0
+	for x in v:
+		mean += float(x)
+	mean /= v.size()
+	var p10: float = v[clampi(int(0.1 * (v.size() - 1)), 0, v.size() - 1)]
+	var p90: float = v[clampi(int(0.9 * (v.size() - 1)), 0, v.size() - 1)]
+	if decimals:
+		return "%.2f (%.2f-%.2f)" % [mean, p10, p90]
+	return "%d (%d-%d)" % [roundi(mean), roundi(p10), roundi(p90)]

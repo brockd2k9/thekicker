@@ -36,6 +36,36 @@ static func team_name(t: Dictionary) -> String:
 	return "%s %s" % [t.get("town", t.get("name", "")), t.get("mascot", "")]
 
 
+## "Top-program interest" etc. from the recruiting score and the tier minimums.
+static func recruit_word(c: CareerData) -> String:
+	for tier_id in Progression.TIERS:
+		if Progression.offer_type(c.recruiting_score, tier_id) in [Progression.OFFER_FULL, Progression.OFFER_PARTIAL]:
+			return "%s level" % Progression.tier(tier_id).get("name", "")
+	if Progression.offer_type(c.recruiting_score, "small") == Progression.OFFER_WALK_ON:
+		return "Walk-on interest"
+	return "Not on radars yet"
+
+
+static func draft_word(c: CareerData) -> String:
+	var d := Progression.rules().get("draft", {})
+	for r in d.get("rounds", []):
+		if c.draft_score >= float(r["min"]):
+			return "Round %d projection" % int(r["round"])
+	if c.draft_score >= float(d.get("udfa_min", 45)):
+		return "Camp invite projection"
+	return "Off the board"
+
+
+static func standing_word(score: float, t: CareerTuning) -> String:
+	if score < t.release_below:
+		return "On thin ice"
+	if score < t.resign_min:
+		return "Shaky"
+	if score < 70.0:
+		return "Solid"
+	return "Franchise kicker"
+
+
 static func strength_word(s: float) -> String:
 	if s >= 70.0:
 		return "Powerhouse"

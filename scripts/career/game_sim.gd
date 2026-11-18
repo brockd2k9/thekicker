@@ -45,15 +45,21 @@ var _we_kick_first: bool = true
 var _waiting: Dictionary = {}
 var _opp_td_bonus: float = 0.0
 var _names: Array = []
+var _p: Dictionary = {}
 
 const HALFTIME := "_half"
 
 
 ## week_entry: a schedule entry (opponent, home, weather). max_fg_yards: the
-## longest kick the coach will try (from your profile's range).
+## longest kick the coach will try (from your profile's range). params: this
+## stage's game parameters (Progression.game_params: fg_min, fg_max, pat,
+## pressure_bonus); defaults to high school.
 func setup(c: CareerData, week_entry: Dictionary, tuning: CareerTuning, seed: int,
-		max_fg_yards: int) -> void:
+		max_fg_yards: int, params: Dictionary = {}) -> void:
 	_t = tuning
+	_p = {"fg_min": tuning.hs_fg_min_yards, "fg_max": tuning.hs_fg_max_yards,
+		"pat": tuning.hs_pat_yards, "pressure_bonus": 0.0}
+	_p.merge(params, true)
 	_rng.seed = seed
 	us = c.team
 	them = week_entry.get("opponent", {})
@@ -276,8 +282,8 @@ func _their_drive(start: float, dur: float) -> void:
 
 func _fg_distance() -> int:
 	# Two rolls averaged: mid-range kicks are most common.
-	var a := _rng.randi_range(_t.hs_fg_min_yards, _t.hs_fg_max_yards)
-	var b := _rng.randi_range(_t.hs_fg_min_yards, _t.hs_fg_max_yards)
+	var a := _rng.randi_range(int(_p["fg_min"]), int(_p["fg_max"]))
+	var b := _rng.randi_range(int(_p["fg_min"]), int(_p["fg_max"]))
 	return roundi((a + b) * 0.5)
 
 
@@ -293,7 +299,7 @@ func _push_kickoff_after_score() -> void:
 func _push_call(kind: String, yards: int = 0) -> void:
 	var e := {"type": "call", "kind": kind, "elapsed": elapsed, "us": score_us, "them": score_them}
 	if kind == "pat":
-		yards = _t.hs_pat_yards
+		yards = int(_p["pat"])
 	e["yards"] = yards
 	if kind == "fg" or kind == "pat":
 		var p := _situation_pressure(kind)
@@ -314,7 +320,8 @@ func _situation_pressure(kind: String) -> Dictionary:
 	var diff := score_us - score_them  # before this kick
 	var left := _quarter_sec() * 4.0 - elapsed
 	var pts := 3 if kind == "fg" else 1
-	var p := float(_t.quarter_pressure[clampi(q - 1, 0, _t.quarter_pressure.size() - 1)])
+	var p := float(_t.quarter_pressure[clampi(q - 1, 0, _t.quarter_pressure.size() - 1)]) \
+		+ float(_p["pressure_bonus"])
 	var tag := ""
 	if q == 4 and absi(diff) <= 8:
 		p += _t.close_game_pressure

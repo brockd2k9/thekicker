@@ -1,37 +1,790 @@
 {
-	"_doc": "The fictional world. All schools, leagues and people are made up. strength is 0-100 (team quality, drifts a little each season). colors are html colors [primary, secondary]. Names are used for teammates, coaches and play-by-play. Colleges and pro clubs arrive in Stage 5.",
-
+	"_doc": "The fictional world. All schools, clubs, leagues and people are made up. strength is 0-100 (team quality, drifts a little each season). colors are html colors [primary, secondary]. College tiers (top / mid / small) are defined in progression.json. Names are used for teammates, coaches and play-by-play.",
 	"high_school": {
 		"league": "State High School Athletic Association",
-		"conferences": ["Tri-County Conference", "River Valley League"],
+		"conferences": [
+			"Tri-County Conference",
+			"River Valley League"
+		],
 		"schools": [
-			{"id": "ridgeline", "name": "Ridgeline High", "mascot": "Falcons", "short": "RID", "town": "Ridgeline", "conference": 0, "strength": 62, "colors": ["#1f3a8a", "#f2b632"]},
-			{"id": "cedar_hollow", "name": "Cedar Hollow High", "mascot": "Miners", "short": "CED", "town": "Cedar Hollow", "conference": 0, "strength": 48, "colors": ["#7a1f1f", "#c9c9c9"]},
-			{"id": "pine_bluff_east", "name": "Pine Bluff East", "mascot": "Lumberjacks", "short": "PBE", "town": "Pine Bluff", "conference": 0, "strength": 55, "colors": ["#1e5631", "#f4f1de"]},
-			{"id": "harbor_point", "name": "Harbor Point High", "mascot": "Mariners", "short": "HAR", "town": "Harbor Point", "conference": 0, "strength": 71, "colors": ["#0b3c5d", "#ffffff"]},
-			{"id": "millbrook", "name": "Millbrook Academy", "mascot": "Owls", "short": "MIL", "town": "Millbrook", "conference": 0, "strength": 39, "colors": ["#4b2e83", "#e0c36b"]},
-			{"id": "stonegate", "name": "Stonegate High", "mascot": "Rams", "short": "STN", "town": "Stonegate", "conference": 0, "strength": 58, "colors": ["#333333", "#e4572e"]},
-			{"id": "westbrook", "name": "Westbrook Central", "mascot": "Wolves", "short": "WBC", "town": "Westbrook", "conference": 0, "strength": 44, "colors": ["#5a6b7b", "#111111"]},
-			{"id": "copper_springs", "name": "Copper Springs High", "mascot": "Coyotes", "short": "COP", "town": "Copper Springs", "conference": 0, "strength": 66, "colors": ["#b5651d", "#2b2b2b"]},
-			{"id": "lakeview_north", "name": "Lakeview North", "mascot": "Lakers", "short": "LVN", "town": "Lakeview", "conference": 1, "strength": 52, "colors": ["#1d70b8", "#9ad1f5"]},
-			{"id": "oak_valley", "name": "Oak Valley High", "mascot": "Oaks", "short": "OAK", "town": "Oak Valley", "conference": 1, "strength": 60, "colors": ["#2f5d3a", "#d9b44a"]},
-			{"id": "granite_falls", "name": "Granite Falls High", "mascot": "Grizzlies", "short": "GRF", "town": "Granite Falls", "conference": 1, "strength": 74, "colors": ["#6b1d1d", "#d1d1d1"]},
-			{"id": "sunset_ridge", "name": "Sunset Ridge High", "mascot": "Suns", "short": "SUN", "town": "Sunset Ridge", "conference": 1, "strength": 41, "colors": ["#e07a1f", "#5b2a86"]},
-			{"id": "briar_creek", "name": "Briar Creek High", "mascot": "Bobcats", "short": "BRC", "town": "Briar Creek", "conference": 1, "strength": 50, "colors": ["#3b3b98", "#f7d046"]},
-			{"id": "fort_madsen", "name": "Fort Madsen High", "mascot": "Sentinels", "short": "FTM", "town": "Fort Madsen", "conference": 1, "strength": 57, "colors": ["#14213d", "#fca311"]},
-			{"id": "elm_grove", "name": "Elm Grove High", "mascot": "Hornets", "short": "ELM", "town": "Elm Grove", "conference": 1, "strength": 35, "colors": ["#f2c500", "#111111"]},
-			{"id": "redstone", "name": "Redstone High", "mascot": "Raiders", "short": "RED", "town": "Redstone", "conference": 1, "strength": 68, "colors": ["#a4161a", "#f5f3f4"]}
+			{
+				"id": "ridgeline",
+				"name": "Ridgeline High",
+				"mascot": "Falcons",
+				"short": "RID",
+				"town": "Ridgeline",
+				"conference": 0,
+				"strength": 62,
+				"colors": [
+					"#1f3a8a",
+					"#f2b632"
+				]
+			},
+			{
+				"id": "cedar_hollow",
+				"name": "Cedar Hollow High",
+				"mascot": "Miners",
+				"short": "CED",
+				"town": "Cedar Hollow",
+				"conference": 0,
+				"strength": 48,
+				"colors": [
+					"#7a1f1f",
+					"#c9c9c9"
+				]
+			},
+			{
+				"id": "pine_bluff_east",
+				"name": "Pine Bluff East",
+				"mascot": "Lumberjacks",
+				"short": "PBE",
+				"town": "Pine Bluff",
+				"conference": 0,
+				"strength": 55,
+				"colors": [
+					"#1e5631",
+					"#f4f1de"
+				]
+			},
+			{
+				"id": "harbor_point",
+				"name": "Harbor Point High",
+				"mascot": "Mariners",
+				"short": "HAR",
+				"town": "Harbor Point",
+				"conference": 0,
+				"strength": 71,
+				"colors": [
+					"#0b3c5d",
+					"#ffffff"
+				]
+			},
+			{
+				"id": "millbrook",
+				"name": "Millbrook Academy",
+				"mascot": "Owls",
+				"short": "MIL",
+				"town": "Millbrook",
+				"conference": 0,
+				"strength": 39,
+				"colors": [
+					"#4b2e83",
+					"#e0c36b"
+				]
+			},
+			{
+				"id": "stonegate",
+				"name": "Stonegate High",
+				"mascot": "Rams",
+				"short": "STN",
+				"town": "Stonegate",
+				"conference": 0,
+				"strength": 58,
+				"colors": [
+					"#333333",
+					"#e4572e"
+				]
+			},
+			{
+				"id": "westbrook",
+				"name": "Westbrook Central",
+				"mascot": "Wolves",
+				"short": "WBC",
+				"town": "Westbrook",
+				"conference": 0,
+				"strength": 44,
+				"colors": [
+					"#5a6b7b",
+					"#111111"
+				]
+			},
+			{
+				"id": "copper_springs",
+				"name": "Copper Springs High",
+				"mascot": "Coyotes",
+				"short": "COP",
+				"town": "Copper Springs",
+				"conference": 0,
+				"strength": 66,
+				"colors": [
+					"#b5651d",
+					"#2b2b2b"
+				]
+			},
+			{
+				"id": "lakeview_north",
+				"name": "Lakeview North",
+				"mascot": "Lakers",
+				"short": "LVN",
+				"town": "Lakeview",
+				"conference": 1,
+				"strength": 52,
+				"colors": [
+					"#1d70b8",
+					"#9ad1f5"
+				]
+			},
+			{
+				"id": "oak_valley",
+				"name": "Oak Valley High",
+				"mascot": "Oaks",
+				"short": "OAK",
+				"town": "Oak Valley",
+				"conference": 1,
+				"strength": 60,
+				"colors": [
+					"#2f5d3a",
+					"#d9b44a"
+				]
+			},
+			{
+				"id": "granite_falls",
+				"name": "Granite Falls High",
+				"mascot": "Grizzlies",
+				"short": "GRF",
+				"town": "Granite Falls",
+				"conference": 1,
+				"strength": 74,
+				"colors": [
+					"#6b1d1d",
+					"#d1d1d1"
+				]
+			},
+			{
+				"id": "sunset_ridge",
+				"name": "Sunset Ridge High",
+				"mascot": "Suns",
+				"short": "SUN",
+				"town": "Sunset Ridge",
+				"conference": 1,
+				"strength": 41,
+				"colors": [
+					"#e07a1f",
+					"#5b2a86"
+				]
+			},
+			{
+				"id": "briar_creek",
+				"name": "Briar Creek High",
+				"mascot": "Bobcats",
+				"short": "BRC",
+				"town": "Briar Creek",
+				"conference": 1,
+				"strength": 50,
+				"colors": [
+					"#3b3b98",
+					"#f7d046"
+				]
+			},
+			{
+				"id": "fort_madsen",
+				"name": "Fort Madsen High",
+				"mascot": "Sentinels",
+				"short": "FTM",
+				"town": "Fort Madsen",
+				"conference": 1,
+				"strength": 57,
+				"colors": [
+					"#14213d",
+					"#fca311"
+				]
+			},
+			{
+				"id": "elm_grove",
+				"name": "Elm Grove High",
+				"mascot": "Hornets",
+				"short": "ELM",
+				"town": "Elm Grove",
+				"conference": 1,
+				"strength": 35,
+				"colors": [
+					"#f2c500",
+					"#111111"
+				]
+			},
+			{
+				"id": "redstone",
+				"name": "Redstone High",
+				"mascot": "Raiders",
+				"short": "RED",
+				"town": "Redstone",
+				"conference": 1,
+				"strength": 68,
+				"colors": [
+					"#a4161a",
+					"#f5f3f4"
+				]
+			}
 		]
 	},
-
 	"names": {
-		"first": ["Marcus", "Eli", "Jalen", "Owen", "Dante", "Caleb", "Theo", "Isaiah", "Miles", "Wes", "Andre", "Luca", "Reggie", "Noah", "Tyrell", "Gavin", "Sam", "Rafael", "Cody", "Darius", "Brody", "Kenji", "Malik", "Hayes"],
-		"last": ["Whitaker", "Okafor", "Brennan", "Delgado", "Castellano", "Pruitt", "Lindqvist", "Hargrove", "Mbeki", "Sorensen", "Vance", "Achebe", "Kowalski", "Fairbanks", "Montoya", "Thibodeaux", "Ashby", "Nakamura", "Rourke", "Ellison"],
-		"coach_titles": ["Coach", "Coach"]
+		"first": [
+			"Marcus",
+			"Eli",
+			"Jalen",
+			"Owen",
+			"Dante",
+			"Caleb",
+			"Theo",
+			"Isaiah",
+			"Miles",
+			"Wes",
+			"Andre",
+			"Luca",
+			"Reggie",
+			"Noah",
+			"Tyrell",
+			"Gavin",
+			"Sam",
+			"Rafael",
+			"Cody",
+			"Darius",
+			"Brody",
+			"Kenji",
+			"Malik",
+			"Hayes"
+		],
+		"last": [
+			"Whitaker",
+			"Okafor",
+			"Brennan",
+			"Delgado",
+			"Castellano",
+			"Pruitt",
+			"Lindqvist",
+			"Hargrove",
+			"Mbeki",
+			"Sorensen",
+			"Vance",
+			"Achebe",
+			"Kowalski",
+			"Fairbanks",
+			"Montoya",
+			"Thibodeaux",
+			"Ashby",
+			"Nakamura",
+			"Rourke",
+			"Ellison"
+		],
+		"coach_titles": [
+			"Coach",
+			"Coach"
+		]
 	},
-
 	"appearance": {
-		"skin": ["#f1d3b3", "#e0ac7e", "#c68642", "#8d5524", "#5c3a21"],
-		"hair": ["#2b1d0e", "#5a3825", "#a0522d", "#e1c16e", "#111111", "#9e9e9e"]
+		"skin": [
+			"#f1d3b3",
+			"#e0ac7e",
+			"#c68642",
+			"#8d5524",
+			"#5c3a21"
+		],
+		"hair": [
+			"#2b1d0e",
+			"#5a3825",
+			"#a0522d",
+			"#e1c16e",
+			"#111111",
+			"#9e9e9e"
+		]
+	},
+	"college": {
+		"conferences": [
+			"Grand Plains Conference",
+			"Coastal Athletic Conference",
+			"Heartland Collegiate League"
+		],
+		"schools": [
+			{
+				"id": "summit_state",
+				"name": "Summit State University",
+				"mascot": "Thunderbirds",
+				"short": "SSU",
+				"town": "Summit City",
+				"tier": "top",
+				"conference": 0,
+				"strength": 80,
+				"colors": [
+					"#5b0f1f",
+					"#d9a441"
+				]
+			},
+			{
+				"id": "great_lakes_tech",
+				"name": "Great Lakes Tech",
+				"mascot": "Engineers",
+				"short": "GLT",
+				"town": "Port Avery",
+				"tier": "top",
+				"conference": 0,
+				"strength": 74,
+				"colors": [
+					"#0d3b66",
+					"#f4d35e"
+				]
+			},
+			{
+				"id": "redwood_u",
+				"name": "Redwood University",
+				"mascot": "Timberwolves",
+				"short": "RWU",
+				"town": "Redwood Falls",
+				"tier": "top",
+				"conference": 0,
+				"strength": 77,
+				"colors": [
+					"#1b4332",
+					"#d8f3dc"
+				]
+			},
+			{
+				"id": "capital_state",
+				"name": "Capital State",
+				"mascot": "Senators",
+				"short": "CAP",
+				"town": "Capital City",
+				"tier": "top",
+				"conference": 0,
+				"strength": 71,
+				"colors": [
+					"#2b2d42",
+					"#ef233c"
+				]
+			},
+			{
+				"id": "pacific_crest",
+				"name": "Pacific Crest University",
+				"mascot": "Tritons",
+				"short": "PCU",
+				"town": "Bayshore",
+				"tier": "top",
+				"conference": 0,
+				"strength": 73,
+				"colors": [
+					"#023e8a",
+					"#90e0ef"
+				]
+			},
+			{
+				"id": "ironwood",
+				"name": "Ironwood University",
+				"mascot": "Forge",
+				"short": "IRN",
+				"town": "Ironwood",
+				"tier": "top",
+				"conference": 0,
+				"strength": 69,
+				"colors": [
+					"#3c3c3c",
+					"#ff7f11"
+				]
+			},
+			{
+				"id": "bay_city",
+				"name": "Bay City College",
+				"mascot": "Pelicans",
+				"short": "BCC",
+				"town": "Bay City",
+				"tier": "mid",
+				"conference": 1,
+				"strength": 63,
+				"colors": [
+					"#00798c",
+					"#edae49"
+				]
+			},
+			{
+				"id": "eastmont",
+				"name": "Eastmont University",
+				"mascot": "Eagles",
+				"short": "EMU",
+				"town": "Eastmont",
+				"tier": "mid",
+				"conference": 1,
+				"strength": 60,
+				"colors": [
+					"#4a1942",
+					"#f0c808"
+				]
+			},
+			{
+				"id": "pinecrest_state",
+				"name": "Pinecrest State",
+				"mascot": "Pioneers",
+				"short": "PCS",
+				"town": "Pinecrest",
+				"tier": "mid",
+				"conference": 1,
+				"strength": 58,
+				"colors": [
+					"#2d6a4f",
+					"#fefae0"
+				]
+			},
+			{
+				"id": "silver_valley",
+				"name": "Silver Valley University",
+				"mascot": "Stallions",
+				"short": "SVU",
+				"town": "Silver Valley",
+				"tier": "mid",
+				"conference": 1,
+				"strength": 62,
+				"colors": [
+					"#6c757d",
+					"#212529"
+				]
+			},
+			{
+				"id": "tidewater",
+				"name": "Tidewater University",
+				"mascot": "Herons",
+				"short": "TWU",
+				"town": "Tidewater",
+				"tier": "mid",
+				"conference": 1,
+				"strength": 56,
+				"colors": [
+					"#1d3557",
+					"#a8dadc"
+				]
+			},
+			{
+				"id": "canyon_state",
+				"name": "Canyon State",
+				"mascot": "Scorpions",
+				"short": "CSU",
+				"town": "Red Canyon",
+				"tier": "mid",
+				"conference": 1,
+				"strength": 59,
+				"colors": [
+					"#9c2c13",
+					"#f2cc8f"
+				]
+			},
+			{
+				"id": "maple_ridge",
+				"name": "Maple Ridge College",
+				"mascot": "Foxes",
+				"short": "MRC",
+				"town": "Maple Ridge",
+				"tier": "small",
+				"conference": 2,
+				"strength": 50,
+				"colors": [
+					"#bc4749",
+					"#f2e8cf"
+				]
+			},
+			{
+				"id": "prairie_valley",
+				"name": "Prairie Valley College",
+				"mascot": "Bison",
+				"short": "PVC",
+				"town": "Prairie Valley",
+				"tier": "small",
+				"conference": 2,
+				"strength": 46,
+				"colors": [
+					"#6f4518",
+					"#ffe8d6"
+				]
+			},
+			{
+				"id": "north_shore",
+				"name": "North Shore College",
+				"mascot": "Gulls",
+				"short": "NSC",
+				"town": "North Shore",
+				"tier": "small",
+				"conference": 2,
+				"strength": 52,
+				"colors": [
+					"#14213d",
+					"#e5e5e5"
+				]
+			},
+			{
+				"id": "cobalt_college",
+				"name": "Cobalt College",
+				"mascot": "Comets",
+				"short": "COB",
+				"town": "Cobalt",
+				"tier": "small",
+				"conference": 2,
+				"strength": 44,
+				"colors": [
+					"#0047ab",
+					"#ffd60a"
+				]
+			},
+			{
+				"id": "westfield",
+				"name": "Westfield University",
+				"mascot": "Knights",
+				"short": "WFU",
+				"town": "Westfield",
+				"tier": "small",
+				"conference": 2,
+				"strength": 48,
+				"colors": [
+					"#5f0f40",
+					"#fb8b24"
+				]
+			},
+			{
+				"id": "lone_pine",
+				"name": "Lone Pine College",
+				"mascot": "Lynx",
+				"short": "LPC",
+				"town": "Lone Pine",
+				"tier": "small",
+				"conference": 2,
+				"strength": 42,
+				"colors": [
+					"#344e41",
+					"#a3b18a"
+				]
+			}
+		]
+	},
+	"juco": {
+		"league": "Junior College Football Association",
+		"schools": [
+			{
+				"id": "riverbend_cc",
+				"name": "Riverbend Community College",
+				"mascot": "Rapids",
+				"short": "RCC",
+				"town": "Riverbend",
+				"tier": "juco",
+				"conference": 0,
+				"strength": 46,
+				"colors": [
+					"#264653",
+					"#e9c46a"
+				]
+			},
+			{
+				"id": "high_plains_cc",
+				"name": "High Plains Community College",
+				"mascot": "Hawks",
+				"short": "HPC",
+				"town": "High Plains",
+				"tier": "juco",
+				"conference": 0,
+				"strength": 42,
+				"colors": [
+					"#3d405b",
+					"#f2cc8f"
+				]
+			},
+			{
+				"id": "gulf_coast_cc",
+				"name": "Gulf Coast Community College",
+				"mascot": "Sharks",
+				"short": "GCC",
+				"town": "Gulf Shore",
+				"tier": "juco",
+				"conference": 0,
+				"strength": 49,
+				"colors": [
+					"#118ab2",
+					"#ffd166"
+				]
+			},
+			{
+				"id": "mesa_cc",
+				"name": "Mesa Community College",
+				"mascot": "Roadrunners",
+				"short": "MCC",
+				"town": "Mesa Verde",
+				"tier": "juco",
+				"conference": 0,
+				"strength": 44,
+				"colors": [
+					"#9a031e",
+					"#fb8b24"
+				]
+			},
+			{
+				"id": "lakeland_cc",
+				"name": "Lakeland Community College",
+				"mascot": "Loons",
+				"short": "LCC",
+				"town": "Lakeland",
+				"tier": "juco",
+				"conference": 0,
+				"strength": 40,
+				"colors": [
+					"#006d77",
+					"#edf6f9"
+				]
+			},
+			{
+				"id": "granite_cc",
+				"name": "Granite Community College",
+				"mascot": "Rockets",
+				"short": "GRC",
+				"town": "Granite Bay",
+				"tier": "juco",
+				"conference": 0,
+				"strength": 47,
+				"colors": [
+					"#495057",
+					"#ff6b6b"
+				]
+			}
+		]
+	},
+	"pro": {
+		"league": "Pro Gridiron League",
+		"clubs": [
+			{
+				"id": "metro_monarchs",
+				"name": "Metro Monarchs",
+				"mascot": "Monarchs",
+				"short": "MET",
+				"town": "Metro City",
+				"strength": 72,
+				"colors": [
+					"#3a0ca3",
+					"#f8c537"
+				]
+			},
+			{
+				"id": "harbor_hammers",
+				"name": "Harbor Hammers",
+				"mascot": "Hammers",
+				"short": "HAM",
+				"town": "Harborview",
+				"strength": 66,
+				"colors": [
+					"#2f3e46",
+					"#e76f51"
+				]
+			},
+			{
+				"id": "desert_vipers",
+				"name": "Desert Vipers",
+				"mascot": "Vipers",
+				"short": "DSV",
+				"town": "Sun Valley",
+				"strength": 61,
+				"colors": [
+					"#386641",
+					"#f2e8cf"
+				]
+			},
+			{
+				"id": "northern_lights",
+				"name": "Northern Lights",
+				"mascot": "Lights",
+				"short": "NOR",
+				"town": "Aurora Bay",
+				"strength": 69,
+				"colors": [
+					"#14213d",
+					"#4cc9f0"
+				]
+			},
+			{
+				"id": "river_city_rafters",
+				"name": "River City Rafters",
+				"mascot": "Rafters",
+				"short": "RCR",
+				"town": "River City",
+				"strength": 58,
+				"colors": [
+					"#7f5539",
+					"#ede0d4"
+				]
+			},
+			{
+				"id": "steel_valley_titans",
+				"name": "Steel Valley Titans",
+				"mascot": "Titans",
+				"short": "SVT",
+				"town": "Steel Valley",
+				"strength": 64,
+				"colors": [
+					"#212529",
+					"#ffba08"
+				]
+			},
+			{
+				"id": "coastline_cyclones",
+				"name": "Coastline Cyclones",
+				"mascot": "Cyclones",
+				"short": "CYC",
+				"town": "Coastline",
+				"strength": 70,
+				"colors": [
+					"#0077b6",
+					"#ff006e"
+				]
+			},
+			{
+				"id": "plains_mustangs",
+				"name": "Plains Mustangs",
+				"mascot": "Mustangs",
+				"short": "PLM",
+				"town": "Wide Plains",
+				"strength": 55,
+				"colors": [
+					"#9b2226",
+					"#e9d8a6"
+				]
+			},
+			{
+				"id": "capital_guardians",
+				"name": "Capital Guardians",
+				"mascot": "Guardians",
+				"short": "CPG",
+				"town": "Capitol Hill",
+				"strength": 67,
+				"colors": [
+					"#1d3557",
+					"#e63946"
+				]
+			},
+			{
+				"id": "bayou_gators",
+				"name": "Bayou Gators",
+				"mascot": "Gators",
+				"short": "BAY",
+				"town": "Bayou Point",
+				"strength": 60,
+				"colors": [
+					"#2d6a4f",
+					"#ff9f1c"
+				]
+			},
+			{
+				"id": "mountain_rams",
+				"name": "Mountain Rams",
+				"mascot": "Rams",
+				"short": "MTR",
+				"town": "High Peak",
+				"strength": 63,
+				"colors": [
+					"#5e548e",
+					"#e0b1cb"
+				]
+			},
+			{
+				"id": "lakeside_lumberjacks",
+				"name": "Lakeside Lumberjacks",
+				"mascot": "Lumberjacks",
+				"short": "LKL",
+				"town": "Lakeside",
+				"strength": 57,
+				"colors": [
+					"#6a040f",
+					"#ffba08"
+				]
+			}
+		]
 	}
 }

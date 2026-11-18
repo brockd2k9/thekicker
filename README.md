@@ -248,19 +248,29 @@ Future menu buttons will therefore take their own clicks without firing kicks. S
 distances and speeds are measured in *screen heights*, so feel is resolution-independent.
 
 ### Career Mode (in progress)
-Built in stages; high school seasons are playable, college/pro scenarios and traits are
-in the data and measured by the simulator, and stage progression comes next.
+Playable from freshman year to retirement: high school -> recruiting (offers by tier,
+GPA-gated) -> college (or walk-on tryout / junior college) -> draft (or training camp /
+open free-agent tryouts) -> pro contracts (re-sign, release, Retire, age cap 38) ->
+career summary. A long run of poor seasons and failed tryouts ends a career early.
+Polish, achievements and the final docs come in the last stage.
 
 | What | Where |
 |---|---|
 | Balance numbers (stat -> kick curves, caps, gains, seasons, game sim, scenario picks) | `tuning/career_tuning.tres` (defaults + docs in `scripts/career/career_tuning.gd`) |
 | Scenarios (49: HS, college, pro, bye/offseason, trait-gated) | `data/career/scenarios_*.json` (field reference: `_doc` in `scenarios_hs.json`) |
 | Traits (8), game-day modifiers (19), stat descriptions | `data/career/traits.json`, `modifiers.json`, `stats_info.json` |
-| Schools, names, play-by-play and game-day text | `data/career/world.json`, `game_day.json` |
+| Schools (16 HS, 18 colleges in 3 tiers, 6 junior colleges), 12 pro clubs, names, play-by-play | `data/career/world.json`, `game_day.json` |
+| Progression tables: college tiers, offers, draft rounds, tryouts, contracts | `data/career/progression.json` (weights in `career_tuning.tres`) |
+| Recruiting / draft / retention / academics rules | `scripts/career/progression.gd` |
 | Content word check (teen audience) | `data/career/content_rules.json` |
 | Weekly loop / saves | `scripts/career/career_manager.gd`, `career_save.gd` (3 slots: `user://career_slot_N.json`) |
 | Stats + traits -> kick | `scripts/career/kick_profile.gd` (`KickProfile.build()` -> `KickModifiers`) |
 | Scenario engine | `scripts/career/scenario_engine.gd` |
+
+Goalposts and uniforms: `field_goal_game.gd` `set_look()` (called before the scene enters the
+tree) picks the posts style per stage (high school plain H-frame and wide, college gooseneck
+with school-colored padding/bands, pro polished and narrower; widths in `career_tuning.tres`
+"Goalposts") and dresses both lines in the teams' colors. Without it the scene looks as before.
 
 How the pieces connect: a career game runs the existing kick scene through `CareerGameMode`
 (a `KickMode`) with `KickProfile.to_kick_modifiers()`, so career kicks report through

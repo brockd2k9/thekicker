@@ -18,18 +18,22 @@ extends RefCounted
 
 const CATEGORIES := ["social", "school", "training", "health", "work", "media", "family",
 	"money", "team", "romance", "community", "career"]
+## Choice fields that move progression numbers instead of stats:
+## recruiting / draft / retention points, and grades (GPA points, 0-4 scale).
+const PROGRESS_KEYS := ["recruiting", "draft", "retention", "grades"]
 
 
 # --- requirements -------------------------------------------------------------------
 
 ## requires: {min: {stat: n}, max: {stat: n}, traits: [all of], any_traits: [one of],
+## (min/max also take "recruiting", "draft", "retention", "gpa", "age"),
 ## flags: [set], not_flags: [unset], any_of: [requires, ...] (one must pass)}.
 static func requirements_met(c: CareerData, req: Dictionary) -> bool:
 	for k in req.get("min", {}):
-		if c.stat(k) < float(req["min"][k]):
+		if c.metric(k) < float(req["min"][k]):
 			return false
 	for k in req.get("max", {}):
-		if c.stat(k) > float(req["max"][k]):
+		if c.metric(k) > float(req["max"][k]):
 			return false
 	for t in req.get("traits", []):
 		if not c.has_trait(str(t)):
@@ -205,6 +209,11 @@ static func apply_choice(c: CareerData, id: String, index: int, tuning: CareerTu
 		push_warning("ScenarioEngine: choice %d of '%s' is locked" % [index, id])
 		return {}
 	var applied := CareerStats.apply(c, ch.get("stats", {}), tuning)
+	var progress := progress_changes(ch)
+	c.recruiting_score = clampf(c.recruiting_score + float(progress.get("recruiting", 0.0)), 0.0, 100.0)
+	c.draft_score = clampf(c.draft_score + float(progress.get("draft", 0.0)), 0.0, 100.0)
+	c.retention_bonus += float(progress.get("retention", 0.0))
+	c.gpa = clampf(c.gpa + float(progress.get("grades", 0.0)), 0.0, 4.0)
 	var mods: Array = []
 	for m in ch.get("modifiers", []):
 		if not (str(m) in c.week_modifiers):
@@ -231,4 +240,14 @@ static func apply_choice(c: CareerData, id: String, index: int, tuning: CareerTu
 	var cat := str(s.get("category", ""))
 	cats[cat] = int(cats.get(cat, 0)) + 1
 	return {"applied": applied, "new_traits": applied.get("new_traits", []),
-		"result": str(ch.get("result", "")), "modifiers": mods, "follow_up": follow}
+		"result": str(ch.get("result", "")), "modifiers": mods, "follow_up": follow,
+		"progress": progress}
+
+
+## A choice's progression changes: {"recruiting": 4, "grades": 0.2, ...}.
+static func progress_changes(ch: Dictionary) -> Dictionary:
+	var out := {}
+	for k in PROGRESS_KEYS:
+		if ch.has(k) and float(ch[k]) != 0.0:
+			out[k] = float(ch[k])
+	return out

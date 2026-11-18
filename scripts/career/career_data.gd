@@ -8,7 +8,7 @@ extends RefCounted
 ## Stats are floats 0..100 (gains can be fractional); screens show them rounded.
 ## When the layout changes: bump VERSION and add a step to CareerSave._migrate().
 
-const VERSION := 1
+const VERSION := 2
 
 const STAGE_HIGH_SCHOOL := "high_school"
 const STAGE_JUCO := "juco"
@@ -108,6 +108,21 @@ var offers: Array = []
 var contract: Dictionary = {}
 ## Bad seasons / failed tryouts in a row. Too many ends the career.
 var poor_streak: int = 0
+## Grade point average, 0-4 (academic eligibility for college offers / play).
+var gpa: float = 2.9
+## Pro: this season's retention points from choices ("retention" in scenario data).
+var retention_bonus: float = 0.0
+## Last computed pro retention score (0-100), for the Hub.
+var retention_score: float = 0.0
+## Active tryout: {purpose, title, distances, need, pressure, wind_max, stage,
+## team, made, taken}. Empty when none.
+var tryout: Dictionary = {}
+## Draft day result: {round, team, kind: "drafted"/"camp"/"open"}.
+var draft_result: Dictionary = {}
+## The career's path, one line per milestone: [{season, age, text}].
+var route: Array = []
+## Set when the career ends: {reason, text, age, season}.
+var retirement: Dictionary = {}
 ## Mid-game state so a quit restarts the game from its first kick: {"seed"}.
 var game_checkpoint: Dictionary = {}
 ## What happened last week, for the Results & Week Summary screen:
@@ -134,6 +149,7 @@ static func create(player_name: String, tuning: CareerTuning) -> CareerData:
 		d.personality[k] = tuning.start_personality
 	d.season_stats = empty_kick_totals()
 	d.career_totals = empty_kick_totals()
+	d.gpa = tuning.start_gpa
 	return d
 
 
@@ -170,6 +186,31 @@ func stat(key: String) -> float:
 	if g == "":
 		return 0.0
 	return float(group(g).get(key, 0.0))
+
+
+## Stats plus the progression numbers scenario requirements can test:
+## "recruiting", "draft", "retention", "gpa", "age".
+const METRICS := ["recruiting", "draft", "retention", "gpa", "age"]
+
+
+func metric(key: String) -> float:
+	match key:
+		"recruiting":
+			return recruiting_score
+		"draft":
+			return draft_score
+		"retention":
+			return retention_score
+		"gpa":
+			return gpa
+		"age":
+			return float(age)
+	return stat(key)
+
+
+## Adds a line to the career path ("Signed with ...").
+func add_route(text: String) -> void:
+	route.append({"season": season, "age": age, "stage": stage, "text": text})
 
 
 func set_stat(key: String, value: float) -> void:
@@ -233,6 +274,13 @@ func to_dict() -> Dictionary:
 		"contract": contract.duplicate(true),
 		"poor_streak": poor_streak,
 		"game_checkpoint": game_checkpoint.duplicate(true),
+		"gpa": gpa,
+		"retention_bonus": retention_bonus,
+		"retention_score": retention_score,
+		"tryout": tryout.duplicate(true),
+		"draft_result": draft_result.duplicate(true),
+		"route": route.duplicate(true),
+		"retirement": retirement.duplicate(true),
 		"last_week": last_week.duplicate(true),
 		"notice": notice,
 	}
@@ -299,6 +347,13 @@ static func from_dict(d: Dictionary) -> CareerData:
 	c.contract = _dict(d, "contract")
 	c.poor_streak = maxi(int(d.get("poor_streak", 0)), 0)
 	c.game_checkpoint = _dict(d, "game_checkpoint")
+	c.gpa = clampf(float(d.get("gpa", 2.9)), 0.0, 4.0)
+	c.retention_bonus = float(d.get("retention_bonus", 0.0))
+	c.retention_score = float(d.get("retention_score", 0.0))
+	c.tryout = _dict(d, "tryout")
+	c.draft_result = _dict(d, "draft_result")
+	c.route = _array(d, "route")
+	c.retirement = _dict(d, "retirement")
 	c.last_week = _dict(d, "last_week")
 	c.notice = str(d.get("notice", ""))
 	return c

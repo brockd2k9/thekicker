@@ -286,6 +286,7 @@ func _launch_kick(e: Dictionary) -> void:
 	_kick_scene = FIELD_GOAL.instantiate()
 	_kick_scene.mode = CareerGameMode.from_call(e, prof.pressure_add)
 	_kick_scene.modifiers = prof.to_kick_modifiers()
+	_kick_scene.set_look(career.kick_look())
 	_layer.visible = false
 	_kick_made = false
 	GameState.kick_resolved.connect(_on_kick_resolved)

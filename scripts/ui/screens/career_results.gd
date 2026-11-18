@@ -8,7 +8,15 @@ func _build(col: VBoxContainer) -> void:
 	var c := career.data
 	var w := c.last_week
 	var list: VBoxContainer
-	if w.get("type", "") == "bye":
+	if w.get("type", "") == "benched":
+		var o := str(w.get("outcome", "T"))
+		col.add_child(CareerUi.centered({"W": "WIN", "L": "LOSS", "T": "TIE"}[o], 64,
+			UiKit.GOOD if o == "W" else (UiKit.BAD if o == "L" else Color.WHITE)))
+		col.add_child(CareerUi.centered("%s %d  -  %d %s" % [c.team.get("mascot", ""), int(w.get("us", 0)),
+			int(w.get("them", 0)), w.get("mascot", "")], 36))
+		col.add_child(CareerUi.centered("You sat out: academically ineligible (GPA %.2f)." % c.gpa, 26, UiKit.BAD))
+		list = UiKit.scroll_list(col)
+	elif w.get("type", "") == "bye":
 		col.add_child(CareerUi.centered("BYE WEEK %d" % int(w.get("week", c.week)), 56, UiKit.ACCENT))
 		col.add_child(CareerUi.centered("No game. Time to recover.", 30, UiKit.MUTED))
 		list = UiKit.scroll_list(col)

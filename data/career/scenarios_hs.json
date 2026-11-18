@@ -1,5 +1,5 @@
 {
-	"_doc": "Scenario fields: id, title, text, category (social/school/training/health/work/media/family/money/team/romance/community/career), stages [high_school/juco/college/pro], when [season/bye/offseason] (default season+bye), weeks [min,max], seasons [min,max] (season within the stage), weight (default 1), once, cooldown (weeks), requires {min:{stat:n}, max:{stat:n}, traits:[all], any_traits:[one of], flags:[], not_flags:[], any_of:[requires,...]}, beat {season_in_stage, week} (guaranteed story beat, shown once), follow_up_only (only reachable as a follow-up), gate (label shown for trait-gated scenarios). Choices (2-4): label, result, stats {life/football/personality:{stat:change}} (projected on screen through the stat rules), modifiers [game-day modifier ids, at least one], requires (same as above; locked choices are shown with the requirement), set_flags {name: value}, follow_up {id, weeks}. Bye/offseason modifiers carry into the next game. Content rule: general/teen audience - no drugs or alcohol for the player, no sexual content, no graphic violence; peer pressure can always be declined (declining may cost Social). See data/career/content_rules.json.",
+	"_doc": "Scenario fields: id, title, text, category (social/school/training/health/work/media/family/money/team/romance/community/career), stages [high_school/juco/college/pro], when [season/bye/offseason] (default season+bye), weeks [min,max], seasons [min,max] (season within the stage), weight (default 1), once, cooldown (weeks), requires {min:{stat:n}, max:{stat:n}, traits:[all], any_traits:[one of], flags:[], not_flags:[], any_of:[requires,...]}, beat {season_in_stage, week} (guaranteed story beat, shown once), follow_up_only (only reachable as a follow-up), gate (label shown for trait-gated scenarios). Choices (2-4): label, result, stats {life/football/personality:{stat:change}} (projected on screen through the stat rules), modifiers [game-day modifier ids, at least one], requires (same as above; locked choices are shown with the requirement), set_flags {name: value}, follow_up {id, weeks}, recruiting / draft / retention (points) and grades (GPA points, 0-4 scale). Requirements min/max also take recruiting, draft, retention, gpa and age. Bye/offseason modifiers carry into the next game. Content rule: general/teen audience - no drugs or alcohol for the player, no sexual content, no graphic violence; peer pressure can always be declined (declining may cost Social). See data/career/content_rules.json.",
 	"scenarios": [
 		{
 			"id": "hs_party_invite",
@@ -29,7 +29,8 @@
 					},
 					"modifiers": [
 						"late_night"
-					]
+					],
+					"grades": -0.05
 				},
 				{
 					"label": "Stop by for an hour",
@@ -90,12 +91,14 @@
 						"personality": {
 							"charisma": -2,
 							"leadership": -1,
-							"intelligence": 5
+							"intelligence": 5,
+							"ambition": 1
 						}
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"grades": 0.15
 				},
 				{
 					"label": "Go to film",
@@ -113,7 +116,8 @@
 					},
 					"modifiers": [
 						"scouted"
-					]
+					],
+					"grades": -0.05
 				},
 				{
 					"label": "Try to do both",
@@ -132,7 +136,8 @@
 					"modifiers": [
 						"scouted",
 						"tired"
-					]
+					],
+					"grades": 0.05
 				},
 				{
 					"label": "Breeze through both",
@@ -155,7 +160,8 @@
 							"film_student",
 							"perfectionist"
 						]
-					}
+					},
+					"grades": 0.1
 				}
 			]
 		},
@@ -245,7 +251,8 @@
 						},
 						"personality": {
 							"ambition": 4,
-							"leadership": -2
+							"leadership": -2,
+							"intelligence": 1
 						}
 					},
 					"modifiers": [
@@ -522,7 +529,8 @@
 					},
 					"modifiers": [
 						"tired"
-					]
+					],
+					"grades": -0.05
 				},
 				{
 					"label": "Work a short shift",
@@ -666,7 +674,8 @@
 					"follow_up": {
 						"id": "hs_viral_followup",
 						"weeks": 2
-					}
+					},
+					"recruiting": 3
 				},
 				{
 					"label": "Say thanks, then go quiet",
@@ -684,7 +693,8 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"recruiting": 1
 				},
 				{
 					"label": "Turn notifications off",
@@ -799,12 +809,14 @@
 						},
 						"personality": {
 							"ambition": 4,
-							"leadership": -2
+							"leadership": -2,
+							"intelligence": 1
 						}
 					},
 					"modifiers": [
 						"pumped_up"
-					]
+					],
+					"recruiting": 2
 				},
 				{
 					"label": "Help him learn the system",
@@ -942,7 +954,7 @@
 							"charisma": 1,
 							"ambition": 4,
 							"leadership": -2,
-							"intelligence": -1
+							"intelligence": 0
 						}
 					},
 					"modifiers": [
@@ -950,7 +962,8 @@
 					],
 					"set_flags": {
 						"camp_showcase": true
-					}
+					},
+					"recruiting": 8
 				},
 				{
 					"label": "A smaller regional camp",
@@ -971,7 +984,8 @@
 					],
 					"set_flags": {
 						"camp_regional": true
-					}
+					},
+					"recruiting": 4
 				},
 				{
 					"label": "Skip it and work a summer job",
@@ -1027,7 +1041,8 @@
 					],
 					"set_flags": {
 						"recruit_impressed_power": true
-					}
+					},
+					"recruiting": 4
 				},
 				{
 					"label": "Stick to your routine",
@@ -1038,7 +1053,8 @@
 						},
 						"personality": {
 							"charisma": -1,
-							"intelligence": 3
+							"intelligence": 3,
+							"ambition": 1
 						}
 					},
 					"modifiers": [
@@ -1046,7 +1062,8 @@
 					],
 					"set_flags": {
 						"recruit_impressed_poise": true
-					}
+					},
+					"recruiting": 5
 				},
 				{
 					"label": "Introduce yourself after practice",
@@ -1067,7 +1084,344 @@
 					],
 					"set_flags": {
 						"recruit_impressed_person": true
-					}
+					},
+					"recruiting": 4
+				}
+			]
+		},
+		{
+			"id": "hs_showcase",
+			"title": "Regional Showcase",
+			"text": "A regional kicking showcase is ranking the best high school kickers in the state.",
+			"category": "career",
+			"stages": [
+				"high_school"
+			],
+			"when": [
+				"offseason"
+			],
+			"seasons": [
+				1,
+				3
+			],
+			"weight": 2,
+			"choices": [
+				{
+					"label": "Compete for a top ranking",
+					"result": "You place in the top ten. Coaches take notes.",
+					"stats": {
+						"life": {
+							"energy": -6
+						},
+						"football": {
+							"power": 1,
+							"accuracy": 1
+						},
+						"personality": {
+							"ambition": 3,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"pumped_up"
+					],
+					"recruiting": 6
+				},
+				{
+					"label": "Go mainly to film your kicks",
+					"result": "Great footage for your highlight tape.",
+					"stats": {
+						"personality": {
+							"charisma": -1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"recruiting": 3
+				},
+				{
+					"label": "Skip it and enjoy the break",
+					"result": "A relaxed few weeks.",
+					"stats": {
+						"life": {
+							"fun": 5,
+							"energy": 4
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "hs_highlight_film",
+			"title": "Highlight Tape",
+			"text": "College coaches keep asking for your highlight tape. You don't have one yet.",
+			"category": "career",
+			"stages": [
+				"high_school"
+			],
+			"seasons": [
+				2,
+				4
+			],
+			"weeks": [
+				3,
+				10
+			],
+			"cooldown": 20,
+			"choices": [
+				{
+					"label": "Pay a video editor",
+					"result": "A slick tape with slow motion and music.",
+					"stats": {
+						"life": {
+							"fun": -2
+						},
+						"personality": {
+							"charisma": 2,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"spotlight"
+					],
+					"recruiting": 5
+				},
+				{
+					"label": "Cut it together yourself",
+					"result": "Late nights, but it's good, and it's yours.",
+					"stats": {
+						"life": {
+							"energy": -4
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"recruiting": 3
+				},
+				{
+					"label": "Let your stats speak",
+					"result": "You stay out of it.",
+					"stats": {
+						"life": {
+							"fun": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "hs_recruiter_call",
+			"title": "A Recruiter Calls",
+			"text": "A college special teams coach calls your house after practice.",
+			"category": "career",
+			"stages": [
+				"high_school"
+			],
+			"seasons": [
+				2,
+				4
+			],
+			"requires": {
+				"min": {
+					"recruiting": 25
+				}
+			},
+			"cooldown": 6,
+			"weight": 2,
+			"choices": [
+				{
+					"label": "Sell yourself",
+					"result": "He likes your confidence.",
+					"stats": {
+						"personality": {
+							"charisma": 3,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"recruiting": 4
+				},
+				{
+					"label": "Ask about academics and fit",
+					"result": "A real conversation about your future.",
+					"stats": {
+						"personality": {
+							"charisma": -1,
+							"intelligence": 3
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"recruiting": 2
+				},
+				{
+					"label": "Let your coach handle it",
+					"result": "Your coach talks you up.",
+					"stats": {
+						"life": {
+							"energy": 2
+						},
+						"personality": {
+							"ambition": -1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"recruiting": 1
+				}
+			]
+		},
+		{
+			"id": "hs_campus_visit",
+			"title": "Official Visit",
+			"text": "A college invites you for an official weekend visit: tour, team dinner, a game in their stadium.",
+			"category": "career",
+			"stages": [
+				"high_school"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"weeks": [
+				2,
+				9
+			],
+			"requires": {
+				"min": {
+					"recruiting": 40
+				}
+			},
+			"once": true,
+			"choices": [
+				{
+					"label": "Go on the visit",
+					"result": "The stadium gives you chills.",
+					"stats": {
+						"life": {
+							"energy": -6,
+							"fun": 6
+						},
+						"personality": {
+							"charisma": 1,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"recruiting": 5
+				},
+				{
+					"label": "Take the video tour instead",
+					"result": "Convenient, if a little flat.",
+					"stats": {
+						"personality": {
+							"charisma": -1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"recruiting": 2
+				},
+				{
+					"label": "Stay focused on your season",
+					"result": "The coach respects it. Mostly.",
+					"stats": {
+						"personality": {
+							"ambition": 2,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"recruiting": -1
+				}
+			]
+		},
+		{
+			"id": "hs_grades_warning",
+			"title": "Academic Warning",
+			"text": "Your guidance counselor says your grades could cost you college offers.",
+			"category": "school",
+			"stages": [
+				"high_school"
+			],
+			"requires": {
+				"max": {
+					"gpa": 2.6
+				}
+			},
+			"cooldown": 8,
+			"weight": 3,
+			"choices": [
+				{
+					"label": "Get a tutor",
+					"result": "Two sessions a week. It's working.",
+					"stats": {
+						"life": {
+							"fun": -3
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"grades": 0.3
+				},
+				{
+					"label": "Study group with teammates",
+					"result": "Misery loves company, and flashcards.",
+					"stats": {
+						"life": {
+							"social": 3
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"grades": 0.2
+				},
+				{
+					"label": "You'll figure it out",
+					"result": "You don't.",
+					"stats": {
+						"life": {
+							"fun": 2
+						}
+					},
+					"modifiers": [
+						"distracted"
+					],
+					"grades": -0.1
 				}
 			]
 		}

@@ -92,6 +92,31 @@ static func stats_info() -> Dictionary:
 	return file("stats_info.json")
 
 
+static func progression() -> Dictionary:
+	return file("progression.json")
+
+
+static func colleges() -> Array:
+	return world().get("college", {}).get("schools", [])
+
+
+static func jucos() -> Array:
+	return world().get("juco", {}).get("schools", [])
+
+
+static func pro_clubs() -> Array:
+	return world().get("pro", {}).get("clubs", [])
+
+
+## Any team by id: high school, college, junior college or pro club.
+static func team_by_id(id: String) -> Dictionary:
+	for list in [high_schools(), colleges(), jucos(), pro_clubs()]:
+		for s in list:
+			if s.get("id", "") == id:
+				return s
+	return {}
+
+
 static func game_day() -> Dictionary:
 	return file("game_day.json")
 
@@ -130,7 +155,7 @@ static func fill(text: String, vars: Dictionary) -> String:
 static func _check_requires(problems: PackedStringArray, where: String, req: Dictionary) -> void:
 	for bound in ["min", "max"]:
 		for k in req.get(bound, {}):
-			if CareerData.group_of(k) == "":
+			if CareerData.group_of(k) == "" and not (k in CareerData.METRICS):
 				problems.append("%s: unknown stat '%s' in requires" % [where, k])
 	for key in ["traits", "any_traits"]:
 		for t in req.get(key, []):
@@ -206,7 +231,7 @@ static func validate() -> PackedStringArray:
 			_check_words(problems, id, [ch.get("label", ""), ch.get("result", "")])
 			if (ch.get("modifiers", []) as Array).is_empty():
 				problems.append("scenario %s: choice '%s' has no game-day modifier" % [id, ch.get("label", "")])
-			var n_stats := 0
+			var n_stats := ScenarioEngine.progress_changes(ch).size()
 			for g in ch.get("stats", {}):
 				n_stats += (ch["stats"][g] as Dictionary).size() if ch["stats"][g] is Dictionary else 0
 			if n_stats == 0:

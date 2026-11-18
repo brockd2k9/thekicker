@@ -51,6 +51,26 @@ var _wind_at_kick := 0.0
 @onready var hud: Hud = $Hud
 
 
+## Career Mode: goalpost style/width/colors and team uniforms. Call after
+## instantiate() and before adding the scene to the tree. look keys (all
+## optional): posts ("high_school"/"college"/"pro"), width (m), accent, accent2
+## (Color), home / away ([primary, secondary] Colors). Without it the scene
+## looks exactly as before.
+func set_look(look: Dictionary) -> void:
+	var posts := get_node("Field/GoalEnd/GoalPosts") as GoalPosts
+	posts.style = StringName(str(look.get("posts", "")))
+	posts.inner_width = float(look.get("width", GoalPosts.INNER_WIDTH))
+	posts.accent = look.get("accent", posts.accent)
+	posts.accent2 = look.get("accent2", posts.accent2)
+	var f := get_node("Field") as FieldBuilder
+	var home: Array = look.get("home", [])
+	if home.size() == 2:
+		f.home_kit_override = TeamKit.from_colors(home[0], home[1])
+	var away: Array = look.get("away", [])
+	if away.size() == 2:
+		f.away_kit_override = TeamKit.from_colors(away[0], away[1], true)
+
+
 func _ready() -> void:
 	if tuning == null:
 		tuning = KickTuning.new()
@@ -281,7 +301,7 @@ func _on_swipe_released(swipe: Swipe) -> void:
 
 func _on_ball_reached_goal_plane(crossing: Vector3) -> void:
 	if phase == Phase.FLIGHT:
-		_resolve(KickResult.judge_at_goal_plane(crossing))
+		_resolve(KickResult.judge_at_goal_plane(crossing, field.goal_posts.inner_width * 0.5))
 
 
 func _on_ball_landed(_at: Vector3) -> void:

@@ -64,20 +64,20 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export_group("Low Life Stats")
 ## Below its threshold a life stat starts to hurt; the penalty grows linearly to
 ## its full size at 0.
-@export var low_energy_threshold: float = 35.0
+@export var low_energy_threshold: float = 40.0
 ## Power multiplier lost at Energy 0.
 @export var low_energy_power: float = 0.08
 ## Wobble multiplier added at Energy 0.
 @export var low_energy_wobble: float = 0.35
-@export var low_health_threshold: float = 35.0
+@export var low_health_threshold: float = 40.0
 ## Aim error (degrees) added at Health 0.
 @export var low_health_spread: float = 1.0
 ## Weekly injury chance added at Health 0.
 @export var low_health_injury: float = 0.12
-@export var low_fun_threshold: float = 30.0
+@export var low_fun_threshold: float = 40.0
 ## Resilience gains are multiplied by this while Fun is low.
 @export_range(0.0, 1.0) var low_fun_resilience_gain_mult: float = 0.5
-@export var low_social_threshold: float = 30.0
+@export var low_social_threshold: float = 40.0
 ## Pressure sensitivity added at Social 0 (low morale).
 @export var low_social_pressure: float = 0.15
 
@@ -108,7 +108,10 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export_group("Stat Gains")
 ## Football stat gains shrink as the stat climbs: gain *= 1 - this * value/100.
 ## 0 = no diminishing returns, 0.6 = a gain at 100 is 40% of a gain at 0.
-@export_range(0.0, 1.0) var football_diminishing: float = 0.7
+@export_range(0.0, 1.0) var football_diminishing: float = 0.85
+## Increases to Fun and Social (scenarios, wins, recovery) are multiplied by
+## this, so they don't sit near 100; Fun and Social have to be looked after.
+@export_range(0.0, 2.0) var fun_social_gain_mult: float = 0.7
 ## Personality changes are multiplied by this ("they change slowly").
 @export_range(0.0, 2.0) var personality_change_scale: float = 0.3
 
@@ -143,19 +146,22 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var offseason_scenarios: int = 2
 ## Applied at the end of every week (through the stat rules). Energy and
 ## Health recover, practice slowly builds every football stat.
-@export var weekly_energy_recovery: float = 8.0
+@export var weekly_energy_recovery: float = 10.0
 @export var weekly_health_recovery: float = 2.0
-@export var weekly_football_growth: float = 0.15
+@export var weekly_football_growth: float = 0.1
 ## Every week each life stat also moves this fraction of the way back toward
-## start_life, so streaks of good or bad weeks don't pin them at 0 or 100.
+## life_baseline, so streaks of good or bad weeks don't pin them at 0 or 100.
 ## 0 = off.
 @export_range(0.0, 0.5) var weekly_life_drift: float = 0.1
+## Where life stats settle when nothing is happening (the weekly drift target).
+## Below start_life on purpose: you have to keep them up.
+@export var life_baseline: float = 60.0
 ## Extra recovery at the end of a bye week.
 @export var bye_energy_recovery: float = 15.0
 @export var bye_health_recovery: float = 10.0
 ## Between seasons: every football stat grows this much (before diminishing
 ## returns), and life stats move this fraction of the way back to start_life.
-@export var offseason_football_growth: float = 2.0
+@export var offseason_football_growth: float = 1.5
 @export_range(0.0, 1.0) var offseason_life_reset: float = 0.5
 ## Injury picked up in the weekly roll: weeks out of full health and severity.
 @export var injury_weeks_min: int = 1
@@ -212,15 +218,15 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 
 @export_group("Game Results")
 ## Life-stat changes from the team result.
-@export var win_fun: float = 6.0
-@export var win_social: float = 4.0
+@export var win_fun: float = 3.0
+@export var win_social: float = 2.0
 @export var loss_fun: float = -4.0
 @export var loss_social: float = -1.0
 ## Every game costs this (before the weekly recovery).
 @export var game_energy_cost: float = -12.0
 @export var game_health_cost: float = -3.0
 ## Per kick of yours (field goals and extra points).
-@export var make_accuracy_gain: float = 0.1
+@export var make_accuracy_gain: float = 0.06
 ## A make from this far or more also builds Power.
 @export var long_make_yards: int = 40
 @export var long_make_power_gain: float = 0.5
@@ -231,7 +237,7 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var miss_fun: float = -2.0
 @export var miss_resilience_gain: float = 0.3
 ## A perfect day (2+ kicks, no misses) adds this Fun.
-@export var perfect_day_fun: float = 4.0
+@export var perfect_day_fun: float = 2.0
 ## Good kickoffs (touchback / pinned deep) build Power and Toughness a little.
 @export var good_kickoff_power_gain: float = 0.3
 @export var good_kickoff_toughness_gain: float = 0.2
@@ -263,6 +269,82 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var net_kicks: int = 3
 ## Pure strikes needed for the best warmup result.
 @export var net_pure_needed: int = 2
+
+@export_group("Stage Difficulty")
+## Field goal attempt distances and extra point distance (yards) per stage.
+## A college's tier can lower the college max (progression.json fg_max_yards).
+@export var college_fg_min_yards: int = 22
+@export var college_fg_max_yards: int = 55
+@export var college_pat_yards: int = 20
+@export var pro_fg_min_yards: int = 25
+@export var pro_fg_max_yards: int = 58
+@export var pro_pat_yards: int = 33
+## Extra situation pressure on every kick (bigger crowds, bigger stakes).
+## College tiers add their own pressure_bonus on top.
+@export var college_pressure_bonus: float = 0.05
+@export var pro_pressure_bonus: float = 0.12
+## Strongest game-day crosswind per stage (high school uses game_wind_max_mph).
+@export var college_wind_max_mph: float = 18.0
+@export var pro_wind_max_mph: float = 20.0
+
+@export_group("Academics")
+## GPA on a 0-4 scale. Scenario choices change it ("grades" in the data).
+@export var start_gpa: float = 2.9
+## Each season GPA moves by this * (Intelligence - 50) / 50.
+@export var gpa_intelligence_drift: float = 0.12
+## In college, below this GPA you're academically ineligible: you sit out
+## games until it's back up (the game is simulated without you).
+@export var college_min_gpa: float = 2.0
+
+@export_group("Recruiting")
+## Recruiting score (0-100) gained at the end of each high school season:
+## season_weight * (base + fg_pct * (FG% - 65) + long * yards past 35 +
+## record * (wins - losses) + leg * ((Power + Accuracy) / 2 - 50)),
+## plus scenario choices ("recruiting" in the data) and trait bonuses.
+@export var recruiting_season_weights: PackedFloat32Array = PackedFloat32Array([0.4, 0.7, 1.0, 1.0])
+@export var recruiting_base: float = 1.5
+@export var recruiting_fg_pct: float = 0.3
+@export var recruiting_long: float = 0.5
+@export var recruiting_record: float = 0.5
+@export var recruiting_leg: float = 0.15
+## A junior college season counts this much (then offers come again).
+@export var juco_recruiting_weight: float = 1.4
+
+@export_group("Draft")
+## Draft score (0-100) gained each college season, times the school's exposure:
+## season_weight * (base + fg_pct * (FG% - 70) + long * yards past 40 +
+## record * (wins - losses) + leg * ((Power + Accuracy) / 2 - 55)),
+## plus choices ("draft" in the data) and trait bonuses.
+@export var draft_season_weights: PackedFloat32Array = PackedFloat32Array([0.4, 0.6, 0.9, 1.1])
+@export var draft_base: float = 2.5
+@export var draft_fg_pct: float = 0.35
+@export var draft_long: float = 0.5
+@export var draft_record: float = 0.4
+@export var draft_leg: float = 0.2
+
+@export_group("Pro Contracts")
+## Retention (0-100) at the end of each pro season: 50 + fg_pct * (FG% - 80)
+## + long * yards past 45 + clutch * game winners - age * years past 32,
+## plus this season's choices ("retention" in the data) and trait bonuses.
+@export var retention_fg_pct: float = 1.2
+@export var retention_long: float = 0.6
+@export var retention_clutch: float = 4.0
+@export var retention_age: float = 5.0
+## Below this you're released (even mid-contract).
+@export var release_below: float = 35.0
+## At contract end the team re-signs you at this retention or more.
+@export var resign_min: float = 50.0
+
+@export_group("Career End")
+## A season is "poor" with an FG% below this (at least poor_min_attempts tries).
+@export_range(0.0, 1.0) var poor_fg_pct: float = 0.6
+@export var poor_min_attempts: int = 3
+## This many poor seasons / failed tryouts in a row, with no offer on the
+## table, ends the career.
+@export var career_end_poor_streak: int = 3
+## Open free-agent tryouts you get in one spell of free agency before your
+## playing days are over.
+@export var free_agent_attempts: int = 2
 
 @export_group("Goalposts")
 ## Inner width between the uprights, meters, per stage (used from Stage 5).

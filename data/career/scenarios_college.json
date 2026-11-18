@@ -22,12 +22,14 @@
 						},
 						"personality": {
 							"charisma": -2,
-							"intelligence": 5
+							"intelligence": 5,
+							"ambition": 1
 						}
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"grades": 0.2
 				},
 				{
 					"label": "Prioritize football",
@@ -45,7 +47,8 @@
 					},
 					"modifiers": [
 						"dialed_in"
-					]
+					],
+					"grades": -0.15
 				},
 				{
 					"label": "Get a tutor and balance it",
@@ -63,7 +66,8 @@
 					},
 					"modifiers": [
 						"confident"
-					]
+					],
+					"grades": 0.1
 				}
 			]
 		},
@@ -165,7 +169,8 @@
 					"follow_up": {
 						"id": "col_nil_followup",
 						"weeks": 2
-					}
+					},
+					"draft": 1
 				},
 				{
 					"label": "Negotiate with the athletic department's help",
@@ -270,7 +275,8 @@
 					},
 					"modifiers": [
 						"tired"
-					]
+					],
+					"grades": -0.1
 				},
 				{
 					"label": "Politely decline",
@@ -407,7 +413,8 @@
 					},
 					"modifiers": [
 						"tired"
-					]
+					],
+					"grades": 0.1
 				},
 				{
 					"label": "Study group every night",
@@ -426,7 +433,8 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"grades": 0.15
 				},
 				{
 					"label": "Ask for an extension",
@@ -473,7 +481,8 @@
 					},
 					"modifiers": [
 						"confident"
-					]
+					],
+					"draft": 1
 				},
 				{
 					"label": "Crack jokes the whole time",
@@ -489,7 +498,8 @@
 					},
 					"modifiers": [
 						"pumped_up"
-					]
+					],
+					"draft": 1
 				},
 				{
 					"label": "Keep it short",
@@ -528,7 +538,8 @@
 						"traits": [
 							"fan_favorite"
 						]
-					}
+					},
+					"draft": 2
 				}
 			]
 		},
@@ -625,12 +636,14 @@
 						},
 						"personality": {
 							"charisma": -2,
-							"intelligence": 5
+							"intelligence": 5,
+							"ambition": 1
 						}
 					},
 					"modifiers": [
 						"rested"
-					]
+					],
+					"grades": 0.1
 				},
 				{
 					"label": "Train full-time",
@@ -642,12 +655,14 @@
 						},
 						"personality": {
 							"ambition": 3,
-							"leadership": -1
+							"leadership": -1,
+							"intelligence": 1
 						}
 					},
 					"modifiers": [
 						"dialed_in"
-					]
+					],
+					"draft": 2
 				},
 				{
 					"label": "Split the summer",
@@ -707,7 +722,8 @@
 					],
 					"set_flags": {
 						"scouts_power": true
-					}
+					},
+					"draft": 5
 				},
 				{
 					"label": "Show your consistency",
@@ -726,7 +742,8 @@
 					],
 					"set_flags": {
 						"scouts_accuracy": true
-					}
+					},
+					"draft": 5
 				},
 				{
 					"label": "Talk shop with the scouts after",
@@ -745,7 +762,216 @@
 					],
 					"set_flags": {
 						"scouts_interview": true
-					}
+					},
+					"draft": 4
+				}
+			]
+		},
+		{
+			"id": "col_walkon_battle",
+			"title": "Earn Your Spot",
+			"text": "As a walk-on, you're third on the depth chart. Coach says the job goes to whoever earns it in camp.",
+			"category": "training",
+			"stages": [
+				"college",
+				"juco"
+			],
+			"beat": {
+				"season_in_stage": 1,
+				"week": 1
+			},
+			"requires": {
+				"flags": [
+					"walk_on"
+				]
+			},
+			"gate": "Story beat",
+			"choices": [
+				{
+					"label": "Outkick the scholarship guy",
+					"result": "You win the job on the last day of camp.",
+					"stats": {
+						"life": {
+							"energy": -6
+						},
+						"football": {
+							"power": 1,
+							"accuracy": 1
+						},
+						"personality": {
+							"ambition": 4,
+							"leadership": -2
+						}
+					},
+					"modifiers": [
+						"pumped_up"
+					],
+					"draft": 3
+				},
+				{
+					"label": "Learn everything from the starter",
+					"result": "He's impressed by how fast you learn.",
+					"stats": {
+						"personality": {
+							"charisma": -1,
+							"ambition": -1,
+							"leadership": 3,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"draft": 1
+				},
+				{
+					"label": "Ask coach exactly what he needs",
+					"result": "Clear goals, clear path.",
+					"stats": {
+						"personality": {
+							"charisma": 1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"draft": 1
+				}
+			]
+		},
+		{
+			"id": "col_combine_invite",
+			"title": "Combine Invite",
+			"text": "You've been invited to the pro scouting combine after the season.",
+			"category": "career",
+			"stages": [
+				"college",
+				"juco"
+			],
+			"beat": {
+				"season_in_stage": 4,
+				"week": 9
+			},
+			"requires": {
+				"min": {
+					"draft": 40
+				}
+			},
+			"gate": "Story beat",
+			"choices": [
+				{
+					"label": "Train for the testing",
+					"result": "Your leg has never been stronger.",
+					"stats": {
+						"life": {
+							"energy": -4
+						},
+						"football": {
+							"power": 2
+						},
+						"personality": {
+							"ambition": 3,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"draft": 5
+				},
+				{
+					"label": "Prepare for team interviews",
+					"result": "You'll walk in ready for every question.",
+					"stats": {
+						"personality": {
+							"charisma": 2,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"draft": 3
+				},
+				{
+					"label": "Stay focused on this season",
+					"result": "First things first.",
+					"stats": {
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"ambition": -1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"draft": 1
+				}
+			]
+		},
+		{
+			"id": "col_grades_warning",
+			"title": "Academic Probation Warning",
+			"text": "The academic office warns you: below a 2.0 GPA you can't play.",
+			"category": "school",
+			"stages": [
+				"college",
+				"juco"
+			],
+			"requires": {
+				"max": {
+					"gpa": 2.4
+				}
+			},
+			"cooldown": 6,
+			"weight": 3,
+			"choices": [
+				{
+					"label": "Daily tutoring",
+					"result": "Exhausting, but your grades climb.",
+					"stats": {
+						"life": {
+							"fun": -3
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"grades": 0.35
+				},
+				{
+					"label": "Drop your hardest class",
+					"result": "Breathing room.",
+					"stats": {
+						"life": {
+							"energy": 3
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"grades": 0.15
+				},
+				{
+					"label": "Hope for the best",
+					"result": "Hope is not a study plan.",
+					"stats": {
+						"life": {
+							"fun": 2
+						}
+					},
+					"modifiers": [
+						"distracted"
+					],
+					"grades": -0.15
 				}
 			]
 		}

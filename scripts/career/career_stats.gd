@@ -6,7 +6,8 @@ extends RefCounted
 ## exact projected change with preview().
 ##
 ## Gain rules (numbers in CareerTuning "Stat Gains" / "Low Life Stats"):
-##   Life:        raw change; trait "gains" boost increases.
+##   Life:        raw change; trait "gains" boost increases; Fun and Social
+##                increases are scaled by fun_social_gain_mult.
 ##   Football:    increases shrink as the stat climbs (football_diminishing),
 ##                are boosted by traits (e.g. Driven), and Resilience increases
 ##                are cut while Fun is low. Decreases are raw.
@@ -74,6 +75,8 @@ static func _gain_mult(c: CareerData, g: String, key: String, raw: float,
 	if raw <= 0.0:
 		return mult
 	mult *= 1.0 + trait_gain_bonus(c, g, key)
+	if key == "fun" or key == "social":
+		mult *= tuning.fun_social_gain_mult
 	if g == CareerData.FOOTBALL:
 		mult *= 1.0 - tuning.football_diminishing * c.stat(key) / 100.0
 		if key == "resilience" and c.stat("fun") < tuning.low_fun_threshold:
