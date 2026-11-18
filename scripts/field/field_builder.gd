@@ -28,12 +28,6 @@ const STAND_SLOPE_DEG := 34.0
 const WALL_HEIGHT := 2.6
 
 const WALL_COLOR := Color(0.07, 0.12, 0.3)
-const OUR_JERSEY := Color(0.12, 0.28, 0.75)
-const OUR_PANTS := Color(0.92, 0.9, 0.84)
-const OUR_HELMET := Color(0.1, 0.18, 0.5)
-const THEIR_JERSEY := Color(0.8, 0.12, 0.12)
-const THEIR_PANTS := Color(0.95, 0.95, 0.95)
-const THEIR_HELMET := Color(0.95, 0.95, 0.95)
 
 ## Field-goal unit (x, z offset from the line of scrimmage, + = our side).
 ## Long snapper at 0, guards, tackles, tight ends, then the two wings.
@@ -52,8 +46,8 @@ const LEAPER_SPOT := Vector2(0.0, -1.6)
 ## Edge rushers: start wide, finish at the ball.
 const EDGE_FROM := [Vector3(-4.7, 0.0, -7.0), Vector3(4.7, 0.0, -7.0)]
 const EDGE_TO := [Vector3(-0.8, 0.0, -0.9), Vector3(0.8, 0.0, -0.9)]
-## Holder kneels on the kicker's left, facing the ball (legs sink into the turf).
-const HOLDER_POS := Vector3(-0.78, -0.22, 0.4)
+## Holder kneels on the kicker's left, facing the ball.
+const HOLDER_POS := Vector3(-0.8, 0.0, 0.3)
 
 var _field_mat: ShaderMaterial
 var _ol: Array[PlayerFigure] = []
@@ -63,6 +57,9 @@ var _dl_home: Array[Vector3] = []
 var _leaper: PlayerFigure
 var _edges: Array[PlayerFigure] = []
 var _holder: PlayerFigure
+var _home_kit := TeamKit.home()
+var _away_kit := TeamKit.away()
+var _rng := RandomNumberGenerator.new()
 var _plan: RushPlan
 
 @onready var goal_end: Node3D = $GoalEnd
@@ -96,7 +93,7 @@ func snap_spot() -> Vector3:
 
 ## Where the holder catches the snap.
 func catch_spot() -> Vector3:
-	return Vector3(0.0, 0.75, 0.35)
+	return Vector3(0.0, 1.05, 0.3)
 
 
 ## Everyone back in their pre-snap stance; holder showing a target.
@@ -125,11 +122,14 @@ func set_holder_pose(pose: HolderPose) -> void:
 	# The reaching arm is the far one (left), so the camera still sees the ball.
 	match pose:
 		HolderPose.READY:
-			_holder.set_pose(0.5, 95.0, 95.0)  # both hands out, a target for the snap
+			_holder.set_elbows(35.0, 35.0)
+			_holder.set_pose(0.5, 100.0, 100.0)  # both hands up, a target for the snap
 		HolderPose.HOLDING:
-			_holder.set_pose(0.5, 66.0, 20.0)  # finger on top of the ball
+			_holder.set_elbows(0.0, 20.0)
+			_holder.set_pose(0.5, 79.0, 20.0)  # fingertip on top of the ball
 		HolderPose.RELEASED:
-			_holder.set_pose(0.5, 140.0, 20.0)  # pulled away after the kick
+			_holder.set_elbows(20.0, 20.0)
+			_holder.set_pose(0.5, 150.0, 20.0)  # pulled away after the kick
 
 
 ## t: 0 = at the snap, 1 = kick window expired (the plan's blocker reaches the ball).
@@ -144,6 +144,7 @@ func set_play_progress(t: float) -> void:
 		# Stand up, absorb the rush, give a little ground.
 		_ol[i].position = _ol_home[i] + Vector3(0.0, 0.0, plan.ol_give * push)
 		# Stay fairly low so the kicker can see the crossbar over them.
+		_ol[i].set_elbows(lerpf(10.0, 45.0, fire), lerpf(10.0, 45.0, fire))
 		_ol[i].set_pose(1.0 - 0.45 * fire, stance_arms, stance_arms)
 
 	for i in _dl.size():
@@ -162,6 +163,8 @@ func set_play_progress(t: float) -> void:
 func _animate_lineman(p: PlayerFigure, home: Vector3, action: int, timing: float,
 		t: float, fire: float, push: float) -> void:
 	p.rotation.y = PI  # facing us
+	p.set_stride(0.0, 0.0)
+	p.set_elbows(lerpf(10.0, 40.0, fire), lerpf(10.0, 40.0, fire))
 	var crouch := 1.0 - 0.7 * fire
 	var arms := lerpf(35.0, 85.0, fire)
 	var pos := home + Vector3(0.0, 0.0, 0.5 * push)
@@ -170,6 +173,7 @@ func _animate_lineman(p: PlayerFigure, home: Vector3, action: int, timing: float
 		RushPlan.Action.HANDS_UP:
 			arms = lerpf(arms, 170.0, rise)
 			crouch = lerpf(crouch, 0.0, rise)
+			p.set_elbows(lerpf(40.0, 5.0, rise), lerpf(40.0, 5.0, rise))
 			p.set_pose(crouch, arms, arms)
 		RushPlan.Action.LEAP:
 			# Jump, then come back down.
@@ -194,6 +198,8 @@ func _animate_penetrator(p: PlayerFigure, home: Vector3, t: float, fire: float) 
 	p.position = home.lerp(target, pow(t, 1.5))
 	p.rotation.y = atan2(-dir.x, -dir.z)
 	var dive := smoothstep(0.82, 1.0, t)
+	p.set_stride(t * 7.0, fire * (1.0 - dive))
+	p.set_elbows(lerpf(60.0, 5.0, dive), lerpf(60.0, 5.0, dive))
 	var arms := lerpf(lerpf(35.0, 70.0, fire), 160.0, dive)
 	p.set_pose(lerpf(1.0, 0.4, fire), arms, arms, 0.3 * sin(dive * PI), dive * 0.8)
 
@@ -226,8 +232,10 @@ func _animate_edge(e: int, t: float, fire: float) -> void:
 	var reach := plan.edge_reach[e]
 	var dir := (to - from).normalized()
 	p.rotation.y = atan2(-dir.x, -dir.z)
+	p.set_elbows(30.0, 30.0)
 	if reach <= 0.0:
 		# Stays home to contain: shuffles back a step, upright, watching.
+		p.set_stride(t * 3.0, 0.4 * (1.0 - smoothstep(0.2, 0.5, t)) * fire)
 		p.position = from + Vector3(0.0, 0.0, -0.6 * smoothstep(0.0, 0.5, t))
 		p.set_pose(0.9 - 0.7 * fire, 30.0, 30.0)
 		return
@@ -235,12 +243,15 @@ func _animate_edge(e: int, t: float, fire: float) -> void:
 		# Rushes, then gets picked up by the wing and stalls out.
 		var k := pow(minf(t / 0.6, 1.0), plan.edge_burst[e])
 		p.position = from.lerp(to, k * reach)
+		p.set_stride(t * 8.0, fire * (1.0 - smoothstep(0.5, 0.65, t)))
 		var arms := lerpf(40.0, 90.0, smoothstep(0.5, 0.7, t))
 		p.set_pose(0.9 - 0.5 * fire, arms, arms)
 		return
 	# The designated blocker: gets to the ball right as the window closes.
 	p.position = from.lerp(to, pow(t, plan.edge_burst[e]))
 	var finish := smoothstep(0.8, 1.0, t)
+	p.set_stride(t * 9.0, fire * (1.0 - finish))
+	p.set_elbows(lerpf(70.0, 5.0, finish), lerpf(70.0, 5.0, finish))
 	if plan.edge_dives[e]:
 		var arms := lerpf(40.0, 160.0, finish)
 		p.set_pose(0.9 - 0.6 * fire, arms, arms, 0.3 * sin(finish * PI), finish * 0.85)
@@ -266,39 +277,57 @@ func _build_ground() -> void:
 
 
 func _build_formation() -> void:
+	_rng.randomize()
+	var used: Array[int] = []
 	for s in OL_SPOTS:
 		var spot: Vector2 = s
-		var p := _add_player(OUR_JERSEY, OUR_PANTS, OUR_HELMET)
+		var wing := absf(spot.x) > 3.0
+		var num := _number(used, 80, 89) if wing else _number(used, 50, 79)
+		var p := _add_player(_home_kit, num, 1.05 if wing else 1.2)
 		var home := Vector3(spot.x, 0.0, LOS_Z + spot.y)
 		p.position = home
-		if absf(spot.x) > 3.0:
+		if wing:
 			p.rotation.y = -signf(spot.x) * deg_to_rad(25.0)  # wings angle out
 		_ol.append(p)
 		_ol_home.append(home)
+	used.clear()
 	for s in DL_SPOTS:
 		var spot: Vector2 = s
-		var p := _add_player(THEIR_JERSEY, THEIR_PANTS, THEIR_HELMET)
+		var big := absf(spot.x) < 2.0
+		var num := _number(used, 90, 99) if big else _number(used, 40, 59)
+		var p := _add_player(_away_kit, num, 1.2 if big else 1.08)
 		var home := Vector3(spot.x, 0.0, LOS_Z + spot.y)
 		p.position = home
 		p.rotation.y = PI  # facing us
 		_dl.append(p)
 		_dl_home.append(home)
-	_leaper = _add_player(THEIR_JERSEY, THEIR_PANTS, THEIR_HELMET)
+	_leaper = _add_player(_away_kit, _number(used, 20, 39), 1.0)
 	_leaper.rotation.y = PI
 	for i in EDGE_FROM.size():
-		_edges.append(_add_player(THEIR_JERSEY, THEIR_PANTS, THEIR_HELMET))
+		_edges.append(_add_player(_away_kit, _number(used, 40, 59), 1.0))
 
-	_holder = _add_player(OUR_JERSEY, OUR_PANTS, OUR_HELMET)
+	_holder = _add_player(_home_kit, _rng.randi_range(1, 19), 0.95)
+	_holder.kneeling = true
 	_holder.position = HOLDER_POS
 	_holder.rotation.y = deg_to_rad(-90.0)  # facing +X, toward the ball
 	reset_play()
 
 
-func _add_player(jersey: Color, pants: Color, helmet: Color) -> PlayerFigure:
+func _add_player(kit: TeamKit, number: int, bulk: float) -> PlayerFigure:
 	var p := PlayerFigure.new()
 	add_child(p)
-	p.build(jersey, pants, helmet)
+	p.build(kit, number, _rng, bulk)
 	return p
+
+
+## A jersey number in [lo, hi] not used yet by this side.
+func _number(used: Array[int], lo: int, hi: int) -> int:
+	for attempt in 20:
+		var n := _rng.randi_range(lo, hi)
+		if not used.has(n):
+			used.append(n)
+			return n
+	return _rng.randi_range(lo, hi)
 
 
 func _build_stands() -> void:

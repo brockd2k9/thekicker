@@ -55,6 +55,7 @@ Everything is drawn with primitives plus procedural shaders in `shaders/`:
   The pointed ball mesh and laces are generated in `ball.gd`
 - `crowd.gdshader`: seats full of swaying fans behind the posts
 - `sky.gdshader`: gradient sky with clouds
+- `jersey.gdshader`: block numbers front and back with outline, side panels, fabric texture
 
 Colors are shader uniforms. Click the mesh or material in the running scene's Remote tree,
 or change the defaults at the top of each shader.
@@ -111,7 +112,9 @@ scripts/
   kick/ball_trail.gd          dotted arc trail
   kick/aim_marker.gd          wobbling aim ring
   field/field_builder.gd      field, stands, light towers, formation, holder
-  field/player_figure.gd      capsule player that can crouch, block, jump, dive
+  field/player_figure.gd      jointed football player (helmet, pads, numbered jersey,
+                              gloves, cleats): stance, run, block, jump, dive, kneel
+  field/team_kit.gd           team uniform colors (fictional teams) + shared materials
   field/rush_plan.gd          random block call per attempt (who comes, who dives/leaps)
   field/goal_posts.gd         posts + wind ribbons, regulation dimensions
   camera/kick_camera.gd       behind-the-ball camera, follow + shake

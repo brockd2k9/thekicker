@@ -43,3 +43,7 @@ Things that are built but **untuned**. Every value named here is in `tuning/kick
 19. **Block variety.** Odds: left edge 35%, right edge 35%, middle 30%. Themes: push 20%,
     hands up 35%, leap 20%, dive 25%. Check the plays feel different, and that the dives
     don't look silly (divers slide about 1 m forward and lie flat).
+20. **Players.** Jointed figures with helmets, facemasks, pads, numbered jerseys, gloves,
+    cleats; they run with a stride and the holder kneels. Uniform colors in `team_kit.gd`.
+    Each player is ~35 small meshes (~700 for the field). Watch the frame rate on a phone;
+    if it drops, the facemask bars and decals are the first things to cut.
