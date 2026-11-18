@@ -12,36 +12,38 @@ func _build(col: VBoxContainer) -> void:
 	var last := CareerSave.last_slot()
 	if last > 0:
 		var s := CareerSave.summary(last)
-		var cont := UiKit.button("Continue: %s" % s.get("name", ""), _play.bind(last))
+		var cont := UiKit.button("Continue: %s" % s.get("name", ""), _play.bind(last), UiKit.PRIMARY, "play")
 		list.add_child(cont)
 		if not OS.has_feature("mobile"):
 			cont.grab_focus.call_deferred()
 	for slot in range(1, CareerSave.SLOT_COUNT + 1):
 		list.add_child(_slot_panel(slot))
 	list.add_child(UiKit.button("How Career Mode Works", Screens.go.bind(Screens.CAREER_TUTORIAL),
-		Color(0.15, 0.3, 0.45)))
+		UiKit.SECONDARY, "info"))
 	if OS.is_debug_build():
 		list.add_child(UiKit.button("Debug: Career Tuning", Screens.go.bind(Screens.CAREER_DEBUG),
-			Color(0.35, 0.25, 0.5)))
+			UiKit.SECONDARY, "settings"))
 	add_back_button(col)
 
 
 func _slot_panel(slot: int) -> PanelContainer:
-	var p := PanelContainer.new()
-	var v := VBoxContainer.new()
-	v.add_theme_constant_override("separation", 10)
-	p.add_child(v)
 	var s := CareerSave.summary(slot)
-	v.add_child(UiKit.label("SLOT %d" % slot, 24, UiKit.MUTED))
+	# Each slot wears its stage's color (Friday / Saturday / Sunday).
+	var stage_col: Color = UiTokens.for_stage(str(s.get("stage", "")))["accent"] if not s.get("empty", true) \
+		else Color(UiKit.TEXT, 0.2)
+	var parts := UiKit.card(stage_col, 10)
+	var p: PanelContainer = parts[0]
+	var v: VBoxContainer = parts[1]
+	v.add_child(UiKit.label("SLOT %d" % slot, 22, UiKit.MUTED, UiTokens.FONT_CONDENSED))
 	if s.get("empty", true):
-		v.add_child(UiKit.label("Empty", 32))
-		v.add_child(UiKit.button("New Career", _new.bind(slot)))
+		v.add_child(UiKit.label("Empty", 30, UiKit.MUTED))
+		v.add_child(UiKit.button("New Career", _new.bind(slot), UiKit.SECONDARY, "plus"))
 		return p
-	v.add_child(UiKit.label(str(s["name"]), 36, UiKit.ACCENT))
-	v.add_child(UiKit.label(_line(s), 26))
+	v.add_child(UiKit.label(str(s["name"]).to_upper(), 38, UiKit.TEXT, UiTokens.FONT_DISPLAY))
+	v.add_child(UiKit.label(_line(s), 26, stage_col.lightened(0.2)))
 	v.add_child(CareerUi.button_row([
-		UiKit.button("Play", _play.bind(slot)),
-		UiKit.button("Delete", _delete.bind(slot, str(s["name"])), UiKit.DANGER)]))
+		UiKit.button("Play", _play.bind(slot), UiKit.SECONDARY, "play"),
+		UiKit.button("Delete", _delete.bind(slot, str(s["name"])), UiKit.DANGER_KIND, "trash")]))
 	return p
 
 

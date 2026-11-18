@@ -12,6 +12,7 @@ var _busy := false
 var _panel: PanelContainer
 var _title: Label
 var _body: Label
+var _icon: TextureRect
 
 
 func _ready() -> void:
@@ -23,47 +24,49 @@ func _ready() -> void:
 	root.theme = UiKit.theme()
 	add_child(root)
 
+	# Broadcast lower-third: icon tile + title strip + big name.
 	_panel = PanelContainer.new()
 	_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var box := StyleBoxFlat.new()
-	box.bg_color = Color(0.05, 0.13, 0.09, 0.95)
-	box.border_color = UiKit.ACCENT
-	box.set_border_width_all(4)
-	box.set_corner_radius_all(16)
-	box.content_margin_left = 28
-	box.content_margin_right = 28
-	box.content_margin_top = 16
-	box.content_margin_bottom = 16
-	_panel.add_theme_stylebox_override("panel", box)
-	_panel.custom_minimum_size.x = 560
+	_panel.custom_minimum_size.x = 600
 	root.add_child(_panel)
-
+	var h := HBoxContainer.new()
+	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	h.add_theme_constant_override("separation", 18)
+	_panel.add_child(h)
+	_icon = TextureRect.new()
+	_icon.custom_minimum_size = Vector2(64, 64)
+	_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	h.add_child(_icon)
 	var v := VBoxContainer.new()
 	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	v.add_theme_constant_override("separation", 2)
-	_panel.add_child(v)
-	_title = UiKit.label("", 24, UiKit.ACCENT)
-	_title.autowrap_mode = TextServer.AUTOWRAP_OFF
-	_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_theme_constant_override("separation", 0)
+	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	h.add_child(v)
+	_title = UiKit.label("", 24, UiKit.ACCENT, UiTokens.FONT_DISPLAY)
 	v.add_child(_title)
-	_body = UiKit.label("", 34)
-	_body.autowrap_mode = TextServer.AUTOWRAP_OFF
-	_body.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_body = UiKit.label("", 36, Color.WHITE, UiTokens.FONT_BANNER)
 	v.add_child(_body)
+	# Fixed text width so the wrapped height is right when the panel is sized.
+	_title.custom_minimum_size.x = 460
+	_body.custom_minimum_size.x = 460
 	_panel.visible = false
 
 	GameState.achievement_unlocked.connect(_on_achievement)
 
 
-func show_message(title: String, body: String) -> void:
-	_queue.append([title, body])
+## icon: a UiIcons id ("achievements", "charisma"...).
+func show_message(title: String, body: String, icon := "info") -> void:
+	_queue.append([title, body, icon])
 	if not _busy:
 		_next()
 
 
 func _on_achievement(def: Dictionary) -> void:
-	Sfx.play(&"achievement")
-	show_message("ACHIEVEMENT UNLOCKED", str(def.get("name", "")))
+	UiKit.feedback(&"achievement")
+	show_message("ACHIEVEMENT UNLOCKED", str(def.get("name", "")), "achievements")
 
 
 func _next() -> void:
@@ -75,17 +78,33 @@ func _next() -> void:
 	var item: Array = _queue.pop_front()
 	_title.text = item[0]
 	_body.text = item[1]
+	# Colors follow the current palette (Career stage or default).
+	var box := StyleBoxFlat.new()
+	box.bg_color = Color(UiKit.BG_TOP.darkened(0.3), 0.97)
+	box.border_color = UiKit.ACCENT
+	box.border_width_left = 10
+	box.skew = Vector2(UiTokens.SKEW * 0.5, 0)
+	box.set_corner_radius_all(UiTokens.RADIUS_BUTTON)
+	box.content_margin_left = 26
+	box.content_margin_right = 30
+	box.content_margin_top = 14
+	box.content_margin_bottom = 14
+	box.shadow_color = Color(UiKit.ACCENT, 0.35)
+	box.shadow_size = 18
+	_panel.add_theme_stylebox_override("panel", box)
+	_title.add_theme_color_override("font_color", UiKit.ACCENT)
+	_icon.texture = UiIcons.texture(str(item[2]) if item.size() > 2 else "info", UiKit.ACCENT, 64)
 	_panel.visible = true
 	_panel.reset_size()
-	_panel.position.x = (get_viewport().get_visible_rect().size.x - _panel.size.x) * 0.5
-	var top := 150.0
-	var hidden_y := -_panel.size.y - 20.0
-	_panel.position.y = hidden_y
+	var vw := get_viewport().get_visible_rect().size.x
+	var x := (vw - _panel.size.x) * 0.5
+	_panel.position = Vector2(-_panel.size.x - 40.0, 140.0)
+	# Slides in from the left like a broadcast graphic, holds, slides out right.
 	# Unaffected by slow motion (Engine.time_scale) and by pause.
 	var tw := create_tween().set_ignore_time_scale(true)
-	tw.tween_property(_panel, "position:y", top, SLIDE_TIME) \
+	tw.tween_property(_panel, "position:x", x, SLIDE_TIME) \
 		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tw.tween_interval(SHOW_TIME)
-	tw.tween_property(_panel, "position:y", hidden_y, SLIDE_TIME) \
+	tw.tween_property(_panel, "position:x", vw + 40.0, SLIDE_TIME) \
 		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	tw.tween_callback(_next)

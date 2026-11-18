@@ -178,6 +178,47 @@ Tunables: `gust_chance`, `max_gust_mph`, `gust_speed`.
 Vibration: `Haptics.pulse()` on contact (stronger with more power) and on a block.
 Tunables: `kick_vibration_ms`, `block_vibration_ms` (0 = off).
 
+## UI look ("Night Broadcast")
+
+Menus and overlays share one look: a night-game stadium (deep backgrounds, floodlight glow,
+gold accent) with broadcast graphics (slanted buttons, lower-third headers, tickers, color
+bars on cards). No image files: backgrounds (`ui/backdrop.gd`) and icons (`ui/ui_icons.gd`,
+original SVG markup rasterized at runtime) are drawn from code.
+
+- **Tokens, one place:** `scripts/ui/ui_tokens.gd` holds the palettes (colors), spacing,
+  radii, slant, tap size, font sizes and animation times. Change a value there and every
+  screen follows.
+- **Theme:** `assets/ui/kicker_theme.tres` (the project's default theme) holds the fonts:
+  Barlow (body), Oswald Bold (`Display`), Anton (`Banner`), Barlow Condensed (`Condensed`).
+  `UiKit.theme()` adds the palette's buttons, panels, sliders and switches on top.
+- **Widgets:** `UiKit` (buttons: `primary` / secondary / `danger`, with press feedback;
+  `card`, `chip`, `section`, `title_block`, `stat_row`, `stat_tile`, `ticker`, `modal`) and
+  `CareerUi` (stat group cards, `StatBar` with animated changes and +/- previews, change
+  chips, choice cards with a locked state, scoreboard, result banner).
+- **Career stages:** `UiKit.set_stage()` switches the palette: Friday Night (high school,
+  navy + gold), Saturday (junior college / college, crimson + orange), Sunday Broadcast
+  (pro, charcoal + red). The player's team colors are used in the Hub header and backdrop.
+- **Motion:** screens fade/slide between each other (`ScreenFade` autoload), cards stagger
+  in, stat bars glide to new values, trait unlocks and result banners punch in.
+- **Sound and haptics hooks:** `UiKit.feedback(&"event")` plays the Sfx event (silent until
+  a file exists) and pulses the phone. Events are listed under "Sound".
+- **Performance:** backgrounds are drawn once (no per-frame shaders on menus); the only
+  continuous animation is the main menu ticker when its text doesn't fit.
+- Font licenses: `CREDITS.md` (all SIL Open Font License).
+
+**Layout checker:** `tools/ui_check.tscn` opens every screen in a real state (it plays a
+career forward with the real rules) and checks tap targets (>= 88 px), cut-off text and
+anything off screen. Run it at the four window shapes (needs a window, not `--headless`;
+your saves are backed up and restored):
+
+```
+godot --path . --resolution 720x1280  res://tools/ui_check.tscn -- tag=phone out=/tmp/shots
+godot --path . --resolution 1080x2400 res://tools/ui_check.tscn -- tag=tall
+godot --path . --resolution 1536x2048 res://tools/ui_check.tscn -- tag=tablet
+godot --path . --resolution 1920x1080 res://tools/ui_check.tscn -- tag=desktop
+```
+`out=` saves a screenshot of every screen; `only=hub,results` limits the run.
+
 ## Project layout
 
 ```
@@ -226,7 +267,12 @@ scripts/
   camera/kick_camera.gd       behind-the-ball camera, follow + shake
   game/field_goal_game.gd     attempt state machine (SETUP → SNAP → KICK_WINDOW → FLIGHT → RESULT)
   ui/hud.gd, wind_indicator.gd, swipe_trail.gd
-  ui/ui_kit.gd                shared theme, widgets, safe-area frame, modal/confirm dialog
+  ui/ui_tokens.gd             UiTokens: palettes, spacing, radii, fonts, timings (the one place)
+  ui/ui_kit.gd                theme, widgets, safe-area frame, modal/confirm, feedback hook
+  ui/ui_icons.gd              vector icons (SVG in code) for stats, traits, menus
+  ui/backdrop.gd              code-drawn screen backgrounds per palette mood
+  ui/stat_bar.gd              StatBar: icon + animated bar + +/- preview
+  ui/screen_fade.gd           ScreenFade autoload: fade between screens
   ui/screens.gd               scene paths + navigation
   ui/menu_screen.gd           base for menu screens (Back / Esc / Android back)
   ui/play_overlay.gd          pause button + pause menu over the kick scene
@@ -297,6 +343,10 @@ Design decisions and values to playtest: `PLAYTEST.md`, "Career Mode".
 
 `Sfx.play(&"kick")` is called for `snap`, `catch`, `kick`, `good`, `miss`, `block`, plus
 `ui_tap` (menu buttons), `achievement` (toast) and `run_over` (Challenge results).
+UI hooks (`UiKit.feedback`, also a haptic pulse; see `UiKit.FEEDBACK`): `ui_confirm`
+(primary buttons, picking a choice), `ui_locked` (tapping a locked choice), `ui_transition`,
+`stat_up`, `trait_unlock`, `week_result`, `result_good` / `result_miss` (HUD banner, on top
+of `good` / `miss`) and `game_winner`.
 `audio/music.ogg` (or .mp3/.wav), if present, loops on the Music bus.
 Drop `audio/kick.ogg` (or `.wav`/`.mp3`) etc. into `audio/` and they play automatically.
 Until then the events are printed to the Output panel in debug builds.

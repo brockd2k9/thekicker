@@ -19,7 +19,7 @@ func _build(col: VBoxContainer) -> void:
 	col.add_child(_body)
 	_dots = CareerUi.centered("", 30, UiKit.MUTED)
 	col.add_child(_dots)
-	_next = UiKit.button("Next", _advance, UiKit.ACCENT.darkened(0.45))
+	_next = UiKit.button("Next", _advance, UiKit.PRIMARY)
 	col.add_child(CareerUi.button_row([UiKit.button("Skip", _finish), _next]))
 	_show()
 
@@ -35,8 +35,7 @@ func _show() -> void:
 		_finish.call_deferred()
 		return
 	var p: Dictionary = _pages[_page]
-	_body.add_child(CareerUi.centered("CAREER MODE", 26, UiKit.MUTED))
-	_body.add_child(CareerUi.centered(str(p.get("title", "")), 54, UiKit.ACCENT))
+	_body.add_child(UiKit.title_block(str(p.get("title", "")), "Career Mode  ·  How it works"))
 	var art := PanelContainer.new()
 	art.add_child(_visual(str(p.get("visual", ""))))
 	_body.add_child(art)

@@ -11,17 +11,17 @@ func _build(col: VBoxContainer) -> void:
 	var kind := str(d.get("kind", ""))
 	var list: VBoxContainer
 	if kind == "free_agency":
-		col.add_child(CareerUi.centered("FREE AGENCY", 54, UiKit.ACCENT))
-		col.add_child(CareerUi.centered("Age %d  -  %s" % [c.age, d.get("why", "")], 26, UiKit.MUTED))
+		col.add_child(UiKit.title_block("FREE AGENCY"))
+		col.add_child(UiKit.label("Age %d  -  %s" % [c.age, d.get("why", "")], 26, UiKit.MUTED))
 		list = UiKit.scroll_list(col)
 		list.add_child(UiKit.label("The %s will give you a look at an open tryout." % d.get("team_name", ""), 30))
 		_tryout_info(list, "free_agent")
 		_poor_note(list)
 		col.add_child(CareerUi.button_row([UiKit.button("Retire", _retire, UiKit.DANGER),
-			UiKit.button("Try Out", _tryout, UiKit.ACCENT.darkened(0.45))]))
+			UiKit.button("Try Out", _tryout, UiKit.PRIMARY)]))
 		return
-	col.add_child(CareerUi.centered("DRAFT DAY", 58, UiKit.ACCENT))
-	col.add_child(CareerUi.centered("%s  -  Draft stock %d" % [CareerScreen.team_name(c.team), roundi(c.draft_score)],
+	col.add_child(UiKit.title_block("DRAFT DAY"))
+	col.add_child(UiKit.label("%s  -  Draft stock %d" % [CareerScreen.team_name(c.team), roundi(c.draft_score)],
 		26, UiKit.MUTED))
 	list = UiKit.scroll_list(col)
 	var team := CareerContent.team_by_id(str(d.get("team", "")))
@@ -34,19 +34,19 @@ func _build(col: VBoxContainer) -> void:
 			list.add_child(UiKit.stat_row("Salary", "%s / season" % Progression.money(int(k["salary"]))))
 			col.add_child(UiKit.button("Sign Your Contract", func() -> void:
 				career.sign_drafted()
-				go_to_current(), UiKit.ACCENT.darkened(0.45)))
+				go_to_current(), UiKit.PRIMARY))
 		"camp":
 			list.add_child(_stripe_panel(team, "UNDRAFTED", "Seven rounds, no call. Then your phone rings: the %s "
 				% team.get("name", "") + "want you in training camp."))
 			_tryout_info(list, "camp")
 			col.add_child(CareerUi.button_row([UiKit.button("Retire", _retire, UiKit.DANGER),
-				UiKit.button("Go to Camp", _tryout, UiKit.ACCENT.darkened(0.45))]))
+				UiKit.button("Go to Camp", _tryout, UiKit.PRIMARY)]))
 		_:
 			list.add_child(_stripe_panel(team, "UNDRAFTED", "No team called. The %s are holding an open tryout."
 				% team.get("name", "")))
 			_tryout_info(list, "free_agent")
 			col.add_child(CareerUi.button_row([UiKit.button("Retire", _retire, UiKit.DANGER),
-				UiKit.button("Try Out", _tryout, UiKit.ACCENT.darkened(0.45))]))
+				UiKit.button("Try Out", _tryout, UiKit.PRIMARY)]))
 	list.add_child(UiKit.section("COLLEGE CAREER"))
 	for h in career.data.history:
 		if h.get("stage", "") == CareerData.STAGE_COLLEGE:

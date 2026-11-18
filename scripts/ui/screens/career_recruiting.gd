@@ -15,8 +15,8 @@ func _build(col: VBoxContainer) -> void:
 func _update(col: VBoxContainer) -> void:
 	var c := career.data
 	var u: Dictionary = c.flags.get("recruiting_update", {})
-	col.add_child(CareerUi.centered("RECRUITING UPDATE", 50, UiKit.ACCENT))
-	col.add_child(CareerUi.centered("%s  -  %s" % [career.class_year(), CareerScreen.team_name(c.team)], 26,
+	col.add_child(UiKit.title_block("RECRUITING UPDATE"))
+	col.add_child(UiKit.label("%s  -  %s" % [career.class_year(), CareerScreen.team_name(c.team)], 26,
 		UiKit.MUTED))
 	var list := UiKit.scroll_list(col)
 	var gain := float(u.get("gain", 0.0))
@@ -44,7 +44,7 @@ func _update(col: VBoxContainer) -> void:
 	list.add_child(UiKit.label(_tip(c, bool(u.get("final", false))), 22, UiKit.MUTED))
 	var b := UiKit.button("Signing Day" if u.get("final", false) else "Continue", func() -> void:
 		career.continue_recruiting()
-		go_to_current(), UiKit.ACCENT.darkened(0.45))
+		go_to_current(), UiKit.PRIMARY)
 	col.add_child(b)
 
 
@@ -58,8 +58,8 @@ static func _tip(c: CareerData, final: bool) -> String:
 
 func _choice(col: VBoxContainer) -> void:
 	var c := career.data
-	col.add_child(CareerUi.centered("SIGNING DAY", 52, UiKit.ACCENT))
-	col.add_child(CareerUi.centered("Recruiting %d  -  GPA %.2f" % [roundi(c.recruiting_score), c.gpa], 26,
+	col.add_child(UiKit.title_block("SIGNING DAY"))
+	col.add_child(UiKit.label("Recruiting %d  -  GPA %.2f" % [roundi(c.recruiting_score), c.gpa], 26,
 		UiKit.MUTED))
 	var list := UiKit.scroll_list(col)
 	var options := career.college_options()
@@ -78,7 +78,7 @@ func _choice(col: VBoxContainer) -> void:
 				var off: Dictionary = opt["offer"]
 				var s := CareerContent.team_by_id(str(off["school"]))
 				v.add_child(_stripe(s))
-				v.add_child(UiKit.label("%s %s" % [s.get("name", ""), s.get("mascot", "")], 32))
+				v.add_child(UiKit.label("%s %s" % [s.get("name", ""), s.get("mascot", "")], 32, UiKit.TEXT, UiTokens.FONT_DISPLAY))
 				v.add_child(UiKit.label("%s  -  %s" % [Progression.OFFER_NAMES.get(str(off["type"]), ""),
 					Progression.tier(str(off["tier"])).get("name", "")], 26, UiKit.ACCENT))
 				v.add_child(UiKit.label(_tier_line(str(off["tier"]), s), 22, UiKit.MUTED))
@@ -107,26 +107,30 @@ static func _tier_line(tier_id: String, s: Dictionary) -> String:
 
 
 static func _stripe(s: Dictionary) -> HBoxContainer:
-	var h := HBoxContainer.new()
-	h.add_theme_constant_override("separation", 0)
-	for col in s.get("colors", []):
-		var r := ColorRect.new()
-		r.color = Color.from_string(str(col), Color.GRAY)
-		r.custom_minimum_size = Vector2(60, 8)
-		h.add_child(r)
-	return h
+	return CareerUi.team_stripe(s, 60, 8)
 
 
 func _offer_panel(off: Dictionary) -> PanelContainer:
 	var s := CareerContent.team_by_id(str(off.get("school", "")))
-	var p := PanelContainer.new()
-	var v := VBoxContainer.new()
-	v.add_theme_constant_override("separation", 4)
-	p.add_child(v)
-	v.add_child(_stripe(s))
-	v.add_child(UiKit.label("%s %s" % [s.get("name", ""), s.get("mascot", "")], 30))
-	v.add_child(UiKit.label("%s  -  %s" % [Progression.OFFER_NAMES.get(str(off.get("type", "")), ""),
-		Progression.tier(str(off.get("tier", ""))).get("name", "")], 24, UiKit.ACCENT))
+	var cols: Array = s.get("colors", [])
+	var parts := UiKit.card(Color.from_string(str(cols[0]), UiKit.ACCENT) if not cols.is_empty() else UiKit.ACCENT, 6)
+	var p: PanelContainer = parts[0]
+	var v: VBoxContainer = parts[1]
+	var h := HBoxContainer.new()
+	h.add_theme_constant_override("separation", 12)
+	v.add_child(h)
+	h.add_child(UiIcons.rect("school", Color.from_string(str(cols[1]), UiKit.ACCENT) if cols.size() > 1 else UiKit.ACCENT, 40))
+	var name := UiKit.label("%s %s" % [s.get("name", ""), s.get("mascot", "")], 30, UiKit.TEXT, UiTokens.FONT_DISPLAY)
+	name.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	h.add_child(name)
+	var tags := HFlowContainer.new()
+	tags.add_theme_constant_override("h_separation", 8)
+	tags.add_theme_constant_override("v_separation", 6)
+	v.add_child(tags)
+	var full := str(off.get("type", "")) == "full"
+	tags.add_child(UiKit.chip(str(Progression.OFFER_NAMES.get(str(off.get("type", "")), "")), UiKit.GOOD if full else UiKit.ACCENT,
+		full, "", 22))
+	tags.add_child(UiKit.chip(str(Progression.tier(str(off.get("tier", ""))).get("name", "")), UiKit.MUTED, false, "", 22))
 	return p
 
 
@@ -148,5 +152,5 @@ func _pick(opt: Dictionary) -> void:
 	var root := UiKit.modal_root(v)
 	v.add_child(UiKit.button("Yes", func() -> void:
 		career.choose_college(opt)
-		go_to_current(), UiKit.ACCENT.darkened(0.45)))
+		go_to_current(), UiKit.PRIMARY, "check"))
 	v.add_child(UiKit.button("Not Yet", root.queue_free))

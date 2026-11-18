@@ -8,29 +8,31 @@ func _build(col: VBoxContainer) -> void:
 	var c := career.data
 	var w := c.last_week
 	var list: VBoxContainer
+	var opp := {"short": str(w.get("mascot", w.get("opponent", "OPP"))).left(12), "colors": w.get("colors", ["#3a3f4b", "#8a93a6"])}
+	var op_team := _opponent(str(w.get("opponent", "")))
+	if not op_team.is_empty():
+		opp = op_team
 	if w.get("type", "") == "benched":
 		var o := str(w.get("outcome", "T"))
-		col.add_child(CareerUi.centered({"W": "WIN", "L": "LOSS", "T": "TIE"}[o], 64,
-			UiKit.GOOD if o == "W" else (UiKit.BAD if o == "L" else Color.WHITE)))
-		col.add_child(CareerUi.centered("%s %d  -  %d %s" % [c.team.get("mascot", ""), int(w.get("us", 0)),
-			int(w.get("them", 0)), w.get("mascot", "")], 36))
-		col.add_child(CareerUi.centered("You sat out: academically ineligible (GPA %.2f)." % c.gpa, 26, UiKit.BAD))
+		_banner(col, o)
+		col.add_child(CareerUi.scoreboard(c.team, opp, str(int(w.get("us", 0))), str(int(w.get("them", 0))),
+			"FINAL")["root"])
+		col.add_child(UiKit.chip("You sat out: academically ineligible (GPA %.2f)." % c.gpa, UiKit.BAD, false, "book", 24))
 		list = UiKit.scroll_list(col)
 	elif w.get("type", "") == "bye":
-		col.add_child(CareerUi.centered("BYE WEEK %d" % int(w.get("week", c.week)), 56, UiKit.ACCENT))
-		col.add_child(CareerUi.centered("No game. Time to recover.", 30, UiKit.MUTED))
+		col.add_child(UiKit.title_block("Bye Week %d" % int(w.get("week", c.week)), "No game"))
+		col.add_child(UiKit.label("No game. Time to recover.", 30, UiKit.MUTED))
 		list = UiKit.scroll_list(col)
 	else:
 		var o := str(w.get("outcome", "T"))
-		col.add_child(CareerUi.centered({"W": "WIN", "L": "LOSS", "T": "TIE"}[o], 64,
-			UiKit.GOOD if o == "W" else (UiKit.BAD if o == "L" else Color.WHITE)))
-		col.add_child(CareerUi.centered("%s %d  -  %d %s" % [c.team.get("mascot", ""), int(w.get("us", 0)),
-			int(w.get("them", 0)), w.get("mascot", "")], 36))
-		col.add_child(CareerUi.centered("Week %d %s %s   -   Record %d-%d" % [int(w.get("week", 0)),
+		_banner(col, o)
+		col.add_child(CareerUi.scoreboard(c.team, opp, str(int(w.get("us", 0))), str(int(w.get("them", 0))),
+			"FINAL", "WEEK %d" % int(w.get("week", 0)))["root"])
+		col.add_child(CareerUi.centered("%s %s   ·   Record %d-%d" % [
 			"vs" if w.get("home", true) else "at", w.get("opponent", ""), int(c.record["w"]),
 			int(c.record["l"])], 24, UiKit.MUTED))
 		list = UiKit.scroll_list(col)
-		list.add_child(UiKit.section("YOUR KICKS"))
+		list.add_child(UiKit.section("Your kicks"))
 		var kicks: Array = w.get("kicks", [])
 		if kicks.is_empty():
 			list.add_child(UiKit.label("The coach never called your number.", 26, UiKit.MUTED))
@@ -46,13 +48,12 @@ func _build(col: VBoxContainer) -> void:
 			var parts := PackedStringArray()
 			for x in warm:
 				parts.append(str(words.get(str(x), x)))
-			list.add_child(UiKit.stat_row("Sideline warmups", ", ".join(parts)))
+			list.add_child(UiKit.stat_row("Sideline warmups", ", ".join(parts), Color(0, 0, 0, 0), "toughness"))
 	list.add_child(UiKit.section("THIS WEEK'S CHANGES"))
 	var changes: Dictionary = w.get("changes", {})
 	list.add_child(CareerUi.change_chips(changes))
 	for t in changes.get("new_traits", []):
-		list.add_child(UiKit.label("NEW TRAIT: %s" % CareerContent.trait_def(str(t)).get("name", t), 30,
-			UiKit.GOOD))
+		list.add_child(preload("res://scripts/ui/screens/career_scenario.gd").trait_unlock_card(str(t)))
 	list.add_child(UiKit.label("Recovery and practice gains are added when you continue.", 22, UiKit.MUTED))
 	list.add_child(UiKit.section("SEASON"))
 	var s := c.season_stats
@@ -62,10 +63,27 @@ func _build(col: VBoxContainer) -> void:
 
 	var next := UiKit.button("Continue", func() -> void:
 		career.end_week()
-		go_to_current(), UiKit.ACCENT.darkened(0.45))
+		go_to_current(), UiKit.PRIMARY, "next")
 	col.add_child(next)
 	if not OS.has_feature("mobile"):
 		next.grab_focus.call_deferred()
+
+
+## WIN / LOSS / TIE banner that punches in.
+func _banner(col: VBoxContainer, o: String) -> void:
+	col.add_child(CareerUi.result_banner({"W": "WIN", "L": "LOSS", "T": "TIE"}.get(o, o),
+		UiKit.GOOD if o == "W" else (UiKit.BAD if o == "L" else UiKit.MUTED)))
+	UiKit.feedback(&"week_result")
+
+
+## The opponent's team (for its colors) from this season's schedule, by name.
+func _opponent(name: String) -> Dictionary:
+	for e in career.data.schedule:
+		var t: Dictionary = e.get("opponent", {})
+		if not t.is_empty() and (CareerScreen.team_name(t) == name or str(t.get("name", "")) == name
+				or str(t.get("town", "")) == name):
+			return t
+	return {}
 
 
 static func _kick_row(k: Dictionary) -> PanelContainer:
@@ -77,10 +95,12 @@ static func _kick_row(k: Dictionary) -> PanelContainer:
 			var lbl := str(k.get("label", ""))
 			if "GAME WINNER" in lbl or "TO TIE" in lbl:
 				name += "  (clutch)"
-			return UiKit.stat_row(name, "GOOD" if made else "MISS", UiKit.GOOD if made else UiKit.BAD)
+			return UiKit.stat_row(name, "GOOD" if made else "MISS", UiKit.GOOD if made else UiKit.BAD,
+				"check" if made else "cross")
 		"onside":
 			var rec: bool = k.get("recovered", false)
-			return UiKit.stat_row("Onside kick", "RECOVERED" if rec else "Lost", UiKit.GOOD if rec else UiKit.BAD)
+			return UiKit.stat_row("Onside kick", "RECOVERED" if rec else "Lost", UiKit.GOOD if rec else UiKit.BAD,
+				"check" if rec else "cross")
 	return UiKit.stat_row(kind, str(k.get("result", "")))
 
 
@@ -107,4 +127,4 @@ static func _kickoff_summary(kicks: Array) -> PanelContainer:
 		v += ", %d TB" % tb
 	if oob > 0:
 		v += ", %d OOB" % oob
-	return UiKit.stat_row("Kickoffs (%d)" % n, v, UiKit.BAD if oob > 0 else Color.WHITE)
+	return UiKit.stat_row("Kickoffs (%d)" % n, v, UiKit.BAD if oob > 0 else Color(0, 0, 0, 0), "ball")

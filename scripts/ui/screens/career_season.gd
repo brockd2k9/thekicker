@@ -5,8 +5,8 @@ extends CareerScreen
 
 func _build(col: VBoxContainer) -> void:
 	var c := career.data
-	col.add_child(CareerUi.centered("SEASON %d COMPLETE" % c.season, 52, UiKit.ACCENT))
-	col.add_child(CareerUi.centered("%s  -  %s" % [career.class_year(), CareerScreen.team_name(c.team)],
+	col.add_child(UiKit.title_block("SEASON %d COMPLETE" % c.season))
+	col.add_child(UiKit.label("%s  -  %s" % [career.class_year(), CareerScreen.team_name(c.team)],
 		28, UiKit.MUTED))
 	var list := UiKit.scroll_list(col)
 	list.add_child(UiKit.stat_row("Record", "%d-%d%s" % [int(c.record["w"]), int(c.record["l"]),
@@ -17,7 +17,7 @@ func _build(col: VBoxContainer) -> void:
 			% roundi(career.tuning.poor_fg_pct * 100.0) + "and your options start to dry up.", 24, UiKit.BAD))
 	var b := UiKit.button(_next_text(), func() -> void:
 		career.end_season()
-		go_to_current(), UiKit.ACCENT.darkened(0.45))
+		go_to_current(), UiKit.PRIMARY)
 	col.add_child(b)
 	if not OS.has_feature("mobile"):
 		b.grab_focus.call_deferred()

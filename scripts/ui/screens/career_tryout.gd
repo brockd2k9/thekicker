@@ -71,7 +71,7 @@ func _on_attempt_finished(_o: KickResult.Outcome) -> void:
 		% career.data.tryout.get("team_name", ""), 28))
 	var b := UiKit.button("Continue", func() -> void:
 		career.finish_tryout(_mode.makes)
-		Screens.go(career.screen_path()), UiKit.ACCENT.darkened(0.45))
+		Screens.go(career.screen_path()), UiKit.PRIMARY)
 	v.add_child(b)
 	if not OS.has_feature("mobile"):
 		b.grab_focus.call_deferred()

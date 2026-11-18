@@ -33,4 +33,9 @@ static func go(path: String) -> void:
 	# The kick scene may leave slow motion or pause on.
 	Engine.time_scale = 1.0
 	tree.paused = false
-	tree.change_scene_to_file.call_deferred(path)
+	# Short fade between screens (autoload ScreenFade); plain switch without it.
+	var fade := tree.root.get_node_or_null("ScreenFade")
+	if fade != null:
+		fade.go(path)
+	else:
+		tree.change_scene_to_file.call_deferred(path)

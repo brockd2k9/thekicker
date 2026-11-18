@@ -96,7 +96,7 @@ func _build(col: VBoxContainer) -> void:
 		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		list.add_child(b)
 		_school_buttons[id] = b
-	_start = UiKit.button("Start Career", _create, UiKit.ACCENT.darkened(0.45))
+	_start = UiKit.button("Start Career", _create, UiKit.PRIMARY)
 	col.add_child(CareerUi.button_row([UiKit.button("Back", go_back), _start]))
 	_refresh_look()
 	_update_start()

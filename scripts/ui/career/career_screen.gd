@@ -26,6 +26,30 @@ func go_back() -> void:
 	Screens.go(Screens.CAREER_HUB)
 
 
+## Career look: the stage's palette (Friday night / Saturday / Sunday) and
+## the player's team colors.
+func _apply_look() -> void:
+	apply_career_look(career)
+
+
+static func apply_career_look(m: CareerManager) -> void:
+	if m == null:
+		UiKit.reset_palette()
+		return
+	UiKit.set_stage(look_stage(m.data), m.data.team.get("colors", []))
+
+
+## The stage whose look to use. Retired careers keep the last stage played.
+static func look_stage(c: CareerData) -> String:
+	if c.stage == CareerData.STAGE_RETIRED or c.stage == CareerData.STAGE_FREE_AGENT:
+		for i in range(c.history.size() - 1, -1, -1):
+			var st := str(c.history[i].get("stage", ""))
+			if st != "":
+				return st
+		return CareerData.STAGE_PRO if c.stage == CareerData.STAGE_FREE_AGENT else CareerData.STAGE_HIGH_SCHOOL
+	return c.stage
+
+
 ## Opens the screen for the career's current step.
 func go_to_current() -> void:
 	Screens.go(career.screen_path())
