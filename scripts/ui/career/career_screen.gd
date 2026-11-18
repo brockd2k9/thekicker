@@ -47,7 +47,7 @@ static func recruit_word(c: CareerData) -> String:
 
 
 static func draft_word(c: CareerData) -> String:
-	var d := Progression.rules().get("draft", {})
+	var d: Dictionary = Progression.rules().get("draft", {})
 	for r in d.get("rounds", []):
 		if c.draft_score >= float(r["min"]):
 			return "Round %d projection" % int(r["round"])

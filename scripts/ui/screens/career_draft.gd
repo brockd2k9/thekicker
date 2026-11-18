@@ -51,7 +51,7 @@ func _build(col: VBoxContainer) -> void:
 	for h in career.data.history:
 		if h.get("stage", "") == CareerData.STAGE_COLLEGE:
 			var s: Dictionary = h.get("stats", {})
-			list.add_child(UiKit.stat_row("%s (%s)" % [h.get("year", ""), h.get("team", "")],
+			list.add_child(UiKit.stat_row(str(h.get("year", "")),
 				"FG %d/%d  long %d" % [int(s.get("fg_made", 0)), int(s.get("fg_att", 0)), int(s.get("long", 0))]))
 
 

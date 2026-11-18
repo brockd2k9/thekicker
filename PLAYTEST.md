@@ -103,23 +103,39 @@ Rerun `tools/career_sim.tscn` after changing any of them and compare with
   combo trait pairs one stat from each axis.
 - **Bye-week and offseason choices' game-day modifiers carry into the next game.**
 
+- **Stage 5 progression**: recruiting score (season performance + scenario "recruiting" values +
+  traits) and GPA decide college offers (top / mid-major / small; full, partial or preferred
+  walk-on). No offers: walk-on tryout or junior college. College builds a draft score (times the
+  school's exposure); undrafted -> camp invite or open tryouts. Pro: standing (retention) each
+  season decides re-sign / release; Retire after any pro season; age cap 38. Three poor marks in a
+  row (poor seasons, releases, failed tryouts) with nothing on the table end the career.
+- **Life stats** drift toward `life_baseline` (60), Fun/Social gains are scaled by
+  `fun_social_gain_mult` (0.7), and the low-stat penalties start at 40.
+
 ## Trait balance (targets and current result)
 Target: a player leaning into one personality direction unlocks 1-2 traits by the end of high
 school and 3-4 by the end of college; random/mixed players unlock fewer.
-Current (80 careers per strategy): leaning players 1.0-2.0 by HS, 2.5-3.8 by college;
-random 0.0 -> 1.5, mixed 0.8 -> 1.5. Intelligence and ambition leaners are at the low edge
-(about half reach 3 by college).
+Current (Stage 5 baseline, 40 careers per strategy): every leaning strategy 3.0-4.2 by the end
+of college (ambition and intelligence leaners now 100% reach 3); random 0.0 -> 2.0, mixed 0.8 -> 2.5.
+Leadership leaners are slow in high school (28% have none), charisma leaners fast (60% have 3+).
 Knobs: `personality_change_scale` (0.30), trait thresholds in `data/career/traits.json`,
 personality numbers in the scenario files.
 
 ## To playtest
 1. `personality_change_scale` 0.30 and trait thresholds (58-60 single, 55-58 combo).
-2. Energy pressure: `weekly_energy_recovery` 8, `game_energy_cost` -12. Social-heavy players
-   spend 23-33% of weeks with a low stat; studious players almost never.
-3. Fun and Social average 80-90 for most styles (low penalties rarely trigger). Consider lower
-   `win_fun` / scenario fun gains if they should matter more.
-4. **Accuracy reaches ~100 by the end of college** for most styles. Revisit with college/pro
-   difficulty in Stage 5 (`make_accuracy_gain`, `weekly_football_growth`, `football_diminishing`).
+2. Life stats (weekly averages): Health 64-70, Energy 48-68, Fun 49-73, Social 61-84 (social
+   styles high). Weeks with a low stat: 3-25% depending on style. Knobs: `life_baseline`,
+   `fun_social_gain_mult`, low thresholds (40), `weekly_energy_recovery` 10, `game_energy_cost` -12.
+3. Accuracy at the end of college: 68-93 (was ~100). `make_accuracy_gain` 0.06,
+   `weekly_football_growth` 0.1, `offseason_football_growth` 1.5, `football_diminishing` 0.85.
+4. Progression (simulator kicks are a stand-in for real swipes, so re-check with real play):
+   20% drafted, 62% reach pro, 4.9 pro seasons on average, 8% reach the age cap.
+   Best offer: top 0-73% by style; 5-35% of weak recruits get none. Fallbacks are rare in the sim
+   (6% walk-on, 1% JUCO, 0% career ended before college) because sim kickers pass walk-on tryouts
+   easily; tryout distances/need are in `data/career/progression.json`.
+   Knobs: `recruiting_*`, `draft_*`, `retention_*`, tier `min_recruiting` / `min_gpa`,
+   draft round thresholds, `free_agent_attempts`.
+4b. GPA: intelligence-heavy players sit at 4.0; others 2.6-3.4. `gpa_intelligence_drift` 0.12.
 5. Scenario repetition: `max_scenario_repeats_per_season` 2, `category_repeat_decay` 0.5.
    Regular HS scenarios appear ~4-8 times over 4 seasons.
 6. Warmup net difficulty (`net_power_min/max`, `net_aim_deg`) and kickoff carry

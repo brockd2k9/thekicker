@@ -9,8 +9,8 @@ extends Node
 ##
 ## Careers run from freshman year to retirement through the real progression
 ## (offers, college choice, tryouts, draft, contracts, release, age cap).
-## Sim player policy: take the best offer (else a walk-on tryout, else junior
-## college), sign when drafted, take every tryout, re-sign when offered, never
+## Sim player policy: take the best offer (no offers: walk-on tryout or junior
+## college, 50/50), sign when drafted, take every tryout, re-sign when offered, never
 ## retire voluntarily. Kicks use a simple make-chance model (stats, distance,
 ## pressure, narrower posts at higher stages) standing in for real swipes.
 
@@ -125,6 +125,11 @@ func _play_career(strat: String, n: int) -> Dictionary:
 					m.retire("no_options")
 				else:
 					var o: Dictionary = opts[0]
+					if o["kind"] != "offer":
+						# No offers: half go the walk-on route, half junior college.
+						var fall: Array = opts.filter(func(x): return x["kind"] == ("juco" if _rng.randf() < 0.5 else "walk_on_tryout"))
+						if not fall.is_empty():
+							o = fall[0]
 					out["events"].append(("offer_" + str(o["offer"]["tier"])) if o["kind"] == "offer" else str(o["kind"]))
 					m.choose_college(o)
 			CareerManager.PHASE_TRYOUT:
