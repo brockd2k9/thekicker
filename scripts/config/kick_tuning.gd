@@ -77,6 +77,13 @@ extends Resource
 @export var max_distance_yards: int = 60
 ## Seconds between the attempt appearing and the snap.
 @export var snap_delay: float = 1.0
+## Seconds for the snap to travel from the snapper to the holder's hands.
+@export var snap_travel_time: float = 0.4
+## Seconds for the holder to put the ball down. The kick window starts after this,
+## but the defense starts rushing at the snap.
+@export var hold_place_time: float = 0.18
+## Spiral turns on the snap.
+@export var snap_spins: int = 3
 ## Real seconds the result shows before a tap can start the next kick.
 @export var result_min_display: float = 0.8
 

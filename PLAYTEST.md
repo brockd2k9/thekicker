@@ -33,5 +33,10 @@ Things that are built but **untuned**. Every value named here is in `tuning/kick
 15. **Vibration.** 40 ms on the kick (scaled by power), 120 ms on a block. Phone only.
 16. **Holder pose.** The hand position on the ball is approximate. Check it looks right.
 17. **Not implemented:** ball hitting the uprights or crossbar (it passes through),
-    headwind/tailwind, drag/spin curve, snap animation (the ball starts already held),
-    visible kicker leg/foot, menus.
+    headwind/tailwind, drag/spin curve, bad snaps / fumbled holds, visible kicker
+    leg/foot, menus.
+18. **Snap timing.** 0.4 s snapper to holder + 0.18 s to put it down, then the kick window.
+    The rush clock starts at the snap, so the snap uses ~0.6 s of the time before a block.
+    Tunables: `snap_travel_time`, `hold_place_time`, `snap_spins`. The snap path and catch
+    spot (`snap_spot`/`catch_spot` in `field_builder.gd`) may need nudging to line up with
+    the holder's hands.

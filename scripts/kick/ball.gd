@@ -59,12 +59,26 @@ func reset(spot: Vector3) -> void:
 	velocity = Vector3.ZERO
 	_crossed = false
 	_has_landed = false
-	_model.rotation = Vector3(deg_to_rad(HOLD_TILT_DEG), 0.0, 0.0)
-	_apply_visual_scale()
-	var s := _model.scale.x
+	set_pose(hold_position(), hold_rotation())
+
+
+## Where the ball's center sits when held on the spot.
+func hold_position() -> Vector3:
 	var tilt := deg_to_rad(absf(HOLD_TILT_DEG))
-	var stand_height := (LENGTH * 0.5 * sin(tilt) + BASE_RADIUS * cos(tilt)) * s * 0.92
-	global_position = spot + Vector3(0.0, HOLD_HEIGHT + stand_height, 0.0)
+	var stand_height := (LENGTH * 0.5 * sin(tilt) + BASE_RADIUS * cos(tilt)) * _near_scale * 0.92
+	return _spot + Vector3(0.0, HOLD_HEIGHT + stand_height, 0.0)
+
+
+## Model rotation when held on the spot.
+func hold_rotation() -> Vector3:
+	return Vector3(deg_to_rad(HOLD_TILT_DEG), 0.0, 0.0)
+
+
+## Place the (not flying) ball anywhere, e.g. during the snap animation.
+func set_pose(pos: Vector3, model_rotation: Vector3) -> void:
+	global_position = pos
+	_model.rotation = model_rotation
+	_apply_visual_scale()
 	_update_shadow()
 
 

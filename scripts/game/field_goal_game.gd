@@ -1,11 +1,12 @@
 extends Node3D
 ## Field-goal scene controller. Runs one attempt at a time:
-##   SETUP (situation shown, aim may wobble) -> snap -> KICK_WINDOW (swipe!)
+##   SETUP (situation shown, aim may wobble) -> SNAP (ball spirals to the holder,
+##   who spots it; the defense is already rushing) -> KICK_WINDOW (swipe!)
 ##   -> FLIGHT -> RESULT (slow-mo beat, tap for next)
 ## It wires the independent pieces together and owns no tuning numbers:
 ## those live in KickTuning (res://tuning/kick_tuning.tres).
 
-enum Phase { SETUP, KICK_WINDOW, FLIGHT, RESULT }
+enum Phase { SETUP, SNAP, KICK_WINDOW, FLIGHT, RESULT }
 
 @export var tuning: KickTuning
 
@@ -21,6 +22,8 @@ var _can_continue := false
 var _attempt_id := 0
 ## Play progress for the two lines (0 at the snap, 1 = edge rushers at the ball).
 var _play_t := 0.0
+## Seconds from snap to block: snap travel + hold + kick window.
+var _play_total := 1.0
 ## True while the finger that tapped "next kick" is still down.
 var _swallow_release := false
 
@@ -32,6 +35,7 @@ var _swallow_release := false
 @onready var wind: Wind = $Wind
 @onready var pressure: PressureModel = $Pressure
 @onready var kicker: KickController = $KickController
+@onready var snap: SnapAnimator = $SnapAnimator
 @onready var swipe_input: SwipeInput = $SwipeInput
 @onready var hud: Hud = $Hud
 
@@ -55,20 +59,17 @@ func _process(delta: float) -> void:
 	field.set_wind(wind.mph, tuning.max_wind_mph + tuning.max_gust_mph)
 	hud.set_live_wind(wind.mph, tuning.max_wind_mph + tuning.max_gust_mph)
 
-	if phase == Phase.SETUP or phase == Phase.KICK_WINDOW:
+	if phase != Phase.FLIGHT and phase != Phase.RESULT:
 		aim_marker.set_aim(pressure.wobble_deg(), situation.distance_m())
+	if phase != Phase.SETUP:
+		# The rush runs on one clock from the snap, and carries on after the kick.
+		_play_t = minf(_play_t + delta / _play_total, 1.0)
+		field.set_play_progress(_play_t)
 	if phase == Phase.KICK_WINDOW:
 		_window_left -= delta
-		var frac := clampf(_window_left / _window_total, 0.0, 1.0)
-		hud.set_window(frac, true)
-		_play_t = 1.0 - frac
-		field.set_play_progress(_play_t)
+		hud.set_window(clampf(_window_left / _window_total, 0.0, 1.0), true)
 		if _window_left <= 0.0:
 			_kick_blocked()
-	elif phase == Phase.FLIGHT or phase == Phase.RESULT:
-		# The play carries on after the kick.
-		_play_t = minf(_play_t + delta / _window_total, 1.0)
-		field.set_play_progress(_play_t)
 
 
 func _physics_process(_delta: float) -> void:
@@ -89,9 +90,9 @@ func _start_attempt() -> void:
 	situation.wind_gust_mph = wind.gust_mph
 	field.set_distance(situation.distance_m())
 	_play_t = 0.0
-	_window_total = 1.0
 	field.reset_play()
 	ball.reset(field.hold_spot())
+	snap.set_ready(ball, field.snap_spot())
 	trail.clear()
 	cam.reset_to(field.hold_spot(), situation.distance_m())
 	pressure.setup(situation.pressure, tuning, modifiers)
@@ -105,12 +106,27 @@ func _start_attempt() -> void:
 	await get_tree().create_timer(tuning.snap_delay).timeout
 	if my_id != _attempt_id:
 		return
-	phase = Phase.KICK_WINDOW
+	phase = Phase.SNAP
 	_window_total = pressure.kick_window_sec()
 	_window_left = _window_total
+	_play_total = tuning.snap_travel_time + tuning.hold_place_time + _window_total
+	hud.set_hint("")
+	Sfx.play(&"snap")
+	snap.play(ball, field.snap_spot(), field.catch_spot(),
+		tuning.snap_travel_time, tuning.hold_place_time, tuning.snap_spins)
+
+	await snap.caught
+	if my_id != _attempt_id:
+		return
+	field.set_holder_pose(FieldBuilder.HolderPose.HOLDING)
+	Sfx.play(&"catch")
+
+	await snap.placed
+	if my_id != _attempt_id:
+		return
+	phase = Phase.KICK_WINDOW
 	hud.set_window(1.0, true)
 	hud.set_hint("SWIPE UP TO KICK!")
-	Sfx.play(&"snap")
 
 
 func _try_kick(swipe: Swipe) -> void:
@@ -131,7 +147,7 @@ func _try_kick(swipe: Swipe) -> void:
 	ball.launch(shot.velocity, tuning.gravity, wind.acceleration(tuning),
 		tuning.flight_speed_scale, -situation.distance_m(), tuning.ball_spin_speed)
 	trail.start(ball)
-	field.set_holder_holding(false)
+	field.set_holder_pose(FieldBuilder.HolderPose.RELEASED)
 	cam.follow(ball, tuning.camera_follow_strength, tuning.camera_follow_speed)
 	cam.shake(tuning.kick_shake * (0.5 + shot.power))
 	Sfx.play(&"kick", 0.0, lerpf(0.9, 1.15, shot.power))
@@ -143,7 +159,7 @@ func _kick_blocked() -> void:
 	hud.set_window(0.0, false)
 	_play_t = 1.0
 	field.set_play_progress(1.0)
-	field.set_holder_holding(false)
+	field.set_holder_pose(FieldBuilder.HolderPose.RELEASED)
 	Haptics.pulse(tuning.block_vibration_ms)
 	# Pop the ball up and back off the rusher's hands.
 	var deflect := Vector3(_rng.randf_range(-2.5, 2.5), 5.0, 2.5)
@@ -203,6 +219,8 @@ func _on_swipe_released(swipe: Swipe) -> void:
 	match phase:
 		Phase.SETUP:
 			hud.flash_hint("Wait for the snap!")
+		Phase.SNAP:
+			hud.flash_hint("Wait for the hold!")
 		Phase.KICK_WINDOW:
 			_try_kick(swipe)
 

@@ -3,7 +3,7 @@ extends Node
 ##
 ## Call  Sfx.play(&"kick")  from anywhere. If res://audio/kick.ogg (or .wav/.mp3)
 ## exists it plays; otherwise nothing breaks (debug builds just print the event).
-## Events used in Phase 1: snap, kick, good, miss, block.
+## Events used in Phase 1: snap, catch, kick, good, miss, block.
 ## Other systems (haptics, crowd, music) can listen to the `played` signal.
 
 signal played(event_name: StringName)

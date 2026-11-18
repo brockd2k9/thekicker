@@ -12,6 +12,8 @@ extends Node3D
 ## both lines fire out, the middle of the defense leaps, and the two edge
 ## rushers reach the ball at t = 1 (= BLOCKED).
 
+enum HolderPose { READY, HOLDING, RELEASED }
+
 const FIELD_SHADER := preload("res://shaders/field.gdshader")
 const CROWD_SHADER := preload("res://shaders/crowd.gdshader")
 
@@ -85,16 +87,31 @@ func hold_spot() -> Vector3:
 	return Vector3.ZERO
 
 
-## Everyone back in their pre-snap stance; holder holding the ball.
+## Where the ball sits in the long snapper's hands before the snap.
+func snap_spot() -> Vector3:
+	return Vector3(0.0, 0.2, LOS_Z)
+
+
+## Where the holder catches the snap.
+func catch_spot() -> Vector3:
+	return Vector3(0.0, 0.75, 0.35)
+
+
+## Everyone back in their pre-snap stance; holder showing a target.
 func reset_play() -> void:
 	set_play_progress(0.0)
-	set_holder_holding(true)
+	set_holder_pose(HolderPose.READY)
 
 
-## Holder's finger on the ball (true) or pulled away after the kick (false).
-func set_holder_holding(holding: bool) -> void:
+func set_holder_pose(pose: HolderPose) -> void:
 	# The reaching arm is the far one (left), so the camera still sees the ball.
-	_holder.set_pose(0.5, 66.0 if holding else 140.0, 20.0)
+	match pose:
+		HolderPose.READY:
+			_holder.set_pose(0.5, 95.0, 95.0)  # both hands out, a target for the snap
+		HolderPose.HOLDING:
+			_holder.set_pose(0.5, 66.0, 20.0)  # finger on top of the ball
+		HolderPose.RELEASED:
+			_holder.set_pose(0.5, 140.0, 20.0)  # pulled away after the kick
 
 
 ## t: 0 = at the snap, 1 = kick window expired (edge rushers reach the ball).

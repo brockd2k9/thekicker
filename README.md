@@ -16,7 +16,8 @@ the HUD uses anchors/containers and the camera keeps the field width fixed, so a
 aspect ratio works.
 
 **Controls:** mouse drag or finger swipe, upward toward the posts.
-- Wait for **SWIPE UP TO KICK!** (the snap). Swiping before it doesn't count.
+- The ball is snapped back to the holder, who spots it. Wait for **SWIPE UP TO KICK!**;
+  swiping before the ball is down doesn't count. The defense starts rushing at the snap.
 - **Tilt** of the swipe = aim. **Speed** of the flick (plus some length) = power.
 - The kick clock bar drains and the red rushers close in. If you're too late, the kick is **BLOCKED**.
 - The white ring above the crossbar shows where a perfectly straight swipe would go.
@@ -97,6 +98,7 @@ scripts/
   kick/kick_situation.gd      random distance + pressure scenario
   kick/kick_result.gd         GOOD / WIDE LEFT / WIDE RIGHT / SHORT / BLOCKED rules
   kick/wind.gd                crosswind + gusts
+  kick/snap_animator.gd       snap: snapper -> holder's hands -> spot
   kick/pressure.gd            aim wobble + kick-window shrink
   kick/ball.gd                ballistic flight, goal-plane + landing detection
   kick/ball_trail.gd          dotted arc trail
@@ -105,7 +107,7 @@ scripts/
   field/player_figure.gd      capsule player that can crouch, block, jump
   field/goal_posts.gd         posts + wind ribbons, regulation dimensions
   camera/kick_camera.gd       behind-the-ball camera, follow + shake
-  game/field_goal_game.gd     attempt state machine (SETUP → KICK_WINDOW → FLIGHT → RESULT)
+  game/field_goal_game.gd     attempt state machine (SETUP → SNAP → KICK_WINDOW → FLIGHT → RESULT)
   ui/hud.gd, wind_indicator.gd, swipe_trail.gd
 ```
 
@@ -132,7 +134,7 @@ distances and speeds are measured in *screen heights*, so feel is resolution-ind
 
 ## Sound
 
-`Sfx.play(&"kick")` is called for `snap`, `kick`, `good`, `miss`, `block`.
+`Sfx.play(&"kick")` is called for `snap`, `catch`, `kick`, `good`, `miss`, `block`.
 Drop `audio/kick.ogg` (or `.wav`/`.mp3`) etc. into `audio/` and they play automatically.
 Until then the events are printed to the Output panel in debug builds.
 

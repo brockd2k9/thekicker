@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3]
+[gd_scene load_steps=22 format=3]
 
 [ext_resource type="Script" path="res://scripts/game/field_goal_game.gd" id="1_game"]
 [ext_resource type="Resource" path="res://tuning/kick_tuning.tres" id="2_tuning"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" path="res://scripts/input/swipe_input.gd" id="12_swipe"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="13_hud"]
 [ext_resource type="Shader" path="res://shaders/sky.gdshader" id="14_sky"]
+[ext_resource type="Script" path="res://scripts/kick/snap_animator.gd" id="15_snap"]
 
 [sub_resource type="ShaderMaterial" id="sky_mat"]
 shader = ExtResource("14_sky")
@@ -78,6 +79,9 @@ script = ExtResource("10_pressure")
 
 [node name="KickController" type="Node" parent="."]
 script = ExtResource("11_kick")
+
+[node name="SnapAnimator" type="Node" parent="."]
+script = ExtResource("15_snap")
 
 [node name="SwipeInput" type="Node" parent="."]
 script = ExtResource("12_swipe")
