@@ -63,10 +63,12 @@ extends Resource
 @export var max_wobble_deg: float = 4.0
 ## Wobble cycles per second.
 @export var wobble_speed: float = 0.6
-## Seconds to kick after the snap at zero pressure (then BLOCKED).
-@export var base_kick_window: float = 2.6
-## Seconds to kick after the snap at maximum pressure.
-@export var min_kick_window: float = 1.1
+## Seconds to kick once the ball is down, at zero pressure (then BLOCKED).
+## Real field goals take ~1.3 s from snap to kick. The rushers' speed follows
+## from this: shorter window = faster rush.
+@export var base_kick_window: float = 1.5
+## Seconds to kick once the ball is down, at maximum pressure.
+@export var min_kick_window: float = 0.9
 ## How much pressure drives wobble (0 = never wobbles).
 @export_range(0.0, 1.0) var pressure_wobble_effect: float = 1.0
 ## How much pressure shrinks the kick window (0 = never shrinks).

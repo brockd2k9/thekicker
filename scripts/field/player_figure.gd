@@ -130,34 +130,71 @@ func build(kit: TeamKit, number: int, rng: RandomNumberGenerator,
 func set_pose(crouch: float, arm_l_deg: float, arm_r_deg: float, lift: float = 0.0,
 		dive: float = 0.0) -> void:
 	var c := clampf(crouch, 0.0, 1.0)
-	var swing := sin(_stride_phase * TAU) * _stride_amount
+	var m := _stride_amount  # 0 = the pose given, 1 = full sprint
+	var th := _stride_phase * TAU
+
+	# Base (non-running) pose: bent knees with the feet under the hips.
+	var a := deg_to_rad(lerpf(6.0, 50.0, c))
+	var hip_l := a
+	var hip_r := a
+	var knee_l := -2.0 * a
+	var knee_r := -2.0 * a
+	var pelvis_y := (THIGH + SHIN) * cos(a) + FOOT
+	var lean := deg_to_rad(lerpf(4.0, 48.0, c))
+	var sh_l := deg_to_rad(arm_l_deg)
+	var sh_r := deg_to_rad(arm_r_deg)
+	var el_l := deg_to_rad(_elbow_deg.x)
+	var el_r := deg_to_rad(_elbow_deg.y)
+	var twist := 0.0
+
+	if m > 0.0 and not kneeling:
+		# Sprint cycle. Each thigh drives forward and back; the knee folds tight
+		# (heel kick) as the leg swings through, and stays nearly straight while
+		# that foot pushes off the ground. Hips bob twice per cycle, shoulders
+		# counter-rotate, and the arms pump opposite the legs at ~90 degrees.
+		hip_l = lerpf(hip_l, _run_hip(th), m)
+		hip_r = lerpf(hip_r, _run_hip(th + PI), m)
+		knee_l = lerpf(knee_l, _run_knee(th), m)
+		knee_r = lerpf(knee_r, _run_knee(th + PI), m)
+		pelvis_y = lerpf(pelvis_y, 0.93 - 0.035 * cos(2.0 * th), m)
+		lean = lerpf(lean, deg_to_rad(22.0), m)
+		twist = 0.15 * sin(th) * m
+		sh_l = lerpf(sh_l, deg_to_rad(25.0 - 55.0 * sin(th)), m)
+		sh_r = lerpf(sh_r, deg_to_rad(25.0 + 55.0 * sin(th)), m)
+		el_l = lerpf(el_l, deg_to_rad(95.0), m)
+		el_r = lerpf(el_r, deg_to_rad(95.0), m)
 
 	if kneeling:
 		# Left foot planted, right knee on the turf.
-		_hip_l.rotation.x = deg_to_rad(90.0)
-		_knee_l.rotation.x = deg_to_rad(-90.0)
-		_hip_r.rotation.x = deg_to_rad(-5.0)
-		_knee_r.rotation.x = deg_to_rad(-90.0)
-		_pelvis.position.y = SHIN + FOOT
-	else:
-		# Bent knees with the feet under the hips; strides swing the thighs.
-		var a := deg_to_rad(lerpf(6.0, 50.0, c))
-		var sw := deg_to_rad(38.0) * swing
-		_hip_l.rotation.x = a + sw
-		_hip_r.rotation.x = a - sw
-		_knee_l.rotation.x = -2.0 * a - deg_to_rad(70.0) * maxf(-swing, 0.0)
-		_knee_r.rotation.x = -2.0 * a - deg_to_rad(70.0) * maxf(swing, 0.0)
-		_pelvis.position.y = (THIGH + SHIN) * cos(a) + FOOT - 0.04 * absf(swing)
+		hip_l = deg_to_rad(90.0)
+		knee_l = deg_to_rad(-90.0)
+		hip_r = deg_to_rad(-5.0)
+		knee_r = deg_to_rad(-90.0)
+		pelvis_y = SHIN + FOOT
 
-	_torso.rotation.x = deg_to_rad(-lerpf(4.0, 48.0, c) - 12.0 * _stride_amount)
-	# Arms pump opposite the legs when running.
-	var pump := 45.0 * swing
-	_shoulder_l.rotation.x = deg_to_rad(arm_l_deg - pump)
-	_shoulder_r.rotation.x = deg_to_rad(arm_r_deg + pump)
-	_elbow_l.rotation.x = deg_to_rad(_elbow_deg.x + 50.0 * _stride_amount)
-	_elbow_r.rotation.x = deg_to_rad(_elbow_deg.y + 50.0 * _stride_amount)
+	_hip_l.rotation.x = hip_l
+	_hip_r.rotation.x = hip_r
+	_knee_l.rotation.x = knee_l
+	_knee_r.rotation.x = knee_r
+	_pelvis.position.y = pelvis_y
+	_torso.rotation = Vector3(-lean, twist, 0.0)
+	_shoulder_l.rotation.x = sh_l
+	_shoulder_r.rotation.x = sh_r
+	_elbow_l.rotation.x = el_l
+	_elbow_r.rotation.x = el_r
 	_root.position.y = lift
 	_root.rotation.x = deg_to_rad(-80.0) * clampf(dive, 0.0, 1.0)
+
+
+## Thigh angle (radians, + = forward) at run-cycle angle th.
+static func _run_hip(th: float) -> float:
+	return deg_to_rad(18.0 + 42.0 * sin(th))
+
+
+## Knee angle (radians, negative = heel up behind) at run-cycle angle th.
+## Folds tightest as the thigh swings forward past vertical.
+static func _run_knee(th: float) -> float:
+	return -deg_to_rad(18.0 + 95.0 * pow(maxf(cos(th), 0.0), 1.5))
 
 
 ## Elbow bend in degrees (0 = straight). Applied on the next set_pose().

@@ -44,12 +44,12 @@ const DL_SPOTS := [
 ## Middle leaper who starts deep and jumps at the kick.
 const LEAPER_SPOT := Vector2(0.0, -1.6)
 ## Edge rushers: start wide, finish at the ball.
-const EDGE_FROM := [Vector3(-4.7, 0.0, -7.0), Vector3(4.7, 0.0, -7.0)]
+const EDGE_FROM := [Vector3(-5.6, 0.0, -7.6), Vector3(5.6, 0.0, -7.6)]
 const EDGE_TO := [Vector3(-0.8, 0.0, -0.9), Vector3(0.8, 0.0, -0.9)]
 ## Holder kneels on the kicker's left, facing the ball.
 const HOLDER_POS := Vector3(-0.8, 0.0, 0.3)
-## Meters per full running stride cycle (legs swing in step with the speed).
-const STRIDE_LENGTH := 1.7
+## Meters per full running cycle (two steps). Legs cycle in step with speed.
+const STRIDE_LENGTH := 2.6
 
 var _field_mat: ShaderMaterial
 var _ol: Array[PlayerFigure] = []

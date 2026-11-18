@@ -14,8 +14,8 @@ Things that are built but **untuned**. Every value named here is in `tuning/kick
    than half the goal width. This may be too punishing combined with wobble.
 6. **Pressure.** Max wobble (4°) is bigger than the make cone at 50+ yards, so clutch long kicks
    are mostly about timing the wobble. Also check the 1.1 s minimum kick window.
-7. **Snap timing.** 1.0 s delay, then 2.6 s window at zero pressure. The rushers' approach
-   speed is tied to the window.
+7. **Snap timing.** 1.0 s delay, then the kick window: 1.5 s at zero pressure down to 0.9 s
+   at max. The rushers' speed is set by the window.
 8. **Flight speed** (`flight_speed_scale` 1.3). About 2.2 s of real hang time on a 60-yarder.
 9. **Slow-mo** (0.25x for 0.6 s) triggers when the ball crosses the posts or lands short.
    Check that it doesn't cut back to normal speed too abruptly.
@@ -47,3 +47,7 @@ Things that are built but **untuned**. Every value named here is in `tuning/kick
     cleats; they run with a stride and the holder kneels. Uniform colors in `team_kit.gd`.
     Each player is ~35 small meshes (~700 for the field). Watch the frame rate on a phone;
     if it drops, the facemask bars and decals are the first things to cut.
+21. **Rush speed and run cycle.** With the shorter window, edge rushers average ~4 m/s at zero
+    pressure and ~6 m/s at max. If they still look slow, lower `base_kick_window` (faster rush,
+    less time to kick) or move `EDGE_FROM` in `field_builder.gd` farther out. Run cycle:
+    `_run_hip`/`_run_knee` in `player_figure.gd`, cadence `STRIDE_LENGTH` (2.6 m per cycle).
