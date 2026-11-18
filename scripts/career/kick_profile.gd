@@ -41,8 +41,9 @@ var injury_risk: float = 0.0
 var outlook: Array[Dictionary] = []
 
 
-## data: the career. ctx (optional): {"miss_streak": int} during a game, and
-## "modifiers": [ids] to override data.week_modifiers (debug screen).
+## data: the career. ctx (optional): {"miss_streak": int} during a game,
+## "extra_modifiers": [ids] for in-game ones (sideline warmup), and
+## "modifiers": [ids] to override data.week_modifiers.
 static func build(data: CareerData, tuning: CareerTuning, ctx: Dictionary = {}) -> KickProfile:
 	var p := KickProfile.new()
 	var t := tuning
@@ -94,7 +95,8 @@ static func build(data: CareerData, tuning: CareerTuning, ctx: Dictionary = {}) 
 			p._add_line(str(def.get("name", id)), fx, "trait")
 
 	# 5. This week's game-day modifiers (from scenario choices).
-	var mods: Array = ctx.get("modifiers", data.week_modifiers)
+	var mods: Array = ctx.get("modifiers", data.week_modifiers).duplicate()
+	mods.append_array(ctx.get("extra_modifiers", []))
 	for id in mods:
 		var m := CareerContent.modifier(str(id))
 		if m.is_empty():

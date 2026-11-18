@@ -1,0 +1,102 @@
+extends CareerScreen
+## Results & Week Summary: the final score (or the bye week), every kick you
+## took, your warmups, the stat changes the week caused, and the record.
+## Continue = end of week: weekly recovery, autosave, next week.
+
+
+func _build(col: VBoxContainer) -> void:
+	var c := career.data
+	var w := c.last_week
+	var list: VBoxContainer
+	if w.get("type", "") == "bye":
+		col.add_child(CareerUi.centered("BYE WEEK %d" % int(w.get("week", c.week)), 56, UiKit.ACCENT))
+		col.add_child(CareerUi.centered("No game. Time to recover.", 30, UiKit.MUTED))
+		list = UiKit.scroll_list(col)
+	else:
+		var o := str(w.get("outcome", "T"))
+		col.add_child(CareerUi.centered({"W": "WIN", "L": "LOSS", "T": "TIE"}[o], 64,
+			UiKit.GOOD if o == "W" else (UiKit.BAD if o == "L" else Color.WHITE)))
+		col.add_child(CareerUi.centered("%s %d  -  %d %s" % [c.team.get("mascot", ""), int(w.get("us", 0)),
+			int(w.get("them", 0)), w.get("mascot", "")], 36))
+		col.add_child(CareerUi.centered("Week %d %s %s   -   Record %d-%d" % [int(w.get("week", 0)),
+			"vs" if w.get("home", true) else "at", w.get("opponent", ""), int(c.record["w"]),
+			int(c.record["l"])], 24, UiKit.MUTED))
+		list = UiKit.scroll_list(col)
+		list.add_child(UiKit.section("YOUR KICKS"))
+		var kicks: Array = w.get("kicks", [])
+		if kicks.is_empty():
+			list.add_child(UiKit.label("The coach never called your number.", 26, UiKit.MUTED))
+		for k in kicks:
+			if str(k.get("kind", "")) in ["fg", "pat", "onside"]:
+				list.add_child(_kick_row(k))
+		var ko := _kickoff_summary(kicks)
+		if ko != null:
+			list.add_child(ko)
+		var warm: Array = w.get("warmups", [])
+		if not warm.is_empty():
+			var words := {"pure": "Pure", "loose": "Loose", "skipped": "Skipped"}
+			var parts := PackedStringArray()
+			for x in warm:
+				parts.append(str(words.get(str(x), x)))
+			list.add_child(UiKit.stat_row("Sideline warmups", ", ".join(parts)))
+	list.add_child(UiKit.section("THIS WEEK'S CHANGES"))
+	var changes: Dictionary = w.get("changes", {})
+	list.add_child(CareerUi.change_chips(changes))
+	for t in changes.get("new_traits", []):
+		list.add_child(UiKit.label("NEW TRAIT: %s" % CareerContent.trait_def(str(t)).get("name", t), 30,
+			UiKit.GOOD))
+	list.add_child(UiKit.label("Recovery and practice gains are added when you continue.", 22, UiKit.MUTED))
+	list.add_child(UiKit.section("SEASON"))
+	var s := c.season_stats
+	list.add_child(UiKit.stat_row("Field goals", "%d / %d" % [int(s["fg_made"]), int(s["fg_att"])]))
+	list.add_child(UiKit.stat_row("Extra points", "%d / %d" % [int(s["pat_made"]), int(s["pat_att"])]))
+	list.add_child(UiKit.stat_row("Long", ("%d yd" % int(s["long"])) if int(s["long"]) > 0 else "-"))
+
+	var next := UiKit.button("Continue", func() -> void:
+		career.end_week()
+		go_to_current(), UiKit.ACCENT.darkened(0.45))
+	col.add_child(next)
+	if not OS.has_feature("mobile"):
+		next.grab_focus.call_deferred()
+
+
+static func _kick_row(k: Dictionary) -> PanelContainer:
+	var kind := str(k.get("kind", ""))
+	match kind:
+		"fg", "pat":
+			var made: bool = k.get("made", false)
+			var name := ("FG %d yd" % int(k.get("yards", 0))) if kind == "fg" else "Extra point"
+			var lbl := str(k.get("label", ""))
+			if "GAME WINNER" in lbl or "TO TIE" in lbl:
+				name += "  (clutch)"
+			return UiKit.stat_row(name, "GOOD" if made else "MISS", UiKit.GOOD if made else UiKit.BAD)
+		"onside":
+			var rec: bool = k.get("recovered", false)
+			return UiKit.stat_row("Onside kick", "RECOVERED" if rec else "Lost", UiKit.GOOD if rec else UiKit.BAD)
+	return UiKit.stat_row(kind, str(k.get("result", "")))
+
+
+## All kickoffs in one row: "Kickoffs (4)   avg 41 yd, 1 TB".
+static func _kickoff_summary(kicks: Array) -> PanelContainer:
+	var n := 0
+	var carry := 0.0
+	var tb := 0
+	var oob := 0
+	for k in kicks:
+		if str(k.get("kind", "")) != "kickoff":
+			continue
+		n += 1
+		carry += float(k.get("carry", 0.0))
+		var q := float(k.get("quality", 0.0))
+		if q >= 0.99:
+			tb += 1
+		elif q <= 0.1:
+			oob += 1
+	if n == 0:
+		return null
+	var v := "avg %d yd" % roundi(carry / n)
+	if tb > 0:
+		v += ", %d TB" % tb
+	if oob > 0:
+		v += ", %d OOB" % oob
+	return UiKit.stat_row("Kickoffs (%d)" % n, v, UiKit.BAD if oob > 0 else Color.WHITE)

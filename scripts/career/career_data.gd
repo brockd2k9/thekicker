@@ -103,8 +103,13 @@ var offers: Array = []
 var contract: Dictionary = {}
 ## Bad seasons / failed tryouts in a row. Too many ends the career.
 var poor_streak: int = 0
-## Mid-game state so a quit restarts the game from its first kick (Stage 3).
+## Mid-game state so a quit restarts the game from its first kick: {"seed"}.
 var game_checkpoint: Dictionary = {}
+## What happened last week, for the Results & Week Summary screen:
+## {type: "game"/"bye", opponent, us, them, outcome, kicks, changes, notes}.
+var last_week: Dictionary = {}
+## Stage 3 notice shown once on the Hub (e.g. an injury), then cleared.
+var notice: String = ""
 
 
 ## A fresh career with starting stats from the tuning file.
@@ -221,6 +226,8 @@ func to_dict() -> Dictionary:
 		"contract": contract.duplicate(true),
 		"poor_streak": poor_streak,
 		"game_checkpoint": game_checkpoint.duplicate(true),
+		"last_week": last_week.duplicate(true),
+		"notice": notice,
 	}
 
 
@@ -279,6 +286,8 @@ static func from_dict(d: Dictionary) -> CareerData:
 	c.contract = _dict(d, "contract")
 	c.poor_streak = maxi(int(d.get("poor_streak", 0)), 0)
 	c.game_checkpoint = _dict(d, "game_checkpoint")
+	c.last_week = _dict(d, "last_week")
+	c.notice = str(d.get("notice", ""))
 	return c
 
 

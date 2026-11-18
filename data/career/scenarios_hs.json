@@ -1,0 +1,174 @@
+{
+	"_doc": "STAGE 3 PLACEHOLDER scenarios (high school). The full set arrives in Stage 4. Fields: id, title, text, stages [high_school/juco/college/pro], when [season/bye/offseason] (default season+bye), weeks [min, max] (optional), weight (default 1), once (default false), cooldown in weeks (default 0), requires {min:{stat:n}, max:{stat:n}, traits:[ids], flags:[names], not_flags:[names]}, choices (2-4): label, result (text shown after picking), stats {life/football/personality: {stat: change}} (projected on screen through the stat rules), modifiers [game-day modifier ids from modifiers.json], set_flags {name: value}.",
+
+	"scenarios": [
+		{
+			"id": "hs_party_invite",
+			"title": "Friday Night Party",
+			"text": "A senior on the team is throwing a party the night before the game. Half the roster is going.",
+			"stages": ["high_school"],
+			"weight": 3,
+			"cooldown": 3,
+			"choices": [
+				{"label": "Go and stay late", "result": "Great night. Rough morning.",
+					"stats": {"life": {"fun": 10, "social": 8, "energy": -15}, "personality": {"charisma": 2, "ambition": -1}},
+					"modifiers": ["late_night"]},
+				{"label": "Stop by for an hour", "result": "You show your face and head home at a decent hour.",
+					"stats": {"life": {"fun": 4, "social": 5, "energy": -4}, "personality": {"charisma": 1}},
+					"modifiers": []},
+				{"label": "Stay home and sleep", "result": "Lights out by ten. You feel sharp.",
+					"stats": {"life": {"fun": -4, "social": -3, "energy": 8}, "personality": {"ambition": 2}},
+					"modifiers": ["rested"]}
+			]
+		},
+		{
+			"id": "hs_exam_vs_film",
+			"title": "Exam or Film?",
+			"text": "Big chemistry exam Thursday. Coach also scheduled a special-teams film session the same night.",
+			"stages": ["high_school"],
+			"weight": 2,
+			"cooldown": 4,
+			"choices": [
+				{"label": "Study for the exam", "result": "You ace it. Coach notices you weren't there.",
+					"stats": {"life": {"fun": -3}, "personality": {"intelligence": 4, "leadership": -1}},
+					"modifiers": []},
+				{"label": "Go to film", "result": "You learn how this week's stadium swirls the wind.",
+					"stats": {"football": {"toughness": 1}, "personality": {"intelligence": 1, "ambition": 1}},
+					"modifiers": ["scouted"]},
+				{"label": "Try to do both", "result": "Film, then studying past midnight.",
+					"stats": {"life": {"energy": -10}, "personality": {"intelligence": 2, "ambition": 2}},
+					"modifiers": ["scouted", "tired"]}
+			]
+		},
+		{
+			"id": "hs_friend_ride",
+			"title": "A Ride Home",
+			"text": "Your best friend's car died across town at 11 p.m. They're asking you to come get them.",
+			"stages": ["high_school"],
+			"weight": 2,
+			"cooldown": 5,
+			"choices": [
+				{"label": "Go get them", "result": "They won't forget it. You get to bed late.",
+					"stats": {"life": {"social": 6, "energy": -6}, "personality": {"leadership": 2, "charisma": 1}},
+					"modifiers": ["tired"]},
+				{"label": "Help them find another ride", "result": "A few calls later they're sorted, and so are you.",
+					"stats": {"life": {"social": 2, "energy": -2}, "personality": {"intelligence": 1}},
+					"modifiers": []},
+				{"label": "Say you can't", "result": "Things are a little cold at lunch the next day.",
+					"stats": {"life": {"social": -6, "energy": 3}},
+					"modifiers": ["rested"]}
+			]
+		},
+		{
+			"id": "hs_extra_practice",
+			"title": "Coach Wants Extra Reps",
+			"text": "The special teams coach asks if you'll stay after practice for 50 extra kicks.",
+			"stages": ["high_school"],
+			"weight": 3,
+			"cooldown": 2,
+			"choices": [
+				{"label": "Stay for all 50", "result": "Your plant foot is finally landing in the same spot.",
+					"stats": {"life": {"energy": -8, "fun": -2}, "football": {"accuracy": 3}, "personality": {"ambition": 2}},
+					"modifiers": ["dialed_in"]},
+				{"label": "Do 20 and save the leg", "result": "Quality over quantity.",
+					"stats": {"life": {"energy": -3}, "football": {"accuracy": 1}},
+					"modifiers": ["fresh_legs"]},
+				{"label": "Head home", "result": "Coach shrugs. You get a free evening.",
+					"stats": {"life": {"fun": 4}, "personality": {"ambition": -1, "leadership": -1}},
+					"modifiers": []}
+			]
+		},
+		{
+			"id": "hs_teammate_conflict",
+			"title": "Locker Room Beef",
+			"text": "A linebacker keeps calling you 'the soccer kid' in front of everyone.",
+			"stages": ["high_school"],
+			"weight": 2,
+			"cooldown": 6,
+			"choices": [
+				{"label": "Talk to him one-on-one", "result": "Turns out he's just nervous about his own spot. You squash it.",
+					"stats": {"life": {"social": 4}, "personality": {"leadership": 3, "charisma": 1}},
+					"modifiers": ["confident"]},
+				{"label": "Ignore it", "result": "It keeps nagging at you all week.",
+					"stats": {"life": {"fun": -2}, "personality": {"leadership": -1}},
+					"modifiers": ["stressed"]},
+				{"label": "Fire back in front of the team", "result": "Everyone laughs. He doesn't.",
+					"stats": {"life": {"social": -2, "fun": 2}, "personality": {"charisma": 2, "leadership": -2}},
+					"modifiers": ["distracted"]}
+			]
+		},
+		{
+			"id": "hs_tweaked_hamstring",
+			"title": "Tight Hamstring",
+			"text": "Your plant-side hamstring grabbed on a deep kick in practice.",
+			"stages": ["high_school"],
+			"weight": 1,
+			"cooldown": 6,
+			"requires": {"max": {"health": 85}},
+			"choices": [
+				{"label": "Ice, stretch and rest it", "result": "It loosens up by Friday.",
+					"stats": {"life": {"health": 8, "fun": -2}},
+					"modifiers": ["fresh_legs"]},
+				{"label": "Kick through it", "result": "You don't miss a rep, but you feel it.",
+					"stats": {"life": {"health": -6}, "football": {"toughness": 2}, "personality": {"ambition": 1}},
+					"modifiers": ["sore"]},
+				{"label": "See the athletic trainer", "result": "Taped up and cleared, with a stretching plan.",
+					"stats": {"life": {"health": 5}, "personality": {"intelligence": 1}},
+					"modifiers": []}
+			]
+		},
+		{
+			"id": "hs_part_time_job",
+			"title": "Extra Shift",
+			"text": "The pizza place where you work is short-staffed Thursday night and asks you to close.",
+			"stages": ["high_school"],
+			"weight": 2,
+			"cooldown": 4,
+			"choices": [
+				{"label": "Take the shift", "result": "Good tips, late night, sore feet.",
+					"stats": {"life": {"energy": -8, "social": 2}, "personality": {"leadership": 1, "ambition": 1}},
+					"modifiers": ["tired"]},
+				{"label": "Work a short shift", "result": "You help with the rush and leave at eight.",
+					"stats": {"life": {"energy": -3}, "personality": {"leadership": 1}},
+					"modifiers": []},
+				{"label": "Turn it down", "result": "Your manager isn't thrilled, but you're rested.",
+					"stats": {"life": {"energy": 4, "fun": 1}},
+					"modifiers": ["rested"]}
+			]
+		},
+		{
+			"id": "hs_bye_weekend",
+			"title": "Bye Week",
+			"text": "No game this week. How do you spend it?",
+			"stages": ["high_school"],
+			"when": ["bye"],
+			"weight": 5,
+			"choices": [
+				{"label": "Rest and recover", "result": "Sleep, stretching and a lot of food.",
+					"stats": {"life": {"health": 8, "energy": 10}}},
+				{"label": "Train hard all week", "result": "Extra lifting and kicking every day.",
+					"stats": {"life": {"energy": -6}, "football": {"power": 2, "accuracy": 2}, "personality": {"ambition": 2}}},
+				{"label": "Hang out with friends", "result": "A weekend that has nothing to do with football.",
+					"stats": {"life": {"fun": 10, "social": 8}, "personality": {"charisma": 1}}}
+			]
+		},
+		{
+			"id": "hs_offseason_focus",
+			"title": "Offseason Training",
+			"text": "The season is over. What do you work on before next year?",
+			"stages": ["high_school"],
+			"when": ["offseason"],
+			"weight": 5,
+			"choices": [
+				{"label": "Leg strength", "result": "Squats, lunges and long kicks all winter.",
+					"stats": {"football": {"power": 5}}},
+				{"label": "Accuracy camp", "result": "Thousands of reps at a fictional kicking camp in Pine Bluff.",
+					"stats": {"football": {"accuracy": 5}}},
+				{"label": "Mental training", "result": "Breathing drills, visualization and pressure games.",
+					"stats": {"football": {"resilience": 5}, "personality": {"intelligence": 1}}},
+				{"label": "Gym and conditioning", "result": "Stronger core, stronger body.",
+					"stats": {"football": {"toughness": 5}, "life": {"health": 5}}}
+			]
+		}
+	]
+}

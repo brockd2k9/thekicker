@@ -5,7 +5,7 @@ All teams, players and situations are fictional.
 
 **Built so far:** the flick-to-kick field goal (Phase 1), plus a main menu,
 Challenge Mode, Practice, My Stats, Achievements and Settings, all saved between
-sessions. Career Mode is a "Coming soon" screen (see "Career Mode: where it plugs in").
+sessions. Career Mode is being built in stages (high school seasons are playable).
 
 ## Run it
 
@@ -37,7 +37,7 @@ aspect ratio works.
 
 | Menu item | What it does |
 |---|---|
-| Career Mode | "Coming soon" placeholder |
+| Career Mode | In progress: 3 save slots, high school seasons played week by week (off-field scenarios, Game Day Outlook, games watched from the bench with field goals / extra points in the kick scene and kickoffs / onside kicks / warmups on a sideline pad). Data in `data/career/`, balance in `tuning/career_tuning.tres`. Full docs come with the last Career stage |
 | Challenge Mode | A run of kicks that get longer (25 yd → 60), windier (calm → 20 mph + gusts) and more pressured (none → clutch). **3 misses and the run ends** (blocks count). Results screen: Play Again / Main Menu |
 | Practice | The original Phase 1 loop: random kicks forever (not in the original menu spec, added so the existing mode is still reachable) |
 | My Stats | Session accuracy, all-time accuracy, longest make/miss streaks, longest field goal, misses by type, best Challenge run |

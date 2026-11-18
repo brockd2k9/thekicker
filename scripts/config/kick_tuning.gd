@@ -19,7 +19,9 @@ extends Resource
 @export_range(15.0, 60.0) var launch_elevation_deg: float = 38.0
 ## Launch speed (m/s) at 0% power. 12 m/s ~= 15 yards of carry.
 @export var min_launch_speed: float = 12.0
-## Launch speed (m/s) at 100% power. 30 m/s clears the bar from ~70 yards.
+## Launch speed (m/s) at 100% power. There is no air drag, so 30 m/s could carry
+## ~90 yards in theory; in play the limit is how hard you can flick. Power
+## needed (no wind): 40 yd ~47%, 50 yd ~58%, 60 yd ~69%.
 @export var max_launch_speed: float = 30.0
 
 @export_group("Swipe -> Power")

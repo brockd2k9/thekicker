@@ -37,6 +37,8 @@ var save_store := SaveStore.new()
 ## Career Mode bookkeeping kept in the main save: {"last_slot": n} (0 = none).
 ## The careers themselves are separate slot files (see CareerSave).
 var career_data: Dictionary = {"last_slot": 0}
+## The career being played (null when none is open). Set by the Career menu.
+var career: CareerManager = null
 
 
 func _ready() -> void:
