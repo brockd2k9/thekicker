@@ -15,7 +15,8 @@ signal attempt_finished(outcome: KickResult.Outcome)
 
 var phase: Phase = Phase.SETUP
 var situation: KickSituation
-## Phase 2: replace with modifiers built from the player's current stats.
+## Player-stat effects on the kick. Neutral unless a mode sets it before the
+## scene enters the tree (Career: KickProfile.to_kick_modifiers()).
 var modifiers: KickModifiers = KickModifiers.new()
 ## Game-mode rules (Challenge, Career later). Set before adding the scene to
 ## the tree. null = free practice: random kicks forever.
@@ -84,7 +85,7 @@ func _process(delta: float) -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	ball.set_wind_accel(wind.acceleration(tuning))
+	ball.set_wind_accel(wind.acceleration(tuning) * modifiers.wind_mult)
 	if phase == Phase.FLIGHT:
 		_check_hands()
 
@@ -189,7 +190,7 @@ func _try_kick(swipe: Swipe) -> void:
 			roundi(shot.power * 100.0), shot.swipe_aim_deg, shot.wobble_deg, shot.elevation_deg])
 
 	_ball_prev = ball.global_position
-	ball.launch(shot.velocity, tuning.gravity, wind.acceleration(tuning),
+	ball.launch(shot.velocity, tuning.gravity, wind.acceleration(tuning) * modifiers.wind_mult,
 		tuning.flight_speed_scale, -situation.distance_m(), tuning.ball_spin_speed)
 	trail.start(ball)
 	field.set_holder_pose(FieldBuilder.HolderPose.RELEASED)

@@ -16,4 +16,8 @@ func _build(col: VBoxContainer) -> void:
 	body.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	col.add_child(body)
 	col.add_child(UiKit.expanding_spacer())
+	# Career tuning tools, debug builds only (editor / debug exports).
+	if OS.is_debug_build():
+		col.add_child(UiKit.button("Debug: Career Tuning", Screens.go.bind(Screens.CAREER_DEBUG),
+			Color(0.35, 0.25, 0.5)))
 	add_back_button(col)

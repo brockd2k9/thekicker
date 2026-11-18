@@ -83,9 +83,13 @@ One JSON file in the user data folder: **`user://kicker_save.json`**
 | Linux | `~/.local/share/godot/app_userdata/Kicker/` |
 
 ```json
-{ "version": 1, "stats": {...}, "achievements": {"unlocked": {"first_make": 1794983149}},
-  "settings": {...}, "career": null }
+{ "version": 2, "stats": {...}, "achievements": {"unlocked": {"first_make": 1794983149}},
+  "settings": {...}, "career": {"last_slot": 1} }
 ```
+Career Mode saves each career in its own file, **`user://career_slot_1.json`** .. `_3.json`
+(same folder, same temp-file safety, own `"career_version"`; see `scripts/career/career_save.gd`).
+The main save only remembers the last career slot, so a broken career file can't touch
+your all-time stats. Version 1 saves are upgraded automatically.
 Saved after every kick, run and settings change, and when the app is paused/closed.
 Writes go to a temp file first and are then swapped in. A corrupt file is copied to
 `kicker_save.json.bad` and the game starts fresh. To change the layout, bump

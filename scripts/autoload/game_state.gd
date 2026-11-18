@@ -10,9 +10,9 @@ extends Node
 ##
 ## Session stats (since the app was opened) are the attempts/makes/streak vars
 ## below; the HUD reads them. All-time stats live in `stats`.
-## Career Mode plan: player stats (Leg Power, Accuracy, Composure, Fitness,
-## Morale), schedule and season go in the save's reserved "career" section,
-## and career kicks call report_kick() like every other mode.
+## Career Mode: each career is its own slot file (CareerSave); the main save's
+## "career" section only remembers the last slot. Career kicks call
+## report_kick() like every other mode, so they count in My Stats.
 
 signal session_changed
 ## The single kick-result event. Every system and mode listens to this.
@@ -34,8 +34,9 @@ var stats := KickStats.new()
 var achievements := AchievementTracker.new()
 var settings := GameSettings.new()
 var save_store := SaveStore.new()
-## Reserved for Career Mode save data (null until Career exists).
-var career_data: Variant = null
+## Career Mode bookkeeping kept in the main save: {"last_slot": n} (0 = none).
+## The careers themselves are separate slot files (see CareerSave).
+var career_data: Dictionary = {"last_slot": 0}
 
 
 func _ready() -> void:
@@ -142,7 +143,8 @@ func load_game() -> void:
 	stats.from_dict(d["stats"])
 	achievements.from_dict(d["achievements"])
 	settings.from_dict(d["settings"])
-	career_data = d.get("career")
+	var c: Variant = d.get("career")
+	career_data = c if c is Dictionary else {"last_slot": 0}
 
 
 func save_game() -> void:

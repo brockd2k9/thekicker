@@ -9,6 +9,9 @@ const CAREER := "res://scenes/screens/career_placeholder.tscn"
 const STATS := "res://scenes/screens/stats.tscn"
 const ACHIEVEMENTS := "res://scenes/screens/achievements.tscn"
 const SETTINGS := "res://scenes/screens/settings.tscn"
+## Debug builds only: edit career stats and watch the kick profile.
+const CAREER_DEBUG := "res://scenes/screens/career_debug.tscn"
+const CAREER_DEBUG_KICKS := "res://scenes/screens/career_debug_kicks.tscn"
 
 
 static func go(path: String) -> void:

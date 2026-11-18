@@ -7,7 +7,7 @@ extends Node
 
 ## Raw situation pressure 0..1.
 var level: float = 0.0
-## Pressure after the player's Composure modifier (Phase 2).
+## Pressure after the player's modifier (KickModifiers.pressure_sensitivity).
 var effective: float = 0.0
 
 var _tuning: KickTuning
@@ -35,7 +35,7 @@ func _process(delta: float) -> void:
 func wobble_deg() -> float:
 	if _tuning == null:
 		return 0.0
-	var amp := _tuning.max_wobble_deg * effective * _tuning.pressure_wobble_effect
+	var amp := _tuning.max_wobble_deg * effective * _tuning.pressure_wobble_effect * _mods.wobble_mult
 	var w := _tuning.wobble_speed * TAU
 	return amp * (0.65 * sin(_t * w + _phase_a) + 0.35 * sin(_t * w * 2.7 + _phase_b))
 

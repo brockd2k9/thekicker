@@ -8,6 +8,8 @@ extends CanvasLayer
 
 ## Pause menu "quit" label, e.g. "Quit Run".
 var quit_text := "Main Menu"
+## Where the pause menu's quit button goes (Career returns to its own screens).
+var quit_path := Screens.MAIN_MENU
 
 var root: Control
 var _pause_button: Button
@@ -61,7 +63,7 @@ func pause() -> void:
 		modal.queue_free()
 		get_tree().paused = false)
 	v.add_child(resume)
-	v.add_child(UiKit.button(quit_text, Screens.go.bind(Screens.MAIN_MENU)))
+	v.add_child(UiKit.button(quit_text, Screens.go.bind(quit_path)))
 	if not OS.has_feature("mobile"):
 		resume.grab_focus.call_deferred()
 

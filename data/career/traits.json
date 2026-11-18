@@ -1,0 +1,54 @@
+{
+	"_doc": "Traits unlock when personality stats cross thresholds (every entry in 'unlock' must hold) and stay unlocked. 'passive' is the small bonus: 'profile' adds to KickProfile fields (same keys as modifiers.json effects); 'gains' multiplies stat gains, keyed by a group (life/football/personality) or a single stat (e.g. resilience), +0.15 = 15% bigger gains; 'miss_streak' scales how much a miss streak adds to pressure (-0.3 = 30% less). 'unlocks' is shown on the Stats & Traits screen; scenarios name the traits they require.",
+
+	"traits": [
+		{
+			"id": "driven",
+			"name": "Driven",
+			"description": "Never satisfied. Training sticks.",
+			"unlock": [{"stat": "ambition", "min": 60}],
+			"passive": {"gains": {"football": 0.15}},
+			"unlocks": "Extra training and showcase scenarios"
+		},
+		{
+			"id": "fan_favorite",
+			"name": "Fan Favorite",
+			"description": "The crowd is on your side.",
+			"unlock": [{"stat": "charisma", "min": 70}],
+			"passive": {"profile": {"pressure_sensitivity": -0.05}, "gains": {"social": 0.2}},
+			"unlocks": "Autograph signing, podcast guest, awards show scenarios"
+		},
+		{
+			"id": "team_captain",
+			"name": "Team Captain",
+			"description": "Teammates follow your lead, and you don't rattle.",
+			"unlock": [{"stat": "leadership", "min": 65}],
+			"passive": {"miss_streak": -0.3},
+			"unlocks": "Mentoring, press conference, team meeting scenarios"
+		},
+		{
+			"id": "film_student",
+			"name": "Film Student",
+			"description": "You've studied every stadium's wind.",
+			"unlock": [{"stat": "intelligence", "min": 60}],
+			"passive": {"profile": {"wind_mult": -0.06}},
+			"unlocks": "Film session and scouting scenarios"
+		},
+		{
+			"id": "media_savvy",
+			"name": "Media Savvy",
+			"description": "Knows what to say to a camera.",
+			"unlock": [{"stat": "charisma", "min": 55}, {"stat": "intelligence", "min": 55}],
+			"passive": {"gains": {"personality": 0.1}},
+			"unlocks": "Sponsor photo shoot and interview scenarios"
+		},
+		{
+			"id": "community_pillar",
+			"name": "Community Pillar",
+			"description": "Gives back, and it gives back to you.",
+			"unlock": [{"stat": "leadership", "min": 55}, {"stat": "charisma", "min": 50}],
+			"passive": {"gains": {"fun": 0.15, "resilience": 0.1}},
+			"unlocks": "Community service, charity event, youth kicking camp scenarios"
+		}
+	]
+}
