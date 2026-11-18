@@ -1,0 +1,93 @@
+class_name KickTuning
+extends Resource
+## Every tunable number for the kick lives here.
+##
+## Two ways to tweak:
+##   1. Open res://tuning/kick_tuning.tres in the Inspector (values saved there
+##      override the defaults below).
+##   2. Change the defaults in this file.
+##
+## Units: meters, seconds, degrees, mph. "Screen heights" means a fraction of the
+## visible screen height, so swipes feel the same on every resolution/device.
+
+@export_group("Ball Physics")
+## Downward acceleration (m/s^2). Real = 9.8. Higher = flatter, snappier arcs.
+@export var gravity: float = 9.8
+## Simulation speed multiplier for the flight only. >1 = faster flights (less waiting).
+@export var flight_speed_scale: float = 1.3
+## Fixed launch angle above the ground. Real kicks are ~35-45 degrees.
+@export_range(15.0, 60.0) var launch_elevation_deg: float = 38.0
+## Launch speed (m/s) at 0% power. 12 m/s ~= 15 yards of carry.
+@export var min_launch_speed: float = 12.0
+## Launch speed (m/s) at 100% power. 30 m/s clears the bar from ~70 yards.
+@export var max_launch_speed: float = 30.0
+
+@export_group("Swipe -> Power")
+## Swipes shorter than this (screen heights) are ignored.
+@export var min_swipe_length: float = 0.06
+## Flick speed (screen heights / second) that maps to 0% power.
+@export var flick_speed_for_min_power: float = 0.8
+## Flick speed (screen heights / second) that maps to 100% power.
+@export var flick_speed_for_max_power: float = 4.5
+## Swipe length (screen heights) that counts as "full length".
+@export var swipe_length_for_max_power: float = 0.55
+## How much swipe LENGTH matters vs flick SPEED. 0 = speed only, 1 = length only.
+@export_range(0.0, 1.0) var length_weight: float = 0.3
+## Power curve exponent. 1 = linear, >1 = full power is harder to reach, <1 = easier.
+@export_range(0.3, 3.0) var power_curve: float = 1.2
+
+@export_group("Swipe -> Aim")
+## Degrees of kick yaw per degree of swipe tilt from vertical.
+@export var aim_sensitivity: float = 0.35
+## Clamp on swipe-driven yaw (degrees).
+@export var max_aim_deg: float = 20.0
+## Swipes tilted more than this from vertical are rejected (degrees).
+@export var max_swipe_tilt_deg: float = 70.0
+
+@export_group("Wind")
+## Strongest possible crosswind (mph).
+@export var max_wind_mph: float = 20.0
+## Sideways acceleration (m/s^2) per mph of wind.
+@export var wind_accel_per_mph: float = 0.05
+## Chance (0-1) that an attempt has no wind at all.
+@export_range(0.0, 1.0) var calm_chance: float = 0.15
+
+@export_group("Pressure")
+## Aim wobble (degrees) at maximum pressure.
+@export var max_wobble_deg: float = 4.0
+## Wobble cycles per second.
+@export var wobble_speed: float = 0.6
+## Seconds to kick after the snap at zero pressure (then BLOCKED).
+@export var base_kick_window: float = 2.6
+## Seconds to kick after the snap at maximum pressure.
+@export var min_kick_window: float = 1.1
+## How much pressure drives wobble (0 = never wobbles).
+@export_range(0.0, 1.0) var pressure_wobble_effect: float = 1.0
+## How much pressure shrinks the kick window (0 = never shrinks).
+@export_range(0.0, 1.0) var pressure_window_effect: float = 1.0
+
+@export_group("Attempt")
+@export var min_distance_yards: int = 20
+@export var max_distance_yards: int = 60
+## Seconds between the attempt appearing and the snap.
+@export var snap_delay: float = 1.0
+## Real seconds the result shows before a tap can start the next kick.
+@export var result_min_display: float = 0.8
+
+@export_group("Feel")
+## Engine time scale during the result slow-motion beat.
+@export_range(0.05, 1.0) var slowmo_scale: float = 0.25
+## Real seconds the slow-motion beat lasts.
+@export var slowmo_duration: float = 0.6
+## 0 = camera never moves, 1 = camera fully chases the ball.
+@export_range(0.0, 1.0) var camera_follow_strength: float = 0.35
+## How quickly the camera catches up (higher = tighter).
+@export var camera_follow_speed: float = 3.0
+## Camera shake on contact (meters, scaled by power).
+@export var kick_shake: float = 0.12
+## Ball end-over-end spin (radians / second).
+@export var ball_spin_speed: float = 14.0
+## Visual-only ball size multiplier so it stays readable at 60 yards.
+@export var ball_visual_scale: float = 2.0
+## Show power / aim / wobble numbers after each kick (handy while tuning).
+@export var show_debug_readout: bool = true

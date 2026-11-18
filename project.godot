@@ -1,0 +1,36 @@
+; Engine configuration file.
+; Godot 4.3+ (GDScript). Open this folder in the Godot editor.
+
+config_version=5
+
+[application]
+
+config/name="Kicker"
+config/description="Flick-to-kick field goal prototype (Phase 1)."
+run/main_scene="res://scenes/field_goal.tscn"
+config/features=PackedStringArray("4.3", "GL Compatibility")
+
+[autoload]
+
+GameState="*res://scripts/autoload/game_state.gd"
+Sfx="*res://scripts/autoload/sfx.gd"
+
+[display]
+
+window/size/viewport_width=720
+window/size/viewport_height=1280
+window/size/window_width_override=450
+window/size/window_height_override=800
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=1
+
+[input_devices]
+
+pointing/emulate_mouse_from_touch=true
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true

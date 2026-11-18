@@ -1,0 +1,81 @@
+[gd_scene load_steps=20 format=3]
+
+[ext_resource type="Script" path="res://scripts/game/field_goal_game.gd" id="1_game"]
+[ext_resource type="Resource" path="res://tuning/kick_tuning.tres" id="2_tuning"]
+[ext_resource type="Script" path="res://scripts/field/field_builder.gd" id="3_field"]
+[ext_resource type="Script" path="res://scripts/field/goal_posts.gd" id="4_posts"]
+[ext_resource type="PackedScene" path="res://scenes/ball.tscn" id="5_ball"]
+[ext_resource type="Script" path="res://scripts/kick/ball_trail.gd" id="6_trail"]
+[ext_resource type="Script" path="res://scripts/kick/aim_marker.gd" id="7_aim"]
+[ext_resource type="Script" path="res://scripts/camera/kick_camera.gd" id="8_cam"]
+[ext_resource type="Script" path="res://scripts/kick/wind.gd" id="9_wind"]
+[ext_resource type="Script" path="res://scripts/kick/pressure.gd" id="10_pressure"]
+[ext_resource type="Script" path="res://scripts/kick/kick_controller.gd" id="11_kick"]
+[ext_resource type="Script" path="res://scripts/input/swipe_input.gd" id="12_swipe"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="13_hud"]
+
+[sub_resource type="ProceduralSkyMaterial" id="sky_mat"]
+sky_top_color = Color(0.22, 0.42, 0.78, 1)
+sky_horizon_color = Color(0.66, 0.78, 0.92, 1)
+ground_bottom_color = Color(0.15, 0.3, 0.15, 1)
+ground_horizon_color = Color(0.66, 0.78, 0.92, 1)
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.6
+
+[node name="FieldGoalGame" type="Node3D"]
+script = ExtResource("1_game")
+tuning = ExtResource("2_tuning")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866, -0.383, 0.321, 0, 0.643, 0.766, -0.5, -0.663, 0.557, 0, 20, 0)
+light_energy = 1.1
+
+[node name="Field" type="Node3D" parent="."]
+script = ExtResource("3_field")
+
+[node name="GoalEnd" type="Node3D" parent="Field"]
+
+[node name="GoalPosts" type="Node3D" parent="Field/GoalEnd"]
+script = ExtResource("4_posts")
+
+[node name="Ball" parent="." instance=ExtResource("5_ball")]
+
+[node name="BallTrail" type="MultiMeshInstance3D" parent="."]
+script = ExtResource("6_trail")
+
+[node name="AimMarker" type="Node3D" parent="."]
+script = ExtResource("7_aim")
+
+[node name="KickCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 5.5)
+keep_aspect = 0
+current = true
+fov = 55.0
+near = 0.1
+far = 400.0
+script = ExtResource("8_cam")
+
+[node name="Wind" type="Node" parent="."]
+script = ExtResource("9_wind")
+
+[node name="Pressure" type="Node" parent="."]
+script = ExtResource("10_pressure")
+
+[node name="KickController" type="Node" parent="."]
+script = ExtResource("11_kick")
+
+[node name="SwipeInput" type="Node" parent="."]
+script = ExtResource("12_swipe")
+
+[node name="Hud" parent="." instance=ExtResource("13_hud")]

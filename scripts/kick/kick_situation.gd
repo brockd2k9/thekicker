@@ -1,0 +1,43 @@
+class_name KickSituation
+extends RefCounted
+## Everything that describes ONE attempt before it is kicked.
+## Phase 1 rolls these randomly. Phase 2: the season/game sim creates them
+## (real distance from the drive, real score/clock -> pressure).
+
+const YARD_TO_M := 0.9144
+
+## Fictional game situations. pressure is 0 (none) .. 1 (max).
+const SCENARIOS := [
+	{"label": "Practice rep", "pressure": 0.0, "weight": 3},
+	{"label": "1st Quarter - up 7", "pressure": 0.15, "weight": 3},
+	{"label": "End of half", "pressure": 0.35, "weight": 2},
+	{"label": "4th Qtr - tie game", "pressure": 0.65, "weight": 2},
+	{"label": "Down 2 - 0:03 left - GAME WINNER", "pressure": 1.0, "weight": 1},
+]
+
+var distance_yards: int = 30
+## Signed crosswind, + pushes toward the kicker's right.
+var wind_mph: float = 0.0
+var pressure: float = 0.0
+var label: String = ""
+
+
+func distance_m() -> float:
+	return distance_yards * YARD_TO_M
+
+
+static func roll(rng: RandomNumberGenerator, tuning: KickTuning, wind: float) -> KickSituation:
+	var s := KickSituation.new()
+	s.distance_yards = rng.randi_range(tuning.min_distance_yards, tuning.max_distance_yards)
+	s.wind_mph = wind
+	var total := 0
+	for sc in SCENARIOS:
+		total += int(sc["weight"])
+	var pick := rng.randi_range(1, total)
+	for sc in SCENARIOS:
+		pick -= int(sc["weight"])
+		if pick <= 0:
+			s.label = str(sc["label"])
+			s.pressure = float(sc["pressure"])
+			break
+	return s
