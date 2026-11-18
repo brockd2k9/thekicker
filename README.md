@@ -64,9 +64,16 @@ are `home_offset` / `look_down_deg` in `kick_camera.gd`. The ball is drawn large
 (`ball_visual_scale`) and shrinks as it flies downfield (`ball_visual_scale_far`).
 
 Formation: protection unit (blue) and block unit (red) line up 7 yards ahead, with a
-holder kneeling at the spot. After the snap, both lines fire out, the middle defenders jump
-with hands up, and two edge rushers come around the ends. If they reach the ball before
-you kick, it's BLOCKED. Positions and colors are constants at the top of `field_builder.gd`.
+holder kneeling at the spot. Every snap rolls a random block call (`rush_plan.gd`):
+- who comes for the ball: the left edge, the right edge, or a lineman breaking through the middle
+- the other edge either stays home or rushes and gets picked up by the wing
+- the play's flavor: linemen pushing, getting their hands up, leaping, or diving forward,
+  each with their own timing and slightly different alignment
+- whether the middle man leaps, gets his hands up, or just walks up into a gap
+
+Exactly one defender (the blocker) reaches the ball as the kick window closes, so if you're
+late it's BLOCKED, and there's always someone there to show for it.
+Positions and colors are constants at the top of `field_builder.gd`; odds are in `RushPlan.roll()`.
 
 Wind gusts: some windy kicks are gusty. Gusts only add speed in the wind's direction, from
 the base speed up to base + gust (the HUD shows e.g. `8-15 MPH -> GUSTY`). The HUD arrow and
@@ -104,7 +111,8 @@ scripts/
   kick/ball_trail.gd          dotted arc trail
   kick/aim_marker.gd          wobbling aim ring
   field/field_builder.gd      field, stands, light towers, formation, holder
-  field/player_figure.gd      capsule player that can crouch, block, jump
+  field/player_figure.gd      capsule player that can crouch, block, jump, dive
+  field/rush_plan.gd          random block call per attempt (who comes, who dives/leaps)
   field/goal_posts.gd         posts + wind ribbons, regulation dimensions
   camera/kick_camera.gd       behind-the-ball camera, follow + shake
   game/field_goal_game.gd     attempt state machine (SETUP → SNAP → KICK_WINDOW → FLIGHT → RESULT)

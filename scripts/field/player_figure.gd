@@ -54,7 +54,9 @@ func build(jersey: Color, pants: Color, helmet: Color) -> PlayerFigure:
 ## crouch: 0 = standing tall, 1 = deep three-point stance.
 ## Arm angles in degrees: 0 = hanging down, 90 = straight forward, 170 = up.
 ## lift: meters off the ground (jumping).
-func set_pose(crouch: float, arm_l_deg: float, arm_r_deg: float, lift: float = 0.0) -> void:
+## dive: 0 = upright, 1 = fully laid out forward (diving at the kick).
+func set_pose(crouch: float, arm_l_deg: float, arm_r_deg: float, lift: float = 0.0,
+		dive: float = 0.0) -> void:
 	var c := clampf(crouch, 0.0, 1.0)
 	_legs.scale.y = lerpf(1.0, 0.62, c)
 	_legs.position.y = 0.475 * _legs.scale.y
@@ -63,6 +65,7 @@ func set_pose(crouch: float, arm_l_deg: float, arm_r_deg: float, lift: float = 0
 	_arm_l.rotation.x = deg_to_rad(arm_l_deg)
 	_arm_r.rotation.x = deg_to_rad(arm_r_deg)
 	_root.position.y = lift
+	_root.rotation.x = deg_to_rad(-80.0) * clampf(dive, 0.0, 1.0)
 
 
 func _make_arm(side: float, mat: Material) -> Node3D:

@@ -8,9 +8,10 @@ extends Node3D
 ## The ball is always held at the world origin and kicked toward -Z.
 ## $GoalEnd (posts + stands) slides to match the attempt distance.
 ##
-## "Play progress" t runs 0 -> 1 over the kick window after the snap:
-## both lines fire out, the middle of the defense leaps, and the two edge
-## rushers reach the ball at t = 1 (= BLOCKED).
+## "Play progress" t runs 0 -> 1 from the snap to the end of the kick window.
+## What the defense does is decided per attempt by a RushPlan (who rushes,
+## who leaps, dives or gets hands up); its one designated blocker reaches the
+## ball at t = 1 (= BLOCKED).
 
 enum HolderPose { READY, HOLDING, RELEASED }
 
@@ -62,6 +63,7 @@ var _dl_home: Array[Vector3] = []
 var _leaper: PlayerFigure
 var _edges: Array[PlayerFigure] = []
 var _holder: PlayerFigure
+var _plan: RushPlan
 
 @onready var goal_end: Node3D = $GoalEnd
 @onready var goal_posts: GoalPosts = $GoalEnd/GoalPosts
@@ -98,9 +100,25 @@ func catch_spot() -> Vector3:
 
 
 ## Everyone back in their pre-snap stance; holder showing a target.
-func reset_play() -> void:
+## plan: this attempt's block call (see RushPlan). Null = a default plan.
+func reset_play(plan: RushPlan = null) -> void:
+	_plan = plan if plan != null else RushPlan.new()
+	if _plan.dl_action.is_empty():
+		for i in _dl.size():
+			_plan.dl_action.append(RushPlan.Action.PUSH)
+			_plan.dl_timing.append(0.8)
+			_plan.dl_shift.append(Vector2.ZERO)
 	set_play_progress(0.0)
 	set_holder_pose(HolderPose.READY)
+
+
+## x of each block-unit lineman, for RushPlan.roll().
+func dl_x_positions() -> PackedFloat32Array:
+	var xs := PackedFloat32Array()
+	for s in DL_SPOTS:
+		var spot: Vector2 = s
+		xs.append(spot.x)
+	return xs
 
 
 func set_holder_pose(pose: HolderPose) -> void:
@@ -114,45 +132,121 @@ func set_holder_pose(pose: HolderPose) -> void:
 			_holder.set_pose(0.5, 140.0, 20.0)  # pulled away after the kick
 
 
-## t: 0 = at the snap, 1 = kick window expired (edge rushers reach the ball).
+## t: 0 = at the snap, 1 = kick window expired (the plan's blocker reaches the ball).
 func set_play_progress(t: float) -> void:
 	t = clampf(t, 0.0, 1.0)
+	var plan := _plan
 	var fire := smoothstep(0.0, 0.25, t)  # how far out of their stance
 	var push := pow(t, 1.3)
 	var stance_arms := lerpf(35.0, 85.0, fire)
 
 	for i in _ol.size():
 		# Stand up, absorb the rush, give a little ground.
-		_ol[i].position = _ol_home[i] + Vector3(0.0, 0.0, 0.4 * push)
+		_ol[i].position = _ol_home[i] + Vector3(0.0, 0.0, plan.ol_give * push)
 		# Stay fairly low so the kicker can see the crossbar over them.
 		_ol[i].set_pose(1.0 - 0.45 * fire, stance_arms, stance_arms)
 
-	var reach := smoothstep(0.55, 1.0, t)
 	for i in _dl.size():
-		var home := _dl_home[i]
-		_dl[i].position = home + Vector3(0.0, 0.0, 0.5 * push)
-		var arms := stance_arms
-		if absf(home.x) < 2.0:
-			arms = lerpf(stance_arms, 165.0, reach)  # interior hands up to block
-		_dl[i].set_pose(1.0 - 0.7 * fire, arms, arms)
+		var shift: Vector2 = plan.dl_shift[i]
+		var home := _dl_home[i] + Vector3(shift.x, 0.0, shift.y)
+		if i == plan.penetrator:
+			_animate_penetrator(_dl[i], home, t, fire)
+		else:
+			_animate_lineman(_dl[i], home, plan.dl_action[i], plan.dl_timing[i], t, fire, push)
 
-	# Middle leaper: run up to the line, then jump with arms high.
+	_animate_leaper(t, fire)
+	for e in _edges.size():
+		_animate_edge(e, t, fire)
+
+
+func _animate_lineman(p: PlayerFigure, home: Vector3, action: int, timing: float,
+		t: float, fire: float, push: float) -> void:
+	p.rotation.y = PI  # facing us
+	var crouch := 1.0 - 0.7 * fire
+	var arms := lerpf(35.0, 85.0, fire)
+	var pos := home + Vector3(0.0, 0.0, 0.5 * push)
+	var rise := smoothstep(timing - 0.25, timing, t)
+	match action:
+		RushPlan.Action.HANDS_UP:
+			arms = lerpf(arms, 170.0, rise)
+			crouch = lerpf(crouch, 0.0, rise)
+			p.set_pose(crouch, arms, arms)
+		RushPlan.Action.LEAP:
+			# Jump, then come back down.
+			var hop := rise * (1.0 - smoothstep(timing + 0.1, timing + 0.3, t))
+			arms = lerpf(arms, 170.0, rise)
+			p.set_pose(lerpf(crouch, 0.0, rise), arms, arms, 0.5 * hop)
+		RushPlan.Action.DIVE:
+			# Lunge forward over the protection and end up laid out on the turf.
+			pos.z += 1.1 * rise
+			var air := sin(rise * PI) * 0.35
+			p.set_pose(crouch * (1.0 - rise), lerpf(arms, 160.0, rise),
+				lerpf(arms, 160.0, rise), air, rise)
+		_:
+			p.set_pose(crouch, arms, arms)
+	p.position = pos
+
+
+## Breaks through the middle and dives at the ball at the end.
+func _animate_penetrator(p: PlayerFigure, home: Vector3, t: float, fire: float) -> void:
+	var target := Vector3(signf(home.x) * 0.35, 0.0, -0.9)
+	var dir := (target - home).normalized()
+	p.position = home.lerp(target, pow(t, 1.5))
+	p.rotation.y = atan2(-dir.x, -dir.z)
+	var dive := smoothstep(0.82, 1.0, t)
+	var arms := lerpf(lerpf(35.0, 70.0, fire), 160.0, dive)
+	p.set_pose(lerpf(1.0, 0.4, fire), arms, arms, 0.3 * sin(dive * PI), dive * 0.8)
+
+
+func _animate_leaper(t: float, fire: float) -> void:
+	var plan := _plan
+	var timing := plan.leaper_timing
+	var rise := smoothstep(timing - 0.2, timing, t)
+	_leaper.rotation.y = PI
 	_leaper.position = Vector3(LEAPER_SPOT.x, 0.0,
-		LOS_Z + LEAPER_SPOT.y + 1.0 * smoothstep(0.1, 0.7, t))
-	var leap_arms := lerpf(40.0, 170.0, reach)
-	_leaper.set_pose(0.6 - 0.6 * fire, leap_arms, leap_arms, 0.55 * smoothstep(0.65, 0.9, t))
+		LOS_Z + LEAPER_SPOT.y + 1.0 * smoothstep(0.1, timing - 0.1, t))
+	var arms := lerpf(40.0, 85.0, fire)
+	match plan.leaper_action:
+		RushPlan.Action.LEAP:
+			var hop := rise * (1.0 - smoothstep(timing + 0.1, timing + 0.3, t))
+			arms = lerpf(arms, 170.0, rise)
+			_leaper.set_pose(0.6 - 0.6 * fire, arms, arms, 0.6 * hop)
+		RushPlan.Action.HANDS_UP:
+			arms = lerpf(arms, 170.0, rise)
+			_leaper.set_pose(0.6 - 0.6 * fire, arms, arms)
+		_:
+			_leaper.set_pose(0.6 - 0.3 * fire, arms, arms)
 
-	# Edge rushers race around the end to the ball and dive at it.
-	var eased := pow(t, 1.6)
-	var dive := smoothstep(0.8, 1.0, t)
-	var dive_arms := lerpf(40.0, 120.0, dive)
-	for i in _edges.size():
-		var from: Vector3 = EDGE_FROM[i]
-		var to: Vector3 = EDGE_TO[i]
-		var dir := (to - from).normalized()
-		_edges[i].position = from.lerp(to, eased)
-		_edges[i].rotation.y = atan2(-dir.x, -dir.z)  # forward (-Z) along the path
-		_edges[i].set_pose(0.9 - 0.6 * fire + 0.4 * dive, dive_arms, dive_arms, 0.25 * dive)
+
+func _animate_edge(e: int, t: float, fire: float) -> void:
+	var plan := _plan
+	var p := _edges[e]
+	var from: Vector3 = EDGE_FROM[e]
+	var to: Vector3 = EDGE_TO[e]
+	var reach := plan.edge_reach[e]
+	var dir := (to - from).normalized()
+	p.rotation.y = atan2(-dir.x, -dir.z)
+	if reach <= 0.0:
+		# Stays home to contain: shuffles back a step, upright, watching.
+		p.position = from + Vector3(0.0, 0.0, -0.6 * smoothstep(0.0, 0.5, t))
+		p.set_pose(0.9 - 0.7 * fire, 30.0, 30.0)
+		return
+	if reach < 1.0:
+		# Rushes, then gets picked up by the wing and stalls out.
+		var k := pow(minf(t / 0.6, 1.0), plan.edge_burst[e])
+		p.position = from.lerp(to, k * reach)
+		var arms := lerpf(40.0, 90.0, smoothstep(0.5, 0.7, t))
+		p.set_pose(0.9 - 0.5 * fire, arms, arms)
+		return
+	# The designated blocker: gets to the ball right as the window closes.
+	p.position = from.lerp(to, pow(t, plan.edge_burst[e]))
+	var finish := smoothstep(0.8, 1.0, t)
+	if plan.edge_dives[e]:
+		var arms := lerpf(40.0, 160.0, finish)
+		p.set_pose(0.9 - 0.6 * fire, arms, arms, 0.3 * sin(finish * PI), finish * 0.85)
+	else:
+		var arms := lerpf(40.0, 170.0, finish)
+		p.set_pose(lerpf(0.9 - 0.6 * fire, 0.0, finish), arms, arms, 0.45 * finish)
 
 
 # --- building -------------------------------------------------------------------

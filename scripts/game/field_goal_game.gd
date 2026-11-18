@@ -90,7 +90,7 @@ func _start_attempt() -> void:
 	situation.wind_gust_mph = wind.gust_mph
 	field.set_distance(situation.distance_m())
 	_play_t = 0.0
-	field.reset_play()
+	field.reset_play(RushPlan.roll(_rng, field.dl_x_positions()))
 	ball.reset(field.hold_spot())
 	snap.set_ready(ball, field.snap_spot())
 	trail.clear()

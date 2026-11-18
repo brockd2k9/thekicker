@@ -35,6 +35,9 @@ Things that are built but **untuned**. Every value named here is in `tuning/kick
 17. **Not implemented:** ball hitting the uprights or crossbar (it passes through),
     headwind/tailwind, drag/spin curve, bad snaps / fumbled holds, visible kicker
     leg/foot, menus.
+19. **Block variety.** Odds: left edge 35%, right edge 35%, middle 30%. Themes: push 20%,
+    hands up 35%, leap 20%, dive 25%. Check the plays feel different, and that the dives
+    don't look silly (divers slide about 1 m forward and lie flat).
 18. **Snap timing.** 0.4 s snapper to holder + 0.18 s to put it down, then the kick window.
     The rush clock starts at the snap, so the snap uses ~0.6 s of the time before a block.
     Tunables: `snap_travel_time`, `hold_place_time`, `snap_spins`. The snap path and catch
