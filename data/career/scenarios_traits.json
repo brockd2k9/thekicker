@@ -1,0 +1,789 @@
+{
+	"_doc": "Trait- and personality-gated scenarios ('requires' holds the gate). Field reference: the _doc in scenarios_hs.json.",
+	"scenarios": [
+		{
+			"id": "trait_podcast_guest",
+			"title": "Podcast Guest",
+			"text": "A popular local sports podcast wants you on as a guest.",
+			"category": "media",
+			"stages": [
+				"high_school",
+				"juco",
+				"college",
+				"pro"
+			],
+			"requires": {
+				"any_traits": [
+					"fan_favorite",
+					"media_savvy"
+				]
+			},
+			"cooldown": 8,
+			"choices": [
+				{
+					"label": "Tell your story",
+					"result": "Listeners love it.",
+					"stats": {
+						"life": {
+							"social": 4,
+							"energy": -3
+						},
+						"personality": {
+							"charisma": 4,
+							"intelligence": -2
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				},
+				{
+					"label": "Break down kicking technique",
+					"result": "Kickers everywhere are taking notes.",
+					"stats": {
+						"personality": {
+							"charisma": 1,
+							"intelligence": 4
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Joke around the whole episode",
+					"result": "Funniest episode of the season.",
+					"stats": {
+						"life": {
+							"fun": 6
+						},
+						"personality": {
+							"charisma": 2,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"pumped_up"
+					]
+				}
+			]
+		},
+		{
+			"id": "trait_awards_presenter",
+			"title": "Awards Show Presenter",
+			"text": "You're asked to present an award at the regional sports awards.",
+			"category": "media",
+			"stages": [
+				"college",
+				"pro"
+			],
+			"requires": {
+				"traits": [
+					"fan_favorite"
+				]
+			},
+			"cooldown": 20,
+			"choices": [
+				{
+					"label": "Rehearse the script",
+					"result": "Smooth and professional.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"charisma": 2,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Improvise a little",
+					"result": "The room roars. You're a natural.",
+					"stats": {
+						"life": {
+							"fun": 5,
+							"energy": -3
+						},
+						"personality": {
+							"charisma": 5,
+							"intelligence": -2
+						}
+					},
+					"modifiers": [
+						"spotlight"
+					]
+				},
+				{
+					"label": "Politely decline",
+					"result": "A quiet night at home.",
+					"stats": {
+						"life": {
+							"energy": 4
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "trait_autograph_signing",
+			"title": "Autograph Signing",
+			"text": "A local store is hosting an autograph signing with you, and the line is around the block.",
+			"category": "community",
+			"stages": [
+				"high_school",
+				"juco",
+				"college",
+				"pro"
+			],
+			"requires": {
+				"any_traits": [
+					"fan_favorite",
+					"community_pillar"
+				]
+			},
+			"cooldown": 6,
+			"choices": [
+				{
+					"label": "Stay until every fan is done",
+					"result": "Hours of selfies and handshakes.",
+					"stats": {
+						"life": {
+							"social": 6,
+							"fun": 3,
+							"energy": -8
+						},
+						"personality": {
+							"charisma": 3,
+							"ambition": -1,
+							"leadership": 1,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"tired"
+					]
+				},
+				{
+					"label": "Sign for one hour",
+					"result": "Plenty of happy fans.",
+					"stats": {
+						"life": {
+							"social": 3
+						},
+						"personality": {
+							"charisma": 2,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				},
+				{
+					"label": "Reschedule it",
+					"result": "Some disappointed fans.",
+					"stats": {
+						"life": {
+							"energy": 4,
+							"social": -3
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "trait_community_service",
+			"title": "Community Service Day",
+			"text": "A neighborhood group is building a new playground on Saturday.",
+			"category": "community",
+			"stages": [
+				"high_school",
+				"juco",
+				"college",
+				"pro"
+			],
+			"requires": {
+				"any_of": [
+					{
+						"traits": [
+							"community_pillar"
+						]
+					},
+					{
+						"min": {
+							"leadership": 55
+						}
+					}
+				]
+			},
+			"cooldown": 8,
+			"choices": [
+				{
+					"label": "Build all day",
+					"result": "Sore hands, full heart.",
+					"stats": {
+						"life": {
+							"social": 4,
+							"fun": 4,
+							"energy": -5
+						},
+						"football": {
+							"toughness": 1
+						},
+						"personality": {
+							"charisma": 1,
+							"ambition": -1,
+							"leadership": 3,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Run a reading table for kids",
+					"result": "Story time with a kicker.",
+					"stats": {
+						"life": {
+							"social": 3
+						},
+						"personality": {
+							"charisma": -1,
+							"ambition": -1,
+							"leadership": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Can't make it this week",
+					"result": "They understand.",
+					"stats": {
+						"life": {
+							"social": -2
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "trait_youth_camp",
+			"title": "Youth Kicking Camp",
+			"text": "A rec league asks you to run a kicking camp for 8- to 12-year-olds.",
+			"category": "community",
+			"stages": [
+				"high_school",
+				"juco",
+				"college",
+				"pro"
+			],
+			"requires": {
+				"any_of": [
+					{
+						"any_traits": [
+							"team_captain",
+							"community_pillar"
+						]
+					},
+					{
+						"min": {
+							"leadership": 60
+						}
+					}
+				]
+			},
+			"cooldown": 10,
+			"choices": [
+				{
+					"label": "Run the whole camp",
+					"result": "Forty kids, forty tiny kickers.",
+					"stats": {
+						"life": {
+							"fun": 5,
+							"energy": -6
+						},
+						"football": {
+							"accuracy": 1
+						},
+						"personality": {
+							"charisma": 2,
+							"ambition": -2,
+							"leadership": 4,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Guest-coach one session",
+					"result": "A great afternoon.",
+					"stats": {
+						"life": {
+							"fun": 3
+						},
+						"personality": {
+							"ambition": -1,
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				},
+				{
+					"label": "Pass this time",
+					"result": "You keep your week simple.",
+					"stats": {
+						"life": {
+							"energy": 3
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "trait_charity_event",
+			"title": "Charity Kick-a-Thon",
+			"text": "A charity wants you to headline a kick-a-thon: donors pledge per field goal made.",
+			"category": "community",
+			"stages": [
+				"college",
+				"pro"
+			],
+			"requires": {
+				"any_traits": [
+					"fan_favorite",
+					"community_pillar"
+				]
+			},
+			"cooldown": 10,
+			"choices": [
+				{
+					"label": "Headline the event",
+					"result": "Every kick raises money. You make 40.",
+					"stats": {
+						"life": {
+							"social": 5,
+							"energy": -6
+						},
+						"football": {
+							"power": 1
+						},
+						"personality": {
+							"charisma": 3,
+							"ambition": -1,
+							"leadership": 2,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"pumped_up"
+					]
+				},
+				{
+					"label": "Donate and attend quietly",
+					"result": "No speeches, just support.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": -1,
+							"ambition": -1,
+							"leadership": 1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				},
+				{
+					"label": "Send a signed ball instead",
+					"result": "It sells for a nice price.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"social": -1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "trait_sponsor_shoot",
+			"title": "Sponsor Photo Shoot",
+			"text": "Peak Hydration, a sports drink company, wants a photo shoot with you.",
+			"category": "money",
+			"stages": [
+				"college",
+				"pro"
+			],
+			"requires": {
+				"traits": [
+					"media_savvy"
+				]
+			},
+			"cooldown": 10,
+			"choices": [
+				{
+					"label": "Full-day shoot",
+					"result": "A hundred outfits, a thousand photos.",
+					"stats": {
+						"life": {
+							"energy": -8,
+							"fun": 2
+						},
+						"personality": {
+							"charisma": 4,
+							"ambition": 2,
+							"leadership": -1,
+							"intelligence": -2
+						}
+					},
+					"modifiers": [
+						"tired"
+					]
+				},
+				{
+					"label": "Half-day shoot",
+					"result": "Efficient and professional.",
+					"stats": {
+						"personality": {
+							"charisma": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Move it to the bye week",
+					"result": "They agree, reluctantly.",
+					"stats": {
+						"life": {
+							"social": -1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "trait_press_conference",
+			"title": "Press Conference",
+			"text": "Coach wants you at the podium to talk about the special teams unit.",
+			"category": "media",
+			"stages": [
+				"high_school",
+				"juco",
+				"college",
+				"pro"
+			],
+			"requires": {
+				"any_traits": [
+					"team_captain",
+					"media_savvy",
+					"field_general"
+				]
+			},
+			"cooldown": 8,
+			"choices": [
+				{
+					"label": "Take every question head-on",
+					"result": "Calm, honest, sharp.",
+					"stats": {
+						"personality": {
+							"charisma": 2,
+							"ambition": -1,
+							"leadership": 3,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				},
+				{
+					"label": "Credit your teammates",
+					"result": "The long snapper and holder love you for it.",
+					"stats": {
+						"life": {
+							"social": 3
+						},
+						"personality": {
+							"ambition": -1,
+							"leadership": 3
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Stick to clichés",
+					"result": "'One kick at a time.' Done.",
+					"stats": {
+						"personality": {
+							"charisma": -1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				}
+			]
+		},
+		{
+			"id": "trait_mentoring",
+			"title": "Mentoring a Younger Kicker",
+			"text": "A freshman kicker keeps asking you for help.",
+			"category": "team",
+			"stages": [
+				"high_school",
+				"juco",
+				"college",
+				"pro"
+			],
+			"requires": {
+				"any_of": [
+					{
+						"traits": [
+							"team_captain"
+						]
+					},
+					{
+						"min": {
+							"leadership": 60
+						}
+					}
+				]
+			},
+			"seasons": [
+				2,
+				20
+			],
+			"cooldown": 8,
+			"choices": [
+				{
+					"label": "Daily sessions together",
+					"result": "Teaching it sharpens your own technique.",
+					"stats": {
+						"life": {
+							"energy": -5
+						},
+						"football": {
+							"accuracy": 1
+						},
+						"personality": {
+							"ambition": -2,
+							"leadership": 5
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					]
+				},
+				{
+					"label": "Share your notes and drills",
+					"result": "He studies them like a textbook.",
+					"stats": {
+						"personality": {
+							"charisma": -1,
+							"ambition": -1,
+							"leadership": 2,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Let the coaches handle it",
+					"result": "More time for your own work.",
+					"stats": {
+						"life": {
+							"energy": 3
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "trait_film_room",
+			"title": "Coaches' Film Room",
+			"text": "The coordinator invites you to break down the opponent's stadium wind with the staff.",
+			"category": "training",
+			"stages": [
+				"high_school",
+				"juco",
+				"college",
+				"pro"
+			],
+			"requires": {
+				"any_traits": [
+					"film_student",
+					"field_general"
+				]
+			},
+			"cooldown": 9,
+			"choices": [
+				{
+					"label": "Stay for the whole session",
+					"result": "You map every swirl in that stadium.",
+					"stats": {
+						"life": {
+							"energy": -3
+						},
+						"football": {
+							"toughness": 1
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 3
+						}
+					},
+					"modifiers": [
+						"scouted"
+					]
+				},
+				{
+					"label": "Bring the holder and snapper",
+					"result": "The whole unit is on the same page.",
+					"stats": {
+						"personality": {
+							"charisma": -1,
+							"ambition": -1,
+							"leadership": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Skim it and go rest",
+					"result": "Enough to get the idea.",
+					"stats": {
+						"life": {
+							"energy": 3
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "trait_private_coach",
+			"title": "Private Kicking Coach",
+			"text": "A well-known kicking coach offers you a private session.",
+			"category": "training",
+			"stages": [
+				"high_school",
+				"juco",
+				"college",
+				"pro"
+			],
+			"requires": {
+				"any_traits": [
+					"driven",
+					"perfectionist"
+				]
+			},
+			"cooldown": 12,
+			"choices": [
+				{
+					"label": "Book the full session",
+					"result": "Three hours, one big breakthrough.",
+					"stats": {
+						"life": {
+							"energy": -6
+						},
+						"football": {
+							"accuracy": 2,
+							"power": 1
+						},
+						"personality": {
+							"ambition": 2,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					]
+				},
+				{
+					"label": "Focus on the mental game",
+					"result": "Routines for pressure kicks.",
+					"stats": {
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Skip it, you know your swing",
+					"result": "Confidence, or stubbornness?",
+					"stats": {
+						"personality": {
+							"charisma": 1,
+							"ambition": 1,
+							"leadership": -1,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				}
+			]
+		}
+	]
+}

@@ -10,15 +10,17 @@ extends Node
 ##
 ## Session stats (since the app was opened) are the attempts/makes/streak vars
 ## below; the HUD reads them. All-time stats live in `stats`.
-## Career Mode plan: player stats (Leg Power, Accuracy, Composure, Fitness,
-## Morale), schedule and season go in the save's reserved "career" section,
-## and career kicks call report_kick() like every other mode.
+## Career Mode: each career is its own slot file (CareerSave); the main save's
+## "career" section only remembers the last slot. Career kicks call
+## report_kick() like every other mode, so they count in My Stats.
 
 signal session_changed
 ## The single kick-result event. Every system and mode listens to this.
 signal kick_resolved(report: KickReport)
 ## A Challenge run (or, later, a Career game) ended.
 signal run_finished(summary: Dictionary)
+## A Career Mode milestone (signed, drafted, retired...). See report_career_event().
+signal career_event(e: Dictionary)
 signal stats_changed
 signal achievement_unlocked(def: Dictionary)
 signal settings_changed
@@ -34,8 +36,11 @@ var stats := KickStats.new()
 var achievements := AchievementTracker.new()
 var settings := GameSettings.new()
 var save_store := SaveStore.new()
-## Reserved for Career Mode save data (null until Career exists).
-var career_data: Variant = null
+## Career Mode bookkeeping kept in the main save: {"last_slot": n} (0 = none).
+## The careers themselves are separate slot files (see CareerSave).
+var career_data: Dictionary = {"last_slot": 0}
+## The career being played (null when none is open). Set by the Career menu.
+var career: CareerManager = null
 
 
 func _ready() -> void:
@@ -64,6 +69,17 @@ func report_kick(report: KickReport) -> void:
 ## Called by a mode when a run ends. summary needs at least "mode" and "makes".
 func report_run(summary: Dictionary) -> void:
 	run_finished.emit(summary)
+
+
+## Called by Career Mode for milestones: {"event": "drafted", "round": 5, ...}
+## (event names: AchievementDefs). Updates the career totals in My Stats,
+## checks career achievements, and saves.
+func report_career_event(e: Dictionary) -> void:
+	stats.record_career_event(e)
+	stats_changed.emit()
+	career_event.emit(e)
+	_announce(achievements.check_career(e, stats))
+	save_game()
 
 
 func _on_kick_resolved(r: KickReport) -> void:
@@ -142,7 +158,8 @@ func load_game() -> void:
 	stats.from_dict(d["stats"])
 	achievements.from_dict(d["achievements"])
 	settings.from_dict(d["settings"])
-	career_data = d.get("career")
+	var c: Variant = d.get("career")
+	career_data = c if c is Dictionary else {"last_slot": 0}
 
 
 func save_game() -> void:

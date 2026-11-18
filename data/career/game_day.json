@@ -1,0 +1,65 @@
+{
+	"_doc": "Game-day text and the sideline warmup. Play-by-play lines pick one template at random; {us}/{them} are team names, {player} a fictional teammate, {yards}/{spot} numbers. The warmup is offered once per half, the first time your offense drives into range. Its result names a game-day modifier (modifiers.json) that lasts until halftime / the end of the game, plus stat changes applied when the game ends (through the stat rules).",
+
+	"warmup": {
+		"offer": "{us} are driving: ball on the {spot}. Coach says: \"Kicker, get loose.\"",
+		"offer_hint": "Warm up on the sideline net? It takes a few kicks.",
+		"go": "Warm Up",
+		"skip": "Stay on the Bench",
+		"results": {
+			"pure": {"text": "Pure contact. The leg feels great.", "modifier": "warmed_up",
+				"stats": {"football": {"accuracy": 0.4}, "personality": {"ambition": 1}}},
+			"loose": {"text": "Not perfect, but you're loose.", "modifier": "loose",
+				"stats": {}},
+			"skipped": {"text": "You stay on the bench. Your leg is cold.", "modifier": "cold_leg",
+				"stats": {"football": {"resilience": -0.5}, "personality": {"ambition": -1}}}
+		}
+	},
+
+	"outlook": {
+		"_doc": "Game Day Outlook 'Your leg today' words: a profile value below cuts[0] gets words[0], and so on; above the last cut gets the last word.",
+		"aim": {"field": "accuracy_spread_deg", "cuts": [0.6, 1.2, 1.8], "words": ["Locked in", "Steady", "Shaky", "All over"]},
+		"pressure": {"field": "pressure_sensitivity", "cuts": [0.85, 1.05, 1.25], "words": ["Ice cold", "Calm", "Nervous", "Tight"]},
+		"wind": {"field": "wind_mult", "cuts": [0.9, 1.05, 1.2], "words": ["Cuts through it", "Normal", "Gets pushed", "Blown around"]},
+		"tip": "Warm up on the sideline net when the offense first drives into range (once per half): it helps your kicks until halftime. Skipping it leaves your leg cold."
+	},
+
+	"calls": {
+		"fg": "Coach: \"Field goal unit! {yards} yards. Let's go!\"",
+		"pat": "Coach: \"Extra point. Make it automatic.\"",
+		"kickoff": "Coach: \"Kickoff team, you're up. Kick it deep.\"",
+		"onside": "Coach: \"ONSIDE! We need the ball back. Soft and to the side.\""
+	},
+
+	"pad": {
+		"kickoff": "Swipe up to kick off. Strong flick = deep. Keep it straight.",
+		"onside": "Swipe up SOFTLY. Aim for {min}-{max} yards.",
+		"net": "Kick into the net. Smooth, straight strikes. Kick {n} of {total}."
+	},
+
+	"plays": {
+		"kickoff_start": ["Opening kickoff. Here we go."],
+		"half": ["Halftime. {us} {us_score}, {them} {them_score}."],
+		"drive_start_us": ["{us} take over at their own {spot}.", "{us} start a drive from the {spot}."],
+		"drive_start_them": ["{them} have the ball at their {spot}.", "{them} start from their own {spot}."],
+		"gain_us": ["{player} picks up {yards} yards.", "Quick pass to {player} for {yards}.", "{player} bounces outside for {yards}."],
+		"gain_them": ["{them} run for {yards}.", "{them} complete a pass for {yards}."],
+		"td_us": ["TOUCHDOWN! {player} takes it in from {yards} yards out!", "TOUCHDOWN {us}! {player} with the catch!"],
+		"td_them": ["Touchdown {them}.", "{them} punch it in for six."],
+		"fg_them_good": ["{them} kick a field goal. Good."],
+		"fg_them_miss": ["{them} miss a field goal."],
+		"pat_them_miss": ["{them} miss the extra point!"],
+		"punt_us": ["{us} stall out and punt.", "Three and out. {us} punt."],
+		"punt_them": ["Defense holds! {them} punt.", "{them} go three and out."],
+		"turnover_us": ["Fumble! {them} recover.", "Intercepted. {us} turn it over."],
+		"turnover_them": ["INTERCEPTION! {player} picks it off!", "{them} fumble and {us} recover!"],
+		"coach_no_trust": ["Coach waves off the kick from {yards}. {us} punt instead."],
+		"fg_us_good": ["Field goal is GOOD from {yards}!"],
+		"fg_us_miss": ["Field goal no good from {yards}."],
+		"pat_us_good": ["Extra point is good."],
+		"pat_us_miss": ["Extra point is no good."],
+		"onside_recovered": ["{us} RECOVER the onside kick!"],
+		"onside_lost": ["{them} recover the onside kick."],
+		"final": ["FINAL: {us} {us_score}, {them} {them_score}."]
+	}
+}

@@ -61,6 +61,10 @@ var _edges: Array[PlayerFigure] = []
 var _holder: PlayerFigure
 var _home_kit := TeamKit.home()
 var _away_kit := TeamKit.away()
+## Optional uniforms (Career Mode team colors). Set before the scene enters the
+## tree (field_goal_game.gd set_look()); null = the default kits.
+var home_kit_override: TeamKit
+var away_kit_override: TeamKit
 var _rng := RandomNumberGenerator.new()
 var _plan: RushPlan
 
@@ -69,6 +73,10 @@ var _plan: RushPlan
 
 
 func _ready() -> void:
+	if home_kit_override != null:
+		_home_kit = home_kit_override
+	if away_kit_override != null:
+		_away_kit = away_kit_override
 	_build_ground()
 	_build_stands()
 	_build_formation()

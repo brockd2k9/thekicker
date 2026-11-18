@@ -8,6 +8,8 @@ extends CanvasLayer
 
 ## Pause menu "quit" label, e.g. "Quit Run".
 var quit_text := "Main Menu"
+## Where the pause menu's quit button goes (Career returns to its own screens).
+var quit_path := Screens.MAIN_MENU
 
 var root: Control
 var _pause_button: Button
@@ -33,17 +35,24 @@ func _ready() -> void:
 	top.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	safe.add_child(top)
 
+	# Thumb-sized (88 px) but visually light: a dark slanted chip with a
+	# pause icon, centered between the HUD's score chips.
 	_pause_button = Button.new()
-	_pause_button.text = "II"
-	_pause_button.custom_minimum_size = Vector2(76, 60)
+	_pause_button.icon = UiIcons.texture("pause", Color.WHITE, 30)
+	_pause_button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_pause_button.custom_minimum_size = Vector2(UiTokens.TAP_MIN, UiTokens.TAP_MIN)
 	_pause_button.focus_mode = Control.FOCUS_NONE
-	_pause_button.add_theme_font_size_override("font_size", 28)
-	var box := UiKit._box(Color(0, 0, 0, 0.4), 12)
-	box.content_margin_top = 6
-	box.content_margin_bottom = 6
+	var box := UiKit._skewed(UiKit._box(Color(0.03, 0.05, 0.1, 0.55), UiTokens.RADIUS_BUTTON))
+	box.set_content_margin_all(8)
+	var down := box.duplicate()
+	down.bg_color = Color(0.03, 0.05, 0.1, 0.85)
 	_pause_button.add_theme_stylebox_override("normal", box)
 	_pause_button.add_theme_stylebox_override("hover", box)
-	_pause_button.pressed.connect(pause)
+	_pause_button.add_theme_stylebox_override("pressed", down)
+	UiKit.add_press_feedback(_pause_button)
+	_pause_button.pressed.connect(func() -> void:
+		UiKit.feedback(&"ui_tap")
+		pause())
 	top.add_child(_pause_button)
 
 
@@ -57,11 +66,11 @@ func pause() -> void:
 	get_tree().paused = true
 	var v := UiKit.modal(root, "PAUSED")
 	var modal := UiKit.modal_root(v)
-	var resume := UiKit.button("Resume", func() -> void:
+	var resume := UiKit.primary("Resume", func() -> void:
 		modal.queue_free()
-		get_tree().paused = false)
+		get_tree().paused = false, "play")
 	v.add_child(resume)
-	v.add_child(UiKit.button(quit_text, Screens.go.bind(Screens.MAIN_MENU)))
+	v.add_child(UiKit.button(quit_text, Screens.go.bind(quit_path), UiKit.SECONDARY, "back"))
 	if not OS.has_feature("mobile"):
 		resume.grab_focus.call_deferred()
 

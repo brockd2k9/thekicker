@@ -1,0 +1,232 @@
+{
+	"_doc": "Bye-week and offseason scenarios for every stage. Field reference: the _doc in scenarios_hs.json.",
+	"scenarios": [
+		{
+			"id": "bye_weekend",
+			"title": "Bye Week",
+			"text": "No game this week. How do you spend it? (Choices here carry into next week's game.)",
+			"category": "health",
+			"stages": [
+				"high_school",
+				"juco",
+				"college",
+				"pro"
+			],
+			"when": [
+				"bye"
+			],
+			"weight": 4,
+			"choices": [
+				{
+					"label": "Rest and recover",
+					"result": "Sleep, stretching and a lot of food.",
+					"stats": {
+						"life": {
+							"health": 8,
+							"energy": 10
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Train hard all week",
+					"result": "Extra lifting and kicking every day.",
+					"stats": {
+						"life": {
+							"energy": -6
+						},
+						"football": {
+							"power": 2,
+							"accuracy": 2
+						},
+						"personality": {
+							"ambition": 3,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					]
+				},
+				{
+					"label": "Hang out with friends",
+					"result": "A weekend that has nothing to do with football.",
+					"stats": {
+						"life": {
+							"fun": 10,
+							"social": 8
+						},
+						"personality": {
+							"charisma": 2,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				}
+			]
+		},
+		{
+			"id": "offseason_focus",
+			"title": "Offseason Training",
+			"text": "The season is over. What do you work on before next year? (Carries into week 1.)",
+			"category": "training",
+			"stages": [
+				"high_school",
+				"juco",
+				"college",
+				"pro"
+			],
+			"when": [
+				"offseason"
+			],
+			"weight": 3,
+			"choices": [
+				{
+					"label": "Leg strength",
+					"result": "Squats, lunges and long kicks all offseason.",
+					"stats": {
+						"football": {
+							"power": 5
+						},
+						"personality": {
+							"ambition": 2,
+							"leadership": -1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"fresh_legs"
+					]
+				},
+				{
+					"label": "Accuracy work",
+					"result": "Thousands of reps at the goalposts.",
+					"stats": {
+						"football": {
+							"accuracy": 5
+						},
+						"personality": {
+							"charisma": -1,
+							"ambition": 1,
+							"leadership": -1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					]
+				},
+				{
+					"label": "Mental training",
+					"result": "Breathing drills, visualization and pressure games.",
+					"stats": {
+						"football": {
+							"resilience": 5
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Gym and conditioning",
+					"result": "Stronger core, stronger body.",
+					"stats": {
+						"life": {
+							"health": 5
+						},
+						"football": {
+							"toughness": 5
+						},
+						"personality": {
+							"ambition": -1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				}
+			]
+		},
+		{
+			"id": "offseason_summer",
+			"title": "Summer Break",
+			"text": "A few free weeks before training camp.",
+			"category": "social",
+			"stages": [
+				"high_school",
+				"juco",
+				"college",
+				"pro"
+			],
+			"when": [
+				"offseason"
+			],
+			"weight": 2,
+			"choices": [
+				{
+					"label": "Road trip with friends",
+					"result": "Sunsets and gas station snacks.",
+					"stats": {
+						"life": {
+							"fun": 10,
+							"social": 8
+						},
+						"personality": {
+							"charisma": 2,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				},
+				{
+					"label": "Volunteer at a youth camp",
+					"result": "The kids think you're a superstar.",
+					"stats": {
+						"life": {
+							"fun": 5,
+							"social": 4
+						},
+						"personality": {
+							"ambition": -1,
+							"leadership": 3
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Summer classes",
+					"result": "Ahead of schedule.",
+					"stats": {
+						"personality": {
+							"charisma": -2,
+							"intelligence": 4,
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"grades": 0.15
+				}
+			]
+		}
+	]
+}

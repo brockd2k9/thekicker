@@ -13,6 +13,8 @@ var haptics: bool = true
 ## Shows the aim ring above the crossbar (where a straight swipe would go).
 ## Visual help only: it never changes the physics of the kick.
 var aim_assist: bool = true
+## Career Mode: the first-time tutorial has been shown (or skipped).
+var career_tutorial_seen: bool = false
 
 
 func apply() -> void:
@@ -47,6 +49,7 @@ func to_dict() -> Dictionary:
 		"music_volume": music_volume,
 		"haptics": haptics,
 		"aim_assist": aim_assist,
+		"career_tutorial_seen": career_tutorial_seen,
 	}
 
 
@@ -55,3 +58,4 @@ func from_dict(d: Dictionary) -> void:
 	music_volume = clampf(float(d.get("music_volume", music_volume)), 0.0, 1.0)
 	haptics = bool(d.get("haptics", haptics))
 	aim_assist = bool(d.get("aim_assist", aim_assist))
+	career_tutorial_seen = bool(d.get("career_tutorial_seen", career_tutorial_seen))

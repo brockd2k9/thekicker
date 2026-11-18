@@ -1,0 +1,1429 @@
+{
+	"_doc": "Scenario fields: id, title, text, category (social/school/training/health/work/media/family/money/team/romance/community/career), stages [high_school/juco/college/pro], when [season/bye/offseason] (default season+bye), weeks [min,max], seasons [min,max] (season within the stage), weight (default 1), once, cooldown (weeks), requires {min:{stat:n}, max:{stat:n}, traits:[all], any_traits:[one of], flags:[], not_flags:[], any_of:[requires,...]}, beat {season_in_stage, week} (guaranteed story beat, shown once), follow_up_only (only reachable as a follow-up), gate (label shown for trait-gated scenarios). Choices (2-4): label, result, stats {life/football/personality:{stat:change}} (projected on screen through the stat rules), modifiers [game-day modifier ids, at least one], requires (same as above; locked choices are shown with the requirement), set_flags {name: value}, follow_up {id, weeks}, recruiting / draft / retention (points) and grades (GPA points, 0-4 scale). Requirements min/max also take recruiting, draft, retention, gpa and age. Bye/offseason modifiers carry into the next game. Content rule: general/teen audience - no drugs or alcohol for the player, no sexual content, no graphic violence; peer pressure can always be declined (declining may cost Social). See data/career/content_rules.json.",
+	"scenarios": [
+		{
+			"id": "hs_party_invite",
+			"title": "Friday Night Party",
+			"text": "A senior on the team is throwing a party the night before the game. Half the roster is going and they want you there.",
+			"category": "social",
+			"stages": [
+				"high_school"
+			],
+			"weight": 3,
+			"cooldown": 4,
+			"choices": [
+				{
+					"label": "Go and stay late",
+					"result": "Great night with the team. Rough morning.",
+					"stats": {
+						"life": {
+							"fun": 10,
+							"social": 8,
+							"energy": -15
+						},
+						"personality": {
+							"charisma": 2,
+							"ambition": -2,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"late_night"
+					],
+					"grades": -0.05
+				},
+				{
+					"label": "Stop by for an hour",
+					"result": "You show your face, laugh a little, and head home at a decent hour.",
+					"stats": {
+						"life": {
+							"fun": 4,
+							"social": 5,
+							"energy": -4
+						},
+						"personality": {
+							"charisma": 2,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				},
+				{
+					"label": "Stay home and sleep",
+					"result": "Lights out by ten. A few teammates give you grief about it.",
+					"stats": {
+						"life": {
+							"fun": -4,
+							"social": -5,
+							"energy": 8
+						},
+						"personality": {
+							"ambition": 3,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "hs_exam_vs_film",
+			"title": "Exam or Film?",
+			"text": "Big chemistry exam Thursday. Coach also scheduled a special-teams film session the same night.",
+			"category": "school",
+			"stages": [
+				"high_school"
+			],
+			"weight": 2,
+			"cooldown": 5,
+			"choices": [
+				{
+					"label": "Study for the exam",
+					"result": "You ace it. Coach notices you weren't at film.",
+					"stats": {
+						"life": {
+							"fun": -3
+						},
+						"personality": {
+							"charisma": -2,
+							"leadership": -1,
+							"intelligence": 5,
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"grades": 0.15
+				},
+				{
+					"label": "Go to film",
+					"result": "You learn how this week's stadium swirls the wind.",
+					"stats": {
+						"football": {
+							"toughness": 1
+						},
+						"personality": {
+							"charisma": -1,
+							"ambition": 2,
+							"leadership": -1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"scouted"
+					],
+					"grades": -0.05
+				},
+				{
+					"label": "Try to do both",
+					"result": "Film, then studying past midnight.",
+					"stats": {
+						"life": {
+							"energy": -10
+						},
+						"personality": {
+							"charisma": -1,
+							"ambition": 3,
+							"leadership": -1,
+							"intelligence": 3
+						}
+					},
+					"modifiers": [
+						"scouted",
+						"tired"
+					],
+					"grades": 0.05
+				},
+				{
+					"label": "Breeze through both",
+					"result": "You know the film already and the chemistry clicks.",
+					"stats": {
+						"life": {
+							"fun": 2
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"scouted",
+						"focused"
+					],
+					"requires": {
+						"any_traits": [
+							"film_student",
+							"perfectionist"
+						]
+					},
+					"grades": 0.1
+				}
+			]
+		},
+		{
+			"id": "hs_friend_ride",
+			"title": "A Ride Home",
+			"text": "Your best friend's car died across town at 11 p.m. They're asking you to come get them.",
+			"category": "social",
+			"stages": [
+				"high_school"
+			],
+			"weight": 2,
+			"cooldown": 6,
+			"choices": [
+				{
+					"label": "Go get them",
+					"result": "They won't forget it. You get to bed late.",
+					"stats": {
+						"life": {
+							"social": 6,
+							"energy": -6
+						},
+						"personality": {
+							"charisma": 1,
+							"ambition": -1,
+							"leadership": 4,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"tired"
+					]
+				},
+				{
+					"label": "Help them find another ride",
+					"result": "A few calls later they're sorted, and so are you.",
+					"stats": {
+						"life": {
+							"social": 2,
+							"energy": -2
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Say you can't",
+					"result": "Things are a little cold at lunch the next day.",
+					"stats": {
+						"life": {
+							"social": -6,
+							"energy": 3
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "hs_extra_practice",
+			"title": "Coach Wants Extra Reps",
+			"text": "The special teams coach asks if you'll stay after practice for 50 extra kicks.",
+			"category": "training",
+			"stages": [
+				"high_school"
+			],
+			"weight": 3,
+			"cooldown": 3,
+			"choices": [
+				{
+					"label": "Stay for all 50",
+					"result": "Your plant foot is finally landing in the same spot.",
+					"stats": {
+						"life": {
+							"energy": -8,
+							"fun": -2
+						},
+						"football": {
+							"accuracy": 3
+						},
+						"personality": {
+							"ambition": 4,
+							"leadership": -2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					]
+				},
+				{
+					"label": "Do 20 and save the leg",
+					"result": "Quality over quantity.",
+					"stats": {
+						"life": {
+							"energy": -3
+						},
+						"football": {
+							"accuracy": 1
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"fresh_legs"
+					]
+				},
+				{
+					"label": "Head home",
+					"result": "Coach shrugs. You get a free evening.",
+					"stats": {
+						"life": {
+							"fun": 4
+						},
+						"personality": {
+							"ambition": -2,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "hs_teammate_conflict",
+			"title": "Locker Room Beef",
+			"text": "A linebacker keeps calling you 'the soccer kid' in front of everyone.",
+			"category": "team",
+			"stages": [
+				"high_school"
+			],
+			"weight": 2,
+			"cooldown": 8,
+			"choices": [
+				{
+					"label": "Talk to him one-on-one",
+					"result": "Turns out he's nervous about his own spot. You squash it.",
+					"stats": {
+						"life": {
+							"social": 4
+						},
+						"personality": {
+							"charisma": 1,
+							"ambition": -2,
+							"leadership": 6,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"follow_up": {
+						"id": "hs_conflict_followup",
+						"weeks": 2
+					}
+				},
+				{
+					"label": "Ignore it",
+					"result": "It keeps nagging at you all week.",
+					"stats": {
+						"life": {
+							"fun": -3
+						},
+						"personality": {
+							"ambition": 1,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"stressed"
+					]
+				},
+				{
+					"label": "Fire back in front of the team",
+					"result": "Everyone laughs. He doesn't.",
+					"stats": {
+						"life": {
+							"social": -2,
+							"fun": 2
+						},
+						"personality": {
+							"charisma": 3,
+							"leadership": -2,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"distracted"
+					]
+				},
+				{
+					"label": "Rally the whole unit",
+					"result": "As captain, you turn it into a team bonding drill. Problem solved.",
+					"stats": {
+						"life": {
+							"social": 6,
+							"fun": 3
+						},
+						"personality": {
+							"ambition": -2,
+							"leadership": 4
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"requires": {
+						"traits": [
+							"team_captain"
+						]
+					}
+				}
+			]
+		},
+		{
+			"id": "hs_conflict_followup",
+			"title": "He's Got Your Back",
+			"text": "The linebacker you talked to stands up for you when a rival player mouths off at practice.",
+			"category": "team",
+			"stages": [
+				"high_school"
+			],
+			"follow_up_only": true,
+			"choices": [
+				{
+					"label": "Thank him in front of the team",
+					"result": "The locker room notices. So does the coach.",
+					"stats": {
+						"life": {
+							"social": 4
+						},
+						"personality": {
+							"charisma": 2,
+							"ambition": -1,
+							"leadership": 3,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Buy him a smoothie after practice",
+					"result": "A real friendship starts here.",
+					"stats": {
+						"life": {
+							"fun": 4,
+							"social": 3
+						},
+						"personality": {
+							"charisma": 2,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				}
+			]
+		},
+		{
+			"id": "hs_tweaked_hamstring",
+			"title": "Tight Hamstring",
+			"text": "Your plant-side hamstring grabbed on a deep kick in practice.",
+			"category": "health",
+			"stages": [
+				"high_school"
+			],
+			"requires": {
+				"max": {
+					"health": 85
+				}
+			},
+			"cooldown": 6,
+			"choices": [
+				{
+					"label": "Ice, stretch and rest it",
+					"result": "It loosens up by Friday.",
+					"stats": {
+						"life": {
+							"health": 8,
+							"fun": -2
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"fresh_legs"
+					]
+				},
+				{
+					"label": "Kick through it",
+					"result": "You don't miss a rep, but you feel it.",
+					"stats": {
+						"life": {
+							"health": -6
+						},
+						"football": {
+							"toughness": 2
+						},
+						"personality": {
+							"ambition": 2,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"sore"
+					]
+				},
+				{
+					"label": "See the athletic trainer",
+					"result": "Taped up and cleared, with a stretching plan.",
+					"stats": {
+						"life": {
+							"health": 5
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "hs_part_time_job",
+			"title": "Extra Shift",
+			"text": "The pizza place where you work is short-staffed Thursday night and asks you to close.",
+			"category": "work",
+			"stages": [
+				"high_school"
+			],
+			"weight": 2,
+			"cooldown": 5,
+			"choices": [
+				{
+					"label": "Take the shift",
+					"result": "Good tips, late night, sore feet.",
+					"stats": {
+						"life": {
+							"energy": -8,
+							"social": 2
+						},
+						"personality": {
+							"ambition": 2,
+							"leadership": 3
+						}
+					},
+					"modifiers": [
+						"tired"
+					],
+					"grades": -0.05
+				},
+				{
+					"label": "Work a short shift",
+					"result": "You help with the rush and leave at eight.",
+					"stats": {
+						"life": {
+							"energy": -3
+						},
+						"personality": {
+							"charisma": -1,
+							"ambition": -1,
+							"leadership": 1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Turn it down",
+					"result": "Your manager isn't thrilled, but you're rested.",
+					"stats": {
+						"life": {
+							"energy": 4,
+							"fun": 1
+						},
+						"personality": {
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "hs_date_night",
+			"title": "Date Night",
+			"text": "Someone you like asked if you want to get dinner and see a movie Thursday.",
+			"category": "romance",
+			"stages": [
+				"high_school"
+			],
+			"requires": {
+				"min": {
+					"social": 35
+				}
+			},
+			"cooldown": 6,
+			"choices": [
+				{
+					"label": "Dinner and a movie",
+					"result": "A great night. You float into practice Friday.",
+					"stats": {
+						"life": {
+							"fun": 8,
+							"social": 5,
+							"energy": -4
+						},
+						"personality": {
+							"charisma": 3,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				},
+				{
+					"label": "Invite them to the game instead",
+					"result": "They'll be in the stands. No pressure.",
+					"stats": {
+						"life": {
+							"fun": 4,
+							"social": 3
+						},
+						"personality": {
+							"charisma": 1,
+							"ambition": 1,
+							"leadership": -1,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"spotlight"
+					]
+				},
+				{
+					"label": "Reschedule for after the season",
+					"result": "They say okay. It's a little awkward.",
+					"stats": {
+						"life": {
+							"social": -3,
+							"fun": -2
+						},
+						"personality": {
+							"ambition": 2,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				}
+			]
+		},
+		{
+			"id": "hs_viral_post",
+			"title": "Gone Viral",
+			"text": "Your behind-the-back trick-shot field goal video is all over social media. Your phone won't stop buzzing.",
+			"category": "media",
+			"stages": [
+				"high_school"
+			],
+			"weeks": [
+				3,
+				11
+			],
+			"once": true,
+			"choices": [
+				{
+					"label": "Post more trick shots",
+					"result": "Followers pour in. So does attention.",
+					"stats": {
+						"life": {
+							"social": 6,
+							"fun": 4
+						},
+						"personality": {
+							"charisma": 4,
+							"ambition": 1,
+							"leadership": -1,
+							"intelligence": -2
+						}
+					},
+					"modifiers": [
+						"spotlight"
+					],
+					"follow_up": {
+						"id": "hs_viral_followup",
+						"weeks": 2
+					},
+					"recruiting": 3
+				},
+				{
+					"label": "Say thanks, then go quiet",
+					"result": "A classy post and back to work.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": -1,
+							"ambition": -1,
+							"leadership": 1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"recruiting": 1
+				},
+				{
+					"label": "Turn notifications off",
+					"result": "Peace and quiet.",
+					"stats": {
+						"life": {
+							"fun": -1,
+							"energy": 3
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "hs_viral_followup",
+			"title": "The Comments Section",
+			"text": "With the views came the comments. Some of them are rough.",
+			"category": "media",
+			"stages": [
+				"high_school"
+			],
+			"follow_up_only": true,
+			"choices": [
+				{
+					"label": "Ignore them and keep kicking",
+					"result": "Their opinion doesn't make the kick.",
+					"stats": {
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"ambition": 2,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Clap back",
+					"result": "It feels good for about five minutes.",
+					"stats": {
+						"life": {
+							"fun": 2,
+							"social": -3
+						},
+						"personality": {
+							"charisma": 2,
+							"leadership": -2,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"distracted"
+					]
+				},
+				{
+					"label": "Talk it through with your coach",
+					"result": "Coach has seen it all before.",
+					"stats": {
+						"life": {
+							"fun": 2
+						},
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"charisma": -1,
+							"ambition": -1,
+							"leadership": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				}
+			]
+		},
+		{
+			"id": "hs_kicker_battle",
+			"title": "Kicker Battle",
+			"text": "A transfer kicker shows up with a big leg, and coach says the job is open this week.",
+			"category": "training",
+			"stages": [
+				"high_school"
+			],
+			"seasons": [
+				1,
+				3
+			],
+			"once": true,
+			"choices": [
+				{
+					"label": "Win it in practice",
+					"result": "You outkick him from 45. The job is yours.",
+					"stats": {
+						"life": {
+							"energy": -6
+						},
+						"football": {
+							"power": 2,
+							"accuracy": 1
+						},
+						"personality": {
+							"ambition": 4,
+							"leadership": -2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"pumped_up"
+					],
+					"recruiting": 2
+				},
+				{
+					"label": "Help him learn the system",
+					"result": "Coach likes what he sees from you.",
+					"stats": {
+						"life": {
+							"social": 3
+						},
+						"personality": {
+							"charisma": 1,
+							"ambition": -2,
+							"leadership": 5,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				},
+				{
+					"label": "Stress about it all week",
+					"result": "You keep checking the depth chart.",
+					"stats": {
+						"life": {
+							"fun": -4,
+							"energy": -3
+						},
+						"personality": {
+							"ambition": 1,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"stressed"
+					]
+				}
+			]
+		},
+		{
+			"id": "hs_family_dinner",
+			"title": "Grandparents in Town",
+			"text": "Your grandparents are visiting for the game and want a big family dinner the night before.",
+			"category": "family",
+			"stages": [
+				"high_school"
+			],
+			"cooldown": 10,
+			"choices": [
+				{
+					"label": "Big family dinner",
+					"result": "Stories, laughs and way too much pasta.",
+					"stats": {
+						"life": {
+							"social": 4,
+							"fun": 4,
+							"energy": -3
+						},
+						"personality": {
+							"charisma": 1,
+							"ambition": -1,
+							"leadership": 1,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Quick dinner, early bed",
+					"result": "You get the best of both.",
+					"stats": {
+						"life": {
+							"social": 2,
+							"energy": 2
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Show Grandpa your game film",
+					"result": "He points out your plant foot. He's right.",
+					"stats": {
+						"life": {
+							"fun": 3
+						},
+						"football": {
+							"accuracy": 1
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"scouted"
+					]
+				}
+			]
+		},
+		{
+			"id": "hs_scholarship_camp",
+			"title": "Scholarship Camp",
+			"text": "College coaches run a summer kicking camp. It's your best chance to get noticed before senior year.",
+			"category": "career",
+			"stages": [
+				"high_school"
+			],
+			"when": [
+				"offseason"
+			],
+			"beat": {
+				"season_in_stage": 3
+			},
+			"gate": "Story beat",
+			"choices": [
+				{
+					"label": "The big showcase camp",
+					"result": "You hit from 50 in front of a dozen coaches.",
+					"stats": {
+						"life": {
+							"energy": -6
+						},
+						"football": {
+							"power": 2,
+							"accuracy": 2
+						},
+						"personality": {
+							"charisma": 1,
+							"ambition": 4,
+							"leadership": -2,
+							"intelligence": 0
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"set_flags": {
+						"camp_showcase": true
+					},
+					"recruiting": 8
+				},
+				{
+					"label": "A smaller regional camp",
+					"result": "More reps, less spotlight.",
+					"stats": {
+						"football": {
+							"accuracy": 3
+						},
+						"personality": {
+							"charisma": -1,
+							"ambition": 2,
+							"leadership": -1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"set_flags": {
+						"camp_regional": true
+					},
+					"recruiting": 4
+				},
+				{
+					"label": "Skip it and work a summer job",
+					"result": "Money in the bank. No one saw you kick.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"ambition": -1,
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "hs_recruiting_visit",
+			"title": "A Coach in the Stands",
+			"text": "A college special teams coach is at practice this week to watch you kick.",
+			"category": "career",
+			"stages": [
+				"high_school"
+			],
+			"beat": {
+				"season_in_stage": 4,
+				"week": 5
+			},
+			"gate": "Story beat",
+			"choices": [
+				{
+					"label": "Show off the big leg in warmups",
+					"result": "He writes something down after your 55-yarder.",
+					"stats": {
+						"life": {
+							"energy": -4
+						},
+						"football": {
+							"power": 1
+						},
+						"personality": {
+							"charisma": 1,
+							"ambition": 3,
+							"leadership": -1,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"pumped_up"
+					],
+					"set_flags": {
+						"recruit_impressed_power": true
+					},
+					"recruiting": 4
+				},
+				{
+					"label": "Stick to your routine",
+					"result": "Calm and consistent. That's what he came to see.",
+					"stats": {
+						"football": {
+							"accuracy": 1
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 3,
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"set_flags": {
+						"recruit_impressed_poise": true
+					},
+					"recruiting": 5
+				},
+				{
+					"label": "Introduce yourself after practice",
+					"result": "A firm handshake and a good conversation.",
+					"stats": {
+						"life": {
+							"social": 3
+						},
+						"personality": {
+							"charisma": 3,
+							"ambition": -1,
+							"leadership": 1,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"spotlight"
+					],
+					"set_flags": {
+						"recruit_impressed_person": true
+					},
+					"recruiting": 4
+				}
+			]
+		},
+		{
+			"id": "hs_showcase",
+			"title": "Regional Showcase",
+			"text": "A regional kicking showcase is ranking the best high school kickers in the state.",
+			"category": "career",
+			"stages": [
+				"high_school"
+			],
+			"when": [
+				"offseason"
+			],
+			"seasons": [
+				1,
+				3
+			],
+			"weight": 2,
+			"choices": [
+				{
+					"label": "Compete for a top ranking",
+					"result": "You place in the top ten. Coaches take notes.",
+					"stats": {
+						"life": {
+							"energy": -6
+						},
+						"football": {
+							"power": 1,
+							"accuracy": 1
+						},
+						"personality": {
+							"ambition": 3,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"pumped_up"
+					],
+					"recruiting": 6
+				},
+				{
+					"label": "Go mainly to film your kicks",
+					"result": "Great footage for your highlight tape.",
+					"stats": {
+						"personality": {
+							"charisma": -1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"recruiting": 3
+				},
+				{
+					"label": "Skip it and enjoy the break",
+					"result": "A relaxed few weeks.",
+					"stats": {
+						"life": {
+							"fun": 5,
+							"energy": 4
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "hs_highlight_film",
+			"title": "Highlight Tape",
+			"text": "College coaches keep asking for your highlight tape. You don't have one yet.",
+			"category": "career",
+			"stages": [
+				"high_school"
+			],
+			"seasons": [
+				2,
+				4
+			],
+			"weeks": [
+				3,
+				10
+			],
+			"cooldown": 20,
+			"choices": [
+				{
+					"label": "Pay a video editor",
+					"result": "A slick tape with slow motion and music.",
+					"stats": {
+						"life": {
+							"fun": -2
+						},
+						"personality": {
+							"charisma": 2,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"spotlight"
+					],
+					"recruiting": 5
+				},
+				{
+					"label": "Cut it together yourself",
+					"result": "Late nights, but it's good, and it's yours.",
+					"stats": {
+						"life": {
+							"energy": -4
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"recruiting": 3
+				},
+				{
+					"label": "Let your stats speak",
+					"result": "You stay out of it.",
+					"stats": {
+						"life": {
+							"fun": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "hs_recruiter_call",
+			"title": "A Recruiter Calls",
+			"text": "A college special teams coach calls your house after practice.",
+			"category": "career",
+			"stages": [
+				"high_school"
+			],
+			"seasons": [
+				2,
+				4
+			],
+			"requires": {
+				"min": {
+					"recruiting": 25
+				}
+			},
+			"cooldown": 6,
+			"weight": 2,
+			"choices": [
+				{
+					"label": "Sell yourself",
+					"result": "He likes your confidence.",
+					"stats": {
+						"personality": {
+							"charisma": 3,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"recruiting": 4
+				},
+				{
+					"label": "Ask about academics and fit",
+					"result": "A real conversation about your future.",
+					"stats": {
+						"personality": {
+							"charisma": -1,
+							"intelligence": 3
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"recruiting": 2
+				},
+				{
+					"label": "Let your coach handle it",
+					"result": "Your coach talks you up.",
+					"stats": {
+						"life": {
+							"energy": 2
+						},
+						"personality": {
+							"ambition": -1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"recruiting": 1
+				}
+			]
+		},
+		{
+			"id": "hs_campus_visit",
+			"title": "Official Visit",
+			"text": "A college invites you for an official weekend visit: tour, team dinner, a game in their stadium.",
+			"category": "career",
+			"stages": [
+				"high_school"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"weeks": [
+				2,
+				9
+			],
+			"requires": {
+				"min": {
+					"recruiting": 40
+				}
+			},
+			"once": true,
+			"choices": [
+				{
+					"label": "Go on the visit",
+					"result": "The stadium gives you chills.",
+					"stats": {
+						"life": {
+							"energy": -6,
+							"fun": 6
+						},
+						"personality": {
+							"charisma": 1,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"recruiting": 5
+				},
+				{
+					"label": "Take the video tour instead",
+					"result": "Convenient, if a little flat.",
+					"stats": {
+						"personality": {
+							"charisma": -1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"recruiting": 2
+				},
+				{
+					"label": "Stay focused on your season",
+					"result": "The coach respects it. Mostly.",
+					"stats": {
+						"personality": {
+							"ambition": 2,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"recruiting": -1
+				}
+			]
+		},
+		{
+			"id": "hs_grades_warning",
+			"title": "Academic Warning",
+			"text": "Your guidance counselor says your grades could cost you college offers.",
+			"category": "school",
+			"stages": [
+				"high_school"
+			],
+			"requires": {
+				"max": {
+					"gpa": 2.6
+				}
+			},
+			"cooldown": 8,
+			"weight": 3,
+			"choices": [
+				{
+					"label": "Get a tutor",
+					"result": "Two sessions a week. It's working.",
+					"stats": {
+						"life": {
+							"fun": -3
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"grades": 0.3
+				},
+				{
+					"label": "Study group with teammates",
+					"result": "Misery loves company, and flashcards.",
+					"stats": {
+						"life": {
+							"social": 3
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"grades": 0.2
+				},
+				{
+					"label": "You'll figure it out",
+					"result": "You don't.",
+					"stats": {
+						"life": {
+							"fun": 2
+						}
+					},
+					"modifiers": [
+						"distracted"
+					],
+					"grades": -0.1
+				}
+			]
+		}
+	]
+}

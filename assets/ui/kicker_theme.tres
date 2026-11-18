@@ -1,0 +1,22 @@
+[gd_resource type="Theme" load_steps=6 format=3]
+
+[ext_resource type="FontFile" path="res://assets/fonts/Barlow-SemiBold.ttf" id="1_body"]
+[ext_resource type="FontFile" path="res://assets/fonts/Oswald-Variable.ttf" id="2_oswald"]
+[ext_resource type="FontFile" path="res://assets/fonts/Anton-Regular.ttf" id="3_anton"]
+[ext_resource type="FontFile" path="res://assets/fonts/BarlowCondensed-SemiBold.ttf" id="4_cond"]
+
+[sub_resource type="FontVariation" id="display"]
+base_font = ExtResource("2_oswald")
+variation_opentype = {2003265652: 700}
+
+[resource]
+default_font = ExtResource("1_body")
+default_font_size = 32
+Button/fonts/font = SubResource("display")
+CheckButton/fonts/font = ExtResource("1_body")
+Display/base_type = &"Label"
+Display/fonts/font = SubResource("display")
+Banner/base_type = &"Label"
+Banner/fonts/font = ExtResource("3_anton")
+Condensed/base_type = &"Label"
+Condensed/fonts/font = ExtResource("4_cond")

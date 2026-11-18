@@ -5,7 +5,7 @@ All teams, players and situations are fictional.
 
 **Built so far:** the flick-to-kick field goal (Phase 1), plus a main menu,
 Challenge Mode, Practice, My Stats, Achievements and Settings, all saved between
-sessions. Career Mode is a "Coming soon" screen (see "Career Mode: where it plugs in").
+sessions. Career Mode is being built in stages (high school seasons are playable).
 
 ## Run it
 
@@ -37,10 +37,10 @@ aspect ratio works.
 
 | Menu item | What it does |
 |---|---|
-| Career Mode | "Coming soon" placeholder |
+| Career Mode | Freshman year to retirement: 3 save slots, a skippable first-time tutorial, week-by-week seasons (off-field scenarios, Game Day Outlook, games from the bench), recruiting and signing day, college, the draft and tryouts, pro contracts, and a career summary. See "Career Mode" below |
 | Challenge Mode | A run of kicks that get longer (25 yd → 60), windier (calm → 20 mph + gusts) and more pressured (none → clutch). **3 misses and the run ends** (blocks count). Results screen: Play Again / Main Menu |
 | Practice | The original Phase 1 loop: random kicks forever (not in the original menu spec, added so the existing mode is still reachable) |
-| My Stats | Session accuracy, all-time accuracy, longest make/miss streaks, longest field goal, misses by type, best Challenge run |
+| My Stats | Session accuracy, all-time accuracy, longest make/miss streaks, longest field goal, misses by type, best Challenge run, and a CAREER section (careers started / completed, best career, longest career, career kicks) |
 | Achievements | Locked/unlocked list with unlock dates. A toast slides in when one unlocks |
 | Settings | Sound volume, music volume, haptics, aim assist, Reset Stats (with confirmation) |
 
@@ -83,9 +83,13 @@ One JSON file in the user data folder: **`user://kicker_save.json`**
 | Linux | `~/.local/share/godot/app_userdata/Kicker/` |
 
 ```json
-{ "version": 1, "stats": {...}, "achievements": {"unlocked": {"first_make": 1794983149}},
-  "settings": {...}, "career": null }
+{ "version": 2, "stats": {...}, "achievements": {"unlocked": {"first_make": 1794983149}},
+  "settings": {...}, "career": {"last_slot": 1} }
 ```
+Career Mode saves each career in its own file, **`user://career_slot_1.json`** .. `_3.json`
+(same folder, same temp-file safety, own `"career_version"`; see `scripts/career/career_save.gd`).
+The main save only remembers the last career slot, so a broken career file can't touch
+your all-time stats. Version 1 saves are upgraded automatically.
 Saved after every kick, run and settings change, and when the app is paused/closed.
 Writes go to a temp file first and are then swapped in. A corrupt file is copied to
 `kicker_save.json.bad` and the game starts fresh. To change the layout, bump
@@ -101,6 +105,11 @@ an all-time stat (`{"stat": "makes", "at_least": 100}`), a single kick
 Seeded: First Make, 5-in-a-Row, Automatic (10 in a row), 50+ Yard Make, Moonshot (60 yd),
 Clutch Kick, Windy Day (15+ mph at the moment of the kick), Century (100 makes), Gauntlet
 (10 makes in one Challenge run).
+Career achievements (condition `"on": "career"`, sent by Career Mode through
+`GameState.report_career_event()` with `event` + `match` / `min_value` filters):
+Scholarship Offer, Big Time (top program), Draft Day, Welcome to the League (first pro season),
+Walk-Off (game-winning kick), Complete Package (all 8 traits), Against the Odds (pro after the
+walk-on or junior college route), Full Career (retire after a pro season), Ironman (age 38).
 
 ## Tuning (one file)
 
@@ -169,6 +178,47 @@ Tunables: `gust_chance`, `max_gust_mph`, `gust_speed`.
 Vibration: `Haptics.pulse()` on contact (stronger with more power) and on a block.
 Tunables: `kick_vibration_ms`, `block_vibration_ms` (0 = off).
 
+## UI look ("Night Broadcast")
+
+Menus and overlays share one look: a night-game stadium (deep backgrounds, floodlight glow,
+gold accent) with broadcast graphics (slanted buttons, lower-third headers, tickers, color
+bars on cards). No image files: backgrounds (`ui/backdrop.gd`) and icons (`ui/ui_icons.gd`,
+original SVG markup rasterized at runtime) are drawn from code.
+
+- **Tokens, one place:** `scripts/ui/ui_tokens.gd` holds the palettes (colors), spacing,
+  radii, slant, tap size, font sizes and animation times. Change a value there and every
+  screen follows.
+- **Theme:** `assets/ui/kicker_theme.tres` (the project's default theme) holds the fonts:
+  Barlow (body), Oswald Bold (`Display`), Anton (`Banner`), Barlow Condensed (`Condensed`).
+  `UiKit.theme()` adds the palette's buttons, panels, sliders and switches on top.
+- **Widgets:** `UiKit` (buttons: `primary` / secondary / `danger`, with press feedback;
+  `card`, `chip`, `section`, `title_block`, `stat_row`, `stat_tile`, `ticker`, `modal`) and
+  `CareerUi` (stat group cards, `StatBar` with animated changes and +/- previews, change
+  chips, choice cards with a locked state, scoreboard, result banner).
+- **Career stages:** `UiKit.set_stage()` switches the palette: Friday Night (high school,
+  navy + gold), Saturday (junior college / college, crimson + orange), Sunday Broadcast
+  (pro, charcoal + red). The player's team colors are used in the Hub header and backdrop.
+- **Motion:** screens fade/slide between each other (`ScreenFade` autoload), cards stagger
+  in, stat bars glide to new values, trait unlocks and result banners punch in.
+- **Sound and haptics hooks:** `UiKit.feedback(&"event")` plays the Sfx event (silent until
+  a file exists) and pulses the phone. Events are listed under "Sound".
+- **Performance:** backgrounds are drawn once (no per-frame shaders on menus); the only
+  continuous animation is the main menu ticker when its text doesn't fit.
+- Font licenses: `CREDITS.md` (all SIL Open Font License).
+
+**Layout checker:** `tools/ui_check.tscn` opens every screen in a real state (it plays a
+career forward with the real rules) and checks tap targets (>= 88 px), cut-off text and
+anything off screen. Run it at the four window shapes (needs a window, not `--headless`;
+your saves are backed up and restored):
+
+```
+godot --path . --resolution 720x1280  res://tools/ui_check.tscn -- tag=phone out=/tmp/shots
+godot --path . --resolution 1080x2400 res://tools/ui_check.tscn -- tag=tall
+godot --path . --resolution 1536x2048 res://tools/ui_check.tscn -- tag=tablet
+godot --path . --resolution 1920x1080 res://tools/ui_check.tscn -- tag=desktop
+```
+`out=` saves a screenshot of every screen; `only=hub,results` limits the run.
+
 ## Project layout
 
 ```
@@ -217,7 +267,12 @@ scripts/
   camera/kick_camera.gd       behind-the-ball camera, follow + shake
   game/field_goal_game.gd     attempt state machine (SETUP → SNAP → KICK_WINDOW → FLIGHT → RESULT)
   ui/hud.gd, wind_indicator.gd, swipe_trail.gd
-  ui/ui_kit.gd                shared theme, widgets, safe-area frame, modal/confirm dialog
+  ui/ui_tokens.gd             UiTokens: palettes, spacing, radii, fonts, timings (the one place)
+  ui/ui_kit.gd                theme, widgets, safe-area frame, modal/confirm, feedback hook
+  ui/ui_icons.gd              vector icons (SVG in code) for stats, traits, menus
+  ui/backdrop.gd              code-drawn screen backgrounds per palette mood
+  ui/stat_bar.gd              StatBar: icon + animated bar + +/- preview
+  ui/screen_fade.gd           ScreenFade autoload: fade between screens
   ui/screens.gd               scene paths + navigation
   ui/menu_screen.gd           base for menu screens (Back / Esc / Android back)
   ui/play_overlay.gd          pause button + pause menu over the kick scene
@@ -243,56 +298,186 @@ listens in `_unhandled_input` and every HUD control is `mouse_filter = Ignore`.
 Future menu buttons will therefore take their own clicks without firing kicks. Swipe
 distances and speeds are measured in *screen heights*, so feel is resolution-independent.
 
-### Career Mode: where it plugs in
-- **Kicks:** a `CareerGameMode extends KickMode` sets the situation from the game sim and
-  ends the game via `wants_next_kick()`. Kicks then reach stats and achievements through
-  `GameState.kick_resolved` with `mode = &"career"`, with no other changes.
-- **Save:** the save file already has a reserved `"career"` section (`GameState.career_data`).
-- **Player stats → kick:** build a `KickModifiers` from stats
-  (Leg Power → `power_mult`, Accuracy → `accuracy_spread_deg`,
-  Composure → `pressure_sensitivity`, Fitness/Morale → `window_mult`) and assign it to
-  `field_goal_game.gd`'s `modifiers`. Nothing else in the kick code changes.
-- **Season games:** create `KickSituation`s from the game sim instead of `KickSituation.roll()`.
-- **Week/schedule/money/relationships:** plain data in the `career` save section.
-- **Screens:** the field-goal scene is instanced by a wrapper scene
-  (see `challenge_screen.gd`), so a game-day scene can do the same.
+### Career Mode
+Playable from freshman year to retirement: high school -> recruiting (offers by tier,
+GPA-gated) -> college (or walk-on tryout / junior college) -> draft (or training camp /
+open free-agent tryouts) -> pro contracts (re-sign, release, Retire, age cap 38) ->
+career summary. A long run of poor seasons and failed tryouts ends a career early.
+A short tutorial runs the first time Career Mode opens (text: `data/career/tutorial.json`;
+"seen" flag: `career_tutorial_seen` in Settings; replay: "How Career Mode Works").
+Career milestones feed My Stats (CAREER section) and the career achievements.
+Old career saves load and are upgraded (format versions and steps in
+`scripts/career/career_save.gd`); content that was renamed or removed since a save was made is
+dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career Mode".
+
+| What | Where |
+|---|---|
+| Balance numbers (stat -> kick curves, caps, gains, seasons, game sim, scenario picks) | `tuning/career_tuning.tres` (defaults + docs in `scripts/career/career_tuning.gd`) |
+| Scenarios (49: HS, college, pro, bye/offseason, trait-gated) | `data/career/scenarios_*.json` (field reference: `_doc` in `scenarios_hs.json`) |
+| Traits (8), game-day modifiers (19), stat descriptions | `data/career/traits.json`, `modifiers.json`, `stats_info.json` |
+| Schools (16 HS, 18 colleges in 3 tiers, 6 junior colleges), 12 pro clubs, names, play-by-play | `data/career/world.json`, `game_day.json` |
+| Progression tables: college tiers, offers, draft rounds, tryouts, contracts | `data/career/progression.json` (weights in `career_tuning.tres`) |
+| Recruiting / draft / retention / academics rules | `scripts/career/progression.gd` |
+| Content word check (teen audience) | `data/career/content_rules.json` |
+| Weekly loop / saves | `scripts/career/career_manager.gd`, `career_save.gd` (3 slots: `user://career_slot_N.json`) |
+| Stats + traits -> kick | `scripts/career/kick_profile.gd` (`KickProfile.build()` -> `KickModifiers`) |
+| Scenario engine | `scripts/career/scenario_engine.gd` |
+
+Goalposts and uniforms: `field_goal_game.gd` `set_look()` (called before the scene enters the
+tree) picks the posts style per stage (high school plain H-frame and wide, college gooseneck
+with school-colored padding/bands, pro polished and narrower; widths in `career_tuning.tres`
+"Goalposts") and dresses both lines in the teams' colors. Without it the scene looks as before.
+
+How the pieces connect: a career game runs the existing kick scene through `CareerGameMode`
+(a `KickMode`) with `KickProfile.to_kick_modifiers()`, so career kicks report through
+`GameState.kick_resolved` with `mode = &"career"` and count in My Stats and Achievements.
+`CareerContent.validate()` checks every data file (run by the Career Debug screen, the simulator and the tests; problems print as warnings).
+
+**Balance simulator:** `godot --headless res://tools/career_sim.tscn -- careers=40 seed=1` plays
+many careers with different choice strategies through the real systems and writes
+`user://career_sim_report.md` (trait unlock rates, personality / football / life stat
+distributions, scenario frequencies). `tools/career_sim_baseline.md` is the current baseline.
+Design decisions and values to playtest: `PLAYTEST.md`, "Career Mode".
 
 ## Sound
 
 `Sfx.play(&"kick")` is called for `snap`, `catch`, `kick`, `good`, `miss`, `block`, plus
 `ui_tap` (menu buttons), `achievement` (toast) and `run_over` (Challenge results).
+UI hooks (`UiKit.feedback`, also a haptic pulse; see `UiKit.FEEDBACK`): `ui_confirm`
+(primary buttons, picking a choice), `ui_locked` (tapping a locked choice), `ui_transition`,
+`stat_up`, `trait_unlock`, `week_result`, `result_good` / `result_miss` (HUD banner, on top
+of `good` / `miss`) and `game_winner`.
 `audio/music.ogg` (or .mp3/.wav), if present, loops on the Music bus.
 Drop `audio/kick.ogg` (or `.wav`/`.mp3`) etc. into `audio/` and they play automatically.
 Until then the events are printed to the Output panel in debug builds.
 
 ## Export for Android
 
-One-time setup:
-1. Install **Android Studio** (or the command-line tools) plus SDK Platform 34, Build-Tools 34,
-   Platform-Tools, and **OpenJDK 17**.
-2. Godot → **Editor → Editor Settings → Export → Android**: set *Java SDK Path* and
-   *Android SDK Path*.
-3. **Editor → Manage Export Templates → Download and Install** (must match your Godot version).
-4. A debug keystore is created automatically by Godot 4.3+. For release you need your own:
-   ```bash
-   keytool -genkeypair -v -keystore release.keystore -alias kicker -keyalg RSA -keysize 2048 -validity 10000
-   ```
-   Keep keystores out of git (`.gitignore` already excludes `*.keystore` and `export_presets.cfg`).
+Build the APK/AAB on your own machine: you accept the Android SDK licenses there and you own
+the signing keys. Nothing here needs Android Studio's IDE, only its SDK.
+The facts below are for **Godot 4.7** (checked against the 4.7-stable source and the 4.7 docs).
 
-Export:
+### What you need (one time)
+
+| Item | Version | Notes |
+|---|---|---|
+| Godot editor | **4.7** (standard build is fine; no .NET needed) | |
+| Export templates | **4.7**, exactly matching the editor | **Editor → Manage Export Templates → Download and Install** |
+| JDK | **OpenJDK 17** | Newer JDKs are allowed but 17 is the one Godot recommends. Adoptium Temurin 17 is a good choice. |
+| Android SDK Command-line Tools | latest | from developer.android.com ("Command line tools only"), or via Android Studio's SDK Manager |
+| SDK Platform-Tools | latest | provides `adb` for one-click deploy |
+| SDK Build-Tools | **36.1.0** (35.0.1 also works) | `apksigner` is taken from here |
+| SDK Platform | **Android 36** (`platforms;android-36`) | Godot 4.7 targets API 36, min API 24 (Android 7.0) |
+| NDK + CMake | NDK **29.0.14206865**, CMake 3.10.2.4988404 | only for **Gradle builds** (needed for `.aab` / Play Store) |
+
+Install the SDK packages with `sdkmanager` (this is where you accept the licenses):
+
+```bash
+sdkmanager --sdk_root=<android_sdk_path> "platform-tools" "build-tools;36.1.0" "platforms;android-36" "cmdline-tools;latest"
+```
+
+```bash
+sdkmanager --sdk_root=<android_sdk_path> "ndk;29.0.14206865" "cmake;3.10.2.4988404"
+```
+
+```bash
+sdkmanager --sdk_root=<android_sdk_path> --licenses
+```
+
+(The second command is only needed for Gradle / `.aab` builds.)
+
+### Godot Editor Settings
+
+**Editor → Editor Settings → Export → Android** (turn on *Advanced Settings* at the top
+right if a field is hidden):
+
+- **Java SDK Path** (`export/android/java_sdk_path`): the JDK 17 install folder (the one that
+  contains `bin/java`). Empty = uses `JAVA_HOME`.
+- **Android SDK Path** (`export/android/android_sdk_path`): the SDK root (the folder that
+  contains `platform-tools/` and `build-tools/`). Empty = uses `ANDROID_HOME`.
+- **Debug Keystore** (`export/android/debug_keystore`), **Debug Keystore User**,
+  **Debug Keystore Pass**: see below.
+
+### Debug keystore
+
+Godot creates one for you: once the Java SDK Path is set, the editor generates
+`debug.keystore` (user `androiddebugkey`, password `android`) and fills in the three debug
+fields. If it didn't (for example the JDK path was wrong at the time), make it yourself and
+point *Debug Keystore* at the file:
+
+```bash
+keytool -genkey -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "cn=Godot, ou=Godot Engine, o=Stichting Godot, c=NL"
+```
+
+Debug Keystore User = `androiddebugkey`, Debug Keystore Pass = `android`.
+The debug key is only for testing on your own phone; the Play Store won't accept it.
+
+### Release keystore (create once, back it up)
+
+Every update to a published app must be signed with the same key, so this file matters
+more than anything else in the build setup.
+
+```bash
+keytool -v -genkey -keystore kicker-release.keystore -alias kicker -keyalg RSA -keysize 2048 -validity 10000
+```
+
+- Use **one password for both the keystore and the key** (Godot's preset has a single
+  *Release Password* field), and avoid special characters in it.
+- In the Android export preset: **Keystore → Release** = path to the file,
+  **Release User** = `kicker` (the alias), **Release Password** = the password.
+  Untick **Export With Debug** when exporting for release.
+- Or keep the secrets out of the editor: set `GODOT_ANDROID_KEYSTORE_RELEASE_PATH`,
+  `GODOT_ANDROID_KEYSTORE_RELEASE_USER` and `GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD`
+  before launching Godot (there are matching `..._DEBUG_...` variables).
+
+**Back it up:**
+- Keep the `.keystore` file **and** its alias and password in at least two safe places
+  (e.g. a password manager entry with the file attached, plus an offline copy such as an
+  encrypted USB drive). Not only on the build machine.
+- Never commit it: `.gitignore` already excludes `*.keystore` and `export_presets.cfg`
+  (the preset stores the password in plain text).
+- On Google Play, turn on **Play App Signing** (the default for new apps). Your keystore
+  then becomes the *upload key*: if it is ever lost, Google can reset it for you. Without
+  Play App Signing a lost key means you can never update the app again.
+
+### Export steps
+
 1. **Project → Export → Add… → Android**.
-2. Set *Package → Unique Name* (e.g. `com.yourstudio.kicker`), *Version Code/Name*.
-3. Under *Permissions*, tick **Vibrate** (needed for the kick vibration).
-4. Orientation is already portrait from Project Settings (`display/window/handheld/orientation`).
-5. For a phone on USB with debugging on, use the **Remote Debug / One-click deploy** icon
-   (top-right of the editor) to run straight on the device. Or **Export Project** → `.apk`
-   (sideload) or `.aab` (Play Store, enable *Gradle Build* and install the Android build template).
+2. *Package → Unique Name*: e.g. `com.yourstudio.kicker` (it can never change after publishing).
+   Set *Version → Code* (an integer, bump it for every store upload) and *Version → Name*
+   (shown to players; keep it in step with `config/version` in Project Settings, which the
+   Settings screen shows).
+3. *Permissions*: tick **Vibrate** (used for the kick vibration). Nothing else is needed.
+4. *Launcher Icons*: the project has no icon yet, so Godot's default is used. Add a
+   192×192 main icon and 432×432 adaptive foreground/background before a store release.
+5. *Resources → Filters to exclude files*: `tests_tmp/*, tools/*` (dev-only). Keep
+   *Export all resources in the project*. Career data (`data/career/*.json`) is included
+   automatically.
+6. Orientation is already portrait from Project Settings (`display/window/handheld/orientation`).
+7. Test on a phone: enable USB debugging, plug it in, and use the **Remote Debug /
+   One-click deploy** button (top right of the editor). Or **Export Project** → `.apk`
+   with *Export With Debug* on, and sideload it.
+8. Play Store: tick **Gradle Build → Use Gradle Build**, run **Project → Install Android
+   Build Template**, set the release keystore, untick *Export With Debug*, and export as `.aab`.
 
 The renderer is **GL Compatibility** for the widest Android device support.
 The Android back button is handled by the game (`application/config/quit_on_go_back=false`):
 back to the menu from a screen, pause in a kick, quit from the main menu.
-Bump **Version Code** for every Play Store upload. `config/version` in Project Settings is
-what the Settings screen shows.
+
+**What has been verified so far:** a pack-only Android export
+(`godot --headless --export-pack "Android" kicker.pck`, which needs no SDK or templates)
+contains every game resource including all `data/career/*.json`, and the exported pack boots
+the menu, the Career tutorial and the Career Debug screen (which validates all career data)
+with no errors. A full signed `.apk` / `.aab` has **not** been built yet. On the first real
+export, check touch, vibration and the back button on an actual phone.
+
+### Note: the "thekicker" cloud environment
+
+During Career Mode development a personal Claude Code cloud environment named
+**thekicker** was created (network: package registries plus `dl.google.com`, for a
+download of the Android SDK that was then dropped in favour of building on your own machine).
+Nothing in the project depends on it. If you don't need it, delete it in
+claude.ai → Claude Code → the environment menu → **thekicker** → Edit / Delete.
 
 ## Desktop / Steam later
 - Add a Windows/Linux/macOS export preset. Mouse already works.

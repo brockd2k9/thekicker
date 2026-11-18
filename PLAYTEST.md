@@ -79,3 +79,100 @@ Things that are built but **untuned**. Every value named here is in `tuning/kick
 32. **Aim Assist off** hides the aim ring only. Does the game still feel readable without it?
 33. **Volume sliders** work once real sounds/music are in `audio/` (`music.ogg` loops on the Music bus).
 34. **Touch targets.** Buttons are 96 px in the 720-wide layout. Check on the smallest phone you have.
+
+
+# Career Mode tuning notes
+
+All numbers below are in `tuning/career_tuning.tres` unless a data file is named.
+Rerun `tools/career_sim.tscn` after changing any of them and compare with
+`tools/career_sim_baseline.md`.
+
+## Decisions on record
+- **High school is 4 seasons** (`high_school_seasons`, start age 14). The original Career Mode
+  spec said 3; changed to 4 at the owner's later instruction. Tunable.
+- **Kickoffs, onside kicks and the sideline warmup net use a 2D swipe pad**, not the 3D kick
+  scene (which is built around field goals). Same swipe -> power/aim math and the same kick
+  profile. Fine for now; a 3D kickoff scene could come later.
+- **Warmup once per half**, the first time the offense drives into range; its result
+  (Warmed Up / Loose / Cold Leg) lasts until halftime.
+- **Weekly life drift**: every week each life stat moves `weekly_life_drift` (10%) back toward
+  `start_life`, so streaks don't pin life stats at 0 or 100. 0 = off.
+- **Personality axes**: Charisma <-> Intelligence and Ambition <-> Leadership. In the scenario
+  data, a choice that raises one usually costs a little of its opposite, so random play mostly
+  cancels out and consistent play climbs. Single-stat traits reward leaning one way; each
+  combo trait pairs one stat from each axis.
+- **Bye-week and offseason choices' game-day modifiers carry into the next game.**
+
+- **Stage 5 progression**: recruiting score (season performance + scenario "recruiting" values +
+  traits) and GPA decide college offers (top / mid-major / small; full, partial or preferred
+  walk-on). No offers: walk-on tryout or junior college. College builds a draft score (times the
+  school's exposure); undrafted -> camp invite or open tryouts. Pro: standing (retention) each
+  season decides re-sign / release; Retire after any pro season; age cap 38. Three poor marks in a
+  row (poor seasons, releases, failed tryouts) with nothing on the table end the career.
+- **Life stats** drift toward `life_baseline` (60), Fun/Social gains are scaled by
+  `fun_social_gain_mult` (0.7), and the low-stat penalties start at 40.
+
+## Trait balance (targets and current result)
+Target: a player leaning into one personality direction unlocks 1-2 traits by the end of high
+school and 3-4 by the end of college; random/mixed players unlock fewer.
+Current (Stage 5 baseline, 40 careers per strategy): every leaning strategy 3.0-4.2 by the end
+of college (ambition and intelligence leaners now 100% reach 3); random 0.0 -> 2.0, mixed 0.8 -> 2.5.
+Stage 6: leadership leaners 1.1 by the end of high school (3% have none, was 28%), charisma leaners 2.1 (was 2.4).
+Knobs: `personality_change_scale` (0.30), trait thresholds in `data/career/traits.json`,
+personality numbers in the scenario files.
+
+## To playtest (final list)
+Most important first. Simulator numbers are from `tools/career_sim_baseline.md`; the sim's kicks
+are a stand-in for real swipes, so everything involving kicking quality needs a real-phone check.
+
+**Kick difficulty (career_tuning.tres "Power", "Accuracy", "Resilience", "Toughness", "Profile Caps")**
+1. Power curve 0.82 -> 1.08: a power-30 freshman needs ~83% swipe power for 50 yd. Too punishing?
+2. Aim error 2.2 deg -> 0.2 deg and wobble 1.35 -> 0.75 by Accuracy. Does a 30-accuracy freshman
+   feel shaky but playable?
+3. Low-stat penalties start at 40 (`low_*_threshold`); Energy is the one that bites most.
+
+**Progression (career_tuning.tres "Recruiting", "Draft", "Pro Contracts"; progression.json)**
+4. Recruiting: tier minimums 78 / 58 / 42, walk-on margin -8, GPA minimums 2.8 / 2.5 / 2.2.
+   Sim: 5-35% of weak recruits get no offer; fallbacks (walk-on 6%, junior college 1%) are rare.
+5. Tryouts (progression.json): walk-on 3 of 5 at 28-44 yd, camp 3 of 5 at 36-52, free agent
+   4 of 5 at 40-55. With real swipes these decide how often the fallback routes succeed.
+6. Draft: rounds at 90 / 84 / 78 / 72 / 66, camp invite from 52. Sim: 20% drafted, 62% reach pro.
+7. Pro standing: release below 35, re-sign from 50, -5 per year past 32; 4.9 pro seasons on
+   average, 8% reach the age cap of 38. `free_agent_attempts` 2.
+8. Career end: `career_end_poor_streak` 3, `poor_fg_pct` 60%.
+
+**Stats over a career**
+9. Personality: `personality_change_scale` 0.30; thresholds 56-60 single, 55-60 combo. Leaning
+   players get 1-2 traits by the end of high school and 3-4 by the end of college; random 0 -> 2.
+10. Life (weekly averages): Health 64-70, Energy 48-68, Fun 49-73, Social 61-84. Low-stat weeks
+    3-25% by style. Knobs: `life_baseline` 60, `fun_social_gain_mult` 0.7, `weekly_energy_recovery`
+    10, `game_energy_cost` -12, `weekly_life_drift` 0.1.
+11. Accuracy at the end of college 68-93: `make_accuracy_gain` 0.06, `weekly_football_growth` 0.1,
+    `offseason_football_growth` 1.5, `football_diminishing` 0.85.
+12. GPA: intelligence-heavy players reach 4.0, others 2.6-3.4 (`gpa_intelligence_drift` 0.12);
+    college ineligibility below 2.0.
+
+**Game day**
+13. Game sim: ~1.6 FG + 2 XP + 4 kickoffs per game (`drives_per_half` 4, `base_td_chance`).
+14. Sideline pad: kickoff carry 75 yd at full power (touchback needs a strong straight flick);
+    warmup net window `net_power_min/max` 0.5-0.92, `net_aim_deg` 6; onside window 10-18 yd.
+15. Pressure: quarter ramp 0.1-0.45, close game +0.25, game winner 1.0; college +0.05 (+ tier),
+    pro +0.12. Game-winning kicks are rare (close game, final 2 minutes).
+16. Goalpost widths: high school 7.11 m, college 5.64 m, pro 5.3 m.
+
+**Pacing**
+17. Scenario repetition: `max_scenario_repeats_per_season` 2, `category_repeat_decay` 0.5,
+    1-2 scenarios per week (`second_scenario_chance` 0.4), 2 in bye weeks and offseasons.
+
+## Known gaps
+- No full signed Android build yet: a pack-only export was verified (all data included, boots and
+  runs Career Mode screens). Build the .apk on your own machine (README → Export for Android).
+- Cleanup: the personal cloud environment **thekicker** (allows `dl.google.com`) was created for an
+  SDK download that was dropped. Nothing depends on it; delete it in claude.ai if unneeded.
+- Kickoffs, onside kicks and the warmup net are on a 2D pad, not the 3D scene.
+- The simulator's kick model is a stand-in; fallback-route frequency and pro career length need
+  real-play checks.
+- Game-winning kicks (and the Walk-Off achievement) are rare by design of the game sim.
+- Junior college counts as one season; there is no redshirt, no playoffs, no injuries that skip
+  games (injuries only make you play hurt), and pro free agency is tryout-only (no bidding).
+- Placeholder art throughout; no sound files (the Sfx hooks print in debug builds).

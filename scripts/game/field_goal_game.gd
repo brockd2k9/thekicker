@@ -15,7 +15,8 @@ signal attempt_finished(outcome: KickResult.Outcome)
 
 var phase: Phase = Phase.SETUP
 var situation: KickSituation
-## Phase 2: replace with modifiers built from the player's current stats.
+## Player-stat effects on the kick. Neutral unless a mode sets it before the
+## scene enters the tree (Career: KickProfile.to_kick_modifiers()).
 var modifiers: KickModifiers = KickModifiers.new()
 ## Game-mode rules (Challenge, Career later). Set before adding the scene to
 ## the tree. null = free practice: random kicks forever.
@@ -48,6 +49,26 @@ var _wind_at_kick := 0.0
 @onready var snap: SnapAnimator = $SnapAnimator
 @onready var swipe_input: SwipeInput = $SwipeInput
 @onready var hud: Hud = $Hud
+
+
+## Career Mode: goalpost style/width/colors and team uniforms. Call after
+## instantiate() and before adding the scene to the tree. look keys (all
+## optional): posts ("high_school"/"college"/"pro"), width (m), accent, accent2
+## (Color), home / away ([primary, secondary] Colors). Without it the scene
+## looks exactly as before.
+func set_look(look: Dictionary) -> void:
+	var posts := get_node("Field/GoalEnd/GoalPosts") as GoalPosts
+	posts.style = StringName(str(look.get("posts", "")))
+	posts.inner_width = float(look.get("width", GoalPosts.INNER_WIDTH))
+	posts.accent = look.get("accent", posts.accent)
+	posts.accent2 = look.get("accent2", posts.accent2)
+	var f := get_node("Field") as FieldBuilder
+	var home: Array = look.get("home", [])
+	if home.size() == 2:
+		f.home_kit_override = TeamKit.from_colors(home[0], home[1])
+	var away: Array = look.get("away", [])
+	if away.size() == 2:
+		f.away_kit_override = TeamKit.from_colors(away[0], away[1], true)
 
 
 func _ready() -> void:
@@ -84,7 +105,7 @@ func _process(delta: float) -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	ball.set_wind_accel(wind.acceleration(tuning))
+	ball.set_wind_accel(wind.acceleration(tuning) * modifiers.wind_mult)
 	if phase == Phase.FLIGHT:
 		_check_hands()
 
@@ -189,7 +210,7 @@ func _try_kick(swipe: Swipe) -> void:
 			roundi(shot.power * 100.0), shot.swipe_aim_deg, shot.wobble_deg, shot.elevation_deg])
 
 	_ball_prev = ball.global_position
-	ball.launch(shot.velocity, tuning.gravity, wind.acceleration(tuning),
+	ball.launch(shot.velocity, tuning.gravity, wind.acceleration(tuning) * modifiers.wind_mult,
 		tuning.flight_speed_scale, -situation.distance_m(), tuning.ball_spin_speed)
 	trail.start(ball)
 	field.set_holder_pose(FieldBuilder.HolderPose.RELEASED)
@@ -280,7 +301,7 @@ func _on_swipe_released(swipe: Swipe) -> void:
 
 func _on_ball_reached_goal_plane(crossing: Vector3) -> void:
 	if phase == Phase.FLIGHT:
-		_resolve(KickResult.judge_at_goal_plane(crossing))
+		_resolve(KickResult.judge_at_goal_plane(crossing, field.goal_posts.inner_width * 0.5))
 
 
 func _on_ball_landed(_at: Vector3) -> void:

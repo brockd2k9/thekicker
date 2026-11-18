@@ -6,8 +6,10 @@ enum Outcome { GOOD, WIDE_LEFT, WIDE_RIGHT, SHORT, BLOCKED }
 
 
 ## Called with the exact point where the ball crossed the plane of the uprights.
-static func judge_at_goal_plane(crossing: Vector3) -> Outcome:
-	var half := GoalPosts.INNER_WIDTH * 0.5
+## half_width: half the gap between the uprights (Career Mode varies it per stage).
+static func judge_at_goal_plane(crossing: Vector3,
+		half_width: float = GoalPosts.INNER_WIDTH * 0.5) -> Outcome:
+	var half := half_width
 	if crossing.x < -half:
 		return Outcome.WIDE_LEFT
 	if crossing.x > half:
