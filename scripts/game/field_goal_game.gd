@@ -19,6 +19,8 @@ var _window_total := 1.0
 var _window_left := 0.0
 var _can_continue := false
 var _attempt_id := 0
+## Play progress for the two lines (0 at the snap, 1 = edge rushers at the ball).
+var _play_t := 0.0
 ## True while the finger that tapped "next kick" is still down.
 var _swallow_release := false
 
@@ -49,15 +51,28 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	# Live (gusting) wind on the flags and the HUD arrow.
+	field.set_wind(wind.mph, tuning.max_wind_mph + tuning.max_gust_mph)
+	hud.set_live_wind(wind.mph, tuning.max_wind_mph + tuning.max_gust_mph)
+
 	if phase == Phase.SETUP or phase == Phase.KICK_WINDOW:
 		aim_marker.set_aim(pressure.wobble_deg(), situation.distance_m())
 	if phase == Phase.KICK_WINDOW:
 		_window_left -= delta
 		var frac := clampf(_window_left / _window_total, 0.0, 1.0)
 		hud.set_window(frac, true)
-		field.set_rush_progress(1.0 - frac)
+		_play_t = 1.0 - frac
+		field.set_play_progress(_play_t)
 		if _window_left <= 0.0:
 			_kick_blocked()
+	elif phase == Phase.FLIGHT or phase == Phase.RESULT:
+		# The play carries on after the kick.
+		_play_t = minf(_play_t + delta / _window_total, 1.0)
+		field.set_play_progress(_play_t)
+
+
+func _physics_process(_delta: float) -> void:
+	ball.set_wind_accel(wind.acceleration(tuning))
 
 
 # --- attempt flow ---------------------------------------------------------------
@@ -71,12 +86,14 @@ func _start_attempt() -> void:
 
 	var wind_mph := wind.roll(_rng, tuning)
 	situation = KickSituation.roll(_rng, tuning, wind_mph)
+	situation.wind_gust_mph = wind.gust_mph
 	field.set_distance(situation.distance_m())
-	field.set_wind(wind_mph, tuning.max_wind_mph)
-	field.reset_rush()
-	ball.reset(field.tee_position())
+	_play_t = 0.0
+	_window_total = 1.0
+	field.reset_play()
+	ball.reset(field.hold_spot())
 	trail.clear()
-	cam.reset_to(field.tee_position(), situation.distance_m())
+	cam.reset_to(field.hold_spot(), situation.distance_m())
 	pressure.setup(situation.pressure, tuning, modifiers)
 	aim_marker.visible = true
 
@@ -114,15 +131,20 @@ func _try_kick(swipe: Swipe) -> void:
 	ball.launch(shot.velocity, tuning.gravity, wind.acceleration(tuning),
 		tuning.flight_speed_scale, -situation.distance_m(), tuning.ball_spin_speed)
 	trail.start(ball)
+	field.set_holder_holding(false)
 	cam.follow(ball, tuning.camera_follow_strength, tuning.camera_follow_speed)
 	cam.shake(tuning.kick_shake * (0.5 + shot.power))
 	Sfx.play(&"kick", 0.0, lerpf(0.9, 1.15, shot.power))
+	Haptics.pulse(roundi(tuning.kick_vibration_ms * lerpf(0.75, 1.5, shot.power)))
 
 
 func _kick_blocked() -> void:
 	aim_marker.visible = false
 	hud.set_window(0.0, false)
-	field.set_rush_progress(1.0)
+	_play_t = 1.0
+	field.set_play_progress(1.0)
+	field.set_holder_holding(false)
+	Haptics.pulse(tuning.block_vibration_ms)
 	# Pop the ball up and back off the rusher's hands.
 	var deflect := Vector3(_rng.randf_range(-2.5, 2.5), 5.0, 2.5)
 	ball.launch(deflect, tuning.gravity, Vector3.ZERO, 1.0, -INF, tuning.ball_spin_speed)

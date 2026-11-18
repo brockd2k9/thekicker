@@ -57,9 +57,23 @@ Everything is drawn with primitives plus procedural shaders in `shaders/`:
 
 Colors are shader uniforms. Click the mesh or material in the running scene's Remote tree,
 or change the defaults at the top of each shader.
-Framing: the camera sits low behind the ball with a long lens (`camera_fov` in the tuning
-file). The ball is drawn larger than real (`ball_visual_scale`) and shrinks as it flies
-downfield (`ball_visual_scale_far`).
+Framing: kicker's-eye view. The camera stays where the kicker stands and only turns its
+head slightly to watch the ball (`camera_follow_strength`). Eye height, distance and tilt
+are `home_offset` / `look_down_deg` in `kick_camera.gd`. The ball is drawn larger than real
+(`ball_visual_scale`) and shrinks as it flies downfield (`ball_visual_scale_far`).
+
+Formation: protection unit (blue) and block unit (red) line up 7 yards ahead, with a
+holder kneeling at the spot. After the snap, both lines fire out, the middle defenders jump
+with hands up, and two edge rushers come around the ends. If they reach the ball before
+you kick, it's BLOCKED. Positions and colors are constants at the top of `field_builder.gd`.
+
+Wind gusts: some windy kicks are gusty. Gusts only add speed in the wind's direction, from
+the base speed up to base + gust (the HUD shows e.g. `8-15 MPH -> GUSTY`). The HUD arrow and
+the ribbons on the uprights show the wind right now, so time your kick for a lull.
+Tunables: `gust_chance`, `max_gust_mph`, `gust_speed`.
+
+Vibration: `Haptics.pulse()` on contact (stronger with more power) and on a block.
+Tunables: `kick_vibration_ms`, `block_vibration_ms` (0 = off).
 
 ## Project layout
 
@@ -74,6 +88,7 @@ audio/                        optional sounds (see "Sound")
 scripts/
   autoload/game_state.gd      GameState: session stats (Phase 2: player/season/save)
   autoload/sfx.gd             Sfx: sound hook
+  autoload/haptics.gd         Haptics: phone vibration
   config/kick_tuning.gd       KickTuning resource definition
   input/swipe.gd              swipe data, normalized to screen height
   input/swipe_input.gd        pointer → swipe (touch & mouse, one code path)
@@ -81,12 +96,13 @@ scripts/
   kick/kick_modifiers.gd      Phase 2 seam: stats → multipliers (neutral now)
   kick/kick_situation.gd      random distance + pressure scenario
   kick/kick_result.gd         GOOD / WIDE LEFT / WIDE RIGHT / SHORT / BLOCKED rules
-  kick/wind.gd                crosswind roll + force
+  kick/wind.gd                crosswind + gusts
   kick/pressure.gd            aim wobble + kick-window shrink
   kick/ball.gd                ballistic flight, goal-plane + landing detection
   kick/ball_trail.gd          dotted arc trail
   kick/aim_marker.gd          wobbling aim ring
-  field/field_builder.gd      field, tee, stands, light towers, rushers
+  field/field_builder.gd      field, stands, light towers, formation, holder
+  field/player_figure.gd      capsule player that can crouch, block, jump
   field/goal_posts.gd         posts + wind ribbons, regulation dimensions
   camera/kick_camera.gd       behind-the-ball camera, follow + shake
   game/field_goal_game.gd     attempt state machine (SETUP → KICK_WINDOW → FLIGHT → RESULT)
@@ -137,8 +153,9 @@ One-time setup:
 Export:
 1. **Project → Export → Add… → Android**.
 2. Set *Package → Unique Name* (e.g. `com.yourstudio.kicker`), *Version Code/Name*.
-3. Orientation is already portrait from Project Settings (`display/window/handheld/orientation`).
-4. For a phone on USB with debugging on, use the **Remote Debug / One-click deploy** icon
+3. Under *Permissions*, tick **Vibrate** (needed for the kick vibration).
+4. Orientation is already portrait from Project Settings (`display/window/handheld/orientation`).
+5. For a phone on USB with debugging on, use the **Remote Debug / One-click deploy** icon
    (top-right of the editor) to run straight on the device. Or **Export Project** → `.apk`
    (sideload) or `.aab` (Play Store, enable *Gradle Build* and install the Android build template).
 

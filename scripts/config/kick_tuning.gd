@@ -51,6 +51,12 @@ extends Resource
 @export var wind_accel_per_mph: float = 0.05
 ## Chance (0-1) that an attempt has no wind at all.
 @export_range(0.0, 1.0) var calm_chance: float = 0.15
+## Chance (0-1) that a windy attempt is gusty.
+@export_range(0.0, 1.0) var gust_chance: float = 0.5
+## Strongest extra mph a gust can add on top of the base wind.
+@export var max_gust_mph: float = 10.0
+## Gust cycles per second (how quickly gusts come and go).
+@export var gust_speed: float = 0.35
 
 @export_group("Pressure")
 ## Aim wobble (degrees) at maximum pressure.
@@ -80,9 +86,10 @@ extends Resource
 ## Real seconds the slow-motion beat lasts.
 @export var slowmo_duration: float = 0.6
 ## Horizontal field of view (degrees). Lower = longer lens = bigger posts.
-@export_range(20.0, 80.0) var camera_fov: float = 40.0
-## 0 = camera never moves, 1 = camera fully chases the ball.
-@export_range(0.0, 1.0) var camera_follow_strength: float = 0.25
+@export_range(20.0, 80.0) var camera_fov: float = 46.0
+## How much the kicker's head turns to watch the ball. 0 = fixed stare at the posts.
+## The camera never moves position.
+@export_range(0.0, 1.0) var camera_follow_strength: float = 0.15
 ## How quickly the camera catches up (higher = tighter).
 @export var camera_follow_speed: float = 3.0
 ## Camera shake on contact (meters, scaled by power).
@@ -90,8 +97,12 @@ extends Resource
 ## Ball end-over-end spin (radians / second).
 @export var ball_spin_speed: float = 14.0
 ## Visual-only ball size on the tee (1 = real size). Big = reads like a hero object.
-@export var ball_visual_scale: float = 2.8
+@export var ball_visual_scale: float = 2.5
 ## Visual-only ball size once it's ~15 m downfield, so it doesn't dwarf the posts.
 @export var ball_visual_scale_far: float = 1.7
+## Phone vibration on contact (ms, scaled up a little by power). 0 = off.
+@export var kick_vibration_ms: int = 40
+## Phone vibration when the kick is blocked (ms). 0 = off.
+@export var block_vibration_ms: int = 120
 ## Show power / aim / wobble numbers after each kick (handy while tuning).
 @export var show_debug_readout: bool = true

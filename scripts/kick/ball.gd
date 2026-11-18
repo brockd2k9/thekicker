@@ -14,12 +14,13 @@ const BALL_SHADER := preload("res://shaders/ball.gdshader")
 ## Real football size (m), before visual scaling.
 const LENGTH := 0.28
 const BASE_RADIUS := 0.085
-## Height of the top of the kicking tee.
-const TEE_HEIGHT := 0.07
+## Height of the ball's bottom tip above the turf (0 = held on the ground).
+const HOLD_HEIGHT := 0.0
 ## How far the ball must travel before it shrinks to its far visual scale (m).
 const SCALE_BLEND_DISTANCE := 15.0
-## Resting tilt on the tee: nearly upright, laces toward the camera.
-const TEE_TILT_DEG := 72.0
+## Tilt on the hold: nearly upright, laces facing the posts ("laces out").
+## Use a positive angle to turn the laces toward the kicker instead.
+const HOLD_TILT_DEG := -80.0
 
 var velocity := Vector3.ZERO
 var in_flight := false
@@ -58,12 +59,12 @@ func reset(spot: Vector3) -> void:
 	velocity = Vector3.ZERO
 	_crossed = false
 	_has_landed = false
-	_model.rotation = Vector3(deg_to_rad(TEE_TILT_DEG), 0.0, 0.0)
+	_model.rotation = Vector3(deg_to_rad(HOLD_TILT_DEG), 0.0, 0.0)
 	_apply_visual_scale()
 	var s := _model.scale.x
-	var stand_height := (LENGTH * 0.5 * sin(deg_to_rad(TEE_TILT_DEG))
-		+ BASE_RADIUS * cos(deg_to_rad(TEE_TILT_DEG))) * s * 0.92
-	global_position = spot + Vector3(0.0, TEE_HEIGHT + stand_height, 0.0)
+	var tilt := deg_to_rad(absf(HOLD_TILT_DEG))
+	var stand_height := (LENGTH * 0.5 * sin(tilt) + BASE_RADIUS * cos(tilt)) * s * 0.92
+	global_position = spot + Vector3(0.0, HOLD_HEIGHT + stand_height, 0.0)
 	_update_shadow()
 
 
@@ -79,6 +80,12 @@ func launch(v: Vector3, gravity: float, wind_accel: Vector3, sim_scale: float,
 	_crossed = false
 	_has_landed = false
 	in_flight = true
+
+
+## Wind can change mid-flight (gusts). Ignored once the ball has landed.
+func set_wind_accel(accel: Vector3) -> void:
+	if in_flight and not _has_landed:
+		_wind_accel = accel
 
 
 func _physics_process(delta: float) -> void:

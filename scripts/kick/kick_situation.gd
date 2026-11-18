@@ -18,6 +18,8 @@ const SCENARIOS := [
 var distance_yards: int = 30
 ## Signed crosswind, + pushes toward the kicker's right.
 var wind_mph: float = 0.0
+## Extra mph at peak gust (0 = steady).
+var wind_gust_mph: float = 0.0
 var pressure: float = 0.0
 var label: String = ""
 

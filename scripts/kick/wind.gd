@@ -1,23 +1,65 @@
 class_name Wind
 extends Node
-## Crosswind for the current attempt. Steady per kick (no gusts yet).
+## Crosswind for the current attempt: a steady base plus optional gusts.
+## Gusts only ever strengthen the wind in its own direction, from the base
+## speed up to base + gust_mph, and spend most of their time in lulls.
+## So timing your kick (watch the flags/arrow) matters.
 
 signal changed(mph: float)
 
-## Signed mph. Positive pushes the ball to the kicker's RIGHT (+X).
+## Signed steady wind. Positive pushes the ball to the kicker's RIGHT (+X).
+var base_mph: float = 0.0
+## Extra mph at the peak of a gust (0 = steady wind).
+var gust_mph: float = 0.0
+## Signed wind right now (base + current gust).
 var mph: float = 0.0
+
+var _t := 0.0
+var _freq := 0.35
+var _phase_a := 0.0
+var _phase_b := 0.0
 
 
 func roll(rng: RandomNumberGenerator, tuning: KickTuning) -> float:
+	gust_mph = 0.0
 	if rng.randf() < tuning.calm_chance:
-		mph = 0.0
+		base_mph = 0.0
 	else:
 		var side := 1.0 if rng.randf() < 0.5 else -1.0
-		mph = roundf(rng.randf_range(1.0, tuning.max_wind_mph)) * side
+		base_mph = roundf(rng.randf_range(1.0, tuning.max_wind_mph)) * side
+		if rng.randf() < tuning.gust_chance:
+			gust_mph = roundf(rng.randf_range(0.3, 1.0) * tuning.max_gust_mph)
+	_freq = tuning.gust_speed
+	_t = 0.0
+	_phase_a = rng.randf() * TAU
+	_phase_b = rng.randf() * TAU
+	mph = _current()
 	changed.emit(mph)
-	return mph
+	return base_mph
 
 
-## Constant acceleration applied to the ball while airborne.
+func is_gusty() -> bool:
+	return gust_mph > 0.0
+
+
+func _physics_process(delta: float) -> void:
+	_t += delta
+	mph = _current()
+
+
+## 0 = lull, 1 = peak gust.
+func gust_amount() -> float:
+	var w := _freq * TAU
+	var s := 0.6 * sin(_t * w + _phase_a) + 0.4 * sin(_t * w * 2.3 + _phase_b)
+	return pow(0.5 + 0.5 * s, 2.0)
+
+
+func _current() -> float:
+	if gust_mph <= 0.0:
+		return base_mph
+	return signf(base_mph) * (absf(base_mph) + gust_mph * gust_amount())
+
+
+## Acceleration applied to the ball right now.
 func acceleration(tuning: KickTuning) -> Vector3:
 	return Vector3(mph * tuning.wind_accel_per_mph, 0.0, 0.0)

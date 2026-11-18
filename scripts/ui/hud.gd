@@ -44,15 +44,24 @@ func update_score() -> void:
 func show_situation(s: KickSituation, tuning: KickTuning) -> void:
 	_distance.text = "%d YD" % s.distance_yards
 	_situation.text = s.label
-	_wind_arrow.set_wind(s.wind_mph, tuning.max_wind_mph)
+	_wind_arrow.set_wind(s.wind_mph, tuning.max_wind_mph + tuning.max_gust_mph)
+	var arrow := "->" if s.wind_mph > 0.0 else "<-"
+	var base := roundi(absf(s.wind_mph))
 	if absf(s.wind_mph) < 0.5:
 		_wind_label.text = "CALM"
+	elif s.wind_gust_mph > 0.0:
+		_wind_label.text = "%d-%d MPH %s GUSTY" % [base, base + roundi(s.wind_gust_mph), arrow]
 	else:
-		_wind_label.text = "%d MPH %s" % [roundi(absf(s.wind_mph)), "->" if s.wind_mph > 0.0 else "<-"]
+		_wind_label.text = "%d MPH %s" % [base, arrow]
 	_pressure_bar.value = s.pressure * 100.0
 	_pressure_fill.bg_color = GOOD_COLOR.lerp(MISS_COLOR, s.pressure)
 	_pressure_label.text = _pressure_word(s.pressure)
 	_shot_info.text = ""
+
+
+## Arrow follows the current (gusting) wind every frame; the label shows the range.
+func set_live_wind(mph: float, max_mph: float) -> void:
+	_wind_arrow.set_wind(mph, max_mph)
 
 
 func set_hint(text: String) -> void:

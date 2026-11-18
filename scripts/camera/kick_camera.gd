@@ -1,13 +1,14 @@
 class_name KickCamera
 extends Camera3D
-## Low behind-the-ball camera with a long lens: the ball sits big in the lower
-## third, the posts sit big in the middle. Partial follow during flight + shake.
+## Kicker's-eye camera: stands where the kicker stands and never travels
+## downfield. During the flight it only turns its head a little to watch the
+## ball (camera_follow_strength). Plus a small shake on contact.
 ## Uses KEEP_WIDTH so the framing is the same on tall phones and wide monitors.
 
 ## Camera position relative to the ball spot.
-@export var home_offset: Vector3 = Vector3(0.0, 1.0, 2.2)
+@export var home_offset: Vector3 = Vector3(0.0, 2.0, 2.4)
 ## How far below level the camera looks (degrees). Raises/lowers the posts on screen.
-@export var look_down_deg: float = 2.0
+@export var look_down_deg: float = 12.0
 
 var _spot := Vector3.ZERO
 var _home_look := Vector3.ZERO
@@ -54,8 +55,7 @@ func _process(delta: float) -> void:
 		var travel := tp - _spot
 		# Ease in so the view doesn't dip toward the ball at the moment of contact.
 		var f := _strength * clampf(travel.length() / 6.0, 0.0, 1.0)
-		want_pos += Vector3(travel.x * 0.5, travel.y * 0.3, travel.z) * f
-		want_look = want_look.lerp(tp, f)
+		want_look = want_look.lerp(tp, f)  # head turn only; position stays put
 	var k := 1.0 - exp(-_speed * delta)
 	_pos = _pos.lerp(want_pos, k)
 	_look = _look.lerp(want_look, k)

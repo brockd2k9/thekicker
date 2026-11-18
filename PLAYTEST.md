@@ -25,5 +25,13 @@ Things that are built but **untuned**. Every value named here is in `tuning/kick
     60-yarders, and that the ball shrinking in flight doesn't look odd.
 12. **Performance on a real phone.** Shaders for the crowd and field, plus one shadowed light.
     If the frame rate drops, turn off `shadow_enabled` on the Sun first.
-13. **Not implemented:** ball hitting the uprights or crossbar (it passes through), gusts,
-    headwind/tailwind, drag/spin curve, kicker character, haptics, menus.
+13. **Kicker's-eye view over the line.** On 50-60 yarders the red line standing up, and the
+    jumpers, can cover part of the crossbar at the end of the kick window. Decide whether that
+    feels like good pressure or just annoying (raise `home_offset.y` if it's annoying).
+14. **Gusts.** 50% of windy kicks, up to +10 mph. Can you read the lulls from the arrow and
+    the ribbons? `gust_speed` 0.35 = a gust cycle about every 3 s.
+15. **Vibration.** 40 ms on the kick (scaled by power), 120 ms on a block. Phone only.
+16. **Holder pose.** The hand position on the ball is approximate. Check it looks right.
+17. **Not implemented:** ball hitting the uprights or crossbar (it passes through),
+    headwind/tailwind, drag/spin curve, snap animation (the ball starts already held),
+    visible kicker leg/foot, menus.
