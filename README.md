@@ -5,11 +5,11 @@ Mobile-first football kicker game. Godot 4 / GDScript, portrait, touch + mouse.
 
 ## Run it
 
-1. Install **Godot 4.3 or newer** (standard build, not .NET): https://godotengine.org/download
+1. Install **Godot 4.7** (4.3+ should work) (standard build, not .NET): https://godotengine.org/download
 2. Open Godot → **Import** → pick this folder's `project.godot` → **Import & Edit**.
    (The first open builds Godot's class cache. Run from the editor at least once
    before using the command line.)
-3. Press **F5** (Run Project).
+3. Press **F5** / **⌘B** (Run Project).
 
 The desktop window opens at 450×800 (portrait phone shape). You can resize it freely;
 the HUD uses anchors/containers and the camera keeps the field width fixed, so any
@@ -46,6 +46,21 @@ Reference numbers with the defaults (from a quick sim, center aim, no wind):
 
 Uprights are 2.82 m either side of center. More power means less hang time and therefore less drift.
 
+## Look (no art files)
+
+Everything is drawn with primitives plus procedural shaders in `shaders/`:
+- `field.gdshader`: grass grain, mowing stripes, yard lines, hash marks, end zone
+- `ball.gdshader`: pebbled leather, seams, worn tips, white stripes (`stripes` toggle).
+  The pointed ball mesh and laces are generated in `ball.gd`
+- `crowd.gdshader`: seats full of swaying fans behind the posts
+- `sky.gdshader`: gradient sky with clouds
+
+Colors are shader uniforms. Click the mesh or material in the running scene's Remote tree,
+or change the defaults at the top of each shader.
+Framing: the camera sits low behind the ball with a long lens (`camera_fov` in the tuning
+file). The ball is drawn larger than real (`ball_visual_scale`) and shrinks as it flies
+downfield (`ball_visual_scale_far`).
+
 ## Project layout
 
 ```
@@ -54,6 +69,7 @@ tuning/kick_tuning.tres       ← all tunables
 scenes/field_goal.tscn        main scene (wires the pieces together)
 scenes/ball.tscn              football model + ground shadow
 scenes/ui/hud.tscn            HUD layout
+shaders/                      procedural field, ball, crowd, sky
 audio/                        optional sounds (see "Sound")
 scripts/
   autoload/game_state.gd      GameState: session stats (Phase 2: player/season/save)
@@ -70,7 +86,7 @@ scripts/
   kick/ball.gd                ballistic flight, goal-plane + landing detection
   kick/ball_trail.gd          dotted arc trail
   kick/aim_marker.gd          wobbling aim ring
-  field/field_builder.gd      placeholder field, line, rushers
+  field/field_builder.gd      field, tee, stands, light towers, rushers
   field/goal_posts.gd         posts + wind ribbons, regulation dimensions
   camera/kick_camera.gd       behind-the-ball camera, follow + shake
   game/field_goal_game.gd     attempt state machine (SETUP → KICK_WINDOW → FLIGHT → RESULT)

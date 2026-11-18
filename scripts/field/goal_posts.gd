@@ -6,7 +6,8 @@ extends Node3D
 const CROSSBAR_HEIGHT := 3.048  # 10 ft
 const INNER_WIDTH := 5.639      # 18 ft 6 in
 const UPRIGHT_HEIGHT := 10.67   # above the crossbar
-const POST_RADIUS := 0.08
+## Drawn a bit thicker than real (0.05 m) so the posts read from 60 yards.
+const POST_RADIUS := 0.11
 const GOOSENECK_OFFSET := 1.8
 const POST_COLOR := Color(1.0, 0.85, 0.1)
 const FLAG_COLOR := Color(1.0, 0.25, 0.15)
@@ -17,6 +18,15 @@ var _flag_pivots: Array[Node3D] = []
 
 func _ready() -> void:
 	var mat := _mat(POST_COLOR)
+	mat.roughness = 0.3
+	mat.metallic = 0.25
+	mat.emission_enabled = true
+	mat.emission = POST_COLOR
+	mat.emission_energy_multiplier = 0.25
+	# Padding around the base of the pole.
+	var pad := _mat(Color(0.1, 0.18, 0.45))
+	pad.roughness = 0.9
+	_add_cyl(pad, 2.0, POST_RADIUS * 3.2, Vector3(0.0, 1.0, -GOOSENECK_OFFSET), Vector3.ZERO)
 	# Base pole (behind the end line) + gooseneck arm forward to the crossbar.
 	_add_cyl(mat, CROSSBAR_HEIGHT, POST_RADIUS * 1.6,
 		Vector3(0.0, CROSSBAR_HEIGHT * 0.5, -GOOSENECK_OFFSET), Vector3.ZERO)

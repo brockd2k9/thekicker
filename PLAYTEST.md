@@ -19,8 +19,11 @@ Things that are built but **untuned**. Every value named here is in `tuning/kick
 8. **Flight speed** (`flight_speed_scale` 1.3). About 2.2 s of real hang time on a 60-yarder.
 9. **Slow-mo** (0.25x for 0.6 s) triggers when the ball crosses the posts or lands short.
    Check that it doesn't cut back to normal speed too abruptly.
-10. **Camera follow** (0.35) and **shake** (0.12). Check for motion sickness at full follow.
-11. **Ball readability.** The ball is drawn at 2x size, plus the dotted trail and shadow.
-    Check whether it's still readable on a small phone at 60 yards.
-12. **Not implemented:** ball hitting the uprights or crossbar (it passes through), gusts,
+10. **Camera follow** (0.25) and **shake** (0.05). Check for motion sickness at full follow.
+11. **Framing / look.** `camera_fov` 40, ball 2.8x on the tee shrinking to 1.7x downfield,
+    camera height/offset in `kick_camera.gd`. Check that the ball doesn't hide the posts on
+    60-yarders, and that the ball shrinking in flight doesn't look odd.
+12. **Performance on a real phone.** Shaders for the crowd and field, plus one shadowed light.
+    If the frame rate drops, turn off `shadow_enabled` on the Sun first.
+13. **Not implemented:** ball hitting the uprights or crossbar (it passes through), gusts,
     headwind/tailwind, drag/spin curve, kicker character, haptics, menus.

@@ -1,37 +1,18 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/kick/ball.gd" id="1_ball"]
-
-[sub_resource type="StandardMaterial3D" id="mat_ball"]
-albedo_color = Color(0.55, 0.27, 0.1, 1)
-roughness = 0.8
-
-[sub_resource type="SphereMesh" id="mesh_ball"]
-material = SubResource("mat_ball")
-radius = 0.085
-height = 0.17
-radial_segments = 16
-rings = 8
-
-[sub_resource type="StandardMaterial3D" id="mat_laces"]
-shading_mode = 0
-albedo_color = Color(1, 1, 1, 1)
-
-[sub_resource type="BoxMesh" id="mesh_laces"]
-material = SubResource("mat_laces")
-size = Vector3(0.025, 0.012, 0.11)
 
 [sub_resource type="StandardMaterial3D" id="mat_shadow"]
 transparency = 1
 shading_mode = 0
-albedo_color = Color(0, 0, 0, 0.35)
+albedo_color = Color(0, 0, 0, 0.4)
 
 [sub_resource type="CylinderMesh" id="mesh_shadow"]
 material = SubResource("mat_shadow")
 top_radius = 0.1
 bottom_radius = 0.1
 height = 0.005
-radial_segments = 16
+radial_segments = 20
 rings = 1
 
 [node name="Ball" type="Node3D"]
@@ -39,14 +20,7 @@ script = ExtResource("1_ball")
 
 [node name="Model" type="Node3D" parent="."]
 
-[node name="Body" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.65, 0, 0, 0)
-mesh = SubResource("mesh_ball")
-
-[node name="Laces" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.084, 0)
-mesh = SubResource("mesh_laces")
-
 [node name="Shadow" type="MeshInstance3D" parent="."]
 top_level = true
+cast_shadow = 0
 mesh = SubResource("mesh_shadow")

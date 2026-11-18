@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3]
+[gd_scene load_steps=21 format=3]
 
 [ext_resource type="Script" path="res://scripts/game/field_goal_game.gd" id="1_game"]
 [ext_resource type="Resource" path="res://tuning/kick_tuning.tres" id="2_tuning"]
@@ -13,12 +13,10 @@
 [ext_resource type="Script" path="res://scripts/kick/kick_controller.gd" id="11_kick"]
 [ext_resource type="Script" path="res://scripts/input/swipe_input.gd" id="12_swipe"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="13_hud"]
+[ext_resource type="Shader" path="res://shaders/sky.gdshader" id="14_sky"]
 
-[sub_resource type="ProceduralSkyMaterial" id="sky_mat"]
-sky_top_color = Color(0.22, 0.42, 0.78, 1)
-sky_horizon_color = Color(0.66, 0.78, 0.92, 1)
-ground_bottom_color = Color(0.15, 0.3, 0.15, 1)
-ground_horizon_color = Color(0.66, 0.78, 0.92, 1)
+[sub_resource type="ShaderMaterial" id="sky_mat"]
+shader = ExtResource("14_sky")
 
 [sub_resource type="Sky" id="sky"]
 sky_material = SubResource("sky_mat")
@@ -27,8 +25,12 @@ sky_material = SubResource("sky_mat")
 background_mode = 2
 sky = SubResource("sky")
 ambient_light_source = 3
-ambient_light_color = Color(1, 1, 1, 1)
-ambient_light_energy = 0.6
+ambient_light_color = Color(0.85, 0.9, 1, 1)
+ambient_light_energy = 0.55
+fog_enabled = true
+fog_light_color = Color(0.68, 0.78, 0.92, 1)
+fog_density = 0.0015
+fog_sky_affect = 0.0
 
 [node name="FieldGoalGame" type="Node3D"]
 script = ExtResource("1_game")
@@ -39,7 +41,9 @@ environment = SubResource("env")
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.866, -0.383, 0.321, 0, 0.643, 0.766, -0.5, -0.663, 0.557, 0, 20, 0)
-light_energy = 1.1
+light_energy = 1.15
+shadow_enabled = true
+directional_shadow_max_distance = 140.0
 
 [node name="Field" type="Node3D" parent="."]
 script = ExtResource("3_field")
@@ -58,10 +62,10 @@ script = ExtResource("6_trail")
 script = ExtResource("7_aim")
 
 [node name="KickCamera" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 5.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2.2)
 keep_aspect = 0
 current = true
-fov = 55.0
+fov = 40.0
 near = 0.1
 far = 400.0
 script = ExtResource("8_cam")

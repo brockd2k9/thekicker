@@ -38,7 +38,8 @@ func _ready() -> void:
 	if tuning == null:
 		tuning = KickTuning.new()
 	_rng.randomize()
-	ball.set_visual_scale(tuning.ball_visual_scale)
+	ball.set_visual_scales(tuning.ball_visual_scale, tuning.ball_visual_scale_far)
+	cam.fov = tuning.camera_fov
 	swipe_input.pressed.connect(_on_pressed)
 	swipe_input.dragged.connect(hud.trail_add)
 	swipe_input.released.connect(_on_swipe_released)
@@ -75,7 +76,7 @@ func _start_attempt() -> void:
 	field.reset_rush()
 	ball.reset(field.tee_position())
 	trail.clear()
-	cam.reset_to(field.tee_position())
+	cam.reset_to(field.tee_position(), situation.distance_m())
 	pressure.setup(situation.pressure, tuning, modifiers)
 	aim_marker.visible = true
 

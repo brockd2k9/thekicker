@@ -79,15 +79,19 @@ extends Resource
 @export_range(0.05, 1.0) var slowmo_scale: float = 0.25
 ## Real seconds the slow-motion beat lasts.
 @export var slowmo_duration: float = 0.6
+## Horizontal field of view (degrees). Lower = longer lens = bigger posts.
+@export_range(20.0, 80.0) var camera_fov: float = 40.0
 ## 0 = camera never moves, 1 = camera fully chases the ball.
-@export_range(0.0, 1.0) var camera_follow_strength: float = 0.35
+@export_range(0.0, 1.0) var camera_follow_strength: float = 0.25
 ## How quickly the camera catches up (higher = tighter).
 @export var camera_follow_speed: float = 3.0
 ## Camera shake on contact (meters, scaled by power).
-@export var kick_shake: float = 0.12
+@export var kick_shake: float = 0.05
 ## Ball end-over-end spin (radians / second).
 @export var ball_spin_speed: float = 14.0
-## Visual-only ball size multiplier so it stays readable at 60 yards.
-@export var ball_visual_scale: float = 2.0
+## Visual-only ball size on the tee (1 = real size). Big = reads like a hero object.
+@export var ball_visual_scale: float = 2.8
+## Visual-only ball size once it's ~15 m downfield, so it doesn't dwarf the posts.
+@export var ball_visual_scale_far: float = 1.7
 ## Show power / aim / wobble numbers after each kick (handy while tuning).
 @export var show_debug_readout: bool = true
