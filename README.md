@@ -1,7 +1,11 @@
 # Kicker (working title)
 
 Mobile-first football kicker game. Godot 4 / GDScript, portrait, touch + mouse.
-**Phase 1 = kicking prototype only.** All teams/players/situations are fictional.
+All teams, players and situations are fictional.
+
+**Built so far:** the flick-to-kick field goal (Phase 1), plus a main menu,
+Challenge Mode, Practice, My Stats, Achievements and Settings, all saved between
+sessions. Career Mode is a "Coming soon" screen (see "Career Mode: where it plugs in").
 
 ## Run it
 
@@ -9,7 +13,9 @@ Mobile-first football kicker game. Godot 4 / GDScript, portrait, touch + mouse.
 2. Open Godot → **Import** → pick this folder's `project.godot` → **Import & Edit**.
    (The first open builds Godot's class cache. Run from the editor at least once
    before using the command line.)
-3. Press **F5** / **⌘B** (Run Project).
+3. Press **F5** / **⌘B** (Run Project). The game opens on the **main menu**.
+   To jump straight into the kick scene, open `scenes/field_goal.tscn` and press **F6**
+   (Run Current Scene). That runs free practice with no menu.
 
 The desktop window opens at 450×800 (portrait phone shape). You can resize it freely;
 the HUD uses anchors/containers and the camera keeps the field width fixed, so any
@@ -24,6 +30,77 @@ aspect ratio works.
   Under pressure it wobbles. Wind is *not* included; read the arrow and the
   red ribbons on the uprights.
 - Tap after the result for the next kick.
+- **II** (top center) pauses. Android back button / Esc also pauses in a kick
+  scene, and goes back to the main menu from any other screen.
+
+## Menu and modes
+
+| Menu item | What it does |
+|---|---|
+| Career Mode | "Coming soon" placeholder |
+| Challenge Mode | A run of kicks that get longer (25 yd → 60), windier (calm → 20 mph + gusts) and more pressured (none → clutch). **3 misses and the run ends** (blocks count). Results screen: Play Again / Main Menu |
+| Practice | The original Phase 1 loop: random kicks forever (not in the original menu spec, added so the existing mode is still reachable) |
+| My Stats | Session accuracy, all-time accuracy, longest make/miss streaks, longest field goal, misses by type, best Challenge run |
+| Achievements | Locked/unlocked list with unlock dates. A toast slides in when one unlocks |
+| Settings | Sound volume, music volume, haptics, aim assist, Reset Stats (with confirmation) |
+
+Challenge difficulty numbers are constants at the top of `scripts/modes/challenge_rules.gd`.
+**Aim assist** = the white aim ring above the crossbar. It is visual only and never
+changes the physics, so stats stay comparable with it on or off.
+
+## How kick results flow (one event)
+
+The kick result is decided in exactly one place: `field_goal_game.gd` `_resolve()`
+(reached from the goal-plane crossing → `KickResult.judge_at_goal_plane()`, the ball
+landing short, a tip at the line, or the kick clock running out). `_resolve()` builds a
+`KickReport` and calls `GameState.report_kick()`, which emits **`GameState.kick_resolved`**:
+
+```
+field_goal_game._resolve()
+  └─ GameState.report_kick(KickReport)      made?, miss_type, distance_yards,
+       └─ signal kick_resolved                pressure, wind (base, gust, at kick), mode
+            ├─ GameState: session stats + KickStats (all-time) → achievements → save
+            ├─ ChallengeScreen: run rules (misses, score)
+            └─ (Career later: game sim, player progression)
+```
+
+Runs (Challenge now, Career games later) end with `GameState.report_run(summary)` →
+`run_finished` → stats + run achievements + save.
+
+A game mode plugs into the kick scene through `KickMode` (`scripts/modes/kick_mode.gd`):
+it picks the next `KickSituation` (distance, wind, pressure) and says whether there is a
+next kick. It never touches the kicking mechanic. `mode = null` is free practice.
+
+## Saves
+
+One JSON file in the user data folder: **`user://kicker_save.json`**
+
+| Platform | Folder |
+|---|---|
+| Android | app-private storage (cleared on uninstall) |
+| Windows | `%APPDATA%\Godot\app_userdata\Kicker\` |
+| macOS | `~/Library/Application Support/Godot/app_userdata/Kicker/` |
+| Linux | `~/.local/share/godot/app_userdata/Kicker/` |
+
+```json
+{ "version": 1, "stats": {...}, "achievements": {"unlocked": {"first_make": 1794983149}},
+  "settings": {...}, "career": null }
+```
+Saved after every kick, run and settings change, and when the app is paused/closed.
+Writes go to a temp file first and are then swapped in. A corrupt file is copied to
+`kicker_save.json.bad` and the game starts fresh. To change the layout, bump
+`SaveStore.VERSION` and add a step in `SaveStore._migrate()`. Delete the file to start over.
+
+## Achievements (data)
+
+Defined as data in `scripts/systems/achievement_defs.gd`: `id`, `name`, `description`,
+`condition`. Add a row and it shows up and is checked automatically. Conditions can test
+an all-time stat (`{"stat": "makes", "at_least": 100}`), a single kick
+(`{"on": "kick", "made": true, "min_yards": 50}`, also `min_pressure`, `min_wind_mph`,
+`mode`), or a run (`{"on": "run", "mode": "challenge", "min_makes": 10}`).
+Seeded: First Make, 5-in-a-Row, Automatic (10 in a row), 50+ Yard Make, Moonshot (60 yd),
+Clutch Kick, Windy Day (15+ mph at the moment of the kick), Century (100 makes), Gauntlet
+(10 makes in one Challenge run).
 
 ## Tuning (one file)
 
@@ -97,15 +174,27 @@ Tunables: `kick_vibration_ms`, `block_vibration_ms` (0 = off).
 ```
 project.godot                 portrait 720x1280 base, canvas_items stretch, GL Compatibility
 tuning/kick_tuning.tres       ← all tunables
-scenes/field_goal.tscn        main scene (wires the pieces together)
+scenes/field_goal.tscn        kick scene (wires the pieces together), reused by every mode
+scenes/screens/               main menu, practice, challenge, stats, achievements,
+                              settings, career placeholder (thin scenes; UI built in code)
 scenes/ball.tscn              football model + ground shadow
 scenes/ui/hud.tscn            HUD layout
 shaders/                      procedural field, ball, crowd, sky
 audio/                        optional sounds (see "Sound")
 scripts/
-  autoload/game_state.gd      GameState: session stats (Phase 2: player/season/save)
-  autoload/sfx.gd             Sfx: sound hook
+  autoload/game_state.gd      GameState: THE service. kick_resolved event, session stats,
+                              owns KickStats / AchievementTracker / GameSettings / SaveStore
+  autoload/sfx.gd             Sfx: sound hook (plays on the "SFX" bus)
   autoload/haptics.gd         Haptics: phone vibration
+  autoload/music.gd           Music: loops audio/music.ogg on the "Music" bus if present
+  core/kick_report.gd         KickReport: the kick-result event payload
+  systems/kick_stats.gd       all-time stats (streaks, longest FG, misses by type, best run)
+  systems/achievement_defs.gd achievements as data
+  systems/achievement_tracker.gd  unlock state + condition checks
+  systems/game_settings.gd    volumes, haptics, aim assist; creates SFX/Music buses
+  systems/save_store.gd       JSON save file, version + migrations
+  modes/kick_mode.gd          KickMode: how a mode plugs into the kick scene
+  modes/challenge_rules.gd    Challenge difficulty ramp + 3-miss rule
   config/kick_tuning.gd       KickTuning resource definition
   input/swipe.gd              swipe data, normalized to screen height
   input/swipe_input.gd        pointer → swipe (touch & mouse, one code path)
@@ -128,7 +217,20 @@ scripts/
   camera/kick_camera.gd       behind-the-ball camera, follow + shake
   game/field_goal_game.gd     attempt state machine (SETUP → SNAP → KICK_WINDOW → FLIGHT → RESULT)
   ui/hud.gd, wind_indicator.gd, swipe_trail.gd
+  ui/ui_kit.gd                shared theme, widgets, safe-area frame, modal/confirm dialog
+  ui/screens.gd               scene paths + navigation
+  ui/menu_screen.gd           base for menu screens (Back / Esc / Android back)
+  ui/play_overlay.gd          pause button + pause menu over the kick scene
+  ui/toast.gd                 Toast autoload: achievement banners
+  ui/screens/*.gd             one script per screen
 ```
+
+### Screen scaling (phones now, Steam later)
+Menus are laid out in the 720×1280 base viewport and scaled by the `canvas_items` stretch
+mode. Content sits in a centered 640-px column, so taller phones get more space and a
+landscape desktop window just gets wider side margins. Buttons are 96 px tall (thumb
+sized), and screens respect the notch / safe area like the HUD. On desktop, buttons take
+keyboard/gamepad focus (arrows + Enter, Esc = back). On phones, focus rings are off.
 
 Each script does one job and talks to the others through method calls and signals
 wired in `field_goal_game.gd`. `KickController`, `KickResult`, `KickSituation`
@@ -141,19 +243,25 @@ listens in `_unhandled_input` and every HUD control is `mouse_filter = Ignore`.
 Future menu buttons will therefore take their own clicks without firing kicks. Swipe
 distances and speeds are measured in *screen heights*, so feel is resolution-independent.
 
-### Where Phase 2 plugs in
+### Career Mode: where it plugs in
+- **Kicks:** a `CareerGameMode extends KickMode` sets the situation from the game sim and
+  ends the game via `wants_next_kick()`. Kicks then reach stats and achievements through
+  `GameState.kick_resolved` with `mode = &"career"`, with no other changes.
+- **Save:** the save file already has a reserved `"career"` section (`GameState.career_data`).
 - **Player stats → kick:** build a `KickModifiers` from stats
   (Leg Power → `power_mult`, Accuracy → `accuracy_spread_deg`,
   Composure → `pressure_sensitivity`, Fitness/Morale → `window_mult`) and assign it to
   `field_goal_game.gd`'s `modifiers`. Nothing else in the kick code changes.
 - **Season games:** create `KickSituation`s from the game sim instead of `KickSituation.roll()`.
-- **Week/schedule/money/relationships + save/load:** live in `GameState` (or sibling
-  autoloads) as plain data, serialized to `user://`.
-- **Menus:** new scenes. The field-goal scene can be instanced from a game-day scene.
+- **Week/schedule/money/relationships:** plain data in the `career` save section.
+- **Screens:** the field-goal scene is instanced by a wrapper scene
+  (see `challenge_screen.gd`), so a game-day scene can do the same.
 
 ## Sound
 
-`Sfx.play(&"kick")` is called for `snap`, `catch`, `kick`, `good`, `miss`, `block`.
+`Sfx.play(&"kick")` is called for `snap`, `catch`, `kick`, `good`, `miss`, `block`, plus
+`ui_tap` (menu buttons), `achievement` (toast) and `run_over` (Challenge results).
+`audio/music.ogg` (or .mp3/.wav), if present, loops on the Music bus.
 Drop `audio/kick.ogg` (or `.wav`/`.mp3`) etc. into `audio/` and they play automatically.
 Until then the events are printed to the Output panel in debug builds.
 
@@ -181,9 +289,14 @@ Export:
    (sideload) or `.aab` (Play Store, enable *Gradle Build* and install the Android build template).
 
 The renderer is **GL Compatibility** for the widest Android device support.
+The Android back button is handled by the game (`application/config/quit_on_go_back=false`):
+back to the menu from a screen, pause in a kick, quit from the main menu.
+Bump **Version Code** for every Play Store upload. `config/version` in Project Settings is
+what the Settings screen shows.
 
 ## Desktop / Steam later
 - Add a Windows/Linux/macOS export preset. Mouse already works.
 - Remove the `window_*_override` (450×800) in Project Settings → Display → Window or
   switch to a landscape-friendly layout. The HUD will reflow either way.
-- Steam integration (achievements, etc.) would come via the GodotSteam addon later.
+- Steam integration would come via the GodotSteam addon later. Achievements: listen to
+  `GameState.achievement_unlocked` and call the Steam API with the same `id`.

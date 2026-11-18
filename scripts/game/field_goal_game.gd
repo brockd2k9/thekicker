@@ -8,12 +8,18 @@ extends Node3D
 
 enum Phase { SETUP, SNAP, KICK_WINDOW, FLIGHT, RESULT }
 
+## The result has been shown for result_min_display seconds.
+signal attempt_finished(outcome: KickResult.Outcome)
+
 @export var tuning: KickTuning
 
 var phase: Phase = Phase.SETUP
 var situation: KickSituation
 ## Phase 2: replace with modifiers built from the player's current stats.
 var modifiers: KickModifiers = KickModifiers.new()
+## Game-mode rules (Challenge, Career later). Set before adding the scene to
+## the tree. null = free practice: random kicks forever.
+var mode: KickMode = null
 
 var _rng := RandomNumberGenerator.new()
 var _window_total := 1.0
@@ -28,6 +34,8 @@ var _play_total := 1.0
 var _ball_prev := Vector3.ZERO
 ## True while the finger that tapped "next kick" is still down.
 var _swallow_release := false
+## Live (gusting) wind at the moment of the kick, for the result report.
+var _wind_at_kick := 0.0
 
 @onready var field: FieldBuilder = $Field
 @onready var ball: Ball = $Ball
@@ -118,8 +126,10 @@ func _start_attempt() -> void:
 	_can_continue = false
 	Engine.time_scale = 1.0
 
-	var wind_mph := wind.roll(_rng, tuning)
-	situation = KickSituation.roll(_rng, tuning, wind_mph)
+	situation = mode.next_situation(_rng, tuning, wind) if mode != null else null
+	if situation == null:
+		var wind_mph := wind.roll(_rng, tuning)
+		situation = KickSituation.roll(_rng, tuning, wind_mph)
 	situation.wind_gust_mph = wind.gust_mph
 	field.set_distance(situation.distance_m())
 	_play_t = 0.0
@@ -129,7 +139,7 @@ func _start_attempt() -> void:
 	trail.clear()
 	cam.reset_to(field.hold_spot(), situation.distance_m())
 	pressure.setup(situation.pressure, tuning, modifiers)
-	aim_marker.visible = true
+	aim_marker.visible = GameState.settings.aim_assist
 
 	hud.show_situation(situation, tuning)
 	hud.hide_result()
@@ -170,6 +180,7 @@ func _try_kick(swipe: Swipe) -> void:
 	var shot: KickController.Shot = kicker.build_shot(
 		swipe, tuning, modifiers, pressure.wobble_deg(), _rng, _play_t)
 	phase = Phase.FLIGHT
+	_wind_at_kick = wind.mph
 	aim_marker.visible = false
 	hud.set_window(0.0, false)
 	hud.set_hint("")
@@ -189,6 +200,7 @@ func _try_kick(swipe: Swipe) -> void:
 
 
 func _kick_blocked() -> void:
+	_wind_at_kick = wind.mph
 	aim_marker.visible = false
 	hud.set_window(0.0, false)
 	_play_t = 1.0
@@ -205,7 +217,9 @@ func _kick_blocked() -> void:
 func _resolve(outcome: KickResult.Outcome, note: String = "") -> void:
 	phase = Phase.RESULT
 	var my_id := _attempt_id
-	GameState.record_attempt(situation.distance_yards, situation.pressure, outcome)
+	# THE kick-result event: stats, achievements and modes all hear it from here.
+	GameState.report_kick(KickReport.create(outcome, situation, _wind_at_kick,
+		mode.id() if mode != null else &"practice", note))
 
 	if KickResult.is_good(outcome):
 		Sfx.play(&"good")
@@ -226,6 +240,9 @@ func _resolve(outcome: KickResult.Outcome, note: String = "") -> void:
 	await get_tree().create_timer(tuning.result_min_display, true, false, true).timeout
 	if my_id != _attempt_id:
 		return
+	attempt_finished.emit(outcome)
+	if mode != null and not mode.wants_next_kick():
+		return  # the mode shows its own end screen
 	_can_continue = true
 	hud.set_hint("Tap for next kick")
 

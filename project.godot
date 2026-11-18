@@ -6,15 +6,20 @@ config_version=5
 [application]
 
 config/name="Kicker"
-config/description="Flick-to-kick field goal prototype (Phase 1)."
-run/main_scene="res://scenes/field_goal.tscn"
+config/description="Flick-to-kick field goal game."
+config/version="0.2.0"
+run/main_scene="res://scenes/screens/main_menu.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
+; Android back button is handled by the screens (back to menu / pause), not app quit.
+config/quit_on_go_back=false
 
 [autoload]
 
 GameState="*res://scripts/autoload/game_state.gd"
 Sfx="*res://scripts/autoload/sfx.gd"
 Haptics="*res://scripts/autoload/haptics.gd"
+Music="*res://scripts/autoload/music.gd"
+Toast="*res://scripts/ui/toast.gd"
 
 [display]
 

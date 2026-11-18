@@ -23,6 +23,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	for i in POOL_SIZE:
 		var p := AudioStreamPlayer.new()
+		p.bus = &"SFX"  # Settings > Sound volume (bus created by GameSettings)
 		add_child(p)
 		_pool.append(p)
 

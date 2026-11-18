@@ -55,3 +55,27 @@ Things that are built but **untuned**. Every value named here is in `tuning/kick
     ~70% of the rush clear every hand; leapers can tip from ~80%; hands-up linemen only in the
     last ~10%, and only softer kicks. If tips feel too common or too rare, change
     `rushed_elevation_drop_deg`, `rushed_from`, or `hand_block_radius` (0.3 m).
+
+# Menus, modes and progression playtest checklist
+
+23. **Challenge ramp.** 25 yd on kick 1, +3 yd per kick to 60 by kick ~12. Calm for 2 kicks,
+    then +1.5 mph per kick; gusts from kick 7; pressure maxes on kick 13. Is the first miss
+    coming too early or too late? All numbers are in `challenge_rules.gd`.
+24. **3-miss rule.** Blocks and tips count as misses. Does that feel fair?
+25. **Results screen** appears after the third miss's result has played out (not instantly).
+    Check Play Again and Main Menu, and that "NEW BEST!" only shows on a real best.
+26. **Pause** (II, top center): it must never fire a kick, even if you swipe through it.
+    Also check Android back: pause in a kick, back to the menu elsewhere, quit from the main menu.
+27. **Stats persist.** Kick a few, force-close the app, reopen: all-time numbers and
+    streaks should survive; Session Accuracy should start at 0.
+28. **Streaks carry across sessions and modes** (a Practice make + a Challenge make = 2 in a row).
+    Decide if that's what you want.
+29. **Achievement toasts.** Several can unlock on one kick (they queue). Check they don't
+    hide anything important during the slow-mo result.
+30. **Windy Day** uses the wind at the moment of the kick, gusts included. A gusty
+    "8-15 MPH" kick taken in a lull won't count.
+31. **Reset Stats** clears stats and best run but keeps achievements and settings. Confirm
+    that's the behavior you want.
+32. **Aim Assist off** hides the aim ring only. Does the game still feel readable without it?
+33. **Volume sliders** work once real sounds/music are in `audio/` (`music.ogg` loops on the Music bus).
+34. **Touch targets.** Buttons are 96 px in the 720-wide layout. Check on the smallest phone you have.
