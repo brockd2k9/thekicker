@@ -38,6 +38,19 @@ func roll(rng: RandomNumberGenerator, tuning: KickTuning) -> float:
 	return base_mph
 
 
+## Set the wind directly instead of rolling it (game modes, e.g. Challenge).
+## base: signed steady mph. gust: extra mph at peak (0 = steady).
+func set_conditions(rng: RandomNumberGenerator, tuning: KickTuning, base: float, gust: float) -> void:
+	base_mph = base
+	gust_mph = gust if absf(base) > 0.0 else 0.0
+	_freq = tuning.gust_speed
+	_t = 0.0
+	_phase_a = rng.randf() * TAU
+	_phase_b = rng.randf() * TAU
+	mph = _current()
+	changed.emit(mph)
+
+
 func is_gusty() -> bool:
 	return gust_mph > 0.0
 

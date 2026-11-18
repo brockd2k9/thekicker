@@ -9,6 +9,8 @@ const MISS_COLOR := Color(1.0, 0.4, 0.3)
 
 var _pressure_fill: StyleBoxFlat
 var _window_fill: StyleBoxFlat
+## True once a mode has taken over the top row (set_scoreboard).
+var _scoreboard_override := false
 
 @onready var _attempts: Label = %AttemptsLabel
 @onready var _makes: Label = %MakesLabel
@@ -37,8 +39,17 @@ func _ready() -> void:
 
 
 func update_score() -> void:
+	if _scoreboard_override:
+		return
 	_attempts.text = "KICKS %d" % GameState.attempts
 	_makes.text = "MADE %d  (%d%%)" % [GameState.makes, GameState.make_percent()]
+
+
+## Modes replace the session score in the top row, e.g. Challenge: kick / misses.
+func set_scoreboard(left: String, right: String) -> void:
+	_scoreboard_override = true
+	_attempts.text = left
+	_makes.text = right
 
 
 func show_situation(s: KickSituation, tuning: KickTuning) -> void:
