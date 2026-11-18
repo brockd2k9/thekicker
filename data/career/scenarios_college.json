@@ -1,0 +1,753 @@
+{
+	"_doc": "College and junior college scenarios. Field reference: the _doc in scenarios_hs.json.",
+	"scenarios": [
+		{
+			"id": "col_class_load",
+			"title": "Heavy Class Load",
+			"text": "Midterms in three classes the same week, and your position coach wants extra film sessions.",
+			"category": "school",
+			"stages": [
+				"college",
+				"juco"
+			],
+			"weight": 2,
+			"cooldown": 5,
+			"choices": [
+				{
+					"label": "Prioritize classes",
+					"result": "Straight A's on midterms.",
+					"stats": {
+						"life": {
+							"energy": -4
+						},
+						"personality": {
+							"charisma": -2,
+							"intelligence": 5
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Prioritize football",
+					"result": "Your grades slip a little. Your kicking doesn't.",
+					"stats": {
+						"football": {
+							"accuracy": 2,
+							"power": 1
+						},
+						"personality": {
+							"ambition": 3,
+							"leadership": -1,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					]
+				},
+				{
+					"label": "Get a tutor and balance it",
+					"result": "Organized and on top of it.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"charisma": -1,
+							"ambition": -1,
+							"leadership": 1,
+							"intelligence": 3
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				}
+			]
+		},
+		{
+			"id": "col_roommate_conflict",
+			"title": "Roommate Trouble",
+			"text": "Your roommate games with friends until 3 a.m. every night.",
+			"category": "social",
+			"stages": [
+				"college",
+				"juco"
+			],
+			"weight": 2,
+			"cooldown": 6,
+			"choices": [
+				{
+					"label": "Set some ground rules",
+					"result": "Awkward talk, better sleep.",
+					"stats": {
+						"life": {
+							"social": 2,
+							"energy": 4
+						},
+						"personality": {
+							"ambition": -2,
+							"leadership": 4
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Earplugs and ignore it",
+					"result": "You sleep. Sort of.",
+					"stats": {
+						"life": {
+							"energy": -4
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"tired"
+					]
+				},
+				{
+					"label": "Crash on a teammate's couch",
+					"result": "Fun, but your back hates you.",
+					"stats": {
+						"life": {
+							"social": 3,
+							"fun": 2,
+							"health": -2
+						},
+						"personality": {
+							"charisma": 1,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"distracted"
+					]
+				}
+			]
+		},
+		{
+			"id": "col_nil_offer",
+			"title": "Endorsement Offer",
+			"text": "Gridiron Grub, a local burger spot, wants you in a TV spot for a few hundred dollars.",
+			"category": "money",
+			"stages": [
+				"college",
+				"juco"
+			],
+			"cooldown": 10,
+			"choices": [
+				{
+					"label": "Sign and film it",
+					"result": "You're on TV. Your teammates won't let it go.",
+					"stats": {
+						"life": {
+							"social": 3,
+							"fun": 3,
+							"energy": -4
+						},
+						"personality": {
+							"charisma": 4,
+							"ambition": 2,
+							"leadership": -1,
+							"intelligence": -2
+						}
+					},
+					"modifiers": [
+						"spotlight"
+					],
+					"follow_up": {
+						"id": "col_nil_followup",
+						"weeks": 2
+					}
+				},
+				{
+					"label": "Negotiate with the athletic department's help",
+					"result": "Better terms, less hassle.",
+					"stats": {
+						"personality": {
+							"charisma": 1,
+							"intelligence": 4
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Pass and focus on the season",
+					"result": "Coach appreciates it.",
+					"stats": {
+						"life": {
+							"social": -2
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "col_nil_followup",
+			"title": "The Ad Drops",
+			"text": "Your Gridiron Grub commercial is running during every local broadcast.",
+			"category": "media",
+			"stages": [
+				"college",
+				"juco"
+			],
+			"follow_up_only": true,
+			"choices": [
+				{
+					"label": "Lean into it",
+					"result": "Fans start chanting your catchphrase.",
+					"stats": {
+						"life": {
+							"fun": 5,
+							"social": 4
+						},
+						"personality": {
+							"charisma": 3,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"pumped_up"
+					]
+				},
+				{
+					"label": "Laugh it off and stay humble",
+					"result": "Teammates respect that.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"ambition": -1,
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				}
+			]
+		},
+		{
+			"id": "col_team_pressure",
+			"title": "Team Tradition",
+			"text": "Upperclassmen tell the rookies to skip study hall and do a midnight 'team tradition' run around campus.",
+			"category": "team",
+			"stages": [
+				"college",
+				"juco"
+			],
+			"seasons": [
+				1,
+				2
+			],
+			"once": true,
+			"choices": [
+				{
+					"label": "Go along with it",
+					"result": "It's harmless, but you're exhausted and behind on school.",
+					"stats": {
+						"life": {
+							"social": 4,
+							"energy": -8,
+							"fun": 2
+						},
+						"personality": {
+							"leadership": -2
+						}
+					},
+					"modifiers": [
+						"tired"
+					]
+				},
+				{
+					"label": "Politely decline",
+					"result": "A few guys call you soft. Your grades thank you.",
+					"stats": {
+						"life": {
+							"social": -5
+						},
+						"personality": {
+							"charisma": -1,
+							"ambition": 1,
+							"leadership": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Talk to the captain about it",
+					"result": "He makes it optional. Some rookies are grateful.",
+					"stats": {
+						"life": {
+							"social": -2
+						},
+						"personality": {
+							"ambition": -2,
+							"leadership": 5
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				}
+			]
+		},
+		{
+			"id": "col_homesick",
+			"title": "Homesick",
+			"text": "First time this far from home. The dorm feels very quiet.",
+			"category": "family",
+			"stages": [
+				"college",
+				"juco"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				2,
+				6
+			],
+			"once": true,
+			"choices": [
+				{
+					"label": "Call home every night",
+					"result": "It helps. A lot.",
+					"stats": {
+						"life": {
+							"fun": 3,
+							"social": -1
+						},
+						"personality": {
+							"charisma": 1,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				},
+				{
+					"label": "Join a study group",
+					"result": "New friends, better notes.",
+					"stats": {
+						"life": {
+							"social": 5
+						},
+						"personality": {
+							"charisma": 1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Keep it to yourself",
+					"result": "It sits with you all week.",
+					"stats": {
+						"life": {
+							"fun": -5
+						},
+						"personality": {
+							"ambition": 1,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"drained"
+					]
+				}
+			]
+		},
+		{
+			"id": "col_exam_week",
+			"title": "Finals Crunch",
+			"text": "Two finals and a paper due the week of a big conference game.",
+			"category": "school",
+			"stages": [
+				"college",
+				"juco"
+			],
+			"weeks": [
+				7,
+				11
+			],
+			"cooldown": 8,
+			"choices": [
+				{
+					"label": "Pull an all-nighter",
+					"result": "Paper done. You are not.",
+					"stats": {
+						"life": {
+							"energy": -12
+						},
+						"personality": {
+							"charisma": -2,
+							"intelligence": 4
+						}
+					},
+					"modifiers": [
+						"tired"
+					]
+				},
+				{
+					"label": "Study group every night",
+					"result": "Shared notes, shared stress.",
+					"stats": {
+						"life": {
+							"social": 3,
+							"energy": -3
+						},
+						"personality": {
+							"charisma": -1,
+							"ambition": -1,
+							"leadership": 1,
+							"intelligence": 3
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Ask for an extension",
+					"result": "Granted. A weight comes off.",
+					"stats": {
+						"life": {
+							"fun": 2
+						},
+						"personality": {
+							"charisma": 1,
+							"ambition": -1,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "col_media_day",
+			"title": "Media Day",
+			"text": "Cameras everywhere. Reporters want five minutes with the kicker.",
+			"category": "media",
+			"stages": [
+				"college",
+				"juco"
+			],
+			"weeks": [
+				1,
+				4
+			],
+			"cooldown": 11,
+			"choices": [
+				{
+					"label": "Prepared, polished answers",
+					"result": "Quotable and professional.",
+					"stats": {
+						"personality": {
+							"charisma": 2,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				},
+				{
+					"label": "Crack jokes the whole time",
+					"result": "The clip goes around campus.",
+					"stats": {
+						"life": {
+							"fun": 4
+						},
+						"personality": {
+							"charisma": 4,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"pumped_up"
+					]
+				},
+				{
+					"label": "Keep it short",
+					"result": "You're back on the practice field in no time.",
+					"stats": {
+						"football": {
+							"accuracy": 1
+						},
+						"personality": {
+							"ambition": 2,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Own the room",
+					"result": "The cameras love you. You walk out buzzing.",
+					"stats": {
+						"life": {
+							"fun": 4,
+							"social": 4
+						},
+						"personality": {
+							"charisma": 3,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"confident",
+						"pumped_up"
+					],
+					"requires": {
+						"traits": [
+							"fan_favorite"
+						]
+					}
+				}
+			]
+		},
+		{
+			"id": "col_new_technique",
+			"title": "New Coordinator, New Technique",
+			"text": "The new special teams coordinator wants to rebuild your approach angle.",
+			"category": "training",
+			"stages": [
+				"college",
+				"juco"
+			],
+			"once": true,
+			"choices": [
+				{
+					"label": "Rebuild it from scratch",
+					"result": "Awkward now. Better later.",
+					"stats": {
+						"life": {
+							"energy": -4
+						},
+						"football": {
+							"accuracy": 3,
+							"power": -1
+						},
+						"personality": {
+							"charisma": -1,
+							"ambition": 2,
+							"leadership": -1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"drained"
+					]
+				},
+				{
+					"label": "Keep your own style",
+					"result": "He's not thrilled, but your kicks are good.",
+					"stats": {
+						"football": {
+							"power": 1
+						},
+						"personality": {
+							"ambition": 1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				},
+				{
+					"label": "Meet him halfway",
+					"result": "Small tweaks that make sense.",
+					"stats": {
+						"football": {
+							"accuracy": 1
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 3
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				}
+			]
+		},
+		{
+			"id": "col_internship",
+			"title": "Internship or Training?",
+			"text": "A summer internship at a sports analytics firm, or a summer of full-time training?",
+			"category": "career",
+			"stages": [
+				"college",
+				"juco"
+			],
+			"when": [
+				"offseason"
+			],
+			"cooldown": 1,
+			"choices": [
+				{
+					"label": "Take the internship",
+					"result": "You learn a ton. Your leg gets a little rusty.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"football": {
+							"power": -1
+						},
+						"personality": {
+							"charisma": -2,
+							"intelligence": 5
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Train full-time",
+					"result": "Strongest you've ever been.",
+					"stats": {
+						"football": {
+							"power": 3,
+							"accuracy": 2
+						},
+						"personality": {
+							"ambition": 3,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					]
+				},
+				{
+					"label": "Split the summer",
+					"result": "A bit of both.",
+					"stats": {
+						"life": {
+							"energy": -4
+						},
+						"football": {
+							"accuracy": 1
+						},
+						"personality": {
+							"charisma": -1,
+							"ambition": 1,
+							"leadership": -1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"tired"
+					]
+				}
+			]
+		},
+		{
+			"id": "col_pro_scouts",
+			"title": "Scouts at Practice",
+			"text": "Pro scouts are timing your hang time at practice this week.",
+			"category": "career",
+			"stages": [
+				"college",
+				"juco"
+			],
+			"beat": {
+				"season_in_stage": 4,
+				"week": 4
+			},
+			"gate": "Story beat",
+			"choices": [
+				{
+					"label": "Boom every kickoff",
+					"result": "Hang times the scouts can't ignore.",
+					"stats": {
+						"life": {
+							"energy": -5
+						},
+						"football": {
+							"power": 2
+						},
+						"personality": {
+							"ambition": 3,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"pumped_up"
+					],
+					"set_flags": {
+						"scouts_power": true
+					}
+				},
+				{
+					"label": "Show your consistency",
+					"result": "Twenty straight through the middle.",
+					"stats": {
+						"football": {
+							"accuracy": 2
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"set_flags": {
+						"scouts_accuracy": true
+					}
+				},
+				{
+					"label": "Talk shop with the scouts after",
+					"result": "They like how you think.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 2,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"spotlight"
+					],
+					"set_flags": {
+						"scouts_interview": true
+					}
+				}
+			]
+		}
+	]
+}

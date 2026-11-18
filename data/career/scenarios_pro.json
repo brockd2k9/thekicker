@@ -1,0 +1,630 @@
+{
+	"_doc": "Pro scenarios. Field reference: the _doc in scenarios_hs.json.",
+	"scenarios": [
+		{
+			"id": "pro_rookie_dinner",
+			"title": "Rookie Dinner",
+			"text": "The veterans 'invite' the rookies to cover the team dinner at a fancy steakhouse.",
+			"category": "team",
+			"stages": [
+				"pro"
+			],
+			"beat": {
+				"season_in_stage": 1,
+				"week": 2
+			},
+			"gate": "Story beat",
+			"choices": [
+				{
+					"label": "Pay for the whole thing",
+					"result": "Expensive, but the vets love you.",
+					"stats": {
+						"life": {
+							"social": 6,
+							"fun": 3
+						},
+						"personality": {
+							"charisma": 2,
+							"ambition": -1,
+							"leadership": 2,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				},
+				{
+					"label": "Split it with the other rookies",
+					"result": "Fair and friendly.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Politely pass",
+					"result": "A couple of veterans give you the cold shoulder.",
+					"stats": {
+						"life": {
+							"social": -6
+						},
+						"personality": {
+							"ambition": 2,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"stressed"
+					]
+				}
+			]
+		},
+		{
+			"id": "pro_agent_meeting",
+			"title": "Agent Meeting",
+			"text": "Three agencies want to represent you. Each one has a pitch.",
+			"category": "career",
+			"stages": [
+				"pro"
+			],
+			"weeks": [
+				1,
+				6
+			],
+			"once": true,
+			"choices": [
+				{
+					"label": "Sign with the big agency",
+					"result": "Big name, big plans.",
+					"stats": {
+						"personality": {
+							"charisma": -1,
+							"ambition": 3,
+							"leadership": -1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				},
+				{
+					"label": "Hire a small, careful agent",
+					"result": "Fewer promises, more attention.",
+					"stats": {
+						"personality": {
+							"charisma": -2,
+							"ambition": -1,
+							"leadership": 1,
+							"intelligence": 4
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Represent yourself",
+					"result": "Saves money. Costs sleep.",
+					"stats": {
+						"life": {
+							"energy": -4
+						},
+						"personality": {
+							"charisma": -1,
+							"ambition": 2,
+							"leadership": -1,
+							"intelligence": 3
+						}
+					},
+					"modifiers": [
+						"stressed"
+					]
+				}
+			]
+		},
+		{
+			"id": "pro_contract_talks",
+			"title": "Contract Talks",
+			"text": "Your agent says the team wants to talk about an extension.",
+			"category": "money",
+			"stages": [
+				"pro"
+			],
+			"seasons": [
+				2,
+				20
+			],
+			"weeks": [
+				6,
+				11
+			],
+			"cooldown": 30,
+			"choices": [
+				{
+					"label": "Push for top dollar",
+					"result": "Talks get tense.",
+					"stats": {
+						"personality": {
+							"charisma": 1,
+							"ambition": 4,
+							"leadership": -2,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"stressed"
+					]
+				},
+				{
+					"label": "Take a team-friendly deal",
+					"result": "Teammates notice. Management does too.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"ambition": -2,
+							"leadership": 4
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				},
+				{
+					"label": "Wait until the season ends",
+					"result": "Bet on yourself.",
+					"stats": {
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 3
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Let the fans make your case",
+					"result": "Your public profile does the negotiating.",
+					"stats": {
+						"life": {
+							"fun": 3
+						},
+						"personality": {
+							"charisma": 2,
+							"ambition": 2,
+							"leadership": -1,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"requires": {
+						"traits": [
+							"media_savvy"
+						]
+					}
+				}
+			]
+		},
+		{
+			"id": "pro_media_interview",
+			"title": "Postgame Questions",
+			"text": "After a missed kick last week, reporters are waiting at your locker.",
+			"category": "media",
+			"stages": [
+				"pro"
+			],
+			"cooldown": 6,
+			"choices": [
+				{
+					"label": "Own the miss",
+					"result": "Straight answers earn respect.",
+					"stats": {
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"charisma": 2,
+							"ambition": -2,
+							"leadership": 4,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				},
+				{
+					"label": "Blame the conditions",
+					"result": "The quote doesn't land well.",
+					"stats": {
+						"life": {
+							"social": -3
+						},
+						"personality": {
+							"charisma": -1,
+							"leadership": -3
+						}
+					},
+					"modifiers": [
+						"distracted"
+					]
+				},
+				{
+					"label": "Decline to talk",
+					"result": "You skip the circus.",
+					"stats": {
+						"life": {
+							"social": -2
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Turn it into a rallying cry",
+					"result": "The locker room plays your quote all week.",
+					"stats": {
+						"life": {
+							"social": 3
+						},
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"ambition": -1,
+							"leadership": 3
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"requires": {
+						"any_traits": [
+							"team_captain",
+							"field_general"
+						]
+					}
+				}
+			]
+		},
+		{
+			"id": "pro_family_finances",
+			"title": "Family and Finances",
+			"text": "Relatives keep asking for loans now that you're a pro.",
+			"category": "family",
+			"stages": [
+				"pro"
+			],
+			"cooldown": 12,
+			"choices": [
+				{
+					"label": "Set a budget with an advisor",
+					"result": "Clear rules, fewer awkward calls.",
+					"stats": {
+						"personality": {
+							"charisma": -2,
+							"intelligence": 5
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Help everyone out",
+					"result": "Generous, and stressful.",
+					"stats": {
+						"life": {
+							"social": 5,
+							"fun": 2
+						},
+						"personality": {
+							"charisma": 2,
+							"ambition": -1,
+							"leadership": 1,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"stressed"
+					]
+				},
+				{
+					"label": "Say no to everyone",
+					"result": "Peace for your wallet, tension at home.",
+					"stats": {
+						"life": {
+							"social": -5
+						},
+						"personality": {
+							"charisma": -1,
+							"ambition": 2,
+							"leadership": -1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"drained"
+					]
+				}
+			]
+		},
+		{
+			"id": "pro_hospital_visit",
+			"title": "Team Hospital Visit",
+			"text": "The team is visiting the children's hospital this week.",
+			"category": "community",
+			"stages": [
+				"pro"
+			],
+			"cooldown": 10,
+			"choices": [
+				{
+					"label": "Stay all afternoon",
+					"result": "You'll remember this one forever.",
+					"stats": {
+						"life": {
+							"social": 4,
+							"fun": 4,
+							"energy": -4
+						},
+						"personality": {
+							"charisma": 3,
+							"ambition": -1,
+							"leadership": 2,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Join for the group photo",
+					"result": "A quick, kind visit.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				},
+				{
+					"label": "Skip it for treatment",
+					"result": "You get extra recovery time.",
+					"stats": {
+						"life": {
+							"health": 4,
+							"social": -3
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
+		},
+		{
+			"id": "pro_holder_chemistry",
+			"title": "Holder Chemistry",
+			"text": "Your holder wants extra time to work on timing this week.",
+			"category": "training",
+			"stages": [
+				"pro"
+			],
+			"weight": 2,
+			"cooldown": 4,
+			"choices": [
+				{
+					"label": "Extra reps every day",
+					"result": "Snap, hold, kick. Perfect timing.",
+					"stats": {
+						"life": {
+							"energy": -4
+						},
+						"football": {
+							"accuracy": 3
+						},
+						"personality": {
+							"ambition": -1,
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					]
+				},
+				{
+					"label": "Take a recovery day instead",
+					"result": "Your leg feels brand new.",
+					"stats": {
+						"life": {
+							"health": 5,
+							"energy": 6
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"fresh_legs"
+					]
+				},
+				{
+					"label": "Study the opponent's stadium",
+					"result": "You know every gust in that building.",
+					"stats": {
+						"football": {
+							"toughness": 1
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 3
+						}
+					},
+					"modifiers": [
+						"scouted"
+					]
+				}
+			]
+		},
+		{
+			"id": "pro_cold_snap",
+			"title": "Cold Snap",
+			"text": "Forecast says single digits and wind for Sunday.",
+			"category": "health",
+			"stages": [
+				"pro"
+			],
+			"weeks": [
+				7,
+				11
+			],
+			"cooldown": 10,
+			"choices": [
+				{
+					"label": "Practice outside all week",
+					"result": "Your leg learns the cold.",
+					"stats": {
+						"life": {
+							"health": -3
+						},
+						"football": {
+							"toughness": 3
+						},
+						"personality": {
+							"ambition": 2,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"scouted"
+					]
+				},
+				{
+					"label": "Practice indoors",
+					"result": "Warm and accurate. Not ready for the wind.",
+					"stats": {
+						"life": {
+							"health": 2
+						},
+						"football": {
+							"accuracy": 1
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Ask the equipment staff for help",
+					"result": "Heated capes and the right cleats.",
+					"stats": {
+						"football": {
+							"toughness": 1
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				}
+			]
+		},
+		{
+			"id": "pro_trade_rumors",
+			"title": "Trade Rumors",
+			"text": "Sports radio says the team might trade for another kicker.",
+			"category": "career",
+			"stages": [
+				"pro"
+			],
+			"cooldown": 12,
+			"choices": [
+				{
+					"label": "Tune out the noise",
+					"result": "Kick, sleep, repeat.",
+					"stats": {
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"ambition": 2,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Ask the coach directly",
+					"result": "He says you're his guy. For now.",
+					"stats": {
+						"personality": {
+							"charisma": 1,
+							"ambition": -1,
+							"leadership": 3,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				},
+				{
+					"label": "Read every rumor online",
+					"result": "It's all you think about.",
+					"stats": {
+						"life": {
+							"fun": -4
+						},
+						"personality": {
+							"charisma": -1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"distracted"
+					]
+				}
+			]
+		}
+	]
+}

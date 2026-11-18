@@ -15,6 +15,12 @@ func _build(col: VBoxContainer) -> void:
 		("BYE WEEK %d" % c.week if career.is_bye() else "WEEK %d  -  OFF THE FIELD" % c.week)
 	col.add_child(CareerUi.centered(where, 24, UiKit.MUTED))
 	col.add_child(CareerUi.centered(str(s.get("title", "")), 52, UiKit.ACCENT))
+	var gate := _gate_text(s)
+	if gate != "":
+		var row := HBoxContainer.new()
+		row.alignment = BoxContainer.ALIGNMENT_CENTER
+		row.add_child(CareerUi.chip(gate, true, 24))
+		col.add_child(row)
 	var text := UiKit.label(str(s.get("text", "")), 30)
 	col.add_child(text)
 
@@ -22,9 +28,12 @@ func _build(col: VBoxContainer) -> void:
 	var choices: Array = s.get("choices", [])
 	for i in choices.size():
 		var ch: Dictionary = choices[i]
-		var parts := CareerUi.card(_pick.bind(i))
+		var lock := ScenarioEngine.choice_lock(c, ch)
+		var parts := CareerUi.card(_pick.bind(i), lock == "")
 		var v: VBoxContainer = parts[1]
-		v.add_child(UiKit.label(str(ch.get("label", "")), 32))
+		v.add_child(UiKit.label(str(ch.get("label", "")), 32, Color.WHITE if lock == "" else UiKit.MUTED))
+		if lock != "":
+			v.add_child(UiKit.label(lock, 24, Color(1.0, 0.8, 0.4)))
 		var preview := CareerStats.preview(c, ch.get("stats", {}), career.tuning)
 		v.add_child(CareerUi.change_chips(preview))
 		var mods: Array = ch.get("modifiers", [])
@@ -53,7 +62,17 @@ func _pick(index: int) -> void:
 		var def := CareerContent.trait_def(str(t))
 		v.add_child(CareerUi.centered("NEW TRAIT: %s" % def.get("name", t), 32, UiKit.GOOD))
 		v.add_child(CareerUi.centered(str(def.get("description", "")), 24, UiKit.MUTED))
+	if str(out.get("follow_up", "")) != "":
+		v.add_child(CareerUi.centered("This isn't over...", 24, UiKit.MUTED))
 	var b := UiKit.button("Continue", go_to_current)
 	v.add_child(b)
 	if not OS.has_feature("mobile"):
 		b.grab_focus.call_deferred()
+
+
+## "Fan Favorite scenario", "Leadership 55+ scenario", "Story beat" or "".
+static func _gate_text(s: Dictionary) -> String:
+	if s.has("gate"):
+		return str(s["gate"])
+	var t := ScenarioEngine.requirement_text(s.get("requires", {}))
+	return (t + " scenario") if t != "" else ""

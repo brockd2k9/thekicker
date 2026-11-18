@@ -247,19 +247,31 @@ listens in `_unhandled_input` and every HUD control is `mouse_filter = Ignore`.
 Future menu buttons will therefore take their own clicks without firing kicks. Swipe
 distances and speeds are measured in *screen heights*, so feel is resolution-independent.
 
-### Career Mode: where it plugs in
-- **Kicks:** a `CareerGameMode extends KickMode` sets the situation from the game sim and
-  ends the game via `wants_next_kick()`. Kicks then reach stats and achievements through
-  `GameState.kick_resolved` with `mode = &"career"`, with no other changes.
-- **Save:** the save file already has a reserved `"career"` section (`GameState.career_data`).
-- **Player stats → kick:** build a `KickModifiers` from stats
-  (Leg Power → `power_mult`, Accuracy → `accuracy_spread_deg`,
-  Composure → `pressure_sensitivity`, Fitness/Morale → `window_mult`) and assign it to
-  `field_goal_game.gd`'s `modifiers`. Nothing else in the kick code changes.
-- **Season games:** create `KickSituation`s from the game sim instead of `KickSituation.roll()`.
-- **Week/schedule/money/relationships:** plain data in the `career` save section.
-- **Screens:** the field-goal scene is instanced by a wrapper scene
-  (see `challenge_screen.gd`), so a game-day scene can do the same.
+### Career Mode (in progress)
+Built in stages; high school seasons are playable, college/pro scenarios and traits are
+in the data and measured by the simulator, and stage progression comes next.
+
+| What | Where |
+|---|---|
+| Balance numbers (stat -> kick curves, caps, gains, seasons, game sim, scenario picks) | `tuning/career_tuning.tres` (defaults + docs in `scripts/career/career_tuning.gd`) |
+| Scenarios (49: HS, college, pro, bye/offseason, trait-gated) | `data/career/scenarios_*.json` (field reference: `_doc` in `scenarios_hs.json`) |
+| Traits (8), game-day modifiers (19), stat descriptions | `data/career/traits.json`, `modifiers.json`, `stats_info.json` |
+| Schools, names, play-by-play and game-day text | `data/career/world.json`, `game_day.json` |
+| Content word check (teen audience) | `data/career/content_rules.json` |
+| Weekly loop / saves | `scripts/career/career_manager.gd`, `career_save.gd` (3 slots: `user://career_slot_N.json`) |
+| Stats + traits -> kick | `scripts/career/kick_profile.gd` (`KickProfile.build()` -> `KickModifiers`) |
+| Scenario engine | `scripts/career/scenario_engine.gd` |
+
+How the pieces connect: a career game runs the existing kick scene through `CareerGameMode`
+(a `KickMode`) with `KickProfile.to_kick_modifiers()`, so career kicks report through
+`GameState.kick_resolved` with `mode = &"career"` and count in My Stats and Achievements.
+`CareerContent.validate()` checks every data file (run by the Career Debug screen, the simulator and the tests; problems print as warnings).
+
+**Balance simulator:** `godot --headless res://tools/career_sim.tscn -- careers=40 seed=1` plays
+many careers with different choice strategies through the real systems and writes
+`user://career_sim_report.md` (trait unlock rates, personality / football / life stat
+distributions, scenario frequencies). `tools/career_sim_baseline.md` is the current baseline.
+Design decisions and values to playtest: `PLAYTEST.md`, "Career Mode".
 
 ## Sound
 

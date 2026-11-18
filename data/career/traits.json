@@ -1,5 +1,5 @@
 {
-	"_doc": "Traits unlock when personality stats cross thresholds (every entry in 'unlock' must hold) and stay unlocked. 'passive' is the small bonus: 'profile' adds to KickProfile fields (same keys as modifiers.json effects); 'gains' multiplies stat gains, keyed by a group (life/football/personality) or a single stat (e.g. resilience), +0.15 = 15% bigger gains; 'miss_streak' scales how much a miss streak adds to pressure (-0.3 = 30% less). 'unlocks' is shown on the Stats & Traits screen; scenarios name the traits they require.",
+	"_doc": "Traits unlock when personality stats cross thresholds (every entry in 'unlock' must hold) and stay unlocked. Personality runs on two axes (Charisma <-> Intelligence, Ambition <-> Leadership; see the scenario data): each single-stat trait rewards leaning one way, and each combo pairs one stat from each axis. 'passive' is the small bonus: 'profile' adds to KickProfile fields (same keys as modifiers.json effects); 'gains' multiplies stat gains, keyed by a group (life/football/personality) or a single stat (e.g. resilience), +0.15 = 15% bigger gains; 'miss_streak' scales how much a miss streak adds to pressure (-0.3 = 30% less). 'unlocks' is shown on the Stats & Traits screen; scenarios name the traits they require.",
 
 	"traits": [
 		{
@@ -8,23 +8,23 @@
 			"description": "Never satisfied. Training sticks.",
 			"unlock": [{"stat": "ambition", "min": 60}],
 			"passive": {"gains": {"football": 0.15}},
-			"unlocks": "Extra training and showcase scenarios"
+			"unlocks": "Private Kicking Coach"
 		},
 		{
 			"id": "fan_favorite",
 			"name": "Fan Favorite",
 			"description": "The crowd is on your side.",
-			"unlock": [{"stat": "charisma", "min": 70}],
+			"unlock": [{"stat": "charisma", "min": 60}],
 			"passive": {"profile": {"pressure_sensitivity": -0.05}, "gains": {"social": 0.2}},
-			"unlocks": "Autograph signing, podcast guest, awards show scenarios"
+			"unlocks": "Podcast Guest, Awards Show Presenter, Autograph Signing, Charity Kick-a-Thon"
 		},
 		{
 			"id": "team_captain",
 			"name": "Team Captain",
 			"description": "Teammates follow your lead, and you don't rattle.",
-			"unlock": [{"stat": "leadership", "min": 65}],
+			"unlock": [{"stat": "leadership", "min": 58}],
 			"passive": {"miss_streak": -0.3},
-			"unlocks": "Mentoring, press conference, team meeting scenarios"
+			"unlocks": "Mentoring a Younger Kicker, Press Conference, Youth Kicking Camp"
 		},
 		{
 			"id": "film_student",
@@ -32,23 +32,39 @@
 			"description": "You've studied every stadium's wind.",
 			"unlock": [{"stat": "intelligence", "min": 60}],
 			"passive": {"profile": {"wind_mult": -0.06}},
-			"unlocks": "Film session and scouting scenarios"
+			"unlocks": "Coaches' Film Room"
 		},
 		{
 			"id": "media_savvy",
 			"name": "Media Savvy",
-			"description": "Knows what to say to a camera.",
-			"unlock": [{"stat": "charisma", "min": 55}, {"stat": "intelligence", "min": 55}],
+			"description": "Knows how to sell a story and a personal brand.",
+			"unlock": [{"stat": "charisma", "min": 58}, {"stat": "ambition", "min": 58}],
 			"passive": {"gains": {"personality": 0.1}},
-			"unlocks": "Sponsor photo shoot and interview scenarios"
+			"unlocks": "Sponsor Photo Shoot, Podcast Guest, Press Conference"
 		},
 		{
 			"id": "community_pillar",
 			"name": "Community Pillar",
 			"description": "Gives back, and it gives back to you.",
-			"unlock": [{"stat": "leadership", "min": 55}, {"stat": "charisma", "min": 50}],
+			"unlock": [{"stat": "leadership", "min": 55}, {"stat": "charisma", "min": 55}],
 			"passive": {"gains": {"fun": 0.15, "resilience": 0.1}},
-			"unlocks": "Community service, charity event, youth kicking camp scenarios"
+			"unlocks": "Community Service Day, Youth Kicking Camp, Autograph Signing, Charity Kick-a-Thon"
+		},
+		{
+			"id": "perfectionist",
+			"name": "Perfectionist",
+			"description": "Every rep, every detail, every time.",
+			"unlock": [{"stat": "ambition", "min": 55}, {"stat": "intelligence", "min": 55}],
+			"passive": {"profile": {"accuracy_spread_deg": -0.1}},
+			"unlocks": "Private Kicking Coach"
+		},
+		{
+			"id": "field_general",
+			"name": "Field General",
+			"description": "Runs the special teams unit like a coach.",
+			"unlock": [{"stat": "leadership", "min": 55}, {"stat": "intelligence", "min": 55}],
+			"passive": {"profile": {"window_mult": 0.03}},
+			"unlocks": "Coaches' Film Room, Press Conference"
 		}
 	]
 }

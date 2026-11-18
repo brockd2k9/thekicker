@@ -4,6 +4,9 @@ extends MenuScreen
 ## sends you to the right screen if the career is on a different step
 ## (e.g. after a quit). Back goes to the Career Hub.
 
+## Screens you can open at any step (the rest follow the career's phase).
+const FREE_SCREENS := [Screens.CAREER_HUB, Screens.CAREER_STATS]
+
 var career: CareerManager
 
 
@@ -13,7 +16,7 @@ func _ready() -> void:
 		Screens.go(Screens.CAREER)
 		return
 	var path := scene_file_path
-	if path != Screens.CAREER_HUB and career.screen_path() != path:
+	if not (path in FREE_SCREENS) and career.screen_path() != path:
 		Screens.go(career.screen_path())
 		return
 	super._ready()

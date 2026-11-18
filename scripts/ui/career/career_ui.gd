@@ -194,11 +194,19 @@ static func modifier_chips(ids: Array, size: int = 22) -> HFlowContainer:
 
 
 ## A tappable card (title + any content). Drags still scroll the list it is in;
-## only a short tap picks it.
-static func card(on_pick: Callable) -> Array:
+## only a short tap picks it. enabled=false: a dimmed card that can't be picked.
+static func card(on_pick: Callable, enabled := true) -> Array:
 	var p := PanelContainer.new()
 	p.mouse_filter = Control.MOUSE_FILTER_PASS
-	var normal := UiKit._box(UiKit.BUTTON, 14)
+	var normal := UiKit._box(UiKit.BUTTON if enabled else Color(0.15, 0.18, 0.16, 0.85), 14)
+	if not enabled:
+		p.add_theme_stylebox_override("panel", normal)
+		p.modulate = Color(1, 1, 1, 0.75)
+		var dv := VBoxContainer.new()
+		dv.add_theme_constant_override("separation", 8)
+		dv.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		p.add_child(dv)
+		return [p, dv]
 	var pressed := UiKit._box(UiKit.BUTTON_PRESSED, 14)
 	p.add_theme_stylebox_override("panel", normal)
 	var v := VBoxContainer.new()

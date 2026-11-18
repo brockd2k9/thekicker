@@ -68,8 +68,9 @@ static func trait_def(id: String) -> Dictionary:
 
 # --- world / scenarios / game day ---------------------------------------------------
 
-## Every scenario data file. Stage 4 adds college, pro and trait-gated files.
-const SCENARIO_FILES := ["scenarios_hs.json"]
+## Every scenario data file.
+const SCENARIO_FILES := ["scenarios_hs.json", "scenarios_college.json", "scenarios_pro.json",
+	"scenarios_shared.json", "scenarios_traits.json"]
 
 
 static func world() -> Dictionary:
@@ -85,6 +86,10 @@ static func school(id: String) -> Dictionary:
 		if s.get("id", "") == id:
 			return s
 	return {}
+
+
+static func stats_info() -> Dictionary:
+	return file("stats_info.json")
 
 
 static func game_day() -> Dictionary:
@@ -121,6 +126,28 @@ static func fill(text: String, vars: Dictionary) -> String:
 
 
 # --- checks ---------------------------------------------------------------------------
+
+static func _check_requires(problems: PackedStringArray, where: String, req: Dictionary) -> void:
+	for bound in ["min", "max"]:
+		for k in req.get(bound, {}):
+			if CareerData.group_of(k) == "":
+				problems.append("%s: unknown stat '%s' in requires" % [where, k])
+	for key in ["traits", "any_traits"]:
+		for t in req.get(key, []):
+			if trait_def(str(t)).is_empty():
+				problems.append("%s: unknown trait '%s' in requires" % [where, t])
+	for r in req.get("any_of", []):
+		_check_requires(problems, where, r)
+
+
+## Teen-audience word check (data/career/content_rules.json).
+static func _check_words(problems: PackedStringArray, id: String, texts: Array) -> void:
+	var blocked: Array = file("content_rules.json").get("blocked_words", [])
+	for t in texts:
+		var low := " %s " % str(t).to_lower()
+		for w in blocked:
+			if low.contains(str(w)):
+				problems.append("scenario %s: content rule - contains '%s'" % [id, w])
 
 ## Returns a list of problems (empty = all good) and warns about each.
 static func validate() -> PackedStringArray:
@@ -163,10 +190,36 @@ static func validate() -> PackedStringArray:
 		for st in sc.get("stages", []):
 			if not (st in CareerData.STAGES):
 				problems.append("scenario %s: unknown stage '%s'" % [id, st])
+		if not (str(sc.get("category", "")) in ScenarioEngine.CATEGORIES):
+			problems.append("scenario %s: unknown category '%s'" % [id, sc.get("category", "")])
+		for w in sc.get("when", []):
+			if not (w in ["season", "bye", "offseason"]):
+				problems.append("scenario %s: unknown when '%s'" % [id, w])
+		if sc.has("beat") and not (sc["beat"] is Dictionary and sc["beat"].has("season_in_stage")):
+			problems.append("scenario %s: beat needs season_in_stage" % id)
+		_check_requires(problems, "scenario %s" % id, sc.get("requires", {}))
+		_check_words(problems, id, [sc.get("title", ""), sc.get("text", "")])
 		var choices: Array = sc.get("choices", [])
 		if choices.size() < 2 or choices.size() > 4:
 			problems.append("scenario %s: needs 2-4 choices" % id)
 		for ch in choices:
+			_check_words(problems, id, [ch.get("label", ""), ch.get("result", "")])
+			if (ch.get("modifiers", []) as Array).is_empty():
+				problems.append("scenario %s: choice '%s' has no game-day modifier" % [id, ch.get("label", "")])
+			var n_stats := 0
+			for g in ch.get("stats", {}):
+				n_stats += (ch["stats"][g] as Dictionary).size() if ch["stats"][g] is Dictionary else 0
+			if n_stats == 0:
+				problems.append("scenario %s: choice '%s' changes no stats" % [id, ch.get("label", "")])
+			_check_requires(problems, "scenario %s choice" % id, ch.get("requires", {}))
+			var fu: Variant = ch.get("follow_up")
+			if fu != null:
+				var fid := str(fu.get("id", "")) if fu is Dictionary else str(fu)
+				var target := scenario(fid)
+				if target.is_empty():
+					problems.append("scenario %s: follow_up '%s' doesn't exist" % [id, fid])
+				elif not target.get("follow_up_only", false):
+					problems.append("scenario %s: follow_up '%s' should be follow_up_only" % [id, fid])
 			for g in ch.get("stats", {}):
 				if not (g in CareerData.GROUP_KEYS):
 					problems.append("scenario %s: unknown stat group '%s'" % [id, g])
@@ -177,11 +230,6 @@ static func validate() -> PackedStringArray:
 			for m in ch.get("modifiers", []):
 				if modifier(str(m)).is_empty():
 					problems.append("scenario %s: unknown modifier '%s'" % [id, m])
-		var req: Dictionary = sc.get("requires", {})
-		for bound in ["min", "max"]:
-			for k in req.get(bound, {}):
-				if CareerData.group_of(k) == "":
-					problems.append("scenario %s: unknown stat '%s' in requires" % [id, k])
 	for r in game_day().get("warmup", {}).get("results", {}).values():
 		if modifier(str(r.get("modifier", ""))).is_empty():
 			problems.append("game_day warmup: unknown modifier '%s'" % r.get("modifier"))

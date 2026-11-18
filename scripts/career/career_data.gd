@@ -91,6 +91,11 @@ var scenario_log: Dictionary = {}
 var week_modifiers: Array = []
 ## Scenario ids still to be shown this week (checkpointed after each choice).
 var pending_scenarios: Array = []
+## Follow-ups waiting to fire: [{id, due}] (due = week_index).
+var queued_scenarios: Array = []
+## This season's scenario counts for the repetition guard:
+## {"ids": {id: n}, "cats": {category: n}}. Reset every season.
+var season_log: Dictionary = {"ids": {}, "cats": {}}
 ## weeks_left > 0 = injured; severity 0..1.
 var injury: Dictionary = {"weeks_left": 0, "severity": 0.0}
 
@@ -219,6 +224,8 @@ func to_dict() -> Dictionary:
 		"scenario_log": scenario_log.duplicate(true),
 		"week_modifiers": week_modifiers.duplicate(),
 		"pending_scenarios": pending_scenarios.duplicate(),
+		"queued_scenarios": queued_scenarios.duplicate(true),
+		"season_log": season_log.duplicate(true),
 		"injury": injury.duplicate(),
 		"recruiting_score": recruiting_score,
 		"draft_score": draft_score,
@@ -277,6 +284,12 @@ static func from_dict(d: Dictionary) -> CareerData:
 		c.week_modifiers.append(str(m))
 	for s in _array(d, "pending_scenarios"):
 		c.pending_scenarios.append(str(s))
+	for q in _array(d, "queued_scenarios"):
+		if q is Dictionary and q.has("id"):
+			c.queued_scenarios.append({"id": str(q["id"]), "due": int(q.get("due", 0))})
+	var sl := _dict(d, "season_log")
+	c.season_log = {"ids": sl.get("ids", {}) if sl.get("ids") is Dictionary else {},
+		"cats": sl.get("cats", {}) if sl.get("cats") is Dictionary else {}}
 	var inj := _dict(d, "injury")
 	c.injury = {"weeks_left": maxi(int(inj.get("weeks_left", 0)), 0),
 		"severity": clampf(float(inj.get("severity", 0.0)), 0.0, 1.0)}

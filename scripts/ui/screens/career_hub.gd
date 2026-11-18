@@ -39,6 +39,7 @@ func _build(col: VBoxContainer) -> void:
 	for g in [CareerData.LIFE, CareerData.FOOTBALL, CareerData.PERSONALITY]:
 		grid.add_child(CareerUi.group_panel(c, g, true))
 	grid.add_child(_traits_panel())
+	list.add_child(UiKit.button("Stats & Traits", Screens.go.bind(Screens.CAREER_STATS)))
 
 	if c.is_injured():
 		list.add_child(UiKit.stat_row("Injury", "%d week(s) left" % int(c.injury["weeks_left"]), UiKit.BAD))

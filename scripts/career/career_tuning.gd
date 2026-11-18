@@ -108,9 +108,9 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export_group("Stat Gains")
 ## Football stat gains shrink as the stat climbs: gain *= 1 - this * value/100.
 ## 0 = no diminishing returns, 0.6 = a gain at 100 is 40% of a gain at 0.
-@export_range(0.0, 1.0) var football_diminishing: float = 0.5
+@export_range(0.0, 1.0) var football_diminishing: float = 0.7
 ## Personality changes are multiplied by this ("they change slowly").
-@export_range(0.0, 2.0) var personality_change_scale: float = 0.5
+@export_range(0.0, 2.0) var personality_change_scale: float = 0.3
 
 @export_group("New Career")
 ## Age at the start of the first high school season (freshman year).
@@ -140,11 +140,11 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export_range(0.0, 1.0) var second_scenario_chance: float = 0.4
 ## Scenarios in a bye week and in the offseason.
 @export var bye_scenarios: int = 2
-@export var offseason_scenarios: int = 1
+@export var offseason_scenarios: int = 2
 ## Applied at the end of every week (through the stat rules). Energy and
 ## Health recover, practice slowly builds every football stat.
-@export var weekly_energy_recovery: float = 10.0
-@export var weekly_health_recovery: float = 3.0
+@export var weekly_energy_recovery: float = 8.0
+@export var weekly_health_recovery: float = 2.0
 @export var weekly_football_growth: float = 0.15
 ## Every week each life stat also moves this fraction of the way back toward
 ## start_life, so streaks of good or bad weeks don't pin them at 0 or 100.
@@ -162,6 +162,19 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var injury_weeks_max: int = 3
 @export var injury_severity_min: float = 0.3
 @export var injury_severity_max: float = 0.8
+
+@export_group("Scenario Picks")
+## Repetition guard: the same scenario at most this many times per season.
+@export var max_scenario_repeats_per_season: int = 2
+## Each time a category already appeared this season, its scenarios' weight is
+## multiplied by this (0.5 = half as likely after one, a quarter after two).
+@export_range(0.0, 1.0) var category_repeat_decay: float = 0.5
+## Never two scenarios of the same category in one week.
+@export var no_repeat_category_in_week: bool = true
+## While Social is below low_social_threshold, scenarios in these categories
+## are this much less likely (fewer invitations when you're isolated).
+@export_range(0.0, 1.0) var low_social_weight_mult: float = 0.3
+@export var social_categories: PackedStringArray = PackedStringArray(["social", "romance", "media", "community"])
 
 @export_group("Game Sim")
 ## Drives per team per half. More drives = more kicks per game.
@@ -204,10 +217,10 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var loss_fun: float = -4.0
 @export var loss_social: float = -1.0
 ## Every game costs this (before the weekly recovery).
-@export var game_energy_cost: float = -10.0
+@export var game_energy_cost: float = -12.0
 @export var game_health_cost: float = -3.0
 ## Per kick of yours (field goals and extra points).
-@export var make_accuracy_gain: float = 0.15
+@export var make_accuracy_gain: float = 0.1
 ## A make from this far or more also builds Power.
 @export var long_make_yards: int = 40
 @export var long_make_power_gain: float = 0.5

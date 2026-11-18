@@ -79,3 +79,49 @@ Things that are built but **untuned**. Every value named here is in `tuning/kick
 32. **Aim Assist off** hides the aim ring only. Does the game still feel readable without it?
 33. **Volume sliders** work once real sounds/music are in `audio/` (`music.ogg` loops on the Music bus).
 34. **Touch targets.** Buttons are 96 px in the 720-wide layout. Check on the smallest phone you have.
+
+
+# Career Mode tuning notes
+
+All numbers below are in `tuning/career_tuning.tres` unless a data file is named.
+Rerun `tools/career_sim.tscn` after changing any of them and compare with
+`tools/career_sim_baseline.md`.
+
+## Decisions on record
+- **High school is 4 seasons** (`high_school_seasons`, start age 14). The original Career Mode
+  spec said 3; changed to 4 at the owner's later instruction. Tunable.
+- **Kickoffs, onside kicks and the sideline warmup net use a 2D swipe pad**, not the 3D kick
+  scene (which is built around field goals). Same swipe -> power/aim math and the same kick
+  profile. Fine for now; a 3D kickoff scene could come later.
+- **Warmup once per half**, the first time the offense drives into range; its result
+  (Warmed Up / Loose / Cold Leg) lasts until halftime.
+- **Weekly life drift**: every week each life stat moves `weekly_life_drift` (10%) back toward
+  `start_life`, so streaks don't pin life stats at 0 or 100. 0 = off.
+- **Personality axes**: Charisma <-> Intelligence and Ambition <-> Leadership. In the scenario
+  data, a choice that raises one usually costs a little of its opposite, so random play mostly
+  cancels out and consistent play climbs. Single-stat traits reward leaning one way; each
+  combo trait pairs one stat from each axis.
+- **Bye-week and offseason choices' game-day modifiers carry into the next game.**
+
+## Trait balance (targets and current result)
+Target: a player leaning into one personality direction unlocks 1-2 traits by the end of high
+school and 3-4 by the end of college; random/mixed players unlock fewer.
+Current (80 careers per strategy): leaning players 1.0-2.0 by HS, 2.5-3.8 by college;
+random 0.0 -> 1.5, mixed 0.8 -> 1.5. Intelligence and ambition leaners are at the low edge
+(about half reach 3 by college).
+Knobs: `personality_change_scale` (0.30), trait thresholds in `data/career/traits.json`,
+personality numbers in the scenario files.
+
+## To playtest
+1. `personality_change_scale` 0.30 and trait thresholds (58-60 single, 55-58 combo).
+2. Energy pressure: `weekly_energy_recovery` 8, `game_energy_cost` -12. Social-heavy players
+   spend 23-33% of weeks with a low stat; studious players almost never.
+3. Fun and Social average 80-90 for most styles (low penalties rarely trigger). Consider lower
+   `win_fun` / scenario fun gains if they should matter more.
+4. **Accuracy reaches ~100 by the end of college** for most styles. Revisit with college/pro
+   difficulty in Stage 5 (`make_accuracy_gain`, `weekly_football_growth`, `football_diminishing`).
+5. Scenario repetition: `max_scenario_repeats_per_season` 2, `category_repeat_decay` 0.5.
+   Regular HS scenarios appear ~4-8 times over 4 seasons.
+6. Warmup net difficulty (`net_power_min/max`, `net_aim_deg`) and kickoff carry
+   (`kickoff_max_carry_yards` 75: a touchback needs a strong, straight flick).
+7. Game sim: about 1.6 FG + 2 XP + 4 kickoffs per game; `drives_per_half`, `base_td_chance`.

@@ -100,15 +100,20 @@ func class_year() -> String:
 	return years[clampi(i, 0, 3)]
 
 
-func _start_season(drift: bool) -> void:
-	if drift:
+## continuing: a following season (team strength drifts, the offseason's
+## game-day modifiers carry into week 1). false for a brand-new career.
+func _start_season(continuing: bool) -> void:
+	if continuing:
 		data.team["strength"] = clampf(float(data.team.get("strength", 50)) +
 			rng.randf_range(-tuning.team_strength_drift, tuning.team_strength_drift), 20.0, 90.0)
 	data.schedule = build_schedule(data.team, tuning, rng)
 	data.week = 1
 	data.record = {"w": 0, "l": 0, "t": 0}
 	data.season_stats = CareerData.empty_kick_totals()
-	data.week_modifiers.clear()
+	data.season_log = {"ids": {}, "cats": {}}
+	# Offseason choices' game-day modifiers carry into week 1.
+	if not continuing:
+		data.week_modifiers.clear()
 	data.pending_scenarios.clear()
 	data.game_checkpoint = {}
 	data.phase = PHASE_WEEK_START
@@ -158,7 +163,7 @@ func begin_week() -> void:
 	var when := "bye" if is_bye() else "season"
 	var count := tuning.bye_scenarios if is_bye() else \
 		(2 if rng.randf() < tuning.second_scenario_chance else 1)
-	data.pending_scenarios = ScenarioEngine.pick(data, when, count, rng)
+	data.pending_scenarios = ScenarioEngine.pick(data, when, count, rng, tuning)
 	if not is_bye():
 		var e := entry()
 		var wind := rng.randf_range(0.0, tuning.game_wind_max_mph) * (1.0 if rng.randf() < 0.5 else -1.0)
@@ -377,7 +382,9 @@ func end_week() -> void:
 		if int(data.injury["weeks_left"]) <= 0:
 			data.injury = {"weeks_left": 0, "severity": 0.0}
 			data.notice = "You're fully healthy again."
-	data.week_modifiers.clear()
+	# Bye-week choices' game-day modifiers carry into next week's game.
+	if not is_bye():
+		data.week_modifiers.clear()
 	data.week_index += 1
 	data.week += 1
 	data.phase = PHASE_SEASON_END if data.week > weeks_in_season() else PHASE_WEEK_START
@@ -396,7 +403,7 @@ func end_season() -> void:
 	else:
 		data.phase = PHASE_OFFSEASON
 		data.week = 0
-		data.pending_scenarios = ScenarioEngine.pick(data, "offseason", tuning.offseason_scenarios, rng)
+		data.pending_scenarios = ScenarioEngine.pick(data, "offseason", tuning.offseason_scenarios, rng, tuning)
 		if data.pending_scenarios.is_empty():
 			_start_next_season()
 	save()
