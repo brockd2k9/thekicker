@@ -166,7 +166,9 @@ are a stand-in for real swipes, so everything involving kicking quality needs a 
 
 ## Known gaps
 - No full signed Android build yet: a pack-only export was verified (all data included, boots and
-  runs Career Mode screens). Build the .apk once on a machine with the Android SDK and templates.
+  runs Career Mode screens). Build the .apk on your own machine (README → Export for Android).
+- Cleanup: the personal cloud environment **thekicker** (allows `dl.google.com`) was created for an
+  SDK download that was dropped. Nothing depends on it; delete it in claude.ai if unneeded.
 - Kickoffs, onside kicks and the warmup net are on a 2D pad, not the 3D scene.
 - The simulator's kick model is a stand-in; fallback-route frequency and pro career length need
   real-play checks.

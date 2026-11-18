@@ -303,45 +303,131 @@ Until then the events are printed to the Output panel in debug builds.
 
 ## Export for Android
 
-One-time setup:
-1. Install **Android Studio** (or the command-line tools) plus SDK Platform 34, Build-Tools 34,
-   Platform-Tools, and **OpenJDK 17**.
-2. Godot → **Editor → Editor Settings → Export → Android**: set *Java SDK Path* and
-   *Android SDK Path*.
-3. **Editor → Manage Export Templates → Download and Install** (must match your Godot version).
-4. A debug keystore is created automatically by Godot 4.3+. For release you need your own:
-   ```bash
-   keytool -genkeypair -v -keystore release.keystore -alias kicker -keyalg RSA -keysize 2048 -validity 10000
-   ```
-   Keep keystores out of git (`.gitignore` already excludes `*.keystore` and `export_presets.cfg`).
+Build the APK/AAB on your own machine: you accept the Android SDK licenses there and you own
+the signing keys. Nothing here needs Android Studio's IDE, only its SDK.
+The facts below are for **Godot 4.7** (checked against the 4.7-stable source and the 4.7 docs).
 
-Export:
+### What you need (one time)
+
+| Item | Version | Notes |
+|---|---|---|
+| Godot editor | **4.7** (standard build is fine; no .NET needed) | |
+| Export templates | **4.7**, exactly matching the editor | **Editor → Manage Export Templates → Download and Install** |
+| JDK | **OpenJDK 17** | Newer JDKs are allowed but 17 is the one Godot recommends. Adoptium Temurin 17 is a good choice. |
+| Android SDK Command-line Tools | latest | from developer.android.com ("Command line tools only"), or via Android Studio's SDK Manager |
+| SDK Platform-Tools | latest | provides `adb` for one-click deploy |
+| SDK Build-Tools | **36.1.0** (35.0.1 also works) | `apksigner` is taken from here |
+| SDK Platform | **Android 36** (`platforms;android-36`) | Godot 4.7 targets API 36, min API 24 (Android 7.0) |
+| NDK + CMake | NDK **29.0.14206865**, CMake 3.10.2.4988404 | only for **Gradle builds** (needed for `.aab` / Play Store) |
+
+Install the SDK packages with `sdkmanager` (this is where you accept the licenses):
+
+```bash
+sdkmanager --sdk_root=<android_sdk_path> "platform-tools" "build-tools;36.1.0" "platforms;android-36" "cmdline-tools;latest"
+```
+
+```bash
+sdkmanager --sdk_root=<android_sdk_path> "ndk;29.0.14206865" "cmake;3.10.2.4988404"
+```
+
+```bash
+sdkmanager --sdk_root=<android_sdk_path> --licenses
+```
+
+(The second command is only needed for Gradle / `.aab` builds.)
+
+### Godot Editor Settings
+
+**Editor → Editor Settings → Export → Android** (turn on *Advanced Settings* at the top
+right if a field is hidden):
+
+- **Java SDK Path** (`export/android/java_sdk_path`): the JDK 17 install folder (the one that
+  contains `bin/java`). Empty = uses `JAVA_HOME`.
+- **Android SDK Path** (`export/android/android_sdk_path`): the SDK root (the folder that
+  contains `platform-tools/` and `build-tools/`). Empty = uses `ANDROID_HOME`.
+- **Debug Keystore** (`export/android/debug_keystore`), **Debug Keystore User**,
+  **Debug Keystore Pass**: see below.
+
+### Debug keystore
+
+Godot creates one for you: once the Java SDK Path is set, the editor generates
+`debug.keystore` (user `androiddebugkey`, password `android`) and fills in the three debug
+fields. If it didn't (for example the JDK path was wrong at the time), make it yourself and
+point *Debug Keystore* at the file:
+
+```bash
+keytool -genkey -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "cn=Godot, ou=Godot Engine, o=Stichting Godot, c=NL"
+```
+
+Debug Keystore User = `androiddebugkey`, Debug Keystore Pass = `android`.
+The debug key is only for testing on your own phone; the Play Store won't accept it.
+
+### Release keystore (create once, back it up)
+
+Every update to a published app must be signed with the same key, so this file matters
+more than anything else in the build setup.
+
+```bash
+keytool -v -genkey -keystore kicker-release.keystore -alias kicker -keyalg RSA -keysize 2048 -validity 10000
+```
+
+- Use **one password for both the keystore and the key** (Godot's preset has a single
+  *Release Password* field), and avoid special characters in it.
+- In the Android export preset: **Keystore → Release** = path to the file,
+  **Release User** = `kicker` (the alias), **Release Password** = the password.
+  Untick **Export With Debug** when exporting for release.
+- Or keep the secrets out of the editor: set `GODOT_ANDROID_KEYSTORE_RELEASE_PATH`,
+  `GODOT_ANDROID_KEYSTORE_RELEASE_USER` and `GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD`
+  before launching Godot (there are matching `..._DEBUG_...` variables).
+
+**Back it up:**
+- Keep the `.keystore` file **and** its alias and password in at least two safe places
+  (e.g. a password manager entry with the file attached, plus an offline copy such as an
+  encrypted USB drive). Not only on the build machine.
+- Never commit it: `.gitignore` already excludes `*.keystore` and `export_presets.cfg`
+  (the preset stores the password in plain text).
+- On Google Play, turn on **Play App Signing** (the default for new apps). Your keystore
+  then becomes the *upload key*: if it is ever lost, Google can reset it for you. Without
+  Play App Signing a lost key means you can never update the app again.
+
+### Export steps
+
 1. **Project → Export → Add… → Android**.
-2. Set *Package → Unique Name* (e.g. `com.yourstudio.kicker`), *Version Code/Name*.
-3. Under *Permissions*, tick **Vibrate** (needed for the kick vibration).
-4. Orientation is already portrait from Project Settings (`display/window/handheld/orientation`).
-5. For a phone on USB with debugging on, use the **Remote Debug / One-click deploy** icon
-   (top-right of the editor) to run straight on the device. Or **Export Project** → `.apk`
-   (sideload) or `.aab` (Play Store, enable *Gradle Build* and install the Android build template).
+2. *Package → Unique Name*: e.g. `com.yourstudio.kicker` (it can never change after publishing).
+   Set *Version → Code* (an integer, bump it for every store upload) and *Version → Name*
+   (shown to players; keep it in step with `config/version` in Project Settings, which the
+   Settings screen shows).
+3. *Permissions*: tick **Vibrate** (used for the kick vibration). Nothing else is needed.
+4. *Launcher Icons*: the project has no icon yet, so Godot's default is used. Add a
+   192×192 main icon and 432×432 adaptive foreground/background before a store release.
+5. *Resources → Filters to exclude files*: `tests_tmp/*, tools/*` (dev-only). Keep
+   *Export all resources in the project*. Career data (`data/career/*.json`) is included
+   automatically.
+6. Orientation is already portrait from Project Settings (`display/window/handheld/orientation`).
+7. Test on a phone: enable USB debugging, plug it in, and use the **Remote Debug /
+   One-click deploy** button (top right of the editor). Or **Export Project** → `.apk`
+   with *Export With Debug* on, and sideload it.
+8. Play Store: tick **Gradle Build → Use Gradle Build**, run **Project → Install Android
+   Build Template**, set the release keystore, untick *Export With Debug*, and export as `.aab`.
 
 The renderer is **GL Compatibility** for the widest Android device support.
 The Android back button is handled by the game (`application/config/quit_on_go_back=false`):
 back to the menu from a screen, pause in a kick, quit from the main menu.
-Bump **Version Code** for every Play Store upload. `config/version` in Project Settings is
-what the Settings screen shows.
 
-Export filter: keep the default *Export all resources in the project* and add
-`tests_tmp/*, tools/*` to *Filters to exclude files* (the balance simulator is a dev tool).
-Career Mode's data files (`data/career/*.json`) are loaded as JSON resources, so they are
-exported automatically; no include filter is needed.
-
-**What has been verified (Stage 6):** a pack-only export for Android
+**What has been verified so far:** a pack-only Android export
 (`godot --headless --export-pack "Android" kicker.pck`, which needs no SDK or templates)
-contains all game resources including every `data/career/*.json`, and the exported pack boots
-and runs the menu, the Career tutorial and the Career Debug screen (which validates all career
-data) with no errors. A full signed `.apk` / `.aab` has **not** been built yet: that needs the
-Android SDK and export templates on the build machine (steps above). Please run one export to a
-real phone and check touch, vibration and the back button there.
+contains every game resource including all `data/career/*.json`, and the exported pack boots
+the menu, the Career tutorial and the Career Debug screen (which validates all career data)
+with no errors. A full signed `.apk` / `.aab` has **not** been built yet. On the first real
+export, check touch, vibration and the back button on an actual phone.
+
+### Note: the "thekicker" cloud environment
+
+During Career Mode development a personal Claude Code cloud environment named
+**thekicker** was created (network: package registries plus `dl.google.com`, for a
+download of the Android SDK that was then dropped in favour of building on your own machine).
+Nothing in the project depends on it. If you don't need it, delete it in
+claude.ai → Claude Code → the environment menu → **thekicker** → Edit / Delete.
 
 ## Desktop / Steam later
 - Add a Windows/Linux/macOS export preset. Mouse already works.
