@@ -250,7 +250,7 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var good_kickoff_toughness_gain: float = 0.2
 
 @export_group("Sideline Kicks")
-## Kickoffs, onside kicks and the warmup net are swiped on the sideline pad.
+## Kickoffs, onside kicks and the sideline warmup net (all in the 3D kick scene).
 ## Carry (yards) at 100% swipe power and power_mult 1.0.
 @export var kickoff_max_carry_yards: float = 75.0
 ## Kicking off from your own 40 (high school): carry >= 60 lands in the end zone.

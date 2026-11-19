@@ -74,6 +74,10 @@ var _plan: RushPlan
 var kick_type: int = KickSituation.KickType.FIELD_GOAL
 ## The kickoff / onside formation (null for field goals and extra points).
 var kickoff: KickoffFormation
+## The sideline with the warmup net (WARMUP_NET only; null otherwise).
+var sideline: SidelineSet
+## Where the sideline set (its tee) stands: x from the middle of the field.
+var sideline_x := 29.0
 ## Visual tee size (set with kick_type, from KickTuning).
 var tee_height := 0.05
 var tee_ball_scale := 2.5
@@ -89,7 +93,14 @@ func _ready() -> void:
 		_away_kit = away_kit_override
 	_build_ground()
 	_build_stands()
-	if KickSituation.is_tee_type(kick_type):
+	if kick_type == KickSituation.KickType.WARMUP_NET:
+		# Empty field (the game goes on without you); you're on the sideline.
+		_rng.randomize()
+		sideline = SidelineSet.new()
+		sideline.position = Vector3(sideline_x, 0.0, 0.0)
+		add_child(sideline)
+		sideline.build(_home_kit, _rng, tee_height, tee_ball_scale)
+	elif KickSituation.is_tee_type(kick_type):
 		_rng.randomize()
 		kickoff = KickoffFormation.new()
 		add_child(kickoff)

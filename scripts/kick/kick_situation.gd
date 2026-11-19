@@ -17,7 +17,8 @@ const SCENARIOS := [
 
 ## FIELD_GOAL / EXTRA_POINT: the place kick (snap, hold, block rush, posts).
 ## KICKOFF / ONSIDE: off a tee, judged where the ball lands (KickoffJudge).
-enum KickType { FIELD_GOAL, EXTRA_POINT, KICKOFF, ONSIDE }
+## WARMUP_NET: off a tee into the sideline net (WarmupJudge), no game result.
+enum KickType { FIELD_GOAL, EXTRA_POINT, KICKOFF, ONSIDE, WARMUP_NET }
 
 var kick_type: KickType = KickType.FIELD_GOAL
 ## Tee kicks only: the stage's rules (spot, touchback, return...). null = defaults.
@@ -43,6 +44,11 @@ func is_tee_kick() -> bool:
 
 static func is_tee_type(t: KickType) -> bool:
 	return t == KickType.KICKOFF or t == KickType.ONSIDE
+
+
+## Anything that isn't a place kick (no snap, hold or block rush).
+static func is_off_tee(t: KickType) -> bool:
+	return is_tee_type(t) or t == KickType.WARMUP_NET
 
 
 static func roll(rng: RandomNumberGenerator, tuning: KickTuning, wind: float) -> KickSituation:
