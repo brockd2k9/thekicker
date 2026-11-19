@@ -6,7 +6,7 @@ extends "res://tests/test_case.gd"
 
 const SIM := preload("res://tools/career_sim.gd")
 const OLD_CAREERS := ["career_v0_minimal.json", "career_v1_stage_end.json",
-	"career_v2_hs_junior.json", "career_v2_college.json"]
+	"career_v2_hs_junior.json", "career_v2_college.json", "career_v3_college.json"]
 
 
 func _load(name: String) -> CareerData:
@@ -59,7 +59,8 @@ func test_old_careers_keep_playing() -> void:
 	# (the minimal v0 save has no schedule, so it goes through a season end).
 	var sim = SIM.new()
 	sim._kt = load("res://tuning/kick_tuning.tres")
-	for name in ["career_v0_minimal.json", "career_v2_hs_junior.json", "career_v2_college.json"]:
+	for name in ["career_v0_minimal.json", "career_v2_hs_junior.json", "career_v2_college.json",
+			"career_v3_college.json"]:
 		var c := _load(name)
 		c.slot = 0  # in-memory: never written to the player's save slots
 		var m := CareerManager.new(c)
@@ -111,3 +112,14 @@ func test_pre_relationship_saves_get_a_neutral_cast() -> void:
 	eq(col.former_people, [], "nobody known from earlier stages")
 	var again := _load("career_v2_college.json")
 	eq(JSON.stringify(again.people), JSON.stringify(col.people), "the same cast every load")
+
+
+func test_v3_relationships_load_unchanged() -> void:
+	var raw := fixture("career_v3_college.json")
+	var c := _load("career_v3_college.json")
+	eq(JSON.stringify(c.to_dict()["people"]), JSON.stringify(raw["people"]), "people kept exactly")
+	eq(JSON.stringify(c.to_dict()["former_people"]), JSON.stringify(raw["former_people"]), "former people kept")
+	check(Relationships.known(c, "rival") and Relationships.value(c, "rival") < 50.0, "Tyler met, a rival")
+	eq(str(Relationships.tyler_team(c).get("stage", "")), "college", "Tyler's college kept")
+	var again := CareerData.from_dict(CareerSave._migrate(c.to_dict()))
+	eq(JSON.stringify(again.to_dict()), JSON.stringify(c.to_dict()), "v3 round trip")

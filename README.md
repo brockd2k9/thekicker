@@ -314,6 +314,7 @@ dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career
 |---|---|
 | Balance numbers (stat -> kick curves, caps, gains, seasons, game sim, scenario picks) | `tuning/career_tuning.tres` (defaults + docs in `scripts/career/career_tuning.gd`) |
 | Scenarios (57 written: HS, college, pro, bye/offseason, trait-gated; plus the 160-scenario high school story graph as drafts) | `data/career/scenarios_*.json` (field reference: `_doc` in `scenarios_hs.json`; graph: `scenarios_hs_graph.json`) |
+| Relationships: the cast (8 people), roles, tiers, name lists | `data/career/people.json` (rules: `scripts/career/relationships.gd`; numbers: `career_tuning.tres` "Relationships") |
 | Traits (8), game-day modifiers (19), stat descriptions | `data/career/traits.json`, `modifiers.json`, `stats_info.json` |
 | Schools (16 HS, 18 colleges in 3 tiers, 6 junior colleges), 12 pro clubs, names, play-by-play | `data/career/world.json`, `game_day.json` |
 | Progression tables: college tiers, offers, draft rounds, tryouts, contracts | `data/career/progression.json` (weights in `career_tuning.tres`) |
@@ -338,6 +339,19 @@ many careers with different choice strategies through the real systems and write
 `user://career_sim_report.md` (trait unlock rates, personality / football / life stat
 distributions, scenario frequencies). `tools/career_sim_baseline.md` is the current baseline.
 Design decisions and values to playtest: `PLAYTEST.md`, "Career Mode".
+
+**Relationships:** eight recurring people (head coach, holder, teacher, best friend, Tyler
+Brooks, Dad, your little brother, someone special), each with a value 0-100 saved per career in
+`CareerData.people` (story flags stay in `CareerData.flags`); the People screen (Hub) lists everyone
+you've met. Scenario choices move values (`"rel": {"coach": 5}`), scenarios and choices can require
+them (`"min": {"rel_coach": 60}`), and scenario text can name people (`{coach}`, `{tyler}`...).
+Values feed game day (coach: pressure and how long a kick you're sent out for; holder: aim; Tyler),
+the week (family: energy; friends: fun and social; Tyler as a rival: football growth), grades
+(teacher) and recruiting (final-season coach recommendation; a teacher who vouches eases college
+GPA minimums). Every effect is zero at 50, the starting value. Coach, holder and teacher are new
+each stage (the old ones are listed as Former); Tyler Brooks signs with his own college and pro
+club, shows up on your schedule once you've met him, and is your teammate if you pick his school.
+Save version 3 (older saves get the current stage's cast at 50).
 
 **Tests:** `godot --headless --path . res://tests/run_tests.tscn` runs every `test_*` method in
 `tests/test_*.gd` (add `-- only=test_saves` for one file) and exits with the number of failing

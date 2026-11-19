@@ -1,5 +1,5 @@
 {
-	"_doc": "The recurring cast (relationship system, scripts/career/relationships.gd). Each person has a relationship value 0-100 (start 50 = neutral; numbers in career_tuning.tres, 'Relationships') saved per career in CareerData.people, and story flags in CareerData.flags. Fields: id (used in scenario data: choices 'rel': {coach: 5}, requirements min/max 'rel_coach': 60, and {coach} in scenario text = the person's name), role (shown on the People screen; 'roles' overrides it per stage), icon (UiIcons), name: fixed text, or style coach ('Coach' + a last name), full (first + last), first, or list (pick from 'names' below), stages (where this person exists; default all), per_stage (a new person each stage; the old one moves to 'Former'), known_at_start (false = hidden on the People screen until a scenario changes the value), tiers (labels from a minimum value; default 'tiers' below).",
+	"_doc": "The recurring cast (relationship system, scripts/career/relationships.gd). Each person has a relationship value 0-100 (start 50 = neutral; numbers in career_tuning.tres, 'Relationships') saved per career in CareerData.people, and story flags in CareerData.flags. Fields: id (used in scenario data: choices 'rel': {coach: 5}, requirements min/max 'rel_coach': 60, and {coach} in scenario text = the person's name), role (shown on the People screen; 'roles' overrides it per stage), icon (UiIcons), name: fixed text, or style coach ('Coach' + a last name), full (first + last), first, or list (pick from 'names' below), stages (where this person exists; default all), per_stage (a new person each stage; the old one moves to 'Former'), known_at_start (false = hidden on the People screen until a scenario changes the value), about (what they do for you, shown on the People screen), tiers (labels from a minimum value; default 'tiers' below).",
 	"tiers": [
 		{"min": 0, "label": "Strained"},
 		{"min": 30, "label": "Neutral"},
@@ -9,6 +9,7 @@
 	"people": [
 		{
 			"id": "coach",
+			"about": "Trust steadies you under pressure and gets you sent out for longer kicks. In your final recruiting year, a strong word helps (a weak one hurts).",
 			"role": "Head Coach",
 			"roles": {"college": "Special Teams Coach", "juco": "Special Teams Coach", "pro": "Special Teams Coach"},
 			"icon": "whistle",
@@ -17,6 +18,7 @@
 		},
 		{
 			"id": "holder",
+			"about": "A holder you're in sync with means cleaner, more accurate kicks.",
 			"role": "Holder",
 			"icon": "ball",
 			"name": {"style": "full"},
@@ -24,6 +26,7 @@
 		},
 		{
 			"id": "teacher",
+			"about": "Helps your grades every season. One who vouches for you can get you past a college's GPA minimum.",
 			"role": "Teacher",
 			"roles": {"college": "Academic Advisor", "juco": "Academic Advisor"},
 			"icon": "book",
@@ -33,12 +36,14 @@
 		},
 		{
 			"id": "best_friend",
+			"about": "Keeps your fun and social life up week to week.",
 			"role": "Best Friend",
 			"icon": "social",
 			"name": {"style": "full"}
 		},
 		{
 			"id": "rival",
+			"about": "As a friend he steadies you. As a rival he pushes you to get better. Games against his team are personal.",
 			"role": "Kicker",
 			"icon": "flame",
 			"name": {"fixed": "Tyler Brooks"},
@@ -52,18 +57,21 @@
 		},
 		{
 			"id": "parent",
+			"about": "Family support helps you recover your energy every week.",
 			"role": "Dad",
 			"icon": "home",
 			"name": {"fixed": "Dad"}
 		},
 		{
 			"id": "sibling",
+			"about": "Family support helps you recover your energy every week.",
 			"role": "Little Brother",
 			"icon": "heart_hand",
 			"name": {"style": "first"}
 		},
 		{
 			"id": "love_interest",
+			"about": "Keeps your fun and social life up week to week.",
 			"role": "Someone Special",
 			"icon": "heart_hand",
 			"name": {"style": "list"},

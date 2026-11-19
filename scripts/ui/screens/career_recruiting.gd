@@ -25,6 +25,18 @@ func _update(col: VBoxContainer) -> void:
 	list.add_child(UiKit.stat_row("Level", CareerScreen.recruit_word(c)))
 	list.add_child(UiKit.stat_row("GPA", "%.2f" % c.gpa, UiKit.GOOD if c.gpa >= 2.8 else
 		(Color.WHITE if c.gpa >= 2.2 else UiKit.BAD)))
+	var rec := float(u.get("coach_rec", 0.0))
+	if rec != 0.0:
+		list.add_child(UiKit.stat_row("%s's word" % Relationships.name_of(c, "coach"),
+			"%s%d recruiting" % ["+" if rec > 0.0 else "", roundi(rec)], UiKit.GOOD if rec > 0.0 else UiKit.BAD,
+			"whistle"))
+	if Relationships.teacher_grace(c, career.tuning) > 0.0:
+		list.add_child(UiKit.label("%s vouches for you: college GPA minimums are %.1f easier." % [
+			Relationships.name_of(c, "teacher"), career.tuning.rel_teacher_gpa_grace], 22, UiKit.GOOD))
+	var ty: Dictionary = u.get("tyler", {})
+	if not ty.is_empty():
+		list.add_child(UiKit.label("%s signed with %s." % [Relationships.name_of(c, Relationships.TYLER),
+			ty.get("name", "")], 24, UiKit.ACCENT))
 	for tier_id in u.get("blocked_by_gpa", []):
 		list.add_child(UiKit.label("%s schools are interested, but your GPA is below their %.1f minimum." % [
 			Progression.tier(str(tier_id)).get("name", ""), float(Progression.tier(str(tier_id)).get("min_gpa", 0))],
@@ -82,6 +94,10 @@ func _choice(col: VBoxContainer) -> void:
 				v.add_child(UiKit.label("%s  -  %s" % [Progression.OFFER_NAMES.get(str(off["type"]), ""),
 					Progression.tier(str(off["tier"])).get("name", "")], 26, UiKit.ACCENT))
 				v.add_child(UiKit.label(_tier_line(str(off["tier"]), s), 22, UiKit.MUTED))
+				if Relationships.known(c, Relationships.TYLER) \
+						and str(Relationships.tyler_team(c).get("id", "")) == str(off["school"]):
+					v.add_child(UiKit.label("%s signed here." % Relationships.name_of(c, Relationships.TYLER),
+						22, UiKit.ACCENT))
 			"walk_on_tryout":
 				var def: Dictionary = Progression.rules().get("tryouts", {}).get("walk_on", {})
 				v.add_child(UiKit.label("Walk-on tryout: %s" % opt["name"], 30))
