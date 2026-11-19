@@ -104,6 +104,10 @@ static func build(data: CareerData, tuning: CareerTuning, ctx: Dictionary = {}) 
 			continue
 		p._add_line(str(m.get("label", id)), m.get("effects", {}), "modifier")
 
+	# 5b. The people around you (coach, holder, Tyler Brooks); nothing at neutral.
+	for line in Relationships.profile_lines(data, t):
+		p._add_line(str(line[0]), line[1], "person")
+
 	# 6. Miss streak in this game (Resilience and traits soften it).
 	var streak := mini(int(ctx.get("miss_streak", 0)), t.miss_streak_cap)
 	if streak > 0:

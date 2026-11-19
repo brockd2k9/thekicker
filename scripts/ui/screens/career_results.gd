@@ -54,6 +54,13 @@ func _build(col: VBoxContainer) -> void:
 	list.add_child(CareerUi.change_chips(changes))
 	for t in changes.get("new_traits", []):
 		list.add_child(preload("res://scripts/ui/screens/career_scenario.gd").trait_unlock_card(str(t)))
+	var moved := {}
+	for id in c.people:
+		var wc := float(c.people[id].get("week_change", 0.0))
+		if absf(wc) >= 0.5:
+			moved[id] = wc
+	if not moved.is_empty():
+		list.add_child(CareerUi.rel_chips(c, moved))
 	list.add_child(UiKit.label("Recovery and practice gains are added when you continue.", 22, UiKit.MUTED))
 	list.add_child(UiKit.section("SEASON"))
 	var s := c.season_stats

@@ -60,7 +60,14 @@ static func recruiting_gain(c: CareerData, t: CareerTuning) -> float:
 		+ t.recruiting_long * maxf(float(s.get("long", 0)) - 35.0, 0.0) \
 		+ t.recruiting_record * (int(c.record["w"]) - int(c.record["l"])) \
 		+ t.recruiting_leg * (_leg(c) - 50.0)
-	return w * g + trait_bonus(c, "recruiting")
+	return w * g + trait_bonus(c, "recruiting") + coach_rec(c, t)
+
+
+## The coach's recommendation (relationship), final HS / junior college season only.
+static func coach_rec(c: CareerData, t: CareerTuning) -> float:
+	var final := (c.stage == CareerData.STAGE_HIGH_SCHOOL and c.season_in_stage >= t.high_school_seasons) \
+		or (c.stage == CareerData.STAGE_JUCO and c.season_in_stage >= t.juco_seasons)
+	return Relationships.coach_recommendation(c, t) if final else 0.0
 
 
 ## Draft points earned by this college season (times the school's exposure).
@@ -90,7 +97,8 @@ static func retention(c: CareerData, t: CareerTuning) -> float:
 
 ## End-of-season GPA drift from Intelligence.
 static func gpa_drift(c: CareerData, t: CareerTuning) -> float:
-	return t.gpa_intelligence_drift * (c.stat("intelligence") - 50.0) / 50.0
+	return t.gpa_intelligence_drift * (c.stat("intelligence") - 50.0) / 50.0 \
+		+ Relationships.teacher_gpa(c, t)
 
 
 # --- offers -------------------------------------------------------------------------
@@ -119,8 +127,10 @@ static func offer_type(score: float, tier_id: String) -> String:
 	return ""
 
 
+## A teacher who vouches for you (relationship) adds a little grace.
 static func gpa_ok(c: CareerData, tier_id: String) -> bool:
-	return c.gpa >= float(tier(tier_id).get("min_gpa", 0.0))
+	return c.gpa + Relationships.teacher_grace(c, CareerTuning.get_default()) \
+		>= float(tier(tier_id).get("min_gpa", 0.0))
 
 
 ## Adds this season's new offers (and withdraws ones you've fallen far below).
