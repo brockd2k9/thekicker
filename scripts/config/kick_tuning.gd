@@ -148,3 +148,15 @@ extends Resource
 @export var coverage_speed: float = 7.5
 ## Height of the kicking tee (m).
 @export var tee_height: float = 0.05
+
+@export_group("Warmup Net")
+## The sideline warmup (WARMUP_NET): ball on a tee on the sideline grass,
+## kicked into a net (SidelineSet / KickingNet). Same camera as a field goal.
+## Distance of the tee from the middle of the field (m). The sideline is at 24.4 m.
+@export var warmup_sideline_x: float = 29.0
+## Launch angle into the net.
+@export_range(5.0, 45.0) var warmup_elevation_deg: float = 22.0
+## How far down the sideline the camera frames (m): the field, the far stands and posts.
+@export var warmup_look_distance: float = 40.0
+## Seconds between one strike's result and the next ball on the tee.
+@export var warmup_next_delay: float = 0.5

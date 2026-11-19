@@ -4,6 +4,8 @@ extends Node3D
 ##   SETUP (situation shown, aim may wobble) -> SNAP (ball spirals to the holder,
 ##   who spots it; the defense is already rushing) -> KICK_WINDOW (swipe!)
 ##   -> FLIGHT -> RESULT (slow-mo beat, tap for next)
+## The sideline warmup (WARMUP_NET, WarmupMode) is the same scene on the
+## sideline: ball on a tee, kicked into a net, a few strikes in a row.
 ## Kickoffs and onside kicks (mode.kick_type()) use the same stadium, camera,
 ## swipe, wind, modifiers and HUD: ball on a tee, kickoff formation, no snap or
 ## block rush; judged where the ball lands (KickoffJudge). Their result is in
@@ -50,6 +52,11 @@ var _tee := false
 var _kick_t := -1.0
 var _flight_t := 0.0
 var _tee_aim := 0.0
+## Warmup net: this strike's judged result, and whether it has reached the net.
+var _net := false
+var _net_res: Dictionary = {}
+var _net_hit := false
+var _first_net := true
 var _default_rules := KickoffRules.new()
 
 @onready var field: FieldBuilder = $Field
@@ -87,11 +94,12 @@ func set_look(look: Dictionary) -> void:
 
 ## Tee kicks need their formation built before the field's _ready().
 func _enter_tree() -> void:
-	if mode == null or not KickSituation.is_tee_type(mode.kick_type()):
+	if mode == null or not KickSituation.is_off_tee(mode.kick_type()):
 		return
 	var f := get_node("Field") as FieldBuilder
 	f.kick_type = mode.kick_type()
 	var t := tuning if tuning != null else KickTuning.new()
+	f.sideline_x = t.warmup_sideline_x
 	f.tee_height = t.tee_height
 	f.tee_ball_scale = t.ball_visual_scale
 
@@ -118,7 +126,7 @@ func _process(delta: float) -> void:
 	if phase != Phase.FLIGHT and phase != Phase.RESULT:
 		aim_marker.set_aim(pressure.wobble_deg(), situation.distance_m())
 	if _tee:
-		if _kick_t >= 0.0:
+		if _kick_t >= 0.0 and field.kickoff != null:
 			_kick_t += delta
 			field.kickoff.update_play(_kick_t, tuning.coverage_speed)
 		return
@@ -136,6 +144,9 @@ func _process(delta: float) -> void:
 
 func _physics_process(_delta: float) -> void:
 	ball.set_wind_accel(wind.acceleration(tuning) * modifiers.wind_mult)
+	if _net:
+		_net_physics(_delta)
+		return
 	if _tee:
 		_tee_physics(_delta)
 		return
@@ -185,7 +196,11 @@ func _start_attempt() -> void:
 		var wind_mph := wind.roll(_rng, tuning)
 		situation = KickSituation.roll(_rng, tuning, wind_mph)
 	situation.wind_gust_mph = wind.gust_mph
-	_tee = situation.is_tee_kick() and field.kickoff != null
+	_net = situation.kick_type == KickSituation.KickType.WARMUP_NET and field.sideline != null
+	_tee = (situation.is_tee_kick() and field.kickoff != null) or _net
+	if _net:
+		_start_net_attempt(my_id)
+		return
 	if _tee:
 		_start_tee_attempt(my_id)
 		return
@@ -231,6 +246,9 @@ func _start_attempt() -> void:
 
 
 func _try_kick(swipe: Swipe) -> void:
+	if _net:
+		_kick_into_net(swipe)
+		return
 	if _tee:
 		_kick_off_tee(swipe)
 		return
@@ -351,6 +369,123 @@ func _on_ball_landed(at: Vector3) -> void:
 		return
 	if phase == Phase.FLIGHT:
 		_resolve(KickResult.Outcome.SHORT)
+
+
+# --- sideline warmup net -----------------------------------------------------------
+
+func _start_net_attempt(my_id: int) -> void:
+	var spot := field.sideline.global_position
+	# The far end zone (stands and posts) down the sideline.
+	field.set_distance(50.0 * KickSituation.YARD_TO_M)
+	_net_res = {}
+	_net_hit = false
+	_flight_t = 0.0
+	tee_result = {}
+	trail.clear()
+	ball.reset(spot)
+	ball.set_pose(ball.hold_position() + Vector3(0.0, tuning.tee_height * tuning.ball_visual_scale, 0.0),
+		ball.hold_rotation())
+	cam.reset_to(spot, tuning.warmup_look_distance)
+	pressure.setup(situation.pressure, tuning, modifiers)
+	aim_marker.visible = false
+	hud.show_situation(situation, tuning)
+	hud.set_headline("SIDELINE NET", situation.label)
+	hud.hide_result()
+	hud.set_window(1.0, false)
+	hud.set_hint("Get set..." if _first_net else "")
+	await get_tree().create_timer(tuning.kickoff_setup_time if _first_net else 0.2).timeout
+	_first_net = false
+	if my_id != _attempt_id:
+		return
+	phase = Phase.KICK_WINDOW
+	hud.set_hint("SWIPE INTO THE NET")
+
+
+## Same swipe reading as the old sideline pad: power from the swipe (no
+## power_mult), aim from the tilt plus the profile's random aim error. Judged at
+## the strike (WarmupJudge); the 3D flight shows it.
+func _kick_into_net(swipe: Swipe) -> void:
+	var problem := kicker.validate(swipe, tuning)
+	if problem != "":
+		hud.flash_hint(problem)
+		return
+	var power := kicker.power_from_swipe(swipe, tuning)
+	var aim := clampf(swipe.tilt_deg() * tuning.aim_sensitivity, -tuning.max_aim_deg, tuning.max_aim_deg)
+	aim += pressure.wobble_deg()
+	if modifiers.accuracy_spread_deg > 0.0:
+		aim += _rng.randfn(0.0, modifiers.accuracy_spread_deg)
+	var wm := mode as WarmupMode
+	_net_res = wm.judge(power, aim) if wm != null else WarmupJudge.strike(power, aim, 0.5, 0.92, 6.0)
+	var speed := lerpf(tuning.min_launch_speed, tuning.max_launch_speed * modifiers.power_mult, power)
+	phase = Phase.FLIGHT
+	_flight_t = 0.0
+	_ball_prev = ball.global_position
+	hud.set_hint("")
+	if tuning.show_debug_readout:
+		hud.show_shot_info("Power %d%%  Aim %+.1f°" % [roundi(power * 100.0), aim])
+	ball.launch(KickLaunch.direction(aim, tuning.warmup_elevation_deg) * speed, tuning.gravity,
+		Vector3.ZERO, tuning.flight_speed_scale, -INF, tuning.ball_spin_speed)
+	trail.start(ball)
+	cam.follow(ball, tuning.camera_follow_strength, tuning.camera_follow_speed)
+	cam.shake(tuning.kick_shake * (0.5 + power))
+	Sfx.play(&"kick", 0.0, lerpf(0.9, 1.15, power))
+	Haptics.pulse(roundi(tuning.kick_vibration_ms * lerpf(0.75, 1.5, power)))
+
+
+func _net_physics(delta: float) -> void:
+	if phase != Phase.FLIGHT:
+		return
+	_flight_t += delta * tuning.flight_speed_scale
+	var net := field.sideline.net
+	var now := ball.global_position
+	if not _net_hit and now.z <= net.plane_z() and _ball_prev.z > net.plane_z():
+		_net_hit = true
+		var t := (_ball_prev.z - net.plane_z()) / maxf(_ball_prev.z - now.z, 0.0001)
+		var at := _ball_prev.lerp(now, t)
+		if net.contains(at):
+			# Into the net: it gives, and the ball drops down its face.
+			net.hit(at)
+			Sfx.play(&"net")
+			ball.global_position = Vector3(at.x, at.y, net.plane_z() + 0.3)
+			ball.launch(Vector3(0.0, -0.5, 1.4), tuning.gravity, Vector3.ZERO, 1.0, -INF,
+				tuning.ball_spin_speed * 0.3)
+			_resolve_net(_net_res)
+			return
+	_ball_prev = ball.global_position
+	# Missed the net (or came up short): judged once the ball settles.
+	if not ball.in_flight or _flight_t > 3.0:
+		_resolve_net(_net_res)
+
+
+## One strike's banner, then the next ball on the tee; after the last strike,
+## the session banner (WARMED UP / LOOSE) and attempt_finished.
+func _resolve_net(res: Dictionary) -> void:
+	phase = Phase.RESULT
+	var my_id := _attempt_id
+	tee_result = res
+	var good := bool(res.get("good", false))
+	Sfx.play(&"good" if good else &"miss")
+	hud.set_hint("")
+	hud.show_banner(str(res.get("banner", "")), good, str(res.get("detail", "")))
+	await get_tree().create_timer(tuning.result_min_display + tuning.warmup_next_delay, true, false, true).timeout
+	if my_id != _attempt_id:
+		return
+	if mode != null and mode.wants_next_kick():
+		attempt_finished.emit(KickResult.Outcome.GOOD if good else KickResult.Outcome.SHORT)
+		_start_attempt()
+		return
+	var wm := mode as WarmupMode
+	if wm != null:
+		var sum := wm.summary()
+		tee_result = {"result": wm.result(), "pure": wm.pure, "taken": wm.taken}
+		hud.show_banner(str(sum["banner"]), bool(sum["good"]), str(sum["detail"]))
+		await get_tree().create_timer(1.4, true, false, true).timeout
+		if my_id != _attempt_id:
+			return
+	attempt_finished.emit(KickResult.Outcome.GOOD if good else KickResult.Outcome.SHORT)
+	if mode == null:
+		_can_continue = true
+		hud.set_hint("Tap for next kick")
 
 
 # --- tee kicks: kickoff / onside ---------------------------------------------------

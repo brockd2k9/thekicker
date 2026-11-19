@@ -7,7 +7,8 @@ extends Node
 ##       formation (same swipe, wind and KickProfile; judged by KickoffJudge).
 ##       Not counted in the field-goal stats.
 ## When your offense drives into range you're offered a warmup on the sideline
-## net: good strikes help your next kick, skipping it leaves your leg cold.
+## net (the same 3D kick scene, on the sideline: WarmupMode): good strikes help
+## your next kick, skipping it leaves your leg cold.
 ## Quitting (pause -> Leave Game) goes back to the Hub; the game then restarts
 ## from its first kick. Kicks already taken still count in My Stats.
 
@@ -21,7 +22,6 @@ const MAX_FEED_LINES := 80
 var career: CareerManager
 var sim: GameSim
 var _kt: KickTuning
-var _rng := RandomNumberGenerator.new()
 
 var _layer: CanvasLayer
 var _root: Control
@@ -51,7 +51,6 @@ func _ready() -> void:
 	if career.data.phase != CareerManager.PHASE_GAME:
 		Screens.go(career.screen_path())
 		return
-	_rng.randomize()
 	var kt: Variant = load(KICK_TUNING)
 	_kt = kt if kt is KickTuning else KickTuning.new()
 	sim = career.new_game_sim(_kt)
@@ -212,41 +211,18 @@ func _offer_warmup(e: Dictionary) -> void:
 	var modal := UiKit.modal_root(v)
 	v.add_child(UiKit.button(str(w.get("go", "Warm Up")), func() -> void:
 		modal.queue_free()
-		_net_session(), UiKit.PRIMARY, "toughness"))
+		_warmup_session(e), UiKit.PRIMARY, "toughness"))
 	v.add_child(UiKit.button(str(w.get("skip", "Stay on the Bench")), func() -> void:
 		modal.queue_free()
 		_finish_warmup("skipped")))
 
 
-func _net_session() -> void:
-	var t := career.tuning
-	var state := {"n": 0, "pure": 0}
-	var pad_ui := _open_pad(KickPad.Kind.NET, "SIDELINE NET")
-	var pad: KickPad = pad_ui["pad"]
-	var hint: Label = pad_ui["hint"]
-	var result: Label = pad_ui["result"]
-	var hint_text := str(CareerContent.game_day().get("pad", {}).get("net", ""))
-	hint.text = CareerContent.fill(hint_text, {"n": 1, "total": t.net_kicks})
+## The sideline net in the 3D kick scene: net_kicks strikes, then the result
+## ("pure" / "loose") goes to the game sim exactly as before.
+func _warmup_session(e: Dictionary) -> void:
+	_kick_kind = "warmup"
 	var prof := career.profile({"miss_streak": sim.miss_streak})
-	pad.swiped.connect(func(s: Swipe) -> void:
-		var k := SidelineKick.read_swipe(s, _kt, prof, _rng)
-		if not k["ok"]:
-			result.text = str(k["hint"])
-			return
-		var r := SidelineKick.net(k, t)
-		state["n"] += 1
-		if r["pure"]:
-			state["pure"] += 1
-		result.text = str(r["text"])
-		pad.fly(1.0 if r["pure"] else 0.75, float(k["aim_deg"])))
-	pad.flight_done.connect(func() -> void:
-		if int(state["n"]) >= t.net_kicks:
-			await get_tree().create_timer(0.6).timeout
-			pad_ui["root"].queue_free()
-			_finish_warmup(SidelineKick.net_result(int(state["pure"]), t))
-			return
-		hint.text = CareerContent.fill(hint_text, {"n": int(state["n"]) + 1, "total": t.net_kicks})
-		pad.reset())
+	_open_kick_scene(WarmupMode.from_tuning(career.tuning), prof, e)
 
 
 func _finish_warmup(result: String) -> void:
@@ -283,12 +259,18 @@ func _coach_call(e: Dictionary) -> void:
 ## Any coach call: the 3D kick scene, one attempt.
 func _launch_kick(e: Dictionary) -> void:
 	var prof := career.profile({"miss_streak": sim.miss_streak, "extra_modifiers": _warm()})
-	_kick_scene = FIELD_GOAL.instantiate()
 	_kick_kind = str(e.get("kind", "fg"))
 	var rules: KickoffRules = null
 	if _kick_kind in ["kickoff", "onside"]:
 		rules = CareerGameMode.kickoff_rules_for(career.tuning, Progression.game_params(career.data, career.tuning))
-	_kick_scene.mode = CareerGameMode.from_call(e, prof.pressure_add, rules)
+	_open_kick_scene(CareerGameMode.from_call(e, prof.pressure_add, rules), prof, e)
+
+
+## The kick scene over the bench screen, with this week's profile, the stage's
+## look and the live score. e: the sim event (us, them, elapsed).
+func _open_kick_scene(mode: KickMode, prof: KickProfile, e: Dictionary) -> void:
+	_kick_scene = FIELD_GOAL.instantiate()
+	_kick_scene.mode = mode
 	_kick_scene.modifiers = prof.to_kick_modifiers()
 	_kick_scene.set_look(career.kick_look())
 	_layer.visible = false
@@ -310,6 +292,8 @@ func _on_kick_resolved(r: KickReport) -> void:
 
 
 func _on_attempt_finished(_outcome: KickResult.Outcome) -> void:
+	if _kick_kind == "warmup" and _kick_scene.mode.wants_next_kick():
+		return  # more strikes to come
 	await get_tree().create_timer(1.0).timeout
 	if GameState.kick_resolved.is_connected(_on_kick_resolved):
 		GameState.kick_resolved.disconnect(_on_kick_resolved)
@@ -319,6 +303,9 @@ func _on_attempt_finished(_outcome: KickResult.Outcome) -> void:
 	_kick_scene = null
 	Engine.time_scale = 1.0
 	_layer.visible = true
+	if _kick_kind == "warmup":
+		_finish_warmup(str(tee_result.get("result", "loose")))
+		return
 	if _kick_kind in ["kickoff", "onside"]:
 		sim.resolve_call(tee_result)
 	else:
@@ -331,37 +318,6 @@ func _on_attempt_finished(_outcome: KickResult.Outcome) -> void:
 ## This half's warmup modifier, as a list for KickProfile ctx.
 func _warm() -> Array:
 	return [sim.warm_modifier] if sim.warm_modifier != "" else []
-
-
-## Full-screen pad overlay: {"root", "pad", "hint", "result"}.
-func _open_pad(kind: KickPad.Kind, title: String) -> Dictionary:
-	var root := Control.new()
-	root.name = "Pad"
-	root.theme = UiKit.theme()
-	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	root.mouse_filter = Control.MOUSE_FILTER_STOP
-	var bg := Backdrop.new()
-	bg.palette = UiKit.palette
-	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	root.add_child(bg)
-	var safe := MarginContainer.new()
-	safe.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	UiKit.apply_safe_area(safe, UiKit.MARGIN)
-	root.add_child(safe)
-	var v := VBoxContainer.new()
-	v.add_theme_constant_override("separation", 12)
-	safe.add_child(v)
-	v.add_child(UiKit.title_block(title, "Sideline"))
-	var hint := CareerUi.centered("", 26)
-	v.add_child(hint)
-	var pad := KickPad.new()
-	pad.kind = kind
-	pad.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	v.add_child(pad)
-	var result := CareerUi.centered(" ", 32, UiKit.ACCENT)
-	v.add_child(result)
-	_root.add_child(root)
-	return {"root": root, "pad": pad, "hint": hint, "result": result}
 
 
 # --- end / pause ---------------------------------------------------------------------
@@ -412,5 +368,5 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _back() -> void:
 	var modal := _root.get_node_or_null("Modal")
-	if modal == null and _root.get_node_or_null("Pad") == null:
+	if modal == null:
 		_pause()

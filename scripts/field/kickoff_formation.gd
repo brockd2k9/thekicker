@@ -227,6 +227,12 @@ func _number(used: Array[int], lo: int, hi: int) -> int:
 
 ## A small orange kicking tee, drawn at the ball's visual scale.
 func _build_tee(height: float, ball_scale: float) -> void:
+	_tee = make_tee(height, ball_scale)
+	add_child(_tee)
+
+
+## The kicking tee mesh (shared with SidelineSet), standing at the local origin.
+static func make_tee(height: float, ball_scale: float) -> MeshInstance3D:
 	var cyl := CylinderMesh.new()
 	cyl.top_radius = 0.025 * ball_scale
 	cyl.bottom_radius = 0.055 * ball_scale
@@ -237,7 +243,7 @@ func _build_tee(height: float, ball_scale: float) -> void:
 	m.albedo_color = Color(1.0, 0.45, 0.05)
 	m.roughness = 0.5
 	cyl.material = m
-	_tee = MeshInstance3D.new()
-	_tee.mesh = cyl
-	_tee.position = Vector3(0.0, cyl.height * 0.5, 0.0)
-	add_child(_tee)
+	var tee := MeshInstance3D.new()
+	tee.mesh = cyl
+	tee.position = Vector3(0.0, cyl.height * 0.5, 0.0)
+	return tee

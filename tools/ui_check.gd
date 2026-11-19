@@ -25,7 +25,7 @@ const SIM := preload("res://tools/career_sim.gd")
 const MIN_TAP := UiTokens.TAP_MIN
 ## Every screen this tool knows, in the order it captures them.
 const ALL := ["main", "career_menu", "tutorial", "new", "hub", "scenario", "scenario_result",
-	"outlook", "game", "kickoff", "kickoff_result", "onside", "hud", "hud_result", "results", "stats", "achievements", "settings",
+	"outlook", "game", "warmup", "warmup_result", "kickoff", "kickoff_result", "onside", "hud", "hud_result", "results", "stats", "achievements", "settings",
 	"career_stats", "debug", "challenge", "season", "recruiting", "college_choice", "hub_college", "draft",
 	"hub_pro", "contract", "retired", "pause", "toast"]
 
@@ -115,6 +115,7 @@ func _capture_all() -> void:
 	await _shot("outlook", Screens.CAREER_OUTLOOK)
 	_m.start_game()
 	await _shot("game", Screens.CAREER_GAME, Callable(), Callable(), 2.6)
+	await _warmup_shots()
 	await _kickoff_shots()
 	await _hud_shots()
 	_m.finish_game(_sim._play_game(_m))
@@ -204,6 +205,48 @@ func _force_locked_scenario(id: String) -> void:
 	var c := _m.data
 	if c.phase == CareerManager.PHASE_SCENARIO and not CareerContent.scenario(id).is_empty():
 		c.pending_scenarios[0] = id
+
+
+## The 3D sideline warmup net, launched from the career game screen.
+func _warmup_shots() -> void:
+	if not (_want("warmup") or _want("warmup_result")):
+		return
+	await _open(Screens.CAREER_GAME, 1.0)
+	var scr := get_tree().current_scene
+	if scr == null or not scr.has_method("_warmup_session"):
+		_problems.append("[%s] warmup: career game screen not open" % _tag)
+		return
+	scr._busy = true
+	scr._warmup_session({"type": "warmup", "spot": "opponent 32", "elapsed": 900.0, "us": 7, "them": 3})
+	var ks: Node = scr._kick_scene
+	var t := 0.0
+	while ks.phase != 2 and t < 10.0:
+		await _wait(0.1)
+		t += 0.1
+	await _capture("warmup")
+	# Strike until the session ends; capture the first strike's banner.
+	var first := true
+	t = 0.0
+	while is_instance_valid(ks) and t < 40.0:
+		if ks.phase == 2:
+			var sw := Swipe.new()
+			sw.screen_height = 1280.0
+			sw.start = Vector2(360, 1100)
+			sw.end = Vector2(366, 650)
+			sw.duration = 0.2
+			sw.flick_speed_px = 2.8 * 1280.0
+			ks._try_kick(sw)
+			if first and _want("warmup_result"):
+				var w := 0.0
+				while ks.tee_result.is_empty() and w < 10.0:
+					await _wait(0.1)
+					w += 0.1
+				await _wait(0.4)
+				await _capture("warmup_result")
+			first = false
+		await _wait(0.2)
+		t += 0.2
+	scr._busy = true
 
 
 ## The 3D kickoff and onside kick, launched from the career game screen.

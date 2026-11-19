@@ -71,7 +71,7 @@ A game mode plugs into the kick scene through `KickMode` (`scripts/modes/kick_mo
 it picks the next `KickSituation` (distance, wind, pressure) and says whether there is a
 next kick. It never touches the kicking mechanic. `mode = null` is free practice.
 
-**Kick types.** The same scene plays four kicks (`KickSituation.KickType`, from
+**Kick types.** The same scene plays five kicks (`KickSituation.KickType`, from
 `KickMode.kick_type()`, read before the scene enters the tree):
 - `FIELD_GOAL`, `EXTRA_POINT`: everything above, unchanged.
 - `KICKOFF`, `ONSIDE`: ball on a tee, kickoff / onside formation (`kickoff_formation.gd`), no snap,
@@ -86,6 +86,14 @@ next kick. It never touches the kicking mechanic. `mode = null` is free practice
     which sets where the opponent's next drive starts in the play-by-play.
   - onside: RECOVERED! / THEIR BALL / OUT OF BOUNDS. Same risk/reward as before: a "good" onside
     (rests 10-18 yards out, aim within 15°) is recovered 45% of the time, any other 8%.
+- `WARMUP_NET` (Career's sideline warmup, `WarmupMode`): the same scene on the sideline grass
+  beside the team bench (`SidelineSet`: bench, cooler, 5 teammates in team colors, a strip of crowd;
+  the field is empty), ball on a tee kicked into a net (`KickingNet`: frame on poles, mesh net that
+  ripples where the ball hits, then the ball drops). Field-goal camera, no wind, no pressure, the
+  player's KickProfile. Each strike is judged by `WarmupJudge` with the old pad's rules (power
+  0.5-0.92 and aim within 6° = PURE!, otherwise PUSHED IT / PULLED IT / SOFT CONTACT / OVER-SWUNG);
+  3 strikes, then WARMED UP (2+ pure) or LOOSE, handed to the game sim as before.
+  `SidelineSet` and `KickingNet` are standalone pieces for anything else on the sideline.
   The result is in `tee_result` after `attempt_finished`. Tee kicks are **not** reported to
   `GameState.kick_resolved`, so they never touch field-goal stats, streaks or achievements.
   Camera: the same kicker's view from the start of the run-up, higher and a little wider
@@ -267,6 +275,7 @@ scripts/
   systems/save_store.gd       JSON save file, version + migrations
   modes/kick_mode.gd          KickMode: how a mode plugs into the kick scene
   modes/challenge_rules.gd    Challenge difficulty ramp + 3-miss rule
+  modes/warmup_mode.gd        sideline warmup: 3 strikes into the net, then pure / loose
   config/kick_tuning.gd       KickTuning resource definition
   input/swipe.gd              swipe data, normalized to screen height
   input/swipe_input.gd        pointer → swipe (touch & mouse, one code path)
@@ -276,6 +285,7 @@ scripts/
   kick/kickoff_rules.gd       kickoff / onside numbers (spot, touchback, return, onside odds)
   kick/kickoff_judge.gd       touchback / deep / returned / short / out of bounds; onside results
   kick/kick_launch.gd         tee kicks: launch speed for a target carry (same integrator as Ball)
+  kick/warmup_judge.gd        sideline net: pure strike rules, session result
   kick/kick_result.gd         GOOD / WIDE LEFT / WIDE RIGHT / SHORT / BLOCKED rules
   kick/wind.gd                crosswind + gusts
   kick/snap_animator.gd       snap: snapper -> holder's hands -> spot
@@ -285,6 +295,8 @@ scripts/
   kick/aim_marker.gd          wobbling aim ring
   field/field_builder.gd      field, stands, light towers, formation, holder
   field/kickoff_formation.gd  kickoff / onside formations, tee, yard numbers, coverage run
+  field/sideline_set.gd       team sideline: bench, cooler, teammates, crowd strip, net + tee
+  field/kicking_net.gd        kicking net on poles with a ripple (shaders/net.gdshader)
   field/player_figure.gd      jointed football player (helmet, pads, numbered jersey,
                               gloves, cleats): stance, run, block, jump, dive, kneel
   field/team_kit.gd           team uniform colors (fictional teams) + shared materials
@@ -362,7 +374,8 @@ Achievements. Kickoffs and onside kicks run in the same 3D scene (`CareerGameMod
 builds the stage's `KickoffRules`) and hand `tee_result` back to `GameSim.resolve_call()`; they
 don't count in My Stats. Kickoff spots per stage (`career_tuning.tres`, "Sideline Kicks"): high
 school from the 40, college and pro from the 35; touchbacks at the 20 / 25 / 30, out of bounds at
-the 35 / 35 / 40. The warmup net is still the 2D sideline pad (`kick_pad.gd`, `sideline_kick.gd`).
+the 35 / 35 / 40. The sideline warmup is the same 3D scene too (`WarmupMode`); the old 2D
+sideline pad is gone.
 `CareerContent.validate()` checks every data file (run by the Career Debug screen, the simulator and the tests; problems print as warnings).
 
 **Balance simulator:** `godot --headless res://tools/career_sim.tscn -- careers=40 seed=1` plays
@@ -375,8 +388,9 @@ Design decisions and values to playtest: `PLAYTEST.md`, "Career Mode".
 `tests/test_*.gd` (add `-- only=test_saves` for one file) and exits with the number of failing
 tests: old-save compatibility (frozen v0/v1/v2 saves in `tests/fixtures/`; never edit those, add a
 new fixture per save version), the scenario engine, `CareerContent.validate()` on the real data,
-and kickoffs (`test_kickoff.gd`: the judge, the launch solver, per-stage rules, the career wiring).
-`tools/ui_check.tscn` also captures `kickoff`, `kickoff_result` and `onside` from a real career game.
+kickoffs (`test_kickoff.gd`: the judge, the launch solver, per-stage rules, the career wiring) and the
+warmup (`test_warmup.gd`: same rules as the old pad, session flow). `tools/ui_check.tscn` also captures
+`warmup`, `warmup_result`, `kickoff`, `kickoff_result` and `onside` from a real career game.
 The balance simulator gives the same report for the same seed, so a content-neutral change can
 be checked by diffing its tables before and after.
 
@@ -398,7 +412,8 @@ a few at a time. Fill in `category`, `text` and `choices` (each choice setting t
 ## Sound
 
 `Sfx.play(&"kick")` is called for `snap`, `catch`, `kick`, `good`, `miss`, `block`, plus
-`ui_tap` (menu buttons), `achievement` (toast) and `run_over` (Challenge results).
+`ui_tap` (menu buttons), `achievement` (toast), `run_over` (Challenge results) and `net` (ball into
+the sideline warmup net).
 UI hooks (`UiKit.feedback`, also a haptic pulse; see `UiKit.FEEDBACK`): `ui_confirm`
 (primary buttons, picking a choice), `ui_locked` (tapping a locked choice), `ui_transition`,
 `stat_up`, `trait_unlock`, `week_result`, `result_good` / `result_miss` (HUD banner, on top

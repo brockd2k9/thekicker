@@ -93,8 +93,10 @@ Rerun `tools/career_sim.tscn` after changing any of them and compare with
 - **Kickoffs and onside kicks are in the 3D kick scene** (kickoff / onside formation, ball on a
   tee, stage posts at the far end). They keep the old sideline carry curve so career balance
   doesn't move, are judged where the ball lands (out of bounds now from the landing point, wind
-  included, instead of "aim beyond 12°"), and don't count in the field-goal stats. The sideline
-  warmup net is still the 2D pad.
+  included, instead of "aim beyond 12°"), and don't count in the field-goal stats.
+- **The sideline warmup is in the 3D scene too**: tee on the sideline grass by the bench, a
+  kicking net 6.5 m ahead, the field-goal camera, no wind. Same rules as the old pad (3 strikes,
+  2 pure = Warmed Up). The field is empty during the warmup (kept light on purpose).
 - **Kickoff spots**: high school from the 40, college and pro from the 35 (was the 40 for all
   stages, so college/pro touchbacks need 5 more yards). Touchback 20 / 25 / 30, out of bounds
   35 / 35 / 40. Conventional kickoff alignment at every level.
@@ -159,6 +161,9 @@ are a stand-in for real swipes, so everything involving kicking quality needs a 
 
 **Game day**
 13. Game sim: ~1.6 FG + 2 XP + 4 kickoffs per game (`drives_per_half` 4, `base_td_chance`).
+13a. Warmup net: launch angle `warmup_elevation_deg` 22, tee `warmup_sideline_x` 29 m from the
+    middle of the field (sideline at 24.4 m), `warmup_next_delay` 0.5 s between strikes. Check the
+    feedback reads well: PURE! / PUSHED IT / PULLED IT / SOFT CONTACT / OVER-SWUNG.
 14. Kickoff carry 75 yd at full power (from the 35 a touchback needs ~87% power with Power
     stat neutral); onside window 10-18 yd; warmup net window `net_power_min/max` 0.5-0.92,
     `net_aim_deg` 6.
@@ -182,8 +187,8 @@ are a stand-in for real swipes, so everything involving kicking quality needs a 
   runs Career Mode screens). Build the .apk on your own machine (README → Export for Android).
 - Cleanup: the personal cloud environment **thekicker** (allows `dl.google.com`) was created for an
   SDK download that was dropped. Nothing depends on it; delete it in claude.ai if unneeded.
-- The warmup net is still on the 2D sideline pad. Kickoff returns are a number, not an animated
-  return (the returner moves under the ball; no tackle).
+- Kickoff returns are a number, not an animated return (the returner moves under the ball; no tackle).
+- The warmup net's ripple is a simple shader bulge; the ball doesn't wrap into the mesh.
 - The simulator's kick model is a stand-in; fallback-route frequency and pro career length need
   real-play checks.
 - Game-winning kicks (and the Walk-Off achievement) are rare by design of the game sim.
