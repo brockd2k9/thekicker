@@ -23,9 +23,8 @@
 		{
 			"id": "HS_001",
 			"title": "The New Kid",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "It's your first week at the high school, and the lunchroom feels like it already has its own seating chart. A few players from the football team wave you over, but you don't know them yet.",
 			"stages": [
 				"high_school"
 			],
@@ -36,14 +35,62 @@
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Join the football table",
+					"result": "You sit with the team and learn everyone's names. The conversation is awkward at first, but a couple of players make room for you.",
+					"stats": {
+						"life": {
+							"social": 5,
+							"fun": 3
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					]
+				},
+				{
+					"label": "Introduce yourself to someone new",
+					"result": "You strike up a conversation with another student who is also finding their way around. It feels good to make a connection outside football.",
+					"stats": {
+						"life": {
+							"social": 4,
+							"energy": -3
+						},
+						"personality": {
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				},
+				{
+					"label": "Find a quiet spot and review the playbook",
+					"result": "You spend lunch learning the team's terminology. You feel more prepared at practice, even if you haven't made many friends yet.",
+					"stats": {
+						"life": {
+							"energy": 3,
+							"social": -4
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_002",
 			"title": "Homework or the Field?",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "school",
+			"text": "Your math assignment is due tomorrow, but the field is open and the kickers are getting extra reps. You know you can't put off the homework forever.",
 			"stages": [
 				"high_school"
 			],
@@ -59,18 +106,59 @@
 				"leads_to": [
 					{
 						"to": "HS_021",
-						"flag": "academic_effort"
+						"flag": "academic_effort",
+						"type": "flavor"
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Finish the assignment first",
+					"result": "You miss some extra kicks, but turn in work you're proud of. Your teacher notices you took the deadline seriously.",
+					"stats": {
+						"life": {
+							"energy": -5,
+							"fun": -3
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"grades": 0.15,
+					"set_flags": {
+						"academic_effort": true
+					}
+				},
+				{
+					"label": "Get extra kicks in before studying",
+					"result": "You get valuable reps while the field is quiet, then work through the assignment later than planned.",
+					"stats": {
+						"life": {
+							"energy": -6,
+							"fun": 2
+						},
+						"football": {
+							"accuracy": 1
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"grades": -0.05
+				}
+			]
 		},
 		{
 			"id": "HS_003",
 			"title": "The Locker Room Joke",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "A few upperclassmen hide a freshman's practice gear and laugh as he searches the locker room. One of them nudges you to join in.",
 			"stages": [
 				"high_school"
 			],
@@ -87,30 +175,89 @@
 				"leads_to": [
 					{
 						"to": "HS_034",
-						"flag": "helped_freshman"
+						"flag": "helped_freshman",
+						"type": "unlock"
 					},
 					{
 						"to": "HS_073",
-						"flag": "helped_freshman"
+						"flag": "helped_freshman",
+						"type": "flavor"
 					},
 					{
 						"to": "HS_094",
-						"flag": "helped_freshman"
+						"flag": "helped_freshman",
+						"type": "unlock"
 					},
 					{
 						"to": "HS_034",
-						"flag": "bullied_freshman"
+						"flag": "bullied_freshman",
+						"type": "block"
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Step in and help him find it",
+					"result": "The laughing dies down. One senior rolls his eyes, but the freshman gives you a grateful nod on the way out.",
+					"stats": {
+						"life": {
+							"social": -3
+						},
+						"personality": {
+							"leadership": 3,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"set_flags": {
+						"helped_freshman": true
+					}
+				},
+				{
+					"label": "Laugh along with the upperclassmen",
+					"result": "The older players welcome you into the joke, but the freshman stops looking your way. You can tell he won't forget it.",
+					"stats": {
+						"life": {
+							"social": 4,
+							"fun": 3
+						},
+						"personality": {
+							"leadership": -2
+						}
+					},
+					"modifiers": [
+						"distracted"
+					],
+					"set_flags": {
+						"bullied_freshman": true
+					}
+				},
+				{
+					"label": "Don't join in; quietly return his gear",
+					"result": "You avoid turning it into a bigger scene and make sure he gets his things back. The seniors move on, though you haven't challenged them directly.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"social": 1
+						},
+						"personality": {
+							"leadership": 1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_004",
 			"title": "Dad's Expectations",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "family",
+			"text": "After practice, {parent} says he knows you can become the best kicker on the team. He means it as encouragement, but lately every conversation seems to turn into what you need to improve.",
 			"stages": [
 				"high_school"
 			],
@@ -121,14 +268,75 @@
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Tell {parent} how the pressure feels",
+					"result": "You explain that you appreciate the support but need room to make mistakes. {parent} listens, even if the conversation is a little uncomfortable.",
+					"stats": {
+						"life": {
+							"social": -2,
+							"energy": -2
+						},
+						"personality": {
+							"charisma": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"parent": 7
+					}
+				},
+				{
+					"label": "Ask {parent} to help set realistic goals",
+					"result": "You sit down together and make a simple plan for practice. The expectations feel more manageable when you have a say in them.",
+					"stats": {
+						"life": {
+							"energy": -3
+						},
+						"football": {
+							"accuracy": 1
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"rel": {
+						"parent": 5
+					}
+				},
+				{
+					"label": "Change the subject for now",
+					"result": "{parent} keeps talking about your next game. You avoid an argument tonight, but the pressure doesn't really go away.",
+					"stats": {
+						"life": {
+							"fun": 2,
+							"energy": 2
+						},
+						"personality": {
+							"leadership": -1,
+							"charisma": -1
+						}
+					},
+					"modifiers": [
+						"distracted"
+					],
+					"rel": {
+						"parent": -4
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_005",
 			"title": "The First Rival",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "{tyler}, the other freshman kicker, drills four straight from forty yards on the first day of practice. He catches you watching and says, \"Hope you're ready to compete.\"",
 			"stages": [
 				"high_school"
 			],
@@ -145,26 +353,81 @@
 				"leads_to": [
 					{
 						"to": "HS_030",
-						"flag": "befriended_tyler"
+						"flag": "befriended_tyler",
+						"type": "unlock"
 					},
 					{
 						"to": "HS_092",
-						"flag": "hostile_tyler_rivalry"
+						"flag": "hostile_tyler_rivalry",
+						"type": "unlock"
 					},
 					{
 						"to": "HS_147",
-						"flag": "befriended_tyler"
+						"flag": "befriended_tyler",
+						"type": "unlock"
 					},
 					{
 						"to": "HS_147",
-						"flag": "hostile_tyler_rivalry"
+						"flag": "hostile_tyler_rivalry",
+						"type": "unlock"
 					}
 				],
 				"people": [
 					"tyler"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Ask him to train together",
+					"result": "{tyler} seems surprised, then agrees. You split the net and trade pointers until practice ends. The competition suddenly feels more useful than personal.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"social": 2
+						},
+						"football": {
+							"accuracy": 1
+						},
+						"personality": {
+							"charisma": 1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"set_flags": {
+						"befriended_tyler": true
+					},
+					"rel": {
+						"rival": 8
+					}
+				},
+				{
+					"label": "Tell him you'll take the starting job",
+					"result": "{tyler} grins and fires back that he'll see you at tryouts. The challenge lights a fire under you, though the two of you aren't exactly friends.",
+					"stats": {
+						"life": {
+							"social": -2
+						},
+						"football": {
+							"power": 1
+						},
+						"personality": {
+							"ambition": 3
+						}
+					},
+					"modifiers": [
+						"pumped_up"
+					],
+					"set_flags": {
+						"hostile_tyler_rivalry": true
+					},
+					"rel": {
+						"rival": -8
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_006",
@@ -205,9 +468,8 @@
 		{
 			"id": "HS_008",
 			"title": "The Missed Kick",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "training",
+			"text": "You miss a kick in practice that you normally make. The ball sails wide, and you can feel the other kickers watching to see how you'll respond.",
 			"stages": [
 				"high_school"
 			],
@@ -218,7 +480,63 @@
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Stay after and review the miss",
+					"result": "You slow the rep down, check your plant foot, and work through a few controlled kicks. The extra effort helps you understand what went wrong.",
+					"stats": {
+						"life": {
+							"energy": -5,
+							"fun": -2
+						},
+						"football": {
+							"accuracy": 1
+						},
+						"personality": {
+							"intelligence": 1,
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					]
+				},
+				{
+					"label": "Shake it off and reset for tomorrow",
+					"result": "You pack up with the group instead of chasing one bad rep. A little distance helps you keep the miss from taking over your night.",
+					"stats": {
+						"life": {
+							"energy": 3,
+							"fun": 3
+						},
+						"football": {
+							"resilience": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Get frustrated and rush a few more kicks",
+					"result": "You try to force the next few attempts, but your timing gets worse. By the time you stop, you're more annoyed than when you started.",
+					"stats": {
+						"life": {
+							"energy": -4,
+							"social": -2
+						},
+						"football": {
+							"accuracy": -1
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"stressed"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_009",
@@ -622,7 +940,8 @@
 				"leads_to": [
 					{
 						"to": "HS_046",
-						"flag": "tyler_mutual_respect"
+						"flag": "tyler_mutual_respect",
+						"type": "unlock"
 					}
 				],
 				"people": [
@@ -688,7 +1007,8 @@
 				"leads_to": [
 					{
 						"to": "HS_155",
-						"flag": "questionable_recruiting_clip"
+						"flag": "questionable_recruiting_clip",
+						"type": "unlock"
 					}
 				]
 			},
@@ -932,7 +1252,8 @@
 				"leads_to": [
 					{
 						"to": "HS_068",
-						"flag": "academic_recovery"
+						"flag": "academic_recovery",
+						"type": "unlock"
 					}
 				]
 			},
@@ -1101,7 +1422,8 @@
 				"leads_to": [
 					{
 						"to": "HS_088",
-						"flag": "recruiter_trust"
+						"flag": "recruiter_trust",
+						"type": "unlock"
 					}
 				]
 			},
@@ -1870,7 +2192,8 @@
 				"leads_to": [
 					{
 						"to": "HS_126",
-						"flag": "handled_conflict_well"
+						"flag": "handled_conflict_well",
+						"type": "unlock"
 					}
 				]
 			},
@@ -1919,7 +2242,8 @@
 				"leads_to": [
 					{
 						"to": "HS_139",
-						"flag": "defended_teammate_online"
+						"flag": "defended_teammate_online",
+						"type": "unlock"
 					}
 				]
 			},
@@ -1990,7 +2314,8 @@
 				"leads_to": [
 					{
 						"to": "HS_145",
-						"flag": "trained_backup_holder"
+						"flag": "trained_backup_holder",
+						"type": "unlock"
 					}
 				],
 				"absorbs": [
@@ -2021,7 +2346,8 @@
 				"leads_to": [
 					{
 						"to": "HS_134",
-						"flag": "community_volunteer"
+						"flag": "community_volunteer",
+						"type": "unlock"
 					}
 				]
 			},
@@ -2112,7 +2438,8 @@
 				"leads_to": [
 					{
 						"to": "HS_132",
-						"flag": "welcomed_new_qb"
+						"flag": "welcomed_new_qb",
+						"type": "unlock"
 					}
 				],
 				"people": [
@@ -2144,7 +2471,8 @@
 				"leads_to": [
 					{
 						"to": "HS_142",
-						"flag": "blamed_someone_else"
+						"flag": "blamed_someone_else",
+						"type": "unlock"
 					}
 				],
 				"absorbs": [
@@ -2218,7 +2546,8 @@
 				"leads_to": [
 					{
 						"to": "HS_153",
-						"flag": "summer_job"
+						"flag": "summer_job",
+						"type": "unlock"
 					}
 				]
 			},
@@ -2273,11 +2602,13 @@
 				"leads_to": [
 					{
 						"to": "HS_150",
-						"flag": "clinic_coach_trust"
+						"flag": "clinic_coach_trust",
+						"type": "unlock"
 					},
 					{
 						"to": "HS_142",
-						"flag": "exaggerated_progress"
+						"flag": "exaggerated_progress",
+						"type": "unlock"
 					}
 				]
 			},
@@ -2304,7 +2635,8 @@
 				"leads_to": [
 					{
 						"to": "HS_136",
-						"flag": "student_leadership_program"
+						"flag": "student_leadership_program",
+						"type": "unlock"
 					}
 				]
 			},
@@ -2333,7 +2665,8 @@
 				"leads_to": [
 					{
 						"to": "HS_143",
-						"flag": "trusted_unknown_trainer"
+						"flag": "trusted_unknown_trainer",
+						"type": "unlock"
 					}
 				]
 			},
@@ -2361,7 +2694,8 @@
 				"leads_to": [
 					{
 						"to": "HS_151",
-						"flag": "helped_competing_teammate"
+						"flag": "helped_competing_teammate",
+						"type": "unlock"
 					}
 				]
 			},
@@ -2393,7 +2727,8 @@
 				"leads_to": [
 					{
 						"to": "HS_154",
-						"flag": "communicated_with_colleges"
+						"flag": "communicated_with_colleges",
+						"type": "unlock"
 					}
 				],
 				"absorbs": [
@@ -2424,7 +2759,8 @@
 				"leads_to": [
 					{
 						"to": "HS_142",
-						"flag": "challenged_coach_decision"
+						"flag": "challenged_coach_decision",
+						"type": "unlock"
 					}
 				]
 			},
@@ -2473,7 +2809,8 @@
 				"leads_to": [
 					{
 						"to": "HS_155",
-						"flag": "questionable_recruiting_clip"
+						"flag": "questionable_recruiting_clip",
+						"type": "unlock"
 					}
 				]
 			},
@@ -2507,11 +2844,13 @@
 				"leads_to": [
 					{
 						"to": "HS_143",
-						"flag": "hid_injury"
+						"flag": "hid_injury",
+						"type": "unlock"
 					},
 					{
 						"to": "HS_142",
-						"flag": "hid_injury"
+						"flag": "hid_injury",
+						"type": "unlock"
 					}
 				],
 				"follow_up_hints": [
@@ -2621,11 +2960,13 @@
 				"leads_to": [
 					{
 						"to": "HS_148",
-						"flag": "saved_first_paycheck"
+						"flag": "saved_first_paycheck",
+						"type": "unlock"
 					},
 					{
 						"to": "HS_157",
-						"flag": "helped_family_financially"
+						"flag": "helped_family_financially",
+						"type": "unlock"
 					}
 				]
 			},
@@ -2713,7 +3054,8 @@
 				"leads_to": [
 					{
 						"to": "HS_137",
-						"flag": "new_qb_friendship"
+						"flag": "new_qb_friendship",
+						"type": "unlock"
 					}
 				],
 				"people": [
@@ -2743,7 +3085,8 @@
 				"leads_to": [
 					{
 						"to": "HS_158",
-						"flag": "academic_scholarship_path"
+						"flag": "academic_scholarship_path",
+						"type": "unlock"
 					}
 				]
 			},
@@ -2782,7 +3125,8 @@
 				"leads_to": [
 					{
 						"to": "HS_153",
-						"flag": "community_recognition"
+						"flag": "community_recognition",
+						"type": "unlock"
 					}
 				]
 			},
@@ -2810,7 +3154,8 @@
 				"leads_to": [
 					{
 						"to": "HS_148",
-						"flag": "built_training_plan"
+						"flag": "built_training_plan",
+						"type": "unlock"
 					}
 				]
 			},
@@ -2849,7 +3194,8 @@
 				"leads_to": [
 					{
 						"to": "HS_144",
-						"flag": "led_school_project"
+						"flag": "led_school_project",
+						"type": "unlock"
 					}
 				]
 			},
@@ -2965,7 +3311,8 @@
 				"leads_to": [
 					{
 						"to": "HS_156",
-						"flag": "owned_old_group_chat"
+						"flag": "owned_old_group_chat",
+						"type": "unlock"
 					}
 				]
 			},
@@ -2992,7 +3339,8 @@
 				"leads_to": [
 					{
 						"to": "HS_145",
-						"flag": "trusted_holder_under_pressure"
+						"flag": "trusted_holder_under_pressure",
+						"type": "unlock"
 					}
 				]
 			},
@@ -3124,7 +3472,8 @@
 				"leads_to": [
 					{
 						"to": "HS_148",
-						"flag": "committed_to_recovery"
+						"flag": "committed_to_recovery",
+						"type": "unlock"
 					}
 				]
 			},
@@ -3168,7 +3517,8 @@
 				"leads_to": [
 					{
 						"to": "HS_159",
-						"flag": "accepted_team_leadership"
+						"flag": "accepted_team_leadership",
+						"type": "unlock"
 					}
 				]
 			},
@@ -3218,7 +3568,8 @@
 				"leads_to": [
 					{
 						"to": "HS_159",
-						"flag": "holder_big_moment_success"
+						"flag": "holder_big_moment_success",
+						"type": "unlock"
 					}
 				]
 			},
@@ -3251,7 +3602,8 @@
 				"leads_to": [
 					{
 						"to": "HS_159",
-						"flag": "earned_coach_confidence"
+						"flag": "earned_coach_confidence",
+						"type": "unlock"
 					}
 				]
 			},
@@ -3423,7 +3775,8 @@
 				"leads_to": [
 					{
 						"to": "HS_160",
-						"flag": "recruiting_values_clear"
+						"flag": "recruiting_values_clear",
+						"type": "unlock"
 					}
 				]
 			},
@@ -3485,7 +3838,8 @@
 				"leads_to": [
 					{
 						"to": "HS_160",
-						"flag": "family_college_compromise"
+						"flag": "family_college_compromise",
+						"type": "unlock"
 					}
 				]
 			},
@@ -3606,7 +3960,8 @@
 				"leads_to": [
 					{
 						"to": "HS_150",
-						"flag": "corrected_recruiting_video"
+						"flag": "corrected_recruiting_video",
+						"type": "unlock"
 					}
 				]
 			},
@@ -3718,7 +4073,8 @@
 				"leads_to": [
 					{
 						"to": "HS_160",
-						"flag": "secured_academic_path"
+						"flag": "secured_academic_path",
+						"type": "unlock"
 					}
 				]
 			},

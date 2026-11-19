@@ -50,7 +50,7 @@ file plus the template entries you want written to whoever is writing.
 | `requires` | What the player must have done first (flags) for it to appear at all |
 | `must_set_flags` | **Every one of these must be set by some choice** (the importer checks) |
 | `people` | Who's in the scene; their choices have a `rel` slot for them |
-| `unlocked_by` / `leads_to` | The story chain: which scenario's flag opens this one, and what this one's flags open later |
+| `unlocked_by` / `leads_to` | The story chain: which scenario's flag opens this one, and what this one's flags do later: "unlocks HS_034 ... when helped_freshman", "blocks HS_034 ... when bullied_freshman", or "leads to ... (flavor only)" when the later scenario is open to everyone anyway |
 | `notes`, `follow_up_hints` | Extra instructions (e.g. HS_160's locked choices) |
 
 ## One choice

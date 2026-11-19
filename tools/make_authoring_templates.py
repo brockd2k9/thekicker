@@ -82,6 +82,18 @@ def when_text(s):
     return yr + (f", weeks {wk[0]}-{wk[1]}" if wk else ", any week")
 
 
+def _lead_text(l, titles):
+    """"unlocks HS_034 (The Friend Who Needs Help) when helped_freshman"."""
+    verb = {"unlock": "unlocks", "block": "blocks", "flavor": "leads to"}.get(l.get("type", "unlock"), "unlocks")
+    t = f'{verb} {l["to"]} ({titles.get(l["to"], "?")}) when {l["flag"]}'
+    if l.get("type") == "flavor":
+        t += " (flavor only: that scenario is open to everyone)"
+    return t
+
+
+titles = {}
+
+
 def entry(s):
     people = people_for(s)
     rel_people = [p for p in people if p not in NO_REL]
@@ -95,7 +107,7 @@ def entry(s):
         "must_set_flags": flags or None,
         "people": people or None,
         "unlocked_by": a.get("unlocked_by"),
-        "leads_to": a.get("leads_to"),
+        "leads_to": [_lead_text(l, titles) for l in a.get("leads_to", [])] or None,
         "absorbs": a.get("absorbs"),
         "notes": a.get("beat_note") or a.get("ungated") or a.get("note"),
         "follow_up_hints": a.get("follow_up_hints"),
@@ -137,6 +149,7 @@ GUIDE_POINTER = ("Fill in category, text and choices; leave _info alone (it's re
 def main():
     graph = [s for s in load(GRAPH)["scenarios"] if not s.get("added_by_import")]
     by_id = {s["id"]: s for s in graph}
+    titles.update({s["id"]: s["title"] for s in graph})
     os.makedirs(OUT_DIR, exist_ok=True)
     everything = [entry(s) for s in graph]
     slice_ids = SLICE_STARTERS + SLICE_FIRST_HOPS + SLICE_CAST_INTROS

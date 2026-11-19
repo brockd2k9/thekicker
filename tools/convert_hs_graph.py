@@ -266,7 +266,11 @@ def convert(src):
                                    for e in incoming]
             if sid in UNGATED:
                 note["ungated"] = "Open to everyone; the unlock flags are flavor only."
-        leads = [{"to": e["to"], "flag": e["when"]} for e in edges if e["from"] == sid]
+        # type: unlock (the target needs this flag), block (the flag keeps the
+        # target away), flavor (the target is open to everyone anyway).
+        leads = [{"to": e["to"], "flag": e["when"],
+                  "type": "block" if e["type"] == "exclude" else ("flavor" if e["to"] in UNGATED else "unlock")}
+                 for e in edges if e["from"] == sid]
         if leads:
             note["leads_to"] = leads
         if beat:
