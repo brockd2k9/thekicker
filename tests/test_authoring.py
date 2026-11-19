@@ -32,6 +32,19 @@ class ImportTests(unittest.TestCase):
         self.assertEqual(code, 0, out)
         self.assertIn("0 written, 150 not written yet", out)
 
+    def test_old_format_files_still_import(self):
+        # Batch 1 was written from the template before leads_to became text lines.
+        code, out = run(os.path.join(ROOT, "tools", "authoring", "work", "freshman_batch1.json"), "--dry-run")
+        self.assertEqual(code, 0, out)
+        self.assertIn("0 error(s), 0 warning(s)", out)
+
+    def test_leads_to_says_unlocks_or_blocks(self):
+        t = {e["id"]: e for e in json.load(open(os.path.join(ROOT, "tools", "authoring",
+                                                             "hs_template_all.json")))["scenarios"]}
+        leads = t["HS_003"]["_info"]["leads_to"]
+        self.assertIn("unlocks HS_034 (The Friend Who Needs Help) when helped_freshman", leads)
+        self.assertIn("blocks HS_034 (The Friend Who Needs Help) when bullied_freshman", leads)
+
     def test_bad_file_reports_every_problem(self):
         bad = {"scenarios": [
             {"id": "HS_014", "title": "x", "category": "weather", "text": "{coahc} brings beer.", "choices": [
