@@ -360,6 +360,48 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## At contract end the team re-signs you at this retention or more.
 @export var resign_min: float = 50.0
 
+@export_group("Relationships")
+## The recurring cast (data/career/people.json). Values are 0..100 and start at
+## rel_start. Every effect below is "at 100"; it scales linearly to 0 at 50 and
+## flips sign below 50 (at 0 it's the full amount the other way). So a fresh
+## career (everyone at 50) plays exactly as without relationships.
+@export var rel_start: float = 50.0
+## Each week every value moves this fraction of the way back toward 50.
+@export_range(0.0, 0.5) var rel_weekly_drift: float = 0.02
+## Head coach: change in pressure sensitivity (negative = calmer kicks).
+@export var rel_coach_pressure: float = -0.12
+## Head coach: change in how far past your range the coach trusts you
+## (multiplies coach_range_trust; 0.05 = 5% longer tries at full trust).
+@export var rel_coach_range: float = 0.05
+## Holder: change in aim spread in degrees (negative = cleaner holds).
+@export var rel_holder_spread: float = -0.25
+## Dad and your little brother: extra Energy recovered every week (each).
+@export var rel_family_energy: float = 1.5
+## Best friend and someone special: weekly Fun and Social drift (each).
+@export var rel_friend_fun: float = 1.0
+@export var rel_friend_social: float = 1.0
+## Teacher / academic advisor: GPA points added each season.
+@export var rel_teacher_gpa: float = 0.08
+## Tyler Brooks (once you've met him). Friend side (above 50): pressure
+## sensitivity change at 100. Rival side (below 50): extra football growth per
+## week at 0 (he pushes you). Each applies only on its own side.
+@export var rel_tyler_friend_pressure: float = -0.06
+@export var rel_tyler_rival_growth: float = 0.08
+## Playing against Tyler's team: pressure_add at 0 (bitter rival) and the
+## same amount off at 100 (friend). Linear through 50 like the rest.
+@export var rel_tyler_game_pressure: float = 0.06
+## Recruiting, final high school (or junior college) season only: a coach at
+## or above rec_high recommends you (+rel_rec_bonus recruiting points); at or
+## below rec_low the coach's lukewarm word costs rel_rec_penalty.
+@export var rel_rec_high: float = 70.0
+@export var rel_rec_bonus: float = 6.0
+@export var rel_rec_low: float = 25.0
+@export var rel_rec_penalty: float = 4.0
+## A teacher at or above this vouches for you: college GPA minimums are
+## checked against your GPA plus rel_teacher_gpa_grace.
+@export var rel_teacher_vouch: float = 70.0
+@export var rel_teacher_gpa_grace: float = 0.1
+
 @export_group("Career End")
 ## A season is "poor" with an FG% below this (at least poor_min_attempts tries).
 @export_range(0.0, 1.0) var poor_fg_pct: float = 0.6

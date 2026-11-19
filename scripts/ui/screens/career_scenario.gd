@@ -11,6 +11,7 @@ func _build(col: VBoxContainer) -> void:
 		go_to_current.call_deferred()
 		return
 	var c := career.data
+	var vars := Relationships.text_vars(c)
 	var where := "Offseason" if c.phase == CareerManager.PHASE_OFFSEASON else \
 		("Bye week %d" % c.week if career.is_bye() else "Week %d  ·  Off the field" % c.week)
 	# Tags: category (with its icon) and any trait/stat gate.
@@ -26,11 +27,12 @@ func _build(col: VBoxContainer) -> void:
 		tags.add_child(UiKit.chip(gate, UiKit.GOOD, false, "charisma", 24))
 	tags.add_child(UiKit.chip(where.to_upper(), UiKit.MUTED, false, "calendar", 24))
 	col.add_child(tags)
-	var title := UiKit.label(str(s.get("title", "")).to_upper(), 50, UiKit.TEXT, UiTokens.FONT_DISPLAY)
+	var title := UiKit.label(CareerContent.fill(str(s.get("title", "")), vars).to_upper(), 50, UiKit.TEXT,
+		UiTokens.FONT_DISPLAY)
 	col.add_child(title)
 	col.add_child(UiKit.rule())
 	var story := UiKit.card(Color(0, 0, 0, 0), 0)
-	(story[1] as VBoxContainer).add_child(UiKit.label(str(s.get("text", "")), 30))
+	(story[1] as VBoxContainer).add_child(UiKit.label(CareerContent.fill(str(s.get("text", "")), vars), 30))
 	col.add_child(story[0])
 
 	var list := UiKit.scroll_list(col)
@@ -41,13 +43,15 @@ func _build(col: VBoxContainer) -> void:
 		var lock := ScenarioEngine.choice_lock(c, ch)
 		var parts := CareerUi.card(_pick.bind(i), lock == "")
 		var v: VBoxContainer = parts[1]
-		v.add_child(UiKit.label(str(ch.get("label", "")), 32, UiKit.TEXT if lock == "" else UiKit.MUTED,
-			UiTokens.FONT_DISPLAY))
+		v.add_child(UiKit.label(CareerContent.fill(str(ch.get("label", "")), vars), 32,
+			UiKit.TEXT if lock == "" else UiKit.MUTED, UiTokens.FONT_DISPLAY))
 		if lock != "":
-			var req := UiKit.chip(lock, UiKit.WARN, false, "lock", 22)
+			var req := UiKit.chip(CareerContent.fill(lock, vars), UiKit.WARN, false, "lock", 22)
 			v.add_child(req)
 		var preview := CareerStats.preview(c, ch.get("stats", {}), career.tuning)
 		v.add_child(CareerUi.change_chips(preview))
+		if ch.get("rel") is Dictionary and not (ch["rel"] as Dictionary).is_empty():
+			v.add_child(CareerUi.rel_chips(c, ch["rel"]))
 		var mods: Array = ch.get("modifiers", [])
 		if not mods.is_empty():
 			v.add_child(CareerUi.modifier_chips(mods))
@@ -67,9 +71,10 @@ func _pick(index: int) -> void:
 		before[k] = c.stat(k)
 	var s := career.current_scenario()
 	var choice: Dictionary = s.get("choices", [])[index]
+	var vars := Relationships.text_vars(c)
 	var out := career.choose(index)
-	var v := UiKit.modal(self, str(choice.get("label", "")))
-	var r := UiKit.label(str(out.get("result", "")), 30)
+	var v := UiKit.modal(self, CareerContent.fill(str(choice.get("label", "")), vars))
+	var r := UiKit.label(CareerContent.fill(str(out.get("result", "")), vars), 30)
 	r.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(r)
 	# The stats that moved, gliding from old to new.
@@ -89,6 +94,8 @@ func _pick(index: int) -> void:
 	if n > 0:
 		v.add_child(bars)
 		UiKit.feedback(&"stat_up")
+	if not (out.get("relationships", {}) as Dictionary).is_empty():
+		v.add_child(CareerUi.rel_chips(c, out["relationships"]))
 	if not out.get("modifiers", []).is_empty():
 		v.add_child(CareerUi.modifier_chips(out["modifiers"]))
 	for t in out.get("new_traits", []):

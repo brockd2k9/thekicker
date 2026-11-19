@@ -31,7 +31,9 @@ func _build(col: VBoxContainer) -> void:
 		grid.add_child(CareerUi.group_panel(c, g, true, bars))
 	grid.add_child(_traits_panel())
 	_animate_bars(bars)
-	list.add_child(UiKit.button("Stats & Traits", Screens.go.bind(Screens.CAREER_STATS), UiKit.SECONDARY, "stats"))
+	list.add_child(CareerUi.button_row([
+		UiKit.button("Stats & Traits", Screens.go.bind(Screens.CAREER_STATS), UiKit.SECONDARY, "stats"),
+		UiKit.button("People", Screens.go.bind(Screens.CAREER_PEOPLE), UiKit.SECONDARY, "social")]))
 
 	if c.is_injured():
 		list.add_child(UiKit.stat_row("Injury", "%d week(s) left" % int(c.injury["weeks_left"]), UiKit.BAD, "health"))

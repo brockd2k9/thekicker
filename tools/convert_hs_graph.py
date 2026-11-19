@@ -45,7 +45,7 @@ STORY_WINDOWS = {
     "HS_121": {"seasons": [3, 3], "when": ["offseason"]},   # summer before senior year
     "HS_125": {"seasons": [3, 3], "weeks": [4, 8]},
     "HS_138": {"seasons": [3, 3], "weeks": [6, 10]},
-    "HS_142": {"seasons": [4, 4], "weeks": [2, 6]},         # not in the Step 1 table
+    "HS_142": {"seasons": [4, 4], "weeks": [2, 6]},         # trigger: REASSIGN below
     "HS_143": {"seasons": [4, 4], "weeks": [1, 4]},
     "HS_146": {"seasons": [4, 4], "weeks": [1, 3]},
     "HS_150": {"seasons": [4, 4], "weeks": [3, 7]},
@@ -92,7 +92,39 @@ DROP_SELF_REQUIRES = {"HS_159": ["recognized_team_support"],
 #   id -> "other_id"        drop it and alias it to other_id: edges and expected
 #                           flags move to other_id (for an existing scenario they
 #                           are listed in its authoring note instead)
-DUPLICATES = {}
+DUPLICATES = {
+    "HS_010": "hs_part_time_job",   # same scene, already written; no chain
+    "HS_037": "HS_112",             # same scene; HS_112 has its outcome flags
+    "HS_038": "HS_106",             # HS_106 starts the backup-holder chain (HS_145)
+    "HS_041": "hs_recruiter_call",  # already written; it sets recruiter_trust (HS_058, HS_088)
+    "HS_042": "hs_grades_warning",  # ours fires off the real GPA; HS_021's flag is flavor
+    "HS_047": "HS_121",             # HS_121 (story) is the same junior-year camp conflict
+    "HS_050": "HS_130",             # kicker-specific, sets learned_from_senior
+    "HS_066": "HS_159",             # payoff of the leadership / holder / coach chain
+    "HS_096": "HS_149",             # senior year already has hs_campus_visit and HS_152
+    "HS_100": "HS_160",             # the senior week 10 beat
+}
+
+# Recurring characters per scenario, for writers (Option B, confirmed):
+#   tyler       Tyler Brooks, a kicker on your own team from freshman year (HS_005);
+#               friend or rival depending on your choices. He goes on to college and
+#               the pros, so he can appear again later (relationship system, Stage B).
+#   new_qb      a new quarterback who arrives sophomore year (HS_111); high school
+#               only, tracked with flags (no relationship value). In the upstream
+#               skeleton he was a second kicker; "Rival" in HS_137's title means him.
+PEOPLE = {
+    "HS_005": ["tyler"], "HS_030": ["tyler"], "HS_046": ["tyler"], "HS_092": ["tyler"],
+    "HS_111": ["new_qb"], "HS_132": ["new_qb"], "HS_137": ["new_qb"], "HS_147": ["tyler"],
+}
+
+# Renames applied to the skeleton before converting (the New Kicker is a quarterback).
+TITLE_OVERRIDES = {"HS_111": "The New Quarterback"}
+FLAG_RENAMES = {
+    "welcomed_new_kicker": "welcomed_new_qb",
+    "new_kicker_rivalry": "new_qb_rivalry",
+    "new_kicker_friendship": "new_qb_friendship",
+    "new_kicker_relationship_cool": "new_qb_relationship_cool",
+}
 
 # Choice -> follow-up hints for the authoring template (not enforced).
 FOLLOW_UP_HINTS = {
@@ -100,7 +132,7 @@ FOLLOW_UP_HINTS = {
     "HS_125": [{"flag": "hid_injury", "id": "HS_143", "weeks": 4}],
 }
 
-CONTENT_FIELDS = ["category", "text", "choices", "weight", "cooldown", "gate", "draft"]
+CONTENT_FIELDS = ["category", "text", "choices", "weight", "cooldown", "gate", "draft", "when"]
 
 
 def load(path):
@@ -116,7 +148,48 @@ def uniq(xs):
     return out
 
 
+# New triggers: the scenario is open once any of these (source, flag) pairs has
+# happened, replacing whatever the skeleton had.
+#   HS_147 "The Starting Job Is Yours" is about the kicking job, so it belongs to
+#   Tyler (your teammate kicker), not the new quarterback: either Tyler flag from HS_005.
+#   HS_142 "The Coach Wants an Explanation" only for a kicker who gave the coach a
+#   reason: challenged his decision, hid an injury, exaggerated progress, or blamed
+#   someone else.
+REASSIGN = {
+    "HS_147": [("HS_005", "befriended_tyler"), ("HS_005", "hostile_tyler_rivalry")],
+    "HS_142": [("HS_122", "challenged_coach_decision"), ("HS_125", "hid_injury"),
+               ("HS_117", "exaggerated_progress"), ("HS_112", "blamed_someone_else")],
+}
+
+# Writer notes shown in the template's _info.notes.
+NOTES = {
+    "HS_141": ("A new offensive coordinator or position coach joins the staff; the head coach "
+               "({coach}) stays the same person. The newcomer has no relationship value or "
+               "placeholder: name them in the text and keep the name consistent. rel 'coach' "
+               "still means the head coach."),
+}
+
+
+def apply_renames(src):
+    ren = lambda xs: [FLAG_RENAMES.get(f, f) for f in xs]
+    for sid, pairs in REASSIGN.items():
+        src["dependencies"] = [e for e in src["dependencies"] if e["to"] != sid]
+        for a, f in pairs:
+            src["dependencies"].append({"from": a, "to": sid, "when": f, "type": "unlock"})
+        for sc in src["scenarios"]:
+            if sc["id"] == sid:
+                sc["requires_any_flags"] = [f for _, f in pairs]
+    for s in src["scenarios"]:
+        s["title"] = TITLE_OVERRIDES.get(s["id"], s["title"])
+        for k in ("requires_all_flags", "requires_any_flags", "excludes_any_flags", "sets_flags"):
+            s[k] = ren(s.get(k, []))
+    for e in src["dependencies"]:
+        e["when"] = FLAG_RENAMES.get(e["when"], e["when"])
+    return src
+
+
 def convert(src):
+    src = apply_renames(src)
     scen = {s["id"]: s for s in src["scenarios"]}
     edges = list(src["dependencies"])
     aliases = {k: v for k, v in DUPLICATES.items() if v}
@@ -131,6 +204,8 @@ def convert(src):
         a, b = e["from"], e["to"]
         if (a in DUPLICATES and DUPLICATES[a] is None) or (b in DUPLICATES and DUPLICATES[b] is None):
             continue
+        if target(b) not in scen:
+            continue  # into an existing written scenario: it isn't gated by graph flags
         moved.append(dict(e, **{"from": target(a), "to": target(b)}))
     edges = moved
 
@@ -198,6 +273,10 @@ def convert(src):
             note["choice_locks"] = beat["choice_locks"]
             note["beat_note"] = ("Always plays. Give one choice per lock flag "
                                  "(requires {flags: [flag]} + lock_text) and one open choice.")
+        if sid in PEOPLE:
+            note["people"] = PEOPLE[sid]
+        if sid in NOTES:
+            note["note"] = NOTES[sid]
         if sid in FOLLOW_UP_HINTS:
             note["follow_up_hints"] = FOLLOW_UP_HINTS[sid]
         a_from = sorted(a for a, w in aliases.items() if w == sid)
@@ -210,9 +289,9 @@ def convert(src):
     # Aliases onto existing (non-graph) scenarios: record what they must now carry.
     for a, w in aliases.items():
         if w not in scen:
-            existing_alias_notes[a] = {"alias_of": w,
-                                       "flags_to_add": list(scen[a].get("sets_flags", []))
-                                       + [e["when"] for e in src["dependencies"] if e["from"] == a]}
+            existing_alias_notes[a] = {"alias_of": w, "title": scen[a]["title"],
+                                       "flags_to_add": uniq(list(scen[a].get("sets_flags", []))
+                                       + [e["when"] for e in src["dependencies"] if e["from"] == a])}
     return out, existing_alias_notes
 
 
@@ -231,6 +310,10 @@ def main():
                         d[k] = prev[k]
                     elif k in d and k == "draft":
                         del d[k]
+        # Scenarios that aren't in the skeleton (follow-ups added by
+        # tools/import_scenarios.py) are kept as they are.
+        made = {d["id"] for d in out}
+        out += [s for i, s in old.items() if i not in made and s.get("added_by_import")]
     doc = {
         "_doc": ("High school story graph (HS_001-HS_160), generated by tools/convert_hs_graph.py "
                  "from tools/hs_graph/high_school_scenarios.json. Same fields as scenarios_hs.json "

@@ -27,6 +27,8 @@ const MIN_TAP := UiTokens.TAP_MIN
 const ALL := ["main", "career_menu", "tutorial", "new", "hub", "scenario", "scenario_result",
 	"outlook", "game", "kickoff", "kickoff_result", "onside", "hud", "hud_result", "results", "stats", "achievements", "settings",
 	"career_stats", "debug", "challenge", "season", "recruiting", "college_choice", "hub_college", "draft",
+	"outlook", "game", "hud", "hud_result", "results", "stats", "achievements", "settings",
+	"career_stats", "people", "debug", "challenge", "season", "recruiting", "college_choice", "hub_college", "draft",
 	"hub_pro", "contract", "retired", "pause", "toast"]
 
 var _out := ""
@@ -120,6 +122,10 @@ func _capture_all() -> void:
 	_m.finish_game(_sim._play_game(_m))
 	await _shot("results", Screens.CAREER_RESULTS)
 	await _shot("career_stats", Screens.CAREER_STATS)
+	await _shot("people", Screens.CAREER_PEOPLE, func() -> void:
+		Relationships.apply(c, {"coach": 18, "holder": -12, "rival": -20, "love_interest": 6, "best_friend": 4})
+		c.former_people.append({"id": "coach", "name": "Coach Castellano", "value": 72.0,
+			"stage": "high_school", "role": "Head Coach"}))
 	await _shot("debug", Screens.CAREER_DEBUG)
 	await _shot("challenge", Screens.CHALLENGE, Callable(), Callable(), 2.0)
 	if _want("pause"):

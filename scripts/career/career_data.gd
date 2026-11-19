@@ -8,7 +8,7 @@ extends RefCounted
 ## Stats are floats 0..100 (gains can be fractional); screens show them rounded.
 ## When the layout changes: bump VERSION and add a step to CareerSave._migrate().
 
-const VERSION := 2
+const VERSION := 3
 
 const STAGE_HIGH_SCHOOL := "high_school"
 const STAGE_JUCO := "juco"
@@ -121,6 +121,11 @@ var tryout: Dictionary = {}
 var draft_result: Dictionary = {}
 ## The career's path, one line per milestone: [{season, age, text}].
 var route: Array = []
+## The recurring cast (Relationships, data/career/people.json):
+## id -> {name, value 0..100, known, week_change, stage, team (Tyler only)}.
+var people: Dictionary = {}
+## People from earlier stages: [{id, name, value, stage, role}].
+var former_people: Array = []
 ## Set when the career ends: {reason, text, age, season}.
 var retirement: Dictionary = {}
 ## Mid-game state so a quit restarts the game from its first kick: {"seed"}.
@@ -150,6 +155,7 @@ static func create(player_name: String, tuning: CareerTuning) -> CareerData:
 	d.season_stats = empty_kick_totals()
 	d.career_totals = empty_kick_totals()
 	d.gpa = tuning.start_gpa
+	Relationships.seed_cast(d, tuning)
 	return d
 
 
@@ -189,7 +195,8 @@ func stat(key: String) -> float:
 
 
 ## Stats plus the progression numbers scenario requirements can test:
-## "recruiting", "draft", "retention", "gpa", "age".
+## "recruiting", "draft", "retention", "gpa", "age", and "rel_<person id>"
+## (a relationship value, e.g. "rel_coach"; 50 for someone not in the cast now).
 const METRICS := ["recruiting", "draft", "retention", "gpa", "age"]
 
 
@@ -205,6 +212,8 @@ func metric(key: String) -> float:
 			return gpa
 		"age":
 			return float(age)
+	if key.begins_with("rel_"):
+		return Relationships.value(self, key.substr(4))
 	return stat(key)
 
 
@@ -282,6 +291,8 @@ func to_dict() -> Dictionary:
 		"route": route.duplicate(true),
 		"retirement": retirement.duplicate(true),
 		"last_week": last_week.duplicate(true),
+		"people": people.duplicate(true),
+		"former_people": former_people.duplicate(true),
 		"notice": notice,
 	}
 
@@ -356,6 +367,22 @@ static func from_dict(d: Dictionary) -> CareerData:
 	c.retirement = _dict(d, "retirement")
 	c.last_week = _dict(d, "last_week")
 	c.notice = str(d.get("notice", ""))
+	for id in _dict(d, "people"):
+		var p: Variant = d["people"][id]
+		if p is Dictionary and not Relationships.def(str(id)).is_empty():
+			c.people[str(id)] = {"name": str(p.get("name", "")),
+				"value": clampf(float(p.get("value", 50.0)), 0.0, 100.0),
+				"known": bool(p.get("known", false)), "week_change": float(p.get("week_change", 0.0)),
+				"stage": str(p.get("stage", c.stage))}
+			if p.get("team") is Dictionary and not (p["team"] as Dictionary).is_empty():
+				c.people[str(id)]["team"] = (p["team"] as Dictionary).duplicate()
+	for f in _array(d, "former_people"):
+		if f is Dictionary:
+			c.former_people.append(f)
+	# Saves from before relationships (version < 3), or people added to
+	# people.json since: the current stage's cast arrives at 50 (neutral).
+	Relationships.seed_cast(c, CareerTuning.get_default())
+	Relationships.catch_up_tyler(c)
 	return c
 
 
