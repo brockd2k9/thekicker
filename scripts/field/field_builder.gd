@@ -67,6 +67,16 @@ var home_kit_override: TeamKit
 var away_kit_override: TeamKit
 var _rng := RandomNumberGenerator.new()
 var _plan: RushPlan
+## KickSituation.KickType. Set before the scene enters the tree
+## (field_goal_game.gd does it from the mode). Tee kicks build a
+## KickoffFormation instead of the field-goal units; the rest of the stadium
+## is the same.
+var kick_type: int = KickSituation.KickType.FIELD_GOAL
+## The kickoff / onside formation (null for field goals and extra points).
+var kickoff: KickoffFormation
+## Visual tee size (set with kick_type, from KickTuning).
+var tee_height := 0.05
+var tee_ball_scale := 2.5
 
 @onready var goal_end: Node3D = $GoalEnd
 @onready var goal_posts: GoalPosts = $GoalEnd/GoalPosts
@@ -79,7 +89,13 @@ func _ready() -> void:
 		_away_kit = away_kit_override
 	_build_ground()
 	_build_stands()
-	_build_formation()
+	if KickSituation.is_tee_type(kick_type):
+		_rng.randomize()
+		kickoff = KickoffFormation.new()
+		add_child(kickoff)
+		kickoff.build(kick_type, _home_kit, _away_kit, _rng, tee_height, tee_ball_scale)
+	else:
+		_build_formation()
 
 
 func set_distance(distance_m: float) -> void:

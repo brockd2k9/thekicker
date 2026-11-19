@@ -7,6 +7,7 @@ extends Control
 
 
 func _ready() -> void:
+	_apply_look()
 	var col := UiKit.build_frame(self, title)
 	_build(col)
 
@@ -15,13 +16,18 @@ func _build(_col: VBoxContainer) -> void:
 	pass
 
 
+## Palette for this screen. Menus use the default; career screens override.
+func _apply_look() -> void:
+	UiKit.reset_palette()
+
+
 func go_back() -> void:
 	Screens.go(Screens.MAIN_MENU)
 
 
 ## Standard Back button for the bottom of a screen (thumb reach).
 func add_back_button(col: VBoxContainer) -> Button:
-	var b := UiKit.button("Back", go_back)
+	var b := UiKit.button("Back", go_back, UiKit.SECONDARY, "back")
 	col.add_child(b)
 	return b
 

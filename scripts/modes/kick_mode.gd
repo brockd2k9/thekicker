@@ -14,6 +14,12 @@ func id() -> StringName:
 	return &"practice"
 
 
+## What kind of kick this mode plays (KickSituation.KickType). Read once,
+## before the kick scene enters the tree, to build the right formation.
+func kick_type() -> int:
+	return KickSituation.KickType.FIELD_GOAL
+
+
 ## The next attempt. May call wind.set_conditions(); if it doesn't, the wind
 ## is rolled randomly. Return null to roll a random situation.
 func next_situation(_rng: RandomNumberGenerator, _tuning: KickTuning, _wind: Wind) -> KickSituation:

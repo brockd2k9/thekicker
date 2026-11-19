@@ -8,8 +8,8 @@ func _build(col: VBoxContainer) -> void:
 	var c := career.data
 	var k := c.contract
 	var status := str(k.get("status", "continue"))
-	col.add_child(CareerUi.centered("CONTRACT REVIEW", 50, UiKit.ACCENT))
-	col.add_child(CareerUi.centered("%s  -  Age %d" % [k.get("team_name", ""), c.age], 28, UiKit.MUTED))
+	col.add_child(UiKit.title_block("CONTRACT REVIEW"))
+	col.add_child(UiKit.label("%s  -  Age %d" % [k.get("team_name", ""), c.age], 28, UiKit.MUTED))
 	var list := UiKit.scroll_list(col)
 	var t := career.tuning
 	list.add_child(UiKit.stat_row("Standing", "%d  -  %s" % [roundi(c.retention_score),
@@ -26,13 +26,13 @@ func _build(col: VBoxContainer) -> void:
 				"" if int(k["years_left"]) == 1 else "s", Progression.money(int(k.get("salary", 0)))]))
 			list.add_child(UiKit.label("You're under contract. Release risk below %d standing." % roundi(t.release_below),
 				24, UiKit.MUTED))
-			main = UiKit.button("Next Season", _continue, UiKit.ACCENT.darkened(0.45))
+			main = UiKit.button("Next Season", _continue, UiKit.PRIMARY)
 		"resign":
 			var off: Dictionary = k.get("offer", {})
 			list.add_child(UiKit.label("Your contract is up, and the team wants you back.", 30, UiKit.GOOD))
 			list.add_child(UiKit.stat_row("Offer", "%d years, %s / season" % [int(off.get("years", 1)),
 				Progression.money(int(off.get("salary", 0)))], UiKit.ACCENT))
-			main = UiKit.button("Re-sign", _continue, UiKit.ACCENT.darkened(0.45))
+			main = UiKit.button("Re-sign", _continue, UiKit.PRIMARY)
 		"not_resigned":
 			list.add_child(UiKit.label("Your contract is up and the team is moving on.", 30, UiKit.BAD))
 			main = UiKit.button("Free Agency", _continue)

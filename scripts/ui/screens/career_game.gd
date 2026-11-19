@@ -1,9 +1,11 @@
 extends Node
 ## Career game day, from the bench. The game plays out as play-by-play
 ## (GameSim) while you watch. The coach calls you in:
-##   field goal / extra point -> the real kick scene (field_goal.tscn) with a
+##   field goal / extra point -> the 3D kick scene (field_goal.tscn) with a
 ##       CareerGameMode and this week's KickProfile; reported as mode "career".
-##   kickoff / onside kick    -> the sideline KickPad (same swipe math).
+##   kickoff / onside kick    -> the same 3D kick scene in kickoff / onside
+##       formation (same swipe, wind and KickProfile; judged by KickoffJudge).
+##       Not counted in the field-goal stats.
 ## When your offense drives into range you're offered a warmup on the sideline
 ## net: good strikes help your next kick, skipping it leaves your leg cold.
 ## Quitting (pause -> Leave Game) goes back to the Hub; the game then restarts
@@ -38,6 +40,7 @@ var _skip := false
 var _kick_scene: Node
 var _kick_overlay: PlayOverlay
 var _kick_made := false
+var _kick_kind := ""
 
 
 func _ready() -> void:
@@ -105,34 +108,31 @@ func _build_ui() -> void:
 	add_child(_layer)
 	_root = Control.new()
 	_layer.add_child(_root)
+	CareerScreen.apply_career_look(career)
 	var col := UiKit.build_frame(_root, "")
 	var c := career.data
 	var opp: Dictionary = career.entry().get("opponent", {})
 
-	var board := PanelContainer.new()
-	col.add_child(board)
-	var bh := HBoxContainer.new()
-	bh.add_theme_constant_override("separation", 8)
-	board.add_child(bh)
-	_us_score = _team_block(bh, c.team)
-	_clock = CareerUi.centered("Q1 12:00", 30, UiKit.ACCENT)
-	_clock.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_clock.autowrap_mode = TextServer.AUTOWRAP_OFF
-	bh.add_child(_clock)
-	_them_score = _team_block(bh, opp)
+	var board := CareerUi.scoreboard(c.team, opp, "0", "0", "Q1 12:00", "LIVE")
+	col.add_child(board["root"])
+	_us_score = board["us"]
+	_them_score = board["them"]
+	_clock = board["mid"]
+	(board["sub"] as Label).add_theme_color_override("font_color", UiKit.ALT if UiKit.ALT.get_luminance() < 0.8 else UiKit.BAD)
 
-	_status = UiKit.label("", 24, UiKit.MUTED)
+	_status = UiKit.label("", 24, UiKit.MUTED, UiTokens.FONT_CONDENSED)
 	col.add_child(_status)
 	_feed = UiKit.scroll_list(col)
+	_feed.add_theme_constant_override("separation", 6)
 	_scroll = _feed.get_parent().get_parent() as ScrollContainer
 
-	var pause := UiKit.button("II", _pause)
+	var pause := UiKit.button("", _pause, UiKit.SECONDARY, "pause")
 	pause.custom_minimum_size.x = 96
 	pause.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-	_fast_b = UiKit.button("Speed: Normal", func() -> void:
+	_fast_b = UiKit.button("Normal", func() -> void:
 		_fast = not _fast
-		_fast_b.text = "Speed: Fast" if _fast else "Speed: Normal")
-	var skip := UiKit.button("Skip to My Kick", func() -> void: _skip = true)
+		_fast_b.text = "Fast" if _fast else "Normal", UiKit.SECONDARY, "fast")
+	var skip := UiKit.button("To My Kick", func() -> void: _skip = true, UiKit.SECONDARY, "next")
 	for b in [_fast_b, skip]:
 		b.add_theme_font_size_override("font_size", 28)
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -143,21 +143,6 @@ func _build_ui() -> void:
 	row.add_child(skip)
 	col.add_child(row)
 	_update_status()
-
-
-func _team_block(parent: HBoxContainer, t: Dictionary) -> Label:
-	var v := VBoxContainer.new()
-	v.add_theme_constant_override("separation", 0)
-	v.custom_minimum_size.x = 170
-	parent.add_child(v)
-	var stripe := ColorRect.new()
-	stripe.color = CareerUi.html_color(str(t.get("colors", ["#888888"])[0]))
-	stripe.custom_minimum_size.y = 8
-	v.add_child(stripe)
-	v.add_child(CareerUi.centered(str(t.get("short", "???")), 28))
-	var score := CareerUi.centered("0", 56, Color.WHITE)
-	v.add_child(score)
-	return score
 
 
 func _set_score(us: int, them: int, at: float) -> void:
@@ -179,11 +164,29 @@ func _update_status() -> void:
 	var warm := ""
 	if sim.warm_modifier != "":
 		warm = "  -  " + str(CareerContent.modifier(sim.warm_modifier).get("label", ""))
-	_status.text = "On the bench  -  FG %d/%d  XP %d/%d%s" % [fg[0], fg[1], xp[0], xp[1], warm]
+	_status.text = "ON THE BENCH  ·  FG %d/%d  ·  XP %d/%d%s" % [fg[0], fg[1], xp[0], xp[1], warm.to_upper()]
 
 
-func _add_line(text: String, color := Color.WHITE) -> void:
-	_feed.add_child(UiKit.label(text, 26, color))
+func _add_line(text: String, color := Color(0, 0, 0, 0)) -> void:
+	# Older lines fade back; the newest reads brightest.
+	for ch in _feed.get_children():
+		(ch as Control).modulate.a = maxf((ch as Control).modulate.a - 0.12, 0.45)
+	var h := HBoxContainer.new()
+	h.add_theme_constant_override("separation", 10)
+	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var dot := Panel.new()
+	var db := StyleBoxFlat.new()
+	db.bg_color = UiKit.ACCENT
+	db.skew = Vector2(UiTokens.SKEW * 2.0, 0)
+	dot.add_theme_stylebox_override("panel", db)
+	dot.custom_minimum_size = Vector2(6, 26)
+	dot.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	h.add_child(dot)
+	var l := UiKit.label(text, 26, color)
+	l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	h.add_child(l)
+	_feed.add_child(h)
 	while _feed.get_child_count() > MAX_FEED_LINES:
 		_feed.get_child(0).free()
 	_scroll_down.call_deferred()
@@ -209,7 +212,7 @@ func _offer_warmup(e: Dictionary) -> void:
 	var modal := UiKit.modal_root(v)
 	v.add_child(UiKit.button(str(w.get("go", "Warm Up")), func() -> void:
 		modal.queue_free()
-		_net_session(), UiKit.ACCENT.darkened(0.45)))
+		_net_session(), UiKit.PRIMARY, "toughness"))
 	v.add_child(UiKit.button(str(w.get("skip", "Stay on the Bench")), func() -> void:
 		modal.queue_free()
 		_finish_warmup("skipped")))
@@ -271,20 +274,21 @@ func _coach_call(e: Dictionary) -> void:
 	var modal := UiKit.modal_root(v)
 	var go := UiKit.button("Run On", func() -> void:
 		modal.queue_free()
-		if kind in ["fg", "pat"]:
-			_launch_kick(e)
-		else:
-			_sideline_kick(e), UiKit.ACCENT.darkened(0.45))
+		_launch_kick(e), UiKit.PRIMARY, "play")
 	v.add_child(go)
 	if not OS.has_feature("mobile"):
 		go.grab_focus.call_deferred()
 
 
-## Field goal / extra point: the real kick scene, one attempt.
+## Any coach call: the 3D kick scene, one attempt.
 func _launch_kick(e: Dictionary) -> void:
 	var prof := career.profile({"miss_streak": sim.miss_streak, "extra_modifiers": _warm()})
 	_kick_scene = FIELD_GOAL.instantiate()
-	_kick_scene.mode = CareerGameMode.from_call(e, prof.pressure_add)
+	_kick_kind = str(e.get("kind", "fg"))
+	var rules: KickoffRules = null
+	if _kick_kind in ["kickoff", "onside"]:
+		rules = CareerGameMode.kickoff_rules_for(career.tuning, Progression.game_params(career.data, career.tuning))
+	_kick_scene.mode = CareerGameMode.from_call(e, prof.pressure_add, rules)
 	_kick_scene.modifiers = prof.to_kick_modifiers()
 	_kick_scene.set_look(career.kick_look())
 	_layer.visible = false
@@ -309,12 +313,16 @@ func _on_attempt_finished(_outcome: KickResult.Outcome) -> void:
 	await get_tree().create_timer(1.0).timeout
 	if GameState.kick_resolved.is_connected(_on_kick_resolved):
 		GameState.kick_resolved.disconnect(_on_kick_resolved)
+	var tee_result: Dictionary = _kick_scene.tee_result
 	_kick_overlay.queue_free()
 	_kick_scene.queue_free()
 	_kick_scene = null
 	Engine.time_scale = 1.0
 	_layer.visible = true
-	sim.resolve_call({"made": _kick_made})
+	if _kick_kind in ["kickoff", "onside"]:
+		sim.resolve_call(tee_result)
+	else:
+		sim.resolve_call({"made": _kick_made})
 	_update_status()
 	_busy = false
 	_timer = 0.3
@@ -325,49 +333,6 @@ func _warm() -> Array:
 	return [sim.warm_modifier] if sim.warm_modifier != "" else []
 
 
-## Kickoff / onside kick on the sideline pad.
-func _sideline_kick(e: Dictionary) -> void:
-	var t := career.tuning
-	var onside := str(e["kind"]) == "onside"
-	var pad_ui := _open_pad(KickPad.Kind.ONSIDE if onside else KickPad.Kind.KICKOFF,
-		"ONSIDE KICK" if onside else "KICKOFF")
-	var pad: KickPad = pad_ui["pad"]
-	var result: Label = pad_ui["result"]
-	pad.yards_shown = 40.0 if onside else 75.0
-	if onside:
-		pad.target_min_yards = t.onside_min_yards
-		pad.target_max_yards = t.onside_max_yards
-	else:
-		pad.goal_line_yards = 100.0 - t.kickoff_spot_yards
-	var pads: Dictionary = CareerContent.game_day().get("pad", {})
-	pad_ui["hint"].text = CareerContent.fill(str(pads.get("onside" if onside else "kickoff", "")),
-		{"min": roundi(t.onside_min_yards), "max": roundi(t.onside_max_yards)})
-	var prof := career.profile({"miss_streak": sim.miss_streak, "extra_modifiers": _warm()})
-	var outcome := {}
-	pad.swiped.connect(func(s: Swipe) -> void:
-		var k := SidelineKick.read_swipe(s, _kt, prof, _rng)
-		if not k["ok"]:
-			result.text = str(k["hint"])
-			return
-		if onside:
-			var r := SidelineKick.onside(k, prof, t, _rng)
-			outcome.merge({"recovered": r["recovered"], "text": r["text"]})
-			result.text = str(r["text"])
-			pad.fly(float(r["carry"]), float(k["aim_deg"]))
-		else:
-			var r := SidelineKick.kickoff(k, prof, t)
-			outcome.merge({"quality": r["quality"], "carry": r["carry"], "text": r["text"]})
-			result.text = str(r["text"])
-			pad.fly(float(r["carry"]), float(k["aim_deg"])))
-	pad.flight_done.connect(func() -> void:
-		await get_tree().create_timer(0.9).timeout
-		pad_ui["root"].queue_free()
-		sim.resolve_call(outcome)
-		_update_status()
-		_busy = false
-		_timer = 0.2)
-
-
 ## Full-screen pad overlay: {"root", "pad", "hint", "result"}.
 func _open_pad(kind: KickPad.Kind, title: String) -> Dictionary:
 	var root := Control.new()
@@ -375,8 +340,8 @@ func _open_pad(kind: KickPad.Kind, title: String) -> Dictionary:
 	root.theme = UiKit.theme()
 	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	root.mouse_filter = Control.MOUSE_FILTER_STOP
-	var bg := ColorRect.new()
-	bg.color = Color(0.03, 0.08, 0.05, 0.97)
+	var bg := Backdrop.new()
+	bg.palette = UiKit.palette
 	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	root.add_child(bg)
 	var safe := MarginContainer.new()
@@ -386,7 +351,7 @@ func _open_pad(kind: KickPad.Kind, title: String) -> Dictionary:
 	var v := VBoxContainer.new()
 	v.add_theme_constant_override("separation", 12)
 	safe.add_child(v)
-	v.add_child(CareerUi.centered(title, 48, UiKit.ACCENT))
+	v.add_child(UiKit.title_block(title, "Sideline"))
 	var hint := CareerUi.centered("", 26)
 	v.add_child(hint)
 	var pad := KickPad.new()
@@ -408,11 +373,14 @@ func _end_game() -> void:
 	var summary := sim.summary()
 	career.finish_game(summary)
 	var o := str(summary["outcome"])
-	var v := UiKit.modal(_root, {"W": "WIN!", "L": "LOSS", "T": "TIE"}[o])
-	v.add_child(CareerUi.centered("%s %d  -  %s %d" % [career.data.team.get("short", ""), sim.score_us,
-		career.entry().get("opponent", {}).get("short", ""), sim.score_them], 44,
-		UiKit.GOOD if o == "W" else (UiKit.BAD if o == "L" else Color.WHITE)))
-	var b := UiKit.button("Week Results", Screens.go.bind(Screens.CAREER_RESULTS), UiKit.ACCENT.darkened(0.45))
+	var v := UiKit.modal(_root, "Final")
+	v.add_child(CareerUi.result_banner({"W": "WIN!", "L": "LOSS", "T": "TIE"}[o],
+		UiKit.GOOD if o == "W" else (UiKit.BAD if o == "L" else UiKit.MUTED), 84))
+	var fb := CareerUi.scoreboard(career.data.team, career.entry().get("opponent", {}), str(sim.score_us),
+		str(sim.score_them), "FINAL")
+	v.add_child(fb["root"])
+	UiKit.feedback(&"week_result")
+	var b := UiKit.button("Week Results", Screens.go.bind(Screens.CAREER_RESULTS), UiKit.PRIMARY, "next")
 	v.add_child(b)
 	if not OS.has_feature("mobile"):
 		b.grab_focus.call_deferred()
@@ -426,7 +394,7 @@ func _pause() -> void:
 	var modal := UiKit.modal_root(v)
 	v.add_child(UiKit.button("Resume", func() -> void:
 		modal.queue_free()
-		_busy = false))
+		_busy = false, UiKit.PRIMARY, "play"))
 	v.add_child(UiKit.label("Leaving restarts this game from its first kick next time.", 24, UiKit.MUTED))
 	v.add_child(UiKit.button("Leave Game", Screens.go.bind(Screens.CAREER_HUB), UiKit.DANGER))
 

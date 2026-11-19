@@ -60,7 +60,14 @@ static func recruiting_gain(c: CareerData, t: CareerTuning) -> float:
 		+ t.recruiting_long * maxf(float(s.get("long", 0)) - 35.0, 0.0) \
 		+ t.recruiting_record * (int(c.record["w"]) - int(c.record["l"])) \
 		+ t.recruiting_leg * (_leg(c) - 50.0)
-	return w * g + trait_bonus(c, "recruiting")
+	return w * g + trait_bonus(c, "recruiting") + coach_rec(c, t)
+
+
+## The coach's recommendation (relationship), final HS / junior college season only.
+static func coach_rec(c: CareerData, t: CareerTuning) -> float:
+	var final := (c.stage == CareerData.STAGE_HIGH_SCHOOL and c.season_in_stage >= t.high_school_seasons) \
+		or (c.stage == CareerData.STAGE_JUCO and c.season_in_stage >= t.juco_seasons)
+	return Relationships.coach_recommendation(c, t) if final else 0.0
 
 
 ## Draft points earned by this college season (times the school's exposure).
@@ -90,10 +97,21 @@ static func retention(c: CareerData, t: CareerTuning) -> float:
 
 ## End-of-season GPA drift from Intelligence.
 static func gpa_drift(c: CareerData, t: CareerTuning) -> float:
-	return t.gpa_intelligence_drift * (c.stat("intelligence") - 50.0) / 50.0
+	return t.gpa_intelligence_drift * (c.stat("intelligence") - 50.0) / 50.0 \
+		+ Relationships.teacher_gpa(c, t)
 
 
 # --- offers -------------------------------------------------------------------------
+
+## Array.shuffle() uses the global RNG; this one uses the career's seeded rng,
+## so the balance simulator gives the same results for the same seed.
+static func shuffle(arr: Array, rng: RandomNumberGenerator) -> void:
+	for i in range(arr.size() - 1, 0, -1):
+		var j := rng.randi_range(0, i)
+		var tmp: Variant = arr[i]
+		arr[i] = arr[j]
+		arr[j] = tmp
+
 
 ## Offer type a tier would make at this recruiting score ("" = none).
 static func offer_type(score: float, tier_id: String) -> String:
@@ -109,8 +127,10 @@ static func offer_type(score: float, tier_id: String) -> String:
 	return ""
 
 
+## A teacher who vouches for you (relationship) adds a little grace.
 static func gpa_ok(c: CareerData, tier_id: String) -> bool:
-	return c.gpa >= float(tier(tier_id).get("min_gpa", 0.0))
+	return c.gpa + Relationships.teacher_grace(c, CareerTuning.get_default()) \
+		>= float(tier(tier_id).get("min_gpa", 0.0))
 
 
 ## Adds this season's new offers (and withdraws ones you've fallen far below).
@@ -140,7 +160,7 @@ static func update_offers(c: CareerData, rng: RandomNumberGenerator) -> Dictiona
 			continue
 		var schools := CareerContent.colleges().filter(func(s: Dictionary) -> bool:
 			return s.get("tier", "") == tier_id and not have.has(str(s["id"])))
-		schools.shuffle()
+		shuffle(schools, rng)
 		for s in schools.slice(0, mini(int(o.get("per_tier", 2)), max_new - out["new"].size())):
 			var off := {"school": str(s["id"]), "name": str(s["name"]), "tier": tier_id, "type": kind,
 				"season": c.season}
@@ -255,7 +275,8 @@ static func opponents(c: CareerData) -> Array:
 
 
 ## Game parameters for this stage (and college tier):
-## {fg_min, fg_max, pat, pressure_bonus, wind_max, posts, width}.
+## {fg_min, fg_max, pat, pressure_bonus, wind_max, posts, width,
+##  kickoff_spot, touchback_spot, kickoff_oob_spot}.
 static func game_params(c: CareerData, t: CareerTuning) -> Dictionary:
 	var p := {"fg_min": t.hs_fg_min_yards, "fg_max": t.hs_fg_max_yards, "pat": t.hs_pat_yards,
 		"pressure_bonus": 0.0, "wind_max": t.game_wind_max_mph, "posts": "high_school",
@@ -271,6 +292,17 @@ static func game_params(c: CareerData, t: CareerTuning) -> Dictionary:
 			p = {"fg_min": t.pro_fg_min_yards, "fg_max": t.pro_fg_max_yards, "pat": t.pro_pat_yards,
 				"pressure_bonus": t.pro_pressure_bonus, "wind_max": t.pro_wind_max_mph, "posts": "pro",
 				"width": t.goal_width_pro}
+	# Kickoff rules for this stage (KickoffRules, built by CareerGameMode).
+	match c.stage:
+		CareerData.STAGE_COLLEGE, CareerData.STAGE_JUCO:
+			p.merge({"kickoff_spot": t.kickoff_spot_yards_college, "touchback_spot": t.touchback_spot_college,
+				"kickoff_oob_spot": t.kickoff_oob_spot_college})
+		CareerData.STAGE_PRO, CareerData.STAGE_FREE_AGENT:
+			p.merge({"kickoff_spot": t.kickoff_spot_yards_pro, "touchback_spot": t.touchback_spot_pro,
+				"kickoff_oob_spot": t.kickoff_oob_spot_pro})
+		_:
+			p.merge({"kickoff_spot": t.kickoff_spot_yards, "touchback_spot": t.touchback_spot_hs,
+				"kickoff_oob_spot": t.kickoff_oob_spot_hs})
 	return p
 
 

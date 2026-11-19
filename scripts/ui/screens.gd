@@ -14,6 +14,7 @@ const CAREER_GAME := "res://scenes/screens/career_game.tscn"
 const CAREER_RESULTS := "res://scenes/screens/career_results.tscn"
 const CAREER_SEASON := "res://scenes/screens/career_season.tscn"
 const CAREER_STATS := "res://scenes/screens/career_stats.tscn"
+const CAREER_PEOPLE := "res://scenes/screens/career_people.tscn"
 const CAREER_RECRUITING := "res://scenes/screens/career_recruiting.tscn"
 const CAREER_TRYOUT := "res://scenes/screens/career_tryout.tscn"
 const CAREER_DRAFT := "res://scenes/screens/career_draft.tscn"
@@ -33,4 +34,9 @@ static func go(path: String) -> void:
 	# The kick scene may leave slow motion or pause on.
 	Engine.time_scale = 1.0
 	tree.paused = false
-	tree.change_scene_to_file.call_deferred(path)
+	# Short fade between screens (autoload ScreenFade); plain switch without it.
+	var fade := tree.root.get_node_or_null("ScreenFade")
+	if fade != null:
+		fade.go(path)
+	else:
+		tree.change_scene_to_file.call_deferred(path)

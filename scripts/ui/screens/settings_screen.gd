@@ -56,7 +56,7 @@ func _slider(text: String, value: float, set_value: Callable) -> Control:
 	slider.max_value = 1.0
 	slider.step = 0.05
 	slider.value = value
-	slider.custom_minimum_size.y = 56  # big touch target
+	slider.custom_minimum_size.y = UiTokens.TAP_MIN  # thumb-sized touch target
 	v.add_child(slider)
 	slider.value_changed.connect(func(x: float) -> void:
 		set_value.call(x)
