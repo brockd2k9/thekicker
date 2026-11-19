@@ -45,12 +45,15 @@ METRICS = ["recruiting", "draft", "retention", "gpa", "age"]
 # Hard limits per choice (errors). Typical values are in the writing guide.
 STAT_RANGE = {"life": (-20, 15), "football": (-2, 5), "personality": (-4, 6)}
 PROGRESS_RANGE = {"recruiting": (-3, 8), "grades": (-0.2, 0.4), "draft": (-3, 6), "retention": (-6, 6)}
+# Optional: skill points a choice awards (negative = practice skipped). Typical
+# +1 to +3, training choices +2 to +4 (WRITING_GUIDE.md).
+SKILL_POINTS_RANGE = (-2, 6)
 REL_RANGE = (-15, 15)
 STATS_PER_CHOICE_WARN = 7
 TEXT_WARN_CHARS = 320
 WHEN_VALUES = {"season", "bye", "offseason"}
 CHOICE_FIELDS = {"label", "result", "stats", "modifiers", "set_flags", "rel", "requires", "lock_text",
-                 "follow_up", "recruiting", "grades", "draft", "retention"}
+                 "follow_up", "recruiting", "grades", "draft", "retention", "skill_points"}
 SCENARIO_FIELDS = {"id", "title", "_info", "category", "text", "choices", "weight", "cooldown", "when",
                    "follow_up_only", "stages", "seasons", "weeks", "once", "_note"}
 # Fields a template may set on a scenario that already exists (graph fields stay
@@ -99,7 +102,7 @@ def clean_choice(ch):
             stats[g] = d
     out["stats"] = stats
     out["modifiers"] = list(ch.get("modifiers") or [])
-    for k in ["recruiting", "grades", "draft", "retention"]:
+    for k in ["recruiting", "grades", "draft", "retention", "skill_points"]:
         if ch.get(k) not in (None, 0, 0.0):
             out[k] = ch[k]
     sf = {k: v for k, v in (ch.get("set_flags") or {}).items()}
@@ -192,7 +195,9 @@ def main(argv=None):
 
     # Every flag the game knows: set by a choice, expected by a draft, read by
     # a requirement, or set by the engine.
-    known_flags = {"walk_on", "juco", "failed_tryouts", "fa_attempts", "recruiting_update", "traits_reported"}
+    # kicking_slump / kick_slumps: set by KickTrust when misses pile up.
+    known_flags = {"walk_on", "juco", "failed_tryouts", "fa_attempts", "recruiting_update", "traits_reported",
+                   "kicking_slump", "kick_slumps"}
     for d in docs.values():
         for s in d.get("scenarios", []):
             known_flags.update(s.get("expected_flags", []))
@@ -304,6 +309,12 @@ def main(argv=None):
                     if not isinstance(ch[k], (int, float)) or not lo <= ch[k] <= hi:
                         rep.add(sid, "ERROR", f"{w}: {k} {ch[k]} is outside {lo} to {hi}")
                     n_stats += 1
+            if "skill_points" in ch:
+                sp = ch["skill_points"]
+                lo, hi = SKILL_POINTS_RANGE
+                if not isinstance(sp, int) or isinstance(sp, bool) or not lo <= sp <= hi:
+                    rep.add(sid, "ERROR", f"{w}: skill_points {sp} must be a whole number from {lo} to {hi}")
+                n_stats += 1
             if n_stats == 0:
                 rep.add(sid, "ERROR", f"{w}: changes no stats (every choice needs at least one stat change)")
             elif n_stats > STATS_PER_CHOICE_WARN:

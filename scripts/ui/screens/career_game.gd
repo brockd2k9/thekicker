@@ -41,6 +41,10 @@ var _kick_scene: Node
 var _kick_overlay: PlayOverlay
 var _kick_made := false
 var _kick_kind := ""
+## KickTrust working copy: each kick's Coach / Team change, shown as it
+## happens (finish_game applies the same steps to the save).
+var _trust_view: Dictionary = {}
+var _fg_range := 40.0
 
 
 func _ready() -> void:
@@ -54,6 +58,8 @@ func _ready() -> void:
 	var kt: Variant = load(KICK_TUNING)
 	_kt = kt if kt is KickTuning else KickTuning.new()
 	sim = career.new_game_sim(_kt)
+	_trust_view = KickTrust.view(career.data)
+	_fg_range = career.profile().fg_range
 	_build_ui()
 	_set_score(0, 0, 0.0)
 	_timer = 0.6
@@ -262,7 +268,7 @@ func _launch_kick(e: Dictionary) -> void:
 	_kick_kind = str(e.get("kind", "fg"))
 	var rules: KickoffRules = null
 	if _kick_kind in ["kickoff", "onside"]:
-		rules = CareerGameMode.kickoff_rules_for(career.tuning, Progression.game_params(career.data, career.tuning))
+		rules = CareerGameMode.kickoff_rules_for(career.tuning, Progression.game_params(career.data, career.tuning), prof)
 	_open_kick_scene(CareerGameMode.from_call(e, prof.pressure_add, rules), prof, e)
 
 
@@ -310,9 +316,23 @@ func _on_attempt_finished(_outcome: KickResult.Outcome) -> void:
 		sim.resolve_call(tee_result)
 	else:
 		sim.resolve_call({"made": _kick_made})
+		_show_trust(sim.kicks[sim.kicks.size() - 1] if not sim.kicks.is_empty() else {})
 	_update_status()
 	_busy = false
 	_timer = 0.3
+
+
+## "Coach -4, Team -3 · Missed a go-ahead kick." under the kick's line.
+func _show_trust(k: Dictionary) -> void:
+	var r := KickTrust.step(_trust_view, k, _fg_range, career.tuning)
+	var txt := KickTrust.change_text(float(r["coach"]), float(r["team"]))
+	if txt == "" and str(r["reason"]) == "":
+		return
+	var good := float(r["coach"]) + float(r["team"]) >= 0.0
+	_add_line("%s  ·  %s" % [txt, r["reason"]] if txt != "" else str(r["reason"]),
+		CareerUi.GOOD_TEXT if good else CareerUi.BAD_TEXT)
+	if r["slump"]:
+		_add_line("%s has lost faith in your kicking." % Relationships.name_of(career.data, "coach"), CareerUi.BAD_TEXT)
 
 
 ## This half's warmup modifier, as a list for KickProfile ctx.

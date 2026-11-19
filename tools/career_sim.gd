@@ -11,8 +11,10 @@ extends Node
 ## (offers, college choice, tryouts, draft, contracts, release, age cap).
 ## Sim player policy: take the best offer (no offers: walk-on tryout or junior
 ## college, 50/50), sign when drafted, take every tryout, re-sign when offered, never
-## retire voluntarily. Kicks use a simple make-chance model (stats, distance,
-## pressure, narrower posts at higher stages) standing in for real swipes.
+## retire voluntarily. Kicks use a simple make-chance model (stats, distance
+## against the field goal range, pressure, narrower posts at higher stages)
+## standing in for real swipes. Skill points are spent every week by a simple
+## balanced policy (_spend; Step 4 adds spending strategies).
 
 ## Strategy -> how a choice is scored from its projected stat changes.
 ## Focused players always take the best-scoring choice; random/mixed don't.
@@ -104,6 +106,7 @@ func _play_career(strat: String, n: int) -> Dictionary:
 			CareerManager.PHASE_GAME:
 				m.finish_game(_play_game(m))
 			CareerManager.PHASE_RESULTS:
+				_spend(c, m.tuning)
 				m.end_week()
 			CareerManager.PHASE_SEASON_END:
 				_snapshot(m, out)
@@ -160,6 +163,11 @@ func _play_career(strat: String, n: int) -> Dictionary:
 ## Stats at the end of high school and of college.
 func _snapshot(m: CareerManager, out: Dictionary) -> void:
 	var c := m.data
+	# Skill points earned this season (before the season bonus), by stage.
+	var sps: Dictionary = out.get("sp_seasons", {})
+	var st := "college" if c.stage == CareerData.STAGE_JUCO else c.stage
+	(sps.get_or_add(st, []) as Array).append(c.sp_season + SkillPoints.season_bonus(c, m.tuning))
+	out["sp_seasons"] = sps
 	var tag := ""
 	if c.stage == CareerData.STAGE_HIGH_SCHOOL and c.season_in_stage >= m.tuning.high_school_seasons:
 		tag = "hs"
@@ -170,6 +178,16 @@ func _snapshot(m: CareerManager, out: Dictionary) -> void:
 	out[tag + "_traits"] = c.traits.duplicate()
 	out[tag + "_personality"] = c.personality.duplicate()
 	out[tag + "_football"] = c.football.duplicate()
+	# Attribute points bought with skill points vs everything else (scenario
+	# choices' direct football changes), since the start.
+	var bought := 0.0
+	var total := 0.0
+	for k in CareerData.GROUP_KEYS[CareerData.FOOTBALL]:
+		bought += float(c.sp_upgrades.get(k, 0.0))
+		total += c.stat(k) - m.tuning.start_football
+	out[tag + "_bought"] = bought
+	out[tag + "_direct"] = total - bought
+	out[tag + "_range"] = KickRange.fg_range(c, m.tuning)
 
 
 func _count_scen(id: String, out: Dictionary) -> void:
@@ -224,12 +242,27 @@ func _choose(c: CareerData, s: Dictionary, strat: String, t: CareerTuning) -> in
 
 ## Make chance stand-in for a real kick: stats, distance (past your range),
 ## pressure, and narrower posts at higher stages.
+## Balanced spending: Power and Accuracy count 1.5x, Resilience and Toughness
+## 1x; the next point goes to the lowest weighted attribute it can afford.
+func _spend(c: CareerData, t: CareerTuning) -> void:
+	var w := {"power": 1.5, "accuracy": 1.5, "resilience": 1.0, "toughness": 1.0}
+	for guard in 200:
+		var best := ""
+		for s in w:
+			if SkillPoints.affordable(c, s, t) and (best == "" or c.stat(s) / w[s] < c.stat(best) / w[best]):
+				best = s
+		if best == "" or not SkillPoints.upgrade(c, best, t):
+			return
+
+
 func _make_chance(c: CareerData, yards: int, pressure: float, stage: String) -> float:
 	var acc := c.stat("accuracy") / 100.0
 	var res := c.stat("resilience") / 100.0
-	var pw := c.stat("power") / 100.0
+	var range := KickRange.fg_range(c, CareerTuning.get_default())
+	if yards > range:
+		return 0.02  # past your range: a full flick falls short
 	var narrow: float = {"college": 0.03, "juco": 0.03, "pro": 0.06, "free_agent": 0.06}.get(stage, 0.0)
-	var long_pen := maxf(float(yards) - (40.0 + 20.0 * pw), 0.0) * 0.03
+	var long_pen := maxf(float(yards) - (range - 6.0), 0.0) * 0.03
 	var p := 0.97 - (yards - 20) * 0.011 * (1.6 - acc) - pressure * 0.12 * (1.3 - res) - narrow - long_pen
 	return clampf(p, 0.15, 0.98)
 
@@ -401,6 +434,29 @@ func _report(results: Dictionary, n: int, problems: PackedStringArray, ms: int) 
 		for k in CareerData.GROUP_KEYS[CareerData.FOOTBALL]:
 			cells.append("%d -> %d" % [roundi(_mean(results[s], "hs_football", k)), roundi(_mean(rc, "col_football", k))])
 		L.append("| %s | %s |" % [s, " | ".join(cells)])
+	L.append("")
+	L.append("## Skill points and range")
+	L.append("")
+	L.append("Skill points earned per season (mean, season bonus included), attribute points bought with")
+	L.append("skill points vs gained directly from scenario choices (4 attributes, summed, since the")
+	L.append("start), and field goal range, at the end of high school / college.")
+	L.append("")
+	L.append("| Strategy | SP / season HS | SP / season college | SP / season pro | Bought HS / col | Direct HS / col | FG range HS / col |")
+	L.append("|---|---|---|---|---|---|---|")
+	for s in results:
+		var per := {}
+		for st in ["high_school", "college", "pro"]:
+			var xs: Array = []
+			for r in results[s]:
+				xs.append_array(r.get("sp_seasons", {}).get(st, []))
+			per[st] = ("%.0f" % _avgf(xs)) if not xs.is_empty() else "-"
+		var rc: Array = results[s].filter(func(r): return r.has("col_bought"))
+		var rh: Array = results[s].filter(func(r): return r.has("hs_bought"))
+		var f := func(rs: Array, key: String) -> String:
+			return ("%.0f" % _avgf(rs.map(func(r): return float(r[key])))) if not rs.is_empty() else "-"
+		L.append("| %s | %s | %s | %s | %s / %s | %s / %s | %s / %s |" % [s, per["high_school"], per["college"], per["pro"],
+			f.call(rh, "hs_bought"), f.call(rc, "col_bought"), f.call(rh, "hs_direct"), f.call(rc, "col_direct"),
+			f.call(rh, "hs_range"), f.call(rc, "col_range")])
 	L.append("")
 	# --- life
 	L.append("## Life stats (average over every week played; share of weeks with any life stat low)")

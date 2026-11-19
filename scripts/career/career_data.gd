@@ -8,7 +8,7 @@ extends RefCounted
 ## Stats are floats 0..100 (gains can be fractional); screens show them rounded.
 ## When the layout changes: bump VERSION and add a step to CareerSave._migrate().
 
-const VERSION := 3
+const VERSION := 4
 
 const STAGE_HIGH_SCHOOL := "high_school"
 const STAGE_JUCO := "juco"
@@ -135,6 +135,29 @@ var game_checkpoint: Dictionary = {}
 var last_week: Dictionary = {}
 ## Stage 3 notice shown once on the Hub (e.g. an injury), then cleared.
 var notice: String = ""
+
+# --- skill points, range, kick trust (save version 4) ---
+## Unspent skill points (SkillPoints: earned on the field and in practice,
+## spent on attribute upgrades in the Skills screen).
+var skill_points: int = 0
+## Earned this season / whole career (spent ones included).
+var sp_season: int = 0
+## SP earned this week by source, for the Results screen: [{text, sp}].
+var sp_week: Array = []
+var sp_career: int = 0
+## Attribute points bought with skill points: {stat: points} (career totals).
+var sp_upgrades: Dictionary = {}
+## Perk ids owned (data/career/perks.json, Step 3).
+var perks: Array = []
+## Aging: attributes preserved this season {stat: season} (Step 3).
+var maintained: Dictionary = {}
+## Your last field goal attempts, oldest first (true = made). KickTrust's
+## "too many misses" window; kept across games and seasons.
+var recent_fg: Array = []
+## Coach doubt after a slump: {weeks_left, reason}. Empty = none.
+var coach_doubt: Dictionary = {}
+## This week's Coach / Team changes from your kicks: {coach, team, lines: [text]}.
+var trust_week: Dictionary = {}
 
 
 ## A fresh career with starting stats from the tuning file.
@@ -294,6 +317,16 @@ func to_dict() -> Dictionary:
 		"people": people.duplicate(true),
 		"former_people": former_people.duplicate(true),
 		"notice": notice,
+		"skill_points": skill_points,
+		"sp_season": sp_season,
+		"sp_career": sp_career,
+		"sp_week": sp_week.duplicate(true),
+		"sp_upgrades": sp_upgrades.duplicate(),
+		"perks": perks.duplicate(),
+		"maintained": maintained.duplicate(),
+		"recent_fg": recent_fg.duplicate(),
+		"coach_doubt": coach_doubt.duplicate(),
+		"trust_week": trust_week.duplicate(true),
 	}
 
 
@@ -367,6 +400,23 @@ static func from_dict(d: Dictionary) -> CareerData:
 	c.retirement = _dict(d, "retirement")
 	c.last_week = _dict(d, "last_week")
 	c.notice = str(d.get("notice", ""))
+	c.skill_points = maxi(int(d.get("skill_points", 0)), 0)
+	c.sp_season = maxi(int(d.get("sp_season", 0)), 0)
+	c.sp_career = maxi(int(d.get("sp_career", 0)), 0)
+	c.sp_week = _array(d, "sp_week")
+	var up := _dict(d, "sp_upgrades")
+	for k in up:
+		if group_of(str(k)) == FOOTBALL:
+			c.sp_upgrades[str(k)] = float(up[k])
+	for id in _array(d, "perks"):
+		c.perks.append(str(id))
+	var mt := _dict(d, "maintained")
+	for k in mt:
+		c.maintained[str(k)] = int(mt[k])
+	for b in _array(d, "recent_fg"):
+		c.recent_fg.append(bool(b))
+	c.coach_doubt = _dict(d, "coach_doubt")
+	c.trust_week = _dict(d, "trust_week")
 	for id in _dict(d, "people"):
 		var p: Variant = d["people"][id]
 		if p is Dictionary and not Relationships.def(str(id)).is_empty():
@@ -383,6 +433,9 @@ static func from_dict(d: Dictionary) -> CareerData:
 	# people.json since: the current stage's cast arrives at 50 (neutral).
 	Relationships.seed_cast(c, CareerTuning.get_default())
 	Relationships.catch_up_tyler(c)
+	# Version 3 -> 4: Team standing starts from your record (CareerSave._migrate).
+	if d.has("_team_start") and c.people.has(Relationships.TEAM):
+		c.people[Relationships.TEAM]["value"] = clampf(float(d["_team_start"]), 0.0, 100.0)
 	return c
 
 

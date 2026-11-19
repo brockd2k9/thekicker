@@ -1,6 +1,7 @@
 extends CareerScreen
 ## Results & Week Summary: the final score (or the bye week), every kick you
-## took, your warmups, the stat changes the week caused, and the record.
+## took, your warmups, the stat changes the week caused, Coach / Team changes
+## from your kicks, skill points earned (and unspent), and the record.
 ## Continue = end of week: weekly recovery, autosave, next week.
 
 
@@ -61,7 +62,34 @@ func _build(col: VBoxContainer) -> void:
 			moved[id] = wc
 	if not moved.is_empty():
 		list.add_child(CareerUi.rel_chips(c, moved))
-	list.add_child(UiKit.label("Recovery and practice gains are added when you continue.", 22, UiKit.MUTED))
+	# Coach / Team from your kicks this week, with the kick that mattered most.
+	var tw := c.trust_week
+	var tw_text := KickTrust.change_text(float(tw.get("coach", 0.0)), float(tw.get("team", 0.0)))
+	if tw_text != "":
+		var good := float(tw.get("coach", 0.0)) + float(tw.get("team", 0.0)) >= 0.0
+		list.add_child(UiKit.stat_row("From your kicks", tw_text, UiKit.GOOD if good else UiKit.BAD, "whistle"))
+		for line in tw.get("lines", []):
+			list.add_child(UiKit.label(str(line), 22, UiKit.MUTED))
+	var trust: Dictionary = w.get("trust", {})
+	if trust.get("slump", false) and not c.coach_doubt.is_empty():
+		var n := UiKit.chip("%s has lost faith in your kicking (%s): fewer, shorter field goals for %d weeks."
+			% [Relationships.name_of(c, "coach"), c.coach_doubt.get("reason", ""), int(c.coach_doubt.get("weeks_left", 0))],
+			UiKit.BAD, false, "whistle", 22)
+		n.get_child(0).get_child(1).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		n.get_child(0).get_child(1).size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		list.add_child(n)
+	# Skill points earned this week and what's left to spend.
+	var sp := CareerUi.sp_lines(c)
+	if not sp.is_empty():
+		list.add_child(UiKit.section("SKILL POINTS"))
+		list.add_child(UiKit.stat_row(str(sp[0]).split("  (")[0], "%d to spend" % c.skill_points,
+			UiKit.GOOD if c.skill_points > 0 else UiKit.MUTED, "skill"))
+		if sp.size() > 1:
+			list.add_child(UiKit.label(str(sp[1]), 22, UiKit.MUTED))
+		if c.skill_points > 0:
+			list.add_child(UiKit.button("Spend in Skills", Screens.go.bind(Screens.CAREER_SKILLS),
+				UiKit.SECONDARY, "skill"))
+	list.add_child(UiKit.label("Recovery is added when you continue.", 22, UiKit.MUTED))
 	list.add_child(UiKit.section("SEASON"))
 	var s := c.season_stats
 	list.add_child(UiKit.stat_row("Field goals", "%d / %d" % [int(s["fg_made"]), int(s["fg_att"])]))

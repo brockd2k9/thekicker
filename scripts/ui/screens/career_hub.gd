@@ -1,6 +1,7 @@
 extends CareerScreen
 ## Career Hub: where every week starts and every quit comes back to.
-## Week, record, next opponent, the four stat groups, traits, recent results,
+## Week, record, next opponent, FG / kickoff range and skill points (tap: Skills),
+## the four stat groups, traits, recent results,
 ## and one big button that does the next thing (Play Week / Continue Week /
 ## Game Day / Restart Game / Results / Season Summary ...).
 
@@ -21,6 +22,7 @@ func _build(col: VBoxContainer) -> void:
 		career.save()
 
 	var list := UiKit.scroll_list(col)
+	list.add_child(CareerUi.range_strip(c, career.tuning, Screens.go.bind(Screens.CAREER_SKILLS)))
 	var grid := GridContainer.new()
 	grid.columns = 2
 	grid.add_theme_constant_override("h_separation", 12)

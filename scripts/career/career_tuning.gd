@@ -17,16 +17,47 @@ extends Resource
 const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 
 @export_group("Power -> Range")
-## Multiplier on the kick's top launch speed (KickTuning.max_launch_speed).
-## Swipe power needed (no wind) for 30 / 40 / 50 / 60 yd:
-##   0.82 -> 47 / 66 / 83 / 99%    0.90 -> 40 / 56 / 70 / 83%
-##   1.00 -> 33 / 46 / 58 / 69%    1.08 -> 29 / 41 / 51 / 61%
-## (The Career Debug screen shows these for the current profile.)
-## Value at Power 0.
-@export var power_mult_at_0: float = 0.82
-## Value at Power 100.
-@export var power_mult_at_100: float = 1.08
-@export_range(0.3, 3.0) var power_curve: float = 1.0
+## Field goal range (yards): the longest kick a full-strength flick clears
+## with no wind. range_at_start at Power range_power_start (a new freshman),
+## rising to range_at_100 at Power 100 along x^range_curve, where
+## x = (Power - range_power_start) / (100 - range_power_start). A curve below 1
+## means early points buy more yards than late ones (diminishing returns).
+## Perks add to it; game-day life stats add or take a few yards (below).
+## Power 30/40/50/60/70/80/90/100 -> 40/46/50/54/57/60/63/66 yd.
+@export var range_power_start: float = 30.0
+@export var range_at_start: float = 40.0
+@export var range_at_100: float = 66.0
+@export_range(0.3, 2.0) var range_curve: float = 0.75
+## Hard cap on range after perks and game-day changes; and the shortest it can get.
+@export var range_cap: float = 70.0
+@export var range_min: float = 30.0
+## The kick's launch speed is set so 100% power clears the crossbar at
+## range + this (so a kick right at your range doesn't clip the bar).
+@export var range_physics_margin_yd: float = 0.5
+## Kickoff range (yards of carry at a full flick): its own Power curve.
+## Power 30/50/70/100 -> 52/61/67/75 yd. A touchback needs 60 (high school,
+## tee on the 40) or 65 (college and pro, tee on the 35).
+@export var kickoff_at_start: float = 52.0
+@export var kickoff_at_100: float = 75.0
+@export_range(0.3, 2.0) var kickoff_curve: float = 0.75
+@export var kickoff_range_cap: float = 80.0
+
+@export_group("Game Day Range")
+## Yards added or taken on game day by life stats (shown on the Outlook).
+## Energy at or above rested_energy: +rested_range_yd.
+@export var rested_energy: float = 75.0
+@export var rested_range_yd: float = 2.0
+## Health at or above healthy_health: +healthy_range_yd.
+@export var healthy_health: float = 85.0
+@export var healthy_range_yd: float = 1.0
+## Yards lost at Energy 0 / Health 0 (grows from the low threshold down).
+@export var low_energy_range_yd: float = 4.0
+@export var low_health_range_yd: float = 3.0
+## Yards lost while injured at severity 1 (Toughness shields part of it).
+@export var injury_range_yd: float = 6.0
+## Game-day modifiers in data that still use the old "power_mult" key are read
+## as this many yards per 1.0 (so -0.05 = -2 yd).
+@export var legacy_power_mult_yards: float = 40.0
 
 @export_group("Accuracy -> Aim")
 ## Random aim error at release (std-dev, degrees) at Accuracy 0.
@@ -65,8 +96,6 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## Below its threshold a life stat starts to hurt; the penalty grows linearly to
 ## its full size at 0.
 @export var low_energy_threshold: float = 40.0
-## Power multiplier lost at Energy 0.
-@export var low_energy_power: float = 0.08
 ## Wobble multiplier added at Energy 0.
 @export var low_energy_wobble: float = 0.35
 @export var low_health_threshold: float = 40.0
@@ -84,15 +113,11 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export_group("Injuries")
 ## Base weekly chance of picking up an injury.
 @export var injury_base_risk: float = 0.03
-## Power multiplier lost while playing hurt at severity 1 (before Toughness).
-@export var injury_power: float = 0.1
 ## Aim error (degrees) added while playing hurt at severity 1 (before Toughness).
 @export var injury_spread: float = 1.2
 
 @export_group("Profile Caps")
 ## Final clamps on the kick profile, after stats, traits and game-day modifiers.
-@export var power_mult_min: float = 0.7
-@export var power_mult_max: float = 1.15
 @export var spread_max: float = 4.0
 @export var wobble_mult_min: float = 0.5
 @export var wobble_mult_max: float = 2.0
@@ -145,10 +170,11 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var bye_scenarios: int = 2
 @export var offseason_scenarios: int = 2
 ## Applied at the end of every week (through the stat rules). Energy and
-## Health recover, practice slowly builds every football stat.
+## Health recover. weekly_football_growth is 0: football attributes now grow
+## through skill points (group "Skill Points"); the knob is kept.
 @export var weekly_energy_recovery: float = 10.0
 @export var weekly_health_recovery: float = 2.0
-@export var weekly_football_growth: float = 0.1
+@export var weekly_football_growth: float = 0.0
 ## Every week each life stat also moves this fraction of the way back toward
 ## life_baseline, so streaks of good or bad weeks don't pin them at 0 or 100.
 ## 0 = off.
@@ -159,9 +185,9 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## Extra recovery at the end of a bye week.
 @export var bye_energy_recovery: float = 15.0
 @export var bye_health_recovery: float = 10.0
-## Between seasons: every football stat grows this much (before diminishing
-## returns), and life stats move this fraction of the way back to start_life.
-@export var offseason_football_growth: float = 1.5
+## Between seasons: every football stat grows this much (0: skill points do
+## it now), and life stats move this fraction of the way back to start_life.
+@export var offseason_football_growth: float = 0.0
 @export_range(0.0, 1.0) var offseason_life_reset: float = 0.5
 ## Injury picked up in the weekly roll: weeks out of full health and severity.
 @export var injury_weeks_min: int = 1
@@ -205,11 +231,13 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export_range(0.0, 1.0) var opponent_fg_chance: float = 0.65
 ## Field goal attempt distances (yards) at this stage.
 @export var hs_fg_min_yards: int = 20
-@export var hs_fg_max_yards: int = 48
+@export var hs_fg_max_yards: int = 50
 ## Extra point distance (yards) at this stage.
 @export var hs_pat_yards: int = 20
-## The coach won't send you out past this fraction of your max range.
-@export_range(0.5, 1.0) var coach_range_trust: float = 0.85
+## The coach knows your range: the longest field goal he calls is your
+## game-day range minus this margin (plus the coach relationship and minus
+## coach doubt, group "Relationships").
+@export var coach_range_margin_yd: float = 2.0
 ## Situation pressure by quarter (Q1..Q4).
 @export var quarter_pressure: PackedFloat32Array = PackedFloat32Array([0.1, 0.2, 0.3, 0.45])
 ## Extra pressure in a one-score game in the 4th quarter.
@@ -232,22 +260,23 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## Every game costs this (before the weekly recovery).
 @export var game_energy_cost: float = -12.0
 @export var game_health_cost: float = -3.0
-## Per kick of yours (field goals and extra points).
-@export var make_accuracy_gain: float = 0.06
-## A make from this far or more also builds Power.
-@export var long_make_yards: int = 40
-@export var long_make_power_gain: float = 0.5
-## A make under this much pressure builds Resilience (and Charisma).
+## Direct football stat changes from your kicks. All 0 now: kicks earn skill
+## points instead (group "Skill Points"). The knobs are kept.
+@export var make_accuracy_gain: float = 0.0
+## A make from this far or more counts as a long make (skill points, Power gain).
+@export var long_make_yards: int = 45
+@export var long_make_power_gain: float = 0.0
+## A make under this much pressure is a clutch make (skill points, Charisma).
 @export_range(0.0, 1.0) var clutch_pressure: float = 0.6
-@export var clutch_resilience_gain: float = 1.2
+@export var clutch_resilience_gain: float = 0.0
 @export var clutch_charisma_gain: float = 2.0
 @export var miss_fun: float = -2.0
-@export var miss_resilience_gain: float = 0.3
+@export var miss_resilience_gain: float = 0.0
 ## A perfect day (2+ kicks, no misses) adds this Fun.
 @export var perfect_day_fun: float = 2.0
-## Good kickoffs (touchback / pinned deep) build Power and Toughness a little.
-@export var good_kickoff_power_gain: float = 0.3
-@export var good_kickoff_toughness_gain: float = 0.2
+## Good kickoffs (touchback / pinned deep): direct Power / Toughness gain (0 now).
+@export var good_kickoff_power_gain: float = 0.0
+@export var good_kickoff_toughness_gain: float = 0.0
 
 @export_group("Sideline Kicks")
 ## Kickoffs, onside kicks and the sideline warmup net (all in the 3D kick scene).
@@ -299,10 +328,10 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## Field goal attempt distances and extra point distance (yards) per stage.
 ## A college's tier can lower the college max (progression.json fg_max_yards).
 @export var college_fg_min_yards: int = 22
-@export var college_fg_max_yards: int = 55
+@export var college_fg_max_yards: int = 58
 @export var college_pat_yards: int = 20
 @export var pro_fg_min_yards: int = 25
-@export var pro_fg_max_yards: int = 58
+@export var pro_fg_max_yards: int = 62
 @export var pro_pat_yards: int = 33
 ## Extra situation pressure on every kick (bigger crowds, bigger stakes).
 ## College tiers add their own pressure_bonus on top.
@@ -332,6 +361,9 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var recruiting_long: float = 0.5
 @export var recruiting_record: float = 0.5
 @export var recruiting_leg: float = 0.15
+## Points per yard of field goal range past recruiting_range_from.
+@export var recruiting_range: float = 0.6
+@export var recruiting_range_from: float = 45.0
 ## A junior college season counts this much (then offers come again).
 @export var juco_recruiting_weight: float = 1.4
 
@@ -346,6 +378,9 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var draft_long: float = 0.5
 @export var draft_record: float = 0.4
 @export var draft_leg: float = 0.2
+## Points per yard of field goal range past draft_range_from.
+@export var draft_range: float = 0.6
+@export var draft_range_from: float = 52.0
 
 @export_group("Pro Contracts")
 ## Retention (0-100) at the end of each pro season: 50 + fg_pct * (FG% - 80)
@@ -355,6 +390,9 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var retention_long: float = 0.6
 @export var retention_clutch: float = 4.0
 @export var retention_age: float = 5.0
+## Points per yard of field goal range past retention_range_from.
+@export var retention_range: float = 0.3
+@export var retention_range_from: float = 55.0
 ## Below this you're released (even mid-contract).
 @export var release_below: float = 35.0
 ## At contract end the team re-signs you at this retention or more.
@@ -370,9 +408,9 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export_range(0.0, 0.5) var rel_weekly_drift: float = 0.02
 ## Head coach: change in pressure sensitivity (negative = calmer kicks).
 @export var rel_coach_pressure: float = -0.12
-## Head coach: change in how far past your range the coach trusts you
-## (multiplies coach_range_trust; 0.05 = 5% longer tries at full trust).
-@export var rel_coach_range: float = 0.05
+## Head coach: yards added to (at 100) or taken from (at 0) the longest field
+## goal he calls.
+@export var rel_coach_range_yd: float = 2.0
 ## Holder: change in aim spread in degrees (negative = cleaner holds).
 @export var rel_holder_spread: float = -0.25
 ## Dad and your little brother: extra Energy recovered every week (each).
@@ -383,10 +421,12 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## Teacher / academic advisor: GPA points added each season.
 @export var rel_teacher_gpa: float = 0.08
 ## Tyler Brooks (once you've met him). Friend side (above 50): pressure
-## sensitivity change at 100. Rival side (below 50): extra football growth per
-## week at 0 (he pushes you). Each applies only on its own side.
+## sensitivity change at 100. Rival side (below 50): extra skill points per
+## week at 0 (he pushes you; rel_tyler_rival_growth, the old direct football
+## growth, is 0). Each applies only on its own side.
 @export var rel_tyler_friend_pressure: float = -0.06
-@export var rel_tyler_rival_growth: float = 0.08
+@export var rel_tyler_rival_growth: float = 0.0
+@export var rel_tyler_rival_sp: float = 1.0
 ## Playing against Tyler's team: pressure_add at 0 (bitter rival) and the
 ## same amount off at 100 (friend). Linear through 50 like the rest.
 @export var rel_tyler_game_pressure: float = 0.06
@@ -401,6 +441,111 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## checked against your GPA plus rel_teacher_gpa_grace.
 @export var rel_teacher_vouch: float = 70.0
 @export var rel_teacher_gpa_grace: float = 0.1
+## Team standing (your teammates' trust): pressure sensitivity change at 100.
+@export var rel_team_pressure: float = -0.08
+## Trust (coach recommendation): rel_trust_coach_weight * Coach + the rest * Team.
+## Recruiting uses it in the final high school / junior college season (the
+## rec_high / rec_low thresholds above); the draft gets up to +/- rel_draft_rec
+## points every college season, scaled linearly from 50.
+@export_range(0.0, 1.0) var rel_trust_coach_weight: float = 0.7
+@export var rel_draft_rec: float = 3.0
+
+## --- Kick results (every field goal and extra point you kick) ---
+## Base change to Coach / Team for a miss and for a make, before multipliers.
+@export var kick_miss_coach: float = -4.0
+@export var kick_miss_team: float = -3.0
+@export var kick_make_coach: float = 1.5
+@export var kick_make_team: float = 1.0
+## Situation: the largest that applies. A game winner is a go-ahead kick in
+## the final 2 minutes (the GAME WINNER tag); go-ahead and tying are 4th quarter.
+@export var kick_mult_game_winner: float = 3.0
+@export var kick_mult_go_ahead: float = 2.0
+@export var kick_mult_tying: float = 1.8
+@export var kick_mult_close_late: float = 1.6
+@export var kick_mult_high_pressure: float = 1.4
+@export var kick_mult_q4: float = 1.25
+## "Close" for close_late: a 4th-quarter kick with the score within this many points.
+@export var kick_close_points: int = 8
+## High pressure: situation pressure at or above this.
+@export_range(0.0, 1.0) var kick_high_pressure: float = 0.6
+## Difficulty. Easy: at most kick_easy_yards, or at most kick_easy_range_frac of
+## your range. Edge: within kick_edge_yards of your range.
+@export var kick_easy_yards: int = 30
+@export_range(0.0, 1.0) var kick_easy_range_frac: float = 0.55
+@export var kick_edge_yards: int = 5
+@export var kick_easy_miss_mult: float = 1.5
+@export var kick_easy_make_mult: float = 0.7
+@export var kick_edge_miss_mult: float = 0.5
+@export var kick_edge_make_mult: float = 1.5
+## Extra points count this much (miss / make).
+@export var kick_pat_miss_mult: float = 0.5
+@export var kick_pat_make_mult: float = 0.25
+## Softening on misses: Resilience (both) and Leadership (Team only), at 100.
+@export_range(0.0, 1.0) var kick_resilience_soften: float = 0.25
+@export_range(0.0, 1.0) var kick_leadership_soften: float = 0.3
+## Recovery: while the coach is below 50, makes count this much more at
+## Resilience 100 (0.3 = 30% more), and double while the coach doubts you.
+@export var kick_recovery_resilience: float = 0.3
+@export var kick_doubt_make_mult: float = 2.0
+
+## --- Too many misses (coach doubt) ---
+## Window: your last kick_window field goal attempts (across games).
+## A slump: kick_window_misses or more misses in the window, OR a season FG%
+## below kick_season_pct after at least kick_season_min_att attempts.
+@export var kick_window: int = 5
+@export var kick_window_misses: int = 3
+@export_range(0.0, 1.0) var kick_season_pct: float = 0.55
+@export var kick_season_min_att: int = 6
+## When a slump starts: the coach loses this much, and doubts you for
+## doubt_weeks weeks: his longest call drops doubt_range_yd and he goes for
+## field goals doubt_fg_chance_mult as often. Doubt ends early once the window
+## has at most doubt_clear_misses misses.
+@export var kick_slump_coach: float = -5.0
+@export var doubt_weeks: int = 3
+@export var doubt_range_yd: float = 6.0
+@export_range(0.0, 1.0) var doubt_fg_chance_mult: float = 0.75
+@export var doubt_clear_misses: int = 1
+
+@export_group("Skill Points")
+## Earned on the field (per kick of yours, field goals only) ...
+@export var sp_make: int = 1
+## ... a long make (long_make_yards+, or within sp_long_range_yd of your range) ...
+@export var sp_long_make: int = 1
+@export var sp_long_range_yd: float = 3.0
+## ... a make under pressure (clutch_pressure+) ...
+@export var sp_clutch_make: int = 1
+## ... a game winner ...
+@export var sp_game_winner: int = 3
+## ... a perfect game (2+ kicks of yours, all made) ...
+@export var sp_perfect_game: int = 2
+## ... and in practice: every week (game or bye); low Energy costs some.
+@export var sp_weekly_practice: int = 2
+@export var sp_weekly_practice_tired: int = 1
+## End of season: FG% at good_pct+ (at least poor_min_attempts tries) / great_pct+.
+@export var sp_good_season: int = 8
+@export var sp_great_season: int = 12
+@export_range(0.0, 1.0) var sp_good_season_pct: float = 0.8
+@export_range(0.0, 1.0) var sp_great_season_pct: float = 0.9
+## Offseason training (once between seasons).
+@export var sp_offseason: int = 10
+## Scenario choices' "skill_points" are multiplied by this.
+@export var sp_scenario_scale: float = 1.0
+## Scenario choices still change football stats directly ("stats": {"football"});
+## those changes are multiplied by this (the simulator checks total growth).
+@export_range(0.0, 2.0) var scenario_football_scale: float = 1.0
+## Upgrade cost: raising an attribute from level L to L+1 costs
+## ceil(upgrade_cost_base + upgrade_cost_scale * (L/100)^upgrade_cost_exp).
+## 30 -> 2 SP, 50 -> 4, 70 -> 6, 90 -> 9, 99 -> 10.
+@export var upgrade_cost_base: float = 1.0
+@export var upgrade_cost_scale: float = 9.0
+@export var upgrade_cost_exp: float = 2.0
+## Upgrades stop here.
+@export var attribute_max: float = 100.0
+## Saves from before skill points (version < 4) start with this many per
+## season played in high school / at college or junior college / in the pros.
+@export var sp_migrate_hs_per_season: int = 5
+@export var sp_migrate_college: int = 30
+@export var sp_migrate_pro: int = 50
 
 @export_group("Career End")
 ## A season is "poor" with an FG% below this (at least poor_min_attempts tries).

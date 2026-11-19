@@ -41,9 +41,14 @@ static func from_call(call: Dictionary, pressure_add: float, rules: KickoffRules
 
 
 ## The kickoff rules for a career game: CareerTuning + this stage (game_params).
-static func kickoff_rules_for(t: CareerTuning, params: Dictionary) -> KickoffRules:
+## profile: this game's KickProfile; a full-strength kickoff then carries
+## exactly its kickoff_range (the scene multiplies max carry by power_mult,
+## which is set for field goal range, so it's divided back out here).
+static func kickoff_rules_for(t: CareerTuning, params: Dictionary, profile: KickProfile = null) -> KickoffRules:
 	var r := KickoffRules.new()
 	r.max_carry_yards = t.kickoff_max_carry_yards
+	if profile != null and profile.power_mult > 0.0:
+		r.max_carry_yards = profile.kickoff_range / profile.power_mult
 	r.spot_yards = int(params.get("kickoff_spot", t.kickoff_spot_yards))
 	r.touchback_spot = int(params.get("touchback_spot", t.touchback_spot_hs))
 	r.oob_spot = int(params.get("kickoff_oob_spot", t.kickoff_oob_spot_hs))

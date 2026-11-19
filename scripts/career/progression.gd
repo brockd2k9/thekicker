@@ -59,7 +59,8 @@ static func recruiting_gain(c: CareerData, t: CareerTuning) -> float:
 	var g := t.recruiting_base + t.recruiting_fg_pct * pct \
 		+ t.recruiting_long * maxf(float(s.get("long", 0)) - 35.0, 0.0) \
 		+ t.recruiting_record * (int(c.record["w"]) - int(c.record["l"])) \
-		+ t.recruiting_leg * (_leg(c) - 50.0)
+		+ t.recruiting_leg * (_leg(c) - 50.0) \
+		+ t.recruiting_range * maxf(KickRange.fg_range(c, t) - t.recruiting_range_from, 0.0)
 	return w * g + trait_bonus(c, "recruiting") + coach_rec(c, t)
 
 
@@ -78,9 +79,10 @@ static func draft_gain(c: CareerData, t: CareerTuning) -> float:
 	var g := t.draft_base + t.draft_fg_pct * pct \
 		+ t.draft_long * maxf(float(s.get("long", 0)) - 40.0, 0.0) \
 		+ t.draft_record * (int(c.record["w"]) - int(c.record["l"])) \
-		+ t.draft_leg * (_leg(c) - 55.0)
+		+ t.draft_leg * (_leg(c) - 55.0) \
+		+ t.draft_range * maxf(KickRange.fg_range(c, t) - t.draft_range_from, 0.0)
 	var exposure := float(tier(str(c.team.get("tier", "mid"))).get("exposure", 1.0))
-	return w * g * exposure + trait_bonus(c, "draft")
+	return w * g * exposure + trait_bonus(c, "draft") + Relationships.draft_recommendation(c, t)
 
 
 ## Pro retention (0-100) for the season just played.
@@ -91,6 +93,7 @@ static func retention(c: CareerData, t: CareerTuning) -> float:
 		+ t.retention_long * maxf(float(s.get("long", 0)) - 45.0, 0.0) \
 		+ t.retention_clutch * int(s.get("game_winners", 0)) \
 		- t.retention_age * maxf(float(c.age) - 32.0, 0.0) \
+		+ t.retention_range * maxf(KickRange.fg_range(c, t) - t.retention_range_from, 0.0) \
 		+ c.retention_bonus + trait_bonus(c, "retention")
 	return clampf(r, 0.0, 100.0)
 

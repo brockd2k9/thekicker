@@ -278,6 +278,11 @@ static func validate() -> PackedStringArray:
 			if (ch.get("modifiers", []) as Array).is_empty():
 				problems.append("scenario %s: choice '%s' has no game-day modifier" % [id, ch.get("label", "")])
 			var n_stats := ScenarioEngine.progress_changes(ch).size()
+			if ch.has("skill_points"):
+				var sp: Variant = ch["skill_points"]
+				if not (sp is float or sp is int) or float(sp) < -2.0 or float(sp) > 6.0 or float(sp) != floorf(float(sp)):
+					problems.append("scenario %s: choice '%s' skill_points must be a whole number -2..6" % [id, ch.get("label", "")])
+				n_stats += 1
 			for g in ch.get("stats", {}):
 				n_stats += (ch["stats"][g] as Dictionary).size() if ch["stats"][g] is Dictionary else 0
 			n_stats += (ch.get("rel", {}) as Dictionary).size() if ch.get("rel") is Dictionary else 0
@@ -323,7 +328,7 @@ static func validate() -> PackedStringArray:
 
 ## Flags the game itself sets (CareerManager), not scenario choices.
 const ENGINE_FLAGS := ["walk_on", "juco", "failed_tryouts", "fa_attempts", "recruiting_update",
-	"traits_reported"]
+	"traits_reported", "kicking_slump", "kick_slumps"]
 const _STAGE_ORDER := {"high_school": 0, "juco": 1, "college": 2, "pro": 3, "free_agent": 3}
 
 

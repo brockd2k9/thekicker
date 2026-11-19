@@ -1,5 +1,5 @@
 {
-	"_doc": "Game-day text and the sideline warmup. Play-by-play lines pick one template at random; {us}/{them} are team names, {player} a fictional teammate, {yards}/{spot} numbers. The warmup is offered once per half, the first time your offense drives into range. Its result names a game-day modifier (modifiers.json) that lasts until halftime / the end of the game, plus stat changes applied when the game ends (through the stat rules).",
+	"_doc": "Game-day text and the sideline warmup. Play-by-play lines pick one template at random; {us}/{them} are team names, {player} a fictional teammate, {yards}/{spot} numbers. The warmup is offered once per half, the first time your offense drives into range. Its result names a game-day modifier (modifiers.json) that lasts until halftime / the end of the game, plus stat changes applied when the game ends (through the stat rules) and optional skill_points.",
 
 	"warmup": {
 		"offer": "{us} are driving: ball on the {spot}. Coach says: \"Kicker, get loose.\"",
@@ -8,7 +8,7 @@
 		"skip": "Stay on the Bench",
 		"results": {
 			"pure": {"text": "Pure contact. The leg feels great.", "modifier": "warmed_up",
-				"stats": {"football": {"accuracy": 0.4}, "personality": {"ambition": 1}}},
+				"stats": {"personality": {"ambition": 1}}, "skill_points": 1},
 			"loose": {"text": "Not perfect, but you're loose.", "modifier": "loose",
 				"stats": {}},
 			"skipped": {"text": "You stay on the bench. Your leg is cold.", "modifier": "cold_leg",

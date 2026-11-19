@@ -1,7 +1,9 @@
 extends CareerScreen
 ## Game Day Outlook: the matchup, the weather, and how you're feeling. The
 ## "feeling" lines come straight from KickProfile.build() (the same numbers the
-## kick uses), and "Your leg today" turns the profile into plain words.
+## kick uses, e.g. "Rested: +2 yds"), and "Your leg today" turns the profile into
+## plain words: today's field goal and kickoff range and the coach's longest call
+## (shorter, with the reason, while he doubts you).
 
 const KICK_TUNING := "res://tuning/kick_tuning.tres"
 
@@ -34,8 +36,21 @@ func _build(col: VBoxContainer) -> void:
 		list.add_child(UiKit.label("Normal. Nothing helping, nothing hurting.", 28, UiKit.MUTED))
 	for line in p.outlook:
 		list.add_child(CareerUi.outlook_line(line, 26))
+	if not c.coach_doubt.is_empty():
+		list.add_child(CareerUi.outlook_line({"label": "%s has lost faith" % Relationships.name_of(c, "coach"),
+			"detail": "fewer, shorter field goals (%s)" % str(c.coach_doubt.get("reason", "")), "good": false}, 26))
 	list.add_child(UiKit.section("Your leg today"))
-	list.add_child(UiKit.stat_row("Range", "about %d yd" % p.max_range_yards(kt), UiKit.ACCENT, "power"))
+	var fg := p.max_range_yards(kt)
+	var base := floori(p.fg_range_base + 0.001)
+	var fg_text := "%d yd" % fg if fg == base else "%d yd  (%+d today)" % [fg, fg - base]
+	list.add_child(UiKit.stat_row("Field goal range", fg_text, UiKit.ACCENT, "range"))
+	var params := Progression.game_params(c, career.tuning)
+	list.add_child(UiKit.stat_row("Kickoff range", "%d yd%s" % [floori(p.kickoff_range + 0.001),
+		"  (touchback)" if KickRange.touchback_possible(p.kickoff_range, params, career.tuning) else ""],
+		Color(0, 0, 0, 0), "power"))
+	var lim := mini(KickTrust.coach_limit(c, p, career.tuning), int(params.get("fg_max", 60)))
+	list.add_child(UiKit.stat_row("Coach calls field goals up to", "%d yd" % lim,
+		UiKit.BAD if not c.coach_doubt.is_empty() else Color(0, 0, 0, 0), "whistle"))
 	var words: Dictionary = CareerContent.game_day().get("outlook", {})
 	for key in [["aim", "Aim", "accuracy"], ["pressure", "Under pressure", "resilience"], ["wind", "In the wind", "wind"]]:
 		var w: Dictionary = words.get(key[0], {})

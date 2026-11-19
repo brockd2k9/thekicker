@@ -424,3 +424,66 @@ static func result_banner(text: String, color: Color, size := 96) -> Control:
 	tw.tween_property(l, "scale", Vector2.ONE, 0.38).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT).set_delay(0.12)
 	tw.tween_property(l, "rotation", 0.0, 0.38).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT).set_delay(0.12)
 	return row
+
+
+# --- range and skill points ------------------------------------------------------------
+
+## FG range, kickoff range and skill points in one strip (Hub, Skills, Stats).
+## on_tap: makes the whole strip a tappable card (opens Skills); empty = display.
+static func range_strip(c: CareerData, t: CareerTuning, on_tap := Callable(), show_sp := true) -> PanelContainer:
+	var parts: Array = card(on_tap) if on_tap.is_valid() else UiKit.card(UiKit.ACCENT, 0)
+	var p: PanelContainer = parts[0]
+	var h := HBoxContainer.new()
+	h.add_theme_constant_override("separation", 10)
+	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	(parts[1] as VBoxContainer).add_child(h)
+	var params := Progression.game_params(c, t)
+	var ko := KickRange.kickoff_range(c, t)
+	_range_tile(h, "FG RANGE", "%d yd" % floori(KickRange.fg_range(c, t) + 0.001), "range", UiKit.ACCENT)
+	_range_tile(h, "KICKOFF", "%d yd" % floori(ko + 0.001), "power", UiKit.TEXT,
+		"touchback" if KickRange.touchback_possible(ko, params, t) else "")
+	if show_sp:
+		_range_tile(h, "SKILL PTS", str(c.skill_points), "skill",
+			UiKit.GOOD if c.skill_points > 0 else UiKit.MUTED, "SKILLS  ›" if on_tap.is_valid() else "")
+	return p
+
+
+static func _range_tile(parent: HBoxContainer, caption: String, value: String, icon: String, color: Color,
+		note := "") -> void:
+	var v := VBoxContainer.new()
+	v.add_theme_constant_override("separation", -4)
+	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(v)
+	var top := HBoxContainer.new()
+	top.add_theme_constant_override("separation", 6)
+	top.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	top.add_child(UiIcons.rect(icon, UiKit.MUTED, 20))
+	var cap := UiKit.label(caption, 20, UiKit.MUTED, UiTokens.FONT_CONDENSED)
+	cap.autowrap_mode = TextServer.AUTOWRAP_OFF
+	top.add_child(cap)
+	v.add_child(top)
+	var val := UiKit.label(value, 44, color, UiTokens.FONT_DISPLAY)
+	val.autowrap_mode = TextServer.AUTOWRAP_OFF
+	v.add_child(val)
+	if note != "":
+		var n := UiKit.label(note, 18, UiKit.MUTED, UiTokens.FONT_CONDENSED)
+		n.autowrap_mode = TextServer.AUTOWRAP_OFF
+		v.add_child(n)
+
+
+## "+6 skill points (12 to spend)" with each source on a line, for Results.
+static func sp_lines(c: CareerData) -> Array:
+	var out: Array = []
+	var total := 0
+	for e in c.sp_week:
+		total += int(e.get("sp", 0))
+	if total > 0:
+		out.append("+%d skill points  (%d to spend)" % [total, c.skill_points])
+		var parts := PackedStringArray()
+		for e in c.sp_week:
+			parts.append("%s +%d" % [e.get("text", ""), int(e.get("sp", 0))])
+		out.append(", ".join(parts))
+	elif c.skill_points > 0:
+		out.append("%d skill points to spend" % c.skill_points)
+	return out

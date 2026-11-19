@@ -353,7 +353,10 @@ dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career
 |---|---|
 | Balance numbers (stat -> kick curves, caps, gains, seasons, game sim, scenario picks) | `tuning/career_tuning.tres` (defaults + docs in `scripts/career/career_tuning.gd`) |
 | Scenarios (57 written: HS, college, pro, bye/offseason, trait-gated; plus the 160-scenario high school story graph as drafts) | `data/career/scenarios_*.json` (field reference: `_doc` in `scenarios_hs.json`; graph: `scenarios_hs_graph.json`) |
-| Relationships: the cast (8 people), roles, tiers, name lists | `data/career/people.json` (rules: `scripts/career/relationships.gd`; numbers: `career_tuning.tres` "Relationships") |
+| Relationships: the cast (8 people + Team standing), roles, tiers, name lists | `data/career/people.json` (rules: `scripts/career/relationships.gd`; numbers: `career_tuning.tres` "Relationships") |
+| Skill points, attribute upgrades (Skills screen) | `scripts/career/skill_points.gd` (numbers: `career_tuning.tres` "Skill Points") |
+| Field goal / kickoff range, game-day range, range -> launch speed | `scripts/career/kick_range.gd`, `kick_profile.gd` (numbers: "Power -> Range", "Game Day Range") |
+| Kick results -> Coach / Team, coach doubt ("too many misses") | `scripts/career/kick_trust.gd` (numbers: "Relationships", kick results + too many misses) |
 | Traits (8), game-day modifiers (19), stat descriptions | `data/career/traits.json`, `modifiers.json`, `stats_info.json` |
 | Schools (16 HS, 18 colleges in 3 tiers, 6 junior colleges), 12 pro clubs, names, play-by-play | `data/career/world.json`, `game_day.json` |
 | Progression tables: college tiers, offers, draft rounds, tryouts, contracts | `data/career/progression.json` (weights in `career_tuning.tres`) |
@@ -391,12 +394,33 @@ Brooks, Dad, your little brother, someone special), each with a value 0-100 save
 you've met. Scenario choices move values (`"rel": {"coach": 5}`), scenarios and choices can require
 them (`"min": {"rel_coach": 60}`), and scenario text can name people (`{coach}`, `{tyler}`...).
 Values feed game day (coach: pressure and how long a kick you're sent out for; holder: aim; Tyler),
-the week (family: energy; friends: fun and social; Tyler as a rival: football growth), grades
+the week (family: energy; friends: fun and social; Tyler as a rival: skill points), grades
 (teacher) and recruiting (final-season coach recommendation; a teacher who vouches eases college
-GPA minimums). Every effect is zero at 50, the starting value. Coach, holder and teacher are new
+GPA minimums). Team standing (your teammates) is a ninth entry: kicks move it, it calms or rattles you
+on game day, and it backs the coach's word. Every effect is zero at 50, the starting value. Coach, holder and teacher are new
 each stage (the old ones are listed as Former); Tyler Brooks signs with his own college and pro
 club, shows up on your schedule once you've met him, and is your teammate if you pick his school.
 Save version 3 (older saves get the current stage's cast at 50).
+
+**Skill points, range and kick trust (save version 4):** football attributes grow through
+skill points, not passive growth (the old weekly / offseason / per-make growth knobs are kept at 0).
+Points come from makes (long, clutch and game-winning ones earn more), perfect games, weekly
+practice, offseason training, good seasons and scenario choices (`"skill_points": n`); the Skills
+screen (Hub: tap the range strip) spends them one attribute point at a time, at a cost that rises
+with the level, with a preview of what the point changes. **Field goal range** comes from Power
+(`KickRange`: a new freshman kicks 40, Power 100 reaches 66, perks will add a little, hard cap 70);
+rest and health add yards on game day and fatigue, illness and injury take them away (Game Day
+Outlook: "Rested: +2 yds"). The kick's top launch speed is set from today's range, so a full
+flick clears the bar at exactly that distance; Practice and Challenge are unchanged. **Kickoff
+range** is its own Power curve; `CareerGameMode.kickoff_rules_for(..., profile)` sets the carry so
+a full kickoff reaches it, and `KickModifiers.kickoff_range_yd` / `kickoff_mult` carry it for kickoff
+code that scales carry directly. The coach calls field goals up to your range minus 2 (plus or
+minus his relationship). Every field goal and extra point you kick moves the coach and your **Team
+standing** (`KickTrust`: misses cost more than makes earn, scaled by the situation and the kick's
+difficulty; Resilience and Leadership soften misses). Too many misses (the last 5 attempts, or the
+season FG%) start **coach doubt**: shorter and fewer field goal calls for a few weeks, explained on
+the Outlook, and the `kicking_slump` flag (HS_142 can follow). Recruiting, the draft and pro
+retention count range; the coach's recommendation uses Coach and Team.
 
 **Tests:** `godot --headless --path . res://tests/run_tests.tscn` runs every `test_*` method in
 `tests/test_*.gd` (add `-- only=test_saves` for one file) and exits with the number of failing

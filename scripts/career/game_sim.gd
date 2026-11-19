@@ -28,14 +28,19 @@ var miss_streak: int = 0
 ## skipped it). Lasts until halftime; offered at most once per half.
 var warm_modifier: String = ""
 var _warmup_offered_this_half := false
-## Everything you kicked: {kind, yards, made, result, pressure, label}.
+## Everything you kicked: {kind, yards, made, result, pressure, label, us, them
+## (score before the kick), q, left (seconds left in the game), backup}.
 var kicks: Array = []
+## True when the backup kicks for you (you sat out): KickTrust skips these.
+var backup: bool = false
 ## "pure" / "loose" / "skipped", one per warmup offer.
 var warmups: Array = []
 
 var _t: CareerTuning
 var _rng := RandomNumberGenerator.new()
 var _max_fg_yards: int = 60
+## Coach doubt (KickTrust): field goal drives happen this much as often.
+var _fg_chance_mult: float = 1.0
 var _wind_base: float = 0.0
 var _gusty: bool = false
 var _queue: Array = []
@@ -67,6 +72,7 @@ func setup(c: CareerData, week_entry: Dictionary, tuning: CareerTuning, seed: in
 	them = week_entry.get("opponent", {})
 	home = bool(week_entry.get("home", true))
 	_max_fg_yards = max_fg_yards
+	_fg_chance_mult = tuning.doubt_fg_chance_mult if not c.coach_doubt.is_empty() else 1.0
 	var weather: Dictionary = week_entry.get("weather", {})
 	_wind_base = float(weather.get("wind", 0.0))
 	_gusty = bool(weather.get("gusty", false))
@@ -121,7 +127,11 @@ func resolve_call(result: Dictionary) -> void:
 		return
 	var kind: String = call["kind"]
 	var entry := {"kind": kind, "yards": int(call.get("yards", 0)),
-		"pressure": float(call.get("pressure", 0.0)), "label": str(call.get("label", ""))}
+		"pressure": float(call.get("pressure", 0.0)), "label": str(call.get("label", "")),
+		"us": int(call.get("us", 0)), "them": int(call.get("them", 0)), "q": int(call.get("q", 1)),
+		"left": float(call.get("left", 0.0))}
+	if backup:
+		entry["backup"] = true
 	match kind:
 		"fg", "pat":
 			var made := bool(result.get("made", false))
@@ -222,7 +232,7 @@ func _drive_duration() -> float:
 func _our_drive(start: float, dur: float) -> void:
 	var adv := (float(us.get("strength", 50)) - float(them.get("strength", 50))) / 100.0 * _t.strength_effect
 	var td := clampf(_t.base_td_chance + adv, 0.05, 0.75)
-	var fg := clampf(_t.base_fg_chance + adv * 0.3, 0.05, 0.5)
+	var fg := clampf(_t.base_fg_chance + adv * 0.3, 0.05, 0.5) * _fg_chance_mult
 	var roll := _rng.randf()
 	var spot := _rng.randi_range(15, 40)
 	elapsed = start
@@ -309,7 +319,8 @@ func _push_kickoff_after_score() -> void:
 
 
 func _push_call(kind: String, yards: int = 0) -> void:
-	var e := {"type": "call", "kind": kind, "elapsed": elapsed, "us": score_us, "them": score_them}
+	var e := {"type": "call", "kind": kind, "elapsed": elapsed, "us": score_us, "them": score_them,
+		"q": quarter(), "left": maxf(_quarter_sec() * 4.0 - elapsed, 0.0)}
 	if kind == "pat":
 		yards = int(_p["pat"])
 	e["yards"] = yards

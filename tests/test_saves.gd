@@ -104,7 +104,11 @@ func test_pre_relationship_saves_get_a_neutral_cast() -> void:
 	eq(Relationships.role(hs, "coach"), "Head Coach", "HS coach")
 	check(hs.people.has("teacher") and hs.people.has("rival"), "full HS cast")
 	for id in hs.people:
+		if id == Relationships.TEAM:
+			continue  # new in v4: starts from the career's FG% (test_v4_*)
 		eq(Relationships.value(hs, id), 50.0, id + " neutral (no effect on the old save)")
+	var team := Relationships.value(hs, Relationships.TEAM)
+	check(team >= 35.0 and team <= 65.0, "Team standing starts from the record (35-65)")
 	check(Relationships.tyler_team(hs).is_empty(), "Tyler still in high school")
 	var col := _load("career_v2_college.json")
 	eq(Relationships.role(col, "coach"), "Special Teams Coach", "college coach")
@@ -117,7 +121,10 @@ func test_pre_relationship_saves_get_a_neutral_cast() -> void:
 func test_v3_relationships_load_unchanged() -> void:
 	var raw := fixture("career_v3_college.json")
 	var c := _load("career_v3_college.json")
-	eq(JSON.stringify(c.to_dict()["people"]), JSON.stringify(raw["people"]), "people kept exactly")
+	var people: Dictionary = c.to_dict()["people"]
+	check(people.has(Relationships.TEAM), "v4 adds Team standing")
+	people.erase(Relationships.TEAM)
+	eq(JSON.stringify(people), JSON.stringify(raw["people"]), "people kept exactly")
 	eq(JSON.stringify(c.to_dict()["former_people"]), JSON.stringify(raw["former_people"]), "former people kept")
 	check(Relationships.known(c, "rival") and Relationships.value(c, "rival") < 50.0, "Tyler met, a rival")
 	eq(str(Relationships.tyler_team(c).get("stage", "")), "college", "Tyler's college kept")

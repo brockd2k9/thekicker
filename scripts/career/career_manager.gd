@@ -336,8 +336,7 @@ func start_game() -> int:
 ## A GameSim for this week's game (fresh, from the checkpoint seed).
 func new_game_sim(kt: KickTuning) -> GameSim:
 	var sim := GameSim.new()
-	var max_fg := int(profile().max_range_yards(kt) * tuning.coach_range_trust
-		* Relationships.coach_range_mult(data, tuning))
+	var max_fg := KickTrust.coach_limit(data, profile(), tuning)
 	sim.setup(data, entry(), tuning, start_game(), max_fg, Progression.game_params(data, tuning))
 	return sim
 
@@ -356,6 +355,7 @@ func is_ineligible() -> bool:
 ## An academically ineligible week: the game is played without you.
 func _bench_game() -> void:
 	var sim := GameSim.new()
+	sim.backup = true
 	sim.setup(data, entry(), tuning, rng.randi(), 0, Progression.game_params(data, tuning))
 	var backup := RandomNumberGenerator.new()
 	backup.seed = rng.randi()
@@ -387,6 +387,7 @@ func _bench_game() -> void:
 		"mascot": opp.get("mascot", ""), "home": entry().get("home", true), "us": sim.score_us,
 		"them": sim.score_them, "outcome": outcome, "kicks": [], "line": "Sat out (grades)",
 		"changes": applied}
+	_week_practice()
 	data.phase = PHASE_RESULTS
 
 
@@ -397,6 +398,16 @@ func finish_game(summary: Dictionary) -> void:
 	data.record[{"W": "w", "L": "l", "T": "t"}[outcome]] += 1
 	var changes := game_changes(summary)
 	var applied := CareerStats.apply(data, changes, tuning)
+	# Coach / Team from your kicks (the same steps the game screen showed),
+	# then skill points. Both read today's range and the pre-game window.
+	var range := profile().fg_range
+	var trust := KickTrust.apply_game(data, summary.get("kicks", []), range, tuning)
+	for pair in SkillPoints.from_game(summary.get("kicks", []), range, tuning):
+		SkillPoints.earn(data, int(pair[1]), str(pair[0]))
+	var warm_res: Dictionary = CareerContent.game_day().get("warmup", {}).get("results", {})
+	for w in summary.get("warmups", []):
+		SkillPoints.earn(data, int(warm_res.get(str(w), {}).get("skill_points", 0)), "Sideline warmup")
+	_week_practice()
 	var line := _record_kicks(summary.get("kicks", []))
 	var e := entry()
 	e["result"] = {"us": summary.get("us", 0), "them": summary.get("them", 0), "outcome": outcome}
@@ -409,7 +420,7 @@ func finish_game(summary: Dictionary) -> void:
 		"mascot": opp.get("mascot", ""), "home": e.get("home", true),
 		"us": summary.get("us", 0), "them": summary.get("them", 0),
 		"outcome": outcome, "kicks": summary.get("kicks", []), "warmups": summary.get("warmups", []),
-		"line": line, "changes": applied}
+		"line": line, "changes": applied, "trust": trust}
 	data.game_checkpoint = {}
 	data.phase = PHASE_RESULTS
 	save()
@@ -515,7 +526,18 @@ func _finish_bye() -> void:
 	var applied := CareerStats.apply(data, {"energy": tuning.bye_energy_recovery,
 		"health": tuning.bye_health_recovery}, tuning)
 	data.last_week = {"type": "bye", "week": data.week, "changes": applied}
+	_week_practice()
 	data.phase = PHASE_RESULTS
+
+
+## This week's practice skill points (shown on the Results screen): the weekly
+## practice (less when Energy is low) and a rival Tyler pushing you.
+func _week_practice() -> void:
+	var tired := data.stat("energy") < tuning.low_energy_threshold
+	SkillPoints.earn(data, tuning.sp_weekly_practice_tired if tired else tuning.sp_weekly_practice,
+		"Practice" + (" (tired)" if tired else ""))
+	SkillPoints.earn(data, Relationships.rival_sp(data, tuning),
+		"%s pushing you" % Relationships.name_of(data, Relationships.TYLER))
 
 
 # --- end of week / season -----------------------------------------------------------
@@ -535,6 +557,9 @@ func end_week() -> void:
 		growth[k] = float(growth.get(k, 0.0)) + float(rel[k])
 	CareerStats.apply(data, growth, tuning)
 	Relationships.end_week(data, tuning)
+	KickTrust.end_week(data)
+	data.sp_week.clear()
+	data.trust_week = {}
 	if data.is_injured():
 		data.injury["weeks_left"] = int(data.injury["weeks_left"]) - 1
 		if int(data.injury["weeks_left"]) <= 0:
@@ -556,9 +581,15 @@ func end_season() -> void:
 		return
 	var poor := Progression.is_poor_season(data, tuning)
 	data.poor_streak = data.poor_streak + 1 if poor else 0
+	var bonus := SkillPoints.season_bonus(data, tuning)
+	SkillPoints.earn(data, bonus, "Season bonus")
+	data.sp_week.clear()
 	var h := {"stage": data.stage, "season": data.season, "season_in_stage": data.season_in_stage,
 		"year": class_year(), "team": data.team.get("name", ""), "age": data.age,
-		"record": data.record.duplicate(), "stats": data.season_stats.duplicate()}
+		"record": data.record.duplicate(), "stats": data.season_stats.duplicate(),
+		"sp": data.sp_season, "sp_bonus": bonus,
+		"fg_range": snappedf(KickRange.fg_range(data, tuning), 0.1),
+		"kickoff_range": snappedf(KickRange.kickoff_range(data, tuning), 0.1)}
 	# Recorded first, so a retirement at the age cap includes this season.
 	data.history.append(h)
 	match data.stage:
@@ -627,6 +658,11 @@ func _start_next_season() -> void:
 		growth[k] = (tuning.start_life - data.stat(k)) * tuning.offseason_life_reset
 	CareerStats.apply(data, growth, tuning)
 	data.injury = {"weeks_left": 0, "severity": 0.0}
+	data.sp_season = 0
+	SkillPoints.earn(data, tuning.sp_offseason, "Offseason training")
+	data.sp_week.clear()
+	data.notice = "Offseason training: +%d skill points. You have %d to spend in Skills." \
+		% [tuning.sp_offseason, data.skill_points]
 	data.season += 1
 	data.season_in_stage += 1
 	data.age += 1

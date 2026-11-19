@@ -259,7 +259,9 @@ static func apply_choice(c: CareerData, id: String, index: int, tuning: CareerTu
 	if choice_lock(c, ch) != "":
 		push_warning("ScenarioEngine: choice %d of '%s' is locked" % [index, id])
 		return {}
-	var applied := CareerStats.apply(c, ch.get("stats", {}), tuning)
+	var applied := CareerStats.apply(c, scaled_stats(ch.get("stats", {}), tuning), tuning)
+	var sp := SkillPoints.from_choice(c, float(ch.get("skill_points", 0)), tuning) \
+		if ch.has("skill_points") else 0
 	var progress := progress_changes(ch)
 	c.recruiting_score = clampf(c.recruiting_score + float(progress.get("recruiting", 0.0)), 0.0, 100.0)
 	c.draft_score = clampf(c.draft_score + float(progress.get("draft", 0.0)), 0.0, 100.0)
@@ -293,7 +295,19 @@ static func apply_choice(c: CareerData, id: String, index: int, tuning: CareerTu
 	cats[cat] = int(cats.get(cat, 0)) + 1
 	return {"applied": applied, "new_traits": applied.get("new_traits", []),
 		"result": str(ch.get("result", "")), "modifiers": mods, "follow_up": follow,
-		"progress": progress, "relationships": rel}
+		"progress": progress, "relationships": rel, "skill_points": sp}
+
+
+## A choice's stat changes with the football ones scaled by
+## scenario_football_scale (skill points are the main football growth now).
+static func scaled_stats(stats: Dictionary, tuning: CareerTuning) -> Dictionary:
+	if is_equal_approx(tuning.scenario_football_scale, 1.0) or not stats.has(CareerData.FOOTBALL):
+		return stats
+	var out := stats.duplicate(true)
+	var fb: Dictionary = out[CareerData.FOOTBALL]
+	for k in fb:
+		fb[k] = float(fb[k]) * tuning.scenario_football_scale
+	return out
 
 
 ## A choice's progression changes: {"recruiting": 4, "grades": 0.2, ...}.

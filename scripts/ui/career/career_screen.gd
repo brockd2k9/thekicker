@@ -5,7 +5,8 @@ extends MenuScreen
 ## (e.g. after a quit). Back goes to the Career Hub.
 
 ## Screens you can open at any step (the rest follow the career's phase).
-const FREE_SCREENS := [Screens.CAREER_HUB, Screens.CAREER_STATS, Screens.CAREER_PEOPLE]
+const FREE_SCREENS := [Screens.CAREER_HUB, Screens.CAREER_STATS, Screens.CAREER_PEOPLE,
+	Screens.CAREER_SKILLS]
 
 var career: CareerManager
 

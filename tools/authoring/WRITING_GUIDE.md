@@ -60,13 +60,15 @@ file plus the template entries you want written to whoever is writing.
   "label": "Ask him to work on kicks together",       // the button, 2-7 words, an action
   "result": "He looks surprised, then shrugs. ...",   // what happened, 1-2 sentences
   "stats": {"football": {"accuracy": 1}, "personality": {"charisma": 1, "leadership": 1}},
+  "skill_points": 2,                                  // optional: skill points earned
   "modifiers": ["focused"],                           // game-day modifier, at least one
   "set_flags": {"befriended_tyler": true},            // story flags (from must_set_flags)
   "rel": {"rival": 8}                                 // relationship changes
 }
 ```
 
-Optional choice fields: `"recruiting": 3` (recruiting points), `"grades": 0.1` (GPA points),
+Optional choice fields: `"skill_points": 2` (see below), `"recruiting": 3` (recruiting points),
+`"grades": 0.1` (GPA points),
 `"requires"` + `"lock_text"` (a locked choice), `"follow_up": {"id": "...", "weeks": 2}`.
 Empty slots and zeros left from the template are fine; the importer drops them.
 
@@ -84,9 +86,9 @@ Empty slots and zeros left from the template are fine; the importer drops them.
 
 ## Stats: scale and ranges
 
-Stats run 0-100. Life stats swing a lot week to week; football stats grow slowly (practice and
-games add a little every week); personality stats shape who the player becomes (traits unlock at
-55-60).
+Stats run 0-100. Life stats swing a lot week to week; football stats grow mostly through **skill
+points** the player earns and spends (see below); personality stats shape who the player becomes
+(traits unlock at 55-60).
 
 | Group | Stats | Typical per choice | Allowed (hard limit) |
 |---|---|---|---|
@@ -97,9 +99,28 @@ games add a little every week); personality stats shape who the player becomes (
 | `grades` | GPA points (0-4 scale) | ±0.05 to ±0.2 | -0.2 to +0.4 |
 
 2-5 stat changes per choice reads best. Positive football changes are valuable: use them for
-real practice, film study, or learning from a mistake.
+real practice, film study, or learning from a mistake. Keep them small: skill points are the main
+football reward now.
 
-What the stats do: Power = range; Accuracy = aim; Resilience = composure under pressure;
+### Skill points (`skill_points`, optional)
+
+Football attributes (Power, Accuracy, Resilience, Toughness) grow mainly through skill points:
+the player earns them for kicks, practice and choices, then spends them on the Skills screen.
+A choice can award them with `"skill_points": n` (a whole number, -2 to +6):
+
+| Choice | Typical `skill_points` |
+|---|---|
+| Real practice, extra reps, film study, a training camp (category `training`) | +2 to +4 |
+| Other choices where the kicker works on their game or learns from a mistake | +1 to +3 |
+| Skipping practice / a bad habit (rare) | -1 or -2 |
+| Everything else | leave it out |
+
+It counts as a change for rule 1 below, and the choice card shows it as a chip. Leave it out
+(or 0) when the choice isn't about getting better. Skill points and a small direct football
+change can go together (`"football": {"accuracy": 1}` plus `"skill_points": 2`).
+
+What the stats do: Power = field goal and kickoff range (a new freshman kicks 40 yards, a great
+pro mid-60s); Accuracy = aim; Resilience = composure under pressure;
 Toughness = wind and injuries; Energy, Health and Social hurt your kicking when low; Fun keeps
 Resilience growing; Intelligence raises GPA.
 
@@ -132,7 +153,7 @@ next game). Pick what the choice would really do to someone the night before or 
 
 ## Relationships (`rel`)
 
-Eight people, each with a value 0-100 that starts at 50. Values change the game: a trusted coach
+Nine people (the ninth is your teammates as a group), each with a value 0-100 that starts at 50. Values change the game: a trusted coach
 calms your kicks and sends you out for longer tries; a good holder means cleaner kicks; family keeps
 your energy up; friends keep your fun and social life up; a teacher helps grades; Tyler as a friend
 steadies you, as a rival pushes you to improve.
@@ -140,6 +161,7 @@ steadies you, as a rival pushes you to improve.
 | `rel` id | Who | Placeholder |
 |---|---|---|
 | `coach` | Head coach (later: special teams coach) | `{coach}` → "Coach Rourke" |
+| `team` | Your teammates as a group (Team standing; every made or missed kick moves it too) | `{team}` → "Teammates" |
 | `holder` | Your holder | `{holder}` |
 | `teacher` | A teacher (college: academic advisor; none in the pros) | `{teacher}` → "Ms. Alvarez" |
 | `best_friend` | Your best friend | `{best_friend}` |
@@ -150,6 +172,10 @@ steadies you, as a rival pushes you to improve.
 
 - **Range per choice: -15 to +15. Typical: ±3 to ±8.** ±10 and up for a big moment (a betrayal,
   a real sacrifice for someone).
+- `coach` and `team` also move with every field goal and extra point the player kicks (misses
+  cost more than makes earn). Owning a missed kick in a scenario (`"rel": {"coach": 4}`) is how a
+  player wins trust back. When field goal misses pile up the game sets the flag `kicking_slump`
+  (HS_142 "The Coach Wants an Explanation" can then appear).
 - Only give `rel` to people actually in the scene. The template pre-fills a 0 slot for each person
   in `_info.people`; leave 0 to skip.
 - Tyler and someone special stay hidden from the player until a scenario first gives them a `rel`

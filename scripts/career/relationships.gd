@@ -1,18 +1,22 @@
 class_name Relationships
 extends RefCounted
-## The recurring cast: head coach, holder, teacher, best friend, Tyler Brooks,
-## Dad, your little brother and someone special (data/career/people.json).
+## The recurring cast: head coach, your teammates (Team standing), holder,
+## teacher, best friend, Tyler Brooks, Dad, your little brother and someone
+## special (data/career/people.json).
 ##
 ## Each person is CareerData.people[id] = {name, value 0..100, known, week_change,
 ## stage, team (Tyler only)}; story flags stay in CareerData.flags. Scenario
 ## choices change values ("rel": {coach: 5}), scenarios can require them
 ## (min/max "rel_coach"), and values feed back into the game:
-##   game day   coach (pressure, how far the coach lets you try), holder (aim),
+##   game day   coach (pressure, how far the coach lets you try), team
+##              (pressure), holder (aim),
 ##              Tyler (friend: calmer; playing his team: pressure either way)
 ##   weekly     Dad / brother (energy), best friend / someone special (fun,
 ##              social), Tyler as a rival (football growth)
 ##   season     teacher (GPA)
-##   recruiting final season coach recommendation, teacher vouching (GPA minimums)
+##   recruiting final season coach recommendation (trust: coach + team),
+##              teacher vouching (GPA minimums); draft: trust every college season
+## Coach and Team also move with every kick you take (KickTrust).
 ## Every effect is zero at 50 (the start), so a career nobody has moved plays
 ## exactly as before. Numbers: CareerTuning "Relationships".
 ##
@@ -25,6 +29,7 @@ extends RefCounted
 const FILE := "people.json"
 const NEUTRAL := 50.0
 const TYLER := "rival"
+const TEAM := "team"
 
 
 static func defs() -> Array:
@@ -165,6 +170,10 @@ static func profile_lines(c: CareerData, t: CareerTuning) -> Array:
 	if k != 0.0:
 		out.append(["%s %s" % [name_of(c, "coach"), "believes in you" if k > 0.0 else "has doubts"],
 			{"pressure_sensitivity": t.rel_coach_pressure * k}])
+	k = lean(c, TEAM)
+	if k != 0.0:
+		out.append(["Your teammates %s" % ("trust you" if k > 0.0 else "have doubts"),
+			{"pressure_sensitivity": t.rel_team_pressure * k}])
 	k = lean(c, "holder")
 	if k != 0.0:
 		out.append(["%s's holds" % name_of(c, "holder"), {"accuracy_spread_deg": t.rel_holder_spread * k}])
@@ -180,9 +189,15 @@ static func profile_lines(c: CareerData, t: CareerTuning) -> Array:
 	return out
 
 
-## Multiplier on how far past your range the coach will send you out.
-static func coach_range_mult(c: CareerData, t: CareerTuning) -> float:
-	return 1.0 + t.rel_coach_range * lean(c, "coach")
+## Yards the coach relationship adds to (or takes from) his longest call.
+static func coach_range_yd(c: CareerData, t: CareerTuning) -> float:
+	return t.rel_coach_range_yd * lean(c, "coach")
+
+
+## Trust (0..100): the coach's word, backed by the locker room.
+static func trust(c: CareerData, t: CareerTuning) -> float:
+	var w := t.rel_trust_coach_weight
+	return value(c, "coach") * w + value(c, TEAM) * (1.0 - w)
 
 
 ## Stat changes added to the end-of-week growth: {stat: change}, non-zero only.
@@ -223,12 +238,27 @@ static func teacher_grace(c: CareerData, t: CareerTuning) -> float:
 static func coach_recommendation(c: CareerData, t: CareerTuning) -> float:
 	if not c.people.has("coach"):
 		return 0.0
-	var v := value(c, "coach")
+	var v := trust(c, t)
 	if v >= t.rel_rec_high:
 		return t.rel_rec_bonus
 	if v <= t.rel_rec_low:
 		return -t.rel_rec_penalty
 	return 0.0
+
+
+## Draft points from the coach's word this college season: +/- rel_draft_rec,
+## linear from 50 (trust).
+static func draft_recommendation(c: CareerData, t: CareerTuning) -> float:
+	if not c.people.has("coach"):
+		return 0.0
+	return t.rel_draft_rec * clampf((trust(c, t) - NEUTRAL) / NEUTRAL, -1.0, 1.0)
+
+
+## Skill points per week from a rival Tyler (below 50, once you know him).
+static func rival_sp(c: CareerData, t: CareerTuning) -> int:
+	if not known(c, TYLER) or lean(c, TYLER) >= 0.0:
+		return 0
+	return roundi(t.rel_tyler_rival_sp * -lean(c, TYLER))
 
 
 static func _add(g: Dictionary, k: String, v: float) -> void:

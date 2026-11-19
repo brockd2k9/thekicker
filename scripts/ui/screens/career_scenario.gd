@@ -48,8 +48,11 @@ func _build(col: VBoxContainer) -> void:
 		if lock != "":
 			var req := UiKit.chip(CareerContent.fill(lock, vars), UiKit.WARN, false, "lock", 22)
 			v.add_child(req)
-		var preview := CareerStats.preview(c, ch.get("stats", {}), career.tuning)
+		var preview := CareerStats.preview(c, ScenarioEngine.scaled_stats(ch.get("stats", {}), career.tuning), career.tuning)
 		v.add_child(CareerUi.change_chips(preview))
+		var sp := roundi(float(ch.get("skill_points", 0)) * career.tuning.sp_scenario_scale)
+		if sp != 0:
+			v.add_child(UiKit.chip("%+d Skill Points" % sp, UiKit.ACCENT if sp > 0 else UiKit.BAD, false, "skill", 22))
 		if ch.get("rel") is Dictionary and not (ch["rel"] as Dictionary).is_empty():
 			v.add_child(CareerUi.rel_chips(c, ch["rel"]))
 		var mods: Array = ch.get("modifiers", [])

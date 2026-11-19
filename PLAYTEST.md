@@ -128,12 +128,66 @@ Stage 6: leadership leaners 1.1 by the end of high school (3% have none, was 28%
 Knobs: `personality_change_scale` (0.30), trait thresholds in `data/career/traits.json`,
 personality numbers in the scenario files.
 
+## Skill points, range and kick trust (Step 2)
+
+Built: skill points (earned on the field and in practice, spent on the Skills screen), field goal
+range and kickoff range from Power (a full flick reaches your range and no further), game-day range
+from life stats, the coach's longest call from your range, Team standing, Coach / Team changes from
+every kick, and coach doubt after too many misses. Numbers: `career_tuning.tres` groups "Power ->
+Range", "Game Day Range", "Skill Points", "Relationships". Save version 4.
+
+**Simulator check (careers=6, seed=1, balanced spending; full report in Step 4):** the economy is
+richer than planned. Skill points per season: HS 46-68, college 53-70, pro 61-77 (planned ~45 /
+60 / 70). Attribute points bought by the end of HS: 64-84 (all four summed), plus 13-48 more
+directly from scenario choices. FG range at the end of HS 53-58 (target 48-50) and of college
+59-65 (target 52-55). More careers reach the pros (85%, baseline 68%) and the draft (69%, baseline
+25%). Step 4 levers: skill point income (`sp_*`), the cost curve (`upgrade_cost_*`), the range
+curve (`range_curve`, `range_at_100`), `scenario_football_scale`, and the draft / recruiting
+range terms.
+
+**One-time pass: `skill_points` added to the scenarios already in the game** (choices that already
+gave football gains; +1 to +3, training +2 to +4; the template files were not touched):
+
+| File | Scenario | Category | skill_points per choice | Existing football changes per choice |
+|---|---|---|---|---|
+| hs | `hs_exam_vs_film` Exam or Film? | school | - / 1 / - / - | - / toughness +1 / - / - |
+| hs | `hs_extra_practice` Coach Wants Extra Reps | training | 4 / 2 / - | accuracy +3 / accuracy +1 / - |
+| hs | `hs_tweaked_hamstring` Tight Hamstring | health | - / 2 / - | - / toughness +2 / - |
+| hs | `hs_viral_followup` The Comments Section | media | 2 / - / 1 | resilience +2 / - / resilience +1 |
+| hs | `hs_kicker_battle` Kicker Battle | training | 4 / - / - | power +2, accuracy +1 / - / - |
+| hs | `hs_family_dinner` Grandparents in Town | family | - / - / 1 | - / - / accuracy +1 |
+| hs | `hs_scholarship_camp` Scholarship Camp | career | 3 / 3 / - | power +2, accuracy +2 / accuracy +3 / - |
+| hs | `hs_recruiting_visit` A Coach in the Stands | career | 1 / 1 / - | power +1 / accuracy +1 / - |
+| hs | `hs_showcase` Regional Showcase | career | 2 / - / - | power +1, accuracy +1 / - / - |
+| college | `col_class_load` Heavy Class Load | school | - / 3 / - | - / accuracy +2, power +1 / - |
+| college | `col_media_day` Media Day | media | - / - / 1 / - | - / - / accuracy +1 / - |
+| college | `col_new_technique` New Coordinator, New Technique | training | 4 / 2 / 2 | accuracy +3, power -1 / power +1 / accuracy +1 |
+| college | `col_internship` Internship or Training? | career | - / 3 / 1 | power -1 / power +3, accuracy +2 / accuracy +1 |
+| college | `col_pro_scouts` Scouts at Practice | career | 2 / 2 / - | power +2 / accuracy +2 / - |
+| college | `col_walkon_battle` Earn Your Spot | training | 3 / - / - | power +1, accuracy +1 / - / - |
+| college | `col_combine_invite` Combine Invite | career | 2 / - / 1 | power +2 / - / resilience +1 |
+| pro | `pro_contract_talks` Contract Talks | money | - / - / 1 / - | - / - / resilience +1 / - |
+| pro | `pro_media_interview` Postgame Questions | media | 1 / - / - / 2 | resilience +1 / - / - / resilience +2 |
+| pro | `pro_holder_chemistry` Holder Chemistry | training | 4 / - / 2 | accuracy +3 / - / toughness +1 |
+| pro | `pro_cold_snap` Cold Snap | health | 3 / 1 / 1 | toughness +3 / accuracy +1 / toughness +1 |
+| pro | `pro_trade_rumors` Trade Rumors | career | 1 / - / - | resilience +1 / - / - |
+| shared | `bye_weekend` Bye Week | health | - / 3 / - | - / power +2, accuracy +2 / - |
+| shared | `offseason_focus` Offseason Training | training | 4 / 4 / 4 / 4 | power +5 / accuracy +5 / resilience +5 / toughness +5 |
+| traits | `trait_community_service` Community Service Day | community | 1 / - / - | toughness +1 / - / - |
+| traits | `trait_youth_camp` Youth Kicking Camp | community | 1 / - / - | accuracy +1 / - / - |
+| traits | `trait_charity_event` Charity Kick-a-Thon | community | 1 / - / - | power +1 / - / - |
+| traits | `trait_mentoring` Mentoring a Younger Kicker | team | 1 / - / - | accuracy +1 / - / - |
+| traits | `trait_film_room` Coaches' Film Room | training | 2 / - / - | toughness +1 / - / - |
+| traits | `trait_private_coach` Private Kicking Coach | training | 4 / 3 / - | accuracy +2, power +1 / resilience +2 / - |
+
 ## To playtest (final list)
 Most important first. Simulator numbers are from `tools/career_sim_baseline.md`; the sim's kicks
 are a stand-in for real swipes, so everything involving kicking quality needs a real-phone check.
 
 **Kick difficulty (career_tuning.tres "Power", "Accuracy", "Resilience", "Toughness", "Profile Caps")**
-1. Power curve 0.82 -> 1.08: a power-30 freshman needs ~83% swipe power for 50 yd. Too punishing?
+1. Field goal range 40 yd (new freshman) -> 66 yd (Power 100), a full flick reaching exactly your
+   range (Step 2). Does a 40-yd freshman feel right, and is a full-range kick reachable with a real
+   flick (the swipe needs 100% power)? Kickoff range 52 -> 75 yd.
 2. Aim error 2.2 deg -> 0.2 deg and wobble 1.35 -> 0.75 by Accuracy. Does a 30-accuracy freshman
    feel shaky but playable?
 3. Low-stat penalties start at 40 (`low_*_threshold`); Energy is the one that bites most.

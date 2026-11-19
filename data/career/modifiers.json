@@ -1,8 +1,8 @@
 {
-	"_doc": "Game-day modifiers. A scenario choice adds modifier ids for this week; KickProfile.build() adds each modifier's 'effects' to the kick profile, and the Game Day Outlook lists it. Effect keys are KickProfile fields: power_mult, accuracy_spread_deg, wobble_mult, window_mult, pressure_sensitivity, pressure_add, wind_mult, injury_risk. 'words' is how each field is described on the Outlook: [when it helps, when it hurts]. 'states' are the Outlook labels for penalties that come from the stats themselves (their sizes are in tuning/career_tuning.tres).",
+	"_doc": "Game-day modifiers. A scenario choice adds modifier ids for this week; KickProfile.build() adds each modifier's 'effects' to the kick profile, and the Game Day Outlook lists it. Effect keys are KickProfile fields: range_yd (yards of field goal and kickoff range), accuracy_spread_deg, wobble_mult, window_mult, pressure_sensitivity, pressure_add, wind_mult, injury_risk. 'words' is how each field is described on the Outlook: [when it helps, when it hurts]. 'states' are the Outlook labels for penalties that come from the stats themselves (their sizes are in tuning/career_tuning.tres).",
 
 	"words": {
-		"power_mult": ["+power", "-power"],
+		"range_yd": ["+range", "-range"],
 		"accuracy_spread_deg": ["+accuracy", "-accuracy"],
 		"wobble_mult": ["steadier aim", "+aim wobble"],
 		"window_mult": ["+time to kick", "-time to kick"],
@@ -13,6 +13,8 @@
 	},
 
 	"states": {
+		"rested_legs": {"label": "Rested", "note": "Energy is high"},
+		"healthy": {"label": "Healthy", "note": "Health is high"},
 		"low_energy": {"label": "Exhausted", "note": "Energy is low"},
 		"low_health": {"label": "Banged Up", "note": "Health is low"},
 		"low_fun": {"label": "Burned Out", "note": "Fun is low: slower Resilience gains"},
@@ -32,13 +34,13 @@
 			"id": "tired",
 			"label": "Tired",
 			"description": "Short on sleep.",
-			"effects": {"wobble_mult": 0.15, "power_mult": -0.03}
+			"effects": {"wobble_mult": 0.15, "range_yd": -1}
 		},
 		{
 			"id": "late_night",
 			"label": "Late Night",
 			"description": "Out way too late before game day.",
-			"effects": {"wobble_mult": 0.25, "power_mult": -0.05, "accuracy_spread_deg": 0.4}
+			"effects": {"wobble_mult": 0.25, "range_yd": -2, "accuracy_spread_deg": 0.4}
 		},
 		{
 			"id": "dialed_in",
@@ -50,13 +52,13 @@
 			"id": "heavy_legs",
 			"label": "Heavy Legs",
 			"description": "Trained too hard this week.",
-			"effects": {"power_mult": -0.05}
+			"effects": {"range_yd": -2}
 		},
 		{
 			"id": "fresh_legs",
 			"label": "Fresh Legs",
 			"description": "Took it easy on the leg this week.",
-			"effects": {"power_mult": 0.03}
+			"effects": {"range_yd": 1}
 		},
 		{
 			"id": "scouted",
@@ -86,7 +88,7 @@
 			"id": "pumped_up",
 			"label": "Pumped Up",
 			"description": "The crowd and the moment have you buzzing.",
-			"effects": {"power_mult": 0.04, "wobble_mult": 0.1}
+			"effects": {"range_yd": 2, "wobble_mult": 0.1}
 		},
 		{
 			"id": "focused",
@@ -98,7 +100,7 @@
 			"id": "spotlight",
 			"label": "In the Spotlight",
 			"description": "Everyone's watching you this week.",
-			"effects": {"pressure_add": 0.08, "power_mult": 0.02}
+			"effects": {"pressure_add": 0.08, "range_yd": 1}
 		},
 		{
 			"id": "drained",
@@ -110,13 +112,13 @@
 			"id": "inspired",
 			"label": "Inspired",
 			"description": "You remember why you love this.",
-			"effects": {"pressure_sensitivity": -0.1, "power_mult": 0.02}
+			"effects": {"pressure_sensitivity": -0.1, "range_yd": 1}
 		},
 		{
 			"id": "warmed_up",
 			"label": "Warmed Up",
 			"description": "Pure strikes into the sideline net.",
-			"effects": {"accuracy_spread_deg": -0.3, "power_mult": 0.02}
+			"effects": {"accuracy_spread_deg": -0.3, "range_yd": 1}
 		},
 		{
 			"id": "loose",
@@ -128,13 +130,13 @@
 			"id": "cold_leg",
 			"label": "Cold Leg",
 			"description": "Skipped the sideline warmup.",
-			"effects": {"power_mult": -0.04, "accuracy_spread_deg": 0.35}
+			"effects": {"range_yd": -2, "accuracy_spread_deg": 0.35}
 		},
 		{
 			"id": "sore",
 			"label": "Sore",
 			"description": "A knock you're kicking through.",
-			"effects": {"power_mult": -0.04, "accuracy_spread_deg": 0.3, "injury_risk": 0.03}
+			"effects": {"range_yd": -2, "accuracy_spread_deg": 0.3, "injury_risk": 0.03}
 		}
 	]
 }

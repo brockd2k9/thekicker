@@ -17,3 +17,10 @@ var window_mult: float = 1.0
 var wobble_mult: float = 1.0
 ## Toughness -> scales how hard the wind pushes the ball.
 var wind_mult: float = 1.0
+## Career kickoff range: yards of carry a full-strength kickoff flick reaches
+## (0 = not set: Practice / Challenge). kickoff_mult = kickoff_range_yd /
+## KickoffRules' default max_carry_yards, for kickoff code that scales carry
+## directly. (The current kickoff reads KickoffRules.max_carry_yards * power_mult;
+## CareerGameMode.kickoff_rules_for() sets max_carry so that also lands here.)
+var kickoff_range_yd: float = 0.0
+var kickoff_mult: float = 1.0

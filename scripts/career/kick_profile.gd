@@ -9,7 +9,9 @@ extends RefCounted
 ## It also writes the Game Day Outlook lines from the same numbers, so what the
 ## player reads always matches what the kick does.
 ##
-##   Power      -> power_mult           (range: top launch speed)
+##   Power      -> fg_range / kickoff_range (KickRange curves + perks), plus
+##                 range_yd (game-day yards from life stats, injury, modifiers);
+##                 power_mult is derived last so a full flick reaches fg_range
 ##   Accuracy   -> accuracy_spread_deg  (random aim error at release)
 ##                 wobble_mult          (pressure aim wobble)
 ##                 window_mult          (time to swipe after the hold)
@@ -17,9 +19,11 @@ extends RefCounted
 ##                 pressure_add         (miss streak in this game)
 ##   Toughness  -> wind_mult            (wind push), injury penalties, injury_risk
 ##   Energy / Health / Social low -> penalties (see CareerTuning "Low Life Stats")
+##   Energy / Health high -> a few extra yards ("Game Day Range")
 
 ## Profile fields that modifiers and traits may change (data/career/*.json).
-const FIELDS := ["power_mult", "accuracy_spread_deg", "wobble_mult", "window_mult",
+## (Old data may still say "power_mult": it's read as range_yd, see _apply.)
+const FIELDS := ["range_yd", "accuracy_spread_deg", "wobble_mult", "window_mult",
 	"pressure_sensitivity", "pressure_add", "wind_mult", "injury_risk"]
 ## Fields where a smaller number is better for the kicker.
 const LOWER_IS_BETTER := ["accuracy_spread_deg", "wobble_mult", "pressure_sensitivity",
@@ -27,7 +31,18 @@ const LOWER_IS_BETTER := ["accuracy_spread_deg", "wobble_mult", "pressure_sensit
 ## Changes smaller than this don't get an Outlook word.
 const WORD_EPSILON := 0.005
 
+## Derived from fg_range (KickRange.speed_mult_for): the kick's top launch speed.
 var power_mult: float = 1.0
+## Game-day yards added to both ranges (life stats, injury, modifiers, traits).
+var range_yd: float = 0.0
+## Field goal range today (yards): paper range + range_yd, capped.
+var fg_range: float = 40.0
+## Paper field goal range (Power + perks), before game day.
+var fg_range_base: float = 40.0
+## Kickoff range today (yards of carry at a full flick).
+var kickoff_range: float = 52.0
+## Legacy "power_mult" effects -> yards (CareerTuning.legacy_power_mult_yards).
+var _legacy_yards: float = 40.0
 var accuracy_spread_deg: float = 0.0
 var wobble_mult: float = 1.0
 var window_mult: float = 1.0
@@ -47,13 +62,14 @@ var outlook: Array[Dictionary] = []
 static func build(data: CareerData, tuning: CareerTuning, ctx: Dictionary = {}) -> KickProfile:
 	var p := KickProfile.new()
 	var t := tuning
+	p._legacy_yards = t.legacy_power_mult_yards
 	var power := data.stat("power")
 	var acc := data.stat("accuracy")
 	var res := data.stat("resilience")
 	var tough := data.stat("toughness")
 
-	# 1. Football stats set the baseline.
-	p.power_mult = CareerTuning.blend(t.power_mult_at_0, t.power_mult_at_100, power, t.power_curve)
+	# 1. Football stats set the baseline. Range: KickRange (power_mult at the end).
+	p.fg_range_base = KickRange.fg_range(data, t, power)
 	p.accuracy_spread_deg = CareerTuning.blend(t.spread_at_0, t.spread_at_100, acc, t.accuracy_curve)
 	p.wobble_mult = CareerTuning.blend(t.wobble_at_0, t.wobble_at_100, acc)
 	p.window_mult = CareerTuning.blend(t.window_at_0, t.window_at_100, acc)
@@ -61,14 +77,18 @@ static func build(data: CareerData, tuning: CareerTuning, ctx: Dictionary = {}) 
 	p.wind_mult = CareerTuning.blend(t.wind_mult_at_0, t.wind_mult_at_100, tough)
 	p.injury_risk = t.injury_base_risk - t.toughness_injury_risk_cut * tough / 100.0
 
-	# 2. Low life stats.
+	# 2. Life stats: rested / healthy add yards; low ones cost yards and more.
+	if data.stat("energy") >= t.rested_energy and t.rested_range_yd != 0.0:
+		p._add_state("rested_legs", {"range_yd": t.rested_range_yd}, true)
+	if data.stat("health") >= t.healthy_health and t.healthy_range_yd != 0.0:
+		p._add_state("healthy", {"range_yd": t.healthy_range_yd}, true)
 	var f := CareerTuning.lowness(data.stat("energy"), t.low_energy_threshold)
 	if f > 0.0:
 		p._add_state("low_energy", {
-			"power_mult": -t.low_energy_power * f, "wobble_mult": t.low_energy_wobble * f})
+			"range_yd": -t.low_energy_range_yd * f, "wobble_mult": t.low_energy_wobble * f})
 	f = CareerTuning.lowness(data.stat("health"), t.low_health_threshold)
 	if f > 0.0:
-		p._add_state("low_health", {
+		p._add_state("low_health", {"range_yd": -t.low_health_range_yd * f,
 			"accuracy_spread_deg": t.low_health_spread * f, "injury_risk": t.low_health_injury * f})
 	f = CareerTuning.lowness(data.stat("social"), t.low_social_threshold)
 	if f > 0.0:
@@ -81,7 +101,7 @@ static func build(data: CareerData, tuning: CareerTuning, ctx: Dictionary = {}) 
 		var sev := float(data.injury.get("severity", 0.0))
 		var shield := 1.0 - t.toughness_injury_shield * tough / 100.0
 		p._add_state("injured", {
-			"power_mult": -t.injury_power * sev * shield,
+			"range_yd": -t.injury_range_yd * sev * shield,
 			"accuracy_spread_deg": t.injury_spread * sev * shield})
 
 	# 4. Traits' passive effects.
@@ -106,7 +126,8 @@ static func build(data: CareerData, tuning: CareerTuning, ctx: Dictionary = {}) 
 
 	# 5b. The people around you (coach, holder, Tyler Brooks); nothing at neutral.
 	for line in Relationships.profile_lines(data, t):
-		p._add_line(str(line[0]), line[1], "person")
+		if describe(line[1]) != "":  # too small to notice: no Outlook line either
+			p._add_line(str(line[0]), line[1], "person")
 
 	# 6. Miss streak in this game (Resilience and traits soften it).
 	var streak := mini(int(ctx.get("miss_streak", 0)), t.miss_streak_cap)
@@ -115,7 +136,15 @@ static func build(data: CareerData, tuning: CareerTuning, ctx: Dictionary = {}) 
 		p._add_state("miss_streak", {"pressure_add": per * streak * maxf(streak_scale, 0.0)})
 
 	p._clamp(t)
+	p._finish_range(data, t)
 	return p
+
+
+## Today's ranges from the paper range + range_yd, then the launch speed.
+func _finish_range(data: CareerData, t: CareerTuning) -> void:
+	fg_range = clampf(fg_range_base + range_yd, t.range_min, t.range_cap)
+	kickoff_range = clampf(KickRange.kickoff_range(data, t) + range_yd, t.range_min, t.kickoff_range_cap)
+	power_mult = KickRange.speed_mult_for(fg_range, KickRange.kick_tuning(), t.range_physics_margin_yd)
 
 
 ## What the kick scene reads (field_goal_game.gd `modifiers`).
@@ -127,6 +156,8 @@ func to_kick_modifiers() -> KickModifiers:
 	m.window_mult = window_mult
 	m.wobble_mult = wobble_mult
 	m.wind_mult = wind_mult
+	m.kickoff_range_yd = kickoff_range
+	m.kickoff_mult = kickoff_range / KickoffRules.new().max_carry_yards
 	return m
 
 
@@ -158,12 +189,9 @@ func power_needed(yards: float, kt: KickTuning) -> float:
 	return maxf((v - kt.min_launch_speed) / (top - kt.min_launch_speed), 0.0)
 
 
-## Longest field goal (yards) at full swipe power, no wind.
-func max_range_yards(kt: KickTuning) -> int:
-	var yd := 20
-	while yd < 120 and power_needed(yd + 1, kt) <= 1.0:
-		yd += 1
-	return yd
+## Longest field goal (yards) at full swipe power, no wind: today's range.
+func max_range_yards(_kt: KickTuning = null) -> int:
+	return floori(fg_range + 0.001)
 
 
 # --- internals ---------------------------------------------------------------------
@@ -172,9 +200,11 @@ func _apply(effects: Dictionary) -> void:
 	for k in effects:
 		if k in FIELDS:
 			set(k, value(k) + float(effects[k]))
+		elif k == "power_mult":  # old data: power is range now
+			range_yd += float(effects[k]) * _legacy_yards
 
 
-func _add_state(id: String, effects: Dictionary) -> void:
+func _add_state(id: String, effects: Dictionary, good := false) -> void:
 	var s := CareerContent.state(id)
 	_apply(effects)
 	var detail := describe(effects)
@@ -182,7 +212,7 @@ func _add_state(id: String, effects: Dictionary) -> void:
 	if detail == "":
 		detail = note
 	outlook.append({"label": str(s.get("label", id)), "detail": detail, "note": note,
-		"good": false, "source": "state"})
+		"good": good, "source": "state"})
 
 
 func _add_line(label: String, effects: Dictionary, source: String) -> void:
@@ -192,7 +222,6 @@ func _add_line(label: String, effects: Dictionary, source: String) -> void:
 
 
 func _clamp(t: CareerTuning) -> void:
-	power_mult = clampf(power_mult, t.power_mult_min, t.power_mult_max)
 	accuracy_spread_deg = clampf(accuracy_spread_deg, 0.0, t.spread_max)
 	wobble_mult = clampf(wobble_mult, t.wobble_mult_min, t.wobble_mult_max)
 	window_mult = clampf(window_mult, t.window_mult_min, t.window_mult_max)
@@ -209,6 +238,11 @@ static func describe(effects: Dictionary) -> String:
 		if not effects.has(k) or absf(float(effects[k])) < WORD_EPSILON:
 			continue
 		var helps := _helps(k, float(effects[k]))
+		if k == "range_yd":  # yards are worth showing as a number
+			var yd := roundi(float(effects[k]))
+			parts.append(("%+d yd%s" % [yd, "" if absi(yd) == 1 else "s"]) if yd != 0 \
+				else ("+range" if helps else "-range"))
+			continue
 		parts.append(str(CareerContent.words(k)[0 if helps else 1]))
 	return ", ".join(parts)
 
@@ -217,7 +251,9 @@ static func describe(effects: Dictionary) -> String:
 static func net_good(effects: Dictionary) -> bool:
 	var score := 0
 	for k in effects:
-		if k in FIELDS and absf(float(effects[k])) >= WORD_EPSILON:
+		if k == "power_mult":
+			score += 1 if float(effects[k]) > 0.0 else -1
+		elif k in FIELDS and absf(float(effects[k])) >= WORD_EPSILON:
 			score += 1 if _helps(k, float(effects[k])) else -1
 	return score >= 0
 

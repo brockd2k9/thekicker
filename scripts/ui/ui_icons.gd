@@ -52,6 +52,8 @@ const SHAPES := {
 	"handshake": '<path fill="C" d="M2 18 L12 12 L22 16 L30 12 L46 18 V30 L38 30 L28 40 C26 42 23 42 21 40 L10 30 H2 Z"/>',
 	"armband": '<circle cx="24" cy="24" r="20" fill="C"/><path d="M31 16 C28 13 25 12 22 13 C16 14 13 19 13 24 C13 29 16 34 22 35 C25 36 28 35 31 32" fill="none" stroke="#000000aa" stroke-width="5" stroke-linecap="round"/>',
 	"trash": '<path d="M6 11 H42 M18 11 V5 H30 V11" S/><path fill="C" d="M10 15 H38 L35 45 H13 Z"/>',
+	"skill": '<path fill="C" d="M24 3 L44 23 H32 V44 H16 V23 H4 Z"/>',
+	"range": '<path d="M4 40 Q24 2 44 40" fill="none" stroke="C" stroke-width="5" stroke-linecap="round" stroke-dasharray="6 5"/><ellipse cx="40" cy="38" rx="6" ry="4" transform="rotate(-35 40 38)" fill="C"/>',
 	"plus": '<path d="M24 6 V42 M6 24 H42" fill="none" stroke="C" stroke-width="6" stroke-linecap="round"/>',
 	"info": '<circle cx="24" cy="24" r="20" fill="C"/><rect x="21" y="20" width="6" height="16" rx="2" fill="#000000aa"/><circle cx="24" cy="13" r="3.5" fill="#000000aa"/>',
 	"flame": '<path fill="C" d="M24 2 C27 12 38 17 38 30 C38 39 31 46 24 46 C17 46 10 39 10 30 C10 23 14 19 17 15 C18 21 20 24 23 25 C22 17 22 9 24 2Z"/>',

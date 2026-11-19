@@ -91,6 +91,27 @@ static func _migrate(d: Dictionary) -> Dictionary:
 	# effect) and puts Tyler Brooks on the team he'd have moved on to.
 	if v < 3:
 		v = 3
+	# Version 3 -> 4: skill points, field goal range, kick trust. Range comes
+	# from Power, so it needs nothing. Skill points: a starting grant for the
+	# seasons already played. Team standing (new cast member): 50, nudged by
+	# career field goal % (from_dict reads _team_start once).
+	if v < 4:
+		var t := CareerTuning.get_default()
+		var stage := str(d.get("stage", CareerData.STAGE_HIGH_SCHOOL))
+		var sp := t.sp_migrate_hs_per_season * maxi(int(d.get("season_in_stage", 1)), 1)
+		if stage in [CareerData.STAGE_JUCO, CareerData.STAGE_COLLEGE]:
+			sp = t.sp_migrate_college
+		elif stage in [CareerData.STAGE_PRO, CareerData.STAGE_FREE_AGENT, CareerData.STAGE_RETIRED]:
+			sp = t.sp_migrate_pro
+		d["skill_points"] = int(d.get("skill_points", sp))
+		var tot: Variant = d.get("career_totals", {})
+		var att := int(tot.get("fg_att", 0)) if tot is Dictionary else 0
+		var made := int(tot.get("fg_made", 0)) if tot is Dictionary else 0
+		var team := 50.0
+		if att > 0:
+			team = clampf(50.0 + (float(made) / att - 0.75) * 40.0, 35.0, 65.0)
+		d["_team_start"] = team
+		v = 4
 	if v > CareerData.VERSION:
 		push_warning("CareerSave: career is from a newer version (%d)" % v)
 	d["career_version"] = CareerData.VERSION

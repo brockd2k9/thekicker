@@ -51,7 +51,7 @@ func test_neutral_cast_changes_nothing() -> void:
 	Relationships.apply(c, {"rival": 0, "love_interest": 0, "best_friend": 0})  # known, still 50
 	eq(Relationships.profile_lines(c, t), [], "no profile lines")
 	eq(Relationships.weekly_growth(c, t), {}, "no weekly growth")
-	eq(Relationships.coach_range_mult(c, t), 1.0, "coach range")
+	eq(Relationships.coach_range_yd(c, t), 0.0, "coach range")
 	eq(Relationships.teacher_gpa(c, t), 0.0, "teacher GPA")
 	eq(Relationships.coach_recommendation(c, t), 0.0, "no recommendation")
 	eq(Relationships.teacher_grace(c, t), 0.0, "no grace")
@@ -64,7 +64,7 @@ func test_game_day_effects() -> void:
 	var good := KickProfile.build(c, t)
 	check(good.pressure_sensitivity < base.pressure_sensitivity, "trusted coach: calmer")
 	check(good.accuracy_spread_deg < base.accuracy_spread_deg, "trusted holder: cleaner")
-	check(Relationships.coach_range_mult(c, t) > 1.0, "coach lets you try longer")
+	check(Relationships.coach_range_yd(c, t) > 0.0, "coach lets you try longer")
 	check(good.outlook.any(func(l: Dictionary) -> bool: return str(l["label"]).contains("believes")),
 		"outlook line")
 	Relationships.apply(c, {"coach": -100, "holder": -100})
@@ -79,7 +79,8 @@ func test_weekly_effects_and_drift() -> void:
 	var g := Relationships.weekly_growth(c, t)
 	eq(float(g.get("energy", 0.0)), t.rel_family_energy, "Dad at 100: energy")
 	check(float(g.get("fun", 0.0)) < 0.0, "falling out with your best friend: less fun")
-	check(float(g.get("power", 0.0)) > 0.0, "rival Tyler pushes your football growth")
+	eq(float(g.get("power", 0.0)), 0.0, "no direct football growth (skill points now)")
+	check(Relationships.rival_sp(c, t) > 0, "rival Tyler pushes you: weekly skill points")
 	Relationships.end_week(c, t)
 	check(Relationships.value(c, "parent") < 100.0, "drifts toward 50")
 	eq(float(c.people["parent"]["week_change"]), 0.0, "week change reset")

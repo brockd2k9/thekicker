@@ -299,7 +299,7 @@ def audit_skeleton(argv):
 # --- our data format ----------------------------------------------------------------
 
 ENGINE_FLAGS = {"walk_on", "juco", "failed_tryouts", "fa_attempts", "recruiting_update",
-                "traits_reported"}
+                "traits_reported", "kicking_slump", "kick_slumps"}
 STAGE_ORDER = {"high_school": 0, "juco": 1, "college": 2, "pro": 3, "free_agent": 3}
 
 

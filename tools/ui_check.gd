@@ -114,15 +114,26 @@ func _capture_all() -> void:
 	else:
 		_m.choose(0)
 	_advance(func() -> bool: return c.phase == CareerManager.PHASE_OUTLOOK)
+	# Rested and healthy: the Outlook shows the game-day range lines.
+	var life := {"energy": c.stat("energy"), "health": c.stat("health")}
+	c.set_stat("energy", 88.0)
+	c.set_stat("health", 92.0)
 	await _shot("outlook", Screens.CAREER_OUTLOOK)
+	await _shot("outlook_doubt", Screens.CAREER_OUTLOOK, func() -> void:
+		c.coach_doubt = {"weeks_left": 2, "reason": "3 of your last 5 field goals missed"},
+		func() -> void: c.coach_doubt = {})
+	for k in life:
+		c.set_stat(k, life[k])
 	_m.start_game()
 	await _shot("game", Screens.CAREER_GAME, Callable(), Callable(), 2.6)
+	await _trust_feed_shot()
 	await _warmup_shots()
 	await _kickoff_shots()
 	await _hud_shots()
 	_m.finish_game(_sim._play_game(_m))
 	await _shot("results", Screens.CAREER_RESULTS)
 	await _shot("career_stats", Screens.CAREER_STATS)
+	await _shot("skills", Screens.CAREER_SKILLS, func() -> void: c.skill_points = maxi(c.skill_points, 14))
 	await _shot("people", Screens.CAREER_PEOPLE, func() -> void:
 		Relationships.apply(c, {"coach": 18, "holder": -12, "rival": -20, "love_interest": 6, "best_friend": 4})
 		c.former_people.append({"id": "coach", "name": "Coach Castellano", "value": 72.0,
@@ -308,6 +319,29 @@ func _soft_swipe() -> Swipe:
 	sw.duration = 0.2
 	sw.flick_speed_px = 1.2 * 1280.0
 	return sw
+
+
+## The game feed after a few kicks: each one's Coach / Team change and reason.
+func _trust_feed_shot() -> void:
+	if not _want("game_trust"):
+		return
+	await _open(Screens.CAREER_GAME, 1.0)
+	var scr := get_tree().current_scene
+	if scr == null or not scr.has_method("_show_trust"):
+		return
+	scr._busy = true
+	var kicks := [
+		{"kind": "fg", "yards": 34, "made": true, "q": 2, "us": 7, "them": 3, "pressure": 0.2, "label": ""},
+		{"kind": "pat", "yards": 20, "made": false, "q": 3, "us": 16, "them": 10, "pressure": 0.2, "label": ""},
+		{"kind": "fg", "yards": 41, "made": false, "q": 4, "us": 17, "them": 19, "pressure": 0.75, "label": ""},
+		{"kind": "fg", "yards": 38, "made": true, "q": 4, "us": 17, "them": 19, "pressure": 1.0,
+			"label": "0:41 - DOWN 2 - GAME WINNER"}]
+	for k in kicks:
+		var what := ("%d-yard field goal" % int(k["yards"])) if k["kind"] == "fg" else "Extra point"
+		scr._add_line("%s: %s" % [what, "GOOD" if k["made"] else "NO GOOD"])
+		scr._show_trust(k)
+	await _wait(0.8)
+	await _capture("game_trust")
 
 
 func _hud_shots() -> void:

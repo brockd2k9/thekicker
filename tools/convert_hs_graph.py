@@ -161,6 +161,12 @@ REASSIGN = {
                ("HS_117", "exaggerated_progress"), ("HS_112", "blamed_someone_else")],
 }
 
+# Flags the game sets itself (not a scenario) that also open a scenario: added
+# to its any_flags. kicking_slump: KickTrust, when field goal misses pile up.
+ENGINE_TRIGGERS = {
+    "HS_142": ["kicking_slump"],
+}
+
 # Writer notes shown in the template's _info.notes.
 NOTES = {
     "HS_141": ("A new offensive coordinator or position coach joins the staff; the head coach "
@@ -179,6 +185,10 @@ def apply_renames(src):
         for sc in src["scenarios"]:
             if sc["id"] == sid:
                 sc["requires_any_flags"] = [f for _, f in pairs]
+    for sc in src["scenarios"]:
+        for f in ENGINE_TRIGGERS.get(sc["id"], []):
+            if f not in sc.get("requires_any_flags", []):
+                sc["requires_any_flags"] = list(sc.get("requires_any_flags", [])) + [f]
     for s in src["scenarios"]:
         s["title"] = TITLE_OVERRIDES.get(s["id"], s["title"])
         for k in ("requires_all_flags", "requires_any_flags", "excludes_any_flags", "sets_flags"):

@@ -9,6 +9,13 @@ func _build(col: VBoxContainer) -> void:
 	var info := CareerContent.stats_info()
 	col.add_child(UiKit.title_block("STATS & TRAITS"))
 	var list := UiKit.scroll_list(col)
+	list.add_child(UiKit.section("RANGE"))
+	list.add_child(CareerUi.range_strip(c, career.tuning, Callable(), false))
+	list.add_child(UiKit.label("Field goal range: the longest kick a full-strength flick clears (no wind). "
+		+ "Kickoff range: how far a full kickoff carries. Both grow with Power; rest and health add a "
+		+ "few yards on game day.", 22, UiKit.MUTED))
+	list.add_child(UiKit.stat_row("Skill points", "%d to spend  ·  %d earned this season" % [c.skill_points, c.sp_season],
+		UiKit.ACCENT, "skill"))
 	for g in CareerData.GROUP_KEYS:
 		list.add_child(UiKit.section(str(CareerData.GROUP_NAMES[g]), UiKit.group_color(g)))
 		list.add_child(UiKit.label(str(info.get("groups", {}).get(g, "")), 22, UiKit.MUTED))
