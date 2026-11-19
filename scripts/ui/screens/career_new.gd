@@ -6,6 +6,10 @@ extends MenuScreen
 
 ## Set by the Career menu before opening this screen.
 static var slot: int = 1
+## Dev/testing: show the web name chooser on any platform (tools/ui_check).
+static var force_name_chooser := false
+## How many suggested names the chooser shows at a time.
+const SUGGESTIONS := 6
 
 var _name: LineEdit
 var _number := 3
@@ -48,13 +52,15 @@ func _build(col: VBoxContainer) -> void:
 	_name.custom_minimum_size.y = 88
 	_name.add_theme_font_size_override("font_size", 34)
 	_name.text_changed.connect(func(_t: String) -> void: _update_start())
-	# Phones: ask for the on-screen keyboard explicitly on every tap (Godot's
-	# own request can be missed), and close it on Enter / Done.
-	_name.virtual_keyboard_enabled = true
-	_name.virtual_keyboard_show_on_focus = true
-	_name.focus_mode = Control.FOCUS_ALL
-	_name.gui_input.connect(_on_name_input)
-	_name.text_submitted.connect(func(_t: String) -> void: _name.release_focus())
+	# Phones (native apps): ask for the on-screen keyboard explicitly on every
+	# tap (Godot's own request can be missed), and close it on Enter / Done.
+	# Phone browsers can't open it this way: they get the name chooser instead.
+	if not uses_name_chooser():
+		_name.virtual_keyboard_enabled = true
+		_name.virtual_keyboard_show_on_focus = true
+		_name.focus_mode = Control.FOCUS_ALL
+		_name.gui_input.connect(_on_name_input)
+		_name.text_submitted.connect(func(_t: String) -> void: _name.release_focus())
 	col.add_child(_name)
 
 	# Number + appearance.
@@ -105,6 +111,8 @@ func _build(col: VBoxContainer) -> void:
 		_school_buttons[id] = b
 	_start = UiKit.button("Start Career", _create, UiKit.PRIMARY)
 	col.add_child(CareerUi.button_row([UiKit.button("Back", go_back), _start]))
+	if uses_name_chooser():
+		_setup_name_chooser()
 	_refresh_look()
 	_update_start()
 
@@ -162,10 +170,86 @@ func _pick_school(id: String) -> void:
 	_update_start()
 
 
+# --- name chooser (web build on touch devices) -----------------------------------------
+# Phone browsers often don't open their keyboard for a Godot text field (the
+# page can only raise the keyboard from inside the tap itself, and Godot reads
+# taps a frame later). So on the web on touch devices the name field becomes
+# a button: it opens a list of suggested names (data/career/world.json
+# "names") with a Shuffle button. Desktop, Android and iOS apps type as before.
+
+## True on the web build when the device has a touch screen (phones, tablets).
+static func uses_name_chooser() -> bool:
+	if force_name_chooser:
+		return true
+	return OS.has_feature("web") and (OS.has_feature("web_android") or OS.has_feature("web_ios")
+		or DisplayServer.is_touchscreen_available())
+
+
+func _setup_name_chooser() -> void:
+	_name.editable = false
+	_name.focus_mode = Control.FOCUS_NONE
+	_name.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	_name.placeholder_text = "Tap to pick a name"
+	_name.add_theme_color_override("font_uneditable_color", UiKit.TEXT)
+	_name.right_icon = UiIcons.texture("pencil", UiKit.ACCENT, 32)
+	_name.gui_input.connect(func(e: InputEvent) -> void:
+		if e is InputEventMouseButton and e.pressed and e.button_index == MOUSE_BUTTON_LEFT:
+			UiKit.feedback(&"ui_tap")
+			_open_name_chooser())
+	# Start with a name filled in, so nothing blocks the first career.
+	_set_name(_random_names(1)[0])
+
+
+func _set_name(n: String) -> void:
+	_name.text = n.left(_name.max_length)
+	_update_start()
+
+
+## n different "First Last" names from the world's name lists.
+func _random_names(n: int) -> Array:
+	var names: Dictionary = CareerContent.world().get("names", {})
+	var firsts: Array = names.get("first", ["Sam"])
+	var lasts: Array = names.get("last", ["Kicker"])
+	var out: Array = []
+	var guard := 0
+	while out.size() < n and guard < 200:
+		guard += 1
+		var full := "%s %s" % [firsts.pick_random(), lasts.pick_random()]
+		if not full in out and full != _name.text:
+			out.append(full)
+	return out
+
+
+func _open_name_chooser() -> void:
+	if get_node_or_null("Modal") != null:
+		return
+	var v := UiKit.modal(self, "Pick a Name")
+	var root := UiKit.modal_root(v)
+	var grid := GridContainer.new()
+	grid.columns = 2
+	grid.add_theme_constant_override("h_separation", 12)
+	grid.add_theme_constant_override("v_separation", 12)
+	v.add_child(grid)
+	var fill := func() -> void:
+		for ch in grid.get_children():
+			ch.queue_free()
+		for n in _random_names(SUGGESTIONS):
+			var b := UiKit.button(n, func() -> void:
+				_set_name(n)
+				root.queue_free())
+			b.add_theme_font_size_override("font_size", 28)
+			b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			grid.add_child(b)
+	fill.call()
+	v.add_child(UiKit.button("Shuffle", fill, UiKit.PRIMARY, "fast"))
+	v.add_child(UiKit.button("Cancel", root.queue_free, UiKit.SECONDARY, "back"))
+
+
 func _update_start() -> void:
 	_start.disabled = _school == "" or _name.text.strip_edges() == ""
 	_start.text = "Start Career" if not _start.disabled else \
-		("Pick a School" if _name.text.strip_edges() != "" else "Enter a Name")
+		("Pick a School" if _name.text.strip_edges() != "" else
+			("Pick a Name" if uses_name_chooser() else "Enter a Name"))
 
 
 func _create() -> void:
