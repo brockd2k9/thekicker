@@ -222,7 +222,7 @@ func _start_season(continuing: bool) -> void:
 ## playoff weeks can be appended later.
 static func build_schedule(c: CareerData, t: CareerTuning, r: RandomNumberGenerator) -> Array:
 	var others := Progression.opponents(c)
-	others.shuffle()
+	Progression.shuffle(others, r)
 	var my_tier := str(c.team.get("tier", ""))
 	if my_tier != "":
 		var same := others.filter(func(s: Dictionary) -> bool: return s.get("tier", "") == my_tier)
