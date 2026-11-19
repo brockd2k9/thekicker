@@ -71,6 +71,28 @@ A game mode plugs into the kick scene through `KickMode` (`scripts/modes/kick_mo
 it picks the next `KickSituation` (distance, wind, pressure) and says whether there is a
 next kick. It never touches the kicking mechanic. `mode = null` is free practice.
 
+**Kick types.** The same scene plays four kicks (`KickSituation.KickType`, from
+`KickMode.kick_type()`, read before the scene enters the tree):
+- `FIELD_GOAL`, `EXTRA_POINT`: everything above, unchanged.
+- `KICKOFF`, `ONSIDE`: ball on a tee, kickoff / onside formation (`kickoff_formation.gd`), no snap,
+  hold, kick clock or block rush. The same swipe reading (`KickController.validate` /
+  `power_from_swipe`, aim + pressure wobble + the profile's aim error), wind (× `wind_mult`) and
+  KickProfile apply. Distance follows the old sideline curve (`KickoffRules.max_carry_yards` ×
+  power × `power_mult`); `KickLaunch` finds the launch speed that makes the 3D ball land (kickoff) or
+  stop (onside) there. `KickoffJudge` judges where it came down:
+  - kickoff: TOUCHBACK (reached the goal line), DEEP KICK (fielded inside the 10), RETURNED,
+    SHORT KICK (fielded at the 25 or beyond), OUT OF BOUNDS (landed past a sideline, wind included).
+    Fielded kicks get a simple return (15-30 yards, less for long hang time, capped at midfield),
+    which sets where the opponent's next drive starts in the play-by-play.
+  - onside: RECOVERED! / THEIR BALL / OUT OF BOUNDS. Same risk/reward as before: a "good" onside
+    (rests 10-18 yards out, aim within 15°) is recovered 45% of the time, any other 8%.
+  The result is in `tee_result` after `attempt_finished`. Tee kicks are **not** reported to
+  `GameState.kick_resolved`, so they never touch field-goal stats, streaks or achievements.
+  Camera: the same kicker's view from the start of the run-up, higher and a little wider
+  (`kickoff_camera_offset`, `kickoff_camera_fov`, `kickoff_camera_follow` in `kick_tuning.tres`,
+  group "Kickoff", with the launch angles and coverage speed). Same shake, slow-motion beat and
+  banner as a field goal.
+
 ## Saves
 
 One JSON file in the user data folder: **`user://kicker_save.json`**
@@ -250,7 +272,10 @@ scripts/
   input/swipe_input.gd        pointer → swipe (touch & mouse, one code path)
   kick/kick_controller.gd     swipe → launch velocity (power curve, aim, wobble)
   kick/kick_modifiers.gd      Phase 2 seam: stats → multipliers (neutral now)
-  kick/kick_situation.gd      random distance + pressure scenario
+  kick/kick_situation.gd      one attempt: kick type, distance, wind, pressure (random or from a mode)
+  kick/kickoff_rules.gd       kickoff / onside numbers (spot, touchback, return, onside odds)
+  kick/kickoff_judge.gd       touchback / deep / returned / short / out of bounds; onside results
+  kick/kick_launch.gd         tee kicks: launch speed for a target carry (same integrator as Ball)
   kick/kick_result.gd         GOOD / WIDE LEFT / WIDE RIGHT / SHORT / BLOCKED rules
   kick/wind.gd                crosswind + gusts
   kick/snap_animator.gd       snap: snapper -> holder's hands -> spot
@@ -259,13 +284,15 @@ scripts/
   kick/ball_trail.gd          dotted arc trail
   kick/aim_marker.gd          wobbling aim ring
   field/field_builder.gd      field, stands, light towers, formation, holder
+  field/kickoff_formation.gd  kickoff / onside formations, tee, yard numbers, coverage run
   field/player_figure.gd      jointed football player (helmet, pads, numbered jersey,
                               gloves, cleats): stance, run, block, jump, dive, kneel
   field/team_kit.gd           team uniform colors (fictional teams) + shared materials
   field/rush_plan.gd          random block call per attempt (who comes, who dives/leaps)
   field/goal_posts.gd         posts + wind ribbons, regulation dimensions
   camera/kick_camera.gd       behind-the-ball camera, follow + shake
-  game/field_goal_game.gd     attempt state machine (SETUP → SNAP → KICK_WINDOW → FLIGHT → RESULT)
+  game/field_goal_game.gd     attempt state machine (SETUP → SNAP → KICK_WINDOW → FLIGHT → RESULT);
+                              tee kicks skip the snap (SETUP → KICK_WINDOW → FLIGHT → RESULT)
   ui/hud.gd, wind_indicator.gd, swipe_trail.gd
   ui/ui_tokens.gd             UiTokens: palettes, spacing, radii, fonts, timings (the one place)
   ui/ui_kit.gd                theme, widgets, safe-area frame, modal/confirm, feedback hook
@@ -329,8 +356,13 @@ with school-colored padding/bands, pro polished and narrower; widths in `career_
 "Goalposts") and dresses both lines in the teams' colors. Without it the scene looks as before.
 
 How the pieces connect: a career game runs the existing kick scene through `CareerGameMode`
-(a `KickMode`) with `KickProfile.to_kick_modifiers()`, so career kicks report through
-`GameState.kick_resolved` with `mode = &"career"` and count in My Stats and Achievements.
+(a `KickMode`) with `KickProfile.to_kick_modifiers()`, so career field goals and extra points
+report through `GameState.kick_resolved` with `mode = &"career"` and count in My Stats and
+Achievements. Kickoffs and onside kicks run in the same 3D scene (`CareerGameMode.kickoff_rules_for()`
+builds the stage's `KickoffRules`) and hand `tee_result` back to `GameSim.resolve_call()`; they
+don't count in My Stats. Kickoff spots per stage (`career_tuning.tres`, "Sideline Kicks"): high
+school from the 40, college and pro from the 35; touchbacks at the 20 / 25 / 30, out of bounds at
+the 35 / 35 / 40. The warmup net is still the 2D sideline pad (`kick_pad.gd`, `sideline_kick.gd`).
 `CareerContent.validate()` checks every data file (run by the Career Debug screen, the simulator and the tests; problems print as warnings).
 
 **Balance simulator:** `godot --headless res://tools/career_sim.tscn -- careers=40 seed=1` plays
@@ -342,7 +374,9 @@ Design decisions and values to playtest: `PLAYTEST.md`, "Career Mode".
 **Tests:** `godot --headless --path . res://tests/run_tests.tscn` runs every `test_*` method in
 `tests/test_*.gd` (add `-- only=test_saves` for one file) and exits with the number of failing
 tests: old-save compatibility (frozen v0/v1/v2 saves in `tests/fixtures/`; never edit those, add a
-new fixture per save version), the scenario engine, and `CareerContent.validate()` on the real data.
+new fixture per save version), the scenario engine, `CareerContent.validate()` on the real data,
+and kickoffs (`test_kickoff.gd`: the judge, the launch solver, per-stage rules, the career wiring).
+`tools/ui_check.tscn` also captures `kickoff`, `kickoff_result` and `onside` from a real career game.
 The balance simulator gives the same report for the same seed, so a content-neutral change can
 be checked by diffing its tables before and after.
 

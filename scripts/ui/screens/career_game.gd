@@ -1,9 +1,11 @@
 extends Node
 ## Career game day, from the bench. The game plays out as play-by-play
 ## (GameSim) while you watch. The coach calls you in:
-##   field goal / extra point -> the real kick scene (field_goal.tscn) with a
+##   field goal / extra point -> the 3D kick scene (field_goal.tscn) with a
 ##       CareerGameMode and this week's KickProfile; reported as mode "career".
-##   kickoff / onside kick    -> the sideline KickPad (same swipe math).
+##   kickoff / onside kick    -> the same 3D kick scene in kickoff / onside
+##       formation (same swipe, wind and KickProfile; judged by KickoffJudge).
+##       Not counted in the field-goal stats.
 ## When your offense drives into range you're offered a warmup on the sideline
 ## net: good strikes help your next kick, skipping it leaves your leg cold.
 ## Quitting (pause -> Leave Game) goes back to the Hub; the game then restarts
@@ -38,6 +40,7 @@ var _skip := false
 var _kick_scene: Node
 var _kick_overlay: PlayOverlay
 var _kick_made := false
+var _kick_kind := ""
 
 
 func _ready() -> void:
@@ -271,20 +274,21 @@ func _coach_call(e: Dictionary) -> void:
 	var modal := UiKit.modal_root(v)
 	var go := UiKit.button("Run On", func() -> void:
 		modal.queue_free()
-		if kind in ["fg", "pat"]:
-			_launch_kick(e)
-		else:
-			_sideline_kick(e), UiKit.PRIMARY, "play")
+		_launch_kick(e), UiKit.PRIMARY, "play")
 	v.add_child(go)
 	if not OS.has_feature("mobile"):
 		go.grab_focus.call_deferred()
 
 
-## Field goal / extra point: the real kick scene, one attempt.
+## Any coach call: the 3D kick scene, one attempt.
 func _launch_kick(e: Dictionary) -> void:
 	var prof := career.profile({"miss_streak": sim.miss_streak, "extra_modifiers": _warm()})
 	_kick_scene = FIELD_GOAL.instantiate()
-	_kick_scene.mode = CareerGameMode.from_call(e, prof.pressure_add)
+	_kick_kind = str(e.get("kind", "fg"))
+	var rules: KickoffRules = null
+	if _kick_kind in ["kickoff", "onside"]:
+		rules = CareerGameMode.kickoff_rules_for(career.tuning, Progression.game_params(career.data, career.tuning))
+	_kick_scene.mode = CareerGameMode.from_call(e, prof.pressure_add, rules)
 	_kick_scene.modifiers = prof.to_kick_modifiers()
 	_kick_scene.set_look(career.kick_look())
 	_layer.visible = false
@@ -309,12 +313,16 @@ func _on_attempt_finished(_outcome: KickResult.Outcome) -> void:
 	await get_tree().create_timer(1.0).timeout
 	if GameState.kick_resolved.is_connected(_on_kick_resolved):
 		GameState.kick_resolved.disconnect(_on_kick_resolved)
+	var tee_result: Dictionary = _kick_scene.tee_result
 	_kick_overlay.queue_free()
 	_kick_scene.queue_free()
 	_kick_scene = null
 	Engine.time_scale = 1.0
 	_layer.visible = true
-	sim.resolve_call({"made": _kick_made})
+	if _kick_kind in ["kickoff", "onside"]:
+		sim.resolve_call(tee_result)
+	else:
+		sim.resolve_call({"made": _kick_made})
 	_update_status()
 	_busy = false
 	_timer = 0.3
@@ -323,49 +331,6 @@ func _on_attempt_finished(_outcome: KickResult.Outcome) -> void:
 ## This half's warmup modifier, as a list for KickProfile ctx.
 func _warm() -> Array:
 	return [sim.warm_modifier] if sim.warm_modifier != "" else []
-
-
-## Kickoff / onside kick on the sideline pad.
-func _sideline_kick(e: Dictionary) -> void:
-	var t := career.tuning
-	var onside := str(e["kind"]) == "onside"
-	var pad_ui := _open_pad(KickPad.Kind.ONSIDE if onside else KickPad.Kind.KICKOFF,
-		"ONSIDE KICK" if onside else "KICKOFF")
-	var pad: KickPad = pad_ui["pad"]
-	var result: Label = pad_ui["result"]
-	pad.yards_shown = 40.0 if onside else 75.0
-	if onside:
-		pad.target_min_yards = t.onside_min_yards
-		pad.target_max_yards = t.onside_max_yards
-	else:
-		pad.goal_line_yards = 100.0 - t.kickoff_spot_yards
-	var pads: Dictionary = CareerContent.game_day().get("pad", {})
-	pad_ui["hint"].text = CareerContent.fill(str(pads.get("onside" if onside else "kickoff", "")),
-		{"min": roundi(t.onside_min_yards), "max": roundi(t.onside_max_yards)})
-	var prof := career.profile({"miss_streak": sim.miss_streak, "extra_modifiers": _warm()})
-	var outcome := {}
-	pad.swiped.connect(func(s: Swipe) -> void:
-		var k := SidelineKick.read_swipe(s, _kt, prof, _rng)
-		if not k["ok"]:
-			result.text = str(k["hint"])
-			return
-		if onside:
-			var r := SidelineKick.onside(k, prof, t, _rng)
-			outcome.merge({"recovered": r["recovered"], "text": r["text"]})
-			result.text = str(r["text"])
-			pad.fly(float(r["carry"]), float(k["aim_deg"]))
-		else:
-			var r := SidelineKick.kickoff(k, prof, t)
-			outcome.merge({"quality": r["quality"], "carry": r["carry"], "text": r["text"]})
-			result.text = str(r["text"])
-			pad.fly(float(r["carry"]), float(k["aim_deg"])))
-	pad.flight_done.connect(func() -> void:
-		await get_tree().create_timer(0.9).timeout
-		pad_ui["root"].queue_free()
-		sim.resolve_call(outcome)
-		_update_status()
-		_busy = false
-		_timer = 0.2)
 
 
 ## Full-screen pad overlay: {"root", "pad", "hint", "result"}.

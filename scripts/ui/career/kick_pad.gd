@@ -1,7 +1,8 @@
 class_name KickPad
 extends Control
 ## Sideline swipe pad (placeholder art drawn in code): a strip of field with a
-## ball on a tee, for kickoffs and onside kicks, or the warmup net.
+## ball on a tee, or the warmup net. Career games only use the net now
+## (kickoffs and onside kicks are in the 3D kick scene).
 ## Swipes are measured like the kick scene's SwipeInput (screen heights, flick
 ## speed over the last FLICK_WINDOW seconds) and handed out as a Swipe, so
 ## the same KickController math reads them. The screen judges the kick

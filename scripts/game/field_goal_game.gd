@@ -1,8 +1,13 @@
 extends Node3D
-## Field-goal scene controller. Runs one attempt at a time:
+## Kick scene controller (field goals, extra points, kickoffs, onside kicks).
+## Field goals and extra points run one attempt at a time:
 ##   SETUP (situation shown, aim may wobble) -> SNAP (ball spirals to the holder,
 ##   who spots it; the defense is already rushing) -> KICK_WINDOW (swipe!)
 ##   -> FLIGHT -> RESULT (slow-mo beat, tap for next)
+## Kickoffs and onside kicks (mode.kick_type()) use the same stadium, camera,
+## swipe, wind, modifiers and HUD: ball on a tee, kickoff formation, no snap or
+## block rush; judged where the ball lands (KickoffJudge). Their result is in
+## tee_result; they are NOT reported to GameState (field-goal stats).
 ## It wires the independent pieces together and owns no tuning numbers:
 ## those live in KickTuning (res://tuning/kick_tuning.tres).
 
@@ -37,6 +42,15 @@ var _ball_prev := Vector3.ZERO
 var _swallow_release := false
 ## Live (gusting) wind at the moment of the kick, for the result report.
 var _wind_at_kick := 0.0
+## Tee kicks (kickoff / onside) -------------------------------------------------
+## The last tee kick's result (KickoffJudge): read it after attempt_finished.
+var tee_result: Dictionary = {}
+var _tee := false
+## Seconds since the tee kick (game time), -1 before it; and flight time for hang.
+var _kick_t := -1.0
+var _flight_t := 0.0
+var _tee_aim := 0.0
+var _default_rules := KickoffRules.new()
 
 @onready var field: FieldBuilder = $Field
 @onready var ball: Ball = $Ball
@@ -71,6 +85,17 @@ func set_look(look: Dictionary) -> void:
 		f.away_kit_override = TeamKit.from_colors(away[0], away[1], true)
 
 
+## Tee kicks need their formation built before the field's _ready().
+func _enter_tree() -> void:
+	if mode == null or not KickSituation.is_tee_type(mode.kick_type()):
+		return
+	var f := get_node("Field") as FieldBuilder
+	f.kick_type = mode.kick_type()
+	var t := tuning if tuning != null else KickTuning.new()
+	f.tee_height = t.tee_height
+	f.tee_ball_scale = t.ball_visual_scale
+
+
 func _ready() -> void:
 	if tuning == null:
 		tuning = KickTuning.new()
@@ -92,6 +117,11 @@ func _process(delta: float) -> void:
 
 	if phase != Phase.FLIGHT and phase != Phase.RESULT:
 		aim_marker.set_aim(pressure.wobble_deg(), situation.distance_m())
+	if _tee:
+		if _kick_t >= 0.0:
+			_kick_t += delta
+			field.kickoff.update_play(_kick_t, tuning.coverage_speed)
+		return
 	if phase != Phase.SETUP:
 		# The rush runs on one clock from the snap, and carries on after the kick.
 		# No clamp at 1: runners keep moving through the end of the play.
@@ -106,6 +136,9 @@ func _process(delta: float) -> void:
 
 func _physics_process(_delta: float) -> void:
 	ball.set_wind_accel(wind.acceleration(tuning) * modifiers.wind_mult)
+	if _tee:
+		_tee_physics(_delta)
+		return
 	if phase == Phase.FLIGHT:
 		_check_hands()
 
@@ -152,6 +185,10 @@ func _start_attempt() -> void:
 		var wind_mph := wind.roll(_rng, tuning)
 		situation = KickSituation.roll(_rng, tuning, wind_mph)
 	situation.wind_gust_mph = wind.gust_mph
+	_tee = situation.is_tee_kick() and field.kickoff != null
+	if _tee:
+		_start_tee_attempt(my_id)
+		return
 	field.set_distance(situation.distance_m())
 	_play_t = 0.0
 	field.reset_play(RushPlan.roll(_rng, field.dl_x_positions()))
@@ -194,6 +231,9 @@ func _start_attempt() -> void:
 
 
 func _try_kick(swipe: Swipe) -> void:
+	if _tee:
+		_kick_off_tee(swipe)
+		return
 	var problem := kicker.validate(swipe, tuning)
 	if problem != "":
 		hud.flash_hint(problem)
@@ -292,7 +332,7 @@ func _on_swipe_released(swipe: Swipe) -> void:
 		return
 	match phase:
 		Phase.SETUP:
-			hud.flash_hint("Wait for the snap!")
+			hud.flash_hint("Get set..." if _tee else "Wait for the snap!")
 		Phase.SNAP:
 			hud.flash_hint("Wait for the hold!")
 		Phase.KICK_WINDOW:
@@ -304,6 +344,121 @@ func _on_ball_reached_goal_plane(crossing: Vector3) -> void:
 		_resolve(KickResult.judge_at_goal_plane(crossing, field.goal_posts.inner_width * 0.5))
 
 
-func _on_ball_landed(_at: Vector3) -> void:
+func _on_ball_landed(at: Vector3) -> void:
+	if _tee:
+		if phase == Phase.FLIGHT and situation.kick_type == KickSituation.KickType.KICKOFF:
+			_resolve_tee(KickoffJudge.kickoff(at, _flight_t, _rules(), _rng))
+		return
 	if phase == Phase.FLIGHT:
 		_resolve(KickResult.Outcome.SHORT)
+
+
+# --- tee kicks: kickoff / onside ---------------------------------------------------
+
+func _rules() -> KickoffRules:
+	return situation.kickoff_rules if situation.kickoff_rules != null else _default_rules
+
+
+func _start_tee_attempt(my_id: int) -> void:
+	var r := _rules()
+	var onside := situation.kick_type == KickSituation.KickType.ONSIDE
+	situation.distance_yards = r.to_goal_yards()
+	# Posts on the receiving team's end line, 10 yards past their goal line.
+	field.set_distance((r.to_goal_yards() + 10) * KickSituation.YARD_TO_M)
+	field.kickoff.set_spot(r.spot_yards)
+	_kick_t = -1.0
+	_flight_t = 0.0
+	tee_result = {}
+	trail.clear()
+	ball.reset(field.hold_spot())
+	ball.set_pose(ball.hold_position() + Vector3(0.0, tuning.tee_height * tuning.ball_visual_scale, 0.0),
+		ball.hold_rotation())
+	cam.home_offset = tuning.kickoff_camera_offset
+	cam.look_down_deg = tuning.kickoff_look_down_deg
+	cam.fov = tuning.kickoff_camera_fov
+	cam.reset_to(field.hold_spot(), situation.distance_m())
+	pressure.setup(situation.pressure, tuning, modifiers)
+	aim_marker.visible = false
+	hud.show_situation(situation, tuning)
+	hud.set_headline("ONSIDE KICK" if onside else "KICKOFF", "From your own %d%s" % [r.spot_yards,
+		"" if situation.label == "" else "  -  " + situation.label])
+	hud.hide_result()
+	hud.set_window(1.0, false)
+	hud.set_hint("Get set...")
+	await get_tree().create_timer(tuning.kickoff_setup_time).timeout
+	if my_id != _attempt_id:
+		return
+	phase = Phase.KICK_WINDOW
+	hud.set_hint("SWIPE SOFTLY: ONSIDE!" if onside else "SWIPE UP TO KICK OFF!")
+
+
+## Same swipe reading as the field goal (KickController + KickModifiers):
+## swipe tilt = aim (+ pressure wobble + the profile's aim error), swipe
+## strength = distance (KickoffRules.max_carry_yards * power * power_mult).
+func _kick_off_tee(swipe: Swipe) -> void:
+	var problem := kicker.validate(swipe, tuning)
+	if problem != "":
+		hud.flash_hint(problem)
+		return
+	var r := _rules()
+	var onside := situation.kick_type == KickSituation.KickType.ONSIDE
+	var power := kicker.power_from_swipe(swipe, tuning)
+	var aim := clampf(swipe.tilt_deg() * tuning.aim_sensitivity, -tuning.max_aim_deg, tuning.max_aim_deg)
+	var wobble := pressure.wobble_deg()
+	aim += wobble
+	if modifiers.accuracy_spread_deg > 0.0:
+		aim += _rng.randfn(0.0, modifiers.accuracy_spread_deg)
+	_tee_aim = aim
+	var carry_yd := maxf(r.max_carry_yards * power * modifiers.power_mult, 5.0)
+	var carry_m := carry_yd * KickSituation.YARD_TO_M / maxf(cos(deg_to_rad(aim)), 0.5)
+	var elev := tuning.onside_elevation_deg if onside else tuning.kickoff_elevation_deg
+	var v := KickLaunch.velocity(carry_m, aim, elev, tuning.gravity, tuning.flight_speed_scale,
+		ball.global_position, tuning.ball_visual_scale, tuning.ball_visual_scale_far, onside)
+
+	phase = Phase.FLIGHT
+	_wind_at_kick = wind.mph
+	_flight_t = 0.0
+	hud.set_window(0.0, false)
+	hud.set_hint("")
+	if tuning.show_debug_readout:
+		hud.show_shot_info("Power %d%%  Aim %+.1f°  Wobble %+.1f°  Carry %d yd" % [
+			roundi(power * 100.0), aim, wobble, roundi(carry_yd)])
+	ball.launch(v, tuning.gravity, wind.acceleration(tuning) * modifiers.wind_mult,
+		tuning.flight_speed_scale, -INF, tuning.ball_spin_speed)
+	trail.start(ball)
+	var dir := KickLaunch.direction(aim, 0.0)
+	field.kickoff.kicked(dir * carry_m)
+	_kick_t = 0.0
+	cam.follow(ball, tuning.kickoff_camera_follow, tuning.camera_follow_speed)
+	cam.shake(tuning.kick_shake * (0.5 + power))
+	Sfx.play(&"kick", 0.0, lerpf(0.9, 1.15, power))
+	Haptics.pulse(roundi(tuning.kick_vibration_ms * lerpf(0.75, 1.5, power)))
+
+
+func _tee_physics(delta: float) -> void:
+	if phase != Phase.FLIGHT:
+		return
+	_flight_t += delta * tuning.flight_speed_scale
+	# Onside kicks are judged where the ball stops (or after 8 s, just in case).
+	if situation.kick_type == KickSituation.KickType.ONSIDE and (not ball.in_flight or _flight_t > 8.0):
+		_resolve_tee(KickoffJudge.onside(ball.global_position, _tee_aim, _rules(), _rng))
+
+
+## Same result beat as a field goal: slow motion, banner, then the mode decides.
+func _resolve_tee(res: Dictionary) -> void:
+	phase = Phase.RESULT
+	var my_id := _attempt_id
+	tee_result = res
+	var good := bool(res.get("good", false))
+	Sfx.play(&"good" if good else &"miss")
+	hud.set_hint("")
+	_play_slow_mo(my_id)
+	hud.show_banner(str(res.get("banner", "")), good, str(res.get("detail", res.get("text", ""))))
+	await get_tree().create_timer(tuning.result_min_display, true, false, true).timeout
+	if my_id != _attempt_id:
+		return
+	attempt_finished.emit(KickResult.Outcome.GOOD if good else KickResult.Outcome.SHORT)
+	if mode != null and not mode.wants_next_kick():
+		return
+	_can_continue = true
+	hud.set_hint("Tap for next kick")

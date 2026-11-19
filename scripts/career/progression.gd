@@ -265,7 +265,8 @@ static func opponents(c: CareerData) -> Array:
 
 
 ## Game parameters for this stage (and college tier):
-## {fg_min, fg_max, pat, pressure_bonus, wind_max, posts, width}.
+## {fg_min, fg_max, pat, pressure_bonus, wind_max, posts, width,
+##  kickoff_spot, touchback_spot, kickoff_oob_spot}.
 static func game_params(c: CareerData, t: CareerTuning) -> Dictionary:
 	var p := {"fg_min": t.hs_fg_min_yards, "fg_max": t.hs_fg_max_yards, "pat": t.hs_pat_yards,
 		"pressure_bonus": 0.0, "wind_max": t.game_wind_max_mph, "posts": "high_school",
@@ -281,6 +282,17 @@ static func game_params(c: CareerData, t: CareerTuning) -> Dictionary:
 			p = {"fg_min": t.pro_fg_min_yards, "fg_max": t.pro_fg_max_yards, "pat": t.pro_pat_yards,
 				"pressure_bonus": t.pro_pressure_bonus, "wind_max": t.pro_wind_max_mph, "posts": "pro",
 				"width": t.goal_width_pro}
+	# Kickoff rules for this stage (KickoffRules, built by CareerGameMode).
+	match c.stage:
+		CareerData.STAGE_COLLEGE, CareerData.STAGE_JUCO:
+			p.merge({"kickoff_spot": t.kickoff_spot_yards_college, "touchback_spot": t.touchback_spot_college,
+				"kickoff_oob_spot": t.kickoff_oob_spot_college})
+		CareerData.STAGE_PRO, CareerData.STAGE_FREE_AGENT:
+			p.merge({"kickoff_spot": t.kickoff_spot_yards_pro, "touchback_spot": t.touchback_spot_pro,
+				"kickoff_oob_spot": t.kickoff_oob_spot_pro})
+		_:
+			p.merge({"kickoff_spot": t.kickoff_spot_yards, "touchback_spot": t.touchback_spot_hs,
+				"kickoff_oob_spot": t.kickoff_oob_spot_hs})
 	return p
 
 
