@@ -48,6 +48,13 @@ func _build(col: VBoxContainer) -> void:
 	_name.custom_minimum_size.y = 88
 	_name.add_theme_font_size_override("font_size", 34)
 	_name.text_changed.connect(func(_t: String) -> void: _update_start())
+	# Phones: ask for the on-screen keyboard explicitly on every tap (Godot's
+	# own request can be missed), and close it on Enter / Done.
+	_name.virtual_keyboard_enabled = true
+	_name.virtual_keyboard_show_on_focus = true
+	_name.focus_mode = Control.FOCUS_ALL
+	_name.gui_input.connect(_on_name_input)
+	_name.text_submitted.connect(func(_t: String) -> void: _name.release_focus())
 	col.add_child(_name)
 
 	# Number + appearance.
@@ -106,6 +113,30 @@ func go_back() -> void:
 	Screens.go(Screens.CAREER)
 
 
+func _on_name_input(e: InputEvent) -> void:
+	var released: bool = (e is InputEventMouseButton and e.button_index == MOUSE_BUTTON_LEFT \
+			and not e.pressed) or (e is InputEventScreenTouch and not e.pressed)
+	if released:
+		_show_keyboard.call_deferred()
+
+
+func _show_keyboard() -> void:
+	if not is_instance_valid(_name) or not _name.is_inside_tree():
+		return
+	if not _name.has_focus():
+		_name.grab_focus()
+	_name.edit()
+	if DisplayServer.has_feature(DisplayServer.FEATURE_VIRTUAL_KEYBOARD):
+		DisplayServer.virtual_keyboard_show(_name.text, _name.get_global_rect(),
+			DisplayServer.KEYBOARD_TYPE_DEFAULT, _name.max_length, _name.caret_column)
+
+
+## Leaving the screen closes the keyboard.
+func _exit_tree() -> void:
+	if DisplayServer.has_feature(DisplayServer.FEATURE_VIRTUAL_KEYBOARD):
+		DisplayServer.virtual_keyboard_hide()
+
+
 func _refresh_look() -> void:
 	var look: Dictionary = CareerContent.world().get("appearance", {})
 	_face.skin = CareerUi.html_color(str(look.get("skin", ["#e0ac7e"])[_skin]))
@@ -119,6 +150,7 @@ func _refresh_look() -> void:
 
 
 func _pick_school(id: String) -> void:
+	_name.release_focus()  # closes the keyboard so the list and Start show
 	_school = id
 	for k in _school_buttons:
 		var b: Button = _school_buttons[k]

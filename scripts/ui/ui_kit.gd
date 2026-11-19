@@ -295,7 +295,7 @@ static func _spacer(horizontal: bool) -> Control:
 ## Vertical scroll area that fills the remaining column height. Add rows to
 ## the returned VBox. Touch drag-scrolls on phones.
 static func scroll_list(parent: Control) -> VBoxContainer:
-	var sc := ScrollContainer.new()
+	var sc := TouchScroll.new()  # drag-scrolls over buttons on touch screens
 	sc.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	sc.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	parent.add_child(sc)
