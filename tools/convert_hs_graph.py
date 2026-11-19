@@ -92,7 +92,18 @@ DROP_SELF_REQUIRES = {"HS_159": ["recognized_team_support"],
 #   id -> "other_id"        drop it and alias it to other_id: edges and expected
 #                           flags move to other_id (for an existing scenario they
 #                           are listed in its authoring note instead)
-DUPLICATES = {}
+DUPLICATES = {
+    "HS_010": "hs_part_time_job",   # same scene, already written; no chain
+    "HS_037": "HS_112",             # same scene; HS_112 has its outcome flags
+    "HS_038": "HS_106",             # HS_106 starts the backup-holder chain (HS_145)
+    "HS_041": "hs_recruiter_call",  # already written; it sets recruiter_trust (HS_058, HS_088)
+    "HS_042": "hs_grades_warning",  # ours fires off the real GPA; HS_021's flag is flavor
+    "HS_047": "HS_121",             # HS_121 (story) is the same junior-year camp conflict
+    "HS_050": "HS_130",             # kicker-specific, sets learned_from_senior
+    "HS_066": "HS_159",             # payoff of the leadership / holder / coach chain
+    "HS_096": "HS_149",             # senior year already has hs_campus_visit and HS_152
+    "HS_100": "HS_160",             # the senior week 10 beat
+}
 
 # Recurring characters per scenario, for writers (Option B, confirmed):
 #   tyler       Tyler Brooks, a kicker on your own team from freshman year (HS_005);
@@ -103,7 +114,7 @@ DUPLICATES = {}
 #               skeleton he was a second kicker; "Rival" in HS_137's title means him.
 PEOPLE = {
     "HS_005": ["tyler"], "HS_030": ["tyler"], "HS_046": ["tyler"], "HS_092": ["tyler"],
-    "HS_111": ["new_qb"], "HS_132": ["new_qb"], "HS_137": ["new_qb"], "HS_147": ["new_qb"],
+    "HS_111": ["new_qb"], "HS_132": ["new_qb"], "HS_137": ["new_qb"], "HS_147": ["tyler"],
 }
 
 # Renames applied to the skeleton before converting (the New Kicker is a quarterback).
@@ -137,8 +148,22 @@ def uniq(xs):
     return out
 
 
+# HS_147 "The Starting Job Is Yours" is about the kicking job, so it belongs to
+# Tyler (your teammate kicker), not the new quarterback: open once HS_005 has
+# set either Tyler flag, instead of the quarterback's flags.
+REASSIGN = {"HS_147": {"requires_any_flags": ["befriended_tyler", "hostile_tyler_rivalry"],
+                       "edges_from": "HS_005"}}
+
+
 def apply_renames(src):
     ren = lambda xs: [FLAG_RENAMES.get(f, f) for f in xs]
+    for sid, r in REASSIGN.items():
+        src["dependencies"] = [e for e in src["dependencies"] if e["to"] != sid]
+        for f in r["requires_any_flags"]:
+            src["dependencies"].append({"from": r["edges_from"], "to": sid, "when": f, "type": "unlock"})
+        for sc in src["scenarios"]:
+            if sc["id"] == sid:
+                sc["requires_any_flags"] = list(r["requires_any_flags"])
     for s in src["scenarios"]:
         s["title"] = TITLE_OVERRIDES.get(s["id"], s["title"])
         for k in ("requires_all_flags", "requires_any_flags", "excludes_any_flags", "sets_flags"):
@@ -164,6 +189,8 @@ def convert(src):
         a, b = e["from"], e["to"]
         if (a in DUPLICATES and DUPLICATES[a] is None) or (b in DUPLICATES and DUPLICATES[b] is None):
             continue
+        if target(b) not in scen:
+            continue  # into an existing written scenario: it isn't gated by graph flags
         moved.append(dict(e, **{"from": target(a), "to": target(b)}))
     edges = moved
 
@@ -245,9 +272,9 @@ def convert(src):
     # Aliases onto existing (non-graph) scenarios: record what they must now carry.
     for a, w in aliases.items():
         if w not in scen:
-            existing_alias_notes[a] = {"alias_of": w,
-                                       "flags_to_add": list(scen[a].get("sets_flags", []))
-                                       + [e["when"] for e in src["dependencies"] if e["from"] == a]}
+            existing_alias_notes[a] = {"alias_of": w, "title": scen[a]["title"],
+                                       "flags_to_add": uniq(list(scen[a].get("sets_flags", []))
+                                       + [e["when"] for e in src["dependencies"] if e["from"] == a])}
     return out, existing_alias_notes
 
 

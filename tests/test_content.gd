@@ -73,3 +73,14 @@ func test_flag_set_too_late() -> void:
 	var pro := {"id": "src", "stages": ["pro"], "choices": [{"set_flags": {"cause": true}}]}
 	p = CareerContent.graph_problems([pro, {"id": "dst", "stages": ["college"], "requires": {"flags": ["cause"]}}])
 	check(_has(p, "only set after"), "stage order")
+
+
+func test_duplicates_resolved() -> void:
+	for id in ["HS_010", "HS_037", "HS_038", "HS_041", "HS_042", "HS_047", "HS_050", "HS_066",
+			"HS_096", "HS_100"]:
+		check(CareerContent.scenario(id).is_empty(), id + " dropped")
+	var call := CareerContent.scenario("hs_recruiter_call")
+	check((call["choices"] as Array).any(func(ch: Dictionary) -> bool:
+		return ch.get("set_flags", {}).get("recruiter_trust", false)), "hs_recruiter_call sets recruiter_trust")
+	eq(CareerContent.scenario("HS_147").get("requires", {}).get("any_flags", []),
+		["befriended_tyler", "hostile_tyler_rivalry"], "HS_147 belongs to Tyler")
