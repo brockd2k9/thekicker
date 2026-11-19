@@ -98,13 +98,21 @@ DUPLICATES = {}
 #   tyler       Tyler Brooks, a kicker on your own team from freshman year (HS_005);
 #               friend or rival depending on your choices. He goes on to college and
 #               the pros, so he can appear again later (relationship system, Stage B).
-#   new_kicker  a second kicker who arrives sophomore year (HS_111); high school only,
-#               tracked with flags (no relationship value). "Rival" in HS_137's title
-#               means him, not Tyler.
+#   new_qb      a new quarterback who arrives sophomore year (HS_111); high school
+#               only, tracked with flags (no relationship value). In the upstream
+#               skeleton he was a second kicker; "Rival" in HS_137's title means him.
 PEOPLE = {
     "HS_005": ["tyler"], "HS_030": ["tyler"], "HS_046": ["tyler"], "HS_092": ["tyler"],
-    "HS_111": ["new_kicker"], "HS_132": ["new_kicker"], "HS_137": ["new_kicker"],
-    "HS_147": ["new_kicker"],
+    "HS_111": ["new_qb"], "HS_132": ["new_qb"], "HS_137": ["new_qb"], "HS_147": ["new_qb"],
+}
+
+# Renames applied to the skeleton before converting (the New Kicker is a quarterback).
+TITLE_OVERRIDES = {"HS_111": "The New Quarterback"}
+FLAG_RENAMES = {
+    "welcomed_new_kicker": "welcomed_new_qb",
+    "new_kicker_rivalry": "new_qb_rivalry",
+    "new_kicker_friendship": "new_qb_friendship",
+    "new_kicker_relationship_cool": "new_qb_relationship_cool",
 }
 
 # Choice -> follow-up hints for the authoring template (not enforced).
@@ -129,7 +137,19 @@ def uniq(xs):
     return out
 
 
+def apply_renames(src):
+    ren = lambda xs: [FLAG_RENAMES.get(f, f) for f in xs]
+    for s in src["scenarios"]:
+        s["title"] = TITLE_OVERRIDES.get(s["id"], s["title"])
+        for k in ("requires_all_flags", "requires_any_flags", "excludes_any_flags", "sets_flags"):
+            s[k] = ren(s.get(k, []))
+    for e in src["dependencies"]:
+        e["when"] = FLAG_RENAMES.get(e["when"], e["when"])
+    return src
+
+
 def convert(src):
+    src = apply_renames(src)
     scen = {s["id"]: s for s in src["scenarios"]}
     edges = list(src["dependencies"])
     aliases = {k: v for k, v in DUPLICATES.items() if v}
