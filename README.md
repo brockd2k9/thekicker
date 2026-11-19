@@ -615,6 +615,20 @@ storage (per site), separate from the Android app's saves.
    zip the folder's *contents*, upload as an HTML game, viewport 720 x 1280, enable
    "Mobile friendly". Re-export after every change (the .pck holds the game and its data).
 
+**Typing on phone browsers (known limitation and fix).** A phone browser only opens its
+keyboard when a text field is focused inside the tap itself, and Godot handles taps a frame
+later, so tapping a Godot text field in the web build shows no keyboard (iOS Safari is the
+strictest). The native apps don't have this problem: there the New Career name field asks the
+OS for its keyboard on every tap. Godot's *Experimental Virtual Keyboard* web option and
+JavaScript workarounds (a hidden HTML input, `prompt()`) are unreliable on phones, and itch.io
+runs games in a cross-origin frame where dialogs can be blocked, so keep that option **off**.
+**The fix:** the web build on touch devices (`web_android` / `web_ios`, or any touch screen)
+never needs the keyboard. The name field starts with a random name and works as a button:
+tapping it opens **Pick a Name**, six suggestions from `data/career/world.json` ("names") with
+a Shuffle button (`CareerNewScreen.uses_name_chooser()`). Desktop browsers, desktop builds and
+the Android/iOS apps type the name as before. The New Career name is the only text field in
+the game; give any new one the same treatment.
+
 ## Desktop / Steam later
 - Add a Windows/Linux/macOS export preset. Mouse already works.
 - Remove the `window_*_override` (450×800) in Project Settings → Display → Window or
