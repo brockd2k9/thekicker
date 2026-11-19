@@ -1,0 +1,77 @@
+{
+	"_doc": "The recurring cast (relationship system, scripts/career/relationships.gd). Each person has a relationship value 0-100 (start 50 = neutral; numbers in career_tuning.tres, 'Relationships') saved per career in CareerData.people, and story flags in CareerData.flags. Fields: id (used in scenario data: choices 'rel': {coach: 5}, requirements min/max 'rel_coach': 60, and {coach} in scenario text = the person's name), role (shown on the People screen; 'roles' overrides it per stage), icon (UiIcons), name: fixed text, or style coach ('Coach' + a last name), full (first + last), first, or list (pick from 'names' below), stages (where this person exists; default all), per_stage (a new person each stage; the old one moves to 'Former'), known_at_start (false = hidden on the People screen until a scenario changes the value), tiers (labels from a minimum value; default 'tiers' below).",
+	"tiers": [
+		{"min": 0, "label": "Strained"},
+		{"min": 30, "label": "Neutral"},
+		{"min": 60, "label": "Close"},
+		{"min": 80, "label": "Trusted"}
+	],
+	"people": [
+		{
+			"id": "coach",
+			"role": "Head Coach",
+			"roles": {"college": "Special Teams Coach", "juco": "Special Teams Coach", "pro": "Special Teams Coach"},
+			"icon": "whistle",
+			"name": {"style": "coach"},
+			"per_stage": true
+		},
+		{
+			"id": "holder",
+			"role": "Holder",
+			"icon": "ball",
+			"name": {"style": "full"},
+			"per_stage": true
+		},
+		{
+			"id": "teacher",
+			"role": "Teacher",
+			"roles": {"college": "Academic Advisor", "juco": "Academic Advisor"},
+			"icon": "book",
+			"name": {"style": "list"},
+			"stages": ["high_school", "juco", "college"],
+			"per_stage": true
+		},
+		{
+			"id": "best_friend",
+			"role": "Best Friend",
+			"icon": "social",
+			"name": {"style": "full"}
+		},
+		{
+			"id": "rival",
+			"role": "Kicker",
+			"icon": "flame",
+			"name": {"fixed": "Tyler Brooks"},
+			"known_at_start": false,
+			"tiers": [
+				{"min": 0, "label": "Bitter Rival"},
+				{"min": 30, "label": "Rival"},
+				{"min": 55, "label": "Friendly Rival"},
+				{"min": 75, "label": "Friend"}
+			]
+		},
+		{
+			"id": "parent",
+			"role": "Dad",
+			"icon": "home",
+			"name": {"fixed": "Dad"}
+		},
+		{
+			"id": "sibling",
+			"role": "Little Brother",
+			"icon": "heart_hand",
+			"name": {"style": "first"}
+		},
+		{
+			"id": "love_interest",
+			"role": "Someone Special",
+			"icon": "heart_hand",
+			"name": {"style": "list"},
+			"known_at_start": false
+		}
+	],
+	"names": {
+		"teacher": ["Ms. Alvarez", "Mr. Okoye", "Ms. Lindgren", "Mr. Castillo", "Mrs. Whitfield", "Mr. Tanaka", "Ms. Harlow", "Dr. Bishop"],
+		"love_interest": ["Maya", "Jordan", "Riley", "Sofia", "Avery", "Nia", "Camila", "Quinn", "Harper", "Leah"]
+	}
+}

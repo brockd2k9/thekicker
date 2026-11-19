@@ -96,3 +96,18 @@ func test_main_save_v1_upgrades() -> void:
 	eq(d["career"], {"last_slot": 0}, "career section")
 	eq(d["stats"]["practice"]["made"], 9.0, "stats kept")
 	check(d["achievements"]["unlocked"].has("first_make"), "achievements kept")
+
+
+func test_pre_relationship_saves_get_a_neutral_cast() -> void:
+	var hs := _load("career_v2_hs_junior.json")
+	eq(Relationships.role(hs, "coach"), "Head Coach", "HS coach")
+	check(hs.people.has("teacher") and hs.people.has("rival"), "full HS cast")
+	for id in hs.people:
+		eq(Relationships.value(hs, id), 50.0, id + " neutral (no effect on the old save)")
+	check(Relationships.tyler_team(hs).is_empty(), "Tyler still in high school")
+	var col := _load("career_v2_college.json")
+	eq(Relationships.role(col, "coach"), "Special Teams Coach", "college coach")
+	eq(str(Relationships.tyler_team(col).get("stage", "")), "college", "Tyler went to college too")
+	eq(col.former_people, [], "nobody known from earlier stages")
+	var again := _load("career_v2_college.json")
+	eq(JSON.stringify(again.people), JSON.stringify(col.people), "the same cast every load")

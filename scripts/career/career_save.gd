@@ -86,6 +86,11 @@ static func _migrate(d: Dictionary) -> Dictionary:
 		if str(d.get("phase", "")) == "stage_end":
 			d["phase"] = "recruiting"
 		v = 2
+	# Version 2 -> 3: relationships (people, former_people). Nothing to convert:
+	# CareerData.from_dict creates the current stage's cast at 50 (neutral, no
+	# effect) and puts Tyler Brooks on the team he'd have moved on to.
+	if v < 3:
+		v = 3
 	if v > CareerData.VERSION:
 		push_warning("CareerSave: career is from a newer version (%d)" % v)
 	d["career_version"] = CareerData.VERSION

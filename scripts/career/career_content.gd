@@ -182,7 +182,8 @@ static func fill(text: String, vars: Dictionary) -> String:
 static func _check_requires(problems: PackedStringArray, where: String, req: Dictionary) -> void:
 	for bound in ["min", "max"]:
 		for k in req.get(bound, {}):
-			if CareerData.group_of(k) == "" and not (k in CareerData.METRICS):
+			if CareerData.group_of(k) == "" and not (k in CareerData.METRICS) \
+					and not (str(k).begins_with("rel_") and str(k).substr(4) in Relationships.ids()):
 				problems.append("%s: unknown stat '%s' in requires" % [where, k])
 	for key in ["traits", "any_traits"]:
 		for t in req.get(key, []):
@@ -279,9 +280,17 @@ static func validate() -> PackedStringArray:
 			var n_stats := ScenarioEngine.progress_changes(ch).size()
 			for g in ch.get("stats", {}):
 				n_stats += (ch["stats"][g] as Dictionary).size() if ch["stats"][g] is Dictionary else 0
+			n_stats += (ch.get("rel", {}) as Dictionary).size() if ch.get("rel") is Dictionary else 0
 			if n_stats == 0:
 				problems.append("scenario %s: choice '%s' changes no stats" % [id, ch.get("label", "")])
 			_check_requires(problems, "scenario %s choice" % id, ch.get("requires", {}))
+			var rel: Variant = ch.get("rel", {})
+			if not (rel is Dictionary):
+				problems.append("scenario %s: choice rel must be {person: change}" % id)
+			else:
+				for pid in rel:
+					if not (str(pid) in Relationships.ids()):
+						problems.append("scenario %s: unknown person '%s' in rel" % [id, pid])
 			var fu: Variant = ch.get("follow_up")
 			if fu != null:
 				var fid := str(fu.get("id", "")) if fu is Dictionary else str(fu)
@@ -301,6 +310,7 @@ static func validate() -> PackedStringArray:
 				if modifier(str(m)).is_empty():
 					problems.append("scenario %s: unknown modifier '%s'" % [id, m])
 	problems.append_array(graph_problems(scenarios()))
+	problems.append_array(Relationships.problems())
 	for r in game_day().get("warmup", {}).get("results", {}).values():
 		if modifier(str(r.get("modifier", ""))).is_empty():
 			problems.append("game_day warmup: unknown modifier '%s'" % r.get("modifier"))
