@@ -94,6 +94,19 @@ DROP_SELF_REQUIRES = {"HS_159": ["recognized_team_support"],
 #                           are listed in its authoring note instead)
 DUPLICATES = {}
 
+# Recurring characters per scenario, for writers (Option B, confirmed):
+#   tyler       Tyler Brooks, a kicker on your own team from freshman year (HS_005);
+#               friend or rival depending on your choices. He goes on to college and
+#               the pros, so he can appear again later (relationship system, Stage B).
+#   new_kicker  a second kicker who arrives sophomore year (HS_111); high school only,
+#               tracked with flags (no relationship value). "Rival" in HS_137's title
+#               means him, not Tyler.
+PEOPLE = {
+    "HS_005": ["tyler"], "HS_030": ["tyler"], "HS_046": ["tyler"], "HS_092": ["tyler"],
+    "HS_111": ["new_kicker"], "HS_132": ["new_kicker"], "HS_137": ["new_kicker"],
+    "HS_147": ["new_kicker"],
+}
+
 # Choice -> follow-up hints for the authoring template (not enforced).
 FOLLOW_UP_HINTS = {
     "HS_138": [{"flag": "questionable_recruiting_clip", "id": "HS_155", "weeks": 3}],
@@ -198,6 +211,8 @@ def convert(src):
             note["choice_locks"] = beat["choice_locks"]
             note["beat_note"] = ("Always plays. Give one choice per lock flag "
                                  "(requires {flags: [flag]} + lock_text) and one open choice.")
+        if sid in PEOPLE:
+            note["people"] = PEOPLE[sid]
         if sid in FOLLOW_UP_HINTS:
             note["follow_up_hints"] = FOLLOW_UP_HINTS[sid]
         a_from = sorted(a for a, w in aliases.items() if w == sid)
