@@ -1,0 +1,460 @@
+{
+  "_about": "Freshman starter slice: the freshman scenarios that start story chains (HS_002, 003, 005, 101, 103, 104, 106, 107), the first scenario each chain leads to (HS_030, 034, 126, 134, 139, 145, 157), and freshman scenarios that introduce the cast (coach, Dad, little brother, teacher, someone special...). Write and test these first.",
+  "_how": "Fill in category, text and choices; leave _info alone (it's read-only). See tools/authoring/WRITING_GUIDE.md. Import: python3 tools/import_scenarios.py <this file> --dry-run",
+  "scenarios": [
+    {
+      "id": "HS_001",
+      "title": "The New Kid",
+      "_info": {
+        "when": "Freshman year (season 1), any week"
+      },
+      "category": "social",
+      "text": "It's your first week at the high school, and the lunchroom feels like it already has its own seating chart. A few players from the football team wave you over, but you don't know them yet.",
+      "choices": [
+        {
+          "label": "Join the football table",
+          "result": "You sit with the team and learn everyone's names. The conversation is awkward at first, but a couple of players make room for you.",
+          "stats": {
+            "life": {
+              "social": 5,
+              "fun": 3
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Introduce yourself to someone new",
+          "result": "You strike up a conversation with another student who is also finding their way around. It feels good to make a connection outside football.",
+          "stats": {
+            "life": {
+              "social": 4,
+              "energy": -3
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Find a quiet spot and review the playbook",
+          "result": "You spend lunch learning the team's terminology. You feel more prepared at practice, even if you haven't made many friends yet.",
+          "stats": {
+            "life": {
+              "energy": 3,
+              "social": -4
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_002",
+      "title": "Homework or the Field?",
+      "_info": {
+        "when": "Freshman year (season 1), any week",
+        "must_set_flags": [
+          "academic_effort"
+        ],
+        "leads_to": [
+          {
+            "to": "HS_021",
+            "flag": "academic_effort"
+          }
+        ]
+      },
+      "category": "school",
+      "text": "Your math assignment is due tomorrow, but the field is open and the kickers are getting extra reps. You know you can't put off the homework forever.",
+      "choices": [
+        {
+          "label": "Finish the assignment first",
+          "result": "You miss some extra kicks, but turn in work you're proud of. Your teacher notices you took the deadline seriously.",
+          "stats": {
+            "life": {
+              "energy": -5,
+              "fun": -3
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "academic_effort": true
+          },
+          "grades": 0.15
+        },
+        {
+          "label": "Get extra kicks in before studying",
+          "result": "You get valuable reps while the field is quiet, then work through the assignment later than planned.",
+          "stats": {
+            "life": {
+              "energy": -6,
+              "fun": 2
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "set_flags": {},
+          "grades": -0.05
+        }
+      ]
+    },
+    {
+      "id": "HS_003",
+      "title": "The Locker Room Joke",
+      "_info": {
+        "when": "Freshman year (season 1), any week",
+        "must_set_flags": [
+          "helped_freshman",
+          "bullied_freshman"
+        ],
+        "leads_to": [
+          {
+            "to": "HS_034",
+            "flag": "helped_freshman"
+          },
+          {
+            "to": "HS_073",
+            "flag": "helped_freshman"
+          },
+          {
+            "to": "HS_094",
+            "flag": "helped_freshman"
+          },
+          {
+            "to": "HS_034",
+            "flag": "bullied_freshman"
+          }
+        ]
+      },
+      "category": "team",
+      "text": "A few upperclassmen hide a freshman's practice gear and laugh as he searches the locker room. One of them nudges you to join in.",
+      "choices": [
+        {
+          "label": "Step in and help him find it",
+          "result": "The laughing dies down. One senior rolls his eyes, but the freshman gives you a grateful nod on the way out.",
+          "stats": {
+            "life": {
+              "social": -3
+            },
+            "football": {},
+            "personality": {
+              "leadership": 3,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "helped_freshman": true
+          }
+        },
+        {
+          "label": "Laugh along with the upperclassmen",
+          "result": "The older players welcome you into the joke, but the freshman stops looking your way. You can tell he won't forget it.",
+          "stats": {
+            "life": {
+              "social": 4,
+              "fun": 3
+            },
+            "football": {},
+            "personality": {
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ],
+          "set_flags": {
+            "bullied_freshman": true
+          }
+        },
+        {
+          "label": "Don't join in; quietly return his gear",
+          "result": "You avoid turning it into a bigger scene and make sure he gets his things back. The seniors move on, though you haven't challenged them directly.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_004",
+      "title": "Dad's Expectations",
+      "_info": {
+        "when": "Freshman year (season 1), any week",
+        "people": [
+          "parent"
+        ]
+      },
+      "category": "family",
+      "text": "After practice, {parent} says they know you can become the best kicker on the team. They mean it as encouragement, but lately every conversation seems to turn into what you need to improve.",
+      "choices": [
+        {
+          "label": "Tell {parent} how the pressure feels",
+          "result": "You explain that you appreciate the support but need room to make mistakes. {parent} listens, even if the conversation is a little uncomfortable.",
+          "stats": {
+            "life": {
+              "social": -2,
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {},
+          "rel": {
+            "parent": 7
+          }
+        },
+        {
+          "label": "Ask {parent} to help set realistic goals",
+          "result": "You sit down together and make a simple plan for practice. The expectations feel more manageable when you have a say in them.",
+          "stats": {
+            "life": {
+              "energy": -3
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {},
+          "rel": {
+            "parent": 5
+          }
+        },
+        {
+          "label": "Change the subject for now",
+          "result": "{parent} keeps talking about your next game. You avoid an argument tonight, but the pressure doesn't really go away.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "energy": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": -1,
+              "charisma": -1
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ],
+          "set_flags": {},
+          "rel": {
+            "parent": -4
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_005",
+      "title": "The First Rival",
+      "_info": {
+        "when": "Freshman year (season 1), any week",
+        "must_set_flags": [
+          "befriended_tyler",
+          "hostile_tyler_rivalry"
+        ],
+        "people": [
+          "rival"
+        ],
+        "leads_to": [
+          {
+            "to": "HS_030",
+            "flag": "befriended_tyler"
+          },
+          {
+            "to": "HS_092",
+            "flag": "hostile_tyler_rivalry"
+          },
+          {
+            "to": "HS_147",
+            "flag": "befriended_tyler"
+          },
+          {
+            "to": "HS_147",
+            "flag": "hostile_tyler_rivalry"
+          }
+        ]
+      },
+      "category": "team",
+      "text": "{tyler}, the other freshman kicker, drills four straight from forty yards on the first day of practice. He catches you watching and says, \"Hope you're ready to compete.\"",
+      "choices": [
+        {
+          "label": "Ask him to train together",
+          "result": "{tyler} seems surprised, then agrees. You split the net and trade pointers until practice ends. The competition suddenly feels more useful than personal.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "social": 2
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "charisma": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "befriended_tyler": true
+          },
+          "rel": {
+            "rival": 8
+          }
+        },
+        {
+          "label": "Tell him you'll take the starting job",
+          "result": "{tyler} grins and fires back that he'll see you at tryouts. The challenge lights a fire under you, though the two of you aren't exactly friends.",
+          "stats": {
+            "life": {
+              "social": -2
+            },
+            "football": {
+              "power": 1
+            },
+            "personality": {
+              "ambition": 3
+            }
+          },
+          "modifiers": [
+            "pumped_up"
+          ],
+          "set_flags": {
+            "hostile_tyler_rivalry": true
+          },
+          "rel": {
+            "rival": -8
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_008",
+      "title": "The Missed Kick",
+      "_info": {
+        "when": "Freshman year (season 1), any week"
+      },
+      "category": "training",
+      "text": "You miss a kick in practice that you normally make. The ball sails wide, and you can feel the other kickers watching to see how you'll respond.",
+      "choices": [
+        {
+          "label": "Stay after and review the miss",
+          "result": "You slow the rep down, check your plant foot, and work through a few controlled kicks. The extra effort helps you understand what went wrong.",
+          "stats": {
+            "life": {
+              "energy": -5,
+              "fun": -2
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "intelligence": 1,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Shake it off and reset for tomorrow",
+          "result": "You pack up with the group instead of chasing one bad rep. A little distance helps you keep the miss from taking over your night.",
+          "stats": {
+            "life": {
+              "energy": 3,
+              "fun": 3
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Get frustrated and rush a few more kicks",
+          "result": "You try to force the next few attempts, but your timing gets worse. By the time you stop, you're more annoyed than when you started.",
+          "stats": {
+            "life": {
+              "energy": -4,
+              "social": -2
+            },
+            "football": {
+              "accuracy": -1,
+              "resilience": -1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {}
+        }
+      ]
+    }
+  ]
+}
