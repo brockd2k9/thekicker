@@ -90,9 +90,16 @@ Rerun `tools/career_sim.tscn` after changing any of them and compare with
 ## Decisions on record
 - **High school is 4 seasons** (`high_school_seasons`, start age 14). The original Career Mode
   spec said 3; changed to 4 at the owner's later instruction. Tunable.
-- **Kickoffs, onside kicks and the sideline warmup net use a 2D swipe pad**, not the 3D kick
-  scene (which is built around field goals). Same swipe -> power/aim math and the same kick
-  profile. Fine for now; a 3D kickoff scene could come later.
+- **Kickoffs and onside kicks are in the 3D kick scene** (kickoff / onside formation, ball on a
+  tee, stage posts at the far end). They keep the old sideline carry curve so career balance
+  doesn't move, are judged where the ball lands (out of bounds now from the landing point, wind
+  included, instead of "aim beyond 12°"), and don't count in the field-goal stats.
+- **The sideline warmup is in the 3D scene too**: tee on the sideline grass by the bench, a
+  kicking net 6.5 m ahead, the field-goal camera, no wind. Same rules as the old pad (3 strikes,
+  2 pure = Warmed Up). The field is empty during the warmup (kept light on purpose).
+- **Kickoff spots**: high school from the 40, college and pro from the 35 (was the 40 for all
+  stages, so college/pro touchbacks need 5 more yards). Touchback 20 / 25 / 30, out of bounds
+  35 / 35 / 40. Conventional kickoff alignment at every level.
 - **Warmup once per half**, the first time the offense drives into range; its result
   (Warmed Up / Loose / Cold Leg) lasts until halftime.
 - **Weekly life drift**: every week each life stat moves `weekly_life_drift` (10%) back toward
@@ -154,8 +161,19 @@ are a stand-in for real swipes, so everything involving kicking quality needs a 
 
 **Game day**
 13. Game sim: ~1.6 FG + 2 XP + 4 kickoffs per game (`drives_per_half` 4, `base_td_chance`).
-14. Sideline pad: kickoff carry 75 yd at full power (touchback needs a strong straight flick);
-    warmup net window `net_power_min/max` 0.5-0.92, `net_aim_deg` 6; onside window 10-18 yd.
+13a. Warmup net: launch angle `warmup_elevation_deg` 22, tee `warmup_sideline_x` 29 m from the
+    middle of the field (sideline at 24.4 m), `warmup_next_delay` 0.5 s between strikes. Check the
+    feedback reads well: PURE! / PUSHED IT / PULLED IT / SOFT CONTACT / OVER-SWUNG.
+14. Kickoff carry 75 yd at full power (from the 35 a touchback needs ~87% power with Power
+    stat neutral); onside window 10-18 yd; warmup net window `net_power_min/max` 0.5-0.92,
+    `net_aim_deg` 6.
+14a. 3D kickoff: **out of bounds is much rarer than the old 12° rule**: with `max_aim_deg` 20 a calm
+    kickoff can't quite reach the sideline; it takes a strong crosswind with the aim. If kickoffs
+    should go out more often, raise `max_aim_deg` (affects field goals too) or say so and we add a
+    kickoff-only aim scale.
+14b. 3D kickoff feel: camera `kickoff_camera_offset` (0, 3.6, 6.5), `kickoff_camera_fov` 56 (field
+    goals: 2.4 m back, fov 46): the ball is smaller on the tee than in a field goal. Launch angle
+    45° (kickoff) / 14° (onside), coverage speed 7.5 m/s, returns 15-30 yards.
 15. Pressure: quarter ramp 0.1-0.45, close game +0.25, game winner 1.0; college +0.05 (+ tier),
     pro +0.12. Game-winning kicks are rare (close game, final 2 minutes).
 16. Goalpost widths: high school 7.11 m, college 5.64 m, pro 5.3 m.
@@ -164,12 +182,25 @@ are a stand-in for real swipes, so everything involving kicking quality needs a 
 17. Scenario repetition: `max_scenario_repeats_per_season` 2, `category_repeat_decay` 0.5,
     1-2 scenarios per week (`second_scenario_chance` 0.4), 2 in bye weeks and offseasons.
 
+**Relationships and story timing** (no written scenario moves a relationship yet, so these are
+untested in play; values in `career_tuning.tres` "Relationships" and "Scenario Picks")
+18. Effects at 100 (half that at 75, reversed at 0): coach -0.12 pressure sensitivity and 5% longer
+    tries, holder -0.25 deg aim spread, Dad / brother +1.5 energy a week each, best friend /
+    someone special +1 fun and +1 social a week each, teacher +0.08 GPA a season. Tyler: friend
+    -0.06 pressure sensitivity; rival +0.08 football growth a week; facing his team 0.06 pressure.
+19. Values drift 2% a week back toward 50: is a relationship you built still felt a season later?
+20. Recruiting: coach 70+ recommends (+6 points), 25 or below costs 4; teacher 70+ eases college
+    GPA minimums by 0.1.
+21. Story scenarios: x4 weight while their window is open, forced in its last week; at most 2
+    forced scenarios a week.
+
 ## Known gaps
 - No full signed Android build yet: a pack-only export was verified (all data included, boots and
   runs Career Mode screens). Build the .apk on your own machine (README → Export for Android).
 - Cleanup: the personal cloud environment **thekicker** (allows `dl.google.com`) was created for an
   SDK download that was dropped. Nothing depends on it; delete it in claude.ai if unneeded.
-- Kickoffs, onside kicks and the warmup net are on a 2D pad, not the 3D scene.
+- Kickoff returns are a number, not an animated return (the returner moves under the ball; no tackle).
+- The warmup net's ripple is a simple shader bulge; the ball doesn't wrap into the mesh.
 - The simulator's kick model is a stand-in; fallback-route frequency and pro career length need
   real-play checks.
 - Game-winning kicks (and the Walk-Off achievement) are rare by design of the game sim.

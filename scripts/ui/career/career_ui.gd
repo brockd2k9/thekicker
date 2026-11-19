@@ -172,6 +172,21 @@ static func change_chips(changes: Dictionary, size: int = 24) -> HFlowContainer:
 	return f
 
 
+## Relationship changes {person id: change} as chips: "Coach Vance +5".
+static func rel_chips(c: CareerData, rel: Dictionary, size: int = 24) -> HFlowContainer:
+	var f := HFlowContainer.new()
+	f.add_theme_constant_override("h_separation", 8)
+	f.add_theme_constant_override("v_separation", 8)
+	f.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	for id in rel:
+		var d := float(rel[id])
+		if absf(d) < 0.5:
+			continue
+		f.add_child(UiKit.chip("%s %s%s" % [Relationships.name_of(c, str(id)), "+" if d > 0 else "", _num(d)],
+			UiKit.GOOD if d > 0 else UiKit.BAD, false, str(Relationships.def(str(id)).get("icon", "social")), size))
+	return f
+
+
 static func chip(text: String, good: bool, size: int = 22) -> PanelContainer:
 	return UiKit.chip(text, UiKit.GOOD if good else UiKit.BAD, false, "", size)
 

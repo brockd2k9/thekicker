@@ -1,5 +1,5 @@
 Drop optional sound files here (.ogg/.wav/.mp3):
-  kick, snap, catch, good, miss, block          (kick scene)
+  kick, snap, catch, good, miss, block, net     (kick scene; net = ball into the warmup net)
   ui_tap, achievement, run_over                (menus, toasts, Challenge results)
   music                                        (loops on the Music bus)
   ui_confirm, ui_locked, ui_transition          (UI: primary buttons, locked choices, screen change)

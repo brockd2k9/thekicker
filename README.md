@@ -71,6 +71,36 @@ A game mode plugs into the kick scene through `KickMode` (`scripts/modes/kick_mo
 it picks the next `KickSituation` (distance, wind, pressure) and says whether there is a
 next kick. It never touches the kicking mechanic. `mode = null` is free practice.
 
+**Kick types.** The same scene plays five kicks (`KickSituation.KickType`, from
+`KickMode.kick_type()`, read before the scene enters the tree):
+- `FIELD_GOAL`, `EXTRA_POINT`: everything above, unchanged.
+- `KICKOFF`, `ONSIDE`: ball on a tee, kickoff / onside formation (`kickoff_formation.gd`), no snap,
+  hold, kick clock or block rush. The same swipe reading (`KickController.validate` /
+  `power_from_swipe`, aim + pressure wobble + the profile's aim error), wind (× `wind_mult`) and
+  KickProfile apply. Distance follows the old sideline curve (`KickoffRules.max_carry_yards` ×
+  power × `power_mult`); `KickLaunch` finds the launch speed that makes the 3D ball land (kickoff) or
+  stop (onside) there. `KickoffJudge` judges where it came down:
+  - kickoff: TOUCHBACK (reached the goal line), DEEP KICK (fielded inside the 10), RETURNED,
+    SHORT KICK (fielded at the 25 or beyond), OUT OF BOUNDS (landed past a sideline, wind included).
+    Fielded kicks get a simple return (15-30 yards, less for long hang time, capped at midfield),
+    which sets where the opponent's next drive starts in the play-by-play.
+  - onside: RECOVERED! / THEIR BALL / OUT OF BOUNDS. Same risk/reward as before: a "good" onside
+    (rests 10-18 yards out, aim within 15°) is recovered 45% of the time, any other 8%.
+- `WARMUP_NET` (Career's sideline warmup, `WarmupMode`): the same scene on the sideline grass
+  beside the team bench (`SidelineSet`: bench, cooler, 5 teammates in team colors, a strip of crowd;
+  the field is empty), ball on a tee kicked into a net (`KickingNet`: frame on poles, mesh net that
+  ripples where the ball hits, then the ball drops). Field-goal camera, no wind, no pressure, the
+  player's KickProfile. Each strike is judged by `WarmupJudge` with the old pad's rules (power
+  0.5-0.92 and aim within 6° = PURE!, otherwise PUSHED IT / PULLED IT / SOFT CONTACT / OVER-SWUNG);
+  3 strikes, then WARMED UP (2+ pure) or LOOSE, handed to the game sim as before.
+  `SidelineSet` and `KickingNet` are standalone pieces for anything else on the sideline.
+  The result is in `tee_result` after `attempt_finished`. Tee kicks are **not** reported to
+  `GameState.kick_resolved`, so they never touch field-goal stats, streaks or achievements.
+  Camera: the same kicker's view from the start of the run-up, higher and a little wider
+  (`kickoff_camera_offset`, `kickoff_camera_fov`, `kickoff_camera_follow` in `kick_tuning.tres`,
+  group "Kickoff", with the launch angles and coverage speed). Same shake, slow-motion beat and
+  banner as a field goal.
+
 ## Saves
 
 One JSON file in the user data folder: **`user://kicker_save.json`**
@@ -245,12 +275,17 @@ scripts/
   systems/save_store.gd       JSON save file, version + migrations
   modes/kick_mode.gd          KickMode: how a mode plugs into the kick scene
   modes/challenge_rules.gd    Challenge difficulty ramp + 3-miss rule
+  modes/warmup_mode.gd        sideline warmup: 3 strikes into the net, then pure / loose
   config/kick_tuning.gd       KickTuning resource definition
   input/swipe.gd              swipe data, normalized to screen height
   input/swipe_input.gd        pointer → swipe (touch & mouse, one code path)
   kick/kick_controller.gd     swipe → launch velocity (power curve, aim, wobble)
   kick/kick_modifiers.gd      Phase 2 seam: stats → multipliers (neutral now)
-  kick/kick_situation.gd      random distance + pressure scenario
+  kick/kick_situation.gd      one attempt: kick type, distance, wind, pressure (random or from a mode)
+  kick/kickoff_rules.gd       kickoff / onside numbers (spot, touchback, return, onside odds)
+  kick/kickoff_judge.gd       touchback / deep / returned / short / out of bounds; onside results
+  kick/kick_launch.gd         tee kicks: launch speed for a target carry (same integrator as Ball)
+  kick/warmup_judge.gd        sideline net: pure strike rules, session result
   kick/kick_result.gd         GOOD / WIDE LEFT / WIDE RIGHT / SHORT / BLOCKED rules
   kick/wind.gd                crosswind + gusts
   kick/snap_animator.gd       snap: snapper -> holder's hands -> spot
@@ -259,13 +294,17 @@ scripts/
   kick/ball_trail.gd          dotted arc trail
   kick/aim_marker.gd          wobbling aim ring
   field/field_builder.gd      field, stands, light towers, formation, holder
+  field/kickoff_formation.gd  kickoff / onside formations, tee, yard numbers, coverage run
+  field/sideline_set.gd       team sideline: bench, cooler, teammates, crowd strip, net + tee
+  field/kicking_net.gd        kicking net on poles with a ripple (shaders/net.gdshader)
   field/player_figure.gd      jointed football player (helmet, pads, numbered jersey,
                               gloves, cleats): stance, run, block, jump, dive, kneel
   field/team_kit.gd           team uniform colors (fictional teams) + shared materials
   field/rush_plan.gd          random block call per attempt (who comes, who dives/leaps)
   field/goal_posts.gd         posts + wind ribbons, regulation dimensions
   camera/kick_camera.gd       behind-the-ball camera, follow + shake
-  game/field_goal_game.gd     attempt state machine (SETUP → SNAP → KICK_WINDOW → FLIGHT → RESULT)
+  game/field_goal_game.gd     attempt state machine (SETUP → SNAP → KICK_WINDOW → FLIGHT → RESULT);
+                              tee kicks skip the snap (SETUP → KICK_WINDOW → FLIGHT → RESULT)
   ui/hud.gd, wind_indicator.gd, swipe_trail.gd
   ui/ui_tokens.gd             UiTokens: palettes, spacing, radii, fonts, timings (the one place)
   ui/ui_kit.gd                theme, widgets, safe-area frame, modal/confirm, feedback hook
@@ -313,7 +352,8 @@ dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career
 | What | Where |
 |---|---|
 | Balance numbers (stat -> kick curves, caps, gains, seasons, game sim, scenario picks) | `tuning/career_tuning.tres` (defaults + docs in `scripts/career/career_tuning.gd`) |
-| Scenarios (49: HS, college, pro, bye/offseason, trait-gated) | `data/career/scenarios_*.json` (field reference: `_doc` in `scenarios_hs.json`) |
+| Scenarios (57 written: HS, college, pro, bye/offseason, trait-gated; plus the 160-scenario high school story graph as drafts) | `data/career/scenarios_*.json` (field reference: `_doc` in `scenarios_hs.json`; graph: `scenarios_hs_graph.json`) |
+| Relationships: the cast (8 people), roles, tiers, name lists | `data/career/people.json` (rules: `scripts/career/relationships.gd`; numbers: `career_tuning.tres` "Relationships") |
 | Traits (8), game-day modifiers (19), stat descriptions | `data/career/traits.json`, `modifiers.json`, `stats_info.json` |
 | Schools (16 HS, 18 colleges in 3 tiers, 6 junior colleges), 12 pro clubs, names, play-by-play | `data/career/world.json`, `game_day.json` |
 | Progression tables: college tiers, offers, draft rounds, tryouts, contracts | `data/career/progression.json` (weights in `career_tuning.tres`) |
@@ -329,8 +369,14 @@ with school-colored padding/bands, pro polished and narrower; widths in `career_
 "Goalposts") and dresses both lines in the teams' colors. Without it the scene looks as before.
 
 How the pieces connect: a career game runs the existing kick scene through `CareerGameMode`
-(a `KickMode`) with `KickProfile.to_kick_modifiers()`, so career kicks report through
-`GameState.kick_resolved` with `mode = &"career"` and count in My Stats and Achievements.
+(a `KickMode`) with `KickProfile.to_kick_modifiers()`, so career field goals and extra points
+report through `GameState.kick_resolved` with `mode = &"career"` and count in My Stats and
+Achievements. Kickoffs and onside kicks run in the same 3D scene (`CareerGameMode.kickoff_rules_for()`
+builds the stage's `KickoffRules`) and hand `tee_result` back to `GameSim.resolve_call()`; they
+don't count in My Stats. Kickoff spots per stage (`career_tuning.tres`, "Sideline Kicks"): high
+school from the 40, college and pro from the 35; touchbacks at the 20 / 25 / 30, out of bounds at
+the 35 / 35 / 40. The sideline warmup is the same 3D scene too (`WarmupMode`); the old 2D
+sideline pad is gone.
 `CareerContent.validate()` checks every data file (run by the Career Debug screen, the simulator and the tests; problems print as warnings).
 
 **Balance simulator:** `godot --headless res://tools/career_sim.tscn -- careers=40 seed=1` plays
@@ -339,10 +385,56 @@ many careers with different choice strategies through the real systems and write
 distributions, scenario frequencies). `tools/career_sim_baseline.md` is the current baseline.
 Design decisions and values to playtest: `PLAYTEST.md`, "Career Mode".
 
+**Relationships:** eight recurring people (head coach, holder, teacher, best friend, Tyler
+Brooks, Dad, your little brother, someone special), each with a value 0-100 saved per career in
+`CareerData.people` (story flags stay in `CareerData.flags`); the People screen (Hub) lists everyone
+you've met. Scenario choices move values (`"rel": {"coach": 5}`), scenarios and choices can require
+them (`"min": {"rel_coach": 60}`), and scenario text can name people (`{coach}`, `{tyler}`...).
+Values feed game day (coach: pressure and how long a kick you're sent out for; holder: aim; Tyler),
+the week (family: energy; friends: fun and social; Tyler as a rival: football growth), grades
+(teacher) and recruiting (final-season coach recommendation; a teacher who vouches eases college
+GPA minimums). Every effect is zero at 50, the starting value. Coach, holder and teacher are new
+each stage (the old ones are listed as Former); Tyler Brooks signs with his own college and pro
+club, shows up on your schedule once you've met him, and is your teammate if you pick his school.
+Save version 3 (older saves get the current stage's cast at 50).
+
+**Tests:** `godot --headless --path . res://tests/run_tests.tscn` runs every `test_*` method in
+`tests/test_*.gd` (add `-- only=test_saves` for one file) and exits with the number of failing
+tests: old-save compatibility (frozen v0/v1/v2 saves in `tests/fixtures/`; never edit those, add a
+new fixture per save version), the scenario engine, `CareerContent.validate()` on the real data,
+kickoffs (`test_kickoff.gd`: the judge, the launch solver, per-stage rules, the career wiring) and the
+warmup (`test_warmup.gd`: same rules as the old pad, session flow). `tools/ui_check.tscn` also captures
+`warmup`, `warmup_result`, `kickoff`, `kickoff_result` and `onside` from a real career game.
+The balance simulator gives the same report for the same seed, so a content-neutral change can
+be checked by diffing its tables before and after.
+
+**High school story graph:** 160 scenarios (HS_001-HS_160) with flag dependencies, in
+`data/career/scenarios_hs_graph.json`. They start as drafts (`"draft": true`, no text or choices):
+the engine never picks a draft and `validate()` checks only its graph data, so they can be written
+a few at a time. Fill in `category`, `text` and `choices` (each choice setting the scenario's
+`expected_flags` between them), then remove `draft`.
+- `python3 tools/convert_hs_graph.py` regenerated the file from the upstream skeleton
+  (`tools/hs_graph/`); its decision tables (ungated targets, story windows, year-0 seasons,
+  duplicates) are the record of how the graph was mapped. Re-running keeps written content.
+- `python3 tools/validate_scenario_graph.py` runs the same flag checks as `validate()` without
+  Godot, plus warnings (overlapping same-season windows, unread flags, similar titles) and a
+  scenarios-per-season count. `--skeleton <file>` audits a file in the upstream format.
+- **Writing content:** `tools/authoring/WRITING_GUIDE.md` (rules, stat ranges, modifiers,
+  people, placeholders), fill-in templates `tools/authoring/hs_template_freshman.json` (25 to
+  start with) and `hs_template_all.json` (all 150; regenerate with
+  `python3 tools/make_authoring_templates.py`), and three finished examples in `examples.json`.
+  Import with `python3 tools/import_scenarios.py <file> --dry-run` (check only), then without
+  `--dry-run` (writes into the data files; nothing is written if there's any error).
+  Tool tests: `python3 -m unittest discover -s tests -p 'test_*.py'`.
+- Story scenarios (`"story": true`) have a season/week window: boosted while it's open, forced
+  in its last week if not seen (`story_weight_mult`, `max_forced_per_week` in `career_tuning.tres`,
+  "Scenario Picks").
+
 ## Sound
 
 `Sfx.play(&"kick")` is called for `snap`, `catch`, `kick`, `good`, `miss`, `block`, plus
-`ui_tap` (menu buttons), `achievement` (toast) and `run_over` (Challenge results).
+`ui_tap` (menu buttons), `achievement` (toast), `run_over` (Challenge results) and `net` (ball into
+the sideline warmup net).
 UI hooks (`UiKit.feedback`, also a haptic pulse; see `UiKit.FEEDBACK`): `ui_confirm`
 (primary buttons, picking a choice), `ui_locked` (tapping a locked choice), `ui_transition`,
 `stat_up`, `trait_unlock`, `week_result`, `result_good` / `result_miss` (HUD banner, on top
@@ -450,7 +542,7 @@ keytool -v -genkey -keystore kicker-release.keystore -alias kicker -keyalg RSA -
 3. *Permissions*: tick **Vibrate** (used for the kick vibration). Nothing else is needed.
 4. *Launcher Icons*: the project has no icon yet, so Godot's default is used. Add a
    192×192 main icon and 432×432 adaptive foreground/background before a store release.
-5. *Resources → Filters to exclude files*: `tests_tmp/*, tools/*` (dev-only). Keep
+5. *Resources → Filters to exclude files*: `tests/*, tests_tmp/*, tools/*` (dev-only). Keep
    *Export all resources in the project*. Career data (`data/career/*.json`) is included
    automatically.
 6. Orientation is already portrait from Project Settings (`display/window/handheld/orientation`).
@@ -479,31 +571,39 @@ download of the Android SDK that was then dropped in favour of building on your 
 Nothing in the project depends on it. If you don't need it, delete it in
 claude.ai → Claude Code → the environment menu → **thekicker** → Edit / Delete.
 
-## Web build (itch.io)
+## Export for the web
 
-1. **Editor → Manage Export Templates → Download and Install** (once).
-2. **Project → Export → Add… → Web**. Leave *Thread Support* off (runs on itch.io without
-   extra headers) and leave *Experimental Virtual Keyboard* off (see below). *Resources →
-   Filters to exclude files*: `tools/*`.
-3. **Export Project** into an empty folder as **`index.html`**, *Export With Debug* off.
-4. Zip the files inside that folder (not the folder) and upload to itch.io as an HTML
-   project, "played in the browser", viewport 450 × 800, Mobile friendly (portrait),
-   Fullscreen button on.
+A browser build (desktop and phone browsers), single-threaded so it runs on any static host
+(itch.io, GitHub Pages, Netlify) without special server headers. Saves go to the browser's
+storage (per site), separate from the Android app's saves.
 
-Saves live in the player's browser (IndexedDB). There is no vibration on the web.
+1. Export templates, once: Godot editor → *Editor → Manage Export Templates → Download and
+   Install* (the 4.7 set includes Web).
+2. Add the preset, once: *Project → Export → Add... → Web*, then match
+   `tools/web/web_preset.cfg`: *Variant → Thread Support* **off**, *Resources → Filters to
+   exclude*: `tests/*, tests_tmp/*, tools/*`, export path `export/web/index.html`. (Or append that
+   file's block to `export_presets.cfg`, renumbering `preset.0` to the next free number.)
+3. Export: *Project → Export → Web → Export Project* (uncheck *Export With Debug*), or from a
+   terminal: `godot --headless --path . --export-release "Web" export/web/index.html`.
+4. Try it locally: `cd export/web && python3 -m http.server 8000`, open http://localhost:8000
+   (opening index.html straight from disk doesn't work: browsers block it).
+5. Publish: upload everything in `export/web/` (index.html, .js, .wasm, .pck, icons). On itch.io:
+   zip the folder's *contents*, upload as an HTML game, viewport 720 x 1280, enable
+   "Mobile friendly". Re-export after every change (the .pck holds the game and its data).
 
-**Known limitation: typing on phone browsers.** A phone browser only opens its keyboard
-when a text field is focused inside the tap itself, and Godot handles taps a frame later,
-so tapping a Godot text field (the player name on New Career) shows no keyboard. iOS Safari
-is the strictest. Godot's *Experimental Virtual Keyboard* export option and JavaScript
-workarounds (a hidden HTML input, `prompt()`) are unreliable there, and itch.io runs games
-in a cross-origin frame where dialogs can be blocked.
-**The fix:** the web build on touch devices (`web_android` / `web_ios`, or any touch
-screen) never needs the keyboard. The name field starts with a random name and is a button:
-tapping it opens **Pick a Name**, six suggestions from `data/career/world.json` ("names")
-with a Shuffle button (`CareerNewScreen.uses_name_chooser()`). Desktop browsers, desktop
-builds and the Android/iOS apps still type the name as before. The New Career name is the
-only text field in the game; add any new one the same way.
+**Typing on phone browsers (known limitation and fix).** A phone browser only opens its
+keyboard when a text field is focused inside the tap itself, and Godot handles taps a frame
+later, so tapping a Godot text field in the web build shows no keyboard (iOS Safari is the
+strictest). The native apps don't have this problem: there the New Career name field asks the
+OS for its keyboard on every tap. Godot's *Experimental Virtual Keyboard* web option and
+JavaScript workarounds (a hidden HTML input, `prompt()`) are unreliable on phones, and itch.io
+runs games in a cross-origin frame where dialogs can be blocked, so keep that option **off**.
+**The fix:** the web build on touch devices (`web_android` / `web_ios`, or any touch screen)
+never needs the keyboard. The name field starts with a random name and works as a button:
+tapping it opens **Pick a Name**, six suggestions from `data/career/world.json` ("names") with
+a Shuffle button (`CareerNewScreen.uses_name_chooser()`). Desktop browsers, desktop builds and
+the Android/iOS apps type the name as before. The New Career name is the only text field in
+the game; give any new one the same treatment.
 
 ## Desktop / Steam later
 - Add a Windows/Linux/macOS export preset. Mouse already works.

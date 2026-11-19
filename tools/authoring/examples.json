@@ -1,0 +1,149 @@
+{
+	"_about": "Three filled-in examples in the template format (see WRITING_GUIDE.md). 1: HS_014, a simple scenario. 2: HS_003, which starts a story chain through flags (helped_freshman / bullied_freshman, read by HS_034, HS_073, HS_094) and queues a follow-up two weeks later (HS_003F, a new follow-up-only scenario added by the import). 3: HS_005, Tyler Brooks's first scene: relationship changes and a choice locked behind the head coach's trust. They pass the importer (python3 tools/import_scenarios.py tools/authoring/examples.json --dry-run); import them for real only if you want them in the game.",
+	"scenarios": [
+		{
+			"id": "HS_014",
+			"title": "The Bad Weather Practice",
+			"category": "training",
+			"text": "Sideways rain and a cold wind roll in an hour into practice. The coaches say kickers can stay out or head inside.",
+			"choices": [
+				{
+					"label": "Kick through the downpour",
+					"result": "Soaked and shivering, but you learned how a wet ball comes off your foot.",
+					"stats": {
+						"life": {"energy": -6, "health": -3},
+						"football": {"toughness": 2, "resilience": 1}
+					},
+					"modifiers": ["scouted"]
+				},
+				{
+					"label": "Work on your form in the gym",
+					"result": "Slow-motion swings in front of the mirror. Less glamorous, cleaner technique.",
+					"stats": {
+						"life": {"energy": -2},
+						"football": {"accuracy": 1},
+						"personality": {"intelligence": 1}
+					},
+					"modifiers": ["focused"]
+				},
+				{
+					"label": "Call it a day early",
+					"result": "Hot shower, dry socks, early dinner. A couple of teammates notice you left.",
+					"stats": {
+						"life": {"energy": 5, "fun": 3},
+						"personality": {"ambition": -2}
+					},
+					"modifiers": ["rested"]
+				}
+			]
+		},
+		{
+			"id": "HS_003",
+			"title": "The Locker Room Joke",
+			"category": "team",
+			"text": "A few upperclassmen hide a freshman's practice gear and the whole locker room is laughing at him as he searches for it.",
+			"choices": [
+				{
+					"label": "Step in and help him find it",
+					"result": "The laughing stops. A senior rolls his eyes, but the freshman won't forget it.",
+					"stats": {
+						"life": {"social": -2},
+						"personality": {"leadership": 3, "charisma": 1}
+					},
+					"modifiers": ["inspired"],
+					"set_flags": {"helped_freshman": true},
+					"rel": {"coach": 3},
+					"follow_up": {"id": "HS_003F", "weeks": 2}
+				},
+				{
+					"label": "Laugh along with everyone",
+					"result": "The upperclassmen clap you on the back. The freshman doesn't look at you again.",
+					"stats": {
+						"life": {"social": 4, "fun": 2},
+						"personality": {"leadership": -2}
+					},
+					"modifiers": ["distracted"],
+					"set_flags": {"bullied_freshman": true}
+				},
+				{
+					"label": "Stay out of it",
+					"result": "You lace up and head to the field. Not your fight, you tell yourself.",
+					"stats": {
+						"life": {"energy": 2},
+						"personality": {"ambition": 1, "leadership": -1}
+					},
+					"modifiers": ["focused"]
+				}
+			]
+		},
+		{
+			"id": "HS_003F",
+			"title": "A Quiet Thank-You",
+			"follow_up_only": true,
+			"category": "team",
+			"text": "The freshman you stood up for catches you after practice. Nobody has hidden his gear since, and he wanted you to know he noticed.",
+			"choices": [
+				{
+					"label": "Invite him to sit with the team at lunch",
+					"result": "He's quiet at first. By Friday he's trading jokes with the linemen.",
+					"stats": {
+						"life": {"social": 4, "fun": 2},
+						"personality": {"leadership": 2}
+					},
+					"modifiers": ["inspired"]
+				},
+				{
+					"label": "Tell him to pay it forward",
+					"result": "He nods like it's a promise. You walk to your car a little taller.",
+					"stats": {
+						"personality": {"charisma": 2, "leadership": 1}
+					},
+					"modifiers": ["confident"]
+				}
+			]
+		},
+		{
+			"id": "HS_005",
+			"title": "The First Rival",
+			"category": "team",
+			"text": "{tyler}, the other freshman kicker, drills four straight from forty yards on the first day of practice and makes sure everyone, especially you, saw it.",
+			"choices": [
+				{
+					"label": "Ask him to work on kicks together",
+					"result": "He looks surprised, then shrugs. You split the net and trade tips until dark.",
+					"stats": {
+						"football": {"accuracy": 1},
+						"personality": {"charisma": 1, "leadership": 1}
+					},
+					"modifiers": ["focused"],
+					"set_flags": {"befriended_tyler": true},
+					"rel": {"rival": 8}
+				},
+				{
+					"label": "Tell him the job is yours",
+					"result": "\"We'll see,\" he says. It's on, and you've never been so motivated to practice.",
+					"stats": {
+						"life": {"social": -1},
+						"football": {"power": 1},
+						"personality": {"ambition": 3}
+					},
+					"modifiers": ["pumped_up"],
+					"set_flags": {"hostile_tyler_rivalry": true},
+					"rel": {"rival": -8}
+				},
+				{
+					"label": "Ask {coach} to let you two compete in practice",
+					"result": "{coach} turns it into a weekly kicking ladder. You and {tyler} push each other, and respect each other.",
+					"requires": {"min": {"rel_coach": 55}},
+					"stats": {
+						"football": {"resilience": 1},
+						"personality": {"leadership": 2}
+					},
+					"modifiers": ["confident"],
+					"set_flags": {"befriended_tyler": true},
+					"rel": {"coach": 4, "rival": 4}
+				}
+			]
+		}
+	]
+}

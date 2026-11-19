@@ -15,6 +15,16 @@ const SCENARIOS := [
 	{"label": "Down 2 - 0:03 left - GAME WINNER", "pressure": 1.0, "weight": 1},
 ]
 
+## FIELD_GOAL / EXTRA_POINT: the place kick (snap, hold, block rush, posts).
+## KICKOFF / ONSIDE: off a tee, judged where the ball lands (KickoffJudge).
+## WARMUP_NET: off a tee into the sideline net (WarmupJudge), no game result.
+enum KickType { FIELD_GOAL, EXTRA_POINT, KICKOFF, ONSIDE, WARMUP_NET }
+
+var kick_type: KickType = KickType.FIELD_GOAL
+## Tee kicks only: the stage's rules (spot, touchback, return...). null = defaults.
+var kickoff_rules: KickoffRules
+## Place kicks: the kick's distance. Tee kicks: yards from the tee to the
+## receiving team's goal line (set from kickoff_rules.spot_yards).
 var distance_yards: int = 30
 ## Signed crosswind, + pushes toward the kicker's right.
 var wind_mph: float = 0.0
@@ -26,6 +36,19 @@ var label: String = ""
 
 func distance_m() -> float:
 	return distance_yards * YARD_TO_M
+
+
+func is_tee_kick() -> bool:
+	return is_tee_type(kick_type)
+
+
+static func is_tee_type(t: KickType) -> bool:
+	return t == KickType.KICKOFF or t == KickType.ONSIDE
+
+
+## Anything that isn't a place kick (no snap, hold or block rush).
+static func is_off_tee(t: KickType) -> bool:
+	return is_tee_type(t) or t == KickType.WARMUP_NET
 
 
 static func roll(rng: RandomNumberGenerator, tuning: KickTuning, wind: float) -> KickSituation:
