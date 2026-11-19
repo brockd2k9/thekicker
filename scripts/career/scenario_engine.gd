@@ -4,9 +4,14 @@ extends RefCounted
 ## the field reference is the "_doc" at the top of scenarios_hs.json).
 ##
 ## pick() fills a week in this order:
-##   1. follow-ups that are due (queued by an earlier choice)
-##   2. story beats due now (guaranteed scenarios at a set season/week)
-##   3. weighted random picks from the eligible pool
+##   1. story scenarios in the last week of their window (soft story beats
+##      that haven't come up yet; until then they're boosted random picks)
+##   2. follow-ups that are due (queued by an earlier choice)
+##   3. story beats due now (guaranteed scenarios at a set season/week)
+##   4. weighted random picks from the eligible pool
+## 1-3 are "forced": at most max_forced_per_week of them; the rest wait (follow-ups
+## stay queued, beats stay due) except a story scenario, whose window is over.
+## Draft scenarios (no text or choices yet) are never picked.
 ## Eligibility: stage, when (season/bye/offseason), week and season ranges,
 ## requirements (stats, traits, flags, any_of), one-time, cooldown, and the
 ## repetition guard (per-season cap). Weights shrink for a category each time
@@ -27,7 +32,8 @@ const PROGRESS_KEYS := ["recruiting", "draft", "retention", "grades"]
 
 ## requires: {min: {stat: n}, max: {stat: n}, traits: [all of], any_traits: [one of],
 ## (min/max also take "recruiting", "draft", "retention", "gpa", "age"),
-## flags: [set], not_flags: [unset], any_of: [requires, ...] (one must pass)}.
+## flags: [all set], any_flags: [one set], not_flags: [unset],
+## any_of: [requires, ...] (one must pass)}.
 static func requirements_met(c: CareerData, req: Dictionary) -> bool:
 	for k in req.get("min", {}):
 		if c.metric(k) < float(req["min"][k]):
@@ -44,6 +50,9 @@ static func requirements_met(c: CareerData, req: Dictionary) -> bool:
 	for f in req.get("flags", []):
 		if not c.flags.get(str(f), false):
 			return false
+	var any_f: Array = req.get("any_flags", [])
+	if not any_f.is_empty() and not any_f.any(func(f: Variant) -> bool: return c.flags.get(str(f), false)):
+		return false
 	for f in req.get("not_flags", []):
 		if c.flags.get(str(f), false):
 			return false
@@ -80,11 +89,14 @@ static func _trait_name(id: Variant) -> String:
 	return str(CareerContent.trait_def(str(id)).get("name", id))
 
 
-## Why a choice is locked ("" = available).
+## Why a choice is locked ("" = available). A choice's "lock_text" replaces the
+## generated text (flag requirements have no wording of their own).
 static func choice_lock(c: CareerData, ch: Dictionary) -> String:
 	var req: Dictionary = ch.get("requires", {})
 	if req.is_empty() or requirements_met(c, req):
 		return ""
+	if str(ch.get("lock_text", "")) != "":
+		return "Requires " + str(ch["lock_text"])
 	var t := requirement_text(req)
 	return "Requires " + (t if t != "" else "more experience")
 
@@ -96,6 +108,8 @@ static func choice_lock(c: CareerData, ch: Dictionary) -> String:
 static func is_eligible(c: CareerData, s: Dictionary, when: String, tuning: CareerTuning,
 		forced := false) -> bool:
 	var id := str(s.get("id", ""))
+	if s.get("draft", false):
+		return false
 	if not (c.stage in s.get("stages", [])):
 		return false
 	if not (when in s.get("when", ["season", "bye"])):
@@ -125,6 +139,8 @@ static func weight(c: CareerData, s: Dictionary, tuning: CareerTuning) -> float:
 	var w := maxf(float(s.get("weight", 1.0)), 0.0)
 	var cat := str(s.get("category", ""))
 	w *= pow(tuning.category_repeat_decay, int(c.season_log.get("cats", {}).get(cat, 0)))
+	if s.get("story", false):
+		w *= tuning.story_weight_mult
 	if cat in tuning.social_categories and c.stat("social") < tuning.low_social_threshold:
 		w *= tuning.low_social_weight_mult
 	return w
@@ -143,6 +159,22 @@ static func beat_due(c: CareerData, s: Dictionary, when: String) -> bool:
 	return c.week >= int(beat.get("week", 1))
 
 
+## A story scenario ("story": true) is forced in the last week of its window if
+## it hasn't been seen: week weeks[1] of its last season (seasons[1]), or that
+## season's offseason for an offseason-only one. Before that it's a normal
+## random pick with its weight times story_weight_mult.
+static func story_due(c: CareerData, s: Dictionary, when: String) -> bool:
+	if not s.get("story", false) or c.scenario_log.has(str(s.get("id", ""))):
+		return false
+	var seasons: Variant = s.get("seasons")
+	if not (seasons is Array and seasons.size() == 2) or c.season_in_stage != int(seasons[1]):
+		return false
+	if s.get("when", []) == ["offseason"]:
+		return when == "offseason"
+	var weeks: Variant = s.get("weeks")
+	return when != "offseason" and weeks is Array and weeks.size() == 2 and c.week == int(weeks[1])
+
+
 # --- picking -------------------------------------------------------------------------
 
 ## The week's scenario ids: due follow-ups, story beats, then weighted random
@@ -151,25 +183,32 @@ static func pick(c: CareerData, when: String, count: int, rng: RandomNumberGener
 		tuning: CareerTuning) -> Array:
 	var out: Array = []
 	var cats := {}
-	# 1. Due follow-ups.
+	var cap := tuning.max_forced_per_week
+	# 1. Story scenarios in the last week of their window.
+	for s in CareerContent.live_scenarios():
+		if out.size() < cap and story_due(c, s, when) and is_eligible(c, s, when, tuning, true):
+			out.append(str(s["id"]))
+			cats[str(s.get("category", ""))] = true
+	# 2. Due follow-ups (over the cap they stay queued for next week).
 	for q in c.queued_scenarios.duplicate():
 		if int(q.get("due", 0)) > c.week_index:
 			continue
 		var s := CareerContent.scenario(str(q["id"]))
 		if s.is_empty() or not (c.stage in s.get("stages", [])):
 			c.queued_scenarios.erase(q)  # gone, or a different stage now
-		elif is_eligible(c, s, when, tuning, true) and not (s["id"] in out):
+		elif out.size() < cap and is_eligible(c, s, when, tuning, true) and not (s["id"] in out):
 			c.queued_scenarios.erase(q)
 			out.append(str(s["id"]))
 			cats[str(s.get("category", ""))] = true
-	# 2. Story beats.
-	for s in CareerContent.scenarios():
-		if beat_due(c, s, when) and is_eligible(c, s, when, tuning, true) and not (s["id"] in out):
+	# 3. Story beats (over the cap they stay due next week).
+	for s in CareerContent.live_scenarios():
+		if out.size() < cap and beat_due(c, s, when) and is_eligible(c, s, when, tuning, true) \
+				and not (s["id"] in out):
 			out.append(str(s["id"]))
 			cats[str(s.get("category", ""))] = true
-	# 3. Weighted random.
+	# 4. Weighted random.
 	var pool: Array = []
-	for s in CareerContent.scenarios():
+	for s in CareerContent.live_scenarios():
 		if not (s["id"] in out) and is_eligible(c, s, when, tuning):
 			pool.append(s)
 	while out.size() < count:

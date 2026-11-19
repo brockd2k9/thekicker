@@ -440,6 +440,8 @@ func _report(results: Dictionary, n: int, problems: PackedStringArray, ms: int) 
 	L.append("| Scenario | Stage | Gate | Per career | Careers |")
 	L.append("|---|---|---|---|---|")
 	for sc in CareerContent.scenarios():
+		if sc.get("draft", false):
+			continue  # no content yet; never picked
 		var id := str(sc["id"])
 		var gate := ScenarioEngine.requirement_text(sc.get("requires", {}))
 		if sc.has("beat"):

@@ -313,7 +313,7 @@ dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career
 | What | Where |
 |---|---|
 | Balance numbers (stat -> kick curves, caps, gains, seasons, game sim, scenario picks) | `tuning/career_tuning.tres` (defaults + docs in `scripts/career/career_tuning.gd`) |
-| Scenarios (49: HS, college, pro, bye/offseason, trait-gated) | `data/career/scenarios_*.json` (field reference: `_doc` in `scenarios_hs.json`) |
+| Scenarios (57 written: HS, college, pro, bye/offseason, trait-gated; plus the 160-scenario high school story graph as drafts) | `data/career/scenarios_*.json` (field reference: `_doc` in `scenarios_hs.json`; graph: `scenarios_hs_graph.json`) |
 | Traits (8), game-day modifiers (19), stat descriptions | `data/career/traits.json`, `modifiers.json`, `stats_info.json` |
 | Schools (16 HS, 18 colleges in 3 tiers, 6 junior colleges), 12 pro clubs, names, play-by-play | `data/career/world.json`, `game_day.json` |
 | Progression tables: college tiers, offers, draft rounds, tryouts, contracts | `data/career/progression.json` (weights in `career_tuning.tres`) |
@@ -338,6 +338,28 @@ many careers with different choice strategies through the real systems and write
 `user://career_sim_report.md` (trait unlock rates, personality / football / life stat
 distributions, scenario frequencies). `tools/career_sim_baseline.md` is the current baseline.
 Design decisions and values to playtest: `PLAYTEST.md`, "Career Mode".
+
+**Tests:** `godot --headless --path . res://tests/run_tests.tscn` runs every `test_*` method in
+`tests/test_*.gd` (add `-- only=test_saves` for one file) and exits with the number of failing
+tests: old-save compatibility (frozen v0/v1/v2 saves in `tests/fixtures/`; never edit those, add a
+new fixture per save version), the scenario engine, and `CareerContent.validate()` on the real data.
+The balance simulator gives the same report for the same seed, so a content-neutral change can
+be checked by diffing its tables before and after.
+
+**High school story graph:** 160 scenarios (HS_001-HS_160) with flag dependencies, in
+`data/career/scenarios_hs_graph.json`. They start as drafts (`"draft": true`, no text or choices):
+the engine never picks a draft and `validate()` checks only its graph data, so they can be written
+a few at a time. Fill in `category`, `text` and `choices` (each choice setting the scenario's
+`expected_flags` between them), then remove `draft`.
+- `python3 tools/convert_hs_graph.py` regenerated the file from the upstream skeleton
+  (`tools/hs_graph/`); its decision tables (ungated targets, story windows, year-0 seasons,
+  duplicates) are the record of how the graph was mapped. Re-running keeps written content.
+- `python3 tools/validate_scenario_graph.py` runs the same flag checks as `validate()` without
+  Godot, plus warnings (overlapping same-season windows, unread flags, similar titles) and a
+  scenarios-per-season count. `--skeleton <file>` audits a file in the upstream format.
+- Story scenarios (`"story": true`) have a season/week window: boosted while it's open, forced
+  in its last week if not seen (`story_weight_mult`, `max_forced_per_week` in `career_tuning.tres`,
+  "Scenario Picks").
 
 ## Sound
 
@@ -450,7 +472,7 @@ keytool -v -genkey -keystore kicker-release.keystore -alias kicker -keyalg RSA -
 3. *Permissions*: tick **Vibrate** (used for the kick vibration). Nothing else is needed.
 4. *Launcher Icons*: the project has no icon yet, so Godot's default is used. Add a
    192×192 main icon and 432×432 adaptive foreground/background before a store release.
-5. *Resources → Filters to exclude files*: `tests_tmp/*, tools/*` (dev-only). Keep
+5. *Resources → Filters to exclude files*: `tests/*, tests_tmp/*, tools/*` (dev-only). Keep
    *Export all resources in the project*. Career data (`data/career/*.json`) is included
    automatically.
 6. Orientation is already portrait from Project Settings (`display/window/handheld/orientation`).

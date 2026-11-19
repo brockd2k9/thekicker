@@ -181,6 +181,13 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## are this much less likely (fewer invitations when you're isolated).
 @export_range(0.0, 1.0) var low_social_weight_mult: float = 0.3
 @export var social_categories: PackedStringArray = PackedStringArray(["social", "romance", "media", "community"])
+## Story scenarios ("story": true in the data) are this much more likely while
+## their week window is open; in the window's last week they're forced.
+@export var story_weight_mult: float = 4.0
+## At most this many forced scenarios a week (story scenarios at the end of
+## their window, due follow-ups, story beats). Follow-ups and beats over the
+## cap wait a week; random picks still fill up to the week's normal count.
+@export var max_forced_per_week: int = 2
 
 @export_group("Game Sim")
 ## Drives per team per half. More drives = more kicks per game.

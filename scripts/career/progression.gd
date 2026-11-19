@@ -95,6 +95,16 @@ static func gpa_drift(c: CareerData, t: CareerTuning) -> float:
 
 # --- offers -------------------------------------------------------------------------
 
+## Array.shuffle() uses the global RNG; this one uses the career's seeded rng,
+## so the balance simulator gives the same results for the same seed.
+static func shuffle(arr: Array, rng: RandomNumberGenerator) -> void:
+	for i in range(arr.size() - 1, 0, -1):
+		var j := rng.randi_range(0, i)
+		var tmp: Variant = arr[i]
+		arr[i] = arr[j]
+		arr[j] = tmp
+
+
 ## Offer type a tier would make at this recruiting score ("" = none).
 static func offer_type(score: float, tier_id: String) -> String:
 	var tr := tier(tier_id)
@@ -140,7 +150,7 @@ static func update_offers(c: CareerData, rng: RandomNumberGenerator) -> Dictiona
 			continue
 		var schools := CareerContent.colleges().filter(func(s: Dictionary) -> bool:
 			return s.get("tier", "") == tier_id and not have.has(str(s["id"])))
-		schools.shuffle()
+		shuffle(schools, rng)
 		for s in schools.slice(0, mini(int(o.get("per_tier", 2)), max_new - out["new"].size())):
 			var off := {"school": str(s["id"]), "name": str(s["name"]), "tier": tier_id, "type": kind,
 				"season": c.season}
