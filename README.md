@@ -479,6 +479,32 @@ download of the Android SDK that was then dropped in favour of building on your 
 Nothing in the project depends on it. If you don't need it, delete it in
 claude.ai → Claude Code → the environment menu → **thekicker** → Edit / Delete.
 
+## Web build (itch.io)
+
+1. **Editor → Manage Export Templates → Download and Install** (once).
+2. **Project → Export → Add… → Web**. Leave *Thread Support* off (runs on itch.io without
+   extra headers) and leave *Experimental Virtual Keyboard* off (see below). *Resources →
+   Filters to exclude files*: `tools/*`.
+3. **Export Project** into an empty folder as **`index.html`**, *Export With Debug* off.
+4. Zip the files inside that folder (not the folder) and upload to itch.io as an HTML
+   project, "played in the browser", viewport 450 × 800, Mobile friendly (portrait),
+   Fullscreen button on.
+
+Saves live in the player's browser (IndexedDB). There is no vibration on the web.
+
+**Known limitation: typing on phone browsers.** A phone browser only opens its keyboard
+when a text field is focused inside the tap itself, and Godot handles taps a frame later,
+so tapping a Godot text field (the player name on New Career) shows no keyboard. iOS Safari
+is the strictest. Godot's *Experimental Virtual Keyboard* export option and JavaScript
+workarounds (a hidden HTML input, `prompt()`) are unreliable there, and itch.io runs games
+in a cross-origin frame where dialogs can be blocked.
+**The fix:** the web build on touch devices (`web_android` / `web_ios`, or any touch
+screen) never needs the keyboard. The name field starts with a random name and is a button:
+tapping it opens **Pick a Name**, six suggestions from `data/career/world.json` ("names")
+with a Shuffle button (`CareerNewScreen.uses_name_chooser()`). Desktop browsers, desktop
+builds and the Android/iOS apps still type the name as before. The New Career name is the
+only text field in the game; add any new one the same way.
+
 ## Desktop / Steam later
 - Add a Windows/Linux/macOS export preset. Mouse already works.
 - Remove the `window_*_override` (450×800) in Project Settings → Display → Window or

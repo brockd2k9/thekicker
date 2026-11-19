@@ -24,7 +24,7 @@ extends Node
 const SIM := preload("res://tools/career_sim.gd")
 const MIN_TAP := UiTokens.TAP_MIN
 ## Every screen this tool knows, in the order it captures them.
-const ALL := ["main", "career_menu", "tutorial", "new", "hub", "scenario", "scenario_result",
+const ALL := ["main", "career_menu", "tutorial", "new", "new_web", "name_chooser", "hub", "scenario", "scenario_result",
 	"outlook", "game", "hud", "hud_result", "results", "stats", "achievements", "settings",
 	"career_stats", "debug", "challenge", "season", "recruiting", "college_choice", "hub_college", "draft",
 	"hub_pro", "contract", "retired", "pause", "toast"]
@@ -90,6 +90,17 @@ func _capture_all() -> void:
 	await _shot("career_menu", Screens.CAREER)
 	await _shot("tutorial", Screens.CAREER_TUTORIAL)
 	await _shot("new", Screens.CAREER_NEW)
+	# The web/touch name chooser (forced on: this tool runs on desktop).
+	if _want("new_web") or _want("name_chooser"):
+		CareerNewScreen.force_name_chooser = true
+		await _shot("new_web", Screens.CAREER_NEW)
+		if _want("name_chooser"):
+			var scr := get_tree().current_scene
+			if scr != null and scr.has_method("_open_name_chooser"):
+				scr._open_name_chooser()
+				await _wait(0.6)
+				await _capture("name_chooser")
+		CareerNewScreen.force_name_chooser = false
 	await _shot("achievements", Screens.ACHIEVEMENTS)
 	await _shot("settings", Screens.SETTINGS)
 	await _shot("stats", Screens.STATS)
