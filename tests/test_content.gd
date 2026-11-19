@@ -84,3 +84,12 @@ func test_duplicates_resolved() -> void:
 		return ch.get("set_flags", {}).get("recruiter_trust", false)), "hs_recruiter_call sets recruiter_trust")
 	eq(CareerContent.scenario("HS_147").get("requires", {}).get("any_flags", []),
 		["befriended_tyler", "hostile_tyler_rivalry"], "HS_147 belongs to Tyler")
+
+
+func test_hs142_needs_a_reason() -> void:
+	var s := CareerContent.scenario("HS_142")
+	eq(s.get("requires", {}).get("any_flags", []),
+		["challenged_coach_decision", "hid_injury", "exaggerated_progress", "blamed_someone_else"],
+		"HS_142 trigger")
+	eq(s.get("weeks", []), [2.0, 6.0], "senior weeks 2-6")
+	eq(s.get("seasons", []), [4.0, 4.0], "senior year")

@@ -45,7 +45,7 @@ STORY_WINDOWS = {
     "HS_121": {"seasons": [3, 3], "when": ["offseason"]},   # summer before senior year
     "HS_125": {"seasons": [3, 3], "weeks": [4, 8]},
     "HS_138": {"seasons": [3, 3], "weeks": [6, 10]},
-    "HS_142": {"seasons": [4, 4], "weeks": [2, 6]},         # not in the Step 1 table
+    "HS_142": {"seasons": [4, 4], "weeks": [2, 6]},         # trigger: REASSIGN below
     "HS_143": {"seasons": [4, 4], "weeks": [1, 4]},
     "HS_146": {"seasons": [4, 4], "weeks": [1, 3]},
     "HS_150": {"seasons": [4, 4], "weeks": [3, 7]},
@@ -148,22 +148,37 @@ def uniq(xs):
     return out
 
 
-# HS_147 "The Starting Job Is Yours" is about the kicking job, so it belongs to
-# Tyler (your teammate kicker), not the new quarterback: open once HS_005 has
-# set either Tyler flag, instead of the quarterback's flags.
-REASSIGN = {"HS_147": {"requires_any_flags": ["befriended_tyler", "hostile_tyler_rivalry"],
-                       "edges_from": "HS_005"}}
+# New triggers: the scenario is open once any of these (source, flag) pairs has
+# happened, replacing whatever the skeleton had.
+#   HS_147 "The Starting Job Is Yours" is about the kicking job, so it belongs to
+#   Tyler (your teammate kicker), not the new quarterback: either Tyler flag from HS_005.
+#   HS_142 "The Coach Wants an Explanation" only for a kicker who gave the coach a
+#   reason: challenged his decision, hid an injury, exaggerated progress, or blamed
+#   someone else.
+REASSIGN = {
+    "HS_147": [("HS_005", "befriended_tyler"), ("HS_005", "hostile_tyler_rivalry")],
+    "HS_142": [("HS_122", "challenged_coach_decision"), ("HS_125", "hid_injury"),
+               ("HS_117", "exaggerated_progress"), ("HS_112", "blamed_someone_else")],
+}
+
+# Writer notes shown in the template's _info.notes.
+NOTES = {
+    "HS_141": ("A new offensive coordinator or position coach joins the staff; the head coach "
+               "({coach}) stays the same person. The newcomer has no relationship value or "
+               "placeholder: name them in the text and keep the name consistent. rel 'coach' "
+               "still means the head coach."),
+}
 
 
 def apply_renames(src):
     ren = lambda xs: [FLAG_RENAMES.get(f, f) for f in xs]
-    for sid, r in REASSIGN.items():
+    for sid, pairs in REASSIGN.items():
         src["dependencies"] = [e for e in src["dependencies"] if e["to"] != sid]
-        for f in r["requires_any_flags"]:
-            src["dependencies"].append({"from": r["edges_from"], "to": sid, "when": f, "type": "unlock"})
+        for a, f in pairs:
+            src["dependencies"].append({"from": a, "to": sid, "when": f, "type": "unlock"})
         for sc in src["scenarios"]:
             if sc["id"] == sid:
-                sc["requires_any_flags"] = list(r["requires_any_flags"])
+                sc["requires_any_flags"] = [f for _, f in pairs]
     for s in src["scenarios"]:
         s["title"] = TITLE_OVERRIDES.get(s["id"], s["title"])
         for k in ("requires_all_flags", "requires_any_flags", "excludes_any_flags", "sets_flags"):
@@ -260,6 +275,8 @@ def convert(src):
                                  "(requires {flags: [flag]} + lock_text) and one open choice.")
         if sid in PEOPLE:
             note["people"] = PEOPLE[sid]
+        if sid in NOTES:
+            note["note"] = NOTES[sid]
         if sid in FOLLOW_UP_HINTS:
             note["follow_up_hints"] = FOLLOW_UP_HINTS[sid]
         a_from = sorted(a for a, w in aliases.items() if w == sid)

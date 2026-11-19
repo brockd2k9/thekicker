@@ -4942,6 +4942,12 @@
 					"found_own_transport",
 					"blamed_someone_else"
 				],
+				"leads_to": [
+					{
+						"to": "HS_142",
+						"flag": "blamed_someone_else"
+					}
+				],
 				"absorbs": [
 					"HS_037"
 				]
@@ -5200,6 +5206,10 @@
 					{
 						"to": "HS_150",
 						"flag": "clinic_coach_trust"
+					},
+					{
+						"to": "HS_142",
+						"flag": "exaggerated_progress"
 					}
 				]
 			},
@@ -5482,6 +5492,12 @@
 				],
 				"people": [
 					"coach"
+				],
+				"leads_to": [
+					{
+						"to": "HS_142",
+						"flag": "challenged_coach_decision"
+					}
 				]
 			},
 			"category": "",
@@ -5632,6 +5648,10 @@
 				"leads_to": [
 					{
 						"to": "HS_143",
+						"flag": "hid_injury"
+					},
+					{
+						"to": "HS_142",
 						"flag": "hid_injury"
 					}
 				],
@@ -6475,7 +6495,8 @@
 				],
 				"people": [
 					"coach"
-				]
+				],
+				"notes": "A new offensive coordinator or position coach joins the staff; the head coach ({coach}) stays the same person. The newcomer has no relationship value or placeholder: name them in the text and keep the name consistent. rel 'coach' still means the head coach."
 			},
 			"category": "",
 			"text": "",
@@ -6520,12 +6541,42 @@
 			"_info": {
 				"when": "Senior year (season 4), weeks 2-6",
 				"story": "Story event: more likely while its window is open, and it always happens in the window's last week if it hasn't yet.",
+				"requires": {
+					"any_flags": [
+						"challenged_coach_decision",
+						"hid_injury",
+						"exaggerated_progress",
+						"blamed_someone_else"
+					]
+				},
 				"must_set_flags": [
 					"repaired_coach_trust",
 					"coach_trust_damaged"
 				],
 				"people": [
 					"coach"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_122",
+						"flag": "challenged_coach_decision",
+						"type": "unlock"
+					},
+					{
+						"from": "HS_125",
+						"flag": "hid_injury",
+						"type": "unlock"
+					},
+					{
+						"from": "HS_117",
+						"flag": "exaggerated_progress",
+						"type": "unlock"
+					},
+					{
+						"from": "HS_112",
+						"flag": "blamed_someone_else",
+						"type": "unlock"
+					}
 				]
 			},
 			"category": "",

@@ -97,7 +97,7 @@ def entry(s):
         "unlocked_by": a.get("unlocked_by"),
         "leads_to": a.get("leads_to"),
         "absorbs": a.get("absorbs"),
-        "notes": a.get("beat_note") or a.get("ungated"),
+        "notes": a.get("beat_note") or a.get("ungated") or a.get("note"),
         "follow_up_hints": a.get("follow_up_hints"),
     }
     info = {k: v for k, v in info.items() if v}
