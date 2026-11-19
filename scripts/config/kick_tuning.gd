@@ -126,3 +126,25 @@ extends Resource
 @export var block_vibration_ms: int = 120
 ## Show power / aim / wobble numbers after each kick (handy while tuning).
 @export var show_debug_readout: bool = true
+
+@export_group("Kickoff")
+## Kickoffs and onside kicks (off a tee). How far they go is set by the career
+## rules (KickoffRules.max_carry_yards); these only shape the flight and view.
+## Launch angle of a kickoff. Higher = more hang time.
+@export_range(25.0, 60.0) var kickoff_elevation_deg: float = 45.0
+## Launch angle of an onside kick: low, so it skips along the turf.
+@export_range(5.0, 30.0) var onside_elevation_deg: float = 14.0
+## Seconds on the tee ("Get set...") before you can kick.
+@export var kickoff_setup_time: float = 1.0
+## Camera for tee kicks: still the kicker's view (from the start of the run-up),
+## higher, further back and a little wider so both teams' lines read. Field
+## goals keep the camera above.
+@export var kickoff_camera_offset: Vector3 = Vector3(0.0, 3.6, 6.5)
+@export var kickoff_look_down_deg: float = 9.0
+@export_range(20.0, 80.0) var kickoff_camera_fov: float = 56.0
+## Head turn toward the ball on a kickoff (it travels much further than a field goal).
+@export_range(0.0, 1.0) var kickoff_camera_follow: float = 0.35
+## Coverage team running speed downfield after the kick (m/s).
+@export var coverage_speed: float = 7.5
+## Height of the kicking tee (m).
+@export var tee_height: float = 0.05

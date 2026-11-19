@@ -44,6 +44,8 @@ var _drive_i: int = 0
 var _we_kick_first: bool = true
 var _waiting: Dictionary = {}
 var _opp_td_bonus: float = 0.0
+## Where the opponent starts after your kickoff (its start_spot); 0 = random.
+var _their_next_start: int = 0
 var _names: Array = []
 var _p: Dictionary = {}
 
@@ -109,7 +111,8 @@ func next() -> Dictionary:
 	return e
 
 
-## result: fg/pat {"made": bool}; kickoff {"quality": 0..1, "carry", "text"};
+## result: fg/pat {"made": bool}; kickoff {"quality": 0..1, "carry", "text",
+## optional "start_spot" (their next drive's yard line, shown in the play-by-play)};
 ## onside {"recovered": bool, "text"}.
 func resolve_call(result: Dictionary) -> void:
 	var call := _waiting
@@ -139,6 +142,9 @@ func resolve_call(result: Dictionary) -> void:
 			entry["carry"] = float(result.get("carry", 0.0))
 			entry["result"] = str(result.get("text", ""))
 			_opp_td_bonus = _t.kickoff_quality_effect * (1.0 - q)
+			_their_next_start = int(result.get("start_spot", 0))
+			if result.has("result"):
+				entry["outcome"] = str(result["result"])
 			_text(entry["result"])
 		"onside":
 			var rec := bool(result.get("recovered", false))
@@ -258,7 +264,13 @@ func _their_drive(start: float, dur: float) -> void:
 	_opp_td_bonus = 0.0
 	var roll := _rng.randf()
 	elapsed = start
-	_line("drive_start_them", {"spot": _rng.randi_range(15, 40)})
+	# Same random roll as always (keeps the game script stable), then the
+	# kickoff's real field position if there was one.
+	var spot := _rng.randi_range(15, 40)
+	if _their_next_start > 0:
+		spot = _their_next_start
+		_their_next_start = 0
+	_line("drive_start_them", {"spot": spot})
 	elapsed = start + dur * 0.5
 	_line("gain_them", {"yards": _rng.randi_range(5, 25)})
 	elapsed = start + dur * 0.9

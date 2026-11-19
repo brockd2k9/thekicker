@@ -255,6 +255,24 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var kickoff_max_carry_yards: float = 75.0
 ## Kicking off from your own 40 (high school): carry >= 60 lands in the end zone.
 @export var kickoff_spot_yards: int = 40
+## College and pro kick off from their own 35 (75 yards of carry for a touchback).
+@export var kickoff_spot_yards_college: int = 35
+@export var kickoff_spot_yards_pro: int = 35
+## Where the receiving team starts after a touchback, per stage.
+@export var touchback_spot_hs: int = 20
+@export var touchback_spot_college: int = 25
+@export var touchback_spot_pro: int = 30
+## Where the receiving team starts after a kickoff out of bounds, per stage.
+@export var kickoff_oob_spot_hs: int = 35
+@export var kickoff_oob_spot_college: int = 35
+@export var kickoff_oob_spot_pro: int = 40
+## Kickoff return: yards gained from where the ball is fielded (random in this
+## range), minus kickoff_return_hang_cut per second of hang time over 3 s.
+@export var kickoff_return_min_yards: float = 15.0
+@export var kickoff_return_max_yards: float = 30.0
+@export var kickoff_return_hang_cut: float = 4.0
+## Only used by the balance simulator's stand-in kickoffs now (the 3D kickoff
+## judges out of bounds from where the ball lands, wind included).
 ## Aim more than this far off (degrees) = out of bounds.
 @export var kickoff_oob_deg: float = 12.0
 ## How much a bad kickoff helps the opponent's next drive (TD chance + this * (1 - quality)).

@@ -58,6 +58,13 @@ func set_scoreboard(left: String, right: String) -> void:
 	_makes.text = right
 
 
+## Replace the big distance line and the situation line (kickoffs:
+## "KICKOFF" / "From the 35").
+func set_headline(big: String, small: String) -> void:
+	_distance.text = big
+	_situation.text = small
+
+
 func show_situation(s: KickSituation, tuning: KickTuning) -> void:
 	_distance.text = "%d YD" % s.distance_yards
 	_situation.text = s.label
@@ -104,8 +111,13 @@ func show_shot_info(text: String) -> void:
 
 
 func show_result(outcome: KickResult.Outcome, detail: String) -> void:
-	var good := KickResult.is_good(outcome)
-	_result.text = KickResult.text(outcome)
+	show_banner(KickResult.text(outcome), KickResult.is_good(outcome), detail)
+
+
+## The result banner with any text (field goals use show_result; kickoffs show
+## TOUCHBACK, DEEP KICK, RECOVERED! ...). good = gold banner, else red.
+func show_banner(text: String, good: bool, detail: String) -> void:
+	_result.text = text
 	_result_box.bg_color = BANNER_GOOD if good else BANNER_MISS
 	_result.add_theme_color_override("font_color", Color(0.08, 0.05, 0.0) if good else Color.WHITE)
 	_result.modulate = Color.WHITE

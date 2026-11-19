@@ -25,6 +25,8 @@ const SIM := preload("res://tools/career_sim.gd")
 const MIN_TAP := UiTokens.TAP_MIN
 ## Every screen this tool knows, in the order it captures them.
 const ALL := ["main", "career_menu", "tutorial", "new", "hub", "scenario", "scenario_result",
+	"outlook", "game", "kickoff", "kickoff_result", "onside", "hud", "hud_result", "results", "stats", "achievements", "settings",
+	"career_stats", "debug", "challenge", "season", "recruiting", "college_choice", "hub_college", "draft",
 	"outlook", "game", "hud", "hud_result", "results", "stats", "achievements", "settings",
 	"career_stats", "people", "debug", "challenge", "season", "recruiting", "college_choice", "hub_college", "draft",
 	"hub_pro", "contract", "retired", "pause", "toast"]
@@ -115,6 +117,7 @@ func _capture_all() -> void:
 	await _shot("outlook", Screens.CAREER_OUTLOOK)
 	_m.start_game()
 	await _shot("game", Screens.CAREER_GAME, Callable(), Callable(), 2.6)
+	await _kickoff_shots()
 	await _hud_shots()
 	_m.finish_game(_sim._play_game(_m))
 	await _shot("results", Screens.CAREER_RESULTS)
@@ -207,6 +210,61 @@ func _force_locked_scenario(id: String) -> void:
 	var c := _m.data
 	if c.phase == CareerManager.PHASE_SCENARIO and not CareerContent.scenario(id).is_empty():
 		c.pending_scenarios[0] = id
+
+
+## The 3D kickoff and onside kick, launched from the career game screen.
+func _kickoff_shots() -> void:
+	if not (_want("kickoff") or _want("kickoff_result") or _want("onside")):
+		return
+	await _open(Screens.CAREER_GAME, 1.0)
+	var scr := get_tree().current_scene
+	if scr == null or not scr.has_method("_launch_kick"):
+		_problems.append("[%s] kickoff: career game screen not open" % _tag)
+		return
+	scr._busy = true  # hold the play-by-play while we kick
+	for kind in ["kickoff", "onside"]:
+		if not (_want(kind) or (kind == "kickoff" and _want("kickoff_result"))):
+			continue
+		scr._launch_kick({"type": "call", "kind": kind, "yards": 0, "pressure": 0.0, "label": kind.to_upper(),
+			"wind": 7.0, "gust": 0.0, "elapsed": 600.0, "us": 7, "them": 3})
+		var ks: Node = scr._kick_scene
+		var t := 0.0
+		while ks.phase != 2 and t < 10.0:
+			await _wait(0.1)
+			t += 0.1
+		await _capture(kind)
+		if kind == "kickoff" and _want("kickoff_result"):
+			var sw := Swipe.new()
+			sw.screen_height = 1280.0
+			sw.start = Vector2(360, 1100)
+			sw.end = Vector2(372, 560)
+			sw.duration = 0.2
+			sw.flick_speed_px = 3.0 * 1280.0
+			ks._try_kick(sw)
+			t = 0.0
+			while ks.tee_result.is_empty() and t < 15.0:
+				await _wait(0.1)
+				t += 0.1
+			await _wait(0.8)
+			await _capture("kickoff_result")
+		# Let the screen take the result and close the kick scene.
+		t = 0.0
+		while is_instance_valid(ks) and t < 20.0:
+			if ks.tee_result.is_empty() and ks.phase == 2:
+				ks._try_kick(_soft_swipe())
+			await _wait(0.2)
+			t += 0.2
+		scr._busy = true
+
+
+func _soft_swipe() -> Swipe:
+	var sw := Swipe.new()
+	sw.screen_height = 1280.0
+	sw.start = Vector2(360, 1100)
+	sw.end = Vector2(360, 860)
+	sw.duration = 0.2
+	sw.flick_speed_px = 1.2 * 1280.0
+	return sw
 
 
 func _hud_shots() -> void:
