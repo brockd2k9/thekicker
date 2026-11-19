@@ -357,6 +357,9 @@ dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career
 | Skill points, attribute upgrades (Skills screen) | `scripts/career/skill_points.gd` (numbers: `career_tuning.tres` "Skill Points") |
 | Field goal / kickoff range, game-day range, range -> launch speed | `scripts/career/kick_range.gd`, `kick_profile.gd` (numbers: "Power -> Range", "Game Day Range") |
 | Kick results -> Coach / Team, coach doubt ("too many misses") | `scripts/career/kick_trust.gd` (numbers: "Relationships", kick results + too many misses) |
+| Perks (15): cost, prerequisites, effects | `data/career/perks.json` (rules: `scripts/career/perks.gd`) |
+| Aging and maintenance (from 30) | `scripts/career/aging.gd` (numbers: `career_tuning.tres` "Aging") |
+| Cold and snow games (late season) | `career_manager.gd` `_roll_cold()`, `kick_profile.gd` (numbers: "Weather") |
 | Traits (8), game-day modifiers (19), stat descriptions | `data/career/traits.json`, `modifiers.json`, `stats_info.json` |
 | Schools (16 HS, 18 colleges in 3 tiers, 6 junior colleges), 12 pro clubs, names, play-by-play | `data/career/world.json`, `game_day.json` |
 | Progression tables: college tiers, offers, draft rounds, tryouts, contracts | `data/career/progression.json` (weights in `career_tuning.tres`) |
@@ -421,6 +424,16 @@ difficulty; Resilience and Leadership soften misses). Too many misses (the last 
 season FG%) start **coach doubt**: shorter and fewer field goal calls for a few weeks, explained on
 the Outlook, and the `kicking_slump` flag (HS_142 can follow). Recruiting, the draft and pro
 retention count range; the coach's recommendation uses Coach and Team.
+
+**Perks, aging and weather:** the Skills screen has two tabs. **Perks** (15, `data/career/perks.json`)
+cost skill points and need prerequisites (attributes, other perks, a personality trait, a stage, an
+age); each is a small edge (Big Leg +2 yd, Laser tighter aim, Clutch less pressure on game winners,
+Hang Time, Onside Specialist, Cold Weather Kicker, Iron Leg...). **Aging:** from age 30 every
+football attribute declines at the end of each season (Power and Toughness fastest, Resilience
+slowest, more every year); the Attributes tab's Maintenance section preserves one for the season
+with skill points, and the season summary shows what's about to drop. **Weather:** late-season
+games can be cold (-1 to -2 yd) or snowy (-2 to -3 yd, a little aim error), shown on the Game Day
+Outlook; Cold Weather Kicker removes most of it.
 
 **Tests:** `godot --headless --path . res://tests/run_tests.tscn` runs every `test_*` method in
 `tests/test_*.gd` (add `-- only=test_saves` for one file) and exits with the number of failing

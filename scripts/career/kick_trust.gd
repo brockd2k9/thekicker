@@ -24,7 +24,9 @@ static func view(c: CareerData) -> Dictionary:
 		"has_coach": c.people.has("coach"), "has_team": c.people.has(Relationships.TEAM),
 		"recent": c.recent_fg.duplicate(), "att": int(c.season_stats.get("fg_att", 0)),
 		"made": int(c.season_stats.get("fg_made", 0)), "doubt": not c.coach_doubt.is_empty(),
-		"slump": false, "res": c.stat("resilience"), "lead": c.stat("leadership")}
+		"slump": false, "res": c.stat("resilience"), "lead": c.stat("leadership"),
+		"miss_mult": maxf(1.0 + Perks.total(c, "trust_miss"), 0.0),
+		"team_mult": maxf(1.0 + Perks.total(c, "team_miss"), 0.0)}
 
 
 ## One kick. Updates `v` and returns {coach, team, reason, slump} (changes as
@@ -58,9 +60,10 @@ static func step(v: Dictionary, k: Dictionary, range: float, t: CareerTuning) ->
 		if v["doubt"]:
 			coach *= t.kick_doubt_make_mult
 	else:
-		var soft := 1.0 - t.kick_resilience_soften * float(v["res"]) / 100.0
+		var soft := (1.0 - t.kick_resilience_soften * float(v["res"]) / 100.0) * float(v.get("miss_mult", 1.0))
 		coach = t.kick_miss_coach * m * soft
-		team = t.kick_miss_team * m * soft * (1.0 - t.kick_leadership_soften * float(v["lead"]) / 100.0)
+		team = t.kick_miss_team * m * soft * (1.0 - t.kick_leadership_soften * float(v["lead"]) / 100.0) \
+			* float(v.get("team_mult", 1.0))
 	out["reason"] = reason(k, made, sit, easy, edge)
 	if kind == "fg":
 		var recent: Array = v["recent"]
@@ -219,7 +222,8 @@ static func end_week(c: CareerData) -> void:
 
 ## The coach's longest field goal call today.
 static func coach_limit(c: CareerData, p: KickProfile, t: CareerTuning) -> int:
-	var lim := p.fg_range - t.coach_range_margin_yd + Relationships.coach_range_yd(c, t)
+	var lim := p.fg_range - t.coach_range_margin_yd + Relationships.coach_range_yd(c, t) \
+		+ Perks.total(c, "coach_range_yd")
 	if not c.coach_doubt.is_empty():
 		lim -= t.doubt_range_yd
 	return floori(minf(lim, p.fg_range) + 0.001)

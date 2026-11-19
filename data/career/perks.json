@@ -1,0 +1,141 @@
+{
+	"_doc": "Perks: on-field abilities bought with skill points on the Skills screen (Perks tab). They are a small edge on top of the attributes, never a replacement. Fields: id, name, description (what the player reads), icon (UiIcons), cost (skill points), requires {min: {stat: n} (football or personality stats), perks: [ids owned first], traits: [personality trait ids], stages: [high_school/juco/college/pro/free_agent], min_age: n}, effect. Effect keys (scripts/career/perks.gd): profile {KickProfile fields, e.g. pressure_sensitivity: -0.08}; range_yd / kickoff_yd (yards of field goal / kickoff range); miss_streak (scales miss-streak pressure, -0.4 = 40% less); trust_miss (Coach and Team loss from a miss, -0.2 = 20% less); team_miss (Team loss from a miss); team_pressure (Team standing's game-day pressure effect, 0.5 = 50% stronger); clutch_pressure (game-winning and tying kicks' pressure, -0.25 = 25% less); coach_range_yd (the coach's longest call); return_cut_yd (yards off kickoff returns); onside_window_yd / onside_aim_deg / onside_recover (onside kicks); weather_keep (share of the cold / snow penalty you still take, 0.25); bad_weather {profile fields, in cold or snow}; injury_weeks (weeks off each injury); injury_risk_mult (-0.2 = 20% lower weekly injury chance); aging {stat: change to that attribute's yearly decline, -0.5 = half}.",
+
+	"perks": [
+		{
+			"id": "ice_in_the_veins",
+			"name": "Ice in the Veins",
+			"description": "Pressure barely registers.",
+			"icon": "resilience",
+			"cost": 20,
+			"requires": {"min": {"resilience": 60}},
+			"effect": {"profile": {"pressure_sensitivity": -0.08}}
+		},
+		{
+			"id": "short_memory",
+			"name": "Short Memory",
+			"description": "A miss is gone by the next snap, and the sideline knows it.",
+			"icon": "resilience",
+			"cost": 12,
+			"requires": {"min": {"resilience": 50}},
+			"effect": {"miss_streak": -0.4, "trust_miss": -0.2}
+		},
+		{
+			"id": "clutch",
+			"name": "Clutch",
+			"description": "Game on the line? That's when you're at your best.",
+			"icon": "career",
+			"cost": 30,
+			"requires": {"min": {"resilience": 65}, "perks": ["ice_in_the_veins"]},
+			"effect": {"clutch_pressure": -0.25}
+		},
+		{
+			"id": "wind_reader",
+			"name": "Wind Reader",
+			"description": "You read the flags and play the wind.",
+			"icon": "wind",
+			"cost": 15,
+			"requires": {"min": {"toughness": 55}},
+			"effect": {"profile": {"wind_mult": -0.08}}
+		},
+		{
+			"id": "film_junkie",
+			"name": "Film Junkie",
+			"description": "You know every stadium's swirl, and your coach knows you did the work.",
+			"icon": "film",
+			"cost": 15,
+			"requires": {"traits": ["film_student"]},
+			"effect": {"profile": {"wind_mult": -0.04}, "coach_range_yd": 2}
+		},
+		{
+			"id": "big_leg",
+			"name": "Big Leg",
+			"description": "A little more on every kick.",
+			"icon": "power",
+			"cost": 25,
+			"requires": {"min": {"power": 70}},
+			"effect": {"range_yd": 2}
+		},
+		{
+			"id": "cannon",
+			"name": "Cannon",
+			"description": "The kind of leg scouts drive across the state to see.",
+			"icon": "power",
+			"cost": 40,
+			"requires": {"min": {"power": 90}, "perks": ["big_leg"], "stages": ["juco", "college", "pro", "free_agent"]},
+			"effect": {"range_yd": 2}
+		},
+		{
+			"id": "laser",
+			"name": "Laser",
+			"description": "Tighter, truer contact.",
+			"icon": "accuracy",
+			"cost": 25,
+			"requires": {"min": {"accuracy": 70}},
+			"effect": {"profile": {"accuracy_spread_deg": -0.12}}
+		},
+		{
+			"id": "smooth_swing",
+			"name": "Smooth Swing",
+			"description": "Your swing stays smooth when the noise gets loud.",
+			"icon": "accuracy",
+			"cost": 15,
+			"requires": {"min": {"accuracy": 60}},
+			"effect": {"profile": {"wobble_mult": -0.08}}
+		},
+		{
+			"id": "hang_time",
+			"name": "Hang Time",
+			"description": "Kickoffs that go high and deep, so the coverage gets there first.",
+			"icon": "power",
+			"cost": 15,
+			"requires": {"min": {"power": 55}},
+			"effect": {"kickoff_yd": 3, "return_cut_yd": 2}
+		},
+		{
+			"id": "onside_specialist",
+			"name": "Onside Specialist",
+			"description": "You can make the ball do strange things off the tee.",
+			"icon": "ball",
+			"cost": 12,
+			"requires": {"min": {"accuracy": 55}},
+			"effect": {"onside_window_yd": 3, "onside_aim_deg": 5, "onside_recover": 0.1}
+		},
+		{
+			"id": "cold_weather_kicker",
+			"name": "Cold Weather Kicker",
+			"description": "Cold nights and snow barely slow you down.",
+			"icon": "wind",
+			"cost": 12,
+			"requires": {"min": {"toughness": 60}},
+			"effect": {"weather_keep": 0.25, "bad_weather": {"wind_mult": -0.03}}
+		},
+		{
+			"id": "quick_recovery",
+			"name": "Quick Recovery",
+			"description": "You bounce back from knocks faster.",
+			"icon": "health",
+			"cost": 18,
+			"requires": {"min": {"toughness": 65}},
+			"effect": {"injury_weeks": -1, "injury_risk_mult": -0.2}
+		},
+		{
+			"id": "captains_calm",
+			"name": "Captain's Calm",
+			"description": "The locker room follows your lead, good days and bad.",
+			"icon": "armband",
+			"cost": 15,
+			"requires": {"traits": ["team_captain"]},
+			"effect": {"team_miss": -0.3, "team_pressure": 0.5}
+		},
+		{
+			"id": "iron_leg",
+			"name": "Iron Leg",
+			"description": "Your leg ages slower than everyone else's.",
+			"icon": "toughness",
+			"cost": 25,
+			"requires": {"min": {"toughness": 75}, "stages": ["pro", "free_agent"], "min_age": 28},
+			"effect": {"aging": {"power": -0.5}}
+		}
+	]
+}

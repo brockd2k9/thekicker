@@ -70,9 +70,10 @@ func _build(col: VBoxContainer) -> void:
 
 static func _weather_text(w: Dictionary) -> String:
 	var mph := absf(float(w.get("wind", 0.0)))
+	var temp: String = {"cold": "Cold, ", "snow": "Snow, "}.get(str(w.get("temp", "")), "")
 	if mph < 2.0:
-		return "Calm"
-	return "%d mph crosswind%s" % [roundi(mph), ", gusty" if w.get("gusty", false) else ""]
+		return temp + ("calm" if temp != "" else "Calm")
+	return "%s%d mph crosswind%s" % [temp, roundi(mph), ", gusty" if w.get("gusty", false) else ""]
 
 
 ## Buckets a value: below cuts[0] -> words[0], ... above the last cut -> last word.

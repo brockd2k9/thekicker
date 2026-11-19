@@ -22,6 +22,7 @@ extends Node
 ## and kick stand-ins) into slot 3 of a scratch save.
 
 const SIM := preload("res://tools/career_sim.gd")
+const SKILLS := preload("res://scripts/ui/screens/career_skills.gd")
 const MIN_TAP := UiTokens.TAP_MIN
 ## Every screen this tool knows, in the order it captures them.
 const ALL := ["main", "career_menu", "tutorial", "new", "new_web", "name_chooser", "hub", "scenario",
@@ -129,6 +130,9 @@ func _capture_all() -> void:
 	c.set_stat("energy", 88.0)
 	c.set_stat("health", 92.0)
 	await _shot("outlook", Screens.CAREER_OUTLOOK)
+	await _shot("outlook_snow", Screens.CAREER_OUTLOOK, func() -> void:
+		_m.entry()["weather"] = {"wind": 6.0, "gusty": false, "temp": "snow", "chill": 3},
+		func() -> void: _m.entry()["weather"] = {"wind": 6.0, "gusty": false})
 	await _shot("outlook_doubt", Screens.CAREER_OUTLOOK, func() -> void:
 		c.coach_doubt = {"weeks_left": 2, "reason": "3 of your last 5 field goals missed"},
 		func() -> void: c.coach_doubt = {})
@@ -144,6 +148,26 @@ func _capture_all() -> void:
 	await _shot("results", Screens.CAREER_RESULTS)
 	await _shot("career_stats", Screens.CAREER_STATS)
 	await _shot("skills", Screens.CAREER_SKILLS, func() -> void: c.skill_points = maxi(c.skill_points, 14))
+	# Perks tab: a few attributes high enough that some perks are available.
+	var saved := {"power": c.stat("power"), "accuracy": c.stat("accuracy"), "toughness": c.stat("toughness"),
+		"resilience": c.stat("resilience"), "sp": c.skill_points, "age": c.age, "perks": c.perks.duplicate()}
+	await _shot("skills_perks", Screens.CAREER_SKILLS, func() -> void:
+		c.set_stat("power", 72.0)
+		c.set_stat("accuracy", 66.0)
+		c.set_stat("resilience", 55.0)
+		c.skill_points = 40
+		c.perks = ["short_memory"]
+		SKILLS.tab = "perks")
+	# Maintenance: the same career at 31.
+	await _shot("skills_maint", Screens.CAREER_SKILLS, func() -> void:
+		c.age = 31
+		SKILLS.tab = "attributes")
+	c.set_stat("power", saved["power"])
+	c.set_stat("accuracy", saved["accuracy"])
+	c.set_stat("resilience", saved["resilience"])
+	c.skill_points = saved["sp"]
+	c.age = saved["age"]
+	c.perks = saved["perks"]
 	await _shot("people", Screens.CAREER_PEOPLE, func() -> void:
 		Relationships.apply(c, {"coach": 18, "holder": -12, "rival": -20, "love_interest": 6, "best_friend": 4})
 		c.former_people.append({"id": "coach", "name": "Coach Castellano", "value": 72.0,

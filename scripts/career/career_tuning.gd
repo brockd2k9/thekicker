@@ -59,6 +59,36 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## as this many yards per 1.0 (so -0.05 = -2 yd).
 @export var legacy_power_mult_yards: float = 40.0
 
+@export_group("Weather")
+## Late in the season (from this fraction of the weeks on) a game can be cold
+## or snowy. Rolled when the week starts; shown on the Game Day Outlook.
+@export_range(0.0, 1.0) var late_season_from: float = 0.6
+@export_range(0.0, 1.0) var cold_chance: float = 0.25
+@export_range(0.0, 1.0) var snow_chance: float = 0.1
+## Cold: the ball doesn't carry. Yards lost (rolled per game, whole yards).
+@export var cold_range_min: int = 1
+@export var cold_range_max: int = 2
+## Snow: yards lost, plus aim error (degrees) from slick footing.
+@export var snow_range_min: int = 2
+@export var snow_range_max: int = 3
+@export var snow_spread: float = 0.25
+
+@export_group("Aging")
+## From this age on, football attributes decline at the end of every season
+## unless preserved with skill points (Skills screen, Maintenance).
+## Decline (points) = (aging_base + aging_per_year * (age - aging_start_age))
+## * the attribute's rate. Ages 30 / 35 / 38 -> 1.0 / 3.5 / 5.0 at rate 1.
+@export var aging_start_age: int = 30
+@export var aging_base: float = 1.0
+@export var aging_per_year: float = 0.5
+@export var aging_rate_power: float = 1.0
+@export var aging_rate_toughness: float = 1.0
+@export var aging_rate_accuracy: float = 0.6
+@export var aging_rate_resilience: float = 0.3
+## Preserving an attribute for a season costs decline * (cost of its next
+## point) * this, rounded up. Level 85 at age 30 / 35 / 38: ~5 / 17 / 24 SP.
+@export var maintain_cost_mult: float = 0.6
+
 @export_group("Accuracy -> Aim")
 ## Random aim error at release (std-dev, degrees) at Accuracy 0.
 @export var spread_at_0: float = 2.2
@@ -517,22 +547,22 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## ... a game winner ...
 @export var sp_game_winner: int = 3
 ## ... a perfect game (2+ kicks of yours, all made) ...
-@export var sp_perfect_game: int = 2
+@export var sp_perfect_game: int = 1
 ## ... and in practice: every week (game or bye); low Energy costs some.
-@export var sp_weekly_practice: int = 2
-@export var sp_weekly_practice_tired: int = 1
+@export var sp_weekly_practice: int = 1
+@export var sp_weekly_practice_tired: int = 0
 ## End of season: FG% at good_pct+ (at least poor_min_attempts tries) / great_pct+.
-@export var sp_good_season: int = 8
-@export var sp_great_season: int = 12
+@export var sp_good_season: int = 6
+@export var sp_great_season: int = 9
 @export_range(0.0, 1.0) var sp_good_season_pct: float = 0.8
 @export_range(0.0, 1.0) var sp_great_season_pct: float = 0.9
 ## Offseason training (once between seasons).
-@export var sp_offseason: int = 10
+@export var sp_offseason: int = 6
 ## Scenario choices' "skill_points" are multiplied by this.
 @export var sp_scenario_scale: float = 1.0
 ## Scenario choices still change football stats directly ("stats": {"football"});
 ## those changes are multiplied by this (the simulator checks total growth).
-@export_range(0.0, 2.0) var scenario_football_scale: float = 1.0
+@export_range(0.0, 2.0) var scenario_football_scale: float = 0.5
 ## Upgrade cost: raising an attribute from level L to L+1 costs
 ## ceil(upgrade_cost_base + upgrade_cost_scale * (L/100)^upgrade_cost_exp).
 ## 30 -> 2 SP, 50 -> 4, 70 -> 6, 90 -> 9, 99 -> 10.

@@ -41,6 +41,9 @@ var fg_range: float = 40.0
 var fg_range_base: float = 40.0
 ## Kickoff range today (yards of carry at a full flick).
 var kickoff_range: float = 52.0
+## Perks you own, summed numeric effects (onside, returns...; Perks), for
+## code outside the profile (CareerGameMode.kickoff_rules_for).
+var perk_fx: Dictionary = {}
 ## Legacy "power_mult" effects -> yards (CareerTuning.legacy_power_mult_yards).
 var _legacy_yards: float = 40.0
 var accuracy_spread_deg: float = 0.0
@@ -104,8 +107,14 @@ static func build(data: CareerData, tuning: CareerTuning, ctx: Dictionary = {}) 
 			"range_yd": -t.injury_range_yd * sev * shield,
 			"accuracy_spread_deg": t.injury_spread * sev * shield})
 
-	# 4. Traits' passive effects.
-	var streak_scale := 1.0
+	# 4. Traits' passive effects, then perks (perks.json "profile"; miss streak).
+	var streak_scale := 1.0 + Perks.total(data, "miss_streak")
+	for line in Perks.profile_lines(data):
+		p._add_line(str(line[0]), line[1], "perk")
+	for k in ["onside_window_yd", "onside_aim_deg", "onside_recover", "return_cut_yd", "clutch_pressure"]:
+		var v := Perks.total(data, k)
+		if v != 0.0:
+			p.perk_fx[k] = v
 	for id in data.traits:
 		var def := CareerContent.trait_def(id)
 		var passive: Dictionary = def.get("passive", {})
@@ -124,6 +133,18 @@ static func build(data: CareerData, tuning: CareerTuning, ctx: Dictionary = {}) 
 			continue
 		p._add_line(str(m.get("label", id)), m.get("effects", {}), "modifier")
 
+	# 5a. Cold or snow (late season): yards lost, snow also costs aim.
+	# Perks with "weather_keep" (Cold Weather Kicker) keep only that share.
+	var w := _week_weather(data)
+	var temp := str(w.get("temp", ""))
+	if temp in ["cold", "snow"]:
+		var keep := Perks.weather_keep(data)
+		var fx := {"range_yd": -float(w.get("chill", 1)) * keep}
+		if temp == "snow":
+			fx["accuracy_spread_deg"] = t.snow_spread * keep
+		fx.merge(Perks.bad_weather_fx(data))
+		p._add_state("snow_game" if temp == "snow" else "cold_game", fx)
+
 	# 5b. The people around you (coach, holder, Tyler Brooks); nothing at neutral.
 	for line in Relationships.profile_lines(data, t):
 		if describe(line[1]) != "":  # too small to notice: no Outlook line either
@@ -135,9 +156,19 @@ static func build(data: CareerData, tuning: CareerTuning, ctx: Dictionary = {}) 
 		var per := t.miss_streak_pressure * (1.0 - t.resilience_streak_shield * res / 100.0)
 		p._add_state("miss_streak", {"pressure_add": per * streak * maxf(streak_scale, 0.0)})
 
+	p.injury_risk *= maxf(1.0 + Perks.total(data, "injury_risk_mult"), 0.0)
 	p._clamp(t)
 	p._finish_range(data, t)
 	return p
+
+
+## This week's weather from the schedule ({} if none).
+static func _week_weather(data: CareerData) -> Dictionary:
+	for e in data.schedule:
+		if int(e.get("week", 0)) == data.week:
+			var w: Variant = e.get("weather", {})
+			return w if w is Dictionary else {}
+	return {}
 
 
 ## Today's ranges from the paper range + range_yd, then the launch speed.

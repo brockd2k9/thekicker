@@ -269,7 +269,7 @@ func _launch_kick(e: Dictionary) -> void:
 	var rules: KickoffRules = null
 	if _kick_kind in ["kickoff", "onside"]:
 		rules = CareerGameMode.kickoff_rules_for(career.tuning, Progression.game_params(career.data, career.tuning), prof)
-	_open_kick_scene(CareerGameMode.from_call(e, prof.pressure_add, rules), prof, e)
+	_open_kick_scene(CareerGameMode.from_call(CareerGameMode.adjust_call(e, prof), prof.pressure_add, rules), prof, e)
 
 
 ## The kick scene over the bench screen, with this week's profile, the stage's

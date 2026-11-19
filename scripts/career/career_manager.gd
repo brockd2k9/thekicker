@@ -264,6 +264,7 @@ func begin_week() -> void:
 		var wind_max := float(Progression.game_params(data, tuning)["wind_max"])
 		var wind := rng.randf_range(0.0, wind_max) * (1.0 if rng.randf() < 0.5 else -1.0)
 		e["weather"] = {"wind": roundf(wind), "gusty": rng.randf() < tuning.game_gust_chance}
+		_roll_cold(e["weather"])
 		_injury_roll()
 		if is_ineligible():
 			data.notice = "Academically ineligible (GPA %.2f, need %.1f): you'll sit out this week's game." \
@@ -272,6 +273,19 @@ func begin_week() -> void:
 	if data.pending_scenarios.is_empty():
 		_after_scenarios()
 	save()
+
+
+## Late in the season: maybe a cold or snowy game ("temp" and "chill" yards).
+func _roll_cold(w: Dictionary) -> void:
+	if float(data.week) < ceilf(weeks_in_season() * tuning.late_season_from):
+		return
+	var r := rng.randf()
+	if r < tuning.snow_chance:
+		w["temp"] = "snow"
+		w["chill"] = rng.randi_range(tuning.snow_range_min, tuning.snow_range_max)
+	elif r < tuning.snow_chance + tuning.cold_chance:
+		w["temp"] = "cold"
+		w["chill"] = rng.randi_range(tuning.cold_range_min, tuning.cold_range_max)
 
 
 func current_scenario() -> Dictionary:
@@ -310,7 +324,8 @@ func _injury_roll() -> void:
 		return
 	var p := KickProfile.build(data, tuning)
 	if rng.randf() < p.injury_risk:
-		data.injury = {"weeks_left": rng.randi_range(tuning.injury_weeks_min, tuning.injury_weeks_max),
+		data.injury = {"weeks_left": maxi(rng.randi_range(tuning.injury_weeks_min, tuning.injury_weeks_max)
+				+ int(Perks.total(data, "injury_weeks")), 1),
 			"severity": snappedf(rng.randf_range(tuning.injury_severity_min, tuning.injury_severity_max), 0.05)}
 		data.notice = "You tweaked your hip flexor in practice. You'll be playing hurt for %d week(s)." \
 			% int(data.injury["weeks_left"])
@@ -581,13 +596,14 @@ func end_season() -> void:
 		return
 	var poor := Progression.is_poor_season(data, tuning)
 	data.poor_streak = data.poor_streak + 1 if poor else 0
+	var aged := Aging.apply_season_end(data, tuning)
 	var bonus := SkillPoints.season_bonus(data, tuning)
 	SkillPoints.earn(data, bonus, "Season bonus")
 	data.sp_week.clear()
 	var h := {"stage": data.stage, "season": data.season, "season_in_stage": data.season_in_stage,
 		"year": class_year(), "team": data.team.get("name", ""), "age": data.age,
 		"record": data.record.duplicate(), "stats": data.season_stats.duplicate(),
-		"sp": data.sp_season, "sp_bonus": bonus,
+		"sp": data.sp_season, "sp_bonus": bonus, "aged": aged,
 		"fg_range": snappedf(KickRange.fg_range(data, tuning), 0.1),
 		"kickoff_range": snappedf(KickRange.kickoff_range(data, tuning), 0.1)}
 	# Recorded first, so a retirement at the age cap includes this season.
@@ -664,6 +680,9 @@ func _start_next_season() -> void:
 	data.notice = "Offseason training: +%d skill points. You have %d to spend in Skills." \
 		% [tuning.sp_offseason, data.skill_points]
 	data.season += 1
+	if data.age + 1 == tuning.aging_start_age:
+		data.notice += " Turning %d: from now on your attributes decline a little every season. " \
+			% tuning.aging_start_age + "Preserve them in Skills (Maintenance) before the season ends."
 	data.season_in_stage += 1
 	data.age += 1
 	_start_season(true)
