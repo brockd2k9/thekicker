@@ -1,0 +1,7810 @@
+{
+	"_about": "Every high school story graph scenario.",
+	"_how": "Fill in category, text and choices; leave _info alone (it's read-only). See tools/authoring/WRITING_GUIDE.md. Import: python3 tools/import_scenarios.py <this file> --dry-run",
+	"scenarios": [
+		{
+			"id": "HS_001",
+			"title": "The New Kid",
+			"_info": {
+				"when": "Freshman year (season 1), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_002",
+			"title": "Homework or the Field?",
+			"_info": {
+				"when": "Freshman year (season 1), any week",
+				"must_set_flags": [
+					"academic_effort"
+				],
+				"leads_to": [
+					{
+						"to": "HS_021",
+						"flag": "academic_effort"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"academic_effort": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_003",
+			"title": "The Locker Room Joke",
+			"_info": {
+				"when": "Freshman year (season 1), any week",
+				"must_set_flags": [
+					"helped_freshman",
+					"bullied_freshman"
+				],
+				"leads_to": [
+					{
+						"to": "HS_034",
+						"flag": "helped_freshman"
+					},
+					{
+						"to": "HS_073",
+						"flag": "helped_freshman"
+					},
+					{
+						"to": "HS_094",
+						"flag": "helped_freshman"
+					},
+					{
+						"to": "HS_034",
+						"flag": "bullied_freshman"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"helped_freshman": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"bullied_freshman": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_004",
+			"title": "Dad's Expectations",
+			"_info": {
+				"when": "Freshman year (season 1), any week",
+				"people": [
+					"parent"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"parent": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"parent": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"parent": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_005",
+			"title": "The First Rival",
+			"_info": {
+				"when": "Freshman year (season 1), any week",
+				"must_set_flags": [
+					"befriended_tyler",
+					"hostile_tyler_rivalry"
+				],
+				"people": [
+					"rival"
+				],
+				"leads_to": [
+					{
+						"to": "HS_030",
+						"flag": "befriended_tyler"
+					},
+					{
+						"to": "HS_092",
+						"flag": "hostile_tyler_rivalry"
+					},
+					{
+						"to": "HS_147",
+						"flag": "befriended_tyler"
+					},
+					{
+						"to": "HS_147",
+						"flag": "hostile_tyler_rivalry"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"befriended_tyler": true
+					},
+					"rel": {
+						"rival": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"hostile_tyler_rivalry": true
+					},
+					"rel": {
+						"rival": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_006",
+			"title": "The Party Invitation",
+			"_info": {
+				"when": "Freshman year (season 1), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_007",
+			"title": "The Group Project",
+			"_info": {
+				"when": "Freshman year (season 1), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_008",
+			"title": "The Missed Kick",
+			"_info": {
+				"when": "Freshman year (season 1), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_009",
+			"title": "The Little Brother",
+			"_info": {
+				"when": "Freshman year (season 1), any week",
+				"people": [
+					"sibling"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"sibling": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"sibling": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"sibling": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_011",
+			"title": "The First School Dance",
+			"_info": {
+				"when": "Freshman year (season 1), any week",
+				"people": [
+					"love_interest"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"love_interest": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"love_interest": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"love_interest": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_012",
+			"title": "The Teacher Who Believes in You",
+			"_info": {
+				"when": "Freshman year (season 1), any week",
+				"people": [
+					"teacher"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"teacher": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"teacher": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"teacher": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_013",
+			"title": "The New Teammate",
+			"_info": {
+				"when": "Freshman year (season 1), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_014",
+			"title": "The Bad Weather Practice",
+			"_info": {
+				"when": "Freshman year (season 1), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_015",
+			"title": "The Locker Room Rumor",
+			"_info": {
+				"when": "Freshman year (season 1), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_016",
+			"title": "The Scholarship Camp Flyer",
+			"_info": {
+				"when": "Freshman year (season 1), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_017",
+			"title": "The Coach's Favorite",
+			"_info": {
+				"when": "Freshman year (season 1), any week",
+				"people": [
+					"coach"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"coach": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"coach": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"coach": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_018",
+			"title": "The Broken Phone",
+			"_info": {
+				"when": "Freshman year (season 1), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_019",
+			"title": "The Shortcut",
+			"_info": {
+				"when": "Freshman year (season 1), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_020",
+			"title": "The Community Kickoff",
+			"_info": {
+				"when": "Freshman year (season 1), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_021",
+			"title": "The Big Exam",
+			"_info": {
+				"when": "Sophomore year (season 2), any week",
+				"unlocked_by": [
+					{
+						"from": "HS_002",
+						"flag": "academic_effort",
+						"type": "unlock"
+					}
+				],
+				"notes": "Open to everyone; the unlock flags are flavor only."
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_022",
+			"title": "The Teammate Who Cuts Corners",
+			"_info": {
+				"when": "Sophomore year (season 2), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_023",
+			"title": "The Almost-Date",
+			"_info": {
+				"when": "Sophomore year (season 2), any week",
+				"people": [
+					"love_interest"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"love_interest": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"love_interest": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"love_interest": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_024",
+			"title": "The Scholarship Visit",
+			"_info": {
+				"when": "Sophomore year (season 2), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_025",
+			"title": "The Group Chat Explosion",
+			"_info": {
+				"when": "Sophomore year (season 2), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_026",
+			"title": "The Family Budget",
+			"_info": {
+				"when": "Sophomore year (season 2), any week",
+				"people": [
+					"parent"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"parent": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"parent": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"parent": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_027",
+			"title": "The Angry Coach",
+			"_info": {
+				"when": "Sophomore year (season 2), any week",
+				"people": [
+					"coach"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"coach": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"coach": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"coach": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_028",
+			"title": "The Party Prank",
+			"_info": {
+				"when": "Sophomore year (season 2), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_029",
+			"title": "The Sore Kicking Leg",
+			"_info": {
+				"when": "Sophomore year (season 2), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_030",
+			"title": "The Rival's Bad Day",
+			"_info": {
+				"when": "Sophomore year (season 2), any week",
+				"requires": {
+					"any_flags": [
+						"befriended_tyler"
+					]
+				},
+				"must_set_flags": [
+					"tyler_mutual_respect"
+				],
+				"people": [
+					"rival"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_005",
+						"flag": "befriended_tyler",
+						"type": "unlock"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "HS_046",
+						"flag": "tyler_mutual_respect"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"tyler_mutual_respect": true
+					},
+					"rel": {
+						"rival": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"rival": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_031",
+			"title": "The Weekend Tournament",
+			"_info": {
+				"when": "Sophomore year (season 2), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_032",
+			"title": "The Breakup",
+			"_info": {
+				"when": "Sophomore year (season 2), any week",
+				"people": [
+					"love_interest"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"love_interest": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"love_interest": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"love_interest": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_033",
+			"title": "The Highlight Reel",
+			"_info": {
+				"when": "Sophomore year (season 2), any week",
+				"must_set_flags": [
+					"questionable_recruiting_clip"
+				],
+				"leads_to": [
+					{
+						"to": "HS_155",
+						"flag": "questionable_recruiting_clip"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"questionable_recruiting_clip": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_034",
+			"title": "The Friend Who Needs Help",
+			"_info": {
+				"when": "Sophomore year (season 2), any week",
+				"requires": {
+					"any_flags": [
+						"helped_freshman"
+					],
+					"not_flags": [
+						"bullied_freshman"
+					]
+				},
+				"people": [
+					"best_friend"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_003",
+						"flag": "helped_freshman",
+						"type": "unlock"
+					},
+					{
+						"from": "HS_003",
+						"flag": "bullied_freshman",
+						"type": "exclude"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"best_friend": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"best_friend": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"best_friend": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_035",
+			"title": "The Local Newspaper",
+			"_info": {
+				"when": "Sophomore year (season 2), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_036",
+			"title": "The Relationship Ultimatum",
+			"_info": {
+				"when": "Sophomore year (season 2), any week",
+				"people": [
+					"love_interest"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"love_interest": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"love_interest": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"love_interest": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_039",
+			"title": "The Cheap Training Equipment",
+			"_info": {
+				"when": "Sophomore year (season 2), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_040",
+			"title": "The Sophomore Showcase",
+			"_info": {
+				"when": "Sophomore year (season 2), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_043",
+			"title": "The Scholarship Pressure",
+			"_info": {
+				"when": "Junior year (season 3), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_044",
+			"title": "The Teammate Being Bullied",
+			"_info": {
+				"when": "Junior year (season 3), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_045",
+			"title": "The Family Argument",
+			"_info": {
+				"when": "Junior year (season 3), any week",
+				"people": [
+					"parent"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"parent": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"parent": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"parent": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_046",
+			"title": "The Rival's Offer",
+			"_info": {
+				"when": "Junior year (season 3), any week",
+				"requires": {
+					"any_flags": [
+						"tyler_mutual_respect"
+					]
+				},
+				"people": [
+					"rival"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_030",
+						"flag": "tyler_mutual_respect",
+						"type": "unlock"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"rival": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"rival": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"rival": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_048",
+			"title": "The Big Date",
+			"_info": {
+				"when": "Junior year (season 3), any week",
+				"people": [
+					"love_interest"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"love_interest": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"love_interest": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"love_interest": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_049",
+			"title": "The Academic Comeback",
+			"_info": {
+				"when": "Junior year (season 3), any week",
+				"must_set_flags": [
+					"academic_recovery"
+				],
+				"leads_to": [
+					{
+						"to": "HS_068",
+						"flag": "academic_recovery"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"academic_recovery": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_051",
+			"title": "The Final Season",
+			"_info": {
+				"when": "Senior year (season 4), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_052",
+			"title": "The College Offer",
+			"_info": {
+				"when": "Senior year (season 4), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_053",
+			"title": "The Senior Prank",
+			"_info": {
+				"when": "Senior year (season 4), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_054",
+			"title": "The Big Interview",
+			"_info": {
+				"when": "Senior year (season 4), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_055",
+			"title": "The Parent Who Can't Attend",
+			"_info": {
+				"when": "Senior year (season 4), any week",
+				"people": [
+					"parent"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"parent": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"parent": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"parent": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_056",
+			"title": "The Last-Minute Scholarship Camp",
+			"_info": {
+				"when": "Senior year (season 4), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_057",
+			"title": "The Teammate's Secret",
+			"_info": {
+				"when": "Senior year (season 4), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_058",
+			"title": "The Recruiter Wants Numbers",
+			"_info": {
+				"when": "Senior year (season 4), weeks 1-5",
+				"requires": {
+					"any_flags": [
+						"recruiter_trust"
+					]
+				},
+				"must_set_flags": [
+					"recruiter_trust"
+				],
+				"unlocked_by": [
+					{
+						"from": "hs_recruiter_call",
+						"flag": "recruiter_trust",
+						"type": "unlock"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "HS_088",
+						"flag": "recruiter_trust"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"recruiter_trust": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_059",
+			"title": "The Breakup Before the Big Game",
+			"_info": {
+				"when": "Senior year (season 4), any week",
+				"people": [
+					"love_interest"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"love_interest": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"love_interest": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"love_interest": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_060",
+			"title": "The Coach's Final Challenge",
+			"_info": {
+				"when": "Senior year (season 4), any week",
+				"people": [
+					"coach"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"coach": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"coach": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"coach": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_061",
+			"title": "The Sponsor Message",
+			"_info": {
+				"when": "Senior year (season 4), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_062",
+			"title": "The Sick Week",
+			"_info": {
+				"when": "Senior year (season 4), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_063",
+			"title": "The Final Homecoming",
+			"_info": {
+				"when": "Senior year (season 4), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_064",
+			"title": "The Unexpected Opportunity",
+			"_info": {
+				"when": "Senior year (season 4), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_065",
+			"title": "The Graduation Speech",
+			"_info": {
+				"when": "Senior year (season 4), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_067",
+			"title": "The Younger Kicker's Mistake",
+			"_info": {
+				"when": "Senior year (season 4), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_068",
+			"title": "The Final Exam Versus the Final Game",
+			"_info": {
+				"when": "Senior year (season 4), any week",
+				"requires": {
+					"any_flags": [
+						"academic_recovery"
+					]
+				},
+				"unlocked_by": [
+					{
+						"from": "HS_049",
+						"flag": "academic_recovery",
+						"type": "unlock"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_069",
+			"title": "The Last-Minute Recruiting Visit",
+			"_info": {
+				"when": "Senior year (season 4), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_070",
+			"title": "The Senior Night Kick",
+			"_info": {
+				"when": "Senior year (season 4), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_071",
+			"title": "The College Decision",
+			"_info": {
+				"when": "Senior year (season 4), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_072",
+			"title": "The Social Media Blowup",
+			"_info": {
+				"when": "Senior year (season 4), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_073",
+			"title": "The Teammate's Injury",
+			"_info": {
+				"when": "Senior year (season 4), any week",
+				"unlocked_by": [
+					{
+						"from": "HS_003",
+						"flag": "helped_freshman",
+						"type": "unlock"
+					}
+				],
+				"notes": "Open to everyone; the unlock flags are flavor only."
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_074",
+			"title": "The Unexpected Family Emergency",
+			"_info": {
+				"when": "Senior year (season 4), any week",
+				"people": [
+					"parent"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"parent": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"parent": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"parent": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_075",
+			"title": "The Local Youth Camp",
+			"_info": {
+				"when": "Senior year (season 4), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_076",
+			"title": "The Scholarship That Disappeared",
+			"_info": {
+				"when": "seasons 3-4 (Junior to Senior), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_077",
+			"title": "The Kicking Challenge",
+			"_info": {
+				"when": "any high school season, any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_078",
+			"title": "The College Coach's Question",
+			"_info": {
+				"when": "seasons 3-4 (Junior to Senior), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_079",
+			"title": "The Bad Advice",
+			"_info": {
+				"when": "any high school season, any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_080",
+			"title": "The Friend Who Takes Credit",
+			"_info": {
+				"when": "any high school season, any week",
+				"people": [
+					"best_friend"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"best_friend": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"best_friend": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"best_friend": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_081",
+			"title": "The Questionable Highlight",
+			"_info": {
+				"when": "any high school season, any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_082",
+			"title": "The Backup Plan",
+			"_info": {
+				"when": "any high school season, any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_083",
+			"title": "The Teammate Who Wants Your Spot",
+			"_info": {
+				"when": "any high school season, any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_084",
+			"title": "The Community Fundraiser",
+			"_info": {
+				"when": "any high school season, any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_085",
+			"title": "The Surprise Birthday",
+			"_info": {
+				"when": "any high school season, any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_086",
+			"title": "The Weather Warning",
+			"_info": {
+				"when": "any high school season, any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_087",
+			"title": "The Invitation to Fight",
+			"_info": {
+				"when": "any high school season, any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_088",
+			"title": "The Coach's Recommendation",
+			"_info": {
+				"when": "seasons 3-4 (Junior to Senior), any week",
+				"requires": {
+					"any_flags": [
+						"recruiter_trust"
+					]
+				},
+				"people": [
+					"coach"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_058",
+						"flag": "recruiter_trust",
+						"type": "unlock"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"coach": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"coach": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"coach": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_089",
+			"title": "The Unfair Call",
+			"_info": {
+				"when": "any high school season, any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_090",
+			"title": "The Unexpected Opportunity to Lead",
+			"_info": {
+				"when": "any high school season, any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_091",
+			"title": "The Scholarship Decision From Home",
+			"_info": {
+				"when": "Senior year (season 4), weeks 8-10"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_092",
+			"title": "The Final Rivalry",
+			"_info": {
+				"when": "Senior year (season 4), weeks 8-10",
+				"requires": {
+					"any_flags": [
+						"hostile_tyler_rivalry"
+					]
+				},
+				"people": [
+					"rival"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_005",
+						"flag": "hostile_tyler_rivalry",
+						"type": "unlock"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"rival": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"rival": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"rival": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_093",
+			"title": "The Final Miss",
+			"_info": {
+				"when": "Senior year (season 4), weeks 8-10"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_094",
+			"title": "The Teammate Who Remembers",
+			"_info": {
+				"when": "seasons 2-4 (Sophomore to Senior), any week",
+				"requires": {
+					"any_flags": [
+						"helped_freshman"
+					]
+				},
+				"unlocked_by": [
+					{
+						"from": "HS_003",
+						"flag": "helped_freshman",
+						"type": "unlock"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_095",
+			"title": "The Last School Day",
+			"_info": {
+				"when": "Senior year (season 4), weeks 8-10"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_097",
+			"title": "The Final Friday Night",
+			"_info": {
+				"when": "Senior year (season 4), weeks 8-10"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_098",
+			"title": "The Unexpected Recruiter",
+			"_info": {
+				"when": "seasons 3-4 (Junior to Senior), any week"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_099",
+			"title": "The Goodbye",
+			"_info": {
+				"when": "Senior year (season 4), weeks 8-10"
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_101",
+			"title": "The Wrong Locker",
+			"_info": {
+				"when": "Freshman year (season 1), any week",
+				"must_set_flags": [
+					"handled_conflict_well"
+				],
+				"leads_to": [
+					{
+						"to": "HS_126",
+						"flag": "handled_conflict_well"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"handled_conflict_well": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_102",
+			"title": "The Open Gym",
+			"_info": {
+				"when": "Freshman year (season 1), any week",
+				"must_set_flags": [
+					"joined_open_gym"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"joined_open_gym": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_103",
+			"title": "The First Group Chat",
+			"_info": {
+				"when": "Freshman year (season 1), any week",
+				"must_set_flags": [
+					"defended_teammate_online",
+					"private_support",
+					"joined_group_mockery"
+				],
+				"leads_to": [
+					{
+						"to": "HS_139",
+						"flag": "defended_teammate_online"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"defended_teammate_online": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"private_support": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"joined_group_mockery": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_104",
+			"title": "The Family Road Trip",
+			"_info": {
+				"when": "Freshman year (season 1), any week",
+				"must_set_flags": [
+					"prioritized_family_trip",
+					"attended_first_clinic",
+					"balanced_family_commitments"
+				],
+				"people": [
+					"parent"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"prioritized_family_trip": true
+					},
+					"rel": {
+						"parent": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"attended_first_clinic": true
+					},
+					"rel": {
+						"parent": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"balanced_family_commitments": true
+					},
+					"rel": {
+						"parent": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_105",
+			"title": "The New Equipment",
+			"_info": {
+				"when": "Freshman year (season 1), any week",
+				"must_set_flags": [
+					"earned_equipment_money",
+					"requested_expensive_equipment"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"earned_equipment_money": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"requested_expensive_equipment": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_106",
+			"title": "The Substitute Holder",
+			"_info": {
+				"when": "Freshman year (season 1), any week",
+				"must_set_flags": [
+					"trained_backup_holder",
+					"refused_holder_help"
+				],
+				"people": [
+					"holder"
+				],
+				"leads_to": [
+					{
+						"to": "HS_145",
+						"flag": "trained_backup_holder"
+					}
+				],
+				"absorbs": [
+					"HS_038"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"trained_backup_holder": true
+					},
+					"rel": {
+						"holder": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"refused_holder_help": true
+					},
+					"rel": {
+						"holder": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_107",
+			"title": "The First Volunteer Day",
+			"_info": {
+				"when": "Freshman year (season 1), any week",
+				"must_set_flags": [
+					"community_volunteer",
+					"partial_volunteer"
+				],
+				"leads_to": [
+					{
+						"to": "HS_134",
+						"flag": "community_volunteer"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"community_volunteer": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"partial_volunteer": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_108",
+			"title": "The First Bad Grade",
+			"_info": {
+				"when": "Freshman year (season 1), any week",
+				"must_set_flags": [
+					"asked_teacher_for_help",
+					"avoids_accountability"
+				],
+				"people": [
+					"teacher"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"asked_teacher_for_help": true
+					},
+					"rel": {
+						"teacher": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"avoids_accountability": true
+					},
+					"rel": {
+						"teacher": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_109",
+			"title": "The Practice Playlist",
+			"_info": {
+				"when": "Freshman year (season 1), any week",
+				"must_set_flags": [
+					"team_playlist_compromise"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"team_playlist_compromise": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_110",
+			"title": "The First Time You're Recognized",
+			"_info": {
+				"when": "Freshman year (season 1), any week",
+				"must_set_flags": [
+					"shared_first_success",
+					"enjoys_spotlight",
+					"downplays_success"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"shared_first_success": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"enjoys_spotlight": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"downplays_success": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_111",
+			"title": "The New Quarterback",
+			"_info": {
+				"when": "Sophomore year (season 2), any week",
+				"must_set_flags": [
+					"welcomed_new_qb",
+					"new_qb_rivalry"
+				],
+				"people": [
+					"new_qb"
+				],
+				"leads_to": [
+					{
+						"to": "HS_132",
+						"flag": "welcomed_new_qb"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"welcomed_new_qb": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"new_qb_rivalry": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_112",
+			"title": "The Missed Team Bus",
+			"_info": {
+				"when": "Sophomore year (season 2), any week",
+				"must_set_flags": [
+					"owned_bus_mistake",
+					"found_own_transport",
+					"blamed_someone_else"
+				],
+				"leads_to": [
+					{
+						"to": "HS_142",
+						"flag": "blamed_someone_else"
+					}
+				],
+				"absorbs": [
+					"HS_037"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"owned_bus_mistake": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"found_own_transport": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"blamed_someone_else": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_113",
+			"title": "The Secret Training Session",
+			"_info": {
+				"when": "Sophomore year (season 2), any week",
+				"must_set_flags": [
+					"self_funded_training"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"self_funded_training": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_114",
+			"title": "The Teammate's Excuse",
+			"_info": {
+				"when": "Sophomore year (season 2), any week",
+				"must_set_flags": [
+					"refused_to_cover_teammate",
+					"reported_teammate",
+					"covered_teammate"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"refused_to_cover_teammate": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"reported_teammate": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"covered_teammate": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_115",
+			"title": "The Summer Job Interview",
+			"_info": {
+				"when": "Sophomore year (season 2), any week",
+				"must_set_flags": [
+					"summer_job",
+					"football_first_summer",
+					"negotiated_work_hours"
+				],
+				"leads_to": [
+					{
+						"to": "HS_153",
+						"flag": "summer_job"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"summer_job": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"football_first_summer": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"negotiated_work_hours": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_116",
+			"title": "The Social Media Challenge",
+			"_info": {
+				"when": "Sophomore year (season 2), any week",
+				"must_set_flags": [
+					"posted_kicking_challenge",
+					"posted_training_progress"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"posted_kicking_challenge": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"posted_training_progress": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_117",
+			"title": "The Coach Who Remembers",
+			"_info": {
+				"when": "Sophomore year (season 2), weeks 2-6",
+				"story": "Story event: more likely while its window is open, and it always happens in the window's last week if it hasn't yet.",
+				"must_set_flags": [
+					"clinic_coach_trust",
+					"exaggerated_progress",
+					"sought_coaching_feedback"
+				],
+				"leads_to": [
+					{
+						"to": "HS_150",
+						"flag": "clinic_coach_trust"
+					},
+					{
+						"to": "HS_142",
+						"flag": "exaggerated_progress"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"clinic_coach_trust": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"exaggerated_progress": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"sought_coaching_feedback": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_118",
+			"title": "The Teacher's Recommendation",
+			"_info": {
+				"when": "Sophomore year (season 2), any week",
+				"must_set_flags": [
+					"student_leadership_program"
+				],
+				"people": [
+					"teacher"
+				],
+				"leads_to": [
+					{
+						"to": "HS_136",
+						"flag": "student_leadership_program"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"student_leadership_program": true
+					},
+					"rel": {
+						"teacher": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"teacher": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_119",
+			"title": "The Cheap Private Lesson",
+			"_info": {
+				"when": "Sophomore year (season 2), any week",
+				"must_set_flags": [
+					"vetted_trainer",
+					"trusted_unknown_trainer",
+					"consulted_current_coach"
+				],
+				"people": [
+					"coach"
+				],
+				"leads_to": [
+					{
+						"to": "HS_143",
+						"flag": "trusted_unknown_trainer"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"vetted_trainer": true
+					},
+					"rel": {
+						"coach": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"trusted_unknown_trainer": true
+					},
+					"rel": {
+						"coach": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"consulted_current_coach": true
+					},
+					"rel": {
+						"coach": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_120",
+			"title": "The Teammate's Big Opportunity",
+			"_info": {
+				"when": "Sophomore year (season 2), any week",
+				"must_set_flags": [
+					"helped_competing_teammate",
+					"sabotaged_teammate"
+				],
+				"leads_to": [
+					{
+						"to": "HS_151",
+						"flag": "helped_competing_teammate"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"helped_competing_teammate": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"sabotaged_teammate": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_121",
+			"title": "The College Camp Conflict",
+			"_info": {
+				"when": "Junior year (season 3), in the offseason after that season",
+				"story": "Story event: more likely while its window is open, and it always happens in the window's last week if it hasn't yet.",
+				"must_set_flags": [
+					"prioritized_recruiting_interest",
+					"communicated_with_colleges"
+				],
+				"leads_to": [
+					{
+						"to": "HS_154",
+						"flag": "communicated_with_colleges"
+					}
+				],
+				"absorbs": [
+					"HS_047"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"prioritized_recruiting_interest": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"communicated_with_colleges": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_122",
+			"title": "The Starting Job Is in Question",
+			"_info": {
+				"when": "Junior year (season 3), any week",
+				"must_set_flags": [
+					"asked_for_starting_feedback",
+					"challenged_coach_decision"
+				],
+				"people": [
+					"coach"
+				],
+				"leads_to": [
+					{
+						"to": "HS_142",
+						"flag": "challenged_coach_decision"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"asked_for_starting_feedback": true
+					},
+					"rel": {
+						"coach": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"challenged_coach_decision": true
+					},
+					"rel": {
+						"coach": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_123",
+			"title": "The Teammate's Family Problem",
+			"_info": {
+				"when": "Junior year (season 3), any week",
+				"must_set_flags": [
+					"supported_teammate_privately",
+					"informed_coach_for_help"
+				],
+				"people": [
+					"coach"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"supported_teammate_privately": true
+					},
+					"rel": {
+						"coach": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"informed_coach_for_help": true
+					},
+					"rel": {
+						"coach": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_124",
+			"title": "The Recruiter's Social Media Search",
+			"_info": {
+				"when": "Junior year (season 3), any week",
+				"must_set_flags": [
+					"handled_old_post",
+					"questionable_recruiting_clip"
+				],
+				"leads_to": [
+					{
+						"to": "HS_155",
+						"flag": "questionable_recruiting_clip"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"handled_old_post": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"questionable_recruiting_clip": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_125",
+			"title": "The Injury You Don't Mention",
+			"_info": {
+				"when": "Junior year (season 3), weeks 4-8",
+				"story": "Story event: more likely while its window is open, and it always happens in the window's last week if it hasn't yet.",
+				"must_set_flags": [
+					"reported_kicking_pain",
+					"secretly_reduced_training",
+					"hid_injury"
+				],
+				"leads_to": [
+					{
+						"to": "HS_143",
+						"flag": "hid_injury"
+					},
+					{
+						"to": "HS_142",
+						"flag": "hid_injury"
+					}
+				],
+				"follow_up_hints": [
+					{
+						"flag": "hid_injury",
+						"id": "HS_143",
+						"weeks": 4
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"reported_kicking_pain": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"secretly_reduced_training": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"hid_injury": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_126",
+			"title": "The Hallway Favor",
+			"_info": {
+				"when": "Junior year (season 3), any week",
+				"requires": {
+					"any_flags": [
+						"handled_conflict_well"
+					]
+				},
+				"must_set_flags": [
+					"mentored_younger_student"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_101",
+						"flag": "handled_conflict_well",
+						"type": "unlock"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"mentored_younger_student": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_127",
+			"title": "The College Coach's Criticism",
+			"_info": {
+				"when": "Junior year (season 3), any week",
+				"must_set_flags": [
+					"accepted_recruiting_feedback",
+					"motivated_by_criticism"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"accepted_recruiting_feedback": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"motivated_by_criticism": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_128",
+			"title": "The Scholarship Rumor",
+			"_info": {
+				"when": "Junior year (season 3), any week",
+				"must_set_flags": [
+					"verified_scholarship_rumor",
+					"spread_recruiting_rumor"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"verified_scholarship_rumor": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"spread_recruiting_rumor": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_129",
+			"title": "The First Paycheck",
+			"_info": {
+				"when": "Junior year (season 3), any week",
+				"must_set_flags": [
+					"saved_first_paycheck",
+					"helped_family_financially"
+				],
+				"people": [
+					"parent"
+				],
+				"leads_to": [
+					{
+						"to": "HS_148",
+						"flag": "saved_first_paycheck"
+					},
+					{
+						"to": "HS_157",
+						"flag": "helped_family_financially"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"saved_first_paycheck": true
+					},
+					"rel": {
+						"parent": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"helped_family_financially": true
+					},
+					"rel": {
+						"parent": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_130",
+			"title": "The Senior Kicker's Advice",
+			"_info": {
+				"when": "Junior year (season 3), any week",
+				"must_set_flags": [
+					"learned_from_senior"
+				],
+				"absorbs": [
+					"HS_050"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"learned_from_senior": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_131",
+			"title": "The Bad Film Session",
+			"_info": {
+				"when": "Junior year (season 3), any week",
+				"must_set_flags": [
+					"owned_film_mistake"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"owned_film_mistake": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_132",
+			"title": "The Unexpected Teammate",
+			"_info": {
+				"when": "Junior year (season 3), weeks 1-5",
+				"requires": {
+					"any_flags": [
+						"welcomed_new_qb"
+					]
+				},
+				"must_set_flags": [
+					"new_qb_friendship",
+					"new_qb_relationship_cool"
+				],
+				"people": [
+					"new_qb"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_111",
+						"flag": "welcomed_new_qb",
+						"type": "unlock"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "HS_137",
+						"flag": "new_qb_friendship"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"new_qb_friendship": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"new_qb_relationship_cool": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_133",
+			"title": "The Academic Scholarship",
+			"_info": {
+				"when": "Junior year (season 3), any week",
+				"must_set_flags": [
+					"academic_scholarship_path"
+				],
+				"leads_to": [
+					{
+						"to": "HS_158",
+						"flag": "academic_scholarship_path"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"academic_scholarship_path": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_134",
+			"title": "The Community Recognition",
+			"_info": {
+				"when": "Junior year (season 3), any week",
+				"requires": {
+					"any_flags": [
+						"community_volunteer"
+					]
+				},
+				"must_set_flags": [
+					"community_recognition"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_107",
+						"flag": "community_volunteer",
+						"type": "unlock"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "HS_153",
+						"flag": "community_recognition"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"community_recognition": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_135",
+			"title": "The Former College Kicker",
+			"_info": {
+				"when": "Junior year (season 3), any week",
+				"must_set_flags": [
+					"learned_technical_adjustment",
+					"built_training_plan"
+				],
+				"leads_to": [
+					{
+						"to": "HS_148",
+						"flag": "built_training_plan"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"learned_technical_adjustment": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"built_training_plan": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_136",
+			"title": "The Student Leader",
+			"_info": {
+				"when": "Junior year (season 3), any week",
+				"requires": {
+					"any_flags": [
+						"student_leadership_program"
+					]
+				},
+				"must_set_flags": [
+					"led_school_project"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_118",
+						"flag": "student_leadership_program",
+						"type": "unlock"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "HS_144",
+						"flag": "led_school_project"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"led_school_project": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_137",
+			"title": "The Rival's Private Message",
+			"_info": {
+				"when": "Junior year (season 3), weeks 6-11",
+				"requires": {
+					"any_flags": [
+						"new_qb_friendship",
+						"new_qb_rivalry"
+					]
+				},
+				"must_set_flags": [
+					"helped_rival_with_pressure",
+					"played_mind_games"
+				],
+				"people": [
+					"new_qb"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_132",
+						"flag": "new_qb_friendship",
+						"type": "unlock"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"helped_rival_with_pressure": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"played_mind_games": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_138",
+			"title": "The Recruiting Video Deadline",
+			"_info": {
+				"when": "Junior year (season 3), weeks 6-10",
+				"story": "Story event: more likely while its window is open, and it always happens in the window's last week if it hasn't yet.",
+				"must_set_flags": [
+					"honest_recruiting_video",
+					"questionable_recruiting_clip",
+					"coach_reviewed_video"
+				],
+				"people": [
+					"coach"
+				],
+				"follow_up_hints": [
+					{
+						"flag": "questionable_recruiting_clip",
+						"id": "HS_155",
+						"weeks": 3
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"honest_recruiting_video": true
+					},
+					"rel": {
+						"coach": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"questionable_recruiting_clip": true
+					},
+					"rel": {
+						"coach": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"coach_reviewed_video": true
+					},
+					"rel": {
+						"coach": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_139",
+			"title": "The Screenshot",
+			"_info": {
+				"when": "Junior year (season 3), any week",
+				"requires": {
+					"any_flags": [
+						"defended_teammate_online"
+					]
+				},
+				"must_set_flags": [
+					"owned_old_group_chat"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_103",
+						"flag": "defended_teammate_online",
+						"type": "unlock"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "HS_156",
+						"flag": "owned_old_group_chat"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"owned_old_group_chat": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_140",
+			"title": "The Last Junior-Year Kick",
+			"_info": {
+				"when": "Junior year (season 3), any week",
+				"must_set_flags": [
+					"trusted_holder_under_pressure"
+				],
+				"people": [
+					"holder"
+				],
+				"leads_to": [
+					{
+						"to": "HS_145",
+						"flag": "trusted_holder_under_pressure"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"trusted_holder_under_pressure": true
+					},
+					"rel": {
+						"holder": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"holder": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_141",
+			"title": "The New Coach",
+			"_info": {
+				"when": "Senior year (season 4), any week",
+				"must_set_flags": [
+					"adapted_to_new_coach",
+					"resisted_new_coach"
+				],
+				"people": [
+					"coach"
+				],
+				"notes": "A new offensive coordinator or position coach joins the staff; the head coach ({coach}) stays the same person. The newcomer has no relationship value or placeholder: name them in the text and keep the name consistent. rel 'coach' still means the head coach."
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"adapted_to_new_coach": true
+					},
+					"rel": {
+						"coach": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"resisted_new_coach": true
+					},
+					"rel": {
+						"coach": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_142",
+			"title": "The Coach Wants an Explanation",
+			"_info": {
+				"when": "Senior year (season 4), weeks 2-6",
+				"story": "Story event: more likely while its window is open, and it always happens in the window's last week if it hasn't yet.",
+				"requires": {
+					"any_flags": [
+						"challenged_coach_decision",
+						"hid_injury",
+						"exaggerated_progress",
+						"blamed_someone_else"
+					]
+				},
+				"must_set_flags": [
+					"repaired_coach_trust",
+					"coach_trust_damaged"
+				],
+				"people": [
+					"coach"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_122",
+						"flag": "challenged_coach_decision",
+						"type": "unlock"
+					},
+					{
+						"from": "HS_125",
+						"flag": "hid_injury",
+						"type": "unlock"
+					},
+					{
+						"from": "HS_117",
+						"flag": "exaggerated_progress",
+						"type": "unlock"
+					},
+					{
+						"from": "HS_112",
+						"flag": "blamed_someone_else",
+						"type": "unlock"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"repaired_coach_trust": true
+					},
+					"rel": {
+						"coach": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"coach_trust_damaged": true
+					},
+					"rel": {
+						"coach": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_143",
+			"title": "The Training Setback",
+			"_info": {
+				"when": "Senior year (season 4), weeks 1-4",
+				"story": "Story event: more likely while its window is open, and it always happens in the window's last week if it hasn't yet.",
+				"requires": {
+					"any_flags": [
+						"hid_injury",
+						"trusted_unknown_trainer"
+					]
+				},
+				"must_set_flags": [
+					"committed_to_recovery",
+					"delayed_recovery",
+					"ignored_recovery_advice"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_125",
+						"flag": "hid_injury",
+						"type": "unlock"
+					},
+					{
+						"from": "HS_119",
+						"flag": "trusted_unknown_trainer",
+						"type": "unlock"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "HS_148",
+						"flag": "committed_to_recovery"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"committed_to_recovery": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"delayed_recovery": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"ignored_recovery_advice": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_144",
+			"title": "The Captain's Responsibility",
+			"_info": {
+				"when": "Senior year (season 4), weeks 1-7",
+				"requires": {
+					"any_flags": [
+						"led_school_project"
+					]
+				},
+				"must_set_flags": [
+					"accepted_team_leadership",
+					"abused_leadership_role"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_136",
+						"flag": "led_school_project",
+						"type": "unlock"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "HS_159",
+						"flag": "accepted_team_leadership"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"accepted_team_leadership": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"abused_leadership_role": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_145",
+			"title": "The Holder's Big Moment",
+			"_info": {
+				"when": "Senior year (season 4), weeks 1-8",
+				"requires": {
+					"any_flags": [
+						"trained_backup_holder",
+						"trusted_holder_under_pressure"
+					]
+				},
+				"must_set_flags": [
+					"holder_big_moment_success",
+					"holder_confidence_damaged"
+				],
+				"people": [
+					"holder"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_106",
+						"flag": "trained_backup_holder",
+						"type": "unlock"
+					},
+					{
+						"from": "HS_140",
+						"flag": "trusted_holder_under_pressure",
+						"type": "unlock"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "HS_159",
+						"flag": "holder_big_moment_success"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"holder_big_moment_success": true
+					},
+					"rel": {
+						"holder": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"holder_confidence_damaged": true
+					},
+					"rel": {
+						"holder": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_146",
+			"title": "The Final Evaluation",
+			"_info": {
+				"when": "Senior year (season 4), weeks 1-3",
+				"story": "Story event: more likely while its window is open, and it always happens in the window's last week if it hasn't yet.",
+				"must_set_flags": [
+					"earned_coach_confidence",
+					"requested_final_opportunity"
+				],
+				"people": [
+					"coach"
+				],
+				"leads_to": [
+					{
+						"to": "HS_159",
+						"flag": "earned_coach_confidence"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"earned_coach_confidence": true
+					},
+					"rel": {
+						"coach": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"requested_final_opportunity": true
+					},
+					"rel": {
+						"coach": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_147",
+			"title": "The Starting Job Is Yours",
+			"_info": {
+				"when": "Senior year (season 4), any week",
+				"requires": {
+					"any_flags": [
+						"befriended_tyler",
+						"hostile_tyler_rivalry"
+					]
+				},
+				"must_set_flags": [
+					"respected_rival_after_win",
+					"continued_rival_training"
+				],
+				"people": [
+					"rival"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_005",
+						"flag": "befriended_tyler",
+						"type": "unlock"
+					},
+					{
+						"from": "HS_005",
+						"flag": "hostile_tyler_rivalry",
+						"type": "unlock"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"respected_rival_after_win": true
+					},
+					"rel": {
+						"rival": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"continued_rival_training": true
+					},
+					"rel": {
+						"rival": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_148",
+			"title": "The Better Training Plan",
+			"_info": {
+				"when": "Senior year (season 4), weeks 5-11",
+				"requires": {
+					"any_flags": [
+						"built_training_plan",
+						"learned_technical_adjustment",
+						"saved_first_paycheck",
+						"motivated_by_criticism",
+						"committed_to_recovery"
+					]
+				},
+				"must_set_flags": [
+					"committed_to_final_training",
+					"coach_customized_training"
+				],
+				"people": [
+					"coach"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_143",
+						"flag": "committed_to_recovery",
+						"type": "unlock"
+					},
+					{
+						"from": "HS_135",
+						"flag": "built_training_plan",
+						"type": "unlock"
+					},
+					{
+						"from": "HS_129",
+						"flag": "saved_first_paycheck",
+						"type": "unlock"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"committed_to_final_training": true
+					},
+					"rel": {
+						"coach": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"coach_customized_training": true
+					},
+					"rel": {
+						"coach": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_149",
+			"title": "The College Visit With Friends",
+			"_info": {
+				"when": "Senior year (season 4), any week",
+				"must_set_flags": [
+					"college_visit_with_friends"
+				],
+				"people": [
+					"best_friend"
+				],
+				"absorbs": [
+					"HS_096"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"college_visit_with_friends": true
+					},
+					"rel": {
+						"best_friend": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"best_friend": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_150",
+			"title": "The First Serious Recruiting Conversation",
+			"_info": {
+				"when": "Senior year (season 4), weeks 3-7",
+				"story": "Story event: more likely while its window is open, and it always happens in the window's last week if it hasn't yet.",
+				"requires": {
+					"any_flags": [
+						"clinic_coach_trust",
+						"communicated_with_colleges",
+						"prioritized_recruiting_interest",
+						"corrected_recruiting_video"
+					]
+				},
+				"must_set_flags": [
+					"recruiting_values_clear",
+					"recruiting_said_what_they_wanted"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_155",
+						"flag": "corrected_recruiting_video",
+						"type": "unlock"
+					},
+					{
+						"from": "HS_117",
+						"flag": "clinic_coach_trust",
+						"type": "unlock"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "HS_160",
+						"flag": "recruiting_values_clear"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"recruiting_values_clear": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"recruiting_said_what_they_wanted": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_151",
+			"title": "The Favor Returned",
+			"_info": {
+				"when": "any high school season, any week",
+				"requires": {
+					"any_flags": [
+						"helped_competing_teammate",
+						"new_qb_friendship"
+					]
+				},
+				"must_set_flags": [
+					"accepted_teammate_help"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_120",
+						"flag": "helped_competing_teammate",
+						"type": "unlock"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"accepted_teammate_help": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_152",
+			"title": "The Family Disagreement About College",
+			"_info": {
+				"when": "Senior year (season 4), weeks 1-9",
+				"must_set_flags": [
+					"prioritized_own_college_choice",
+					"family_college_compromise"
+				],
+				"people": [
+					"parent"
+				],
+				"leads_to": [
+					{
+						"to": "HS_160",
+						"flag": "family_college_compromise"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"prioritized_own_college_choice": true
+					},
+					"rel": {
+						"parent": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"family_college_compromise": true
+					},
+					"rel": {
+						"parent": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_153",
+			"title": "The Unexpected Reference",
+			"_info": {
+				"when": "any high school season, any week",
+				"requires": {
+					"any_flags": [
+						"summer_job",
+						"community_recognition",
+						"community_volunteer"
+					]
+				},
+				"must_set_flags": [
+					"earned_community_reference",
+					"requested_reference_help"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_134",
+						"flag": "community_recognition",
+						"type": "unlock"
+					},
+					{
+						"from": "HS_115",
+						"flag": "summer_job",
+						"type": "unlock"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"earned_community_reference": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"requested_reference_help": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_154",
+			"title": "The Second Recruiting Invitation",
+			"_info": {
+				"when": "any high school season, any week",
+				"requires": {
+					"any_flags": [
+						"communicated_with_colleges",
+						"prioritized_recruiting_interest"
+					]
+				},
+				"must_set_flags": [
+					"communicated_recruiting_loyalty",
+					"kept_recruiting_options_open"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_121",
+						"flag": "communicated_with_colleges",
+						"type": "unlock"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"communicated_recruiting_loyalty": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"kept_recruiting_options_open": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_155",
+			"title": "The Recruiter Checks the Film",
+			"_info": {
+				"when": "seasons 3-4 (Junior to Senior), weeks 2-10",
+				"story": "Story event: more likely while its window is open, and it always happens in the window's last week if it hasn't yet.",
+				"requires": {
+					"any_flags": [
+						"questionable_recruiting_clip",
+						"exaggerated_progress",
+						"spread_recruiting_rumor"
+					]
+				},
+				"must_set_flags": [
+					"corrected_recruiting_video",
+					"explained_recruiting_context",
+					"doubled_down_recruiting_lie"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_033",
+						"flag": "questionable_recruiting_clip",
+						"type": "unlock"
+					},
+					{
+						"from": "HS_124",
+						"flag": "questionable_recruiting_clip",
+						"type": "unlock"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "HS_150",
+						"flag": "corrected_recruiting_video"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"corrected_recruiting_video": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"explained_recruiting_context": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"doubled_down_recruiting_lie": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_156",
+			"title": "The Younger Athlete Looks Up to You",
+			"_info": {
+				"when": "any high school season, any week",
+				"requires": {
+					"any_flags": [
+						"mentored_younger_student",
+						"owned_old_group_chat",
+						"accepted_team_leadership",
+						"community_volunteer"
+					]
+				},
+				"must_set_flags": [
+					"mentored_next_generation"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_139",
+						"flag": "owned_old_group_chat",
+						"type": "unlock"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"mentored_next_generation": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "HS_157",
+			"title": "A Family Thank-You",
+			"_info": {
+				"when": "Senior year (season 4), any week",
+				"requires": {
+					"any_flags": [
+						"helped_family_financially",
+						"prioritized_family_trip",
+						"balanced_family_commitments"
+					]
+				},
+				"must_set_flags": [
+					"opened_family_conversation"
+				],
+				"people": [
+					"parent"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_129",
+						"flag": "helped_family_financially",
+						"type": "unlock"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"opened_family_conversation": true
+					},
+					"rel": {
+						"parent": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"parent": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_158",
+			"title": "The Backup Plan Pays Off",
+			"_info": {
+				"when": "Senior year (season 4), weeks 6-9",
+				"story": "Story event: more likely while its window is open, and it always happens in the window's last week if it hasn't yet.",
+				"requires": {
+					"any_flags": [
+						"academic_scholarship_path"
+					]
+				},
+				"must_set_flags": [
+					"secured_academic_path",
+					"explored_combined_aid"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_133",
+						"flag": "academic_scholarship_path",
+						"type": "unlock"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "HS_160",
+						"flag": "secured_academic_path"
+					}
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"secured_academic_path": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"explored_combined_aid": true
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_159",
+			"title": "The Last Practice Together",
+			"_info": {
+				"when": "Senior year (season 4), weeks 9-10",
+				"requires": {
+					"any_flags": [
+						"accepted_team_leadership",
+						"holder_big_moment_success",
+						"earned_coach_confidence"
+					]
+				},
+				"must_set_flags": [
+					"recognized_team_support"
+				],
+				"people": [
+					"coach",
+					"holder"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_144",
+						"flag": "accepted_team_leadership",
+						"type": "unlock"
+					},
+					{
+						"from": "HS_145",
+						"flag": "holder_big_moment_success",
+						"type": "unlock"
+					},
+					{
+						"from": "HS_146",
+						"flag": "earned_coach_confidence",
+						"type": "unlock"
+					}
+				],
+				"absorbs": [
+					"HS_066"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"recognized_team_support": true
+					},
+					"rel": {
+						"coach": 0,
+						"holder": 0
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
+						"coach": 0,
+						"holder": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "HS_160",
+			"title": "The Next Chapter",
+			"_info": {
+				"when": "Senior year, week 10 (always plays)",
+				"must_set_flags": [
+					"ready_for_college_football",
+					"ready_for_college_future",
+					"college_decision_pending"
+				],
+				"unlocked_by": [
+					{
+						"from": "HS_150",
+						"flag": "recruiting_values_clear",
+						"type": "unlock"
+					},
+					{
+						"from": "HS_152",
+						"flag": "family_college_compromise",
+						"type": "unlock"
+					},
+					{
+						"from": "HS_158",
+						"flag": "secured_academic_path",
+						"type": "unlock"
+					}
+				],
+				"absorbs": [
+					"HS_100"
+				],
+				"notes": "Always plays. Give one choice per lock flag (requires {flags: [flag]} + lock_text) and one open choice."
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"requires": {
+						"flags": [
+							"recruiting_values_clear"
+						]
+					},
+					"lock_text": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"ready_for_college_football": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"requires": {
+						"flags": [
+							"family_college_compromise"
+						]
+					},
+					"lock_text": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"ready_for_college_future": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"requires": {
+						"flags": [
+							"secured_academic_path"
+						]
+					},
+					"lock_text": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {
+						"college_decision_pending": true
+					}
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		}
+	]
+}

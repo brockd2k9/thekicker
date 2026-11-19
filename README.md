@@ -314,6 +314,7 @@ dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career
 |---|---|
 | Balance numbers (stat -> kick curves, caps, gains, seasons, game sim, scenario picks) | `tuning/career_tuning.tres` (defaults + docs in `scripts/career/career_tuning.gd`) |
 | Scenarios (57 written: HS, college, pro, bye/offseason, trait-gated; plus the 160-scenario high school story graph as drafts) | `data/career/scenarios_*.json` (field reference: `_doc` in `scenarios_hs.json`; graph: `scenarios_hs_graph.json`) |
+| Relationships: the cast (8 people), roles, tiers, name lists | `data/career/people.json` (rules: `scripts/career/relationships.gd`; numbers: `career_tuning.tres` "Relationships") |
 | Traits (8), game-day modifiers (19), stat descriptions | `data/career/traits.json`, `modifiers.json`, `stats_info.json` |
 | Schools (16 HS, 18 colleges in 3 tiers, 6 junior colleges), 12 pro clubs, names, play-by-play | `data/career/world.json`, `game_day.json` |
 | Progression tables: college tiers, offers, draft rounds, tryouts, contracts | `data/career/progression.json` (weights in `career_tuning.tres`) |
@@ -339,6 +340,19 @@ many careers with different choice strategies through the real systems and write
 distributions, scenario frequencies). `tools/career_sim_baseline.md` is the current baseline.
 Design decisions and values to playtest: `PLAYTEST.md`, "Career Mode".
 
+**Relationships:** eight recurring people (head coach, holder, teacher, best friend, Tyler
+Brooks, Dad, your little brother, someone special), each with a value 0-100 saved per career in
+`CareerData.people` (story flags stay in `CareerData.flags`); the People screen (Hub) lists everyone
+you've met. Scenario choices move values (`"rel": {"coach": 5}`), scenarios and choices can require
+them (`"min": {"rel_coach": 60}`), and scenario text can name people (`{coach}`, `{tyler}`...).
+Values feed game day (coach: pressure and how long a kick you're sent out for; holder: aim; Tyler),
+the week (family: energy; friends: fun and social; Tyler as a rival: football growth), grades
+(teacher) and recruiting (final-season coach recommendation; a teacher who vouches eases college
+GPA minimums). Every effect is zero at 50, the starting value. Coach, holder and teacher are new
+each stage (the old ones are listed as Former); Tyler Brooks signs with his own college and pro
+club, shows up on your schedule once you've met him, and is your teammate if you pick his school.
+Save version 3 (older saves get the current stage's cast at 50).
+
 **Tests:** `godot --headless --path . res://tests/run_tests.tscn` runs every `test_*` method in
 `tests/test_*.gd` (add `-- only=test_saves` for one file) and exits with the number of failing
 tests: old-save compatibility (frozen v0/v1/v2 saves in `tests/fixtures/`; never edit those, add a
@@ -357,6 +371,13 @@ a few at a time. Fill in `category`, `text` and `choices` (each choice setting t
 - `python3 tools/validate_scenario_graph.py` runs the same flag checks as `validate()` without
   Godot, plus warnings (overlapping same-season windows, unread flags, similar titles) and a
   scenarios-per-season count. `--skeleton <file>` audits a file in the upstream format.
+- **Writing content:** `tools/authoring/WRITING_GUIDE.md` (rules, stat ranges, modifiers,
+  people, placeholders), fill-in templates `tools/authoring/hs_template_freshman.json` (25 to
+  start with) and `hs_template_all.json` (all 150; regenerate with
+  `python3 tools/make_authoring_templates.py`), and three finished examples in `examples.json`.
+  Import with `python3 tools/import_scenarios.py <file> --dry-run` (check only), then without
+  `--dry-run` (writes into the data files; nothing is written if there's any error).
+  Tool tests: `python3 -m unittest discover -s tests -p 'test_*.py'`.
 - Story scenarios (`"story": true`) have a season/week window: boosted while it's open, forced
   in its last week if not seen (`story_weight_mult`, `max_forced_per_week` in `career_tuning.tres`,
   "Scenario Picks").
@@ -500,6 +521,26 @@ During Career Mode development a personal Claude Code cloud environment named
 download of the Android SDK that was then dropped in favour of building on your own machine).
 Nothing in the project depends on it. If you don't need it, delete it in
 claude.ai → Claude Code → the environment menu → **thekicker** → Edit / Delete.
+
+## Export for the web
+
+A browser build (desktop and phone browsers), single-threaded so it runs on any static host
+(itch.io, GitHub Pages, Netlify) without special server headers. Saves go to the browser's
+storage (per site), separate from the Android app's saves.
+
+1. Export templates, once: Godot editor → *Editor → Manage Export Templates → Download and
+   Install* (the 4.7 set includes Web).
+2. Add the preset, once: *Project → Export → Add... → Web*, then match
+   `tools/web/web_preset.cfg`: *Variant → Thread Support* **off**, *Resources → Filters to
+   exclude*: `tests/*, tests_tmp/*, tools/*`, export path `export/web/index.html`. (Or append that
+   file's block to `export_presets.cfg`, renumbering `preset.0` to the next free number.)
+3. Export: *Project → Export → Web → Export Project* (uncheck *Export With Debug*), or from a
+   terminal: `godot --headless --path . --export-release "Web" export/web/index.html`.
+4. Try it locally: `cd export/web && python3 -m http.server 8000`, open http://localhost:8000
+   (opening index.html straight from disk doesn't work: browsers block it).
+5. Publish: upload everything in `export/web/` (index.html, .js, .wasm, .pck, icons). On itch.io:
+   zip the folder's *contents*, upload as an HTML game, viewport 720 x 1280, enable
+   "Mobile friendly". Re-export after every change (the .pck holds the game and its data).
 
 ## Desktop / Steam later
 - Add a Windows/Linux/macOS export preset. Mouse already works.

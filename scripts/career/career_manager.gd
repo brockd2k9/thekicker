@@ -204,6 +204,7 @@ func _start_season(continuing: bool) -> void:
 		data.team["strength"] = clampf(float(data.team.get("strength", 50)) +
 			rng.randf_range(-tuning.team_strength_drift, tuning.team_strength_drift), 20.0, 90.0)
 	data.schedule = build_schedule(data, tuning, rng)
+	Relationships.schedule_tyler(data, data.schedule)
 	data.retention_bonus = 0.0
 	data.week = 1
 	data.record = {"w": 0, "l": 0, "t": 0}
@@ -335,7 +336,8 @@ func start_game() -> int:
 ## A GameSim for this week's game (fresh, from the checkpoint seed).
 func new_game_sim(kt: KickTuning) -> GameSim:
 	var sim := GameSim.new()
-	var max_fg := int(profile().max_range_yards(kt) * tuning.coach_range_trust)
+	var max_fg := int(profile().max_range_yards(kt) * tuning.coach_range_trust
+		* Relationships.coach_range_mult(data, tuning))
 	sim.setup(data, entry(), tuning, start_game(), max_fg, Progression.game_params(data, tuning))
 	return sim
 
@@ -528,7 +530,11 @@ func end_week() -> void:
 		growth[k] = tuning.weekly_football_growth
 	for k in CareerData.GROUP_KEYS[CareerData.LIFE]:
 		growth[k] = float(growth.get(k, 0.0)) + (tuning.life_baseline - data.stat(k)) * tuning.weekly_life_drift
+	var rel := Relationships.weekly_growth(data, tuning)
+	for k in rel:
+		growth[k] = float(growth.get(k, 0.0)) + float(rel[k])
 	CareerStats.apply(data, growth, tuning)
+	Relationships.end_week(data, tuning)
 	if data.is_injured():
 		data.injury["weeks_left"] = int(data.injury["weeks_left"]) - 1
 		if int(data.injury["weeks_left"]) <= 0:
@@ -565,6 +571,11 @@ func end_season() -> void:
 				_event({"event": "offer", "type": off["type"], "tier": off["tier"]})
 			upd["gain"] = gain
 			upd["final"] = _stage_done()
+			upd["coach_rec"] = Progression.coach_rec(data, tuning)
+			if _stage_done() and data.stage == CareerData.STAGE_HIGH_SCHOOL:
+				Relationships.advance_tyler(data, CareerData.STAGE_COLLEGE)
+				if Relationships.known(data, Relationships.TYLER):
+					upd["tyler"] = Relationships.tyler_team(data).duplicate()
 			data.flags["recruiting_update"] = upd
 			h["recruiting"] = data.recruiting_score
 			data.phase = PHASE_RECRUITING
@@ -575,6 +586,7 @@ func end_season() -> void:
 			h["draft"] = data.draft_score
 			h["draft_gain"] = gain
 			if _stage_done():
+				Relationships.advance_tyler(data, CareerData.STAGE_PRO)
 				data.draft_result = Progression.draft(data, rng)
 				data.phase = PHASE_DRAFT
 			else:
@@ -627,6 +639,7 @@ func _enter_stage(stage: String, team: Dictionary, route_text: String) -> void:
 	data.stage = stage
 	data.team = team
 	data.season_in_stage = 0
+	Relationships.enter_stage(data, tuning)
 	data.offers.clear()
 	data.tryout = {}
 	data.add_route(route_text)

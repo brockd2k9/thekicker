@@ -73,6 +73,11 @@ static func requirement_text(req: Dictionary) -> String:
 	for k in req.get("min", {}):
 		if CareerData.group_of(k) == CareerData.PERSONALITY:
 			parts.append("%s %d+" % [CareerData.STAT_NAMES[k], int(req["min"][k])])
+		elif str(k).begins_with("rel_"):
+			parts.append("%s %d+" % [_person_word(str(k)), int(req["min"][k])])
+	for k in req.get("max", {}):
+		if str(k).begins_with("rel_"):
+			parts.append("%s under %d" % [_person_word(str(k)), int(req["max"][k]) + 1])
 	var any_of: Array = req.get("any_of", [])
 	if not any_of.is_empty():
 		var alts := PackedStringArray()
@@ -83,6 +88,12 @@ static func requirement_text(req: Dictionary) -> String:
 		if not alts.is_empty():
 			parts.append(" or ".join(alts))
 	return " + ".join(parts)
+
+
+## "Head Coach", "Tyler Brooks": a person in requirement text.
+static func _person_word(key: String) -> String:
+	var d := Relationships.def(key.substr(4))
+	return str(d.get("name", {}).get("fixed", d.get("role", key)))
 
 
 static func _trait_name(id: Variant) -> String:
@@ -236,7 +247,8 @@ static func pick(c: CareerData, when: String, count: int, rng: RandomNumberGener
 # --- applying ------------------------------------------------------------------------
 
 ## Applies choice `index` of scenario `id`. Returns {"applied": stat changes,
-## "new_traits": [...], "result": text, "modifiers": [...], "follow_up": id}.
+## "new_traits": [...], "result": text, "modifiers": [...], "follow_up": id,
+## "relationships": {person id: change}}.
 static func apply_choice(c: CareerData, id: String, index: int, tuning: CareerTuning) -> Dictionary:
 	var s := CareerContent.scenario(id)
 	var choices: Array = s.get("choices", [])
@@ -258,6 +270,7 @@ static func apply_choice(c: CareerData, id: String, index: int, tuning: CareerTu
 		if not (str(m) in c.week_modifiers):
 			c.week_modifiers.append(str(m))
 		mods.append(str(m))
+	var rel := Relationships.apply(c, ch.get("rel", {}))
 	var set_flags: Dictionary = ch.get("set_flags", {})
 	for f in set_flags:
 		c.flags[f] = set_flags[f]
@@ -280,7 +293,7 @@ static func apply_choice(c: CareerData, id: String, index: int, tuning: CareerTu
 	cats[cat] = int(cats.get(cat, 0)) + 1
 	return {"applied": applied, "new_traits": applied.get("new_traits", []),
 		"result": str(ch.get("result", "")), "modifiers": mods, "follow_up": follow,
-		"progress": progress}
+		"progress": progress, "relationships": rel}
 
 
 ## A choice's progression changes: {"recruiting": 4, "grades": 0.2, ...}.
