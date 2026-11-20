@@ -384,7 +384,10 @@ func test_frozen_v4_save_loads_unchanged() -> void:
 	eq(c.recent_fg, [true, false, true, true, false], "kick window kept")
 	eq(int(c.coach_doubt.get("weeks_left", 0)), 2, "coach doubt kept")
 	check(c.flags.get("kicking_slump", false), "slump flag kept")
-	eq(JSON.stringify(c.to_dict()["people"]), JSON.stringify(raw["people"]), "people kept exactly")
+	var people: Dictionary = c.to_dict()["people"]
+	check(people.has(Bench.BACKUP) and not bool(people[Bench.BACKUP]["known"]), "v5 adds the backup kicker, hidden")
+	people.erase(Bench.BACKUP)
+	eq(JSON.stringify(people), JSON.stringify(raw["people"]), "people kept exactly")
 	eq(JSON.stringify(c.to_dict()["sp_upgrades"]), JSON.stringify(raw["sp_upgrades"]), "upgrades kept")
 	var again := CareerData.from_dict(CareerSave._migrate(c.to_dict()))
 	eq(JSON.stringify(again.to_dict()), JSON.stringify(c.to_dict()), "v4 round trip")

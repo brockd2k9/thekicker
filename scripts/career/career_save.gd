@@ -112,6 +112,10 @@ static func _migrate(d: Dictionary) -> Dictionary:
 			team = clampf(50.0 + (float(made) / att - 0.75) * 40.0, 35.0, 65.0)
 		d["_team_start"] = team
 		v = 4
+	# Version 4 -> 5: benching (CareerData.bench). Nothing to convert: an old
+	# save starts never benched, and the backup kicker joins the cast hidden.
+	if v < 5:
+		v = 5
 	if v > CareerData.VERSION:
 		push_warning("CareerSave: career is from a newer version (%d)" % v)
 	d["career_version"] = CareerData.VERSION

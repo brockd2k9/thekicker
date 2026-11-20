@@ -60,6 +60,8 @@ func _card(c: CareerData, id: String, d: Dictionary) -> PanelContainer:
 			var mine := str(tt.get("id", "")) == str(c.team.get("id", ""))
 			v.add_child(UiKit.label("Your teammate again." if mine else "Plays for %s." % tt.get("name", ""),
 				22, UiKit.ACCENT))
+	if (Bench.benched(c) or Bench.audition_due(c)) and Bench.backup_id(c) == id:
+		v.add_child(UiKit.label("Kicking your field goals while you're benched.", 22, UiKit.BAD))
 	v.add_child(UiKit.label(str(d.get("about", "")), 22, UiKit.MUTED))
 	return parts[0]
 
