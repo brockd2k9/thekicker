@@ -1,0 +1,447 @@
+{
+  "_about": "Batch 4: the first sequel in each freshman chain (seasons 2-4). Each one only appears if the player made a specific freshman choice, so the text can call back to it. Write each so it reads fine a year or more later. Every flag in _info.must_set_flags must be set by some choice. Freshman callbacks: HS_030 <- HS_005 'Ask him to train together' (you and {tyler} trained together as freshmen). HS_034 <- HS_003 'Step in and help him find it' (you stood up for a freshman whose gear upperclassmen hid). HS_126 <- HS_101 'Stay calm and sort it out' (you calmly settled a locker mix-up with an older student). HS_134 <- HS_107 'Commit to the full morning' (you volunteered a full morning setting up a youth sports field). HS_139 <- HS_103 'Tell them to knock it off' (you publicly told a group chat to stop mocking a teammate). HS_145 <- HS_106 'Help train the backup holder' OR HS_140 junior-year flag trusted_holder_under_pressure: don't assume which one happened; write it around {holder} and trust. HS_157 <- HS_104 'Take the family trip' or 'Work out a split weekend', OR HS_129 (The First Paycheck) helped_family_financially: don't name the specific moment; keep it about family support in general. Pronouns: {tyler} and {parent} are male; never he/she for {holder}, {best_friend}, {coach}, {teacher}, {love_interest}.",
+  "_how": "Fill in category, text and choices; leave _info alone (it's read-only). See tools/authoring/WRITING_GUIDE.md. Import: python3 tools/import_scenarios.py <this file> --dry-run",
+  "scenarios": [
+    {
+      "id": "HS_030",
+      "title": "The Rival's Bad Day",
+      "_info": {
+        "when": "Sophomore year (season 2), any week",
+        "requires": {
+          "any_flags": [
+            "befriended_tyler"
+          ]
+        },
+        "must_set_flags": [
+          "tyler_mutual_respect"
+        ],
+        "people": [
+          "rival"
+        ],
+        "unlocked_by": [
+          {
+            "from": "HS_005",
+            "flag": "befriended_tyler",
+            "type": "unlock"
+          }
+        ],
+        "leads_to": [
+          "unlocks HS_046 (The Rival's Offer) when tyler_mutual_respect"
+        ]
+      },
+      "category": "",
+      "text": "",
+      "choices": [
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "tyler_mutual_respect": true
+          },
+          "rel": {
+            "rival": 0
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {},
+          "rel": {
+            "rival": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_034",
+      "title": "The Friend Who Needs Help",
+      "_info": {
+        "when": "Sophomore year (season 2), any week",
+        "requires": {
+          "any_flags": [
+            "helped_freshman"
+          ],
+          "not_flags": [
+            "bullied_freshman"
+          ]
+        },
+        "people": [
+          "best_friend"
+        ],
+        "unlocked_by": [
+          {
+            "from": "HS_003",
+            "flag": "helped_freshman",
+            "type": "unlock"
+          },
+          {
+            "from": "HS_003",
+            "flag": "bullied_freshman",
+            "type": "exclude"
+          }
+        ]
+      },
+      "category": "",
+      "text": "",
+      "choices": [
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {},
+          "rel": {
+            "best_friend": 0
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {},
+          "rel": {
+            "best_friend": 0
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {},
+          "rel": {
+            "best_friend": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_126",
+      "title": "The Hallway Favor",
+      "_info": {
+        "when": "Junior year (season 3), any week",
+        "requires": {
+          "any_flags": [
+            "handled_conflict_well"
+          ]
+        },
+        "must_set_flags": [
+          "mentored_younger_student"
+        ],
+        "unlocked_by": [
+          {
+            "from": "HS_101",
+            "flag": "handled_conflict_well",
+            "type": "unlock"
+          }
+        ]
+      },
+      "category": "",
+      "text": "",
+      "choices": [
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "mentored_younger_student": true
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_134",
+      "title": "The Community Recognition",
+      "_info": {
+        "when": "Junior year (season 3), any week",
+        "requires": {
+          "any_flags": [
+            "community_volunteer"
+          ]
+        },
+        "must_set_flags": [
+          "community_recognition"
+        ],
+        "unlocked_by": [
+          {
+            "from": "HS_107",
+            "flag": "community_volunteer",
+            "type": "unlock"
+          }
+        ],
+        "leads_to": [
+          "unlocks HS_153 (The Unexpected Reference) when community_recognition"
+        ]
+      },
+      "category": "",
+      "text": "",
+      "choices": [
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "community_recognition": true
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_139",
+      "title": "The Screenshot",
+      "_info": {
+        "when": "Junior year (season 3), any week",
+        "requires": {
+          "any_flags": [
+            "defended_teammate_online"
+          ]
+        },
+        "must_set_flags": [
+          "owned_old_group_chat"
+        ],
+        "unlocked_by": [
+          {
+            "from": "HS_103",
+            "flag": "defended_teammate_online",
+            "type": "unlock"
+          }
+        ],
+        "leads_to": [
+          "unlocks HS_156 (The Younger Athlete Looks Up to You) when owned_old_group_chat"
+        ]
+      },
+      "category": "",
+      "text": "",
+      "choices": [
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "owned_old_group_chat": true
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_145",
+      "title": "The Holder's Big Moment",
+      "_info": {
+        "when": "Senior year (season 4), weeks 1-8",
+        "requires": {
+          "any_flags": [
+            "trained_backup_holder",
+            "trusted_holder_under_pressure"
+          ]
+        },
+        "must_set_flags": [
+          "holder_big_moment_success",
+          "holder_confidence_damaged"
+        ],
+        "people": [
+          "holder"
+        ],
+        "unlocked_by": [
+          {
+            "from": "HS_106",
+            "flag": "trained_backup_holder",
+            "type": "unlock"
+          },
+          {
+            "from": "HS_140",
+            "flag": "trusted_holder_under_pressure",
+            "type": "unlock"
+          }
+        ],
+        "leads_to": [
+          "unlocks HS_159 (The Last Practice Together) when holder_big_moment_success"
+        ]
+      },
+      "category": "",
+      "text": "",
+      "choices": [
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "holder_big_moment_success": true
+          },
+          "rel": {
+            "holder": 0
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "holder_confidence_damaged": true
+          },
+          "rel": {
+            "holder": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_157",
+      "title": "A Family Thank-You",
+      "_info": {
+        "when": "Senior year (season 4), any week",
+        "requires": {
+          "any_flags": [
+            "helped_family_financially",
+            "prioritized_family_trip",
+            "balanced_family_commitments"
+          ]
+        },
+        "must_set_flags": [
+          "opened_family_conversation"
+        ],
+        "people": [
+          "parent"
+        ],
+        "unlocked_by": [
+          {
+            "from": "HS_129",
+            "flag": "helped_family_financially",
+            "type": "unlock"
+          }
+        ]
+      },
+      "category": "",
+      "text": "",
+      "choices": [
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "opened_family_conversation": true
+          },
+          "rel": {
+            "parent": 0
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {},
+          "rel": {
+            "parent": 0
+          }
+        }
+      ]
+    }
+  ]
+}
