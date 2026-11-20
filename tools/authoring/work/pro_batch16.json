@@ -5,11 +5,11 @@
       "id": "PRO_184",
       "title": "Untouchable",
       "category": "media",
-      "text": "The streak is the longest in the league, and the other team's kicker is asking you for tips.",
+      "text": "Your streak is the longest in the league, the highlight shows run it every Sunday, and the other team's kicker catches you on the field after warmups to ask for tips.",
       "choices": [
         {
           "label": "Share a tip",
-          "result": "You share a tip. He thanks you publicly, and the league notices.",
+          "result": "One real tip, about his follow-through. He thanks you publicly the next week, and the league notices what kind of veteran you are.",
           "stats": {
             "life": {
               "social": 2
@@ -23,22 +23,22 @@
             "loose"
           ],
           "rel": {
-            "team": 1
+            "rival": 1
           },
           "followers": 2
         },
         {
-          "label": "Say nothing about it",
-          "result": "You don't talk about the streak, at all, to anyone.",
+          "label": "Don't talk about the streak",
+          "result": "Not a word about the streak, to anyone, including him. He laughs, says he understands completely, and walks away shaking his head.",
           "stats": {
             "life": {
               "energy": -1
             },
             "football": {
-              "resilience": 1
+              "resilience": 2
             },
             "personality": {
-              "intelligence": 2
+              "intelligence": 1
             }
           },
           "modifiers": [
@@ -46,19 +46,22 @@
           ]
         },
         {
-          "label": "Enjoy it",
-          "result": "You enjoy it quietly at home with a good dinner.",
+          "label": "Enjoy it quietly at home",
+          "result": "A good dinner at home, the highlights off, the streak unmentioned. You enjoy it the way you'd want to remember it.",
           "stats": {
             "life": {
               "energy": 2,
-              "fun": 1
+              "fun": 2
             },
             "football": {},
             "personality": {}
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "parent": 1
+          }
         }
       ]
     },
@@ -66,52 +69,54 @@
       "id": "PRO_192",
       "title": "Hurt in Your Prime",
       "category": "health",
-      "text": "A hip flexor in the best season of your career, and the club wants to know how long.",
+      "text": "A hip flexor strain, in the best season of your career. The club wants to know how long, the reporters want to know how bad, and the trainers want you to stop asking.",
       "choices": [
         {
           "label": "Follow the plan exactly",
-          "result": "You follow the trainers' plan exactly. You're back on schedule.",
+          "result": "The trainers' plan, exactly, every day. You're back right on schedule, and the hip feels stronger than it did before the strain.",
           "stats": {
             "life": {
+              "health": 3,
               "energy": -1
             },
-            "football": {
-              "toughness": 1
-            },
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 1
             }
           },
           "modifiers": [
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "coach": 1
           }
         },
         {
-          "label": "Push to come back",
-          "result": "You push to come back early. You do, sore.",
+          "label": "Push to come back early",
+          "result": "Early, by a week, and sore. You kick through it, and the trainers keep a very close eye on you all month.",
           "stats": {
             "life": {
-              "energy": -2
+              "health": -2
             },
-            "football": {},
+            "football": {
+              "toughness": 1
+            },
             "personality": {
               "ambition": 2
             }
           },
           "modifiers": [
-            "dialed_in"
+            "sore"
           ],
           "skill_points": 2
         },
         {
-          "label": "Take the full time",
-          "result": "You take the full recovery time and then a little more.",
+          "label": "Take the full time and more",
+          "result": "The full recovery time and then a few days more. You come back fresh and fully healed, and a little behind.",
           "stats": {
             "life": {
-              "energy": 2,
+              "energy": 3,
+              "health": 2,
               "fun": 1
             },
             "football": {},
@@ -123,7 +128,7 @@
         },
         {
           "label": "Build the plan with the trainers",
-          "result": "You build the plan with the trainers, using what you learned last time. You're back early and healthy.",
+          "result": "This time you build the plan with the trainers, using everything you learned last time. You're back early and healthy, and the trainers start asking your advice.",
           "stats": {
             "life": {
               "energy": -1,
@@ -216,17 +221,18 @@
       "id": "PRO_202",
       "title": "The Rookie Asks",
       "category": "team",
-      "text": "A rookie specialist catches you after practice with a question you used to ask: how do you stop thinking about the last kick?",
+      "text": "A rookie specialist catches you after practice with a question you used to ask yourself: how do you stop thinking about the last kick? He looks like he hasn't slept.",
       "choices": [
         {
           "label": "Answer it fully",
           "result": "You answer it fully and stay an hour, showing him the breathing and the one thought. He asks you something new every week after.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {
               "leadership": 2
             }
@@ -241,7 +247,7 @@
         },
         {
           "label": "Take him to dinner",
-          "result": "You take him to dinner and answer everything he asks. He's homesick, too, which you can hear between the questions.",
+          "result": "Dinner, your treat, and every question answered. He's homesick, too, which you can hear between the questions, and you invite him to Thanksgiving.",
           "stats": {
             "life": {
               "social": 2
@@ -255,19 +261,20 @@
             "loose"
           ],
           "rel": {
-            "team": 3
+            "backup": 3
           }
         },
         {
-          "label": "Keep it short",
+          "label": "Give him one line",
           "result": "You give him a short answer and go home. On the drive you think of a better one, and you tell him in the morning.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
             "football": {},
-            "personality": {}
+            "personality": {
+              "intelligence": 1
+            }
           },
           "modifiers": [
             "rested"
@@ -279,14 +286,15 @@
       "id": "PRO_272",
       "title": "Wedding Season",
       "category": "social",
-      "text": "Four friends are getting married this summer, and every one of them wants you to give a toast.",
+      "text": "Four friends are getting married this summer, every one of them wants you to give a toast, and three of the weddings are on the same coast in the same month.",
       "choices": [
         {
-          "label": "Say yes to all four",
-          "result": "You give four toasts in five weeks. You're tired, and loved.",
+          "label": "Give all four toasts",
+          "result": "Four toasts in five weeks, four suits, four rehearsal dinners. You're exhausted by July and deeply loved, and {best_friend} keeps all four printouts.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 3,
+              "energy": -2
             },
             "football": {},
             "personality": {
@@ -301,30 +309,31 @@
           }
         },
         {
-          "label": "Write one great toast",
-          "result": "You write one great toast structure and adapt it. It works every time.",
+          "label": "Write one toast to adapt",
+          "result": "One great toast structure, adapted four times. It works every time, and only {sibling}, who goes to two of the weddings, notices.",
           "stats": {
             "life": {
-              "energy": -1
+              "fun": 1
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
               "intelligence": 2
             }
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "rel": {
+            "sibling": 1
+          }
         },
         {
-          "label": "Pick one",
-          "result": "You give one toast and attend the rest quietly.",
+          "label": "Toast once, attend the rest",
+          "result": "One toast, for the oldest friend, and quiet attendance at the rest. You actually enjoy the other three, dancing badly.",
           "stats": {
             "life": {
               "energy": 2,
-              "fun": 1
+              "fun": 2
             },
             "football": {},
             "personality": {}
@@ -339,35 +348,35 @@
       "id": "PRO_273",
       "title": "The Offseason Surgery",
       "category": "health",
-      "text": "The doctors say a small surgery now saves your next three seasons. The recovery takes the whole summer.",
+      "text": "The doctors say a small surgery on your hip now will save your next three seasons. The recovery takes the whole summer: no kicking, a lot of walking, and a lot of waiting.",
       "choices": [
         {
           "label": "Have the surgery",
-          "result": "You have it. The summer is long and boring, and your hip is better than it's been in years.",
+          "result": "Surgery in May, and a long, boring summer of walking and bands. By camp your hip is better than it's been in years, and you kick without thinking about it.",
           "stats": {
             "life": {
+              "health": 4,
               "energy": -1
             },
             "football": {
               "toughness": 1
             },
-            "personality": {
-              "intelligence": 2
-            }
+            "personality": {}
           },
           "modifiers": [
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "coach": 1
           }
         },
         {
           "label": "Train through it",
-          "result": "You skip the surgery and train through it. It holds, for now.",
+          "result": "No surgery: you train through it. It holds, for now, and the doctor writes something in your file that you can't read upside down.",
           "stats": {
             "life": {
-              "energy": -2
+              "health": -2,
+              "energy": -1
             },
             "football": {},
             "personality": {
@@ -375,20 +384,23 @@
             }
           },
           "modifiers": [
-            "dialed_in"
+            "sore"
           ],
           "skill_points": 2
         },
         {
           "label": "Get a second opinion",
-          "result": "You get a second opinion and take a month to decide.",
+          "result": "A second opinion, and a month to decide. The second doctor agrees with the first, and the month helps you make peace with it.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
-            "personality": {}
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 1
+            }
           },
           "modifiers": [
             "rested"
@@ -400,14 +412,15 @@
       "id": "PRO_274",
       "title": "The Training Partner",
       "category": "training",
-      "text": "A young kicker from a rival club asks to train with you this summer.",
+      "text": "A young kicker from a rival club asks to train with you this summer. He's talented, nervous, and says he's watched every one of your kicks since he was in high school.",
       "choices": [
         {
-          "label": "Say yes",
-          "result": "You train together all summer. You both get better, and you make a friend.",
+          "label": "Train together",
+          "result": "All summer, together. You both get better, you make a friend, and you think twice about it every time your clubs play.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
             "personality": {
@@ -418,12 +431,12 @@
             "loose"
           ],
           "rel": {
-            "team": 3
+            "rival": 1
           }
         },
         {
-          "label": "Say no",
-          "result": "You say no. You don't help the competition.",
+          "label": "Keep your secrets",
+          "result": "No, politely. You don't help the competition, and you train alone all summer, a little harder and a little lonelier.",
           "stats": {
             "life": {
               "energy": -2
@@ -441,8 +454,8 @@
           "skill_points": 2
         },
         {
-          "label": "Make it a group",
-          "result": "You make it a group of four kickers. It becomes a summer camp.",
+          "label": "Make it a summer camp",
+          "result": "A group of four kickers instead, from four clubs. It becomes an unofficial summer camp that runs for years, and you're its first coach.",
           "stats": {
             "life": {
               "energy": -2,
@@ -450,16 +463,13 @@
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 3
             }
           },
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
-          "rel": {
-            "team": 2
-          }
+          "skill_points": 1
         }
       ]
     },
@@ -467,11 +477,11 @@
       "id": "PRO_275",
       "title": "The Class",
       "category": "school",
-      "text": "You sign up for a class at the community college, something that has nothing to do with football.",
+      "text": "You sign up for an evening class at the community college, something that has nothing to do with football: astronomy, it turns out, with a professor who has never heard of you.",
       "choices": [
         {
-          "label": "Take it seriously",
-          "result": "You treat it seriously and get an A. It's the best part of your week.",
+          "label": "Earn the A",
+          "result": "Every reading, every lab, every telescope night. You get an A, and the class is the best part of your week all spring.",
           "stats": {
             "life": {
               "energy": -1
@@ -480,7 +490,7 @@
               "resilience": 1
             },
             "personality": {
-              "intelligence": 2
+              "intelligence": 3
             }
           },
           "modifiers": [
@@ -488,31 +498,32 @@
           ]
         },
         {
-          "label": "Bring a teammate",
-          "result": "You talk a teammate into taking it with you. You study together.",
+          "label": "Bring {backup} along",
+          "result": "{backup} comes too, grumbling. You study together in the facility cafeteria, and by finals {backup} knows more constellations than you.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "intelligence": 1
             }
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 3
+            "backup": 3
           }
         },
         {
-          "label": "Audit it",
-          "result": "You audit it, no grades, no pressure.",
+          "label": "Audit it for fun",
+          "result": "Audited, no grades and no pressure. You just look at the stars on Thursday nights, and it's the most peaceful part of your week.",
           "stats": {
             "life": {
               "energy": 2,
-              "fun": 1
+              "fun": 2
             },
             "football": {},
             "personality": {}
@@ -523,7 +534,7 @@
         },
         {
           "label": "Take the next step",
-          "result": "You've finished your degree, so you take a graduate-level class. It's hard and you love it.",
+          "result": "With your degree finished, you take a graduate-level class instead. It's hard, the reading is endless, and you love every page of it.",
           "stats": {
             "life": {
               "energy": -2
@@ -610,15 +621,16 @@
       "id": "PRO_278",
       "title": "The Summer Without Football",
       "category": "health",
-      "text": "For one offseason, you put the bag in the closet and don't touch a ball for six weeks.",
+      "text": "For one offseason, you put the kicking bag in the closet and decide not to touch a ball for six weeks. On day three, your leg starts to itch.",
       "choices": [
         {
-          "label": "Enjoy it",
-          "result": "You enjoy every day of it. You come back hungry.",
+          "label": "Keep the bag in the closet",
+          "result": "Six weeks, untouched. You read, travel and sleep, and when you finally open the closet, you come back hungry in a way you'd forgotten.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 3,
+              "fun": 2,
+              "health": 1
             },
             "football": {},
             "personality": {}
@@ -629,32 +641,32 @@
         },
         {
           "label": "Spend it with family",
-          "result": "You spend it all with family. It's the best summer in years.",
+          "result": "All six weeks with family: the lake house, {parent}'s birthday, {sibling}'s new apartment. It's the best summer you've had in years.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "parent": 3
+            "parent": 3,
+            "sibling": 2
           }
         },
         {
-          "label": "Use the time to learn",
-          "result": "You use the time to study film of the best kickers in history.",
+          "label": "Study the greats",
+          "result": "Film of the best kickers in history instead of kicking. You fill a notebook and come back with three ideas, one of them good.",
           "stats": {
             "life": {
               "energy": -1
             },
             "football": {
-              "toughness": 1
+              "accuracy": 1
             },
             "personality": {
               "intelligence": 2
@@ -662,10 +674,7 @@
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         }
       ]
     },
@@ -736,57 +745,54 @@
       "id": "PRO_284",
       "title": "The Kicking Coach Calls",
       "category": "training",
-      "text": "Your old private kicking coach calls with an idea about your plant foot.",
+      "text": "Your old private kicking coach calls out of nowhere with an idea about your plant foot. He's been watching your games, he says, and something has been bothering him since October.",
       "choices": [
         {
-          "label": "Try the idea",
-          "result": "You work on it for a week and chart everything. It helps.",
+          "label": "Work on his idea",
+          "result": "A week of working on his idea, charting everything. It helps, a half-step and a little more lift, and you send him the numbers.",
           "stats": {
             "life": {
               "energy": -1
             },
             "football": {
-              "accuracy": 1
+              "accuracy": 2
             },
             "personality": {
-              "intelligence": 2
+              "intelligence": 1
             }
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         },
         {
-          "label": "Visit him",
-          "result": "You visit him and spend a day working together like old times.",
+          "label": "Visit him for a day",
+          "result": "A day at his field, just like old times: his whistle, your kicks, his coffee. You both leave happier than you expected.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 1
+            "best_friend": 1
           }
         },
         {
-          "label": "Thank him, not now",
-          "result": "You thank him and say you're happy with your form.",
+          "label": "Thank him and keep your form",
+          "result": "A warm thank-you, and you keep your form as it is. He understands, mostly, and keeps watching your games from his couch.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -799,34 +805,31 @@
       "id": "PRO_285",
       "title": "The Charity Golf Event",
       "category": "community",
-      "text": "The club's charity golf event, with donors, owners and one teammate who's had too much sun.",
+      "text": "The club's charity golf event: donors in expensive shoes, owners in carts, and one teammate who's had far too much sun and keeps trying to drive the cart into the pond.",
       "choices": [
         {
-          "label": "Play with donors",
-          "result": "You play with the donors and charm them. The charity raises more.",
+          "label": "Charm the donors",
+          "result": "Eighteen holes with the donors, your worst golf and your best stories. The charity raises more than last year, and one donor sends you a handwritten note.",
           "stats": {
             "life": {
               "social": 2
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "charisma": 2
             }
           },
           "modifiers": [
             "loose"
           ],
-          "rel": {
-            "team": 1
-          }
+          "followers": 1
         },
         {
           "label": "Look after the teammate",
-          "result": "You look after the sunburned teammate and get him home safely.",
+          "result": "The sunburned teammate gets water, shade and a ride home from you. He doesn't remember most of it and thanks you anyway on Monday.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
@@ -842,14 +845,16 @@
           }
         },
         {
-          "label": "Play and leave",
-          "result": "You play your round and leave.",
+          "label": "Play your round and go",
+          "result": "Your round, a sandwich, and home by three. Your golf is terrible, nobody asks you for anything, and you nap.",
           "stats": {
             "life": {
               "energy": 2,
               "fun": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [

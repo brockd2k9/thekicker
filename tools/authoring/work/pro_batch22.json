@@ -269,15 +269,15 @@
       "id": "PRO_653",
       "title": "The Long Offseason",
       "category": "health",
-      "text": "The longest offseason of your career, and you don't know what to do with it.",
+      "text": "The longest offseason of your career: fourteen weeks with no games, no meetings and nowhere to be. By week two you've reorganized the garage twice.",
       "choices": [
         {
           "label": "Rest for real",
-          "result": "You rest for real. Your body thanks you.",
+          "result": "Real rest, for once: no plans, long walks and long naps. Your body thanks you, and the garage stays organized.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 3,
+              "health": 2
             },
             "football": {},
             "personality": {}
@@ -287,99 +287,12 @@
           ]
         },
         {
-          "label": "Learn something",
-          "result": "You take a course in something you've always wondered about.",
+          "label": "Take a course",
+          "result": "A course in something you've always wondered about: woodworking, it turns out. You make a crooked table and love it.",
           "stats": {
             "life": {
-              "energy": -1
-            },
-            "football": {
-              "toughness": 1
-            },
-            "personality": {
-              "intelligence": 2
-            }
-          },
-          "modifiers": [
-            "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
-        },
-        {
-          "label": "Travel with family",
-          "result": "You travel with family for three weeks.",
-          "stats": {
-            "life": {
-              "social": 2
-            },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
-          },
-          "modifiers": [
-            "loose"
-          ],
-          "rel": {
-            "love_interest": 3
-          }
-        }
-      ]
-    },
-    {
-      "id": "PRO_654",
-      "title": "The Hometown Kids' Camp",
-      "category": "community",
-      "text": "You run a free camp for kids in your hometown.",
-      "choices": [
-        {
-          "label": "Run every station",
-          "result": "You run every station yourself. You lose your voice.",
-          "stats": {
-            "life": {
-              "energy": -2,
-              "social": 1
-            },
-            "football": {},
-            "personality": {
-              "leadership": 2
-            }
-          },
-          "modifiers": [
-            "inspired"
-          ],
-          "skill_points": 1,
-          "rel": {
-            "team": 2
-          }
-        },
-        {
-          "label": "Bring teammates",
-          "result": "You bring three teammates. The kids lose their minds.",
-          "stats": {
-            "life": {
-              "social": 2
-            },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
-          },
-          "modifiers": [
-            "loose"
-          ],
-          "rel": {
-            "team": 3
-          }
-        },
-        {
-          "label": "Partner with the school",
-          "result": "You partner with the high school so it happens every year.",
-          "stats": {
-            "life": {
-              "energy": -1
+              "energy": -1,
+              "fun": 1
             },
             "football": {
               "resilience": 1
@@ -391,6 +304,88 @@
           "modifiers": [
             "focused"
           ]
+        },
+        {
+          "label": "Travel with family",
+          "result": "Three weeks of travel with the people you love most. It's the longest you've been away from a ball since high school.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "parent": 2,
+            "sibling": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_654",
+      "title": "The Hometown Kids' Camp",
+      "category": "community",
+      "text": "You run a free camp for kids in your hometown: two days, two hundred kids, one field, a donated pallet of footballs and the old high school band.",
+      "choices": [
+        {
+          "label": "Run every station",
+          "result": "Every station, run by you. You lose your voice by noon on day one and keep going in a whisper, and the kids love the whisper.",
+          "stats": {
+            "life": {
+              "energy": -3
+            },
+            "football": {},
+            "personality": {
+              "leadership": 3
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Bring three teammates",
+          "result": "Three teammates, including {holder}. The kids lose their minds, and {holder} runs a holding clinic that's the hit of the weekend.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "holder": 3
+          }
+        },
+        {
+          "label": "Make it a yearly camp",
+          "result": "The high school becomes a partner, so the camp happens every year whether you're there or not. It's the most lasting thing you've built.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "parent": 1
+          }
         }
       ]
     },

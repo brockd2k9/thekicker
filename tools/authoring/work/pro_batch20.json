@@ -130,19 +130,18 @@
       "id": "PRO_386",
       "title": "The Homecoming Event",
       "category": "community",
-      "text": "Your high school invites you back for its homecoming.",
+      "text": "Your high school invites you back for its homecoming game. They want you at the pep rally, on the field at halftime, and in the trophy case photo with your old coach.",
       "choices": [
         {
-          "label": "Go back",
-          "result": "You go back and walk the halls with {parent}. A teacher still has your old essay.",
+          "label": "Walk the halls with {parent}",
+          "result": "The halls, with {parent}, in the afternoon. A teacher still has your old essay about wanting to be a kicker, and reads it aloud.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -153,39 +152,39 @@
         },
         {
           "label": "Talk to the team",
-          "result": "You talk to the football team before the game. The kicker can't stop grinning.",
+          "result": "The football team before the game, in the old locker room. The kicker can't stop grinning, and you leave him your cleats.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 2,
+              "charisma": 1
             }
           },
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
-          "rel": {
-            "team": 2
-          }
+          "skill_points": 1
         },
         {
-          "label": "Send a video",
-          "result": "You send a video. It plays at halftime, and they cheer anyway.",
+          "label": "Send a halftime video",
+          "result": "A video, played at halftime on the old scoreboard. They cheer anyway, and someone films the crowd cheering for you and sends it.",
           "stats": {
             "life": {
               "energy": 2,
               "fun": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "followers": 1
         }
       ]
     },
@@ -322,40 +321,35 @@
       "id": "PRO_389",
       "title": "The Offseason Media Tour",
       "category": "media",
-      "text": "Your growing reputation comes with an offseason full of interviews.",
+      "text": "Your growing reputation comes with an offseason full of interview requests: podcasts, morning shows, and a magazine that wants to photograph you on a beach.",
       "choices": [
         {
           "label": "Say yes to most",
-          "result": "You say yes to most of them. Your name is everywhere by June.",
+          "result": "Most of them, yes. Your name is everywhere by June, your phone never stops, and you're more tired than in season.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "charisma": 2
             }
           },
           "modifiers": [
-            "loose"
+            "spotlight"
           ],
-          "rel": {
-            "team": 1
-          },
           "followers": 4
         },
         {
-          "label": "Pick the good ones",
-          "result": "You pick the three best and do them well.",
+          "label": "Do three, and do them well",
+          "result": "Three interviews, carefully chosen and well prepared. One of them becomes the clip people share whenever your name comes up.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "charisma": 1
             }
           },
           "modifiers": [
@@ -365,13 +359,14 @@
         },
         {
           "label": "Keep the summer quiet",
-          "result": "You keep the summer quiet and train.",
+          "result": "A quiet summer and your training, no interviews. Nobody photographs you on a beach, which suits you fine, and your agent sighs.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
