@@ -205,6 +205,13 @@ the base speed up to base + gust (the HUD shows e.g. `8-15 MPH -> GUSTY`). The H
 the ribbons on the uprights show the wind right now, so time your kick for a lull.
 Tunables: `gust_chance`, `max_gust_mph`, `gust_speed`.
 
+Did it get there? From the kicker's view a ball high in the air short of the posts looks like
+one over the bar, so every field goal / extra point result shows where the ball really ended up
+(`goal_marker.gd`, drawn over the players): a ring flashes where it crossed the plane of the posts
+and the crossbar lights up green (good) or red (under the bar or wide); a kick that lands short
+gets a red stake where it came down plus a red crossbar. The line under the banner gives the
+margin: "Cleared the bar by 4 ft", "Under the bar by 1 ft", "Wide by 2 ft", "3 yards short".
+
 Vibration: `Haptics.pulse()` on contact (stronger with more power) and on a block.
 Tunables: `kick_vibration_ms`, `block_vibration_ms` (0 = off).
 
@@ -287,6 +294,7 @@ scripts/
   kick/kick_launch.gd         tee kicks: launch speed for a target carry (same integrator as Ball)
   kick/warmup_judge.gd        sideline net: pure strike rules, session result
   kick/kick_result.gd         GOOD / WIDE LEFT / WIDE RIGHT / SHORT / BLOCKED rules
+  kick/goal_marker.gd         result marks at the posts (crossing ring, crossbar glow, short stake)
   kick/wind.gd                crosswind + gusts
   kick/snap_animator.gd       snap: snapper -> holder's hands -> spot
   kick/pressure.gd            aim wobble + kick-window shrink
