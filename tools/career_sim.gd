@@ -64,6 +64,7 @@ var _fixed_make := 0.0
 var _conv: Array = []
 var _chal := {}
 var _scen_count := {}  # id -> appearances
+var _ret_by_scen := {}  # scenario id -> [standing applied by choices, times]
 var _scen_careers := {}  # id -> careers that saw it
 
 
@@ -159,7 +160,14 @@ func _play_career(strat: String, n: int) -> Dictionary:
 					out["_off"] = key
 					for id in c.pending_scenarios:
 						_count_scen(id, out)
+				var sid := str(m.current_scenario().get("id", ""))
+				var ret0 := c.retention_bonus
 				m.choose(_choose(c, m.current_scenario(), strat, m.tuning))
+				if c.retention_bonus != ret0:
+					var a: Array = _ret_by_scen.get(sid, [0.0, 0])
+					a[0] += c.retention_bonus - ret0
+					a[1] += 1
+					_ret_by_scen[sid] = a
 			CareerManager.PHASE_OUTLOOK:
 				m.start_game()
 			CareerManager.PHASE_GAME:
@@ -620,6 +628,7 @@ func _report(results: Dictionary, n: int, problems: PackedStringArray, ms: int) 
 	L.append_array(_challenge_sections())
 	L.append_array(_reputation_section(all))
 	L.append_array(_age_section(all))
+	L.append_array(_retention_section(all))
 	L.append_array(_progress_sources(all))
 	# --- life
 	L.append("## Life stats (average over every week played; share of weeks with any life stat low)")
@@ -1073,6 +1082,31 @@ func _progress_sources(all: Array) -> PackedStringArray:
 	return L
 
 
+## Pro standing (retention) from scenario choices, by scene: the total over
+## all careers, worst first (what shortens pro careers).
+func _retention_section(all: Array) -> PackedStringArray:
+	var L := PackedStringArray()
+	var ids := _ret_by_scen.keys()
+	ids.sort_custom(func(a, b) -> bool: return float(_ret_by_scen[a][0]) < float(_ret_by_scen[b][0]))
+	var total := 0.0
+	for id in ids:
+		total += float(_ret_by_scen[id][0])
+	var pros := all.filter(func(r): return r["reached"].has("pro")).size()
+	L.append("## Pro standing from scenario choices (all careers; most negative first)")
+	L.append("")
+	L.append("Net standing from choices per pro career: %.1f (release below %d, re-sign from %d)." % [
+		total / maxi(pros, 1), roundi(CareerTuning.get_default().release_below), roundi(CareerTuning.get_default().resign_min)])
+	L.append("")
+	L.append("| Scene | Title | Times a choice moved standing | Standing total | Per time |")
+	L.append("|---|---|---|---|---|")
+	for id in ids.slice(0, 40):
+		var a: Array = _ret_by_scen[id]
+		L.append("| %s | %s | %d | %.1f | %.1f |" % [id, str(CareerContent.scenario(id).get("title", "")),
+			int(a[1]), float(a[0]), float(a[0]) / maxi(int(a[1]), 1)])
+	L.append("")
+	return L
+
+
 ## How old careers end (no age cap): share of all careers and of pro careers
 ## still playing at 38 / 40 / 42 / 45, and how they end.
 func _age_section(all: Array) -> PackedStringArray:
@@ -1080,14 +1114,17 @@ func _age_section(all: Array) -> PackedStringArray:
 	var pros := all.filter(func(r): return r["reached"].has("pro"))
 	L.append("## Career end age (no age cap)")
 	L.append("")
-	L.append("| Played to at least | 36 | 38 | 40 | 42 | 45 | Oldest |")
-	L.append("|---|---|---|---|---|---|---|")
-	for g in [["All careers", all], ["Pro careers", pros]]:
+	L.append("| Played to at least | 36 | 38 | 40 | 42 | 45 | Oldest | Pro seasons (avg) |")
+	L.append("|---|---|---|---|---|---|---|---|")
+	var careful := pros.filter(func(r): return r["maint"] and float(r["fg_pct"]) >= 0.75)
+	for g in [["All careers", all], ["Pro careers", pros], ["Pro, preserving + 75%+ FG", careful],
+			["Pro, preserving", pros.filter(func(r): return r["maint"])], ["Pro, not preserving", pros.filter(func(r): return not r["maint"])]]:
 		var rs: Array = g[1]
 		var row := "| %s (%d) |" % [g[0], rs.size()]
 		for a in [36, 38, 40, 42, 45]:
 			row += " %s |" % _pct(rs.filter(func(r): return int(r["retire_age"]) >= a).size(), rs.size())
-		row += " %d |" % (rs.map(func(r): return int(r["retire_age"])).max() if not rs.is_empty() else 0)
+		row += " %d | %.1f |" % [rs.map(func(r): return int(r["retire_age"])).max() if not rs.is_empty() else 0,
+			_avgf(rs.map(func(r): return int(r["pro_seasons"])))]
 		L.append(row)
 	L.append("")
 	var why := {}
