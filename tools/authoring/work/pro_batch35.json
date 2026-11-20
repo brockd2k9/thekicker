@@ -249,50 +249,49 @@
       "id": "PRO_750",
       "title": "The Prime-Time Interview",
       "category": "media",
-      "text": "A national network wants an in-depth interview about your career.",
+      "text": "A national network wants an in-depth interview about your whole career: two days of filming, your hometown, your family, the hard years. It will air before the playoffs.",
       "choices": [
         {
-          "label": "Open up",
-          "result": "You open up about the hard years. People write to you for weeks.",
+          "label": "Open up about the hard years",
+          "result": "The hard years, told honestly on camera. People write to you for weeks, and some of the letters make you cry.",
           "stats": {
             "life": {
               "social": 2
-            },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
-          },
-          "modifiers": [
-            "loose"
-          ],
-          "rel": {
-            "team": 1
-          },
-          "followers": 4
-        },
-        {
-          "label": "Prepare carefully",
-          "result": "You prepare carefully and say exactly what you mean.",
-          "stats": {
-            "life": {
-              "energy": -1
             },
             "football": {
               "resilience": 1
             },
             "personality": {
-              "intelligence": 2
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "followers": 4
+        },
+        {
+          "label": "Prepare carefully",
+          "result": "Every answer, prepared and true, rehearsed twice with {best_friend}. It's a strong piece, and you say exactly what you mean on camera.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
           ],
-          "followers": 2
+          "followers": 2,
+          "rel": {
+            "best_friend": 1
+          }
         },
         {
           "label": "Keep it light",
-          "result": "You keep it light. It's a nice piece about nothing much.",
+          "result": "Light and funny, nothing heavy at all. It's a nice piece about nothing much, and {parent} likes it best of everything.",
           "stats": {
             "life": {
               "energy": 2,
@@ -303,7 +302,10 @@
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "parent": 1
+          }
         }
       ]
     },
@@ -428,39 +430,36 @@
       "id": "PRO_753",
       "title": "The Contract Year Pressure at Home",
       "category": "family",
-      "text": "Contract year again, and the conversations at home are getting shorter.",
+      "text": "Contract year again, and the conversations at home are getting shorter. {love_interest} has stopped asking how practice went, and you've stopped offering anything at all.",
       "choices": [
         {
-          "label": "Talk about it",
-          "result": "You talk about it, all of it, one night after the kids are asleep.",
+          "label": "Talk about all of it",
+          "result": "All of it, one night after the kids are asleep: the fear, the money, the next city. It's long and hard and the best talk in months.",
           "stats": {
             "life": {
               "social": 2
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
             "love_interest": 5
           }
         },
         {
-          "label": "Make a plan for every outcome",
-          "result": "You make a plan for every outcome. It helps.",
+          "label": "Plan for every outcome",
+          "result": "A plan for every outcome, written down together: stay, move, retire. It helps, because nothing will be a surprise anymore.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -469,10 +468,10 @@
         },
         {
           "label": "Focus on kicking",
-          "result": "You focus on kicking. Home gets quieter.",
+          "result": "Kicking, only kicking, and home gets quieter. The contract comes in March, and the quiet takes much longer to fix.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -1
             },
             "football": {},
             "personality": {
@@ -482,7 +481,7 @@
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2,
+          "skill_points": 1,
           "rel": {
             "love_interest": -2
           }
@@ -493,15 +492,13 @@
       "id": "PRO_754",
       "title": "The Halfway Point",
       "category": "media",
-      "text": "A reporter asks if you think you're halfway through your career.",
+      "text": "A reporter asks if you think you're halfway through your career. You're thirty-two, it's a fair question, and you have no idea how to answer it.",
       "choices": [
         {
           "label": "Give a careful answer",
-          "result": "You say you're focused on this season. It's true.",
+          "result": "Focused on this season, you say, which is true. Later, in the car, you think about the question for a long time.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
               "resilience": 1
             },
@@ -515,34 +512,31 @@
         },
         {
           "label": "Joke about it",
-          "result": "You say you hope it's a third. The room laughs.",
+          "result": "You hope it's a third, you say, and the room laughs. The clip goes around, and {parent} sends it to everyone he knows.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 1
+            "parent": 1
           },
           "followers": 2
         },
         {
           "label": "Say you're just starting",
-          "result": "You say you're just getting started.",
+          "result": "Just getting started, you say, and you mean it. The column the next day calls you 'defiant', which you like.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -1
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
               "ambition": 2
             }
@@ -550,7 +544,7 @@
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2
+          "skill_points": 1
         }
       ]
     },
@@ -558,11 +552,11 @@
       "id": "PRO_755",
       "title": "The Club's Ring of Honor Nominee",
       "category": "community",
-      "text": "Fans nominate you for the club's ring of honor, while you're still playing.",
+      "text": "Fans start a petition to nominate you for the club's ring of honor while you're still playing. It has forty thousand signatures, and the owner has seen it.",
       "choices": [
         {
           "label": "Thank the fans",
-          "result": "You thank them online and in person.",
+          "result": "Thanks, online and in person at the next home game. The fans cheer loudly, and the petition hits sixty thousand by Monday.",
           "stats": {
             "life": {
               "social": 2
@@ -573,41 +567,35 @@
             }
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
-          "rel": {
-            "team": 1
-          },
           "followers": 3
         },
         {
           "label": "Ask them to wait",
-          "result": "You ask them to wait. You're not done.",
+          "result": "Wait until you're done, you ask the fans kindly. They agree, and it gives everyone something to look forward to.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         },
         {
-          "label": "Smile",
-          "result": "You smile and keep it to yourself.",
+          "label": "Keep it to yourself",
+          "result": "A smile, kept to yourself, and back to practice. It means more than you'd ever say out loud, even to {parent}.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -746,39 +734,37 @@
       "id": "PRO_758",
       "title": "The Family Photo",
       "category": "family",
-      "text": "The family photo for the team's holiday card, and nobody is smiling.",
+      "text": "The family photo for the team's holiday card, in matching sweaters, and nobody is smiling: the baby is crying, the dog is escaping, and your eldest is furious about the sweater.",
       "choices": [
         {
           "label": "Make them laugh",
-          "result": "You make them laugh. The photo is chaos, and perfect.",
+          "result": "A ridiculous face, and everyone laughs at once. The photo is chaos and perfect, and the club uses it on the cover.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "love_interest": 4
+            "sibling": 2
           }
         },
         {
           "label": "Bribe with dessert",
-          "result": "You promise dessert. Everyone smiles.",
+          "result": "Dessert, promised loudly to everyone. They all smile on cue, the photographer thanks you, and the dog stays put for once.",
           "stats": {
             "life": {
-              "energy": -1
+              "fun": 1
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -786,19 +772,23 @@
           ]
         },
         {
-          "label": "Go with it",
-          "result": "You go with it. The grumpy photo becomes the family favorite.",
+          "label": "Go with the grumpy one",
+          "result": "The grumpy photo, kept on purpose. It becomes the family's favorite picture of all time, framed in the hallway forever.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "love_interest": 1
+          }
         }
       ]
     }

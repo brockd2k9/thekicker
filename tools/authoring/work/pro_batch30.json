@@ -5,34 +5,31 @@
       "id": "PRO_421",
       "title": "The Family Financial Decision",
       "category": "family",
-      "text": "You and {love_interest} disagree about a major purchase.",
+      "text": "You and {love_interest} disagree about a major purchase: a lake house, two hours away, that one of you loves and the other thinks you'll never use.",
       "choices": [
         {
           "label": "Let {love_interest} decide",
-          "result": "You let {love_interest} decide. It's the right call.",
+          "result": "Their decision, fully. It's the right call, and you know it the first weekend you sit on the dock together.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "love_interest": 5
+            "love_interest": 4
           }
         },
         {
-          "label": "Sleep on it",
-          "result": "You agree to wait a month. The decision makes itself.",
+          "label": "Sleep on it for a month",
+          "result": "A month, before anyone decides anything at all. The decision makes itself in the end, and neither of you has to win the argument.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
               "resilience": 1
             },
@@ -46,20 +43,18 @@
         },
         {
           "label": "Make your case",
-          "result": "You make your case. You win, and the house is quiet for a day.",
+          "result": "Your case, made carefully at the kitchen table with a spreadsheet and a chart. You win, and the house is very quiet for a whole day.",
           "stats": {
-            "life": {
-              "energy": -2
-            },
+            "life": {},
             "football": {},
             "personality": {
+              "leadership": 1,
               "ambition": 2
             }
           },
           "modifiers": [
-            "dialed_in"
+            "confident"
           ],
-          "skill_points": 2,
           "rel": {
             "love_interest": -2
           }
@@ -208,9 +203,7 @@
           "label": "Give an honest answer",
           "result": "You say you think about the next kick, which is true. Later, in the car, you think about the question for a long time.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
               "resilience": 1
             },
@@ -333,14 +326,11 @@
           "label": "Fix the problem",
           "result": "You find out what actually went wrong, fix it, and say so publicly in plain words. A few people unfollow, more come back, and the manager stops dreading Mondays.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -364,7 +354,7 @@
             "loose"
           ],
           "rel": {
-            "team": 3
+            "team": 1
           }
         },
         {
@@ -372,10 +362,11 @@
           "result": "You leave it to the managers. They handle it fine, slowly, and for a month people bring it up whenever they recognize you.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -579,39 +570,36 @@
       "id": "PRO_430",
       "title": "The Next Chapter Conversation",
       "category": "family",
-      "text": "{love_interest} wants to know what you picture for life after football.",
+      "text": "{love_interest} wants to know, over a late dinner, what you picture for life after football. It's a simple question, and you realize you've never answered it out loud.",
       "choices": [
         {
           "label": "Picture it together",
-          "result": "You picture it together. It sounds good.",
+          "result": "The picture, painted together, piece by piece: a town, a porch, a coaching job. It sounds good, and you both go quiet for a while.",
           "stats": {
             "life": {
               "social": 2
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
             "love_interest": 5
           }
         },
         {
-          "label": "Make a list",
-          "result": "You each make a list. They overlap more than you thought.",
+          "label": "Each make a list",
+          "result": "Two lists, written separately and compared over coffee. They overlap more than you thought, and the differences are interesting, not scary.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -620,18 +608,22 @@
         },
         {
           "label": "Not yet",
-          "result": "You say you're not there yet. {love_interest} waits.",
+          "result": "Not there yet, you say honestly. {love_interest} waits, patiently, and the question comes back every spring, a little warmer each time.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 1
             },
             "football": {},
-            "personality": {}
+            "personality": {
+              "ambition": 2
+            }
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "love_interest": -1
+          }
         }
       ]
     },
@@ -639,20 +631,20 @@
       "id": "PRO_691",
       "title": "Contract Year: The Middle Years",
       "category": "career",
-      "text": "A contract year in your thirties means proving you're not slowing down.",
+      "text": "A contract year in your thirties means proving you're not slowing down. The club has a younger kicker on the practice squad, and the general manager mentions it.",
       "choices": [
         {
           "label": "Train like a rookie",
-          "result": "You train like a rookie all summer.",
+          "result": "All summer, like a rookie: early, hard, hungry. You come back faster than you've been in three years, and the general manager notices.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -3
             },
             "football": {
-              "resilience": 1
+              "power": 2
             },
             "personality": {
-              "ambition": 2
+              "ambition": 1
             }
           },
           "modifiers": [
@@ -661,13 +653,13 @@
           "skill_points": 3
         },
         {
-          "label": "Show the numbers",
-          "result": "You show the club your numbers. They're as good as ever.",
+          "label": "Show them the numbers",
+          "result": "Your numbers, shown to the club: as good as ever, better in the cold. They agree, grudgingly, and the conversation changes.",
           "stats": {
-            "life": {
-              "energy": -1
+            "life": {},
+            "football": {
+              "accuracy": 1
             },
-            "football": {},
             "personality": {
               "intelligence": 2
             }
@@ -676,26 +668,26 @@
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "coach": 1
           }
         },
         {
-          "label": "Stay calm at home",
-          "result": "You keep it calm at home. The contract will come or it won't.",
+          "label": "Keep it calm at home",
+          "result": "Calm at home, on purpose: the contract will come or it won't. You sleep well, and your kicks feel easy.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 1
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "rested"
           ],
           "rel": {
-            "love_interest": 3
+            "parent": 2
           }
         }
       ]

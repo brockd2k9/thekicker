@@ -263,15 +263,13 @@
       "id": "PRO_711",
       "title": "The Second Business",
       "category": "money",
-      "text": "You consider a second business, while the first is still finding its feet.",
+      "text": "You're considering a second business while the first is still finding its feet: a gym this time, with your name on the door and a partner who talks very fast.",
       "choices": [
         {
           "label": "Wait a year",
-          "result": "You wait a year until the first one is steady.",
+          "result": "A year's wait, until the first business is steady. The fast-talking partner finds someone else, and you're relieved by spring.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
               "resilience": 1
             },
@@ -285,27 +283,27 @@
         },
         {
           "label": "Do both",
-          "result": "You do both. You don't sleep much.",
+          "result": "Both, at once. You don't sleep much for months, and the gym opens in June to a line around the block.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -3
             },
             "football": {},
             "personality": {
-              "ambition": 2
+              "ambition": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
-            "dialed_in"
+            "stressed"
           ],
-          "skill_points": 2,
           "set_flags": {
             "business_owner": true
           }
         },
         {
-          "label": "Ask your partner in the first one",
-          "result": "You ask your partner. The answer is 'please not yet'.",
+          "label": "Ask your first partner",
+          "result": "Your partner in the first business, asked honestly over lunch. The answer is 'please not yet', and you listen to them.",
           "stats": {
             "life": {
               "social": 2
@@ -319,7 +317,7 @@
             "loose"
           ],
           "rel": {
-            "best_friend": 3
+            "best_friend": 2
           }
         }
       ]
@@ -747,14 +745,15 @@
       "id": "PRO_719",
       "title": "The Commercial Shoot",
       "category": "media",
-      "text": "A national commercial shoot, and the director wants you to act.",
+      "text": "A national commercial shoot, two days in a studio with a famous director who wants you to act: a scene where you kick a ball into a moving truck.",
       "choices": [
         {
           "label": "Go for it",
-          "result": "You go for it. The commercial is silly and everywhere.",
+          "result": "All in on the acting, with real feeling. The commercial is silly and everywhere, and your teammates quote it at you for a year.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
             "personality": {
@@ -762,25 +761,21 @@
             }
           },
           "modifiers": [
-            "loose"
+            "spotlight"
           ],
-          "rel": {
-            "team": 1
-          },
           "followers": 4
         },
         {
-          "label": "Keep it simple",
-          "result": "You ask for fewer lines. It works better.",
+          "label": "Ask for fewer lines",
+          "result": "Fewer lines, you suggest politely, and more kicking. The director agrees after a long pause, and it works much better on screen.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
               "resilience": 1
             },
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "charisma": 1
             }
           },
           "modifiers": [
@@ -789,14 +784,16 @@
           "followers": 2
         },
         {
-          "label": "Do one take",
-          "result": "You do one take and leave. The director uses it, and it's stiff.",
+          "label": "Do one take and leave",
+          "result": "One stiff take, and you leave for the airport. The director uses it anyway, and it shows in every frame.",
           "stats": {
             "life": {
               "energy": 2,
               "fun": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [

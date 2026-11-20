@@ -158,56 +158,18 @@
       "id": "PRO_696",
       "title": "The New Club at Thirty",
       "category": "team",
-      "text": "A new club, and the young players already know your name.",
+      "text": "A new club, at thirty-one, and the young players already know your name. Some of them had your poster. One of them asks you to sign his old jersey.",
       "choices": [
         {
           "label": "Earn it anyway",
-          "result": "You earn it anyway, one practice at a time.",
-          "stats": {
-            "life": {
-              "energy": -2,
-              "social": 1
-            },
-            "football": {},
-            "personality": {
-              "leadership": 2
-            }
-          },
-          "modifiers": [
-            "inspired"
-          ],
-          "skill_points": 1,
-          "rel": {
-            "team": 2
-          }
-        },
-        {
-          "label": "Take them to lunch",
-          "result": "You take the young specialists to lunch the first week.",
-          "stats": {
-            "life": {
-              "social": 2
-            },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
-          },
-          "modifiers": [
-            "loose"
-          ],
-          "rel": {
-            "team": 3
-          }
-        },
-        {
-          "label": "Focus on the job",
-          "result": "You focus on the job. The rest follows.",
+          "result": "Earned anyway, one practice at a time, as if nobody knew you. The young players respect that more than the poster.",
           "stats": {
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -216,6 +178,43 @@
             "dialed_in"
           ],
           "skill_points": 2
+        },
+        {
+          "label": "Take the young specialists to lunch",
+          "result": "Lunch, the first week, with every young specialist. By Friday they're asking you everything, and you're the heart of the room.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "backup": 3,
+            "holder": 2
+          }
+        },
+        {
+          "label": "Focus on the job",
+          "result": "Just the job, quietly, and the rest follows on its own. You sign the old jersey, say very little else, and the young players respect it.",
+          "stats": {
+            "life": {},
+            "football": {
+              "accuracy": 1,
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
         }
       ]
     },
@@ -507,39 +506,39 @@
       "id": "PRO_701",
       "title": "Kindergarten Morning",
       "category": "family",
-      "text": "Your youngest's first day of kindergarten is a practice day.",
+      "text": "Your youngest's first day of kindergarten is a practice day, and the drop-off is at the exact time of the special teams meeting. There's a photo planned by the front door.",
       "choices": [
         {
           "label": "Ask to come in late",
-          "result": "You ask {coach} for an hour. You're there for the wave.",
+          "result": "An hour, asked of {coach} and granted instantly. You're there for the photo, the backpack and the wave at the classroom door.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
-            "love_interest": 4
+            "coach": 1,
+            "parent": 1,
+            "sibling": 1
           }
         },
         {
-          "label": "Do drop-off and run",
-          "result": "You do drop-off and make it to the meeting with a minute to spare.",
+          "label": "Drop off and race to the meeting",
+          "result": "Drop-off at seven-forty and the special teams meeting at eight-fifteen, barely. You're out of breath, sweaty and very happy all morning.",
           "stats": {
             "life": {
-              "energy": -1
+              "energy": -2
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 1,
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -548,12 +547,12 @@
         },
         {
           "label": "Go to practice",
-          "result": "You go to practice and hear about it at dinner.",
+          "result": "Practice, and the whole story at dinner, told twice by a very proud five-year-old. You hang on every word and ask for it a third time.",
           "stats": {
-            "life": {
-              "energy": -2
+            "life": {},
+            "football": {
+              "resilience": 1
             },
-            "football": {},
             "personality": {
               "ambition": 2
             }
@@ -561,7 +560,7 @@
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2
+          "skill_points": 1
         }
       ]
     },
@@ -569,57 +568,54 @@
       "id": "PRO_702",
       "title": "The Kid's Team",
       "category": "family",
-      "text": "Your kid's youth team needs a coach, and everyone looks at you.",
+      "text": "Your kid's youth team needs a coach, and every parent at the meeting slowly turns to look at you. You've never coached nine-year-olds in your life.",
       "choices": [
         {
           "label": "Coach the team",
-          "result": "You coach the team. It's the most stressful thing you do all year.",
+          "result": "Head coach, with a whistle and a clipboard. It's the most stressful thing you do all year, and the most fun.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -3
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 3
             }
           },
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
-          "rel": {
-            "team": 2
-          }
+          "skill_points": 1
         },
         {
           "label": "Be an assistant",
-          "result": "You help as an assistant.",
+          "result": "Assistant coach, which means snacks, cones and a lot of encouragement. It's perfect, and your kid is delighted you're there every week.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "love_interest": 3
+            "sibling": 1
           }
         },
         {
           "label": "Cheer from the stands",
-          "result": "You cheer from the stands.",
+          "result": "The stands, loud and proud, every Saturday morning. Another parent coaches, and you bring the orange slices and the folding chairs.",
           "stats": {
             "life": {
               "energy": 2,
-              "fun": 1
+              "fun": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -632,36 +628,35 @@
       "id": "PRO_703",
       "title": "The Anniversary Trip",
       "category": "family",
-      "text": "You and {love_interest} plan a trip for your anniversary, and the club schedules a minicamp.",
+      "text": "You and {love_interest} have planned an anniversary trip for months, flights and all, and then the club schedules a mandatory minicamp on the same four days.",
       "choices": [
         {
           "label": "Ask to miss a day",
-          "result": "You ask to miss a day. The club agrees, grudgingly.",
+          "result": "A day off minicamp, asked for and granted, grudgingly. You catch the last flight, and the trip is three days instead of four.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
-            "love_interest": 5
-          },
-          "retention": -1
+            "love_interest": 5,
+            "coach": -1
+          }
         },
         {
           "label": "Move the trip",
-          "result": "You move the trip by a week.",
+          "result": "The trip, moved a week later, with a lot of rebooking and one angry airline. It's a little less magical, and still wonderful.",
           "stats": {
-            "life": {
-              "energy": -1
+            "life": {},
+            "football": {
+              "resilience": 1
             },
-            "football": {},
             "personality": {
               "intelligence": 2
             }
@@ -670,15 +665,15 @@
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "love_interest": 2
           }
         },
         {
           "label": "Go to minicamp",
-          "result": "You go to minicamp and promise next year.",
+          "result": "Minicamp, and a promise of next year instead. {love_interest} understands, and you can tell they're tired of having to understand.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -1
             },
             "football": {},
             "personality": {
@@ -688,7 +683,10 @@
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2
+          "skill_points": 1,
+          "rel": {
+            "love_interest": -2
+          }
         }
       ]
     },
@@ -696,7 +694,7 @@
       "id": "PRO_704",
       "title": "The Marriage Counselor",
       "category": "family",
-      "text": "You and {love_interest} decide to see a counselor, before anything's wrong. It was their idea, and you agreed faster than you expected.",
+      "text": "You and {love_interest} decide to see a counselor together, before anything's wrong. It was their idea, and you agreed faster than either of you expected.",
       "choices": [
         {
           "label": "Commit to it",
@@ -705,10 +703,10 @@
             "life": {
               "social": 2
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -721,14 +719,11 @@
           "label": "Go every other week",
           "result": "You go every other week when the schedule allows. It helps, and you learn how differently you two remember the same arguments.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -740,10 +735,12 @@
           "result": "You go to one session to see what it's like. It's harder than practice, and you leave unsure whether you'll go back.",
           "stats": {
             "life": {
-              "energy": 2,
+              "energy": 1,
               "fun": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [

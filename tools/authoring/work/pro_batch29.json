@@ -70,34 +70,32 @@
       "id": "PRO_409",
       "title": "The New Home",
       "category": "family",
-      "text": "Your family has outgrown the house.",
+      "text": "Your family has outgrown the house: three kids, two dogs, one bathroom that everybody fights over every morning, and a garage completely full of kicking nets.",
       "choices": [
         {
-          "label": "Let the kids choose",
-          "result": "You let the kids pick their rooms first. The move is loud and happy.",
+          "label": "Let the kids choose their rooms",
+          "result": "A bigger house, and the kids pick their rooms first, loudly. The move is chaotic and happy, and the dogs love the yard.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "love_interest": 5
+            "love_interest": 3,
+            "parent": 2
           }
         },
         {
-          "label": "Add on instead",
-          "result": "You add a room instead of moving. The kids keep their school.",
+          "label": "Add a room instead",
+          "result": "An addition instead of a move, built over the offseason. The kids keep their school and their friends, and you keep your street.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
               "resilience": 1
             },
@@ -110,19 +108,24 @@
           ]
         },
         {
-          "label": "Make it work",
-          "result": "You make the house work another year. It's crowded and warm.",
+          "label": "Make it work another year",
+          "result": "One more year in the small house, creatively. It's crowded and warm, you build bunk beds yourself, badly, and {sibling} helps.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": -1,
+              "fun": 2
             },
             "football": {},
-            "personality": {}
+            "personality": {
+              "leadership": 1
+            }
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "sibling": 2
+          }
         }
       ]
     },
@@ -316,20 +319,17 @@
       "id": "PRO_413",
       "title": "The Business Partner's Exit",
       "category": "money",
-      "text": "A partner wants out of a business you built together.",
+      "text": "A partner wants out of a business you built together: the restaurant, the dealership, the start-up, whichever it is. He's tired, and he wants his money back by spring.",
       "choices": [
         {
           "label": "Buy him out fairly",
-          "result": "You buy him out fairly, with lawyers and a handshake.",
+          "result": "A fair buyout, with lawyers and a handshake at the end. He leaves happy, and the business is all yours now, for better and worse.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -337,16 +337,16 @@
           ]
         },
         {
-          "label": "Sell together",
-          "result": "You both sell and stay friends.",
+          "label": "Sell it together",
+          "result": "You both sell, and split it evenly down the middle. The business goes to new owners, and the friendship stays completely intact.",
           "stats": {
             "life": {
               "social": 2
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -357,20 +357,22 @@
         },
         {
           "label": "Run it alone",
-          "result": "You run it alone. It's more work than you thought.",
+          "result": "Alone, with his share bought on a payment plan. It's more work than you thought, and you learn a great deal about payroll.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -3
             },
-            "football": {},
+            "football": {
+              "toughness": 1
+            },
             "personality": {
               "ambition": 2
             }
           },
           "modifiers": [
-            "dialed_in"
+            "stressed"
           ],
-          "skill_points": 2
+          "skill_points": 1
         }
       ]
     },
