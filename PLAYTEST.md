@@ -234,24 +234,25 @@ use the game-day kick profile (perks, rest, weather count).
 Per-kick skill points (`sp_make`, `sp_long_make`, `sp_clutch_make`, `sp_game_winner`) are unchanged:
 at 1 point they are already the smallest whole step.
 
-**Before / after** (20 careers per choice strategy, 40 per spending run, seed 1):
+**Before / after** (20 careers per choice strategy, 40 per spending run, seed 1; "after" is on
+main with the other session's changes merged: warmup SP cap, lower scenario values, bad stretch):
 
 | | Target | Before | After |
 |---|---|---|---|
-| FG range, end of HS (balanced) | 48-50 | 53.1 | 49.5 |
+| FG range, end of HS (balanced) | 48-50 | 53.1 | 49.4 |
 | FG range, end of college (balanced) | 52-55 | 57.8 | 54.1 |
-| Peak range (balanced / dedicated) | | 61.0 / 67.3 | 57.8 / 66.1 |
-| Reach 65 yd (balanced / power-first / perk-hunter / dedicated) | rare | 23 / 63 / 45 / 95% | 0 / 33 / 8 / 73% |
+| Peak range (balanced / dedicated) | | 61.0 / 67.3 | 56.9 / 65.3 |
+| Reach 65 yd (balanced / power-first / perk-hunter / dedicated) | rare | 23 / 63 / 45 / 95% | 0 / 8 / 3 / 63% |
 | Reach 70 yd (any run) | under ~2% | up to 10% (perk-hunter) | 0% |
 | Careers reaching the pros (all choice strategies) | ~68% | 68% | 69% |
-| Careers drafted (all choice strategies) | | 43% | 37% |
+| Careers drafted (all choice strategies) | | 43% | 29% |
 
 | Kicker quality (expected FG%) | Target | Slump seasons before | After |
 |---|---|---|---|
-| 60-70% (low) | often | 81% | 21% (true 60% kickers: ~57%, model) |
+| 60-70% (low) | often | 81% | 20% (true 60% kickers: ~57%, model) |
 | 70-75% (average) | | 57% | 12% |
 | 75-80% (average) | rarely | 35% | 7% |
-| 80%+ (high) | almost never | 12% | 4% |
+| 80%+ (high) | almost never | 12% | 7% |
 
 **Still open:** aging barely bites in the simulator. Pros earn ~59 skill points a season, so a
 player who never preserves just buys lost points back (balanced without maintenance holds a
