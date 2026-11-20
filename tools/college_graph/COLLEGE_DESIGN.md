@@ -23,7 +23,7 @@ Columns: ID, title, window, cast, premise; **Opens on** = flags that open it (an
 - **COL_034 Winter Conditioning** (Y1 offseason): Winter workouts start at 5:30 a.m. in the dark. Three teammates have already started skipping and signing each other in. · Sets: `skipped_conditioning` · HS: `built_training_plan`
 
 ### Coaching
-- **COL_002 The First Team Meeting** (Y1 wk 1-2; {coach}): {coach} lays out the rules on day one: curfew, study hall, phones in the bin at meetings, and one strike before he calls your parents. · HS: `ready_for_college_football`
+- **COL_002 The First Team Meeting** (Y1 wk 1-2; {coach}): {coach} lays out the rules on day one: curfew, study hall, phones in the bin at meetings, and one strike before the coach calls home. · HS: `ready_for_college_football`
 - **COL_028 The Captain's Talk** (Y1 wk 4-8): The senior captain pulls you aside: some of the guys think you act like you're too good for the team.
 
 ### Family crisis
@@ -160,7 +160,7 @@ Columns: ID, title, window, cast, premise; **Opens on** = flags that open it (an
 - **COL_103 The Leadership Retreat** (Y3 offseason): The team's leaders spend a weekend at a lake planning next season. It's also your only free weekend of the summer. · HS: `accepted_team_leadership`
 
 ### Family crisis
-- **COL_082 {sibling} in Trouble** (Y3; {sibling}, {parent}): {sibling} got suspended from school for a fight. {parent} is overwhelmed and asks you to talk to him.
+- **COL_082 Trouble at Home** (Y3; {sibling}, {parent}): {sibling} got suspended from school for a fight. {parent} is overwhelmed and asks you to talk to him.
 - **COL_083 Dad's Health Scare** (Y3; {parent}): A late-night call: {parent} is in the hospital. They think it's his heart, and you're four hundred miles away with a game Saturday. · Opens on: sent_nil_money_home | kept_money_for_school · HS: `opened_family_conversation`
 
 ### Home
@@ -226,7 +226,7 @@ Columns: ID, title, window, cast, premise; **Opens on** = flags that open it (an
 
 ### Family crisis
 - **COL_120 Dad at Every Game** (Y4; {parent}): {parent} has driven to every game this season. You know he can't afford it. · HS: `helped_family_financially`
-- **COL_121 {sibling}'s Recruiting** (Y4; {sibling}): {sibling} is a high school senior now, and college coaches are calling. He asks you how to handle them. · HS: `doubled_down_recruiting_lie`, `recruiting_values_clear`
+- **COL_121 The Little Brother's Recruiting** (Y4; {sibling}): {sibling} is a high school senior now, and college coaches are calling. He asks you how to handle them. · HS: `doubled_down_recruiting_lie`, `recruiting_values_clear`
 
 ### Hazing
 - **COL_128 The Last Initiation** (Y4 wk 1-3; {team}): Your class is the senior class now. The freshman initiation is your call this year. · Opens on: ended_tradition | kept_tradition_alive
