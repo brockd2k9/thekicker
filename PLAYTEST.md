@@ -713,6 +713,14 @@ doesn't come up, take any other choice with bad or scandal conduct: the steps re
   Background Check and Combine Invite, 10 The Next Level. The graph check warns if a week ever holds
   more than 2.
 
+## Pro story (verify in the game)
+The pro story graph is `data/career/scenarios_pro.json` (PRO_*): 828 scenes in six eras by age (Rookie 22-25, Settled In 26-29, Veteran 30-33, Aging Veteran 34-37, Grizzled Veteran 38-41, Hall of Fame Era 42+) plus a cross-era pool driven by state. Written so far: 100, mostly era 1 (Rookie), the first money and agent scenes, the relationship chain and the pro wrong path. Unwritten scenes are drafts the game never picks. Things to check in a pro career:
+- **Rookie years:** era-1 scenes (camp, rookie duties, the first payday, the long snapper, the first road trip) show up in the first seasons and stop after age 25.
+- **Career state:** "Contract Year: Prove It" only in a season that started with one contract year left; The Rookie Slump only while the coach doubts your kicking; The Rookie Injury only while injured; The Rookie on a Run only during a streak of 8+ field goals.
+- **Money:** the advisor chain (The Advisor With the Yacht, then The Missing Money and The Lawsuit) and the restaurant chain (The Restaurant, then The Restaurant Is Failing) only follow the choice that opens them. Money scenes cost stress and set flags; they don't move money yet (that waits for the savings stat).
+- **Pro wrong path:** a pro strike (Curfew on the Road, The Package, The Bookie, The Spa...) opens The Team Fine; a new strike after it opens League Discipline (a 2-game suspension), then The Last Warning, Pro. Each step clears every pro strike, so the next one needs a new strike. College strikes never open them.
+- **Relationships:** the temptation scenes open only with a partner (The Hotel Bar while still with the high school love interest); Found Out follows; the single-player dating scenes open only without one. Nothing is explicit, and every pressure scene has a clean "no".
+
 ## Known gaps
 - No full signed Android build yet: a pack-only export was verified (all data included, boots and
   runs Career Mode screens). Build the .apk on your own machine (README → Export for Android).

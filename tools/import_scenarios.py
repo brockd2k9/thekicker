@@ -43,7 +43,10 @@ GROUP_KEYS = {
 }
 CATEGORIES = ["social", "school", "training", "health", "work", "media", "family", "money", "team",
               "romance", "community", "career"]
-METRICS = ["recruiting", "draft", "retention", "gpa", "age"]
+METRICS = ["recruiting", "draft", "retention", "gpa", "age",
+           # Career state (docs/story_note_career_state.md): "right now" values and pro counts.
+           "slump_now", "benched_now", "injured_now", "fg_streak", "season_fg_pct", "pro_seasons",
+           "contract_years_left", "clubs"]
 # Hard limits per choice (errors). Typical values are in the writing guide.
 STAT_RANGE = {"life": (-20, 15), "football": (-2, 5), "personality": (-4, 6)}
 PROGRESS_RANGE = {"recruiting": (-3, 8), "grades": (-0.2, 0.4), "draft": (-10, 6), "retention": (-6, 6)}
@@ -90,7 +93,7 @@ CHOICE_FIELDS = {"label", "result", "stats", "modifiers", "set_flags", "rel", "r
                  "follow_up", "recruiting", "grades", "draft", "retention", "skill_points",
                  "followers", "followers_exact", "conduct", "deal", "suspend_weeks"}
 SCENARIO_FIELDS = {"id", "title", "_info", "category", "text", "choices", "weight", "cooldown", "when",
-                   "follow_up_only", "stages", "seasons", "weeks", "once", "_note"}
+                   "follow_up_only", "stages", "seasons", "weeks", "once", "once_per_club", "_note"}
 # Fields a template may set on a scenario that already exists (graph fields stay
 # with tools/convert_hs_graph.py).
 WRITABLE = ["category", "text", "choices", "weight", "cooldown", "when"]
@@ -230,7 +233,7 @@ def main(argv=None):
     people_doc = load(data_path("people.json", data_dir))
     people = [p["id"] for p in people_doc["people"]]
     blocked = load(data_path("content_rules.json", data_dir)).get("blocked_words", [])
-    placeholders = set(people) | {"tyler"}
+    placeholders = set(people) | {"tyler", "club", "town"}
 
     # Every flag the game knows: set by a choice, expected by a draft, read by
     # a requirement, or set by the engine.
@@ -296,10 +299,10 @@ def main(argv=None):
             elif k not in SCENARIO_FIELDS:
                 rep.add(sid, "ERROR", f"unknown field '{k}'")
         if existing is not None:
-            for k in ("stages", "seasons", "weeks", "once", "follow_up_only"):
+            for k in ("stages", "seasons", "weeks", "once", "once_per_club", "follow_up_only"):
                 if k in e and e[k] != existing.get(k):
                     rep.add(sid, "ERROR", f"'{k}' is graph data; change it in the graph generator "
-                            "(tools/convert_hs_graph.py or tools/college_graph/make_college_graph.py)")
+                            "(tools/convert_hs_graph.py, tools/college_graph/make_college_graph.py or tools/pro_graph/make_pro_graph.py)")
             if "when" in e and (existing.get("story") or existing.get("beat")):
                 rep.add(sid, "ERROR", "'when' of a story event is set by its window (the graph generator)")
         if e.get("category") not in CATEGORIES:
