@@ -424,6 +424,12 @@ distributions, scenario frequencies; each career also spends skill points one of
 report covers range, slumps by kicker quality, the skill point economy, aging and perk usage).
 It ends with an aging probe (the same pro from 30, preserving vs not); `probe=1 income=50` runs only
 that, in a second. `tools/career_sim_baseline.md` is the current baseline.
+It also reports followers (by stage, season, kicker quality and spending style; tier shares by
+season) and kick challenge pass chances (each proposed conversion, for kickers at 60/70/80/90%
+expected field goals, normal / tired / heavy legs / injured). Options: `make=0.8` (every kick made
+with that chance), `bench=0` (benching off), `fans=0` (followers give nothing: effects on vs off),
+`tag=1` (+1 followers buzz on every choice: an estimate of the story session's tags),
+`conv=res://path.json` (other kick challenge values), `set=key:value,...` (override tuning values).
 Design decisions and values to playtest: `PLAYTEST.md`, "Career Mode".
 
 **Relationships:** eight recurring people (head coach, holder, teacher, best friend, Tyler
@@ -474,7 +480,7 @@ game winner and being benched cost some. The same moment is worth a few dozen fo
 school and thousands in the pros. Tiers (Local Name, Hometown Hero 500, Rising Star 5K, Campus
 Celebrity 25K, Verified 100K, Fan Favorite 500K, Household Name 2M) unlock scenarios
 (`requires.followers_tier`) and give small, capped extras (skill points and Team at each new tier,
-Fun / Social in a big week, a season-end recruiting / draft / standing bonus, up to +10% pro salary,
+Fun / Social in a big week, a small season-end standing bonus in the pros, up to +10% pro salary,
 brand deals, and a little pressure in close 4th quarters once you're famous: "Fans are watching" on
 the Outlook). Shown on the Hub, Results, Stats, the season summary and scenario cards. Rules:
 `scripts/career/followers.gd`; numbers: `career_tuning.tres` "Followers"; details: `PLAYTEST.md`,

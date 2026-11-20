@@ -58,6 +58,11 @@ var _rng := RandomNumberGenerator.new()
 ## systems by kicker quality, e.g. benching); 0 = the normal make-chance model.
 ## bench=0 turns benching off (before/after comparisons).
 var _fixed_make := 0.0
+## Kick challenges: proposed conversions (conv=path, default the test
+## fixture) and their pass chances, summed per conversion / FG% bucket /
+## fitness variant: {key: [sum of pass chance, count]}.
+var _conv: Array = []
+var _chal := {}
 var _scen_count := {}  # id -> appearances
 var _scen_careers := {}  # id -> careers that saw it
 
@@ -74,6 +79,18 @@ func _ready() -> void:
 	# bench=0: benching off (for before/after comparisons).
 	if str(args.get("bench", "1")) == "0":
 		CareerTuning.get_default().bench_max_per_season = 0
+	# fans=0: followers give nothing (effects on vs off); tag=X: every choice
+	# gets X followers buzz, an estimate of the story session's tags.
+	# set=key:value,key:value overrides tuning values for this run (what-ifs).
+	for kv in str(args.get("set", "")).split(",", false):
+		var pair := kv.split(":")
+		if pair.size() == 2:
+			CareerTuning.get_default().set(pair[0], float(pair[1]))
+	Followers.effects_off = str(args.get("fans", "1")) == "0"
+	Followers.sim_choice_buzz = float(args.get("tag", 0.0))
+	var conv_path := str(args.get("conv", "res://tests/fixtures/kick_challenge_conversions.json"))
+	var cj: Variant = JSON.parse_string(FileAccess.get_file_as_string(conv_path))
+	_conv = cj.get("conversions", []) if cj is Dictionary else []
 	_kt = load("res://tuning/kick_tuning.tres")
 	var problems := CareerContent.validate()
 	var t0 := Time.get_ticks_msec()
@@ -127,6 +144,8 @@ func _play_career(strat: String, n: int) -> Dictionary:
 			out["reached"][c.stage] = true
 		match c.phase:
 			CareerManager.PHASE_WEEK_START:
+				if c.week == 1:
+					out["_chal_start"] = _challenge_probs(m)
 				m.begin_week()
 				for id in c.pending_scenarios:
 					_count_scen(id, out)
@@ -147,6 +166,7 @@ func _play_career(strat: String, n: int) -> Dictionary:
 				m.end_week()
 			CareerManager.PHASE_SEASON_END:
 				_snapshot(m, out)
+				_record_challenges(m, out)
 				m.end_season()
 				if c.phase == CareerManager.PHASE_RECRUITING and m._stage_done() \
 						and c.stage == CareerData.STAGE_HIGH_SCHOOL:
@@ -198,6 +218,11 @@ func _play_career(strat: String, n: int) -> Dictionary:
 	out["auditions_passed"] = (out["events"] as Array).count("tryout_job_pass")
 	out["auditions_failed"] = (out["events"] as Array).count("tryout_job_fail")
 	out["seasons"] = c.history.size()
+	# Followers at the end of every season: [stage, season_in_stage, followers].
+	out["fans"] = c.history.map(func(h: Dictionary) -> Array:
+		return [str(h.get("stage", "")), int(h.get("season_in_stage", 1)), int(h.get("followers", 0))])
+	out["fans_peak"] = maxi(int(c.social.get("peak", 0)), c.followers)
+	out["virals"] = int(c.social.get("virals", 0))
 	out["fg_pct"] = float(c.career_totals.get("fg_made", 0)) / maxf(float(c.career_totals.get("fg_att", 0)), 1.0)
 	var src := {}
 	var aged := {}
@@ -561,6 +586,8 @@ func _report(results: Dictionary, n: int, problems: PackedStringArray, ms: int) 
 			f.call(rh, "hs_range"), f.call(rc, "col_range")])
 	L.append("")
 	L.append_array(_skill_sections(all, t))
+	L.append_array(_followers_sections(results, all, t))
+	L.append_array(_challenge_sections())
 	# --- life
 	L.append("## Life stats (average over every week played; share of weeks with any life stat low)")
 	L.append("")
@@ -681,6 +708,315 @@ static func _fmt_dist(v: Array, decimals: bool) -> String:
 	if decimals:
 		return "%.2f (%.2f-%.2f)" % [mean, p10, p90]
 	return "%d (%d-%d)" % [roundi(mean), roundi(p10), roundi(p90)]
+
+
+# --- followers -------------------------------------------------------------------------
+
+const FAN_STAGES := [["high_school", 4, "End of high school"], ["college", 4, "End of college"],
+	["pro", 1, "Pro season 1"], ["pro", 3, "Pro season 3"], ["pro", 6, "Pro season 6"], ["pro", 10, "Pro season 10"]]
+
+
+static func _fans_at(r: Dictionary, stage: String, sis: int) -> int:
+	for e in r.get("fans", []):
+		if e[0] == stage and int(e[1]) == sis:
+			return int(e[2])
+	return -1
+
+
+static func _fan_dist(v: Array) -> String:
+	if v.is_empty():
+		return "-"
+	v.sort()
+	var med: int = v[v.size() / 2]
+	var p10: int = v[clampi(int(0.1 * (v.size() - 1)), 0, v.size() - 1)]
+	var p90: int = v[clampi(int(0.9 * (v.size() - 1)), 0, v.size() - 1)]
+	return "%s (%s-%s)" % [Followers.short(med), Followers.short(p10), Followers.short(p90)]
+
+
+func _followers_sections(results: Dictionary, all: Array, t: CareerTuning) -> PackedStringArray:
+	var L := PackedStringArray()
+	L.append("## Followers (median, p10-p90)")
+	L.append("")
+	L.append("Choice tags: %s. Effects: %s." % ["none (field only: kicks, seasons, viral moments, benching, the audition)"
+		if Followers.sim_choice_buzz == 0.0 else "estimate, +%.1f buzz on every choice" % Followers.sim_choice_buzz,
+		"off" if Followers.effects_off else "on"])
+	L.append("")
+	var head := "| Group | Careers |"
+	var sep := "|---|---|"
+	for fs in FAN_STAGES:
+		head += " %s |" % fs[2]
+		sep += "---|"
+	L.append(head + " Peak | Viral moments / career |")
+	L.append(sep + "---|---|")
+	var groups := {"ALL": all}
+	for st in SPEND:
+		groups["spend: " + st] = all.filter(func(r): return r["spend"] == st)
+	for q in [[0.0, 0.65, "FG% under 65"], [0.65, 0.75, "FG% 65-75"], [0.75, 0.85, "FG% 75-85"], [0.85, 1.01, "FG% 85+"]]:
+		groups[q[2]] = all.filter(func(r): return float(r["fg_pct"]) >= q[0] and float(r["fg_pct"]) < q[1])
+	for g in groups:
+		var rs: Array = groups[g]
+		var row := "| %s | %d |" % [g, rs.size()]
+		for fs in FAN_STAGES:
+			var v: Array = rs.map(func(r): return _fans_at(r, fs[0], fs[1])).filter(func(x): return x >= 0)
+			row += " %s |" % _fan_dist(v)
+		row += " %s | %.1f |" % [_fan_dist(rs.map(func(r): return int(r["fans_peak"]))),
+			_avgf(rs.map(func(r): return int(r["virals"])))]
+		L.append(row)
+	L.append("")
+	# Tiers: share of careers at each tier at the end of each season (by stage).
+	L.append("## Follower tiers: share of careers at or above each tier at the end of a season")
+	L.append("")
+	L.append("(How often a scenario gated at that tier could appear that season. Careers still playing that season.)")
+	L.append("")
+	var thead := "| Season | Careers |"
+	var tsep := "|---|---|"
+	for i in range(1, Followers.TIER_NAMES.size()):
+		thead += " %s |" % Followers.tier_label(i, t)
+		tsep += "---|"
+	L.append(thead)
+	L.append(tsep)
+	for st in [["high_school", 4, "HS"], ["college", 4, "College"], ["pro", 12, "Pro"]]:
+		for sis in range(1, int(st[1]) + 1):
+			var v: Array = all.map(func(r): return _fans_at(r, st[0], sis)).filter(func(x): return x >= 0)
+			if v.is_empty():
+				continue
+			var row := "| %s %d | %d |" % [st[2], sis, v.size()]
+			for i in range(1, Followers.TIER_NAMES.size()):
+				row += " %s |" % _pct(v.filter(func(x): return x >= Followers.threshold(i, t)).size(), v.size())
+			L.append(row)
+	L.append("")
+	return L
+
+
+# --- kick challenges ----------------------------------------------------------------
+
+## When each conversion can happen: stage, seasons in stage, and when in the
+## season ("start": week 1, "end": the offseason after it, "mid": average).
+const CHAL_WHEN := {
+	"hs_showcase": ["high_school", 1, 3, "end"], "hs_scholarship_camp": ["high_school", 3, 3, "end"],
+	"HS_040": ["high_school", 2, 2, "mid"], "HS_121": ["high_school", 3, 3, "end"],
+	"HS_016": ["high_school", 1, 1, "mid"], "hs_kicker_battle": ["high_school", 1, 3, "mid"],
+	"col_walkon_battle": ["college", 1, 1, "start"], "col_combine_invite": ["college", 4, 4, "end"],
+}
+const FITNESS := ["normal", "tired", "heavy_legs", "injured"]
+
+
+const QUALITIES := [0.6, 0.7, 0.8, 0.9]
+const FIT_WOBBLE := 0.15
+const FIT_SPREAD := 0.04
+
+
+## Pass chance of every conversion that can happen now, for copies of this
+## kicker at each quality (expected game FG%, by setting Accuracy and
+## Resilience; same age, Power and range) and fitness:
+## {conv index: {quality: {fitness: chance}}}.
+func _challenge_probs(m: CareerManager) -> Dictionary:
+	var out := {}
+	if _fixed_make > 0.0:
+		return out
+	var c := m.data
+	var t := m.tuning
+	var idx: Array = []
+	for i in _conv.size():
+		var w: Array = CHAL_WHEN.get(str(_conv[i]["scenario"]), [])
+		var stage := "college" if c.stage == CareerData.STAGE_JUCO else c.stage
+		if not w.is_empty() and w[0] == stage and c.season_in_stage >= int(w[1]) and c.season_in_stage <= int(w[2]):
+			idx.append(i)
+	if idx.is_empty():
+		return out
+	var copies := {}
+	for q in QUALITIES:
+		copies[q] = _quality_copy(c, t, q)
+	for i in idx:
+		var byq := {}
+		for q in QUALITIES:
+			if copies[q] == null:
+				continue
+			var res := {}
+			for f in FITNESS:
+				res[f] = _pass_chance(copies[q], t, _conv[i]["replace"]["kick_challenge"], f)
+			byq[q] = res
+		out[i] = byq
+	return out
+
+
+## A copy of the kicker at normal fitness (life stats at the start values, no
+## modifiers or injury) whose expected FG% is about q; null if unreachable.
+func _quality_copy(c: CareerData, t: CareerTuning, q: float) -> Variant:
+	var k := CareerData.from_dict(c.to_dict())
+	for s in CareerData.GROUP_KEYS[CareerData.LIFE]:
+		k.set_stat(s, t.start_life)
+	k.week_modifiers = []
+	k.injury = {"weeks_left": 0, "severity": 0.0}
+	var lo := 0.0
+	var hi := 100.0
+	for it in 14:
+		var mid := (lo + hi) * 0.5
+		k.set_stat("accuracy", mid)
+		k.set_stat("resilience", mid)
+		if _expected_fg(k, t) < q:
+			lo = mid
+		else:
+			hi = mid
+	k.set_stat("accuracy", hi)
+	k.set_stat("resilience", hi)
+	# Out of reach on Accuracy alone (a 90% freshman, a 60% senior): move
+	# Power too (a strong kicker has range well past the distances).
+	var fg := _expected_fg(k, t)
+	if absf(fg - q) > 0.025:
+		var up := fg < q
+		lo = k.stat("power") if up else 0.0
+		hi = 100.0 if up else k.stat("power")
+		for it in 14:
+			var mid := (lo + hi) * 0.5
+			k.set_stat("power", mid)
+			if _expected_fg(k, t) < q:
+				lo = mid
+			else:
+				hi = mid
+		k.set_stat("power", hi)
+	if absf(_expected_fg(k, t) - q) > 0.025:
+		return null
+	return k
+
+
+## A kicker's expected field goal % in games: the make model averaged over
+## the stage's field goal distances (fg_min up to range - 1), pressure 0.4.
+func _expected_fg(k: CareerData, t: CareerTuning) -> float:
+	var prof := KickProfile.build(k, t)
+	var gp := Progression.game_params(k, t)
+	var hi := mini(int(gp["fg_max"]), floori(prof.fg_range) - 1)
+	var stage := "college" if k.stage == CareerData.STAGE_JUCO else k.stage
+	var s := 0.0
+	var n := 0
+	for d in range(int(gp["fg_min"]), hi + 1):
+		s += _make_chance(k, d, 0.4, stage, prof)
+		n += 1
+	return s / maxi(n, 1)
+
+
+## This kicker (already a quality copy) at a fitness: the chance to make
+## `need` of the challenge's kicks.
+func _pass_chance(base: CareerData, t: CareerTuning, kc: Dictionary, fitness: String) -> float:
+	var k := base
+	if fitness != "normal":
+		k = CareerData.from_dict(base.to_dict())
+	match fitness:
+		"tired":
+			k.set_stat("energy", 25.0)
+		"heavy_legs":
+			k.week_modifiers = ["heavy_legs"]
+		"injured":
+			k.injury = {"weeks_left": 2, "severity": 0.5}
+	var prof := KickProfile.build(k, t)
+	var stage := "pro" if k.stage in [CareerData.STAGE_PRO, CareerData.STAGE_FREE_AGENT] else \
+		("high_school" if k.stage == CareerData.STAGE_HIGH_SCHOOL else "college")
+	# The make model only sees fitness through range; in the kick scene being
+	# tired or hurt also adds aim wobble and spread (estimate: FIT_WOBBLE per
+	# unit of wobble_mult, FIT_SPREAD per degree of spread, against normal).
+	var fit_pen := 0.0
+	if fitness != "normal":
+		var base_prof := KickProfile.build(base, t)
+		fit_pen = FIT_WOBBLE * maxf(prof.wobble_mult - base_prof.wobble_mult, 0.0) \
+			+ FIT_SPREAD * maxf(prof.accuracy_spread_deg - base_prof.accuracy_spread_deg, 0.0)
+	var ps: Array = []
+	var dist := KickChallenge.distances(kc, prof.fg_range, t)
+	var wind := KickChallenge.wind_max(kc, t) * 0.5
+	for j in dist.size():
+		var pr := KickChallenge.pressure(kc, t) + 0.08 * j + prof.pressure_add
+		ps.append(clampf(_make_chance(k, int(dist[j]), pr, stage, prof, wind) - fit_pen, 0.02, 0.98))
+	var ko := KickChallenge.kickoffs(kc)
+	for j in int(ko.get("count", 0)):
+		ps.append(_kickoff_chance(prof.kickoff_range, float(ko["min_yards"])))
+	return _at_least(ps, KickChallenge.need(kc))
+
+
+## Stand-in kickoff model: a kickoff carries 80-100% of the kickoff range.
+static func _kickoff_chance(kick_range: float, min_yards: float) -> float:
+	return clampf((kick_range - min_yards) / (kick_range * 0.2), 0.0, 1.0)
+
+
+## Chance of at least `need` successes from independent chances ps.
+static func _at_least(ps: Array, need: int) -> float:
+	var dp := [1.0]
+	for p in ps:
+		var nx := []
+		nx.resize(dp.size() + 1)
+		nx.fill(0.0)
+		for i in dp.size():
+			nx[i] += float(dp[i]) * (1.0 - float(p))
+			nx[i + 1] += float(dp[i]) * float(p)
+		dp = nx
+	var s := 0.0
+	for i in range(need, dp.size()):
+		s += float(dp[i])
+	return s
+
+
+## Season end: the chances for the challenges this season could hold (start,
+## end, or their mean), by quality and fitness.
+func _record_challenges(m: CareerManager, out: Dictionary) -> void:
+	if _fixed_make > 0.0:
+		return
+	var end_p := _challenge_probs(m)
+	var start_p: Dictionary = out.get("_chal_start", {})
+	for i in end_p:
+		var w: Array = CHAL_WHEN[str(_conv[i]["scenario"])]
+		for q in end_p[i]:
+			for f in FITNESS:
+				var e := float(end_p[i][q][f])
+				var sp: Dictionary = start_p.get(i, {})
+				var st := float((sp.get(q, end_p[i][q]) as Dictionary)[f])
+				var p := e if w[3] == "end" else (st if w[3] == "start" else (st + e) * 0.5)
+				var key := "%d|%s|%s" % [i, q, f]
+				var a: Array = _chal.get(key, [0.0, 0])
+				a[0] += p
+				a[1] += 1
+				_chal[key] = a
+
+
+func _challenge_sections() -> PackedStringArray:
+	var L := PackedStringArray()
+	if _chal.is_empty():
+		return L
+	L.append("## Kick challenges: pass chance by kicker quality")
+	L.append("")
+	L.append("Each kicker the simulator meets at that point in a career, copied at an expected game FG% of "
+		+ "60/70/80/90 (Accuracy and Resilience set; same age, Power, range and stage), normal fitness (life "
+		+ "stats at the start values). Wind: half the max. Kickoffs: a stand-in model (80-100% of the "
+		+ "kickoff range). Last column: the 75% kicker (mean of 70% and 80%) at normal fitness / tired "
+		+ "(Energy 25) / heavy legs / injured.")
+	L.append("")
+	L.append("| Challenge | 60% | 70% | 80% | 90% | 75%: normal / tired / heavy legs / injured |")
+	L.append("|---|---|---|---|---|---|")
+	for i in _conv.size():
+		var kc: Dictionary = _conv[i]["replace"]["kick_challenge"]
+		var row := "| %s (%s) |" % [_conv[i]["scenario"], kc.get("title", "")]
+		for q in QUALITIES:
+			row += " %s |" % _chal_cell(i, q, "normal")
+		var fit := PackedStringArray()
+		for f in FITNESS:
+			fit.append(_chal_mid(i, f))
+		row += " %s |" % " / ".join(fit)
+		L.append(row)
+	L.append("")
+	return L
+
+
+## The 75% kicker: the mean of the 70% and 80% copies.
+func _chal_mid(i: int, f: String) -> String:
+	var a: Array = _chal.get("%d|%s|%s" % [i, 0.7, f], [0.0, 0])
+	var b: Array = _chal.get("%d|%s|%s" % [i, 0.8, f], [0.0, 0])
+	if int(a[1]) == 0 or int(b[1]) == 0:
+		return "-"
+	return "%d%%" % roundi(50.0 * (float(a[0]) / int(a[1]) + float(b[0]) / int(b[1])))
+
+
+func _chal_cell(i: int, q: float, f: String) -> String:
+	var a: Array = _chal.get("%d|%s|%s" % [i, q, f], [0.0, 0])
+	if int(a[1]) == 0:
+		return "-"
+	return "%d%% (n=%d)" % [roundi(100.0 * float(a[0]) / int(a[1])), int(a[1])]
 
 
 ## Step 4 sections: spending styles, the 70-yard leg, slumps by kicker quality,

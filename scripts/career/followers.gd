@@ -29,6 +29,14 @@ const SP_TIER := "Follower milestone"
 const SP_DEAL := "Brand deal"
 const DEAL_KINDS := ["sp", "range", "fun"]
 
+## Dev hooks for the balance simulator (never set in the game):
+## effects_off: followers still count, but give nothing (tier rewards, weekly
+## Fun / Social, progress bonus, salary, fan pressure, deals).
+static var effects_off := false
+## Extra buzz on every scenario choice, standing in for the story session's
+## followers / conduct tags until they exist (estimates only).
+static var sim_choice_buzz := 0.0
+
 
 # --- counts and tiers ----------------------------------------------------------------
 
@@ -172,6 +180,8 @@ static func _check_tier(c: CareerData, t: CareerTuning) -> void:
 	if now <= best:
 		return
 	c.social["best_tier"] = now
+	if effects_off:
+		return
 	var sp := 0
 	for i in now - best:
 		sp += t.tier_up_sp
@@ -279,6 +289,8 @@ static func from_game(c: CareerData, kicks: Array, range: float, rng: RandomNumb
 ## Returns the change.
 static func from_choice(c: CareerData, ch: Dictionary, t: CareerTuning) -> int:
 	var total := 0
+	if sim_choice_buzz != 0.0 and ch.has("label"):
+		total += gain(c, sim_choice_buzz, "Choices (estimate)", t)
 	var buzz := choice_buzz(ch, t)
 	if not is_zero_approx(buzz):
 		total += gain(c, buzz, "Choices", t)
@@ -286,7 +298,7 @@ static func from_choice(c: CareerData, ch: Dictionary, t: CareerTuning) -> int:
 		total += add(c, int(ch["followers_exact"]), "Choices", t)
 	if str(ch.get("conduct", "")) == "scandal":
 		end_deals(c, "scandal")
-	if ch.get("deal") is Dictionary:
+	if ch.get("deal") is Dictionary and not effects_off:
 		add_deal(c, ch["deal"], t)
 	return total
 
@@ -372,6 +384,9 @@ static func end_week(c: CareerData, t: CareerTuning) -> Dictionary:
 	var buzz := 0.0
 	for e in week_lines(c):
 		buzz += float(e.get("buzz", 0.0))
+	if effects_off:
+		c.social["week"] = []
+		return ch
 	if buzz >= t.buzz_week_good:
 		ch["fun"] = float(ch.get("fun", 0.0)) + t.followers_week_fun
 		ch["social"] = float(ch.get("social", 0.0)) + t.followers_week_social
@@ -398,7 +413,11 @@ static func season_end(c: CareerData, t: CareerTuning) -> Dictionary:
 
 ## Recruiting / draft / retention points from your following (small, capped).
 static func progress_bonus(c: CareerData, t: CareerTuning) -> float:
-	return minf(maxf(tier(c, t) - 1, 0) * t.followers_progress_per_tier, t.followers_progress_cap)
+	if effects_off:
+		return 0.0
+	var cap := t.followers_standing_cap if c.stage in [CareerData.STAGE_PRO, CareerData.STAGE_FREE_AGENT] \
+		else t.followers_progress_cap
+	return minf(maxf(tier(c, t) - 1, 0) * t.followers_progress_per_tier, cap)
 
 
 ## A new season: deals count down, the season's numbers start over.
@@ -421,11 +440,15 @@ static func salary(c: CareerData, base: int, t: CareerTuning) -> int:
 
 
 static func salary_bonus(c: CareerData, t: CareerTuning) -> float:
+	if effects_off:
+		return 0.0
 	return minf(tier(c, t) * t.followers_salary_per_tier, t.followers_salary_cap)
 
 
 ## Fans are watching: extra pressure on kicks in a close 4th quarter.
 static func fan_pressure(c: CareerData, t: CareerTuning) -> float:
+	if effects_off:
+		return 0.0
 	return minf(maxf(tier(c, t) - RISING_STAR, 0) * t.fan_pressure_per_tier, t.fan_pressure_cap)
 
 
