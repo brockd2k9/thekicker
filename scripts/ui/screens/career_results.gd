@@ -103,6 +103,15 @@ func _build(col: VBoxContainer) -> void:
 		if c.skill_points > 0:
 			list.add_child(UiKit.button("Spend in Skills", Screens.go.bind(Screens.CAREER_SKILLS),
 				UiKit.SECONDARY, "skill"))
+	# Followers this week (real counts) and where they came from.
+	var fl := CareerUi.followers_lines(c)
+	if not fl.is_empty():
+		list.add_child(UiKit.section("FOLLOWERS"))
+		list.add_child(UiKit.stat_row(str(fl[0]), "%s  ·  %s" % [Followers.short(c.followers),
+			Followers.tier_name(Followers.tier(c, career.tuning))],
+			UiKit.GOOD if Followers.week_total(c) >= 0 else UiKit.BAD, "social"))
+		if str(fl[1]) != "":
+			list.add_child(UiKit.label(str(fl[1]), 22, UiKit.MUTED))
 	list.add_child(UiKit.label("Recovery is added when you continue.", 22, UiKit.MUTED))
 	list.add_child(UiKit.section("SEASON"))
 	var s := c.season_stats

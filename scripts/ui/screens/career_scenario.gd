@@ -53,6 +53,9 @@ func _build(col: VBoxContainer) -> void:
 		var sp := roundi(float(ch.get("skill_points", 0)) * career.tuning.sp_scenario_scale)
 		if sp != 0:
 			v.add_child(UiKit.chip("%+d Skill Points" % sp, UiKit.ACCENT if sp > 0 else UiKit.BAD, false, "skill", 22))
+		var fans := Followers.choice_preview(c, ch, career.tuning)
+		if fans != 0:
+			v.add_child(_followers_chip(fans))
 		if ch.get("rel") is Dictionary and not (ch["rel"] as Dictionary).is_empty():
 			v.add_child(CareerUi.rel_chips(c, ch["rel"]))
 		var mods: Array = ch.get("modifiers", [])
@@ -97,6 +100,8 @@ func _pick(index: int) -> void:
 	if n > 0:
 		v.add_child(bars)
 		UiKit.feedback(&"stat_up")
+	if int(out.get("followers", 0)) != 0:
+		v.add_child(_followers_chip(int(out["followers"])))
 	if not (out.get("relationships", {}) as Dictionary).is_empty():
 		v.add_child(CareerUi.rel_chips(c, out["relationships"]))
 	if not out.get("modifiers", []).is_empty():
@@ -112,6 +117,11 @@ func _pick(index: int) -> void:
 
 
 ## "NEW TRAIT" card that pops in with a glow (also used by Results).
+static func _followers_chip(n: int) -> PanelContainer:
+	return UiKit.chip(Followers.change_text(n), UiKit.group_color("personality") if n > 0 else UiKit.BAD, false,
+		"social", 22)
+
+
 static func trait_unlock_card(id: String) -> PanelContainer:
 	var def := CareerContent.trait_def(id)
 	var p := PanelContainer.new()

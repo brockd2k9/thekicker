@@ -52,6 +52,9 @@ func _aging_rows(list: VBoxContainer) -> void:
 	var t := career.tuning
 	list.add_child(UiKit.stat_row("Skill points this season", "%d earned  ·  %d to spend" % [c.sp_season, c.skill_points],
 		UiKit.ACCENT, "skill"))
+	var fg := int(c.social.get("season_gain", 0))
+	list.add_child(UiKit.stat_row("Followers this season", "%s%s  ·  %s total" % ["+" if fg >= 0 else "-",
+		Followers.short(absi(fg)), Followers.short(c.followers)], UiKit.group_color("personality"), "social"))
 	var bw := Bench.season_weeks(c)
 	if bw > 0:
 		list.add_child(UiKit.stat_row("Benched", "%d week%s" % [bw, "" if bw == 1 else "s"], UiKit.BAD, "whistle"))

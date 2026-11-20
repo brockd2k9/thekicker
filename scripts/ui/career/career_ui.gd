@@ -489,6 +489,27 @@ static func sp_lines(c: CareerData) -> Array:
 	return out
 
 
+# --- followers ---------------------------------------------------------------------------
+
+## "2.4K followers  ·  Hometown Hero" chip (Hub).
+static func followers_chip(c: CareerData, t: CareerTuning) -> PanelContainer:
+	return UiKit.chip("%s followers  ·  %s" % [Followers.short(c.followers), Followers.tier_name(Followers.tier(c, t))],
+		UiKit.group_color("personality"), false, "social", 22)
+
+
+## This week's followers for Results: ["+120 followers", "Game winner +80, ..."], or [].
+static func followers_lines(c: CareerData) -> Array:
+	var lines := Followers.week_lines(c)
+	if lines.is_empty():
+		return []
+	var parts := PackedStringArray()
+	for e in lines:
+		var n := int(e.get("n", 0))
+		if n != 0:
+			parts.append("%s %s%s" % [e.get("text", ""), "+" if n > 0 else "-", Followers.short(absi(n))])
+	return [Followers.change_text(Followers.week_total(c)), ", ".join(parts)]
+
+
 # --- benching ----------------------------------------------------------------------------
 
 ## The bench banner for the Hub and the Outlook (null when there's nothing to

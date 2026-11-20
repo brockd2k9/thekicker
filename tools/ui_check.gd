@@ -173,6 +173,7 @@ func _capture_all() -> void:
 		c.former_people.append({"id": "coach", "name": "Coach Castellano", "value": 72.0,
 			"stage": "high_school", "role": "Head Coach"}))
 	await _bench_shots()
+	await _followers_shots()
 	await _shot("debug", Screens.CAREER_DEBUG)
 	await _shot("challenge", Screens.CHALLENGE, Callable(), Callable(), 2.0)
 	if _want("pause"):
@@ -209,6 +210,48 @@ func _capture_all() -> void:
 	if c.phase == CareerManager.PHASE_CONTRACT:
 		_m.retire("chose")
 	await _shot("retired", Screens.CAREER_RETIRED)
+
+
+## Followers: the Hub chip and a viral notice, Results lines, the Stats
+## section (with a brand deal), fans watching on the Outlook, and a scenario
+## card with a followers chip and a tier-locked choice.
+func _followers_shots() -> void:
+	var c := _m.data
+	var t := _m.tuning
+	var keep := {"followers": c.followers, "social": c.social.duplicate(true), "phase": c.phase,
+		"notice": c.notice, "pending": c.pending_scenarios.duplicate()}
+	c.notice = ""
+	Followers.add(c, 6400 - c.followers, "Choices", t)
+	Followers.add_deal(c, {"id": "ridgeline_sports", "name": "Ridgeline Sports", "kind": "range", "value": 1.0}, t)
+	var r := RandomNumberGenerator.new()
+	var tt: CareerTuning = t.duplicate()
+	tt.viral_chance_game_winner = 1.0
+	Followers.from_game(c, [{"kind": "fg", "made": true, "yards": 47, "pressure": 1.0,
+		"label": "4Q 0:04 - DOWN 2 - GAME WINNER"}, {"kind": "fg", "made": true, "yards": 31}], 48.0, r, tt)
+	c.phase = CareerManager.PHASE_WEEK_START
+	await _shot("hub_followers", Screens.CAREER_HUB)
+	c.phase = CareerManager.PHASE_RESULTS
+	await _shot("results_followers", Screens.CAREER_RESULTS)
+	await _shot("stats_followers", Screens.CAREER_STATS)
+	c.followers = 120000
+	c.phase = CareerManager.PHASE_OUTLOOK
+	await _shot("outlook_fans", Screens.CAREER_OUTLOOK)
+	c.followers = 6400
+	if _want("scenario_followers"):
+		var s := CareerContent.scenario("hs_showcase")
+		var keep_ch: Array = (s.get("choices", []) as Array).duplicate(true)
+		s["choices"][1]["followers"] = 3
+		s["choices"][2]["conduct"] = "good"
+		s["choices"][0]["requires"] = {"followers_tier": "campus_celebrity"}
+		c.pending_scenarios = ["hs_showcase"]
+		c.phase = CareerManager.PHASE_SCENARIO
+		await _shot("scenario_followers", Screens.CAREER_SCENARIO)
+		s["choices"] = keep_ch
+	c.followers = keep["followers"]
+	c.social = keep["social"]
+	c.phase = keep["phase"]
+	c.notice = keep["notice"]
+	c.pending_scenarios = keep["pending"]
 
 
 ## Plays the career forward with the real rules until `done` (or it retires).

@@ -42,6 +42,10 @@ func _build(col: VBoxContainer) -> void:
 	if not c.coach_doubt.is_empty():
 		list.add_child(CareerUi.outlook_line({"label": "%s has lost faith" % Relationships.name_of(c, "coach"),
 			"detail": "fewer, shorter field goals (%s)" % str(c.coach_doubt.get("reason", "")), "good": false}, 26))
+	var fans := Followers.fan_pressure(c, career.tuning)
+	if fans > 0.0:
+		list.add_child(CareerUi.outlook_line({"label": "Fans are watching",
+			"detail": "%s followers: +pressure in a close 4th quarter" % Followers.short(c.followers), "good": false}, 26))
 	list.add_child(UiKit.section("Your leg today"))
 	var fg := p.max_range_yards(kt)
 	var base := floori(p.fg_range_base + 0.001)

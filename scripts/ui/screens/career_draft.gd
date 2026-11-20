@@ -30,6 +30,7 @@ func _build(col: VBoxContainer) -> void:
 			list.add_child(_stripe_panel(team, "ROUND %d" % int(d["round"]),
 				"The %s select %s!" % [team.get("name", ""), c.display_name()]))
 			var k := Progression.contract(str(d["team"]), "drafted", int(d["round"]))
+			k["salary"] = Followers.salary(c, int(k["salary"]), career.tuning)
 			list.add_child(UiKit.stat_row("Rookie contract", "%d years" % int(k["years_left"]), UiKit.ACCENT))
 			list.add_child(UiKit.stat_row("Salary", "%s / season" % Progression.money(int(k["salary"]))))
 			col.add_child(UiKit.button("Sign Your Contract", func() -> void:

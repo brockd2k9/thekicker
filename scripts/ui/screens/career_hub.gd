@@ -250,6 +250,7 @@ func _status_line() -> HFlowContainer:
 				c.retention_score if c.season_in_stage > 1 else 50.0, t), UiKit.MUTED, false, "", 22))
 		_:
 			f.add_child(UiKit.chip(career.stage_name(), UiKit.MUTED, false, "", 22))
+	f.add_child(CareerUi.followers_chip(c, t))
 	return f
 
 
