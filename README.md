@@ -243,6 +243,16 @@ original SVG markup rasterized at runtime) are drawn from code.
   continuous animation is the main menu ticker when its text doesn't fit.
 - Font licenses: `CREDITS.md` (all SIL Open Font License).
 
+**Score bug (career games):** `scenes/ui/scoreboard.tscn` (`Scoreboard`) is an early-2000s TV score bug
+for the fictional **GRIDCAST** network: a quarter / clock tab, the network block, away and home rows
+(team abbreviation, score, a gold marker for the team with the ball) and a strip with your game line
+(FG, XP, long, points). Chrome and glass panels are drawn in code (`Scoreboard.GlossPanel`). It reads a
+`ScoreBugState` (`scripts/ui/score_bug_state.gd`) through signals, never polling; the career game screen
+owns one state, set from every `GameSim` event (score, clock, `possession`), and both the bench screen's
+bug and the one over the kick scene bind to it. A kick updates the score and strip the moment it is
+judged; changes flash. In the kick scene the HUD keeps the top clear for it
+(`Hud.make_room_for_score_bug`). Abbreviations: each team's `short` field, or one made from its name.
+
 **Layout checker:** `tools/ui_check.tscn` opens every screen in a real state (it plays a
 career forward with the real rules) and checks tap targets (>= 88 px), cut-off text and
 anything off screen. Run it at the four window shapes (needs a window, not `--headless`;
