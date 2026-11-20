@@ -259,6 +259,13 @@ func _play_career(strat: String, n: int) -> Dictionary:
 		return [str(h.get("stage", "")), int(h.get("season_in_stage", 1)), int(h.get("followers", 0))])
 	out["fans_peak"] = maxi(int(c.social.get("peak", 0)), c.followers)
 	out["virals"] = int(c.social.get("virals", 0))
+	var pm := 0
+	var pa := 0
+	for h in c.history:
+		if str(h.get("stage", "")) == CareerData.STAGE_PRO:
+			pm += int(h.get("stats", {}).get("fg_made", 0))
+			pa += int(h.get("stats", {}).get("fg_att", 0))
+	out["pro_fg"] = float(pm) / pa if pa > 0 else -1.0
 	out["rep_end"] = Reputation.state(c)
 	out["suspensions"] = c.suspensions_total
 	out["fg_pct"] = float(c.career_totals.get("fg_made", 0)) / maxf(float(c.career_totals.get("fg_att", 0)), 1.0)
@@ -1127,6 +1134,11 @@ func _age_section(all: Array) -> PackedStringArray:
 			_avgf(rs.map(func(r): return int(r["pro_seasons"])))]
 		L.append(row)
 	L.append("")
+	L.append("Pro FG%% (mean): all pro careers %.1f%%, preserving %.1f%%. How pro careers end: %s." % [
+		100.0 * _avgf(pros.filter(func(r): return float(r.get("pro_fg", -1)) >= 0.0).map(func(r): return float(r["pro_fg"]))),
+		100.0 * _avgf(pros.filter(func(r): return r["maint"] and float(r.get("pro_fg", -1)) >= 0.0).map(func(r): return float(r["pro_fg"]))),
+		_end_reasons(pros)])
+	L.append("")
 	var why := {}
 	for r in pros.filter(func(r): return int(r["retire_age"]) >= 36):
 		why[r["retire_reason"]] = int(why.get(r["retire_reason"], 0)) + 1
@@ -1134,6 +1146,15 @@ func _age_section(all: Array) -> PackedStringArray:
 		func(k): return "%s %d" % [k, why[k]]))))
 	L.append("")
 	return L
+
+
+static func _end_reasons(rs: Array) -> String:
+	var n := {}
+	for r in rs:
+		var e: Array = r["events"]
+		var k := "released" if "released" in e else ("not re-signed" if "not_resigned" in e else str(r["retire_reason"]))
+		n[k] = int(n.get(k, 0)) + 1
+	return ", ".join(PackedStringArray(n.keys().map(func(k): return "%s %s" % [k, _pct(n[k], rs.size())])))
 
 
 ## Character reputation on draft day (Reputation): pro and draft rates for
