@@ -306,8 +306,8 @@ does the audition feel fair at your range.
 Rules: `scripts/career/followers.gd`; numbers: `career_tuning.tres` "Followers"; save version 7.
 
 Players only see real follower counts ("+120 followers", "2.4K followers", "Hometown Hero").
-Internally each event is worth some **buzz**, and the stage turns buzz into followers: 10 a buzz in
-high school, 40 at junior college, 120 at college, 600 as a free agent, 1,200 in the pros. Gains get
+Internally each event is worth some **buzz**, and the stage turns buzz into followers: 15 a buzz in
+high school, 60 at junior college, 200 at college, 750 as a free agent, 1,500 in the pros. Gains get
 up to +20% from Charisma. Followers never go below 0.
 
 | Event | Buzz | Event | Buzz |
@@ -329,8 +329,9 @@ up to +20% from Charisma. Followers never go below 0.
   Fan Favorite 500K, Household Name 2M. Scenarios: `requires.followers_tier` (this tier or higher),
   `requires.max_followers_tier` (this tier or lower), `min/max.followers` (a count).
 - **What followers give (small and capped):** the first time at a tier, +2 skill points (gear
-  sponsors) and Team +1; a week with 5+ buzz gained: Fun +1, Social +1 (5+ lost: Fun -2); at the end
-  of a season, recruiting / draft / standing +1 per tier above Hometown Hero (at most +3); new pro
+  sponsors) and Team +1; a week with 12+ buzz gained (a game winner, a viral moment): Fun +1, Social
+  +1 (8+ lost: Fun -2); at the end of a pro season, standing +0.5 per tier above Hometown Hero (at
+  most +1; the recruiting / draft bonus is off, see below); new pro
   contracts +2% salary per tier (at most +10%); "Fans are watching": +0.015 pressure per tier above
   Rising Star in a close 4th quarter (at most +0.06, shown on the Outlook). Followers' skill points
   (tiers and deals) are capped at 5 a season.
@@ -340,7 +341,102 @@ up to +20% from Charisma. Followers never go below 0.
 - **Old saves** start with: high school 100 + 150 per season played, junior college 1,000, college
   2,500 + 4,000 per season, pros 30,000 + 40,000 per pro season (no milestone rewards for that).
 
-Simulator report and tuning: stage 3 (to come).
+**Simulator (stage 3; 360 careers, seed 11, `tools/career_sim_baseline.md`).** Field only: no
+scenario choice has follower tags yet, so these come from kicks, seasons, viral moments, benching and
+the audition. "+1 tag" adds 1 buzz to every choice taken, an estimate of the story session's tags.
+Median (p10-p90):
+
+| | End of high school | End of college | Pro season 3 | Pro season 6 | Pro season 10 |
+|---|---|---|---|---|---|
+| Target | 2-5K | 30-100K | | 300K-2M+ | 300K-2M+ |
+| Field only (now) | 2,055 (1,440-2,579) | 26.3K (19.8K-34.8K) | 163K | 359K (275K-545K) | 599K |
+| +1 tag (estimate) | 3,116 (2,554-3,704) | 39.3K (32.5K-46.9K) | 259K | 533K (432K-782K) | 898K |
+| +2 tags (estimate) | 4,155 | 52.4K | 350K | 735K | 1.1M |
+
+Field-only college (26K) is under the 30K target **only because no choices carry followers yet**;
+with tags at about +1 a choice it sits mid-target. Household Name (2M) comes from long careers and
+virals: kickers at 90% reach 1.7M at their peak (median), 2M+ at the top.
+
+By kicker quality (simulator `make=P`, field only; 180 careers each):
+
+| Make chance | End of HS | End of college | Pro season 6 | Peak | Viral moments / career |
+|---|---|---|---|---|---|
+| 60% | 848 | 13.7K | 245K | 17.3K | 0.1 |
+| 70% | 1,440 | 21.5K | 375K | 286K | 0.4 |
+| 80% | 2,132 | 33.4K | 467K | 1.2M | 1.0 |
+| 90% | 3,064 | 49.3K | 636K | 1.7M | 1.3 |
+
+By spending style the medians differ by under 10% (end of college 25.3K-26.9K).
+
+Tiers (share of careers at or above the tier at the end of a season; how often a scenario gated at
+that tier can appear): Hometown Hero 38% after HS season 1, 97% after season 2; Rising Star 0% in
+high school, 90% after college season 1; Campus Celebrity 16% after college season 3, 59% after
+season 4, 99% after pro season 1; Verified 68% after pro season 2, 96% after season 3; Fan Favorite
+16% after pro season 5, 42% after season 8, all who reach season 10; Household Name 0% field only
+(it needs tags or virals). So: high school scenarios gated above Hometown Hero won't appear until
+tags exist; college Campus Celebrity scenarios fit seasons 3-4.
+
+**Effects on vs off** (`fans=0`; the per-run noise is about +/-3 points, so these pool several seeds):
+
+| Setting (followers on unless noted) | Careers | Pro | Drafted | vs off |
+|---|---|---|---|---|
+| Followers off (seeds 11-14) | 1,440 | 74.5% | 43.5% | |
+| Bonus +0.5 / tier cap 1, weekly Fun at 5 buzz (seeds 1-4, off: 76.5 / 43.5) | 720 | 79.8% | 50.0% | +3.3 / +6.5 |
+| Bonus cap 0.5, weekly Fun at 12 buzz (seeds 11-14) | 1,440 | 79.0% | 47.3% | +4.5 / +3.8 |
+| **No recruiting / draft bonus, weekly Fun at 12 buzz: final** (seeds 11-14) | 1,440 | 75.0% | 45.0% | **+0.5 / +1.5** |
+
+Turning off one effect at a time (seed 11) showed the recruiting / draft bonus is the whole
+difference; tier skill points, Team and the weekly Fun / Social barely move it. Even +0.5 recruiting / draft a season moved the draft rate 4-5 points (draft stock sits near the
+cut-off for many kickers), so that bonus is off before the pros; the pro standing bonus stays
+(+0.5 a tier, at most +1) because it doesn't change who reaches the pros.
+
+**Not from followers:** even with followers off, the game now reaches the pros about 75% of the time
+and the draft about 44% (the benching stage measured 69% / 32%). The simulator at the commit before
+PR #11 shows the same (72% / 42%), so it came with content imported since (the story graph
+batches add recruiting and skill points). Worth a separate retune of the pro / draft targets.
+
+**Values changed (Followers):**
+
+| Value | Before | After | Why |
+|---|---|---|---|
+| `followers_per_buzz_hs` | 10 | 15 | end of HS 1.3K -> 2.1K field only (3.1K with tags) |
+| `followers_per_buzz_juco` | 40 | 60 | in step with high school / college |
+| `followers_per_buzz_college` | 120 | 200 | end of college 15K -> 26K field only (39K with tags) |
+| `followers_per_buzz_free_agent` | 600 | 750 | half the pro rate |
+| `followers_per_buzz_pro` | 1,200 | 1,500 | pro season 6: 280K -> 360K field only (530K with tags) |
+| `buzz_week_good` / `buzz_week_bad` | 5 / -5 | 12 / -8 | ordinary games were reaching 5 nearly every week: now only a big week |
+| `followers_progress_per_tier` | 1.0 | 0.5 | |
+| `followers_progress_cap` | 3.0 | 0.0 | the draft rate (see above) |
+| `followers_standing_cap` (new) | - | 1.0 | pros only |
+
+## Kick challenge tuning
+
+The simulator plays each proposed conversion (`tests/fixtures/kick_challenge_conversions.json`) for
+every kicker it meets at that point in a career, copied at 60/70/80/90% expected field goals
+(Accuracy and Resilience set; same age, Power, range and stage). The make model is the simulator's
+stand-in for real swipes; kickoffs carry 80-100% of the kickoff range; fitness also costs aim (an
+estimate). 60% kickers can't be built in high school (the model's floor is higher) and 90% rarely.
+
+| Challenge | Before (stage 2 proposal) | After | 70% kicker before -> after | 80% before -> after | 75%: tired / heavy legs / injured |
+|---|---|---|---|---|---|
+| hs_showcase | 30-45, need 3, medium | 25-36, need 3, medium | 60% -> 85% | 83% -> 95% | 87 / 89 / 87% (normal 90%) |
+| hs_scholarship_camp (big) | 35-50, need 3, high | 26-39, need 3, medium | 40% -> 81% | 72% -> 93% | 84 / 86 / 84% (87%) |
+| hs_scholarship_camp (regional) | 28-38, need 2 of 4, low | 25-34, need 2 of 4, low | 92% -> 96% | 98% -> 99% | 97% |
+| HS_040 (always heavy legs) | 30-43, need 3, medium | 25-35, need 3, medium | 64% -> 85%* | 85% -> 95%* | 87 / 89 / 87% |
+| HS_121 | 33-47, need 3, medium | 25-38, need 3, medium | 56% -> 83% | 81% -> 94% | 86 / 88 / 86% (89%) |
+| HS_016 | 25-34, need 2 of 4, low | 22-31, need 2 of 4, low | 95% -> 98% | 98% -> 99% | 98% |
+| hs_kicker_battle | 30-45, need 3, medium | 24-36, need 3, medium | 59% -> 85% | 82% -> 95% | 87 / 89 / 87% (90%) |
+| col_walkon_battle | 35-47, need 3, high | 28-41, need 3, medium | 63% -> 82% | 86% -> 94% | 85 / 87 / 85% (88%) |
+| col_combine_invite | 38-52 + 2 kickoffs 65+, need 4 of 7, high | 33-46 + 2 kickoffs 58+, need 4 of 7, medium | 45% -> 82% | 68% -> 93% | 82 / 82 / 81% (88%) |
+
+\* HS_040 applies heavy legs when chosen, so its "heavy legs" column is the real number (89%).
+
+Targets: average kicker (70-80%) at least 80% on every challenge: met (the 70% kicker 81-98%).
+Weak kickers (60%, college only) 68%, above the 50% floor. Tired / injured: 2-7 points lower.
+**Strong kickers: 93-99% at 80%, 98-100% at 90%.** The 80% kicker reaching 98% everywhere would
+need distances short enough that the 70% kicker passes 92%+, which makes the challenges close to
+automatic; I kept a little risk instead. Exact edits for the story session:
+`docs/kick_challenge_tuning_edits.json` (also: two pass results that named a distance).
 
 ## Kick challenges
 

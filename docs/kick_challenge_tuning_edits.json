@@ -1,0 +1,238 @@
+{
+	"_about": "Tuned kick_challenge values (gameplay session, simulator stage 3). For each choice, set these keys inside its kick_challenge block (replace the whole value). 'was' is the proposed value from the stage 2 handoff. The full tuned choices are in tests/fixtures/kick_challenge_conversions.json. Result texts that mention a distance should match the new longest kick (see text_notes).",
+	"edits": [
+		{
+			"scenario": "hs_showcase",
+			"choice": 0,
+			"label": "Compete for a top ranking",
+			"kick_challenge_set": {
+				"distances": [
+					25,
+					28,
+					30,
+					33,
+					36
+				]
+			},
+			"was": {
+				"distances": [
+					30,
+					35,
+					38,
+					42,
+					45
+				]
+			}
+		},
+		{
+			"scenario": "hs_scholarship_camp",
+			"choice": 0,
+			"label": "The big showcase camp",
+			"kick_challenge_set": {
+				"distances": [
+					26,
+					30,
+					33,
+					36,
+					39
+				],
+				"pressure": "medium"
+			},
+			"was": {
+				"distances": [
+					35,
+					40,
+					44,
+					48,
+					50
+				],
+				"pressure": "high"
+			}
+		},
+		{
+			"scenario": "hs_scholarship_camp",
+			"choice": 1,
+			"label": "A smaller regional camp",
+			"kick_challenge_set": {
+				"distances": [
+					25,
+					28,
+					31,
+					34
+				]
+			},
+			"was": {
+				"distances": [
+					28,
+					32,
+					35,
+					38
+				]
+			}
+		},
+		{
+			"scenario": "HS_040",
+			"choice": 0,
+			"label": "Enter and compete",
+			"kick_challenge_set": {
+				"distances": [
+					25,
+					28,
+					30,
+					33,
+					35
+				]
+			},
+			"was": {
+				"distances": [
+					30,
+					33,
+					36,
+					40,
+					43
+				]
+			}
+		},
+		{
+			"scenario": "HS_121",
+			"choice": 0,
+			"label": "Go where they want you",
+			"kick_challenge_set": {
+				"distances": [
+					25,
+					29,
+					32,
+					35,
+					38
+				]
+			},
+			"was": {
+				"distances": [
+					33,
+					37,
+					40,
+					44,
+					47
+				]
+			}
+		},
+		{
+			"scenario": "HS_016",
+			"choice": 0,
+			"label": "Ask your family to help pay",
+			"kick_challenge_set": {
+				"distances": [
+					22,
+					25,
+					28,
+					31
+				]
+			},
+			"was": {
+				"distances": [
+					25,
+					28,
+					31,
+					34
+				]
+			}
+		},
+		{
+			"scenario": "hs_kicker_battle",
+			"choice": 0,
+			"label": "Win it in practice",
+			"kick_challenge_set": {
+				"distances": [
+					24,
+					27,
+					30,
+					33,
+					36
+				]
+			},
+			"was": {
+				"distances": [
+					30,
+					34,
+					38,
+					41,
+					45
+				]
+			}
+		},
+		{
+			"scenario": "col_walkon_battle",
+			"choice": 0,
+			"label": "Outkick the scholarship guy",
+			"kick_challenge_set": {
+				"distances": [
+					28,
+					32,
+					35,
+					38,
+					41
+				],
+				"pressure": "medium"
+			},
+			"was": {
+				"distances": [
+					35,
+					38,
+					41,
+					44,
+					47
+				],
+				"pressure": "high"
+			}
+		},
+		{
+			"scenario": "col_combine_invite",
+			"choice": 0,
+			"label": "Kick for the scouts",
+			"kick_challenge_set": {
+				"distances": [
+					33,
+					37,
+					40,
+					43,
+					46
+				],
+				"pressure": "medium",
+				"kickoffs": {
+					"count": 2,
+					"min_yards": 58
+				}
+			},
+			"was": {
+				"distances": [
+					38,
+					42,
+					45,
+					48,
+					52
+				],
+				"pressure": "high",
+				"kickoffs": {
+					"count": 2,
+					"min_yards": 65
+				}
+			}
+		}
+	],
+	"text_notes": [
+		{
+			"scenario": "hs_scholarship_camp",
+			"choice": 0,
+			"field": "kick_challenge.on_pass.result",
+			"now": "You hit from 50 in front of a dozen coaches.",
+			"note": "the longest kick is now 39 yards: the fixture now uses 'You drill everything inside 40 in front of a dozen coaches.'"
+		},
+		{
+			"scenario": "hs_kicker_battle",
+			"choice": 0,
+			"field": "kick_challenge.on_pass.result",
+			"now": "You outkick him from 45. The job is yours.",
+			"note": "the longest kick is now 36 yards: the fixture now uses 'You outkick him from every spot. The job is yours.'"
+		}
+	]
+}

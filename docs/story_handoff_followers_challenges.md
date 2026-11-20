@@ -94,7 +94,7 @@ table above.
 | `need` | 1..(field goals + kickoffs). **Kickoffs count toward `need`.** |
 | `pressure` | `low` / `medium` / `high` (now 0.2 / 0.35 / 0.5; it also builds 0.08 a kick). Default `medium`. |
 | `wind` | `calm` / `breezy` / `windy` (now max 3 / 8 / 14 mph). Default `breezy`. |
-| `kickoffs` | optional: `count` 0-3, `min_yards`. A kickoff counts as made if it carries `min_yards` or lands deep / for a touchback. Use for combines only. |
+| `kickoffs` | optional: `count` 0-3, `min_yards`. A kickoff counts as made if it carries `min_yards` or goes for a touchback. Use for combines only. |
 | `on_pass`, `on_fail` | both required, each with a `result` |
 
 There is no `weather` field (it was in the proposal but isn't built). Ask if you need it.
@@ -127,27 +127,36 @@ error.
 
 | Stage | Distances | Need |
 |---|---|---|
-| High school | 25-45 | 3 of 5 (2 of 4 for an easy camp) |
-| College | 32-50 | 3 of 5 |
-| Pro | 38-55 | 3 of 5 |
+| High school | 22-39 | 3 of 5 (2 of 4 for an easy camp), pressure medium (low for easy camps) |
+| College | 28-46 | 3 of 5, medium |
+| Pro | 35-52 (a guess: no pro challenges were simulated yet) | 3 of 5, medium |
+
+These keep an average kicker (70-80% field goals) at 80%+ on every challenge in the simulator,
+a strong one at about 95-100%, and a weak one above 50% on the easy camps. Longer kicks or "high"
+pressure drop the average kicker under 80%.
 
 ## 4. `followers` vs `followers_exact` (what the writer enters, what the player sees)
 
-Followers per point of `followers`, now: high school 10, junior college 40, college 120, free agent 600, pros
-1,200. A gain is shown with up to +20% from Charisma, so these are the lowest values; losses aren't
+Followers per point of `followers`, now (tuned in stage 3): high school 15, junior college 60, college
+200, free agent 750, pros 1,500. A gain is shown with up to +20% from Charisma, so these are the lowest values; losses aren't
 boosted.
 
 | Stage | The writer enters | The player sees |
 |---|---|---|
-| High school | `"followers": 1` (posts a training clip) | "+10 followers" |
-| High school | `"conduct": "good"` (helps a teammate find his playbook) | "+30 followers" |
+| High school | `"followers": 1` (posts a training clip) | "+15 followers" |
+| High school | `"conduct": "good"` (helps a teammate find his playbook) | "+45 followers" |
 | High school | `"followers_exact": 2000` (the crossbar clip blows up) | "+2,000 followers" |
-| College | `"followers": 2` (campus podcast guest) | "+240 followers" |
-| College | `"conduct": "bad"` (mocks a walk-on online) | "-480 followers" |
-| College | `"followers": 6` (charity kick-a-thon goes well) | "+720 followers" |
-| Pros | `"followers": 3` (autograph session) | "+3,600 followers" |
-| Pros | `"conduct": "scandal"` (a public fight) | "-18K followers", and sponsors drop the player |
+| College | `"followers": 2` (campus podcast guest) | "+400 followers" |
+| College | `"conduct": "bad"` (mocks a walk-on online) | "-800 followers" |
+| College | `"followers": 6` (charity kick-a-thon goes well) | "+1,200 followers" |
+| Pros | `"followers": 3` (autograph session) | "+4,500 followers" |
+| Pros | `"conduct": "scandal"` (a public fight) | "-22.5K followers", and sponsors drop the player |
 | Pros | `"followers_exact": 250000` (Super Bowl ad) | "+250K followers" |
+
+**How much to tag.** The simulator assumed tagged choices average about +1 per choice taken (most
+choices untagged, some good-conduct or posting choices at +2 to +4). With that, players end high
+school with about 3K followers, college with about 40K, and reach about 500K by their sixth pro
+season. Without any tags they end at about 2K / 26K / 360K (the low end of the targets).
 
 Use `followers` for nearly everything: it scales by stage, so the same choice text works wherever it
 appears. Use `followers_exact` only when the count itself is part of the story, and keep it believable
@@ -168,19 +177,22 @@ but never set", "set too late"), also read `kick_challenge.on_pass.set_flags` an
 ## 6. Conversions to apply
 
 Exact JSON for each is in `tests/fixtures/kick_challenge_conversions.json` (replace the whole choice).
+The values below are **tuned by the simulator** (stage 3); `docs/kick_challenge_tuning_edits.json`
+lists what changed from the stage 2 proposal. Two pass results that named a distance now match the
+shorter kicks (big showcase camp, kicker battle).
 The other choices in each scenario don't change.
 
 | Scenario | Choice | Challenge | Pass | Fail |
 |---|---|---|---|---|
-| `hs_showcase` | 0 "Compete for a top ranking" | showcase, 30-45, need 3, medium, breezy | today's rewards + followers 4 | +2 Recruiting, +1 SP |
-| `hs_scholarship_camp` | 0 "The big showcase camp" (`camp_showcase` stays at top level) | camp, 35-50, need 3, high | today's rewards + followers 5 | +3 Recruiting, +2 SP |
-| `hs_scholarship_camp` | 1 "A smaller regional camp" (`camp_regional` stays at top level) | camp, 28-38, need 2 of 4, low, calm | today's rewards | +2 Recruiting, +2 SP |
-| `HS_040` | 0 "Enter and compete" (`heavy_legs` at top level: tired legs) | showcase, 30-43, need 3 | +2 Recruiting, +2 SP, followers 3 | +1 Recruiting |
-| `HS_121` | 0 "Go where they want you" (`prioritized_recruiting_interest` **stays at top level**) | camp, 33-47, need 3 | +5 Recruiting, +3 SP, flag `camp_impressed` | +2 Recruiting, +2 SP |
-| `HS_016` | 0 "Ask your family to help pay" | camp, 25-34, need 2 of 4, low, calm | +2 Recruiting, +3 SP | +2 SP |
-| `hs_kicker_battle` | 0 "Win it in practice" | battle, 30-45, need 3 | today's rewards + Coach +3 | `stressed`, Coach -2, flag `lost_kicker_battle` |
-| `col_walkon_battle` | 0 "Outkick the scholarship guy" | battle, 35-47, need 3, high | today's rewards + Coach +4 | `stressed`, Coach -2, flag **`lost_walkon_battle`** (for a follow-up) |
-| `col_combine_invite` | 0, relabeled "Kick for the scouts" | combine, 38-52 + 2 kickoffs (65+ yd), need 4 of 7, high, calm | +6 Draft, +2 SP, followers 6 | +1 Draft, followers -1 |
+| `hs_showcase` | 0 "Compete for a top ranking" | showcase, 25-36, need 3, medium, breezy | today's rewards + followers 4 | +2 Recruiting, +1 SP |
+| `hs_scholarship_camp` | 0 "The big showcase camp" (`camp_showcase` stays at top level) | camp, 26-39, need 3, medium | today's rewards + followers 5 | +3 Recruiting, +2 SP |
+| `hs_scholarship_camp` | 1 "A smaller regional camp" (`camp_regional` stays at top level) | camp, 25-34, need 2 of 4, low, calm | today's rewards | +2 Recruiting, +2 SP |
+| `HS_040` | 0 "Enter and compete" (`heavy_legs` at top level: tired legs) | showcase, 25-35, need 3 | +2 Recruiting, +2 SP, followers 3 | +1 Recruiting |
+| `HS_121` | 0 "Go where they want you" (`prioritized_recruiting_interest` **stays at top level**) | camp, 25-38, need 3 | +5 Recruiting, +3 SP, flag `camp_impressed` | +2 Recruiting, +2 SP |
+| `HS_016` | 0 "Ask your family to help pay" | camp, 22-31, need 2 of 4, low, calm | +2 Recruiting, +3 SP | +2 SP |
+| `hs_kicker_battle` | 0 "Win it in practice" | battle, 24-36, need 3 | today's rewards + Coach +3 | `stressed`, Coach -2, flag `lost_kicker_battle` |
+| `col_walkon_battle` | 0 "Outkick the scholarship guy" | battle, 28-41, need 3, medium | today's rewards + Coach +4 | `stressed`, Coach -2, flag **`lost_walkon_battle`** (for a follow-up) |
+| `col_combine_invite` | 0, relabeled "Kick for the scouts" | combine, 33-46 + 2 kickoffs (58+ yd), need 4 of 7, medium, calm | +6 Draft, +2 SP, followers 6 | +1 Draft, followers -1 |
 
 Notes:
 - **Combine timing:** `col_combine_invite` happens in week 9, but the combine is after the season.
@@ -217,7 +229,7 @@ followers open choices rather than hand out free rewards.
 | **Podcast guest** (campus or local sports podcast) | college, pros | `followers_tier: rising_star` (college); `verified` (pros) | `followers` 2-4; a risky choice (hot take) with `conduct: "bad"` or Coach -2 |
 | **Brand deal / NIL deal** (local sporting-goods shop, then a national brand) | HS (local), college (NIL), pros | `rising_star` (HS); `campus_celebrity` (college); `verified` (pros) | `deal` (kind `range`, `sp` or `fun`); a choice to turn it down to stay focused (+Coach) |
 | **Awards show** | pros | `followers_tier: fan_favorite` | `followers` 4-6; Fun +, Energy -; a choice to skip it for training (+SP) |
-| **Pro Bowl skills contest** (longest field goal) | pros | `followers_tier: fan_favorite` | `kick_challenge` kind `competition`, `[45, 50, 53, 55, 58]`, need 2, high, windy; pass `followers` 8; fail mild |
+| **Pro Bowl skills contest** (longest field goal) | pros | `followers_tier: fan_favorite` | `kick_challenge` kind `competition`, `[40, 44, 47, 50, 53]`, need 2, medium, breezy (a long-kick contest, so 2 of 5); pass `followers` 8; fail mild |
 | Charity kick-a-thon (optional) | college | `followers_tier: campus_celebrity` | `kick_challenge` kind `competition`, easy; `conduct: "good"` at top level |
 | "Nobody knows you yet" (optional) | HS | `max_followers_tier: local` | a first-post scenario |
 
