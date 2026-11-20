@@ -1,5 +1,5 @@
 {
-  "_about": "Batch 5: sequels opened by flags from batches 1-4. Every scenario can be reached from something already written, but several can ALSO be reached from scenarios not written yet, so keep the text general where noted. Every flag in _info.must_set_flags must be set by some choice; where there are none, set no flags. Callbacks: HS_094 <- HS_003 'Step in and help him find it' (you stood up for a freshman whose gear upperclassmen hid); he's in your class and still remembers it. HS_046 <- HS_030 'Offer to work through it' (you helped {tyler} reset after a rough practice as sophomores; mutual respect). HS_153 <- HS_107 (volunteered a full morning setting up a youth sports field) or HS_134 (the league thanked you) or a summer job (not written yet): keep it about someone in the community who has seen your work. HS_156 <- mentoring a younger student (HS_126), owning an old group chat (HS_139), volunteering (HS_107), or team leadership (not written yet): keep it about a younger athlete who has noticed how you carry yourself, without naming one moment. HS_147 <- HS_005, where {tyler} became either a training partner OR a hostile rival: the text must work for both. You've won the starting job over him. HS_092 <- HS_005 hostile rivalry: {tyler} has been your rival since freshman year; senior year, weeks 8-10. HS_159 <- holder trust (HS_145) OR team leadership or coach confidence (not written yet): the last practice of senior year with {coach} and {holder}; don't assume which path led here. Pronouns: {tyler} and {parent} are male; never he/she for {holder}, {best_friend}, {coach}, {teacher}, {love_interest}. Scenarios happen off the field: never describe a game kick or its result.",
+  "_about": "Batch 5: sequels opened by flags from batches 1-4. Every scenario can be reached from something already written, but several can ALSO be reached from scenarios not written yet, so keep the text general where noted. Callbacks: HS_094 <- HS_003 'Step in and help him find it' (you stood up for a freshman whose gear upperclassmen hid); he's in your class and still remembers it. HS_046 <- HS_030 'Offer to work through it' (you helped {tyler} reset after a rough practice as sophomores; mutual respect). HS_153 (junior or senior year) <- HS_107 (volunteered a full morning setting up a youth sports field) or HS_134 (the league thanked you) or a summer job (not written yet): keep it about someone in the community who has seen your work. HS_156 (junior or senior year) <- mentoring a younger student (HS_126), owning an old group chat (HS_139), volunteering (HS_107), or team leadership (not written yet): keep it about a younger athlete who has noticed how you carry yourself, without naming one moment. HS_147 <- HS_005, where {tyler} became either a training partner OR a hostile rival: the text must work for both. You've won the starting job over him. HS_092 <- HS_005 hostile rivalry: {tyler} has been your rival since freshman year; senior year, weeks 8-10. HS_159 <- holder trust (HS_145) OR team leadership or coach confidence (not written yet): the last practice of senior year with {coach} and {holder}; don't assume which path led here. Pronouns: {tyler} and {parent} are male; never he/she for {holder}, {best_friend}, {coach}, {teacher}, {love_interest}. Scenarios happen off the field: never describe a game kick or its result.",
   "_how": "Fill in category, text and choices; leave _info alone (it's read-only). See tools/authoring/WRITING_GUIDE.md. Import: python3 tools/import_scenarios.py <this file> --dry-run",
   "scenarios": [
     {
@@ -7,56 +7,46 @@
       "title": "The Teammate Who Remembers",
       "_info": {
         "when": "seasons 2-4 (Sophomore to Senior), any week",
-        "requires": {
-          "any_flags": [
-            "helped_freshman"
-          ]
-        },
-        "unlocked_by": [
-          {
-            "from": "HS_003",
-            "flag": "helped_freshman",
-            "type": "unlock"
-          }
-        ]
+        "requires": {"any_flags": ["helped_freshman"]},
+        "unlocked_by": [{"from": "HS_003", "flag": "helped_freshman", "type": "unlock"}]
       },
-      "category": "",
-      "text": "",
+      "category": "social",
+      "text": "A classmate you stood up for as a freshman recognizes you in the hallway. He says he still remembers that you helped when older students hid his gear, and asks how you’ve been handling the pressure this year.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Catch up with him",
+          "result": "You make time to listen and share a little about your own year. The conversation lifts both your spirits, even though you arrive at your next stop feeling behind.",
           "stats": {
-            "life": {},
+            "life": {"energy": -3, "social": 4, "fun": 2},
             "football": {},
-            "personality": {}
+            "personality": {"charisma": 2, "leadership": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": ["inspired"],
           "set_flags": {}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Offer practical advice",
+          "result": "You talk through ways to handle team pressure and school responsibilities. He leaves with a plan, and you feel good about helping, though the advice takes more out of you than expected.",
           "stats": {
-            "life": {},
+            "life": {"energy": -4, "social": 2},
             "football": {},
-            "personality": {}
+            "personality": {"intelligence": 2, "leadership": 2}
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": ["focused"],
           "set_flags": {}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Keep it brief",
+          "result": "You give him a friendly greeting and say you have to get moving. You protect your time, but the quick exchange feels a little distant after he made the effort to find you.",
           "stats": {
-            "life": {},
+            "life": {"energy": 2, "social": -2, "fun": -1},
             "football": {},
-            "personality": {}
+            "personality": {"ambition": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": ["rested"],
           "set_flags": {}
         }
       ]
@@ -66,69 +56,51 @@
       "title": "The Rival's Offer",
       "_info": {
         "when": "Junior year (season 3), any week",
-        "requires": {
-          "any_flags": [
-            "tyler_mutual_respect"
-          ]
-        },
-        "people": [
-          "rival"
-        ],
-        "unlocked_by": [
-          {
-            "from": "HS_030",
-            "flag": "tyler_mutual_respect",
-            "type": "unlock"
-          }
-        ]
+        "requires": {"any_flags": ["tyler_mutual_respect"]},
+        "people": ["rival"],
+        "unlocked_by": [{"from": "HS_030", "flag": "tyler_mutual_respect", "type": "unlock"}]
       },
-      "category": "",
-      "text": "",
+      "category": "team",
+      "text": "After the respect you built by helping {tyler} through a rough practice, he approaches you after school with an idea: train together for an upcoming skills showcase. You know working side by side could help both of you, but it may also sharpen the competition.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Train together",
+          "result": "You agree to share a structured session, taking turns calling out small adjustments and pushing each other through the final reps. The work is demanding, but you both leave sharper.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": -5, "social": 3},
+            "football": {"accuracy": 1},
+            "personality": {"leadership": 1}
           },
-          "skill_points": 0,
-          "modifiers": [],
+          "skill_points": 3,
+          "modifiers": ["dialed_in"],
           "set_flags": {},
-          "rel": {
-            "rival": 0
-          }
+          "rel": {"rival": 7}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Set friendly boundaries",
+          "result": "You tell {tyler} you’re glad to work together occasionally, but want most of your training time to stay independent. He understands, though the distance takes some of the excitement out of the idea.",
           "stats": {
-            "life": {},
+            "life": {"energy": 1, "social": -1, "fun": 1},
             "football": {},
-            "personality": {}
+            "personality": {"ambition": 2}
           },
-          "skill_points": 0,
-          "modifiers": [],
+          "skill_points": 1,
+          "modifiers": ["focused"],
           "set_flags": {},
-          "rel": {
-            "rival": 0
-          }
+          "rel": {"rival": 2}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Turn it into a challenge",
+          "result": "You accept, but make it clear you want to see who can outwork the other. The competitive edge makes the session intense; afterward, the two of you are less relaxed around each other.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": -4, "fun": 2, "social": -2},
+            "football": {"power": 1},
+            "personality": {"ambition": 2, "leadership": -1}
           },
-          "skill_points": 0,
-          "modifiers": [],
+          "skill_points": 2,
+          "modifiers": ["pumped_up"],
           "set_flags": {},
-          "rel": {
-            "rival": 0
-          }
+          "rel": {"rival": -3}
         }
       ]
     },
@@ -136,61 +108,40 @@
       "id": "HS_153",
       "title": "The Unexpected Reference",
       "_info": {
-        "when": "any high school season, any week",
-        "requires": {
-          "any_flags": [
-            "summer_job",
-            "community_recognition",
-            "community_volunteer"
-          ]
-        },
-        "must_set_flags": [
-          "earned_community_reference",
-          "requested_reference_help"
-        ],
+        "when": "seasons 3-4 (Junior to Senior), any week",
+        "requires": {"any_flags": ["summer_job", "community_recognition", "community_volunteer"]},
+        "must_set_flags": ["earned_community_reference", "requested_reference_help"],
         "unlocked_by": [
-          {
-            "from": "HS_134",
-            "flag": "community_recognition",
-            "type": "unlock"
-          },
-          {
-            "from": "HS_115",
-            "flag": "summer_job",
-            "type": "unlock"
-          }
+          {"from": "HS_134", "flag": "community_recognition", "type": "unlock"},
+          {"from": "HS_115", "flag": "summer_job", "type": "unlock"}
         ]
       },
-      "category": "",
-      "text": "",
+      "category": "community",
+      "text": "Someone in the community who has seen the effort you put in over time approaches you with an unexpected offer. They may be able to speak about your character and reliability, but they ask what kind of help you actually need.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Accept their recommendation",
+          "result": "You thank them and accept the offer to serve as a reference. They point to the consistency they’ve seen from you, giving you a meaningful boost as you think about what comes next.",
           "stats": {
-            "life": {},
+            "life": {"energy": 1, "social": 3, "fun": 1},
             "football": {},
-            "personality": {}
+            "personality": {"charisma": 2, "ambition": 2}
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "earned_community_reference": true
-          }
+          "modifiers": ["confident"],
+          "set_flags": {"earned_community_reference": true}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Ask for specific guidance",
+          "result": "You explain what opportunity you’re pursuing and ask what would make your application stronger. They agree to help you prepare, though you leave with a few more things to work on.",
           "stats": {
-            "life": {},
+            "life": {"energy": -2, "social": 2},
             "football": {},
-            "personality": {}
+            "personality": {"intelligence": 2, "ambition": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "requested_reference_help": true
-          }
+          "modifiers": ["focused"],
+          "set_flags": {"requested_reference_help": true}
         }
       ]
     },
@@ -198,53 +149,36 @@
       "id": "HS_156",
       "title": "The Younger Athlete Looks Up to You",
       "_info": {
-        "when": "any high school season, any week",
-        "requires": {
-          "any_flags": [
-            "mentored_younger_student",
-            "owned_old_group_chat",
-            "accepted_team_leadership",
-            "community_volunteer"
-          ]
-        },
-        "must_set_flags": [
-          "mentored_next_generation"
-        ],
-        "unlocked_by": [
-          {
-            "from": "HS_139",
-            "flag": "owned_old_group_chat",
-            "type": "unlock"
-          }
-        ]
+        "when": "seasons 3-4 (Junior to Senior), any week",
+        "requires": {"any_flags": ["mentored_younger_student", "owned_old_group_chat", "accepted_team_leadership", "community_volunteer"]},
+        "must_set_flags": ["mentored_next_generation"],
+        "unlocked_by": [{"from": "HS_139", "flag": "owned_old_group_chat", "type": "unlock"}]
       },
-      "category": "",
-      "text": "",
+      "category": "team",
+      "text": "A younger athlete catches you after school and says they’ve noticed the way you carry yourself around the team and in the community. They ask how you stay steady when people are watching and others are counting on you.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Take them under your wing",
+          "result": "You listen to their concerns and offer to check in with them from time to time. It takes some of your free time, but they leave encouraged and you realize your example matters.",
           "stats": {
-            "life": {},
+            "life": {"energy": -3, "social": 3, "fun": 1},
             "football": {},
-            "personality": {}
+            "personality": {"leadership": 3, "charisma": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "mentored_next_generation": true
-          }
+          "modifiers": ["inspired"],
+          "set_flags": {"mentored_next_generation": true}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Give them a quick answer",
+          "result": "You share one practical piece of advice and encourage them to keep showing up for their work. You protect your afternoon, though the conversation ends before a real connection forms.",
           "stats": {
-            "life": {},
+            "life": {"energy": 2, "social": -1},
             "football": {},
-            "personality": {}
+            "personality": {"intelligence": 1, "ambition": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": ["focused"],
           "set_flags": {}
         }
       ]
@@ -254,68 +188,42 @@
       "title": "The Starting Job Is Yours",
       "_info": {
         "when": "Senior year (season 4), any week",
-        "requires": {
-          "any_flags": [
-            "befriended_tyler",
-            "hostile_tyler_rivalry"
-          ]
-        },
-        "must_set_flags": [
-          "respected_rival_after_win",
-          "continued_rival_training"
-        ],
-        "people": [
-          "rival"
-        ],
+        "requires": {"any_flags": ["befriended_tyler", "hostile_tyler_rivalry"]},
+        "must_set_flags": ["respected_rival_after_win", "continued_rival_training"],
+        "people": ["rival"],
         "unlocked_by": [
-          {
-            "from": "HS_005",
-            "flag": "befriended_tyler",
-            "type": "unlock"
-          },
-          {
-            "from": "HS_005",
-            "flag": "hostile_tyler_rivalry",
-            "type": "unlock"
-          }
+          {"from": "HS_005", "flag": "befriended_tyler", "type": "unlock"},
+          {"from": "HS_005", "flag": "hostile_tyler_rivalry", "type": "unlock"}
         ]
       },
-      "category": "",
-      "text": "",
+      "category": "team",
+      "text": "You’ve earned the starting job, and {tyler} knows it. After practice, the two of you have a quiet moment near the equipment room; whatever your history has been, this change puts your relationship at a crossroads.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Recognize what he pushed you to do",
+          "result": "You tell {tyler} that the competition helped you grow and that you respect the work he put in. The conversation is awkward at first, but it ends with a more honest understanding between you.",
           "stats": {
-            "life": {},
+            "life": {"energy": -2, "social": 2, "fun": 1},
             "football": {},
-            "personality": {}
+            "personality": {"leadership": 2, "charisma": 2}
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "respected_rival_after_win": true
-          },
-          "rel": {
-            "rival": 0
-          }
+          "modifiers": ["confident"],
+          "set_flags": {"respected_rival_after_win": true},
+          "rel": {"rival": 8}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Keep competing together",
+          "result": "You suggest continuing to train together, with clear goals and no promises about who comes out ahead. {tyler} considers it, and the familiar challenge gives both of you something to work toward.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": -4, "fun": 2, "social": -1},
+            "football": {"resilience": 1},
+            "personality": {"ambition": 2}
           },
-          "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "continued_rival_training": true
-          },
-          "rel": {
-            "rival": 0
-          }
+          "skill_points": 2,
+          "modifiers": ["pumped_up"],
+          "set_flags": {"continued_rival_training": true},
+          "rel": {"rival": 4}
         }
       ]
     },
@@ -324,69 +232,51 @@
       "title": "The Final Rivalry",
       "_info": {
         "when": "Senior year (season 4), weeks 8-10",
-        "requires": {
-          "any_flags": [
-            "hostile_tyler_rivalry"
-          ]
-        },
-        "people": [
-          "rival"
-        ],
-        "unlocked_by": [
-          {
-            "from": "HS_005",
-            "flag": "hostile_tyler_rivalry",
-            "type": "unlock"
-          }
-        ]
+        "requires": {"any_flags": ["hostile_tyler_rivalry"]},
+        "people": ["rival"],
+        "unlocked_by": [{"from": "HS_005", "flag": "hostile_tyler_rivalry", "type": "unlock"}]
       },
-      "category": "",
-      "text": "",
+      "category": "team",
+      "text": "With the final stretch of senior season approaching, {tyler} is still the rival who knows exactly how to get under your skin. A few teammates bring up the competition between you, and you have to decide what you want these last weeks to mean.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Let the rivalry fuel you",
+          "result": "You channel the tension into a focused routine and keep your attention on the work in front of you. The edge gives you energy, but it is harder to switch off afterward.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": -3, "fun": -1, "social": 1},
+            "football": {"resilience": 1},
+            "personality": {"ambition": 2}
           },
-          "skill_points": 0,
-          "modifiers": [],
+          "skill_points": 2,
+          "modifiers": ["pumped_up"],
           "set_flags": {},
-          "rel": {
-            "rival": 0
-          }
+          "rel": {"rival": -2}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Make peace before it ends",
+          "result": "You speak with {tyler} privately and say you don’t want the season to end with bitterness. The conversation doesn’t erase the past, but it eases the tension and gives you some perspective.",
           "stats": {
-            "life": {},
+            "life": {"energy": -2, "social": 3, "fun": 2},
             "football": {},
-            "personality": {}
+            "personality": {"charisma": 2, "leadership": 2}
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": ["inspired"],
           "set_flags": {},
-          "rel": {
-            "rival": 0
-          }
+          "rel": {"rival": 5}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Avoid the conversation",
+          "result": "You keep your distance and let the others talk. It saves you from another uncomfortable exchange, but the unresolved tension follows you through the week.",
           "stats": {
-            "life": {},
+            "life": {"energy": 2, "social": -2, "fun": -1},
             "football": {},
-            "personality": {}
+            "personality": {"ambition": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": ["distracted"],
           "set_flags": {},
-          "rel": {
-            "rival": 0
-          }
+          "rel": {"rival": -3}
         }
       ]
     },
@@ -395,77 +285,44 @@
       "title": "The Last Practice Together",
       "_info": {
         "when": "Senior year (season 4), weeks 9-10",
-        "requires": {
-          "any_flags": [
-            "accepted_team_leadership",
-            "holder_big_moment_success",
-            "earned_coach_confidence"
-          ]
-        },
-        "must_set_flags": [
-          "recognized_team_support"
-        ],
-        "people": [
-          "coach",
-          "holder"
-        ],
+        "requires": {"any_flags": ["accepted_team_leadership", "holder_big_moment_success", "earned_coach_confidence"]},
+        "must_set_flags": ["recognized_team_support"],
+        "people": ["coach", "holder"],
         "unlocked_by": [
-          {
-            "from": "HS_144",
-            "flag": "accepted_team_leadership",
-            "type": "unlock"
-          },
-          {
-            "from": "HS_145",
-            "flag": "holder_big_moment_success",
-            "type": "unlock"
-          },
-          {
-            "from": "HS_146",
-            "flag": "earned_coach_confidence",
-            "type": "unlock"
-          }
+          {"from": "HS_144", "flag": "accepted_team_leadership", "type": "unlock"},
+          {"from": "HS_145", "flag": "holder_big_moment_success", "type": "unlock"},
+          {"from": "HS_146", "flag": "earned_coach_confidence", "type": "unlock"}
         ],
-        "absorbs": [
-          "HS_066"
-        ]
+        "absorbs": ["HS_066"]
       },
-      "category": "",
-      "text": "",
+      "category": "team",
+      "text": "It’s the last practice of your senior year. {coach} gathers the group while {holder} helps put away the equipment, and the familiar routine suddenly feels like something you’ll miss; you have a chance to recognize the people who helped make it matter.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Thank them for the support",
+          "result": "You thank {coach} for the guidance and {holder} for being someone you could count on. The words are simple, but both take them seriously, and the moment leaves the group feeling appreciated.",
           "stats": {
-            "life": {},
+            "life": {"energy": -2, "social": 3, "fun": 3},
             "football": {},
-            "personality": {}
+            "personality": {"charisma": 2, "leadership": 2}
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "recognized_team_support": true
-          },
-          "rel": {
-            "coach": 0,
-            "holder": 0
-          }
+          "modifiers": ["inspired"],
+          "set_flags": {"recognized_team_support": true},
+          "rel": {"coach": 6, "holder": 6}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Keep the moment to yourself",
+          "result": "You help finish putting everything away and let the others have their conversations. You avoid making a big emotional moment of it, though you leave with a little regret that you didn’t say more.",
           "stats": {
-            "life": {},
+            "life": {"energy": 2, "social": -1, "fun": -1},
             "football": {},
-            "personality": {}
+            "personality": {"intelligence": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": ["rested"],
           "set_flags": {},
-          "rel": {
-            "coach": 0,
-            "holder": 0
-          }
+          "rel": {"coach": 1, "holder": 1}
         }
       ]
     }
