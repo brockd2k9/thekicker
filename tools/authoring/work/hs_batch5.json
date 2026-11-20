@@ -1,0 +1,473 @@
+{
+  "_about": "Batch 5: sequels opened by flags from batches 1-4. Every scenario can be reached from something already written, but several can ALSO be reached from scenarios not written yet, so keep the text general where noted. Every flag in _info.must_set_flags must be set by some choice; where there are none, set no flags. Callbacks: HS_094 <- HS_003 'Step in and help him find it' (you stood up for a freshman whose gear upperclassmen hid); he is now an older teammate who remembers. HS_046 <- HS_030 'Offer to work through it' (you helped {tyler} reset after a rough practice as sophomores; mutual respect). HS_153 <- HS_107 (volunteered a full morning setting up a youth sports field) or HS_134 (the league thanked you) or a summer job (not written yet): keep it about someone in the community who has seen your work. HS_156 <- mentoring a younger student (HS_126), owning an old group chat (HS_139), volunteering (HS_107), or team leadership (not written yet): keep it about a younger athlete who has noticed how you carry yourself, without naming one moment. HS_147 <- HS_005, where {tyler} became either a training partner OR a hostile rival: the text must work for both. You've won the starting job over him. HS_092 <- HS_005 hostile rivalry: {tyler} has been your rival since freshman year; senior year, weeks 8-10. HS_159 <- holder trust (HS_145) OR team leadership or coach confidence (not written yet): the last practice of senior year with {coach} and {holder}; don't assume which path led here. Pronouns: {tyler} and {parent} are male; never he/she for {holder}, {best_friend}, {coach}, {teacher}, {love_interest}. Scenarios happen off the field: never describe a game kick or its result.",
+  "_how": "Fill in category, text and choices; leave _info alone (it's read-only). See tools/authoring/WRITING_GUIDE.md. Import: python3 tools/import_scenarios.py <this file> --dry-run",
+  "scenarios": [
+    {
+      "id": "HS_094",
+      "title": "The Teammate Who Remembers",
+      "_info": {
+        "when": "seasons 2-4 (Sophomore to Senior), any week",
+        "requires": {
+          "any_flags": [
+            "helped_freshman"
+          ]
+        },
+        "unlocked_by": [
+          {
+            "from": "HS_003",
+            "flag": "helped_freshman",
+            "type": "unlock"
+          }
+        ]
+      },
+      "category": "",
+      "text": "",
+      "choices": [
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {}
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {}
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_046",
+      "title": "The Rival's Offer",
+      "_info": {
+        "when": "Junior year (season 3), any week",
+        "requires": {
+          "any_flags": [
+            "tyler_mutual_respect"
+          ]
+        },
+        "people": [
+          "rival"
+        ],
+        "unlocked_by": [
+          {
+            "from": "HS_030",
+            "flag": "tyler_mutual_respect",
+            "type": "unlock"
+          }
+        ]
+      },
+      "category": "",
+      "text": "",
+      "choices": [
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {},
+          "rel": {
+            "rival": 0
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {},
+          "rel": {
+            "rival": 0
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {},
+          "rel": {
+            "rival": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_153",
+      "title": "The Unexpected Reference",
+      "_info": {
+        "when": "any high school season, any week",
+        "requires": {
+          "any_flags": [
+            "summer_job",
+            "community_recognition",
+            "community_volunteer"
+          ]
+        },
+        "must_set_flags": [
+          "earned_community_reference",
+          "requested_reference_help"
+        ],
+        "unlocked_by": [
+          {
+            "from": "HS_134",
+            "flag": "community_recognition",
+            "type": "unlock"
+          },
+          {
+            "from": "HS_115",
+            "flag": "summer_job",
+            "type": "unlock"
+          }
+        ]
+      },
+      "category": "",
+      "text": "",
+      "choices": [
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "earned_community_reference": true
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "requested_reference_help": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_156",
+      "title": "The Younger Athlete Looks Up to You",
+      "_info": {
+        "when": "any high school season, any week",
+        "requires": {
+          "any_flags": [
+            "mentored_younger_student",
+            "owned_old_group_chat",
+            "accepted_team_leadership",
+            "community_volunteer"
+          ]
+        },
+        "must_set_flags": [
+          "mentored_next_generation"
+        ],
+        "unlocked_by": [
+          {
+            "from": "HS_139",
+            "flag": "owned_old_group_chat",
+            "type": "unlock"
+          }
+        ]
+      },
+      "category": "",
+      "text": "",
+      "choices": [
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "mentored_next_generation": true
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_147",
+      "title": "The Starting Job Is Yours",
+      "_info": {
+        "when": "Senior year (season 4), any week",
+        "requires": {
+          "any_flags": [
+            "befriended_tyler",
+            "hostile_tyler_rivalry"
+          ]
+        },
+        "must_set_flags": [
+          "respected_rival_after_win",
+          "continued_rival_training"
+        ],
+        "people": [
+          "rival"
+        ],
+        "unlocked_by": [
+          {
+            "from": "HS_005",
+            "flag": "befriended_tyler",
+            "type": "unlock"
+          },
+          {
+            "from": "HS_005",
+            "flag": "hostile_tyler_rivalry",
+            "type": "unlock"
+          }
+        ]
+      },
+      "category": "",
+      "text": "",
+      "choices": [
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "respected_rival_after_win": true
+          },
+          "rel": {
+            "rival": 0
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "continued_rival_training": true
+          },
+          "rel": {
+            "rival": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_092",
+      "title": "The Final Rivalry",
+      "_info": {
+        "when": "Senior year (season 4), weeks 8-10",
+        "requires": {
+          "any_flags": [
+            "hostile_tyler_rivalry"
+          ]
+        },
+        "people": [
+          "rival"
+        ],
+        "unlocked_by": [
+          {
+            "from": "HS_005",
+            "flag": "hostile_tyler_rivalry",
+            "type": "unlock"
+          }
+        ]
+      },
+      "category": "",
+      "text": "",
+      "choices": [
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {},
+          "rel": {
+            "rival": 0
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {},
+          "rel": {
+            "rival": 0
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {},
+          "rel": {
+            "rival": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_159",
+      "title": "The Last Practice Together",
+      "_info": {
+        "when": "Senior year (season 4), weeks 9-10",
+        "requires": {
+          "any_flags": [
+            "accepted_team_leadership",
+            "holder_big_moment_success",
+            "earned_coach_confidence"
+          ]
+        },
+        "must_set_flags": [
+          "recognized_team_support"
+        ],
+        "people": [
+          "coach",
+          "holder"
+        ],
+        "unlocked_by": [
+          {
+            "from": "HS_144",
+            "flag": "accepted_team_leadership",
+            "type": "unlock"
+          },
+          {
+            "from": "HS_145",
+            "flag": "holder_big_moment_success",
+            "type": "unlock"
+          },
+          {
+            "from": "HS_146",
+            "flag": "earned_coach_confidence",
+            "type": "unlock"
+          }
+        ],
+        "absorbs": [
+          "HS_066"
+        ]
+      },
+      "category": "",
+      "text": "",
+      "choices": [
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "recognized_team_support": true
+          },
+          "rel": {
+            "coach": 0,
+            "holder": 0
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {},
+          "rel": {
+            "coach": 0,
+            "holder": 0
+          }
+        }
+      ]
+    }
+  ]
+}
