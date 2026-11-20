@@ -117,10 +117,12 @@ DUPLICATES = {
 PEOPLE = {
     "HS_005": ["tyler"], "HS_030": ["tyler"], "HS_046": ["tyler"], "HS_092": ["tyler"],
     "HS_111": ["new_qb"], "HS_132": ["new_qb"], "HS_137": ["new_qb"], "HS_147": ["tyler"],
+    "HS_118": ["teacher"],  # the title no longer says "Teacher" (TITLE_OVERRIDES)
 }
 
 # Renames applied to the skeleton before converting (the New Kicker is a quarterback).
-TITLE_OVERRIDES = {"HS_111": "The New Quarterback"}
+TITLE_OVERRIDES = {"HS_111": "The New Quarterback",
+                   "HS_118": "The Leadership Nomination"}  # too close to HS_088 "The Coach's Recommendation"
 FLAG_RENAMES = {
     "welcomed_new_kicker": "welcomed_new_qb",
     "new_kicker_rivalry": "new_qb_rivalry",
