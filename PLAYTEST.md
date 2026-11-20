@@ -356,8 +356,8 @@ are a stand-in for real swipes, so everything involving kicking quality needs a 
 17. Scenario repetition: `max_scenario_repeats_per_season` 2, `category_repeat_decay` 0.5,
     1-2 scenarios per week (`second_scenario_chance` 0.4), 2 in bye weeks and offseasons.
 
-**Relationships and story timing** (no written scenario moves a relationship yet, so these are
-untested in play; values in `career_tuning.tres` "Relationships" and "Scenario Picks")
+**Relationships and story timing** (the high school story graph now moves every relationship, so these
+need real-play checks; values in `career_tuning.tres` "Relationships" and "Scenario Picks")
 18. Effects at 100 (half that at 75, reversed at 0): coach -0.12 pressure sensitivity and 5% longer
     tries, holder -0.25 deg aim spread, Dad / brother +1.5 energy a week each, best friend /
     someone special +1 fun and +1 social a week each, teacher +0.08 GPA a season. Tyler: friend
