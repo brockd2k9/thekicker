@@ -1,0 +1,816 @@
+{
+  "_about": "PRO batch 7: era 1, Rookie (22-25).",
+  "scenarios": [
+    {
+      "id": "PRO_346",
+      "title": "The Teammate's Celebration",
+      "category": "social",
+      "text": "The locker room has a social scene: card games, a weekly dinner, a group that goes out after home games. You have to decide how far into it you want to go.",
+      "choices": [
+        {
+          "label": "Go all in, within reason",
+          "result": "You join the card game and the weekly dinner, and skip the late nights. By midseason, you're part of the room.",
+          "stats": {
+            "life": {
+              "social": 3,
+              "fun": 2,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Pick one thing",
+          "result": "You pick the weekly dinner and nothing else. You know a few teammates well instead of all of them a little.",
+          "stats": {
+            "life": {
+              "social": 1,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "team": 1
+          }
+        },
+        {
+          "label": "Stay out of it",
+          "result": "You keep to yourself and your routine. Your kicking is sharp, and nobody invites you anywhere by October.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "social": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1
+        }
+      ]
+    },
+    {
+      "id": "PRO_347",
+      "title": "The Position Meeting",
+      "category": "team",
+      "text": "Your place on the depth chart comes up in a meeting you weren't invited to, and the long snapper tells you about it at lunch.",
+      "choices": [
+        {
+          "label": "Ask {coach} directly",
+          "result": "You ask {coach} where you stand. It's an honest answer: safe, for now, if the next month looks like the last one.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 3
+          }
+        },
+        {
+          "label": "Kick and say nothing",
+          "result": "You say nothing and kick the best week of practice you've had.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Call your agent",
+          "result": "You call your agent, who calls the general manager, who calls {coach}. Everyone knows you asked.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "coach": -2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_348",
+      "title": "The New Playbook",
+      "category": "team",
+      "text": "A new coaching staff installs a new playbook and new expectations for the specialists, and the first test is Friday.",
+      "choices": [
+        {
+          "label": "Learn it cold",
+          "result": "You learn the new special teams playbook cold, including the parts that aren't yours.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 3
+          }
+        },
+        {
+          "label": "Learn your part",
+          "result": "You learn your part perfectly and nothing else. It's enough.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Study with the unit",
+          "result": "You set up a study session with the snapper and the holder. It turns into a unit dinner.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 1,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 2,
+            "holder": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_349",
+      "title": "The Rookie Comparison",
+      "category": "media",
+      "text": "The media compare you with another young kicker, every week, by name.",
+      "choices": [
+        {
+          "label": "Call the other kicker",
+          "result": "You call the other kicker and laugh about it. You agree not to read anything with both your names in it.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ]
+        },
+        {
+          "label": "Use it",
+          "result": "You put the comparison on your locker and kick every practice like it's a contest.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "pumped_up"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Ignore it",
+          "result": "You stop reading the coverage. It's quieter, and it takes discipline.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_350",
+      "title": "The Charity Donation",
+      "category": "money",
+      "text": "Your aunt asks you to donate to a cause back home: a new roof for the church you grew up in.",
+      "choices": [
+        {
+          "label": "Give generously",
+          "result": "You give more than she asked. The church puts your name on a plaque you'll be embarrassed by forever.",
+          "stats": {
+            "life": {
+              "fun": -1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "parent": 3
+          }
+        },
+        {
+          "label": "Give what you planned",
+          "result": "You give the amount in your budget and explain why. She's a little disappointed and grateful anyway.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "parent": 1
+          }
+        },
+        {
+          "label": "Run a fundraiser instead",
+          "result": "You host a fundraiser in your hometown and raise twice the money, with your time instead of your account.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "tired"
+          ],
+          "followers": 2
+        }
+      ]
+    },
+    {
+      "id": "PRO_351",
+      "title": "The Teammate's Advice",
+      "category": "team",
+      "text": "A veteran explains, very calmly, how fast a career can end: his roommate from his rookie year lasted one season.",
+      "choices": [
+        {
+          "label": "Ask what he did differently",
+          "result": "You ask what he did differently. His answer has nothing to do with kicking: he saved, he slept, he showed up.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Let it scare you",
+          "result": "It scares you, and you start saving half of every check and sleeping nine hours a night.",
+          "stats": {
+            "life": {
+              "fun": -2,
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ]
+        },
+        {
+          "label": "Shrug it off",
+          "result": "You shrug and say it won't happen to you. The veteran nods slowly, like he's heard it before.",
+          "stats": {
+            "life": {
+              "fun": 1,
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_352",
+      "title": "The Agent's Warning",
+      "category": "career",
+      "text": "Your agent warns you to be careful about where you're seen: a teammate's photo outside a club just cost him a sponsor.",
+      "choices": [
+        {
+          "label": "Change your routine",
+          "result": "You stop going out after home games. You're bored some nights, and safe all of them.",
+          "stats": {
+            "life": {
+              "social": -1,
+              "energy": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "retention": 1
+        },
+        {
+          "label": "Ask what's actually off-limits",
+          "result": "You ask your agent for a specific list. It's shorter than you feared.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Ignore the warning",
+          "result": "You say you're not doing anything wrong and keep your routine. Your agent sighs.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_353",
+      "title": "The Apartment Neighbor",
+      "category": "social",
+      "text": "Your neighbor works nights and practices drums at noon, the only hour you have for a nap.",
+      "choices": [
+        {
+          "label": "Knock and talk",
+          "result": "You knock and explain your schedule. He's a fan, it turns out, and moves practice to the evening.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Complain to the building",
+          "result": "You complain to the building manager. The drumming stops, and so does the neighbor's wave in the hallway.",
+          "stats": {
+            "life": {
+              "energy": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Buy earplugs",
+          "result": "You buy good earplugs and nap anyway. It works, mostly, and the neighbor waves at you every morning.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1
+        }
+      ]
+    },
+    {
+      "id": "PRO_354",
+      "title": "The Unexpected Criticism",
+      "category": "media",
+      "text": "Fans tear into you online after one week of bad practice clips somebody posted.",
+      "choices": [
+        {
+          "label": "Log off",
+          "result": "You delete the apps for a week. It's quiet and it helps.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "followers": -1
+        },
+        {
+          "label": "Reply with humor",
+          "result": "You reply with a joke about your own form. It's the most-liked reply of the week, and the tone changes.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "followers": 3
+        },
+        {
+          "label": "Let it fuel you",
+          "result": "You screenshot the worst one and put it on your locker.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "pumped_up"
+          ],
+          "skill_points": 2
+        }
+      ]
+    },
+    {
+      "id": "PRO_355",
+      "title": "The Second Contract Conversation",
+      "category": "career",
+      "text": "Your agent starts talking about what your next contract could look like, if you last.",
+      "choices": [
+        {
+          "label": "Ask what lasting looks like",
+          "result": "You ask what the club looks for in a second contract. The list is specific, and you can work on it.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "retention": 1
+        },
+        {
+          "label": "Dream a little",
+          "result": "You let yourself dream about the house, the car and the security. It's motivating, mostly.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ]
+        },
+        {
+          "label": "Change the subject",
+          "result": "You say you're not thinking past this season. Your agent says that's the right answer.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1
+        }
+      ]
+    },
+    {
+      "id": "PRO_356",
+      "title": "The Veteran's Rules",
+      "category": "team",
+      "text": "The veterans post the locker room's unwritten rules on a whiteboard, and one of them is about you: 'Kickers don't talk in team meetings.'",
+      "choices": [
+        {
+          "label": "Laugh and follow it",
+          "result": "You laugh and keep quiet in team meetings. The veterans are disappointed you didn't fight it.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 1
+          }
+        },
+        {
+          "label": "Break the rule once",
+          "result": "You speak once, in a meeting, about something that matters. The room is silent, then a captain nods.",
+          "stats": {
+            "life": {
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Erase it",
+          "result": "You erase your rule from the whiteboard. It's back the next morning, in bigger letters.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": -1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_551",
+      "title": "The Playbook Test",
+      "category": "team",
+      "text": "The special teams coordinator quizzes the rookies on the playbook, out loud, at seven in the morning.",
+      "choices": [
+        {
+          "label": "Know it cold",
+          "result": "You've studied, and you answer every question. The coordinator moves on to the next rookie quickly.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Bluff",
+          "result": "You bluff through two answers. The coordinator knows, and assigns you a page of the playbook to copy by hand.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "coach": -2
+          }
+        },
+        {
+          "label": "Admit you don't know",
+          "result": "You say you don't know one answer and ask for the right one. The coordinator respects it.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_552",
+      "title": "Learning the Snap Count",
+      "category": "training",
+      "text": "The long snapper's rhythm is different from anything in college, and practice is tomorrow.",
+      "choices": [
+        {
+          "label": "Ask for extra snaps",
+          "result": "You ask the snapper for fifty extra snaps after practice. By the end, you can hear the rhythm.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Adjust your timing alone",
+          "result": "You adjust your approach yourself, counting in your head all evening.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Ask the snapper to adjust",
+          "result": "You ask the snapper to speed up for you. He laughs and says no. Then he does it anyway.",
+          "stats": {
+            "life": {
+              "social": 1,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 1
+          }
+        }
+      ]
+    }
+  ]
+}
