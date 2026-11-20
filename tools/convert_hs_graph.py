@@ -118,6 +118,7 @@ PEOPLE = {
     "HS_005": ["tyler"], "HS_030": ["tyler"], "HS_046": ["tyler"], "HS_092": ["tyler"],
     "HS_111": ["new_qb"], "HS_132": ["new_qb"], "HS_137": ["new_qb"], "HS_147": ["tyler"],
     "HS_118": ["teacher"],  # the title no longer says "Teacher" (TITLE_OVERRIDES)
+    "HS_150": ["parent"],   # the recruiting talk happens with Dad at the table
 }
 
 # Renames applied to the skeleton before converting (the New Kicker is a quarterback).
