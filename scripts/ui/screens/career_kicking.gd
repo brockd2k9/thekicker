@@ -1,11 +1,14 @@
 extends CareerScreen
 ## Stats (Hub → Stats): your kicking record.
-##   Season: this season's line (FG, FG%, XP, long, points, game winners) and
-##           every game so far.
+##   Season: this season's line (FG, FG%, XP, long, points, game winners),
+##           then collapsible sections, then every game so far.
 ##   Career: tabs HS | College | Pro | Career Total. Each level lists its
 ##           seasons (junior college counts as College) with a total row; Career
 ##           Total sums the levels. Built from the season history (CareerRecords),
 ##           so older saves show their whole record too.
+## Sections (both views): Field goals by distance, Extra points, Streaks, Misc.
+## Distance, streak, clutch and kickoff numbers need the per-kick log (save
+## version 6 on); scopes with kicks from before it show "-".
 
 ## Remembered while the game runs, so coming back opens the same view.
 static var view := "season"
@@ -13,6 +16,10 @@ static var view := "season"
 static var level := ""
 
 const TOTAL := "total"
+## Open/closed state of the collapsible sections (by title), while the game runs.
+static var open_sections := {"Field goals by distance": true, "Extra points": true, "Streaks": true,
+	"Misc": false, "Games": true}
+
 ## Table columns: header, width (the season column takes the rest).
 const COLS := [["FG", 104], ["PCT", 76], ["XP", 92], ["LNG", 66], ["PTS", 72]]
 
@@ -73,19 +80,19 @@ func _season() -> void:
 	tiles.add_child(UiKit.stat_tile(str(int(st["long"])) if int(st["long"]) > 0 else "-", "Long (yd)"))
 	tiles.add_child(UiKit.stat_tile(str(int(st["points"])), "Points"))
 	tiles.add_child(UiKit.stat_tile(str(int(st["game_winners"])), "Game winners", UiKit.GOOD))
-	_body.add_child(tiles)
-
 	var list := UiKit.scroll_list(_body)
-	list.add_child(UiKit.section("Games"))
+	list.add_child(tiles)
+	_sections(list, "season")
+	var games := _collapsible(list, "Games")
 	var any := false
 	for e in c.schedule:
 		var r: Variant = e.get("result")
 		if not (r is Dictionary):
 			continue
 		any = true
-		list.add_child(_game_row(e, r))
+		games.add_child(_game_row(e, r))
 	if not any:
-		list.add_child(UiKit.label("No games played yet this season.", 26, UiKit.MUTED))
+		games.add_child(UiKit.label("No games played yet this season.", 26, UiKit.MUTED))
 
 
 func _game_row(e: Dictionary, r: Dictionary) -> Control:
@@ -122,6 +129,7 @@ func _career() -> void:
 	list.add_child(_table_head("Career" if level == TOTAL else "Season"))
 	if level == TOTAL:
 		_total_rows(list)
+		_sections(list, "total")
 		return
 	var rows := CareerRecords.seasons(career.data, level)
 	if rows.is_empty():
@@ -137,6 +145,7 @@ func _career() -> void:
 	list.add_child(_table_row("%s total" % CareerRecords.LEVEL_NAMES[level],
 		"%d season%s  ·  %s" % [rows.size(), "" if rows.size() == 1 else "s",
 		CareerRecords.record_text(CareerRecords.total_record(rows))], CareerRecords.total(rows), true))
+	_sections(list, level)
 
 
 ## Career Total: one row per level, then the whole career.
@@ -209,6 +218,136 @@ func _table_row(title: String, sub: String, st: Dictionary, is_total: bool) -> C
 		l.custom_minimum_size.x = int(COLS[i][1])
 		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		l.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		h.add_child(l)
+	return p
+
+
+# --- expanded sections ---------------------------------------------------------------
+
+## Field goals by distance, Extra points, Streaks, Misc for a scope
+## ("season", a level, or "total"; CareerRecords.expanded).
+func _sections(list: VBoxContainer, scope: String) -> void:
+	var ex := CareerRecords.expanded(career.data, scope)
+	var t: Dictionary = ex["totals"]
+	var sm: Dictionary = ex["summary"]
+	var known: bool = ex["known"]
+	var show_cur: bool = ex["playing"] and ex["cur_known"]
+	if not known and (int(t["fg_att"]) + int(t["pat_att"])) > 0:
+		list.add_child(UiKit.label("Distance, streak, clutch and kickoff stats count kicks from this update on. "
+			+ "Seasons played before it show -.", 22, UiKit.MUTED))
+
+	# Field goals by distance: made/att and FG% per range.
+	var dist := _collapsible(list, "Field goals by distance")
+	dist.add_child(_mini_head(["RANGE", "FG", "PCT"]))
+	for i in CareerRecords.BUCKETS.size():
+		var b: Dictionary = sm["buckets"][i]
+		dist.add_child(_mini_row(str(CareerRecords.BUCKETS[i][0]) + " yd",
+			["%d/%d" % [int(b["made"]), int(b["att"])] if known else "-",
+			_pct(int(b["made"]), int(b["att"])) if known else "-"]))
+
+	# Extra points (from the season lines: always known).
+	var xp := _collapsible(list, "Extra points")
+	xp.add_child(_mini_head(["", "XP", "PCT"]))
+	xp.add_child(_mini_row("Extra points", ["%d/%d" % [int(t["pat_made"]), int(t["pat_att"])],
+		_pct(int(t["pat_made"]), int(t["pat_att"]))]))
+
+	# Streaks: longest, and the current one where it's still running.
+	var st := _collapsible(list, "Streaks")
+	st.add_child(_mini_head(["MADE IN A ROW", "LONGEST", "NOW" if ex["playing"] else ""]))
+	st.add_child(_mini_row("Field goals", [_n(sm["fg_long"], known), _n(sm["fg_cur"], show_cur) if ex["playing"] else ""]))
+	for i in CareerRecords.BUCKETS.size():
+		st.add_child(_mini_row("FG " + str(CareerRecords.BUCKETS[i][0]) + " yd",
+			[_n(sm["bucket_long"][i], known), _n(sm["bucket_cur"][i], show_cur) if ex["playing"] else ""]))
+	st.add_child(_mini_row("Extra points", [_n(sm["xp_long"], known), _n(sm["xp_cur"], show_cur) if ex["playing"] else ""]))
+	if scope == "total":
+		st.add_child(UiKit.label("Each level starts its own streaks; this is the best of them.", 20, UiKit.MUTED))
+	elif scope == "season":
+		st.add_child(UiKit.label("Longest = this season. Now = your current streak, which carries over from "
+			+ "last season at the same level.", 20, UiKit.MUTED))
+
+	# Misc.
+	var misc := _collapsible(list, "Misc")
+	misc.add_child(_mini_row("Longest field goal", [("%d yd" % int(t["long"])) if int(t["long"]) > 0 else "-"]))
+	misc.add_child(_mini_row("Points", [str(int(t["points"]))]))
+	misc.add_child(_mini_row("Game-winning kicks", [str(int(t["game_winners"]))]))
+	misc.add_child(_mini_row("Games", [str(int(t["games"]))]))
+	misc.add_child(_mini_row("Clutch kicks (to win or tie)", ["%d/%d" % [int(sm["clutch_made"]),
+		int(sm["clutch_att"])] if known else "-"]))
+	misc.add_child(_mini_row("Kickoffs", [str(int(sm["kickoffs"])) if known else "-"]))
+	misc.add_child(_mini_row("Touchbacks", [str(int(sm["touchbacks"])) if known else "-"]))
+	misc.add_child(_mini_row("Average kickoff", [("%d yd" % roundi(float(sm["carry_total"]) / int(sm["kickoffs"])))
+		if known and int(sm["kickoffs"]) > 0 else "-"]))
+	misc.add_child(_mini_row("Onside kicks recovered", ["%d/%d" % [int(sm["onside_rec"]), int(sm["onside_att"])]
+		if known else "-"]))
+
+
+static func _n(v: Variant, known: bool) -> String:
+	return str(int(v)) if known else "-"
+
+
+static func _pct(made: int, att: int) -> String:
+	return ("%d%%" % roundi(100.0 * made / att)) if att > 0 else "-"
+
+
+## A section header you tap to open or close; returns the content box.
+func _collapsible(list: VBoxContainer, title: String) -> VBoxContainer:
+	var open: bool = open_sections.get(title, true)
+	var content := VBoxContainer.new()
+	content.add_theme_constant_override("separation", 6)
+	content.visible = open
+	var b := UiKit.button(title, func() -> void: pass, UiKit.SECONDARY, "next")
+	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	b.add_theme_font_size_override("font_size", 28)
+	b.custom_minimum_size.y = UiTokens.TAP_MIN
+	b.icon = UiIcons.texture("down" if open else "next", UiKit.ACCENT, 32)
+	b.pressed.connect(func() -> void:
+		var now := not content.visible
+		content.visible = now
+		open_sections[title] = now
+		b.icon = UiIcons.texture("down" if now else "next", UiKit.ACCENT, 32))
+	list.add_child(b)
+	list.add_child(content)
+	return content
+
+
+const MINI_COL := 120
+
+## Column heads for a small table: first label, then right-aligned columns.
+func _mini_head(cols: Array) -> Control:
+	var h := HBoxContainer.new()
+	var f := UiKit.line(str(cols[0]), 20, UiKit.MUTED, UiTokens.FONT_CONDENSED)
+	f.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	h.add_child(f)
+	for i in range(1, cols.size()):
+		var l := UiKit.line(str(cols[i]), 20, UiKit.MUTED, UiTokens.FONT_CONDENSED)
+		l.custom_minimum_size.x = MINI_COL
+		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		h.add_child(l)
+	var m := MarginContainer.new()
+	m.add_theme_constant_override("margin_left", UiTokens.PAD)
+	m.add_theme_constant_override("margin_right", UiTokens.PAD)
+	m.add_child(h)
+	return m
+
+
+## One row: a name and right-aligned values (one value = name/value row).
+func _mini_row(name: String, vals: Array) -> Control:
+	var parts := UiKit.card(Color(0, 0, 0, 0), 0)
+	var p: PanelContainer = parts[0]
+	var box := UiKit.panel_box()
+	box.content_margin_top = 10
+	box.content_margin_bottom = 10
+	box.shadow_size = 4
+	p.add_theme_stylebox_override("panel", box)
+	var h := HBoxContainer.new()
+	(parts[1] as VBoxContainer).add_child(h)
+	var n := UiKit.label(name, 26)
+	n.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	h.add_child(n)
+	for v in vals:
+		var l := UiKit.line(str(v), 28, UiKit.TEXT if str(v) != "-" else UiKit.MUTED, UiTokens.FONT_DISPLAY)
+		l.custom_minimum_size.x = MINI_COL
+		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		h.add_child(l)
 	return p
 

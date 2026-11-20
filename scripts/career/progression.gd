@@ -163,7 +163,15 @@ static func update_offers(c: CareerData, rng: RandomNumberGenerator) -> Dictiona
 			continue
 		var schools := CareerContent.colleges().filter(func(s: Dictionary) -> bool:
 			return s.get("tier", "") == tier_id and not have.has(str(s["id"])))
+		# The most interested schools offer first (school_interest), so the
+		# Recruiting screen's order and the offers agree. The shuffle only
+		# breaks ties.
 		shuffle(schools, rng)
+		var interest := {}
+		for s in schools:
+			interest[str(s["id"])] = school_interest(c, s)
+		schools.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+			return float(interest[str(a["id"])]) > float(interest[str(b["id"])]))
 		for s in schools.slice(0, mini(int(o.get("per_tier", 2)), max_new - out["new"].size())):
 			var off := {"school": str(s["id"]), "name": str(s["name"]), "tier": tier_id, "type": kind,
 				"season": c.season}
@@ -173,6 +181,37 @@ static func update_offers(c: CareerData, rng: RandomNumberGenerator) -> Dictiona
 	# Best offers first.
 	c.offers.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return offer_rank(a) > offer_rank(b))
 	return out
+
+
+## How interested a college is in you, 0-100 (Recruiting screen; also which
+## school in a tier makes that tier's offer). 50 is where its tier starts
+## offering (offer_type: recruiting points == the tier's minimum), about +/- 2.5
+## per recruiting point near there (leveling off toward 6..94), plus a fixed
+## per-school lean (-6..+6, from the school and the career) so schools in a
+## tier differ. An offer keeps a school at least at
+## the matching interest; a GPA below the tier's minimum caps it (they can't
+## offer). Computed, never saved.
+static func school_interest(c: CareerData, school: Dictionary) -> float:
+	var tier_id := str(school.get("tier", "small"))
+	var margin := c.recruiting_score - float(tier(tier_id).get("min_recruiting", 100))
+	# About 2.5 per point near the bar, leveling off toward 94 far above or 6
+	# far below it, so the per-school lean always separates schools in a tier
+	# (no ties at a cap).
+	var v := 50.0 + 44.0 * tanh(margin / 18.0) + school_lean(c, str(school.get("id", "")))
+	var off := {}
+	for o in c.offers:
+		if str(o.get("school", "")) == str(school.get("id", "")):
+			off = o
+	if not off.is_empty():
+		v = maxf(v, {"full": 85.0, "partial": 65.0, "walk_on": 45.0}.get(str(off.get("type", "")), 45.0))
+	elif not gpa_ok(c, tier_id):
+		v = minf(v, 35.0)
+	return clampf(v, 0.0, 100.0)
+
+
+## A school's fixed lean toward this career, -6..+6.
+static func school_lean(c: CareerData, school_id: String) -> float:
+	return float(absi(hash("%s|%d" % [school_id, c.created])) % 13) - 6.0
 
 
 static func offer_rank(off: Dictionary) -> int:

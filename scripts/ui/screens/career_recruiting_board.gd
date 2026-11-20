@@ -30,8 +30,9 @@ func _build(col: VBoxContainer) -> void:
 			list.add_child(_school_row(s))
 		UiKit.stagger(list, 0.03)
 	list.add_child(UiKit.label("Recruiting points grow after each season with your kicking (accuracy, long "
-		+ "makes), your team's record, your leg and choices like camps, highlight films and visits. A school "
-		+ "starts offering at 50 interest; better schools also need a higher GPA.", 22, UiKit.MUTED))
+		+ "makes), your team's record, your leg and choices like camps, highlight films and visits. Schools "
+		+ "start offering at 50 interest, the most interested school in each tier first (one new offer per "
+		+ "tier a season, none as a freshman); better schools also need a higher GPA.", 22, UiKit.MUTED))
 	col.add_child(UiKit.button("Back", go_back, UiKit.SECONDARY, "back"))
 
 
@@ -105,7 +106,10 @@ func _school_row(e: Dictionary) -> PanelContainer:
 	if not off.is_empty():
 		chips.add_child(UiKit.chip("OFFER: " + str(Progression.OFFER_NAMES.get(str(off.get("type", "")), "Offer")),
 			UiKit.GOOD, true, "check", 22))
-	elif e["gpa_short"]:
+	elif e["no_offer_yet"]:
+		var why := UiKit.label("Interest high, no offer yet this season", 22, UiKit.WARN, UiTokens.FONT_CONDENSED)
+		v.add_child(why)
+	if off.is_empty() and e["gpa_short"]:
 		chips.add_child(UiKit.chip("GPA below %.1f" % float(Progression.tier(str(s.get("tier", ""))).get("min_gpa", 0)),
 			UiKit.BAD, false, "book", 22))
 	return parts[0]

@@ -116,6 +116,11 @@ static func _migrate(d: Dictionary) -> Dictionary:
 	# save starts never benched, and the backup kicker joins the cast hidden.
 	if v < 5:
 		v = 5
+	# Version 5 -> 6: the per-kick log (CareerData.kick_log). Past kicks were
+	# never logged, so it starts empty; Stats shows "-" where it would need them.
+	if v < 6:
+		d["kick_log"] = []
+		v = 6
 	if v > CareerData.VERSION:
 		push_warning("CareerSave: career is from a newer version (%d)" % v)
 	d["career_version"] = CareerData.VERSION
