@@ -18,7 +18,8 @@ func _build(col: VBoxContainer) -> void:
 	list.add_child(UiKit.stat_row("Field goals", "%d / %d  (%d%%)" % [int(c.season_stats["fg_made"]),
 		int(c.season_stats["fg_att"]), roundi(fgp * 100.0)]))
 	if c.age > 32:
-		list.add_child(UiKit.label("Age is starting to count against you. Hard limit: %d." % t.pro_age_cap, 24, UiKit.MUTED))
+		list.add_child(UiKit.label("Age is starting to count against you: standing drops a little every year, "
+			+ "and older free agents get fewer tryouts.", 24, UiKit.MUTED))
 	var main: Button
 	match status:
 		"continue":
