@@ -137,3 +137,9 @@ class LintTests(unittest.TestCase):
         self.assertEqual(self.codes({"text": "x", "choices": [a, b]}), [])
         c = self.choice(stats={"life": {"energy": -1, "social": 2}}, skill_points=2)
         self.assertIn("dominated", self.codes({"text": "x", "choices": [a, c]}))
+
+    def test_pronoun_for_an_npc_is_not_flagged(self):
+        e = {"text": "A trainer at the park says he coached college kickers. {coach} has never heard of him.",
+             "choices": [self.choice(label="Ask {coach} about him", result="You ask, and he shrugs."),
+                         self.choice(stats={"life": {"energy": 2, "social": -3}})]}
+        self.assertNotIn("pronoun", self.codes(e))

@@ -61,11 +61,28 @@ def _fields(entry):
     return out
 
 
+def _other_referent(text):
+    """True if the scenario text already uses he/she for someone who isn't a neutral cast member
+    (an NPC like "a transfer quarterback", or {tyler}): choice lines may then mean that person."""
+    last = None
+    for m in sorted([(m.start(), "ph", m.group(1)) for m in PLACEHOLDER.finditer(text)] +
+                    [(m.start(), "pr", m.group(0)) for m in GENDERED.finditer(text)]):
+        if m[1] == "ph":
+            last = m[2]
+        elif last not in NEUTRAL:
+            return True
+    return False
+
+
 def _pronoun_findings(entry):
     found = []
-    text_ph = PLACEHOLDER.findall(str(entry.get("text", "")))
+    text = str(entry.get("text", ""))
+    text_ph = PLACEHOLDER.findall(text)
     context = text_ph[-1] if text_ph else None  # who a choice line talks about by default
+    ambiguous = _other_referent(text)
     for where, s in _fields(entry):
+        if ambiguous:
+            break  # the scene already has a he/she for someone else: too unsure to flag
         last = None if where == "text" else context
         tokens = sorted([(m.start(), "ph", m.group(1)) for m in PLACEHOLDER.finditer(s)] +
                         [(m.start(), "pr", m.group(0)) for m in GENDERED.finditer(s)])
