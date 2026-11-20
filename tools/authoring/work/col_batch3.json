@@ -1,0 +1,1039 @@
+{
+  "_about": "College batch 3: sophomore scenes (COL_062, 037, 039, 042, 043, 045, 046, 047, 049, 052) and the wrong-path steps The Pattern (COL_017), The Final Warning (COL_086) and The Long Way Back (COL_078).",
+  "scenarios": [
+    {
+      "id": "COL_062",
+      "title": "The Advisor's Warning",
+      "category": "school",
+      "text": "{teacher} closes the office door and turns the screen around: one more bad grade this semester and you're academically ineligible. 'I can help,' your advisor says, 'but not if you keep hiding things from me.'",
+      "choices": [
+        {
+          "label": "Lay it all out",
+          "result": "You list every class, every missing assignment and every grade you were hoping nobody would see. {teacher} builds a plan with you on the spot, and you start it that night.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "fun": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "teacher": 6
+          },
+          "grades": 0.2
+        },
+        {
+          "label": "Promise to handle it yourself",
+          "result": "You say you've got it under control and walk out with a list of tutoring hours you mean to use. Some weeks you do. The grade comes back just over the line.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "teacher": -2
+          },
+          "grades": 0.05
+        },
+        {
+          "label": "Drop the hardest class",
+          "result": "You drop the class that's sinking you and take the hit to your credit hours. You're safe this semester, though now you're behind for graduation.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "grades": 0.1
+        }
+      ]
+    },
+    {
+      "id": "COL_037",
+      "title": "The Tutor Who Offers More",
+      "category": "school",
+      "text": "Your tutor glances at your history paper, sighs and offers to 'clean it up' before Friday. You both know that means writing it.",
+      "choices": [
+        {
+          "label": "Write it yourself",
+          "result": "You thank the tutor, ask for feedback instead and rewrite the paper over two late nights. It's a B-minus, and every word of it is yours.",
+          "stats": {
+            "life": {
+              "energy": -4,
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "tired"
+          ],
+          "rel": {
+            "teacher": 3
+          },
+          "grades": 0.1
+        },
+        {
+          "label": "Ask for an extension",
+          "result": "You email your professor and ask for three more days because of travel. You get two, and the paper is better for them.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "grades": 0.05
+        },
+        {
+          "label": "Let the tutor 'clean it up'",
+          "result": "You hand it over. It comes back sharp, clever and nothing like the way you write. Your professor notices that too.",
+          "stats": {
+            "life": {
+              "energy": 3,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": -2,
+              "leadership": -1
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ],
+          "set_flags": {
+            "academic_shortcut": true
+          },
+          "rel": {
+            "coach": -2
+          },
+          "conduct": "bad",
+          "grades": 0.1
+        }
+      ]
+    },
+    {
+      "id": "COL_039",
+      "title": "The Big House Party",
+      "category": "social",
+      "text": "An off-campus party gets out of hand fast: too many people, a broken window, and someone saying campus security is on the way. A teammate who's in bad shape can't find his ride.",
+      "choices": [
+        {
+          "label": "Get him home",
+          "result": "You find his phone, call an older teammate with a car and get him home before security arrives. You spend the rest of the night making sure he's okay.",
+          "stats": {
+            "life": {
+              "energy": -4,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "tired"
+          ],
+          "rel": {
+            "team": 4,
+            "coach": 2
+          },
+          "conduct": "good"
+        },
+        {
+          "label": "Leave before it gets worse",
+          "result": "You grab your jacket and walk out the back before the lights come on. You're asleep by midnight, and the story on Monday doesn't have your name in it.",
+          "stats": {
+            "life": {
+              "energy": 3,
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Stay for the chaos",
+          "result": "You stay until security shows up and the names get written down, yours included. It's a legendary night for about a day, until the athletic department gets the list.",
+          "stats": {
+            "life": {
+              "fun": 5,
+              "social": 3,
+              "energy": -6
+            },
+            "football": {},
+            "personality": {
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "late_night"
+          ],
+          "set_flags": {
+            "party_trouble": true
+          },
+          "rel": {
+            "coach": -6
+          },
+          "conduct": "bad",
+          "draft": -2
+        }
+      ]
+    },
+    {
+      "id": "COL_042",
+      "title": "The New Freshman Kicker",
+      "category": "team",
+      "text": "{coach} signs a scholarship freshman kicker, {backup}, and assigns them to share your reps and your row in the locker room. {backup} is quiet, nervous, and has a much bigger leg than you expected.",
+      "choices": [
+        {
+          "label": "Show {backup} the ropes",
+          "result": "You walk {backup} through the specialists' schedule, the film room and which upperclassmen to avoid. It costs you a few reps, and {backup} starts asking you questions instead of the coaches.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "mentored_backup": true
+          },
+          "rel": {
+            "backup": 8,
+            "coach": 2
+          }
+        },
+        {
+          "label": "Keep {backup} at arm's length",
+          "result": "You stay polite and give {backup} nothing extra. Your reps stay your reps, and the kicking net gets very quiet.",
+          "stats": {
+            "life": {
+              "social": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2,
+          "set_flags": {
+            "iced_out_backup": true
+          },
+          "rel": {
+            "backup": -6
+          }
+        }
+      ]
+    },
+    {
+      "id": "COL_043",
+      "title": "The Position Battle",
+      "category": "team",
+      "text": "Fall camp turns into a public competition with {backup}. Every kick is charted on a whiteboard by the locker room door, and the depth chart comes out Friday.",
+      "choices": [
+        {
+          "label": "Compete clean",
+          "result": "You kick your best, congratulate {backup}'s good ones and let the chart speak. Friday, your name is still on top, and the room respects how it got there.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 2,
+          "set_flags": {
+            "competed_clean": true
+          },
+          "rel": {
+            "backup": 3,
+            "coach": 2
+          }
+        },
+        {
+          "label": "Get in {backup}'s head",
+          "result": "You mention, casually, how the last backup cracked under the camp pressure. {backup} misses two in a row that afternoon. You keep the job; you lose some of the room.",
+          "stats": {
+            "life": {
+              "social": -2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "pumped_up"
+          ],
+          "skill_points": 1,
+          "set_flags": {
+            "undermined_backup": true
+          },
+          "rel": {
+            "backup": -8,
+            "team": -3
+          }
+        }
+      ]
+    },
+    {
+      "id": "COL_045",
+      "title": "Did I Pick Right?",
+      "category": "social",
+      "text": "Friends at other schools look happier in every post, and a teammate keeps talking about the transfer portal like it's an escape hatch. You find yourself scrolling other teams' rosters at night.",
+      "choices": [
+        {
+          "label": "Recommit out loud",
+          "result": "You tell {coach} you're all in here, and you mean it. Saying it makes the doubts quieter, and the coach remembers that you said it.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {
+            "recommitted": true
+          },
+          "rel": {
+            "coach": 4
+          }
+        },
+        {
+          "label": "Keep your options open",
+          "result": "You start reading about other programs and how the portal works. Nothing's decided, but your mind is half somewhere else.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ],
+          "set_flags": {
+            "eyed_portal": true
+          }
+        },
+        {
+          "label": "Talk it through with {parent}",
+          "result": "You call {parent} and say it plainly: you don't know if you picked right. He listens, then asks what would actually be different somewhere else. You don't have a good answer.",
+          "stats": {
+            "life": {
+              "social": 1,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "parent": 4
+          }
+        },
+        {
+          "label": "Admit you never really decided",
+          "result": "You realize you came here without ever fully deciding, and that's the real problem. You sit down and decide now, on purpose. It feels like the first day all over again, in a good way.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "recommitted": true
+          },
+          "requires": {
+            "flags": [
+              "college_decision_pending"
+            ]
+          },
+          "lock_text": "never having fully decided where you belonged"
+        }
+      ]
+    },
+    {
+      "id": "COL_046",
+      "title": "The Portal Call",
+      "category": "team",
+      "text": "A coach from another school calls your phone directly, which isn't allowed. He says there's a spot for you if you ever 'get curious,' and he'd love to talk numbers.",
+      "choices": [
+        {
+          "label": "Report the call",
+          "result": "You tell {coach} and the compliance office about the call the same day. It's awkward, and it's the right thing; the other school gets a letter.",
+          "stats": {
+            "life": {
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {
+            "reported_tampering": true
+          },
+          "rel": {
+            "coach": 5
+          },
+          "conduct": "good"
+        },
+        {
+          "label": "Hang up and forget it",
+          "result": "You say you're not interested and hang up. You don't tell anyone, and you don't think about it again, mostly.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Hear him out",
+          "result": "You listen to the pitch and agree to 'stay in touch.' A week later a compliance officer asks you why that coach's number is in your call log.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ],
+          "set_flags": {
+            "portal_tampering": true
+          },
+          "rel": {
+            "coach": -6
+          },
+          "conduct": "bad",
+          "draft": -2
+        }
+      ]
+    },
+    {
+      "id": "COL_047",
+      "title": "The Sophomore Slump",
+      "category": "health",
+      "text": "Your practice charts are the worst they've been since high school. You can't stop thinking about it: in class, at dinner, at two in the morning.",
+      "choices": [
+        {
+          "label": "Ask {coach} what's changed",
+          "result": "You bring your chart to {coach} and ask straight out what's wrong. The answer is small and fixable: your plant foot has drifted. Knowing that helps more than any pep talk.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2,
+          "rel": {
+            "coach": 3
+          }
+        },
+        {
+          "label": "Grind through it alone",
+          "result": "You don't tell anyone and add a hundred kicks a day. Your leg gets tired, your head gets louder, and the charts barely move.",
+          "stats": {
+            "life": {
+              "energy": -4,
+              "social": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "heavy_legs"
+          ],
+          "skill_points": 3,
+          "set_flags": {
+            "spiraled_alone": true
+          }
+        },
+        {
+          "label": "Take a weekend off",
+          "result": "You leave the bag at the facility for two days and do nothing football. You come back looser, and the first few kicks feel like yours again.",
+          "stats": {
+            "life": {
+              "energy": 3,
+              "fun": 3
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ]
+        },
+        {
+          "label": "Go back to the sports psychologist",
+          "result": "You book the Tuesday slot again and talk through the slump. You leave with a reset routine for bad days, and Thursday's charting looks like you.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "requires": {
+            "flags": [
+              "saw_sports_psych"
+            ]
+          },
+          "lock_text": "having worked with the sports psychologist"
+        }
+      ]
+    },
+    {
+      "id": "COL_049",
+      "title": "The Injury You Can't Hide",
+      "category": "health",
+      "text": "A groin strain flares on every kickoff. The trainer wants you out of kicking drills for a week; the season, and the backup kicker watching you warm up, say otherwise.",
+      "choices": [
+        {
+          "label": "Follow the trainer's plan",
+          "result": "You sit out a week of drills and do every band exercise the trainer gives you. It's maddening, but you come back without the pull.",
+          "stats": {
+            "life": {
+              "health": 6,
+              "fun": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Kick through it, carefully",
+          "result": "You keep kicking with a shorter run-up and ice twice a day. You get your reps, and the strain stays exactly as bad as it was.",
+          "stats": {
+            "life": {
+              "health": -2
+            },
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "sore"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Hide it from the staff",
+          "result": "You tell the trainer it's fine and tape it yourself. It holds for a week, until a long kickoff in practice leaves you limping off the field in front of everyone.",
+          "stats": {
+            "life": {
+              "health": -5,
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "sore"
+          ],
+          "skill_points": 3,
+          "rel": {
+            "coach": -4
+          }
+        },
+        {
+          "label": "Do the rehab the right way",
+          "result": "You've done this before, so you build the rehab week yourself and show it to the trainer, who barely changes a thing. You're back to full speed in five days.",
+          "stats": {
+            "life": {
+              "health": 6,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "fresh_legs"
+          ],
+          "rel": {
+            "coach": 3
+          },
+          "requires": {
+            "flags": [
+              "committed_to_recovery"
+            ]
+          },
+          "lock_text": "having done a full rehab before"
+        }
+      ]
+    },
+    {
+      "id": "COL_052",
+      "title": "Someone New",
+      "category": "romance",
+      "text": "A classmate from your statistics class asks if you want to study together before the midterm, and it doesn't feel like it's only about studying.",
+      "choices": [
+        {
+          "label": "Say yes",
+          "result": "You meet at the library and spend more time talking than studying. You both pass the midterm, and you have a standing Thursday night after that.",
+          "stats": {
+            "life": {
+              "fun": 4,
+              "social": 2,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "dating_classmate": true
+          },
+          "grades": 0.05
+        },
+        {
+          "label": "Keep it to studying",
+          "result": "You say yes to the study session and keep it about statistics. It's friendly and useful, and you both ace the midterm.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "grades": 0.1
+        },
+        {
+          "label": "Say the season comes first",
+          "result": "You thank them and say your schedule is too full right now. It's true, and it still stings a little on the walk home.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1
+        }
+      ]
+    },
+    {
+      "id": "COL_017",
+      "title": "The Pattern",
+      "category": "team",
+      "text": "You owned your first mistake, and the staff believed you. Now there's another one, and {coach} wants to know whether that first apology meant anything.",
+      "choices": [
+        {
+          "label": "Own it again, and change something",
+          "result": "You don't explain it away. You tell {coach} what happened, what you'll change and who can hold you to it. The coach is quiet for a long time, then says this is the last time this conversation is a conversation.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "social": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "set_flags": {
+            "missed_curfew": false,
+            "hazing_participant": false,
+            "snuck_out_road": false,
+            "took_improper_benefit": false,
+            "online_incident": false,
+            "academic_shortcut": false,
+            "skipped_conditioning": false,
+            "shared_prescription": false,
+            "party_trouble": false,
+            "portal_tampering": false,
+            "took_unapproved_supplement": false,
+            "rivalry_prank": false,
+            "stayed_out_late": false,
+            "secret_agent_deal": false,
+            "hosted_recruit_badly": false,
+            "sabotaged_transfer": false,
+            "rode_along": false,
+            "ran_with_wrong_crowd": false,
+            "cash_camp": false,
+            "partied_before_pro_day": false,
+            "senior_trip_trouble": false,
+            "owned_it_again": true,
+            "second_chance_used": true
+          },
+          "rel": {
+            "coach": 3
+          },
+          "draft": -2
+        },
+        {
+          "label": "Say it was different this time",
+          "result": "You explain why this one isn't like the first one. {coach} listens to all of it and doesn't believe any of it, and you can see the moment the coach stops trusting what you say.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "leadership": -3
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "missed_curfew": false,
+            "hazing_participant": false,
+            "snuck_out_road": false,
+            "took_improper_benefit": false,
+            "online_incident": false,
+            "academic_shortcut": false,
+            "skipped_conditioning": false,
+            "shared_prescription": false,
+            "party_trouble": false,
+            "portal_tampering": false,
+            "took_unapproved_supplement": false,
+            "rivalry_prank": false,
+            "stayed_out_late": false,
+            "secret_agent_deal": false,
+            "hosted_recruit_badly": false,
+            "sabotaged_transfer": false,
+            "rode_along": false,
+            "ran_with_wrong_crowd": false,
+            "cash_camp": false,
+            "partied_before_pro_day": false,
+            "senior_trip_trouble": false,
+            "character_concerns": true
+          },
+          "rel": {
+            "coach": -10
+          },
+          "conduct": "bad",
+          "draft": -5
+        }
+      ]
+    },
+    {
+      "id": "COL_086",
+      "title": "The Final Warning",
+      "category": "team",
+      "text": "Another incident. {coach} and the head coach sit you down together and don't soften it: there are no more warnings after this one, and scouts have already started asking about you.",
+      "choices": [
+        {
+          "label": "Accept every condition",
+          "result": "You agree to all of it: early workouts for a month, no road-trip free time, weekly check-ins with {coach}. It costs you a lot of your season, and nobody in that room has to wonder about you again.",
+          "stats": {
+            "life": {
+              "energy": -5,
+              "fun": -4,
+              "social": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "set_flags": {
+            "missed_curfew": false,
+            "hazing_participant": false,
+            "snuck_out_road": false,
+            "took_improper_benefit": false,
+            "online_incident": false,
+            "academic_shortcut": false,
+            "skipped_conditioning": false,
+            "shared_prescription": false,
+            "party_trouble": false,
+            "portal_tampering": false,
+            "took_unapproved_supplement": false,
+            "rivalry_prank": false,
+            "stayed_out_late": false,
+            "secret_agent_deal": false,
+            "hosted_recruit_badly": false,
+            "sabotaged_transfer": false,
+            "rode_along": false,
+            "ran_with_wrong_crowd": false,
+            "cash_camp": false,
+            "partied_before_pro_day": false,
+            "senior_trip_trouble": false,
+            "last_chance": true
+          },
+          "rel": {
+            "coach": 4
+          },
+          "draft": -3
+        },
+        {
+          "label": "Push back on the conditions",
+          "result": "You argue that the conditions are too much for what happened. The head coach ends the meeting early. By the next week, the word around the program is that you're a problem.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "leadership": -3
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "missed_curfew": false,
+            "hazing_participant": false,
+            "snuck_out_road": false,
+            "took_improper_benefit": false,
+            "online_incident": false,
+            "academic_shortcut": false,
+            "skipped_conditioning": false,
+            "shared_prescription": false,
+            "party_trouble": false,
+            "portal_tampering": false,
+            "took_unapproved_supplement": false,
+            "rivalry_prank": false,
+            "stayed_out_late": false,
+            "secret_agent_deal": false,
+            "hosted_recruit_badly": false,
+            "sabotaged_transfer": false,
+            "rode_along": false,
+            "ran_with_wrong_crowd": false,
+            "cash_camp": false,
+            "partied_before_pro_day": false,
+            "senior_trip_trouble": false,
+            "character_concerns": true
+          },
+          "rel": {
+            "coach": -12,
+            "team": -4
+          },
+          "conduct": "scandal",
+          "draft": -8
+        }
+      ]
+    },
+    {
+      "id": "COL_078",
+      "title": "The Long Way Back",
+      "category": "team",
+      "text": "You've got a reputation now, and the staff is watching. {coach} offers one way back: 6 a.m. workouts with the strength staff, twenty community hours, and no more excuses for the rest of the year.",
+      "choices": [
+        {
+          "label": "Take every hour of it",
+          "result": "You show up at six every day for a semester, finish the community hours early and keep your name out of every story. In the spring, {coach} tells a visiting scout you're not the same player, and means it.",
+          "stats": {
+            "life": {
+              "energy": -6,
+              "fun": -3
+            },
+            "football": {},
+            "personality": {
+              "leadership": 3,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "tired"
+          ],
+          "set_flags": {
+            "rebuilt_reputation": true,
+            "character_concerns": false
+          },
+          "rel": {
+            "coach": 8,
+            "team": 4
+          },
+          "conduct": "good",
+          "draft": 3
+        },
+        {
+          "label": "Do the minimum",
+          "result": "You do the workouts you can't skip and the hours you can't avoid. Nothing new goes wrong, but nothing changes either, and the label stays.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": -2
+          }
+        },
+        {
+          "label": "Tell {coach} you've already paid for it",
+          "result": "You say you've served your time and don't need a program. {coach} closes the folder and says that's your choice. It's the last offer you get.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "coach": -8
+          },
+          "conduct": "bad",
+          "draft": -2
+        }
+      ]
+    }
+  ]
+}
