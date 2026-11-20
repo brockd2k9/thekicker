@@ -7,37 +7,31 @@
       "title": "The Open Gym",
       "_info": {
         "when": "Freshman year (season 1), any week",
-        "must_set_flags": [
-          "joined_open_gym"
-        ]
+        "must_set_flags": ["joined_open_gym"]
       },
-      "category": "",
-      "text": "",
+      "category": "training",
+      "text": "The school opens the gym after classes, and a few players are setting up a kicking station. You have time to join them, but you also have homework and a chance to take the afternoon easy.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Join the kicking session",
+          "result": "You take turns kicking into the practice net and get pointers on your approach. The extra reps sharpen your routine, though you get home later than planned.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": -4, "fun": 2},
+            "personality": {"ambition": 2}
           },
-          "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "joined_open_gym": true
-          }
+          "skill_points": 3,
+          "modifiers": ["dialed_in"],
+          "set_flags": {"joined_open_gym": true}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Save the afternoon",
+          "result": "You head home instead and get your assignments finished before relaxing. Your legs feel fresh the next day, but you miss a chance to get extra work in.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": 4, "fun": 2, "social": -2},
+            "personality": {"intelligence": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": ["rested"],
           "set_flags": {}
         }
       ]
@@ -47,59 +41,44 @@
       "title": "The First Group Chat",
       "_info": {
         "when": "Freshman year (season 1), any week",
-        "must_set_flags": [
-          "defended_teammate_online",
-          "private_support",
-          "joined_group_mockery"
-        ],
-        "leads_to": [
-          "unlocks HS_139 (The Screenshot) when defended_teammate_online"
-        ]
+        "must_set_flags": ["defended_teammate_online", "private_support", "joined_group_mockery"],
+        "leads_to": ["unlocks HS_139 (The Screenshot) when defended_teammate_online"]
       },
-      "category": "",
-      "text": "",
+      "category": "social",
+      "text": "A group chat starts making fun of a teammate after an awkward moment at practice, and the jokes keep piling up. You know the teammate will probably see the messages, and everyone in the chat can see what you do next.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Tell them to knock it off",
+          "result": "You say the jokes have gone too far and ask the group to leave the teammate alone. A few people go quiet, but you feel better knowing you didn't let it slide.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"social": -3, "energy": -2},
+            "personality": {"leadership": 3, "charisma": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "defended_teammate_online": true
-          }
+          "modifiers": ["confident"],
+          "set_flags": {"defended_teammate_online": true}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Check in privately",
+          "result": "You message the teammate directly and let them know you saw the chat and don't agree with it. They appreciate hearing from you, even though the group chat carries on without you stepping in publicly.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"social": 1, "energy": -1},
+            "personality": {"intelligence": 1, "charisma": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "private_support": true
-          }
+          "modifiers": ["inspired"],
+          "set_flags": {"private_support": true}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Join in with the jokes",
+          "result": "You add a joke of your own, and the chat fills with laughing reactions. It feels easy to fit in for the moment, but the teammate stops talking when you see them at practice.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"social": 4, "fun": 3},
+            "personality": {"leadership": -2, "charisma": -1}
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "joined_group_mockery": true
-          }
+          "modifiers": ["distracted"],
+          "set_flags": {"joined_group_mockery": true}
         }
       ]
     },
@@ -108,68 +87,47 @@
       "title": "The Family Road Trip",
       "_info": {
         "when": "Freshman year (season 1), any week",
-        "must_set_flags": [
-          "prioritized_family_trip",
-          "attended_first_clinic",
-          "balanced_family_commitments"
-        ],
-        "people": [
-          "parent"
-        ]
+        "must_set_flags": ["prioritized_family_trip", "attended_first_clinic", "balanced_family_commitments"],
+        "people": ["parent"]
       },
-      "category": "",
-      "text": "",
+      "category": "family",
+      "text": "Your family has planned a road trip for the same weekend as your first kicking clinic. {parent} says the trip matters to everyone, while the clinic could give you a chance to learn from experienced kickers.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Take the family trip",
+          "result": "You go on the trip and enjoy having everyone together without thinking about practice for a couple of days. You miss the clinic, but Dad appreciates that you made the family plans a priority.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"fun": 5, "social": 3, "energy": 2},
+            "personality": {"leadership": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "prioritized_family_trip": true
-          },
-          "rel": {
-            "parent": 0
-          }
+          "modifiers": ["loose"],
+          "set_flags": {"prioritized_family_trip": true},
+          "rel": {"parent": 8}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Attend the kicking clinic",
+          "result": "You explain why the clinic matters and travel there while your family heads out. You get valuable instruction and several focused reps, though you miss the shared trip and Dad is disappointed.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": -4, "fun": -3, "social": -2},
+            "personality": {"ambition": 2}
           },
-          "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "attended_first_clinic": true
-          },
-          "rel": {
-            "parent": 0
-          }
+          "skill_points": 3,
+          "modifiers": ["dialed_in"],
+          "set_flags": {"attended_first_clinic": true},
+          "rel": {"parent": -3}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Work out a split weekend",
+          "result": "You attend part of the clinic, then meet your family for the rest of the trip. You don't get the full clinic experience, but you still learn a few things and make time for everyone.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": -2, "fun": 2, "social": 2},
+            "personality": {"intelligence": 2}
           },
-          "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "balanced_family_commitments": true
-          },
-          "rel": {
-            "parent": 0
-          }
+          "skill_points": 2,
+          "modifiers": ["focused"],
+          "set_flags": {"balanced_family_commitments": true},
+          "rel": {"parent": 5}
         }
       ]
     },
@@ -178,56 +136,37 @@
       "title": "The Substitute Holder",
       "_info": {
         "when": "Freshman year (season 1), any week",
-        "must_set_flags": [
-          "trained_backup_holder",
-          "refused_holder_help"
-        ],
-        "people": [
-          "holder"
-        ],
-        "leads_to": [
-          "unlocks HS_145 (The Holder's Big Moment) when trained_backup_holder"
-        ],
-        "absorbs": [
-          "HS_038"
-        ]
+        "must_set_flags": ["trained_backup_holder", "refused_holder_help"],
+        "people": ["holder"],
+        "leads_to": ["unlocks HS_145 (The Holder's Big Moment) when trained_backup_holder"],
+        "absorbs": ["HS_038"]
       },
-      "category": "",
-      "text": "",
+      "category": "team",
+      "text": "Your usual holder, {holder}, is unavailable for part of practice, and a backup is filling in. The backup is still learning how to place the ball and time the snap, so you can either help them get comfortable or stick to your own routine.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Help train the backup holder",
+          "result": "You slow things down and work through the snap, spot, and timing together. It takes time away from your own kicks, but the backup starts getting the ball down more consistently.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": -3, "social": 2},
+            "personality": {"leadership": 2, "intelligence": 1}
           },
-          "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "trained_backup_holder": true
-          },
-          "rel": {
-            "holder": 0
-          }
+          "skill_points": 2,
+          "modifiers": ["focused"],
+          "set_flags": {"trained_backup_holder": true},
+          "rel": {"holder": 7}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Stick with your own routine",
+          "result": "You ask to keep your reps moving and let the coaches handle the backup's instruction. You get more kicks in, but the backup is still unsure about the timing when practice ends.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": -2, "social": -2},
+            "personality": {"ambition": 2}
           },
-          "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "refused_holder_help": true
-          },
-          "rel": {
-            "holder": 0
-          }
+          "skill_points": 1,
+          "modifiers": ["dialed_in"],
+          "set_flags": {"refused_holder_help": true},
+          "rel": {"holder": -4}
         }
       ]
     },
@@ -236,44 +175,33 @@
       "title": "The First Volunteer Day",
       "_info": {
         "when": "Freshman year (season 1), any week",
-        "must_set_flags": [
-          "community_volunteer",
-          "partial_volunteer"
-        ],
-        "leads_to": [
-          "unlocks HS_134 (The Community Recognition) when community_volunteer"
-        ]
+        "must_set_flags": ["community_volunteer", "partial_volunteer"],
+        "leads_to": ["unlocks HS_134 (The Community Recognition) when community_volunteer"]
       },
-      "category": "",
-      "text": "",
+      "category": "community",
+      "text": "A community volunteer day is coming up, and organizers need help setting up a youth sports field before the weekend games. You can commit to the full morning or stop by for a shorter shift around your other plans.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Commit to the full morning",
+          "result": "You spend the morning moving equipment, setting up cones, and getting the field ready. You're worn out by the end, but the organizers are grateful you stayed until the work was done.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": -5, "fun": 2, "social": 3},
+            "personality": {"leadership": 3, "charisma": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "community_volunteer": true
-          }
+          "modifiers": ["inspired"],
+          "set_flags": {"community_volunteer": true}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Help for a shorter shift",
+          "result": "You arrive early, help unload supplies, and stay until the main setup is finished. You have time for the rest of your day, though you leave before the final cleanup.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": -2, "fun": 1, "social": 2},
+            "personality": {"leadership": 1, "intelligence": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "partial_volunteer": true
-          }
+          "modifiers": ["confident"],
+          "set_flags": {"partial_volunteer": true}
         }
       ]
     },
@@ -282,56 +210,43 @@
       "title": "The First Time You're Recognized",
       "_info": {
         "when": "Freshman year (season 1), any week",
-        "must_set_flags": [
-          "shared_first_success",
-          "enjoys_spotlight",
-          "downplays_success"
-        ]
+        "must_set_flags": ["shared_first_success", "enjoys_spotlight", "downplays_success"]
       },
-      "category": "",
-      "text": "",
+      "category": "media",
+      "text": "After you make your first important kick in a game, a school photographer asks for a quick picture and a few words about the moment. Teammates nearby are still celebrating, and you have a chance to decide how to handle the attention.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Give the team the credit",
+          "result": "You mention the snap, the hold, and the teammates who helped you prepare. The photographer gets a good quote, and your teammates appreciate that you included them in the moment.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"social": 3, "fun": 2},
+            "personality": {"leadership": 2, "charisma": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "shared_first_success": true
-          }
+          "modifiers": ["inspired"],
+          "set_flags": {"shared_first_success": true}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Enjoy the attention",
+          "result": "You smile for the camera and talk about how much the kick means to you. The attention feels great, though a couple of teammates think you could have mentioned the work everyone put in.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"fun": 4, "social": 3, "energy": -1},
+            "personality": {"charisma": 2, "ambition": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "enjoys_spotlight": true
-          }
+          "modifiers": ["spotlight"],
+          "set_flags": {"enjoys_spotlight": true}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Keep it low-key",
+          "result": "You tell the photographer it was just one kick and that there's plenty of work left to do. You avoid the spotlight, but some classmates read your answer as brushing off a moment they were excited to celebrate.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": 2, "fun": -2, "social": -1},
+            "personality": {"intelligence": 1, "charisma": -1}
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "downplays_success": true
-          }
+          "modifiers": ["focused"],
+          "set_flags": {"downplays_success": true}
         }
       ]
     }
