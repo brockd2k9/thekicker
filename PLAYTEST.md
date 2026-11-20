@@ -180,6 +180,34 @@ gave football gains; +1 to +3, training +2 to +4; the template files were not to
 | traits | `trait_film_room` Coaches' Film Room | training | 2 / - / - | toughness +1 / - / - |
 | traits | `trait_private_coach` Private Kicking Coach | training | 4 / 3 / - | accuracy +2, power +1 / resilience +2 / - |
 
+## Pacing cut, perks, aging and weather (Step 3)
+
+**Quick pacing cut (before Step 4):** `scenario_football_scale` 1.0 -> 0.5; skill point income
+trimmed: weekly practice 2 -> 1 (tired 1 -> 0), offseason 10 -> 6, perfect game 2 -> 1, good /
+great season 8 / 12 -> 6 / 9. Per-kick points unchanged; cost and range curves unchanged.
+Simulator (20 careers per strategy, seed 1, balanced spender that preserves from 30):
+
+| | Target | Step 2 | After the cut |
+|---|---|---|---|
+| FG range, end of HS | 48-50 | 53-58 | 51-55 |
+| FG range, end of college | 52-55 | 59-65 | 56-61 |
+| Skill points per HS season | ~45 | 46-68 | 37-57 |
+| Careers reaching the pros | ~68% | 85% | 68% |
+| Careers drafted | (25% before) | 69% | 43% |
+
+Still 1-6 yd long: Step 4.
+
+**Perks** (`data/career/perks.json`, 15): Ice in the Veins, Short Memory, Clutch, Wind Reader,
+Film Junkie, Big Leg, Cannon, Laser, Smooth Swing, Hang Time, Onside Specialist, Cold Weather
+Kicker, Quick Recovery, Captain's Calm, Iron Leg; costs and effects as approved in the Step 1
+proposal. **Aging** (`career_tuning.tres` "Aging"): decline (1.0 + 0.5 x (age - 30)) x rate
+(Power, Toughness 1.0; Accuracy 0.6; Resilience 0.3) at each season end; preserving costs
+decline x next-point cost x 0.6. **Weather** ("Weather"): from 60% of the season, 25% cold,
+10% snow.
+
+To playtest: do perk costs feel worth it; is maintenance affordable but not free in the early 30s;
+how often do cold and snow games show up.
+
 ## To playtest (final list)
 Most important first. Simulator numbers are from `tools/career_sim_baseline.md`; the sim's kicks
 are a stand-in for real swipes, so everything involving kicking quality needs a real-phone check.

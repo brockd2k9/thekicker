@@ -60,7 +60,27 @@ static func kickoff_rules_for(t: CareerTuning, params: Dictionary, profile: Kick
 	r.onside_aim_deg = t.onside_aim_deg
 	r.onside_good_chance = t.onside_good_chance
 	r.onside_poor_chance = t.onside_poor_chance
+	if profile != null:  # perks (Hang Time, Onside Specialist)
+		var fx := profile.perk_fx
+		r.onside_max_yards += float(fx.get("onside_window_yd", 0.0))
+		r.onside_aim_deg += float(fx.get("onside_aim_deg", 0.0))
+		r.onside_good_chance = clampf(r.onside_good_chance + float(fx.get("onside_recover", 0.0)), 0.0, 1.0)
+		var cut := float(fx.get("return_cut_yd", 0.0))
+		r.return_min_yards = maxf(r.return_min_yards - cut, 0.0)
+		r.return_max_yards = maxf(r.return_max_yards - cut, r.return_min_yards)
 	return r
+
+
+## A field goal / extra point call with perks applied: Clutch takes some
+## pressure off game-winning and tying kicks.
+static func adjust_call(call: Dictionary, profile: KickProfile) -> Dictionary:
+	var lbl := str(call.get("label", ""))
+	var cp := float(profile.perk_fx.get("clutch_pressure", 0.0))
+	if cp == 0.0 or not ("GAME WINNER" in lbl or "TO TIE" in lbl):
+		return call
+	var out := call.duplicate()
+	out["pressure"] = float(call.get("pressure", 0.0)) * maxf(1.0 + cp, 0.0)
+	return out
 
 
 func id() -> StringName:

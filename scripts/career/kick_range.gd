@@ -53,9 +53,9 @@ static func kickoff_range(c: CareerData, t: CareerTuning, power: float = -1.0) -
 	return clampf(kickoff_from_power(p, t) + perk_yards(c, "kickoff_yd"), t.range_min, t.kickoff_range_cap)
 
 
-## Yards from perks (Step 3 fills this in; none yet).
-static func perk_yards(_c: CareerData, _key: String) -> float:
-	return 0.0
+## Yards from perks you own ("range_yd" / "kickoff_yd", perks.json).
+static func perk_yards(c: CareerData, key: String) -> float:
+	return Perks.total(c, key)
 
 
 ## Can a full kickoff reach the end zone at this stage? (tee spot from game_params)

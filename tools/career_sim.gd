@@ -14,7 +14,8 @@ extends Node
 ## retire voluntarily. Kicks use a simple make-chance model (stats, distance
 ## against the field goal range, pressure, narrower posts at higher stages)
 ## standing in for real swipes. Skill points are spent every week by a simple
-## balanced policy (_spend; Step 4 adds spending strategies).
+## balanced policy (_spend: preserve attributes from age 30, then upgrade;
+## Step 4 adds spending strategies and perks).
 
 ## Strategy -> how a choice is scored from its projected stat changes.
 ## Focused players always take the best-scoring choice; random/mixed don't.
@@ -245,6 +246,9 @@ func _choose(c: CareerData, s: Dictionary, strat: String, t: CareerTuning) -> in
 ## Balanced spending: Power and Accuracy count 1.5x, Resilience and Toughness
 ## 1x; the next point goes to the lowest weighted attribute it can afford.
 func _spend(c: CareerData, t: CareerTuning) -> void:
+	# From age 30: preserve Power, then Accuracy, Toughness, Resilience first.
+	for st in ["power", "accuracy", "toughness", "resilience"]:
+		Aging.maintain(c, st, t)
 	var w := {"power": 1.5, "accuracy": 1.5, "resilience": 1.0, "toughness": 1.0}
 	for guard in 200:
 		var best := ""

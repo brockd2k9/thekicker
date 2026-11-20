@@ -173,7 +173,7 @@ static func profile_lines(c: CareerData, t: CareerTuning) -> Array:
 	k = lean(c, TEAM)
 	if k != 0.0:
 		out.append(["Your teammates %s" % ("trust you" if k > 0.0 else "have doubts"),
-			{"pressure_sensitivity": t.rel_team_pressure * k}])
+			{"pressure_sensitivity": t.rel_team_pressure * k * (1.0 + Perks.total(c, "team_pressure"))}])
 	k = lean(c, "holder")
 	if k != 0.0:
 		out.append(["%s's holds" % name_of(c, "holder"), {"accuracy_spread_deg": t.rel_holder_spread * k}])

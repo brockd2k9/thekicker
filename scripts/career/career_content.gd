@@ -316,6 +316,7 @@ static func validate() -> PackedStringArray:
 					problems.append("scenario %s: unknown modifier '%s'" % [id, m])
 	problems.append_array(graph_problems(scenarios()))
 	problems.append_array(Relationships.problems())
+	problems.append_array(Perks.problems())
 	for r in game_day().get("warmup", {}).get("results", {}).values():
 		if modifier(str(r.get("modifier", ""))).is_empty():
 			problems.append("game_day warmup: unknown modifier '%s'" % r.get("modifier"))
