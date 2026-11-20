@@ -1,5 +1,5 @@
 {
- "_doc": "PRO story graph design (skeleton for review, not generated). ages = requires min/max age; seasons_with_club = seasons with the current club (the count restarts at every new club); kind: once / variant (age-banded) / repeat (re-fires with cooldown); waits_on = gameplay requests R1-R7 (consolidated code request to the gameplay session); callbacks = HS/college flags read only by locked choices. Pro strike flags: pro_night_out, pro_unapproved_supplement, pro_bar_fight, pro_shared_inside_info, pro_party_house, pro_reckless_driving, pro_online_rant, pro_gambling_debt, stayed_out_pro.",
+ "_doc": "PRO story graph design (skeleton for review, not generated). ages = requires min/max age; seasons_with_club = seasons with the current club (the count restarts at every new club); kind: once / variant (age-banded) / repeat (re-fires with cooldown); waits_on = gameplay requests R1-R7 (consolidated code request to the gameplay session); callbacks = HS/college flags read only by locked choices. Pro strike flags: pro_night_out, pro_unapproved_supplement, pro_bar_fight, pro_shared_inside_info, pro_party_house, pro_reckless_driving, pro_online_rant, pro_gambling_debt, stayed_out_pro. relationship_strike_flags: the relationship wrong path (cheating); separate from the pro strikes, never read by the team-discipline steps. Partner flags: made_long_distance_work / committed_to_relationship (the high school love interest), new_partner (after Someone New), engaged, married; breakups clear them and set broke_up_pro or divorced.",
  "requests": {
   "R1": "no age cap",
   "R2": "draft/retention read character_concerns / rebuilt_reputation",
@@ -7,7 +7,8 @@
   "R4": "transition flags + right-now state metrics",
   "R5": "{club} / {town}",
   "R6": "once_per_club",
-  "R7": "season-end dismissal"
+  "R7": "season-end dismissal",
+  "R8": "re-point {love_interest} to a new person (choice field)"
  },
  "pro_strike_flags": [
   "stayed_out_pro",
@@ -1004,19 +1005,30 @@
    "title": "Starting Over",
    "group": "Contract and business",
    "chain": "New club",
-   "premise": "You were released in March. Now you're in a stranger's locker room in a city you've never visited.",
+   "premise": "The last club let you go. A week ago you were cleaning out a locker; today you're in a stranger's locker room in a city you've never visited.",
    "ages": null,
-   "seasons_with_club": null,
-   "weeks": null,
+   "seasons_with_club": [
+    1,
+    1
+   ],
+   "weeks": [
+    1,
+    3
+   ],
    "when": null,
-   "requires": null,
+   "requires": {
+    "flags": [
+     "failed_tryouts"
+    ]
+   },
    "sets": [],
    "people": [],
    "kind": "once",
    "waits_on": [
-    "R4 released + signed_new_club"
+    "R4 released (failed_tryouts is also set by a failed college walk-on tryout)"
    ],
-   "callbacks": []
+   "callbacks": [],
+   "note": "Opens after any release or cut (the engine's failed_tryouts list), in the first weeks at the next club. Tone-check scene (being cut at the end of camp)."
   },
   {
    "id": "PRO_043",
@@ -1391,7 +1403,8 @@
     ]
    },
    "sets": [
-    "advisor_stole"
+    "advisor_stole",
+    "hid_the_loss"
    ],
    "people": [],
    "kind": "once",
@@ -1431,7 +1444,7 @@
    "title": "The Restaurant",
    "group": "Money",
    "chain": "Money",
-   "premise": "A teammate's cousin wants your name and your money on a steakhouse downtown.",
+   "premise": "An old college teammate wants your name and your money on a steakhouse downtown. He has a chef, a location and a business plan he wrote last night.",
    "ages": null,
    "seasons_with_club": null,
    "weeks": null,
@@ -1691,7 +1704,8 @@
      "advisor_stole",
      "bad_venture",
      "spent_big_check",
-     "lived_large"
+     "lived_large",
+     "hid_the_loss"
     ]
    },
    "sets": [],
@@ -3124,7 +3138,7 @@
   },
   {
    "id": "PRO_137",
-   "title": "The Retirement Talk at Home",
+   "title": "The Retirement Talk",
    "group": "Veteran and the end",
    "chain": "Retirement",
    "premise": "Your partner asks, gently, how many more seasons.",
@@ -3135,7 +3149,15 @@
    "seasons_with_club": null,
    "weeks": null,
    "when": null,
-   "requires": null,
+   "requires": {
+    "any_flags": [
+     "made_long_distance_work",
+     "committed_to_relationship",
+     "new_partner",
+     "engaged",
+     "married"
+    ]
+   },
    "sets": [
     "planning_retirement"
    ],
@@ -3144,7 +3166,8 @@
    ],
    "kind": "once",
    "waits_on": [],
-   "callbacks": []
+   "callbacks": [],
+   "note": "Partner version; a single player gets the same question in PRO_149 What's Next."
   },
   {
    "id": "PRO_138",
@@ -3444,6 +3467,395 @@
    "waits_on": [],
    "callbacks": [],
    "note": "Age 38 is reachable now (the cap retires a player after the age-38 season); ages above wait on R1."
+  },
+  {
+   "id": "PRO_151",
+   "title": "Someone New",
+   "group": "Relationships",
+   "chain": "Partner",
+   "premise": "You're single in a new city, or the person you dated in college has followed you here, and it's starting to feel serious.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "any_flags": [
+     "ended_long_distance",
+     "dating_classmate",
+     "broke_up_pro",
+     "divorced"
+    ],
+    "not_flags": [
+     "new_partner",
+     "engaged",
+     "married"
+    ]
+   },
+   "sets": [
+    "new_partner",
+    "enjoying_single_life"
+   ],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "repeat",
+   "waits_on": [
+    "R8 re-point {love_interest}"
+   ],
+   "callbacks": [
+    "dating_classmate"
+   ],
+   "note": "One scene for both paths: a player who ended things with the high school love interest meets someone new; a player who dated the college classmate makes the classmate the pro partner (locked choice). Committing re-points {love_interest} to the new partner (R8). Repeats after a breakup or divorce (cooldown 15 weeks)."
+  },
+  {
+   "id": "PRO_152",
+   "title": "The Setup",
+   "group": "Relationships",
+   "chain": "Single",
+   "premise": "A teammate's wife has decided you need to meet her friend, and dinner is Saturday whether you like it or not.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "not_flags": [
+     "made_long_distance_work",
+     "committed_to_relationship",
+     "new_partner",
+     "engaged",
+     "married",
+     "dating_classmate"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "team"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Single, dating around; no cheating framing."
+  },
+  {
+   "id": "PRO_153",
+   "title": "The Profile",
+   "group": "Relationships",
+   "chain": "Single",
+   "premise": "Someone screenshots your dating profile and it ends up on a fan account with a caption you didn't write.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "not_flags": [
+     "made_long_distance_work",
+     "committed_to_relationship",
+     "new_partner",
+     "engaged",
+     "married",
+     "dating_classmate"
+    ]
+   },
+   "sets": [],
+   "people": [],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_154",
+   "title": "The Famous Date",
+   "group": "Relationships",
+   "chain": "Single",
+   "premise": "You're photographed at dinner with someone famous, and by morning the internet has decided you're engaged.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "not_flags": [
+     "made_long_distance_work",
+     "committed_to_relationship",
+     "new_partner",
+     "engaged",
+     "married",
+     "dating_classmate"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "team"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Followers up; the date has opinions about your schedule."
+  },
+  {
+   "id": "PRO_155",
+   "title": "The Fan",
+   "group": "Relationships",
+   "chain": "Temptation",
+   "premise": "A fan who's been at every signing this season slips you a hotel key card with your autograph.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "new_partner"
+    ],
+    "not_flags": [
+     "engaged",
+     "married"
+    ]
+   },
+   "sets": [
+    "pro_cheated"
+   ],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Dating stage. Strike: pro_cheated."
+  },
+  {
+   "id": "PRO_156",
+   "title": "The Hotel Bar",
+   "group": "Relationships",
+   "chain": "Temptation",
+   "premise": "After a road game, the team hotel's bar. Someone who isn't {love_interest} has been talking to you for an hour and doesn't want the night to end.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "any_flags": [
+     "made_long_distance_work",
+     "committed_to_relationship"
+    ],
+    "not_flags": [
+     "engaged",
+     "married"
+    ]
+   },
+   "sets": [
+    "pro_cheated"
+   ],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Committed stage (still with the high school love interest). Tone-check scene."
+  },
+  {
+   "id": "PRO_157",
+   "title": "The Sponsor's Rep",
+   "group": "Relationships",
+   "chain": "Temptation",
+   "premise": "The rep from your biggest sponsor has handled your account for a year. Tonight the dinner is just the two of you, and she suggests a nightcap at her hotel.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "engaged"
+    ],
+    "not_flags": [
+     "married"
+    ]
+   },
+   "sets": [
+    "pro_cheated",
+    "affair_public"
+   ],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Engaged stage. Going public costs the sponsor (scandal)."
+  },
+  {
+   "id": "PRO_158",
+   "title": "The Teammate's Friend",
+   "group": "Relationships",
+   "chain": "Temptation",
+   "premise": "A teammate's friend keeps showing up at the team's Thursday dinners, and keeps sitting next to you.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "married"
+    ],
+    "not_flags": [
+     "became_parent"
+    ]
+   },
+   "sets": [
+    "pro_cheated"
+   ],
+   "people": [
+    "love_interest",
+    "team"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Married stage."
+  },
+  {
+   "id": "PRO_159",
+   "title": "The Long Week on the Road",
+   "group": "Relationships",
+   "chain": "Temptation",
+   "premise": "Two road games back to back, ten days from home, and a woman at the team hotel who knows exactly who you are and doesn't care that you're married.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "married",
+     "became_parent"
+    ]
+   },
+   "sets": [
+    "pro_cheated"
+   ],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Married with kids. The kids appear only in the text."
+  },
+  {
+   "id": "PRO_160",
+   "title": "Found Out",
+   "group": "Relationships",
+   "chain": "Temptation",
+   "premise": "{love_interest} has your phone in one hand and a question in the other.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "pro_cheated"
+    ]
+   },
+   "sets": [
+    "confessed_affair",
+    "lied_about_affair"
+   ],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Story event, soon after the strike. Confess: costs now, keeps the door open. Lie: worse when it surfaces."
+  },
+  {
+   "id": "PRO_161",
+   "title": "The Lie Comes Out",
+   "group": "Relationships",
+   "chain": "Temptation",
+   "premise": "The story you told {love_interest} has just fallen apart, in a text from someone you've never met.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "lied_about_affair"
+    ]
+   },
+   "sets": [
+    "affair_public",
+    "broke_up_pro"
+   ],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Breaking up clears every partner flag (made_long_distance_work, committed_to_relationship, new_partner, engaged)."
+  },
+  {
+   "id": "PRO_162",
+   "title": "Starting Over, Together",
+   "group": "Relationships",
+   "chain": "Temptation",
+   "premise": "{love_interest} agrees to see a counselor with you. The first session is Thursday, and the counselor asks who wants to go first.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "confessed_affair"
+    ]
+   },
+   "sets": [
+    "repaired_relationship",
+    "broke_up_pro"
+   ],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_163",
+   "title": "The Divorce",
+   "group": "Relationships",
+   "chain": "Temptation",
+   "premise": "The lawyers have the paperwork ready, and {love_interest} wants to talk before anyone signs anything.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "married"
+    ],
+    "any_flags": [
+     "lied_about_affair",
+     "affair_public",
+     "confessed_affair",
+     "marriage_strained"
+    ]
+   },
+   "sets": [
+    "divorced"
+   ],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [
+    "R3 money values"
+   ],
+   "callbacks": [],
+   "note": "Divorce clears married and the other partner flags; the money cost lands with savings (R3). People: kids in the text only."
   }
+ ],
+ "relationship_strike_flags": [
+  "pro_cheated",
+  "affair_public"
  ]
 }

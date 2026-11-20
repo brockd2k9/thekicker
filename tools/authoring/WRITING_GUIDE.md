@@ -296,6 +296,61 @@ never a gate: a player without the flag still gets the whole scene. The template
 as other players' stories or as temptations, never as something that happens to the player. As in high
 school, never describe a game kick or its result.
 
+## Pros (the PRO_* story graph)
+
+Design: `tools/pro_graph/pro_design.json` (readable table: `PRO_DESIGN.md`; engine facts: `PRO_SCOPING.md`).
+Tone: a locker room of flawed adults, a business that treats players as replaceable, loyalty against
+the paycheck. Original scenes only: never reproduce a film's characters, lines or scenes.
+
+**Cast in the pros.** `{coach}` (special teams coach), `{holder}`, `{backup}` and Team are new at every
+club. `{parent}`, `{sibling}`, `{best_friend}`, `{tyler}` and `{love_interest}` stay. `{love_interest}`
+is the partner (and later the spouse); kids appear only in the text (no new cast member, no `rel`).
+Agents, advisors, owners and general managers are unnamed and never cast members: write "your
+agent", "the general manager", without he/she right after a placeholder.
+
+**Timing works for any age.** A pro career has no fixed length, so scenes gate on age (`requires`
+min/max `age`) and on seasons with the current club (`seasons`, which restart at every new club),
+never on "your fifth season". Wording must fit every age in the window: "the rookies", "your
+leg", not "at twenty-three" or "in your tenth year". Age-banded variants (rookie / prime /
+veteran) are separate ids with their own text.
+
+**No hard-coded club, city or league names.** Use "the club", "the city", "the league" until
+`{club}` and `{town}` exist (gameplay request R5); then use those placeholders.
+
+**Money.** The game has no money stat yet. Write money scenes (advisors, ventures, family asks,
+big checks, divorce) with flags that later scenes read (`advisor_stole`, `bad_venture`,
+`opened_restaurant`...) and real stress costs (Fun, Energy, `stressed`, a relationship, retention).
+Don't write "money" fields yet; they're added when the savings stat lands (request R3). Show
+amounts in words ("a little under half of everything you've earned"), never as numbers that might
+contradict the contract screen.
+
+**The pro wrong path** has its own strike flags (`pro_strike_flags` in the design: `pro_night_out`,
+`pro_bar_fight`...). The team-discipline steps read and clear only those. College flags make it
+harsher or more lenient, only through locked choices. Same rules as college: never show the player
+using anything, a clean "no" in every pressure scene, and wrong choices tempt but cost something
+lasting (retention, `{coach}`, Team, a flag).
+
+**Relationships and temptation (adult, never explicit).** The cheating storyline (PRO_155-163) opens
+only for a player with a partner (`made_long_distance_work`, `committed_to_relationship`,
+`new_partner`, `engaged` or `married`). Each temptation scene is a one-off with an unnamed stranger
+(a fan, a sponsor's rep, someone at a hotel bar, a teammate's friend), at one life stage (dating,
+committed, engaged, married, married with kids):
+- End the scene at the choice. The bad choice cuts to the next morning; the consequences are the
+  content. Nothing physical is described.
+- At least one clean "no" with its own payoff: walk away and call the partner from the hallway,
+  or tell the partner about the advance.
+- The bad choice sets the strike `pro_cheated` (and `affair_public` when it goes public), with
+  `"conduct": "bad"` (or `"scandal"` if public), `{love_interest}` -10 to -15, retention and
+  followers. Sponsors drop the player only if it goes public (scandal).
+- Found Out follows: confessing costs now but keeps the door open; lying is worse when it
+  surfaces. Breakups and divorce clear every partner flag and set `broke_up_pro` or `divorced`.
+- Single players get dating scenes without the cheating framing (PRO_152-154).
+
+The "Content rules (teen audience)" below still apply in full to high school and college. The pro
+storyline's adult themes (non-explicit infidelity, a player tempted to bet or to share inside
+information) are the one exception. **This exception still needs your confirmation.** The blocked
+words still apply everywhere.
+
 ## Content rules (teen audience)
 
 - No drugs, alcohol, vaping or smoking for the player; no sexual content; no graphic violence; no
