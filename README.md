@@ -352,7 +352,7 @@ dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career
 | What | Where |
 |---|---|
 | Balance numbers (stat -> kick curves, caps, gains, seasons, game sim, scenario picks) | `tuning/career_tuning.tres` (defaults + docs in `scripts/career/career_tuning.gd`) |
-| Scenarios (57 written: HS, college, pro, bye/offseason, trait-gated; plus the 160-scenario high school story graph as drafts) | `data/career/scenarios_*.json` (field reference: `_doc` in `scenarios_hs.json`; graph: `scenarios_hs_graph.json`) |
+| Scenarios (57 written: HS, college, pro, bye/offseason, trait-gated; plus the 150-scenario high school story graph, being written a batch at a time; unwritten ones are drafts) | `data/career/scenarios_*.json` (field reference: `_doc` in `scenarios_hs.json`; graph: `scenarios_hs_graph.json`) |
 | Relationships: the cast (8 people + Team standing), roles, tiers, name lists | `data/career/people.json` (rules: `scripts/career/relationships.gd`; numbers: `career_tuning.tres` "Relationships") |
 | Skill points, attribute upgrades (Skills screen) | `scripts/career/skill_points.gd` (numbers: `career_tuning.tres` "Skill Points") |
 | Field goal / kickoff range, game-day range, range -> launch speed | `scripts/career/kick_range.gd`, `kick_profile.gd` (numbers: "Power -> Range", "Game Day Range") |
@@ -448,7 +448,8 @@ warmup (`test_warmup.gd`: same rules as the old pad, session flow). `tools/ui_ch
 The balance simulator gives the same report for the same seed, so a content-neutral change can
 be checked by diffing its tables before and after.
 
-**High school story graph:** 160 scenarios (HS_001-HS_160) with flag dependencies, in
+**High school story graph:** 150 scenarios (IDs HS_001-HS_160; the upstream skeleton has 160, and
+the converter merges 10 duplicates into other scenarios) with flag dependencies, in
 `data/career/scenarios_hs_graph.json`. They start as drafts (`"draft": true`, no text or choices):
 the engine never picks a draft and `validate()` checks only its graph data, so they can be written
 a few at a time. Fill in `category`, `text` and `choices` (each choice setting the scenario's
