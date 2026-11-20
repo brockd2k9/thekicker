@@ -422,6 +422,34 @@ batches add recruiting and skill points). Worth a separate retune of the pro / d
 | `followers_progress_cap` | 3.0 | 0.0 | the draft rate (see above) |
 | `followers_standing_cap` (new) | - | 1.0 | pros only |
 
+## Character reputation and suspensions
+
+Rules: `scripts/career/reputation.gd`; numbers: `career_tuning.tres` "Reputation". For writers:
+`docs/story_note_reputation_suspensions.md`.
+
+- `character_concerns` (story flag): -8 draft stock on draft day, -6 pro standing in the first 2
+  pro seasons. `rebuilt_reputation` wins over it: no draft penalty, +2 early pro standing. A notice
+  on the Hub and a Results line when either is set; a chip on the Hub while it's on record; a line on
+  the draft screen.
+- `suspend_weeks: n` (1-3, capped) on a choice: sit out the next n games like academic
+  ineligibility (no kicks, no game skill points or followers from kicks, not a benched week, no slump;
+  practice still counts; Fun -4, Social -2, Team -2 a game). SUSPENDED notice and Hub banner,
+  "Sat out (suspended)" on Results. A new stage clears it.
+
+**Simulator (360 careers, seed 11; `rep=0` turns the effects off):**
+
+| On draft day | Careers | Drafted (on / off) | Pro (on / off) |
+|---|---|---|---|
+| Clean record | 298 / 298 | 55% / 54% | 83% / 85% |
+| Character concerns | 53 / 53 | 2% / 2% | 49% / 51% |
+| Rebuilt reputation | 9 / 9 | 0% / 22% | 78% / 78% |
+
+Clean careers don't move (the small differences are run-to-run noise: careers share one random
+stream). Same kickers on draft day, draft stock unchanged: drafted 46% clean, 37% with concerns, 46%
+rebuilt, so the way back pays for itself on draft day. The concerns careers were already rarely
+drafted because the story's own wrong-path scenes take draft points; the note to the story session
+suggests giving some back on the rebuilt path. No scenario uses `suspend_weeks` yet (0 per career).
+
 ## Kick challenge tuning
 
 The simulator plays each proposed conversion (`tests/fixtures/kick_challenge_conversions.json`) for

@@ -486,6 +486,12 @@ the Outlook). Shown on the Hub, Results, Stats, the season summary and scenario 
 `scripts/career/followers.gd`; numbers: `career_tuning.tres` "Followers"; details: `PLAYTEST.md`,
 "Followers".
 
+**Character reputation and suspensions:** the college story's `character_concerns` flag costs draft
+stock on draft day and early pro standing; `rebuilt_reputation` clears the draft penalty and adds a
+little standing. A choice's `suspend_weeks` (1-3) sits the player out games like academic
+ineligibility. Rules: `scripts/career/reputation.gd`; notes for writers:
+`docs/story_note_reputation_suspensions.md`.
+
 **Kick challenges:** a scenario choice can be a real kick challenge (showcase, camp, combine,
 kicker battle): picking it opens the kick scene (field goals clamped to your range - 1, and kickoffs
 for combines); pass for the full reward, miss for a milder outcome. Tryouts, the bench audition and
