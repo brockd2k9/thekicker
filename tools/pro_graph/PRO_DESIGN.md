@@ -23,12 +23,12 @@ R2 changes numbers only; no scene waits on it. Money scenes (R3) are written now
 **Relationship strike flags** (the cheating storyline PRO_155-163; never read by team discipline): `pro_cheated`, `affair_public`.
 College flags set severity through locked choices.
 
-**Totals:** 268 scenes. **254 can be written now**: 223 need nothing new, and 31 are money scenes written with flags and stress costs. **14 are blocked** until R1, R8, R9 lands. Kinds: 205 once, 31 repeat, 29 variant, 3 per_club.
+**Totals:** 320 scenes. **305 can be written now**: 271 need nothing new, and 34 are money scenes written with flags and stress costs. **15 are blocked** until R1, R8, R9 lands. Kinds: 257 once, 31 repeat, 29 variant, 3 per_club.
 
 | Waits on | Scenes |
 |---|---|
-| R1 | 9: 143, 144, 177, 182, 187, 190, 195, 199, 217 |
-| R3 | 32: 003, 007, 026, 031, 040, 056, 057, 059, 060, 061, 062, 063, 064, 065, 066, 067, 068, 069, 070, 071, 072, 073, 123, 135, 163, 233, 234, 235, 236, 261, 262, 266 |
+| R1 | 10: 143, 144, 177, 182, 187, 190, 195, 199, 217, 308 |
+| R3 | 35: 003, 007, 026, 031, 040, 056, 057, 059, 060, 061, 062, 063, 064, 065, 066, 067, 068, 069, 070, 071, 072, 073, 123, 135, 163, 233, 234, 235, 236, 261, 262, 266, 287, 303, 310 |
 | R8 | 3: 151, 219, 220 |
 | R9 | 2: 262, 268 |
 
@@ -63,7 +63,7 @@ College flags set severity through locked choices.
 - Single: PRO_152 → PRO_153 → PRO_154
 - Temptation: PRO_155 → PRO_156 → PRO_157 → PRO_158 → PRO_159 → PRO_160 → PRO_161 → PRO_162 → PRO_163
 - Banned substance: PRO_164 → PRO_165
-- Late: PRO_167 → PRO_168 → PRO_169
+- Late: PRO_167 → PRO_168 → PRO_169 → PRO_289 → PRO_290 → PRO_291 → PRO_292 → PRO_293 → PRO_294 → PRO_295 → PRO_296 → PRO_297 → PRO_298 → PRO_299 → PRO_300 → PRO_301 → PRO_302 → PRO_303 → PRO_304 → PRO_305 → PRO_306 → PRO_307 → PRO_308
 - Betting: PRO_170 → PRO_171 → PRO_172
 - Solicitation: PRO_173 → PRO_174 → PRO_175
 - Repeat: PRO_200 → PRO_201 → PRO_202 → PRO_203 → PRO_204 → PRO_205 → PRO_206 → PRO_207 → PRO_208 → PRO_209 → PRO_210 → PRO_211 → PRO_212 → PRO_213
@@ -72,6 +72,8 @@ College flags set severity through locked choices.
 - Legacy: PRO_239 → PRO_240 → PRO_241 → PRO_242 → PRO_243
 - Wind-down: PRO_244 → PRO_245 → PRO_246 → PRO_247 → PRO_248 → PRO_249 → PRO_250 → PRO_251 → PRO_252 → PRO_253 → PRO_254 → PRO_255 → PRO_256 → PRO_257 → PRO_258
 - Veteran wrong path: PRO_259 → PRO_260 → PRO_261 → PRO_262 → PRO_263 → PRO_264 → PRO_265 → PRO_266 → PRO_267 → PRO_268
+- Offseason: PRO_269 → PRO_270 → PRO_271 → PRO_272 → PRO_273 → PRO_274 → PRO_275 → PRO_276 → PRO_277 → PRO_278 → PRO_279 → PRO_280 → PRO_281 → PRO_282 → PRO_283 → PRO_284 → PRO_285 → PRO_286 → PRO_287 → PRO_288
+- Mid-career: PRO_309 → PRO_310 → PRO_311 → PRO_312 → PRO_313 → PRO_314 → PRO_315 → PRO_316 → PRO_317 → PRO_318 → PRO_319 → PRO_320
 
 ## Arrival and rookie years (15)
 
@@ -692,4 +694,126 @@ College flags set severity through locked choices.
 - **PRO_266 The Insurance Claim**: Your agent suggests an insurance claim on an injury that's mostly healed. *(Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps.)*
 - **PRO_267 The Last Big Night**: Your farewell season, a city that loves you, and a night out that could end it badly. *(Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps.)*
 - **PRO_268 The Veteran Hearing**: Another hearing at your age. The league says experience should have known better. *(Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps.)*
+
+## Long career: offseasons (20)
+
+| ID | Title | Window | Kind | Opens on | Sets | Callbacks (locked choices) | Waits on |
+|---|---|---|---|---|---|---|---|
+| PRO_269 | Summer at Home | age 21-26, offseason | once |  |  |  |  |
+| PRO_270 | The Camp You Teach | offseason | once |  |  |  |  |
+| PRO_271 | The Family Vacation | offseason | once | made_long_distance_work / committed_to_relationship / new_partner / engaged / married |  |  |  |
+| PRO_272 | Wedding Season | age 24-34, offseason | once |  |  |  |  |
+| PRO_273 | The Offseason Surgery | age 29+, offseason | once |  |  |  |  |
+| PRO_274 | The Training Partner | age 29+, offseason | once |  |  |  |  |
+| PRO_275 | The Class | offseason | once |  |  | finished_degree_track |  |
+| PRO_276 | Back to Your College | age 24-40, offseason | once |  |  |  |  |
+| PRO_277 | Moving House | offseason | once | made_long_distance_work / committed_to_relationship / new_partner / engaged / married |  |  |  |
+| PRO_278 | The Summer Without Football | age 27+, offseason | once |  |  |  |  |
+| PRO_279 | The Fan Convention | offseason | once | tier verified |  |  |  |
+| PRO_280 | The Mountain Trip | age 24-40, offseason | once |  |  |  |  |
+| PRO_281 | The Body Rebuild | age 33+, offseason | once |  |  |  |  |
+| PRO_282 | The Last Summer | offseason | once | planning_retirement |  |  |  |
+| PRO_283 | The Hometown Parade | offseason | once | pro_seasons 3+ |  |  |  |
+| PRO_284 | The Kicking Coach Calls | age 27+, offseason | once |  |  |  |  |
+| PRO_285 | The Charity Golf Event | offseason | once |  |  |  |  |
+| PRO_286 | The Off-Season Job Offer | age 25-40, offseason | once |  |  |  |  |
+| PRO_287 | Family Reunion, Pro Edition | offseason | once |  |  |  | R3 money values |
+| PRO_288 | The Off-Season Weight | age 28+, offseason | once |  |  |  |  |
+
+- **PRO_269 Summer at Home**: Your first offseason back home, and everyone at the grocery store wants to talk about one kick.
+- **PRO_270 The Camp You Teach**: A youth camp asks you to coach for a week. The kids kick terribly and have more fun than you've had in years.
+- **PRO_271 The Family Vacation**: A real vacation, no phones, and a family that's not used to having you around for a whole week.
+- **PRO_272 Wedding Season**: Four friends are getting married this summer, and every one of them wants you to give a toast.
+- **PRO_273 The Offseason Surgery**: The doctors say a small surgery now saves your next three seasons. The recovery takes the whole summer.
+- **PRO_274 The Training Partner**: A young kicker from a rival club asks to train with you this summer.
+- **PRO_275 The Class**: You sign up for a class at the community college, something that has nothing to do with football.
+- **PRO_276 Back to Your College**: Your college invites you back for spring practice. The kicking net is in the same place.
+- **PRO_277 Moving House**: You're buying a house, and every room is an argument about how long you'll stay in this city.
+- **PRO_278 The Summer Without Football**: For one offseason, you put the bag in the closet and don't touch a ball for six weeks.
+- **PRO_279 The Fan Convention**: A fan convention wants you for a signing weekend. The line includes people who've followed you since high school.
+- **PRO_280 The Mountain Trip**: Friends plan a climbing trip. Your contract has a clause about 'dangerous activities'.
+- **PRO_281 The Body Rebuild**: A new trainer wants to rebuild how you move, from the ground up, at an age when most kickers stop changing.
+- **PRO_282 The Last Summer**: It might be your last offseason as a player. Every summer routine feels a little heavier.
+- **PRO_283 The Hometown Parade**: Your hometown throws you a parade after your best season. {parent} rides in the front car.
+- **PRO_284 The Kicking Coach Calls**: Your old private kicking coach calls with an idea about your plant foot.
+- **PRO_285 The Charity Golf Event**: The club's charity golf event, with donors, owners and one teammate who's had too much sun.
+- **PRO_286 The Off-Season Job Offer**: A company offers you an off-season job in sales. It's real work, and it would be good to know you can do it.
+- **PRO_287 Family Reunion, Pro Edition**: The family reunion. Everyone wants a photo, and one uncle wants a loan.
+- **PRO_288 The Off-Season Weight**: You come back from the off-season heavier than the club likes, and the strength coach has a scale ready.
+
+## Long career: late chapters (20)
+
+| ID | Title | Window | Kind | Opens on | Sets | Callbacks (locked choices) | Waits on |
+|---|---|---|---|---|---|---|---|
+| PRO_289 | The Locker Room Elder | age 34+ | once |  |  |  |  |
+| PRO_290 | Uncle to the Rookies | age 33+ | once |  |  |  |  |
+| PRO_291 | Your Old Holder Coaches Now | any | once | pro_seasons 10+ |  |  |  |
+| PRO_292 | The Kicker You Grew Up Watching | any | once | pro_seasons 6+ |  |  |  |
+| PRO_293 | The Rule Change | any | once | pro_seasons 8+ |  |  |  |
+| PRO_294 | The Stadium Closes | any | once | pro_seasons 10+ |  |  |  |
+| PRO_295 | The Two-Hundredth Game | any | once | pro_seasons 12+ |  |  |  |
+| PRO_296 | The Old Teammates' Reunion | offseason | once | pro_seasons 10+ |  |  |  |
+| PRO_297 | The Rookie Who Wears Your Number | any | once | pro_seasons 8+ |  |  |  |
+| PRO_298 | A Teammate's Kid Asks for Advice | age 33+ | once |  |  |  |  |
+| PRO_299 | The Coach You Outlasted | any | once | pro_seasons 8+ |  |  |  |
+| PRO_300 | The Analytics Report | age 34+ | once |  |  |  |  |
+| PRO_301 | Losing a Step | age 34+ | once |  |  |  |  |
+| PRO_302 | The Owner's Funeral | any | once | pro_seasons 10+ |  |  |  |
+| PRO_303 | An Old Teammate in Trouble | any | once | pro_seasons 10+ |  |  | R3 money values |
+| PRO_304 | The Retired Players' Meeting | age 32+ | once | player_rep |  |  |  |
+| PRO_305 | The Old Lineman's Memory | age 35+ | once |  |  |  |  |
+| PRO_306 | The Last of Your Draft Class | any | once | pro_seasons 13+ |  |  |  |
+| PRO_307 | The Kid Who Was Born on Draft Day | any | once | pro_seasons 14+ |  |  |  |
+| PRO_308 | Kicking in Your Forties | age 40 | once |  |  |  | R1 no age cap (ages 39+) |
+
+- **PRO_289 The Locker Room Elder**: You're the oldest player in the locker room, and the young ones bring their problems to you.
+- **PRO_290 Uncle to the Rookies**: A rookie calls you 'unc' at practice. It sticks.
+- **PRO_291 Your Old Holder Coaches Now**: Your first pro holder is a coach now, and is coaching against you on Sunday.
+- **PRO_292 The Kicker You Grew Up Watching**: The kicker whose poster hung in your bedroom is at your game, and asks to meet you.
+- **PRO_293 The Rule Change**: The league moves the extra-point line again, and the young kickers are thrilled.
+- **PRO_294 The Stadium Closes**: The club's old stadium is being torn down after this season. You've played more games there than anyone left on the roster.
+- **PRO_295 The Two-Hundredth Game**: Your two-hundredth game as a pro. The club makes a video, and you can't watch it.
+- **PRO_296 The Old Teammates' Reunion**: Your rookie class has a reunion. Half of them have bad knees and good stories.
+- **PRO_297 The Rookie Who Wears Your Number**: A rookie at another club wears your number and says you're the reason.
+- **PRO_298 A Teammate's Kid Asks for Advice**: A teammate's teenage kid kicks for a high school team and wants your advice.
+- **PRO_299 The Coach You Outlasted**: The head coach who drafted you is fired. You're still here.
+- **PRO_300 The Analytics Report**: The club's analysts present a chart: your leg is getting older faster than you are.
+- **PRO_301 Losing a Step**: Your longest kick in practice is five yards shorter than last year. The coaches haven't said it, but they've noticed.
+- **PRO_302 The Owner's Funeral**: The owner who signed you dies, and the family asks you to speak.
+- **PRO_303 An Old Teammate in Trouble**: A teammate from your rookie year is broke and calls you at midnight.
+- **PRO_304 The Retired Players' Meeting**: Retired players are organizing for better health care, and they want a current player at the meeting.
+- **PRO_305 The Old Lineman's Memory**: A lineman you played with for years doesn't remember your name at a reunion.
+- **PRO_306 The Last of Your Draft Class**: You're the last player from your draft class still in the league.
+- **PRO_307 The Kid Who Was Born on Draft Day**: A rookie mentions he was born the week you were drafted.
+- **PRO_308 Kicking in Your Forties**: Turning forty in the league: a birthday cake in the locker room and a question in every interview.
+
+## Long career: mid-career (12)
+
+| ID | Title | Window | Kind | Opens on | Sets | Callbacks (locked choices) | Waits on |
+|---|---|---|---|---|---|---|---|
+| PRO_309 | The Captaincy | any | once | pro_seasons 5+ | pro_captain |  |  |
+| PRO_310 | The Big Second Contract | any | once | re_signed; pro_seasons 4+ |  |  | R3 money values |
+| PRO_311 | The Teammate Who Becomes a Coach | any | once | pro_seasons 6+ |  |  |  |
+| PRO_312 | The Endorsement Renewal | any | once | tier verified; pro_seasons 5+ |  |  |  |
+| PRO_313 | The Hometown Charity Game | offseason | once | pro_seasons 5+ |  |  |  |
+| PRO_314 | The Rival Club Calls | any | once | contract_year; pro_seasons 5+ |  |  |  |
+| PRO_315 | The Motivation Slump | any | once | pro_seasons 6+ |  |  |  |
+| PRO_316 | The Kid Who Copies Your Routine | any | once | pro_seasons 5+ |  |  |  |
+| PRO_317 | A Teammate Holds Out | any | once | pro_seasons 4+ |  |  |  |
+| PRO_318 | The Coordinator's Son | any | once | pro_seasons 5+ |  |  |  |
+| PRO_319 | Ten Years | any | once | pro_seasons 10+ |  |  |  |
+| PRO_320 | The Prime-Time Game | any | once | pro_seasons 4+ |  |  |  |
+
+- **PRO_309 The Captaincy**: The team votes for captains, and for the first time a kicker is on the ballot.
+- **PRO_310 The Big Second Contract**: Your agent says this is the contract that matters, and the club agrees, eventually.
+- **PRO_311 The Teammate Who Becomes a Coach**: Your holder retires and joins the coaching staff. Now they're your boss.
+- **PRO_312 The Endorsement Renewal**: Your biggest sponsor wants to renew, with new conditions.
+- **PRO_313 The Hometown Charity Game**: You organize a charity game in your hometown with players from five clubs.
+- **PRO_314 The Rival Club Calls**: A rival club's general manager makes it clear they'd pay more, next time you're free.
+- **PRO_315 The Motivation Slump**: Nothing's wrong. That's the problem: practice feels like a job, and the job feels like nothing.
+- **PRO_316 The Kid Who Copies Your Routine**: A high school kicker's video goes around: he copies your routine down to the last step.
+- **PRO_317 A Teammate Holds Out**: Your closest teammate is holding out for a new contract, and wants you to say something publicly.
+- **PRO_318 The Coordinator's Son**: The new special teams coordinator's son is a kicker on the practice squad.
+- **PRO_319 Ten Years**: Ten years in the league. The pension kicks in, and so does the question of how many more.
+- **PRO_320 The Prime-Time Game**: Your first prime-time game in years, and the broadcast crew wants an interview at the hotel.
 
