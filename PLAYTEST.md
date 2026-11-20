@@ -427,7 +427,7 @@ batches add recruiting and skill points). Worth a separate retune of the pro / d
 Rules: `scripts/career/reputation.gd`; numbers: `career_tuning.tres` "Reputation". For writers:
 `docs/story_note_reputation_suspensions.md`.
 
-- `character_concerns` (story flag): -8 draft stock on draft day, -6 pro standing in the first 2
+- `character_concerns` (story flag): -20 draft stock on draft day (was -8), -6 pro standing in the first 2
   pro seasons. `rebuilt_reputation` wins over it: no draft penalty, +2 early pro standing. A notice
   on the Hub and a Results line when either is set; a chip on the Hub while it's on record; a line on
   the draft screen.

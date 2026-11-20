@@ -775,7 +775,7 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## draft stock added on draft day, and pro standing (retention) in the first
 ## rep_pro_seasons pro seasons. rebuilt_reputation replaces both (it wins
 ## when both are set): no draft penalty, a little early standing.
-@export var rep_concerns_draft: float = -8.0
+@export var rep_concerns_draft: float = -20.0
 @export var rep_rebuilt_draft: float = 0.0
 @export var rep_concerns_retention: float = -6.0
 @export var rep_rebuilt_retention: float = 2.0

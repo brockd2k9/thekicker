@@ -8,7 +8,7 @@ the flags. `suspend_weeks` is new: your importer, validator and template need to
 
 | Flag | Set it | What the player gets |
 |---|---|---|
-| `character_concerns: true` | a bad choice after an earlier warning (as now) | **-8 draft stock on draft day**, and **-6 pro standing** in the first 2 pro seasons. A red "Character concerns" chip on the Hub, a notice when it's set, and a line on the draft screen. |
+| `character_concerns: true` | a bad choice after an earlier warning (as now) | **-20 draft stock on draft day** (was -8), and **-6 pro standing** in the first 2 pro seasons. A red "Character concerns" chip on the Hub, a notice when it's set, and a line on the draft screen. |
 | `character_concerns: false` | a recovery scene | the penalty is gone ("The character concerns are behind you") |
 | `rebuilt_reputation: true` | the player earns the way back | **no draft penalty** (it wins over `character_concerns`), and **+2 pro standing** in the first 2 pro seasons. A green "Rebuilt reputation" chip, a notice, and a draft-screen line. |
 
