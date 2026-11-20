@@ -1,0 +1,822 @@
+{
+  "_about": "PRO batch 6: era 1, Rookie (22-25).",
+  "scenarios": [
+    {
+      "id": "PRO_332",
+      "title": "The Teammate's Party",
+      "category": "social",
+      "text": "A teammate's party the night before an early workday, and the whole rookie class is going.",
+      "choices": [
+        {
+          "label": "Go for an hour",
+          "result": "You show up, say hello to everyone and leave before ten. Two rookies call you boring. You're the only one awake in the morning meeting.",
+          "stats": {
+            "life": {
+              "social": 1,
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "team": 1
+          }
+        },
+        {
+          "label": "Stay home",
+          "result": "You stay home and get nine hours of sleep. You hear the stories at breakfast and feel fine about missing them.",
+          "stats": {
+            "life": {
+              "energy": 3,
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Stay until the end",
+          "result": "You stay until three. The workday is a blur, and {coach} asks if you're sick.",
+          "stats": {
+            "life": {
+              "fun": 4,
+              "social": 3,
+              "energy": -4
+            },
+            "football": {},
+            "personality": {
+              "leadership": -1
+            }
+          },
+          "modifiers": [
+            "late_night"
+          ],
+          "rel": {
+            "coach": -3,
+            "team": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_333",
+      "title": "The New City",
+      "category": "social",
+      "text": "You can explore {town} or stay in your apartment with the blinds closed.",
+      "choices": [
+        {
+          "label": "Explore one neighborhood a week",
+          "result": "You pick a neighborhood every week and walk it. By midseason you know {town} better than some teammates who grew up here.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ]
+        },
+        {
+          "label": "Find one place to belong",
+          "result": "You find one diner, one gym and one coffee shop and become a regular at all three.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ]
+        },
+        {
+          "label": "Stay in",
+          "result": "You stay in your apartment between practices. It's restful, and {town} stays a stranger.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "skill_points": 1
+        }
+      ]
+    },
+    {
+      "id": "PRO_334",
+      "title": "The Family Visit",
+      "category": "family",
+      "text": "{parent} and {sibling} want to visit for a weekend, and your schedule doesn't have a weekend in it.",
+      "choices": [
+        {
+          "label": "Make it work",
+          "result": "You give them the guest room, practice in the morning and spend every evening with them. You're exhausted and happy.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "fun": 3
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "parent": 4,
+            "sibling": 3
+          }
+        },
+        {
+          "label": "Ask them to come in the offseason",
+          "result": "You ask them to wait for the offseason. {parent} understands; {sibling} is disappointed.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "parent": 1,
+            "sibling": -2
+          }
+        },
+        {
+          "label": "Bring them to practice",
+          "result": "You get them passes to a practice and lunch with the team. {sibling} talks about it for months.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "sibling": 5,
+            "parent": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_335",
+      "title": "The Unexpected Attention",
+      "category": "social",
+      "text": "Someone recognizes you at the grocery store and follows you down three aisles, talking the whole time.",
+      "choices": [
+        {
+          "label": "Be gracious",
+          "result": "You stop, talk and take a photo. It costs you ten minutes and makes someone's week.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "followers": 1
+        },
+        {
+          "label": "Keep moving, politely",
+          "result": "You smile, say thanks and keep moving. They post that you were 'a little cold'.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "followers": -1
+        },
+        {
+          "label": "Shop at night",
+          "result": "You start shopping at eleven at night. Nobody recognizes you, and the cereal aisle is all yours.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "skill_points": 1
+        }
+      ]
+    },
+    {
+      "id": "PRO_336",
+      "title": "The Local Radio Appearance",
+      "category": "media",
+      "text": "A sports radio show invites you on, live, during drive time.",
+      "choices": [
+        {
+          "label": "Prepare and go",
+          "result": "You prepare three stories and keep it light. The host invites you back.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "followers": 2
+        },
+        {
+          "label": "Wing it",
+          "result": "You go on without notes. One joke lands; one answer about the coaching staff gets replayed all week.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "rel": {
+            "coach": -2
+          },
+          "followers": 4
+        },
+        {
+          "label": "Decline",
+          "result": "You decline politely and spend the hour at the net.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        }
+      ]
+    },
+    {
+      "id": "PRO_337",
+      "title": "The Practice Routine",
+      "category": "training",
+      "text": "Your college routine isn't working at this level, and you need a new one by Sunday.",
+      "choices": [
+        {
+          "label": "Copy the veteran's routine",
+          "result": "You copy the veteran snapper's pre-kick routine step for step. It feels strange, then it feels like yours.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 1
+          }
+        },
+        {
+          "label": "Build your own",
+          "result": "You build your own routine from scratch, charting every kick for a week.",
+          "stats": {
+            "life": {
+              "energy": -3
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Ask {coach}",
+          "result": "You ask {coach} to help you build it. The coach is pleased you asked.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_339",
+      "title": "The First Contract Question",
+      "category": "media",
+      "text": "A reporter asks whether you expect an extension, and you haven't kicked a regular-season game yet.",
+      "choices": [
+        {
+          "label": "Laugh it off",
+          "result": "You laugh and say you're just trying to keep your locker. The quote is charming, and nobody reads into it.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "followers": 1
+        },
+        {
+          "label": "Say you've earned a look",
+          "result": "You say you think you've earned a look. The front office reads it, and so does the veteran kicker.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": -2
+          },
+          "followers": 2
+        },
+        {
+          "label": "Decline to answer",
+          "result": "You say contracts are your agent's job. It's dull and smart.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_340",
+      "title": "The Teammate's Struggle",
+      "category": "team",
+      "text": "A fellow rookie is falling apart: late to meetings, quiet at lunch, gone the minute practice ends.",
+      "choices": [
+        {
+          "label": "Check on him",
+          "result": "You knock on his door after practice and stay for an hour. He doesn't say much, but he shows up early the next day.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Tell a veteran",
+          "result": "You quietly tell a veteran you trust. The veteran handles it better than you could have.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Mind your own business",
+          "result": "You've got your own roster spot to worry about. He's released a month later, and you think about it longer than you expected.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ],
+          "skill_points": 1
+        }
+      ]
+    },
+    {
+      "id": "PRO_341",
+      "title": "The Family Expectations",
+      "category": "money",
+      "text": "Your family expects more now that you're earning, and they're not shy about it.",
+      "choices": [
+        {
+          "label": "Set a family budget",
+          "result": "You sit down with {parent} and set a yearly amount for family help. It's awkward and it ends the guessing.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "parent": 3
+          }
+        },
+        {
+          "label": "Say yes to everything",
+          "result": "You say yes to every request. It feels good, and your account feels it more.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "parent": 4,
+            "sibling": 3
+          }
+        },
+        {
+          "label": "Say not yet",
+          "result": "You explain that a rookie contract isn't forever money. Some of them understand.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "sibling": -2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_342",
+      "title": "The Unexpected Bill",
+      "category": "money",
+      "text": "Your car's transmission dies the week before a road trip, and the repair costs more than the car is worth.",
+      "choices": [
+        {
+          "label": "Fix it",
+          "result": "You pay for the repair and take the bus to practice for a week. The veterans think it's hilarious.",
+          "stats": {
+            "life": {
+              "fun": -1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "tired"
+          ],
+          "rel": {
+            "team": 1
+          }
+        },
+        {
+          "label": "Buy something new",
+          "result": "You buy a new car the same day. It's lovely, and the payment is going to follow you around for years.",
+          "stats": {
+            "life": {
+              "fun": 3,
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ]
+        },
+        {
+          "label": "Ask a teammate for rides",
+          "result": "You ask a teammate for rides until you figure it out. You become friends on those drives.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_343",
+      "title": "The Former Coach Calls",
+      "category": "family",
+      "text": "Your old college coach calls to check in, and asks how you're really doing.",
+      "choices": [
+        {
+          "label": "Tell the truth",
+          "result": "You tell the truth: it's harder than you expected. The coach tells you about every player who said the same thing and made it.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": 1,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ]
+        },
+        {
+          "label": "Say everything's great",
+          "result": "You say everything's great. The coach doesn't believe you and says so, kindly.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ]
+        },
+        {
+          "label": "Ask for help",
+          "result": "You ask for help with one specific problem. The coach watches your film and calls back the next day.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1
+        }
+      ]
+    },
+    {
+      "id": "PRO_344",
+      "title": "The Community Invitation",
+      "category": "community",
+      "text": "A local school asks you to speak to its athletes about what it takes.",
+      "choices": [
+        {
+          "label": "Speak honestly",
+          "result": "You tell them about the cuts, the doubts and the practice you nearly quit. Three kids stay after to ask questions.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "followers": 1
+        },
+        {
+          "label": "Run a kicking clinic instead",
+          "result": "You skip the speech and run a kicking clinic on their field. Everyone gets muddy.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "fun": 3
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ]
+        },
+        {
+          "label": "Decline politely",
+          "result": "You decline because of the schedule. They invite someone else.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "skill_points": 1
+        }
+      ]
+    },
+    {
+      "id": "PRO_345",
+      "title": "The Dating Question",
+      "category": "romance",
+      "text": "Someone you meet at a teammate's dinner seems more interested in the league than in you.",
+      "choices": [
+        {
+          "label": "Ask them out anyway",
+          "result": "You ask them out. They ask a lot about the league, and a little about you. You don't call again, and you learn to spot it faster.",
+          "stats": {
+            "life": {
+              "fun": 1,
+              "energy": -1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ]
+        },
+        {
+          "label": "Change the subject",
+          "result": "You keep steering the conversation away from football. By dessert, they're laughing at your terrible cooking stories.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ]
+        },
+        {
+          "label": "Leave early",
+          "result": "You thank the host and leave early. You'd rather be bored than be a résumé.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "skill_points": 1
+        }
+      ]
+    }
+  ]
+}
