@@ -81,6 +81,8 @@ YEAR0_SEASONS = {
     "HS_076": {"seasons": [3, 4]}, "HS_078": {"seasons": [3, 4]},
     "HS_088": {"seasons": [3, 4]}, "HS_098": {"seasons": [3, 4]},
     "HS_094": {"seasons": [2, 4]},          # remembers freshman year (HS_003)
+    "HS_153": {"seasons": [3, 4]},          # a community reference: not for a freshman
+    "HS_156": {"seasons": [3, 4]},          # a younger athlete looks up to you
 }
 
 # Flags that only the scenario itself sets: dropped from its own requirements.
