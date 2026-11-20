@@ -156,7 +156,7 @@ next game). Pick what the choice would really do to someone the night before or 
 
 ## Relationships (`rel`)
 
-Nine people (the ninth is your teammates as a group), each with a value 0-100 that starts at 50. Values change the game: a trusted coach
+Ten people (one of them is your teammates as a group), each with a value 0-100 that starts at 50. Values change the game: a trusted coach
 calms your kicks and sends you out for longer tries; a good holder means cleaner kicks; family keeps
 your energy up; friends keep your fun and social life up; a teacher helps grades; Tyler as a friend
 steadies you, as a rival pushes you to improve.
@@ -166,6 +166,7 @@ steadies you, as a rival pushes you to improve.
 | `coach` | Head coach (later: special teams coach) | `{coach}` → "Coach Rourke" |
 | `team` | Your teammates as a group (Team standing; every made or missed kick moves it too) | `{team}` → "Teammates" |
 | `holder` | Your holder | `{holder}` |
+| `backup` | The backup kicker behind you on the depth chart (new each stage); takes your field goals if the coach benches you. Hidden until a scenario first gives them a `rel` change | `{backup}` |
 | `teacher` | A teacher (college: academic advisor; none in the pros) | `{teacher}` → "Ms. Alvarez" |
 | `best_friend` | Your best friend | `{best_friend}` |
 | `rival` | **Tyler Brooks**, a kicker on your team; friend or rival by your choices | `{tyler}` (or `{rival}`) |
@@ -181,15 +182,15 @@ steadies you, as a rival pushes you to improve.
   (HS_142 "The Coach Wants an Explanation" can then appear).
 - Only give `rel` to people actually in the scene. The template pre-fills a 0 slot for each person
   in `_info.people`; leave 0 to skip.
-- Tyler and someone special stay hidden from the player until a scenario first gives them a `rel`
-  change, so their first scene should include one.
+- Tyler, someone special and the backup kicker stay hidden from the player until a scenario first
+  gives them a `rel` change, so their first scene should include one.
 - **The new quarterback** (HS_111, HS_132, HS_137; `_info.people: new_qb`) is a teammate with story
   flags only, no `rel`. Don't use `{...}` for him; give him a name in the text if you like, and
   keep it the same across his three scenes.
 - Use placeholders for cast names; never write a cast member's name by hand (names are different
   in every career). Placeholders work in text, labels, results and lock_text.
 - **Pronouns:** never use he/she (him, her, his, hers) for `{coach}`, `{teacher}`, `{holder}`,
-  `{best_friend}` or `{love_interest}`: their names come from mixed lists (a teacher can be
+  `{backup}`, `{best_friend}` or `{love_interest}`: their names come from mixed lists (a teacher can be
   "Ms. Alvarez" or "Mr. Okoye"), so a gendered pronoun is wrong in some careers. Use "they" or
   rephrase (repeat the placeholder, or write the line from "you"). `{tyler}` (Tyler Brooks),
   `{sibling}` (your little brother) and `{parent}` (Dad) are always male: "he" is fine for them.
