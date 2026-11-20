@@ -125,7 +125,8 @@ PEOPLE = {
 
 # Renames applied to the skeleton before converting (the New Kicker is a quarterback).
 TITLE_OVERRIDES = {"HS_111": "The New Quarterback",
-                   "HS_118": "The Leadership Nomination"}  # too close to HS_088 "The Coach's Recommendation"
+                   "HS_118": "The Leadership Nomination",
+                   "HS_004": "{parent}'s Expectations"}  # placeholders fill in titles too; {parent} is always Dad  # too close to HS_088 "The Coach's Recommendation"
 FLAG_RENAMES = {
     "welcomed_new_kicker": "welcomed_new_qb",
     "new_kicker_rivalry": "new_qb_rivalry",
