@@ -353,6 +353,13 @@ career summary. A long run of poor seasons and failed tryouts ends a career earl
 A short tutorial runs the first time Career Mode opens (text: `data/career/tutorial.json`;
 "seen" flag: `career_tutorial_seen` in Settings; replay: "How Career Mode Works").
 Career milestones feed My Stats (CAREER section) and the career achievements.
+**Stats per level** come from the season history: every finished season is saved with its stage
+and kicking line, so High School / College (junior college included) / Pro totals and the season
+rows are built from it (plus the season in progress). Saves from every earlier version already
+have this, so no new save fields were needed. **School interest** (Recruiting screen) is worked
+out from the rules that make offers: 50 = the recruiting points at which that school's tier starts
+offering, +/- 2.5 per point, a fixed +/- 6 lean per school, at least the matching level once a school
+has offered, and capped when your GPA is below the tier's minimum.
 Old career saves load and are upgraded (format versions and steps in
 `scripts/career/career_save.gd`); content that was renamed or removed since a save was made is
 dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career Mode".
@@ -376,6 +383,7 @@ dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career
 | Weekly loop / saves | `scripts/career/career_manager.gd`, `career_save.gd` (3 slots: `user://career_slot_N.json`) |
 | Stats + traits -> kick | `scripts/career/kick_profile.gd` (`KickProfile.build()` -> `KickModifiers`) |
 | Scenario engine | `scripts/career/scenario_engine.gd` |
+| Hub → **Stats** (kicking record: Season view; Career view with HS / College / Pro / Career Total tabs, season rows and totals) and Hub → **Recruiting** (recruiting points, interested colleges with interest level and offers) | `scripts/career/career_records.gd` (`CareerRecords`, read-only), screens `career_kicking.gd`, `career_recruiting_board.gd` |
 
 Goalposts and uniforms: `field_goal_game.gd` `set_look()` (called before the scene enters the
 tree) picks the posts style per stage (high school plain H-frame and wide, college gooseneck

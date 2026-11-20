@@ -34,7 +34,10 @@ func _build(col: VBoxContainer) -> void:
 	grid.add_child(_traits_panel())
 	_animate_bars(bars)
 	list.add_child(CareerUi.button_row([
-		UiKit.button("Stats & Traits", Screens.go.bind(Screens.CAREER_STATS), UiKit.SECONDARY, "stats"),
+		UiKit.button("Stats", Screens.go.bind(Screens.CAREER_KICKING), UiKit.SECONDARY, "stats"),
+		UiKit.button("Recruiting", Screens.go.bind(Screens.CAREER_RECRUITING_BOARD), UiKit.SECONDARY, "school")]))
+	list.add_child(CareerUi.button_row([
+		UiKit.button("Stats & Traits", Screens.go.bind(Screens.CAREER_STATS), UiKit.SECONDARY, "charisma"),
 		UiKit.button("People", Screens.go.bind(Screens.CAREER_PEOPLE), UiKit.SECONDARY, "social")]))
 
 	if c.is_injured():
@@ -52,7 +55,8 @@ func _build(col: VBoxContainer) -> void:
 		main.grab_focus.call_deferred()
 
 
-## Broadcast lower-third in the team's colors: who, where, record.
+## Broadcast lower-third in the team's colors: who (with this season's
+## kicking line), the team (with its record), and when.
 func _header() -> Control:
 	var c := career.data
 	var p := PanelContainer.new()
@@ -78,37 +82,63 @@ func _header() -> Control:
 	h.add_child(left)
 	var when := "Offseason" if c.week == 0 else "Week %d of %d" % [mini(c.week, career.weeks_in_season()),
 		career.weeks_in_season()]
-	var top := UiKit.label("%s  ·  Season %d  ·  %s  ·  %s" % [career.stage_name(), c.season, career.class_year(), when],
+	var top := UiKit.label("#%d  ·  %s  ·  Season %d  ·  %s  ·  %s" % [int(c.player.get("number", 0)),
+		career.stage_name(), c.season, career.class_year(), when],
 		22, UiKit.team_color(1).lightened(0.2), UiTokens.FONT_CONDENSED)
 	top.autowrap_mode = TextServer.AUTOWRAP_OFF
 	top.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	top.text = top.text.to_upper()
 	left.add_child(top)
-	var name_l := UiKit.label(c.display_name().to_upper(), 46, Color.WHITE, UiTokens.FONT_DISPLAY)
+	# Name, with this season's kicking line beside it.
+	var name_row := HBoxContainer.new()
+	name_row.add_theme_constant_override("separation", 12)
+	name_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	left.add_child(name_row)
+	var name_l := UiKit.label(c.display_name().to_upper(), 44, Color.WHITE, UiTokens.FONT_DISPLAY)
 	name_l.autowrap_mode = TextServer.AUTOWRAP_OFF
 	name_l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	left.add_child(name_l)
+	name_l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	name_l.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	name_row.add_child(name_l)
+	name_row.add_child(_season_line())
+	# Team, with the team's record beside it.
+	var team_row := HBoxContainer.new()
+	team_row.add_theme_constant_override("separation", 12)
+	team_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	left.add_child(team_row)
 	var team_l := UiKit.label(CareerScreen.team_name(c.team).to_upper(), 26, Color(1, 1, 1, 0.88), UiTokens.FONT_DISPLAY)
 	team_l.autowrap_mode = TextServer.AUTOWRAP_OFF
 	team_l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	left.add_child(team_l)
-	var right := VBoxContainer.new()
-	right.add_theme_constant_override("separation", -10)
-	right.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	h.add_child(right)
-	var num := UiKit.label("#%d" % int(c.player.get("number", 0)), 30, UiKit.team_color(1).lightened(0.15), UiTokens.FONT_DISPLAY)
-	num.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	right.add_child(num)
-	var rec := UiKit.label("%d-%d%s" % [int(c.record["w"]), int(c.record["l"]),
-		("-%d" % int(c.record["t"])) if int(c.record["t"]) > 0 else ""], 60, Color.WHITE, UiTokens.FONT_BANNER)
+	team_l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	team_l.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	team_row.add_child(team_l)
+	var rec := UiKit.line(CareerRecords.record_text(c.record), 40, Color.WHITE, UiTokens.FONT_BANNER)
 	rec.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	rec.autowrap_mode = TextServer.AUTOWRAP_OFF
 	rec.add_theme_color_override("font_shadow_color", Color(UiKit.ACCENT, 0.35))
-	rec.add_theme_constant_override("shadow_outline_size", 14)
+	rec.add_theme_constant_override("shadow_outline_size", 10)
 	rec.add_theme_constant_override("shadow_offset_x", 0)
 	rec.add_theme_constant_override("shadow_offset_y", 0)
-	right.add_child(rec)
+	team_row.add_child(rec)
 	return p
+
+
+## This season's kicking line, two compact rows (FG and FG%; XP, long, points).
+func _season_line() -> VBoxContainer:
+	var st := CareerRecords.this_season(career.data)
+	var v := VBoxContainer.new()
+	v.add_theme_constant_override("separation", -4)
+	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	v.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var gold := UiKit.team_color(1).lightened(0.25)
+	var l1 := UiKit.line("FG %d/%d  ·  %s" % [int(st["fg_made"]), int(st["fg_att"]), CareerRecords.pct_text(st)],
+		24, Color.WHITE, UiTokens.FONT_DISPLAY)
+	l1.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	v.add_child(l1)
+	var l2 := UiKit.line("XP %d/%d  ·  LNG %s  ·  %d PTS" % [int(st["pat_made"]), int(st["pat_att"]),
+		str(int(st["long"])) if int(st["long"]) > 0 else "-", int(st["points"])], 20, gold, UiTokens.FONT_CONDENSED)
+	l2.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	v.add_child(l2)
+	return v
 
 
 ## Bars glide from what the Hub showed last time (UI memory only).
