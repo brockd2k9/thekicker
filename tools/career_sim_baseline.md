@@ -1,94 +1,91 @@
 # Career balance report
 
-40 careers per strategy (360 total), freshman year to retirement. 105.9 s. Content problems: 0.
+20 careers per strategy (180 total), freshman year to retirement. 79.6 s. Content problems: 0.
 Personality change scale 0.30. Trait thresholds: Driven (Ambition 60), Fan Favorite (Charisma 60), Team Captain (Leadership 56), Film Student (Intelligence 60), Media Savvy (Charisma 60 + Ambition 60), Community Pillar (Leadership 55 + Charisma 55), Perfectionist (Ambition 55 + Intelligence 55), Field General (Leadership 55 + Intelligence 55).
 
 ## How far careers get (share of careers)
 
 | Strategy | College | via JUCO | via walk-on | Pro | Drafted | Pro seasons (avg / max) | Retire age (avg) |
 |---|---|---|---|---|---|---|---|
-| random | 100% | 0% | 35% | 25% | 5% | 0.3 / 2 | 22.4 |
-| mixed | 95% | 0% | 8% | 23% | 8% | 1.3 / 16 | 23.1 |
-| always-social | 100% | 5% | 50% | 15% | 0% | 0.3 / 3 | 22.4 |
-| always-train | 100% | 0% | 3% | 68% | 13% | 3.5 / 17 | 25.7 |
-| ambitious | 100% | 3% | 5% | 43% | 5% | 1.8 / 17 | 23.8 |
-| lean-charisma | 100% | 0% | 5% | 18% | 0% | 0.6 / 8 | 22.6 |
-| lean-ambition | 100% | 0% | 3% | 40% | 10% | 2.0 / 16 | 24.1 |
-| lean-leadership | 100% | 5% | 23% | 10% | 0% | 0.1 / 2 | 22.2 |
-| lean-intelligence | 100% | 0% | 5% | 13% | 0% | 0.6 / 15 | 22.7 |
-| ALL | 99% | 1% | 15% | 28% | 4% | 1.2 / 17 | 23.2 |
+| random | 100% | 15% | 15% | 65% | 10% | 1.6 / 6 | 24.1 |
+| mixed | 100% | 0% | 10% | 95% | 50% | 3.4 / 13 | 25.6 |
+| always-social | 100% | 15% | 50% | 40% | 0% | 2.5 / 15 | 24.9 |
+| always-train | 100% | 0% | 0% | 85% | 70% | 4.7 / 13 | 26.6 |
+| ambitious | 100% | 0% | 5% | 70% | 35% | 3.9 / 17 | 25.9 |
+| lean-charisma | 100% | 5% | 15% | 55% | 25% | 2.4 / 15 | 24.5 |
+| lean-ambition | 100% | 0% | 0% | 90% | 70% | 4.5 / 14 | 26.6 |
+| lean-leadership | 100% | 0% | 20% | 35% | 10% | 1.1 / 6 | 23.2 |
+| lean-intelligence | 100% | 0% | 10% | 70% | 25% | 5.1 / 17 | 27.4 |
+| ALL | 100% | 4% | 14% | 67% | 33% | 3.2 / 17 | 25.4 |
 
 ## Routes and fallbacks (all strategies)
 
 | Event (at least once in a career) | Careers |
 |---|---|
-| juco | 1% |
-| no_options | 0% |
-| not_resigned | 17% |
-| offer_mid | 43% |
-| offer_small | 28% |
-| offer_top | 14% |
-| released | 17% |
+| juco | 4% |
+| not_resigned | 32% |
+| offer_mid | 44% |
+| offer_small | 31% |
+| offer_top | 11% |
+| released | 52% |
 | tryout_camp_fail | 3% |
-| tryout_camp_pass | 6% |
-| tryout_free_agent_fail | 97% |
-| tryout_free_agent_pass | 23% |
-| tryout_walk_on_fail | 3% |
-| tryout_walk_on_pass | 15% |
-| walk_on_tryout | 16% |
+| tryout_camp_pass | 12% |
+| tryout_free_agent_fail | 94% |
+| tryout_free_agent_pass | 39% |
+| tryout_walk_on_fail | 1% |
+| tryout_walk_on_pass | 14% |
+| walk_on_tryout | 14% |
 
 | College entered as | Top | Mid-major | Small |
 |---|---|---|---|
-| Full scholarship | 1% | 5% | 0% |
-| Partial scholarship | 5% | 21% | 14% |
-| Preferred walk-on | 7% | 28% | 18% |
+| Full scholarship | 4% | 6% | 0% |
+| Partial scholarship | 3% | 19% | 19% |
+| Preferred walk-on | 3% | 31% | 14% |
 
 | Draft result | Careers |
 |---|---|
-| never reached the draft | 1% |
-| round 3 | 0% |
-| round 4 | 1% |
-| round 5 | 1% |
-| round 6 | 0% |
-| round 7 | 2% |
-| undrafted, camp invite | 9% |
-| undrafted, open tryout | 86% |
+| round 3 | 11% |
+| round 4 | 4% |
+| round 5 | 5% |
+| round 6 | 7% |
+| round 7 | 7% |
+| undrafted, camp invite | 15% |
+| undrafted, open tryout | 52% |
 
 | Retirement reason | Careers |
 |---|---|
 | out_of_football | 98% |
-| no_options | 1% |
-| age_cap | 1% |
+| age_cap | 2% |
 
 ## Recruiting and academics at the end of high school (mean, p10-p90)
 
 | Strategy | Recruiting score | GPA | Offers (avg) | Best offer: top / mid / small / none |
 |---|---|---|---|---|
-| random | 42 (21-68) | 3.01 (2.68-3.26) | 1.3 | 10% / 25% / 30% / 35% |
-| mixed | 55 (32-81) | 3.09 (2.83-3.32) | 2.1 | 20% / 43% / 25% / 13% |
-| always-social | 34 (14-50) | 2.63 (2.54-2.73) | 0.6 | 0% / 10% / 38% / 53% |
-| always-train | 68 (52-88) | 2.68 (2.56-2.87) | 2.7 | 5% / 88% / 5% / 3% |
-| ambitious | 58 (40-77) | 3.13 (2.95-3.30) | 2.3 | 15% / 60% / 20% / 5% |
-| lean-charisma | 59 (41-79) | 2.84 (2.74-2.91) | 2.3 | 15% / 58% / 23% / 5% |
-| lean-ambition | 66 (43-86) | 3.04 (2.78-3.23) | 2.8 | 40% / 43% / 15% / 3% |
-| lean-leadership | 44 (24-63) | 3.46 (3.23-3.64) | 1.4 | 8% / 23% / 45% / 25% |
-| lean-intelligence | 51 (37-68) | 3.99 (3.99-4.00) | 1.6 | 10% / 40% / 45% / 5% |
+| random | 44 (25-61) | 3.08 (2.74-3.44) | 1.1 | 0% / 30% / 45% / 25% |
+| mixed | 61 (32-94) | 3.04 (2.77-3.29) | 2.3 | 25% / 45% / 20% / 10% |
+| always-social | 31 (16-45) | 2.64 (2.58-2.70) | 0.6 | 0% / 10% / 30% / 60% |
+| always-train | 67 (46-86) | 2.71 (2.61-2.86) | 2.5 | 5% / 85% / 10% / 0% |
+| ambitious | 53 (35-62) | 3.04 (2.85-3.17) | 1.9 | 0% / 65% / 30% / 5% |
+| lean-charisma | 49 (16-65) | 2.84 (2.65-2.95) | 1.6 | 0% / 50% / 30% / 20% |
+| lean-ambition | 70 (48-93) | 3.05 (2.89-3.18) | 3.1 | 50% / 40% / 10% / 0% |
+| lean-leadership | 50 (33-66) | 3.44 (3.22-3.56) | 1.7 | 10% / 35% / 35% / 20% |
+| lean-intelligence | 50 (32-63) | 3.99 (3.98-4.00) | 1.5 | 5% / 40% / 45% / 10% |
 
-Draft score at the end of college (careers that got there): 32 (11-56)
+Draft score at the end of college (careers that got there): 57 (30-91)
 
 ## Traits unlocked
 
 | Strategy | End of HS: avg | 0 / 1-2 / 3+ | End of college: avg | 0 / 1-2 / 3-4 / 5+ | End of career: avg |
 |---|---|---|---|---|---|
-| random | 0.0 | 100% / 0% / 0% | 2.2 | 3% / 53% / 45% / 0% | 2.3 |
-| mixed | 0.8 | 23% / 78% / 0% | 2.5 | 0% / 42% / 58% / 0% | 3.0 |
-| always-social | 0.0 | 100% / 0% / 0% | 2.2 | 0% / 40% / 60% / 0% | 2.4 |
-| always-train | 1.0 | 0% / 100% / 0% | 1.0 | 0% / 100% / 0% / 0% | 2.0 |
-| ambitious | 1.0 | 0% / 100% / 0% | 3.0 | 0% / 0% / 100% / 0% | 3.1 |
-| lean-charisma | 1.6 | 3% / 68% / 30% | 3.0 | 0% / 0% / 100% / 0% | 3.3 |
-| lean-ambition | 1.0 | 0% / 100% / 0% | 2.9 | 0% / 8% / 93% / 0% | 3.0 |
-| lean-leadership | 1.0 | 0% / 100% / 0% | 4.2 | 0% / 0% / 65% / 35% | 4.3 |
-| lean-intelligence | 1.4 | 0% / 100% / 0% | 3.0 | 0% / 0% / 100% / 0% | 3.0 |
+| random | 0.2 | 80% / 20% / 0% | 2.4 | 0% / 50% / 50% / 0% | 2.5 |
+| mixed | 0.8 | 25% / 75% / 0% | 2.8 | 0% / 25% / 75% / 0% | 3.8 |
+| always-social | 0.0 | 100% / 0% / 0% | 2.5 | 0% / 30% / 70% / 0% | 2.7 |
+| always-train | 1.0 | 0% / 100% / 0% | 1.0 | 0% / 100% / 0% / 0% | 2.2 |
+| ambitious | 1.0 | 0% / 100% / 0% | 3.0 | 0% / 0% / 100% / 0% | 3.4 |
+| lean-charisma | 1.6 | 0% / 70% / 30% | 3.0 | 0% / 0% / 100% / 0% | 3.8 |
+| lean-ambition | 1.0 | 0% / 100% / 0% | 3.0 | 0% / 0% / 100% / 0% | 3.1 |
+| lean-leadership | 1.1 | 0% / 100% / 0% | 4.3 | 0% / 0% / 65% / 35% | 4.5 |
+| lean-intelligence | 1.5 | 0% / 100% / 0% | 3.0 | 0% / 0% / 100% / 0% | 3.7 |
 
 (End-of-college numbers only count careers that finished 4 college seasons.)
 
@@ -96,29 +93,29 @@ Draft score at the end of college (careers that got there): 32 (11-56)
 
 | Strategy | Charisma | Ambition | Leadership | Intelligence |
 |---|---|---|---|---|
-| random | 40 (37-43) | 52 (45-57) | 34 (31-39) | 46 (42-49) |
-| mixed | 42 (38-46) | 63 (58-69) | 37 (33-43) | 46 (42-49) |
-| always-social | 54 (52-56) | 40 (35-43) | 51 (49-54) | 31 (29-32) |
-| always-train | 38 (35-40) | 82 (78-86) | 25 (23-26) | 46 (44-47) |
-| ambitious | 34 (32-36) | 78 (74-82) | 33 (29-37) | 52 (50-54) |
-| lean-charisma | 60 (57-63) | 64 (60-67) | 37 (35-39) | 33 (32-34) |
-| lean-ambition | 37 (34-39) | 83 (79-86) | 25 (23-27) | 49 (46-51) |
-| lean-leadership | 50 (48-53) | 39 (36-41) | 65 (62-67) | 41 (39-43) |
-| lean-intelligence | 22 (20-24) | 54 (51-57) | 30 (29-31) | 69 (66-71) |
+| random | 41 (37-44) | 54 (48-61) | 34 (30-38) | 46 (43-50) |
+| mixed | 42 (38-45) | 63 (55-68) | 37 (33-40) | 46 (41-49) |
+| always-social | 54 (50-56) | 41 (36-43) | 51 (49-53) | 31 (29-32) |
+| always-train | 38 (34-40) | 80 (75-83) | 25 (23-27) | 45 (44-47) |
+| ambitious | 35 (32-37) | 80 (74-84) | 33 (28-37) | 52 (50-54) |
+| lean-charisma | 60 (57-63) | 63 (60-66) | 37 (35-39) | 33 (31-35) |
+| lean-ambition | 38 (35-39) | 83 (79-86) | 25 (23-27) | 48 (46-49) |
+| lean-leadership | 51 (48-53) | 39 (37-41) | 65 (60-68) | 41 (38-43) |
+| lean-intelligence | 22 (19-24) | 55 (51-57) | 30 (29-30) | 69 (67-72) |
 
 ## Football stats, end of HS -> end of college (mean)
 
 | Strategy | Power | Accuracy | Resilience | Toughness |
 |---|---|---|---|---|
-| random | 51 -> 64 | 52 -> 66 | 41 -> 53 | 42 -> 51 |
-| mixed | 52 -> 66 | 53 -> 67 | 42 -> 54 | 42 -> 51 |
-| always-social | 47 -> 59 | 46 -> 59 | 39 -> 48 | 40 -> 47 |
-| always-train | 55 -> 72 | 59 -> 75 | 46 -> 60 | 45 -> 58 |
-| ambitious | 54 -> 68 | 56 -> 69 | 44 -> 56 | 43 -> 53 |
-| lean-charisma | 50 -> 63 | 52 -> 62 | 41 -> 51 | 41 -> 48 |
-| lean-ambition | 53 -> 67 | 56 -> 69 | 44 -> 57 | 43 -> 54 |
-| lean-leadership | 47 -> 59 | 49 -> 62 | 39 -> 50 | 40 -> 50 |
-| lean-intelligence | 51 -> 64 | 53 -> 65 | 42 -> 52 | 41 -> 50 |
+| random | 53 -> 67 | 55 -> 68 | 44 -> 56 | 42 -> 54 |
+| mixed | 54 -> 68 | 56 -> 69 | 44 -> 58 | 43 -> 55 |
+| always-social | 48 -> 61 | 49 -> 61 | 40 -> 51 | 41 -> 50 |
+| always-train | 57 -> 74 | 60 -> 76 | 47 -> 63 | 46 -> 60 |
+| ambitious | 55 -> 69 | 57 -> 70 | 45 -> 58 | 44 -> 55 |
+| lean-charisma | 51 -> 65 | 53 -> 64 | 42 -> 53 | 41 -> 51 |
+| lean-ambition | 56 -> 69 | 58 -> 70 | 46 -> 59 | 44 -> 56 |
+| lean-leadership | 51 -> 62 | 52 -> 63 | 41 -> 53 | 41 -> 52 |
+| lean-intelligence | 54 -> 67 | 55 -> 67 | 44 -> 56 | 42 -> 54 |
 
 ## Skill points and range
 
@@ -128,175 +125,192 @@ start), and field goal range, at the end of high school / college.
 
 | Strategy | SP / season HS | SP / season college | SP / season pro | Bought HS / col | Direct HS / col | FG range HS / col |
 |---|---|---|---|---|---|---|
-| random | 39 | 43 | 45 | 53 / 90 | 12 / 24 | 50 / 56 |
-| mixed | 40 | 43 | 51 | 53 / 88 | 16 / 30 | 51 / 56 |
-| always-social | 29 | 35 | 41 | 42 / 76 | 9 / 17 | 49 / 54 |
-| always-train | 49 | 49 | 55 | 58 / 96 | 27 / 50 | 52 / 58 |
-| ambitious | 43 | 42 | 52 | 54 / 88 | 23 / 38 | 51 / 57 |
-| lean-charisma | 34 | 34 | 52 | 47 / 77 | 17 / 28 | 50 / 55 |
-| lean-ambition | 42 | 44 | 49 | 53 / 88 | 23 / 39 | 51 / 57 |
-| lean-leadership | 36 | 37 | 47 | 48 / 84 | 8 / 16 | 49 / 54 |
-| lean-intelligence | 45 | 43 | 52 | 57 / 94 | 10 / 18 | 50 / 56 |
+| random | 41 | 42 | 45 | 61 / 101 | 13 / 25 | 49 / 54 |
+| mixed | 41 | 43 | 48 | 61 / 100 | 16 / 30 | 49 / 55 |
+| always-social | 29 | 36 | 46 | 49 / 86 | 9 / 17 | 47 / 52 |
+| always-train | 48 | 49 | 55 | 64 / 103 | 26 / 49 | 50 / 57 |
+| ambitious | 41 | 43 | 51 | 58 / 95 | 23 / 38 | 49 / 55 |
+| lean-charisma | 32 | 34 | 53 | 51 / 86 | 15 / 27 | 48 / 53 |
+| lean-ambition | 42 | 43 | 50 | 61 / 97 | 23 / 39 | 50 / 55 |
+| lean-leadership | 37 | 38 | 45 | 56 / 94 | 8 / 16 | 48 / 52 |
+| lean-intelligence | 45 | 44 | 54 | 65 / 106 | 10 / 18 | 49 / 54 |
 
 ## Spending styles (each career spends its skill points one way)
 
 | Style | Careers | Pro | Drafted | FG range HS / col | Best range (mean) | Perks owned | Reached 70 yd |
 |---|---|---|---|---|---|---|---|
-| balanced | 90 | 26% | 3% | 49.6 / 54.5 | 55.2 | 0.2 | 0.0% |
-| power-first | 90 | 54% | 11% | 55.3 / 62.0 | 63.5 | 2.9 | 7.8% |
-| accuracy-first | 90 | 19% | 2% | 47.5 / 53.1 | 54.2 | 2.2 | 0.0% |
-| perk-hunter | 90 | 13% | 1% | 49.3 / 53.4 | 53.7 | 5.1 | 0.0% |
-| ALL | 360 | 28% | 4% | 50.4 / 55.8 | 56.6 | 2.6 | 1.9% |
+| balanced | 45 | 60% | 20% | 47.8 / 52.9 | 55.2 | 0.2 | 0.0% |
+| power-first | 45 | 76% | 53% | 53.7 / 60.1 | 62.7 | 3.4 | 0.0% |
+| accuracy-first | 45 | 64% | 33% | 45.9 / 52.2 | 55.4 | 2.6 | 0.0% |
+| perk-hunter | 45 | 69% | 24% | 47.5 / 51.4 | 53.9 | 8.6 | 0.0% |
+| ALL | 180 | 67% | 33% | 48.7 / 54.2 | 56.8 | 3.7 | 0.0% |
 
-Reaching 70 yd needs Power 100 plus Big Leg and Cannon. Share of all careers: **1.9%** (target under ~2%).
+Reaching 70 yd needs Power 100 plus Big Leg and Cannon. Share of all careers: **0.0%** (target under ~2%).
 
 ## Slumps by kicker quality (career FG%)
 
 | Career FG% | Careers | Slumps per 10 seasons | Careers with a slump |
 |---|---|---|---|
-| under 65% | 41 | 9.9 | 100% |
-| 65-70% | 116 | 6.7 | 100% |
-| 70-80% | 198 | 4.3 | 96% |
-| 80-85% | 4 | 1.9 | 75% |
-| 85%+ | 1 | 0.0 | 0% |
+| under 65% | 20 | 5.8 | 100% |
+| 65-70% | 68 | 3.0 | 97% |
+| 70-80% | 92 | 1.6 | 72% |
+| 80-85% | 0 | 0.0 | 0% |
+| 85%+ | 0 | 0.0 | 0% |
 
 ## Skill point economy (all careers, per season played)
 
 | Earned from | SP / season | Share |
 |---|---|---|
-| Field goals made | 8.7 | 21% |
-| Choices | 7.6 | 18% |
-| Practice | 7.1 | 17% |
-| Offseason training | 5.3 | 13% |
-| Sideline warmup | 4.9 | 12% |
-| Perfect game | 4.4 | 11% |
+| Choices | 8.8 | 20% |
+| Field goals made | 8.5 | 20% |
+| Practice | 7.5 | 17% |
+| Offseason training | 5.5 | 13% |
+| Sideline warmup | 4.9 | 11% |
+| Perfect game | 4.2 | 10% |
 | Season bonus | 1.8 | 4% |
+| Long makes | 1.1 | 3% |
 | Clutch makes | 1.0 | 2% |
-| Long makes | 0.8 | 2% |
 | Game winner | 0.1 | 0% |
-| **Total earned** | **41.9** | |
+| **Total earned** | **43.4** | |
 
 | Spent on | SP / season | Share |
 |---|---|---|
-| attributes | 38.5 | 88% |
-| perks | 4.8 | 11% |
-| maintenance | 0.4 | 1% |
-| **Total spent** | **43.7** | |
+| attributes | 38.9 | 86% |
+| perks | 5.6 | 12% |
+| maintenance | 0.7 | 1% |
+| **Total spent** | **45.2** | |
 
 ## Aging after 30 (careers that played a season at 30+)
 
 | Maintenance | Careers | Seasons at 30+ | Points lost per season: Power / Accuracy / Resilience / Toughness | Maintenance SP per season |
 |---|---|---|---|---|
-| yes | 9 | 5.2 avg | 0.9 / 0.2 / 0.0 / 1.4 | 26.0 |
-| no | 6 | 6.8 avg | 2.8 / 1.7 / 0.8 / 2.8 | 0.0 |
+| yes | 10 | 5.0 avg | 1.8 / 1.0 / 0.1 / 2.4 | 27.4 |
+| no | 12 | 5.3 avg | 4.1 / 2.5 / 1.3 / 4.2 | 0.0 |
 
 ## Perk usage (share of careers owning it at the end)
 
 | Perk | Cost | All | balanced | power-first | accuracy-first | perk-hunter |
 |---|---|---|---|---|---|---|
-| Ice in the Veins | 20 | 11% | 0% | 7% | 16% | 20% |
-| Short Memory | 12 | 34% | 18% | 17% | 0% | 100% |
-| Clutch | 30 | 1% | 0% | 0% | 0% | 6% |
-| Wind Reader | 15 | 24% | 0% | 12% | 0% | 86% |
-| Film Junkie | 15 | 14% | 0% | 9% | 0% | 46% |
-| Big Leg | 25 | 24% | 0% | 96% | 0% | 2% |
-| Cannon | 60 | 2% | 0% | 9% | 0% | 0% |
-| Laser | 25 | 24% | 0% | 0% | 94% | 3% |
-| Smooth Swing | 15 | 35% | 0% | 11% | 100% | 30% |
-| Hang Time | 15 | 45% | 0% | 100% | 0% | 80% |
-| Onside Specialist | 12 | 29% | 2% | 17% | 7% | 90% |
-| Cold Weather Kicker | 12 | 9% | 0% | 10% | 0% | 27% |
-| Quick Recovery | 18 | 2% | 0% | 2% | 0% | 7% |
-| Captain's Calm | 15 | 4% | 0% | 3% | 0% | 14% |
-| Iron Leg | 25 | 0% | 0% | 0% | 0% | 1% |
+| Ice in the Veins | 20 | 34% | 0% | 9% | 53% | 76% |
+| Short Memory | 12 | 36% | 18% | 24% | 2% | 100% |
+| Clutch | 30 | 11% | 0% | 0% | 0% | 42% |
+| Wind Reader | 15 | 29% | 0% | 18% | 0% | 100% |
+| Film Junkie | 15 | 17% | 0% | 13% | 0% | 56% |
+| Big Leg | 25 | 28% | 0% | 98% | 0% | 16% |
+| Cannon | 60 | 2% | 0% | 7% | 0% | 0% |
+| Laser | 25 | 30% | 0% | 0% | 100% | 20% |
+| Smooth Swing | 15 | 48% | 0% | 11% | 100% | 82% |
+| Hang Time | 15 | 49% | 0% | 100% | 0% | 96% |
+| Onside Specialist | 12 | 31% | 0% | 20% | 7% | 98% |
+| Cold Weather Kicker | 12 | 25% | 0% | 20% | 0% | 80% |
+| Quick Recovery | 18 | 16% | 0% | 9% | 0% | 53% |
+| Captain's Calm | 15 | 10% | 0% | 7% | 0% | 33% |
+| Iron Leg | 25 | 2% | 0% | 0% | 0% | 7% |
 
 ## Life stats (average over every week played; share of weeks with any life stat low)
 
 | Strategy | Health | Energy | Fun | Social | Weeks with a low stat |
 |---|---|---|---|---|---|
-| random | 68 | 63 | 58 | 67 | 8% |
-| mixed | 66 | 58 | 57 | 68 | 11% |
-| always-social | 65 | 49 | 72 | 82 | 23% |
-| always-train | 65 | 59 | 51 | 62 | 17% |
-| ambitious | 65 | 54 | 49 | 62 | 24% |
-| lean-charisma | 64 | 48 | 65 | 77 | 27% |
-| lean-ambition | 65 | 56 | 51 | 63 | 20% |
-| lean-leadership | 69 | 57 | 61 | 76 | 5% |
-| lean-intelligence | 70 | 69 | 47 | 60 | 28% |
+| random | 68 | 64 | 56 | 66 | 9% |
+| mixed | 66 | 59 | 56 | 68 | 11% |
+| always-social | 65 | 50 | 72 | 82 | 18% |
+| always-train | 65 | 59 | 49 | 62 | 19% |
+| ambitious | 66 | 56 | 49 | 62 | 23% |
+| lean-charisma | 64 | 50 | 62 | 76 | 21% |
+| lean-ambition | 65 | 57 | 52 | 64 | 16% |
+| lean-leadership | 69 | 57 | 63 | 77 | 4% |
+| lean-intelligence | 69 | 66 | 47 | 61 | 24% |
 
 Distribution of weekly values (all strategies):
 
 | Stat | 0-19 | 20-39 | 40-59 | 60-79 | 80-100 |
 |---|---|---|---|---|---|
-| Health | 0% | 0% | 8% | 91% | 1% |
-| Energy | 0% | 7% | 53% | 36% | 3% |
-| Fun | 0% | 11% | 48% | 38% | 3% |
-| Social | 0% | 0% | 18% | 71% | 11% |
+| Health | 0% | 0% | 7% | 92% | 1% |
+| Energy | 0% | 6% | 52% | 39% | 3% |
+| Fun | 0% | 11% | 53% | 33% | 3% |
+| Social | 0% | 0% | 16% | 72% | 12% |
 
 ## Scenario appearances (all strategies; per career, and share of careers that saw it)
 
 | Scenario | Stage | Gate | Per career | Careers |
 |---|---|---|---|---|
-| hs_party_invite | HS |  | 6.62 | 100% |
-| hs_exam_vs_film | HS |  | 6.22 | 100% |
-| hs_friend_ride | HS |  | 4.68 | 100% |
-| hs_extra_practice | HS |  | 7.24 | 100% |
-| hs_teammate_conflict | HS |  | 4.51 | 100% |
-| hs_conflict_followup | HS | follow-up | 1.49 | 52% |
-| hs_tweaked_hamstring | HS | stat/score requirement | 4.35 | 100% |
-| hs_part_time_job | HS |  | 6.43 | 100% |
-| hs_date_night | HS | stat/score requirement | 4.66 | 100% |
+| hs_party_invite | HS |  | 6.47 | 100% |
+| hs_exam_vs_film | HS |  | 6.10 | 100% |
+| hs_friend_ride | HS |  | 4.64 | 100% |
+| hs_extra_practice | HS |  | 7.22 | 100% |
+| hs_teammate_conflict | HS |  | 4.47 | 100% |
+| hs_conflict_followup | HS | follow-up | 1.56 | 53% |
+| hs_tweaked_hamstring | HS | stat/score requirement | 4.38 | 100% |
+| hs_part_time_job | HS |  | 6.42 | 100% |
+| hs_date_night | HS | stat/score requirement | 4.58 | 100% |
 | hs_viral_post | HS |  | 1.00 | 100% |
-| hs_viral_followup | HS | follow-up | 0.60 | 60% |
-| hs_kicker_battle | HS |  | 0.99 | 99% |
-| hs_family_dinner | HS |  | 3.51 | 100% |
+| hs_viral_followup | HS | follow-up | 0.61 | 61% |
+| hs_kicker_battle | HS |  | 0.97 | 97% |
+| hs_family_dinner | HS |  | 3.48 | 100% |
 | hs_scholarship_camp | HS | story beat | 1.00 | 100% |
 | hs_recruiting_visit | HS | story beat | 1.00 | 100% |
-| hs_showcase | HS |  | 1.82 | 99% |
-| hs_highlight_film | HS |  | 1.45 | 100% |
-| hs_recruiter_call | HS | stat/score requirement | 1.35 | 79% |
-| hs_campus_visit | HS | stat/score requirement | 0.22 | 22% |
-| hs_grades_warning | HS | stat/score requirement | 0.31 | 23% |
-| col_class_load | college, juco |  | 7.84 | 99% |
-| col_roommate_conflict | college, juco |  | 7.00 | 99% |
-| col_nil_offer | college, juco |  | 4.33 | 99% |
-| col_nil_followup | college, juco | follow-up | 2.03 | 63% |
-| col_team_pressure | college, juco |  | 0.99 | 99% |
-| col_homesick | college, juco |  | 0.87 | 87% |
-| col_exam_week | college, juco |  | 3.88 | 99% |
-| col_media_day | college, juco |  | 2.99 | 99% |
-| col_new_technique | college, juco |  | 0.99 | 99% |
-| col_internship | college, juco |  | 2.74 | 99% |
-| col_pro_scouts | college, juco | story beat | 0.99 | 99% |
-| col_walkon_battle | college, juco | story beat | 0.53 | 53% |
-| col_combine_invite | college, juco | story beat | 0.07 | 8% |
-| col_grades_warning | college, juco | stat/score requirement | 0.14 | 11% |
-| pro_rookie_dinner | pro | story beat | 0.28 | 28% |
-| pro_agent_meeting | pro |  | 0.27 | 27% |
-| pro_contract_talks | pro |  | 0.33 | 18% |
-| pro_media_interview | pro |  | 1.92 | 28% |
-| pro_family_finances | pro |  | 1.10 | 28% |
-| pro_hospital_visit | pro |  | 1.24 | 28% |
-| pro_holder_chemistry | pro |  | 2.30 | 28% |
-| pro_cold_snap | pro |  | 1.13 | 28% |
-| pro_trade_rumors | pro |  | 1.09 | 28% |
-| bye_weekend | HS, juco, college, pro |  | 6.86 | 100% |
-| offseason_focus | HS, juco, college, pro |  | 6.46 | 100% |
-| offseason_summer | HS, juco, college, pro |  | 4.29 | 99% |
-| trait_podcast_guest | HS, juco, college, pro | Fan Favorite or Media Savvy | 1.11 | 31% |
-| trait_awards_presenter | college, pro | Fan Favorite | 0.59 | 31% |
-| trait_autograph_signing | HS, juco, college, pro | Fan Favorite or Community Pillar | 1.68 | 35% |
-| trait_community_service | HS, juco, college, pro | Community Pillar or Leadership 55+ | 1.02 | 24% |
-| trait_youth_camp | HS, juco, college, pro | Team Captain or Community Pillar or Leadership 60+ | 0.83 | 22% |
-| trait_charity_event | college, pro | Fan Favorite or Community Pillar | 1.18 | 35% |
-| trait_sponsor_shoot | college, pro | Media Savvy | 0.59 | 13% |
-| trait_press_conference | HS, juco, college, pro | Team Captain or Media Savvy or Field General | 1.51 | 32% |
-| trait_mentoring | HS, juco, college, pro | Team Captain or Leadership 60+ | 0.87 | 21% |
-| trait_film_room | HS, juco, college, pro | Film Student or Field General | 2.47 | 57% |
-| trait_private_coach | HS, juco, college, pro | Driven or Perfectionist | 4.05 | 78% |
-| HS_001 | HS |  | 0.43 | 43% |
-| HS_002 | HS |  | 0.63 | 63% |
-| HS_003 | HS |  | 0.52 | 52% |
-| HS_004 | HS |  | 0.72 | 72% |
-| HS_005 | HS |  | 0.61 | 61% |
-| HS_008 | HS |  | 0.52 | 52% |
+| hs_showcase | HS |  | 1.82 | 98% |
+| hs_highlight_film | HS |  | 1.49 | 99% |
+| hs_recruiter_call | HS | stat/score requirement | 1.33 | 78% |
+| hs_campus_visit | HS | stat/score requirement | 0.19 | 19% |
+| hs_grades_warning | HS | stat/score requirement | 0.33 | 23% |
+| col_class_load | college, juco |  | 7.89 | 100% |
+| col_roommate_conflict | college, juco |  | 7.11 | 100% |
+| col_nil_offer | college, juco |  | 4.30 | 100% |
+| col_nil_followup | college, juco | follow-up | 2.08 | 65% |
+| col_team_pressure | college, juco |  | 1.00 | 100% |
+| col_homesick | college, juco |  | 0.86 | 86% |
+| col_exam_week | college, juco |  | 3.91 | 100% |
+| col_media_day | college, juco |  | 3.06 | 99% |
+| col_new_technique | college, juco |  | 1.00 | 100% |
+| col_internship | college, juco |  | 2.74 | 100% |
+| col_pro_scouts | college, juco | story beat | 1.00 | 100% |
+| col_walkon_battle | college, juco | story beat | 0.49 | 49% |
+| col_combine_invite | college, juco | story beat | 0.38 | 38% |
+| col_grades_warning | college, juco | stat/score requirement | 0.16 | 11% |
+| pro_rookie_dinner | pro | story beat | 0.67 | 67% |
+| pro_agent_meeting | pro |  | 0.64 | 64% |
+| pro_contract_talks | pro |  | 0.88 | 46% |
+| pro_media_interview | pro |  | 5.26 | 67% |
+| pro_family_finances | pro |  | 3.01 | 67% |
+| pro_hospital_visit | pro |  | 3.29 | 67% |
+| pro_holder_chemistry | pro |  | 6.39 | 67% |
+| pro_cold_snap | pro |  | 3.13 | 67% |
+| pro_trade_rumors | pro |  | 2.97 | 67% |
+| bye_weekend | HS, juco, college, pro |  | 8.85 | 100% |
+| offseason_focus | HS, juco, college, pro |  | 8.66 | 100% |
+| offseason_summer | HS, juco, college, pro |  | 6.33 | 100% |
+| trait_podcast_guest | HS, juco, college, pro | Fan Favorite or Media Savvy | 1.76 | 36% |
+| trait_awards_presenter | college, pro | Fan Favorite | 0.89 | 36% |
+| trait_autograph_signing | HS, juco, college, pro | Fan Favorite or Community Pillar | 2.34 | 36% |
+| trait_community_service | HS, juco, college, pro | Community Pillar or Leadership 55+ | 1.98 | 34% |
+| trait_youth_camp | HS, juco, college, pro | Team Captain or Community Pillar or Leadership 60+ | 1.57 | 33% |
+| trait_charity_event | college, pro | Fan Favorite or Community Pillar | 1.60 | 36% |
+| trait_sponsor_shoot | college, pro | Media Savvy | 0.75 | 14% |
+| trait_press_conference | HS, juco, college, pro | Team Captain or Media Savvy or Field General | 2.46 | 41% |
+| trait_mentoring | HS, juco, college, pro | Team Captain or Leadership 60+ | 1.75 | 33% |
+| trait_film_room | HS, juco, college, pro | Film Student or Field General | 4.06 | 66% |
+| trait_private_coach | HS, juco, college, pro | Driven or Perfectionist | 5.53 | 77% |
+| HS_001 | HS |  | 0.58 | 58% |
+| HS_002 | HS |  | 0.67 | 67% |
+| HS_003 | HS |  | 0.60 | 60% |
+| HS_004 | HS |  | 0.69 | 69% |
+| HS_005 | HS |  | 0.58 | 58% |
+| HS_008 | HS |  | 0.48 | 48% |
+
+## Aging probe: preserving vs not (same pro, 51 skill points a season)
+
+Start at 30: Power 85, Accuracy 85, Resilience 70, Toughness 75. Values after each season's decline.
+
+| Age | Preserves: Power / Accuracy / FG range | Never preserves: Power / Accuracy / FG range | Range gap |
+|---|---|---|---|
+| 30 | 87 / 86 / 61.2 | 86 / 86 / 60.6 | +0.6 yd |
+| 31 | 88 / 87 / 61.5 | 86 / 87 / 60.8 | +0.7 yd |
+| 32 | 88 / 88 / 61.5 | 86 / 86 / 60.6 | +0.9 yd |
+| 33 | 88 / 88 / 61.5 | 84 / 86 / 60.1 | +1.5 yd |
+| 34 | 88 / 88 / 61.5 | 82 / 84 / 59.1 | +2.4 yd |
+| 35 | 88 / 88 / 61.5 | 79 / 82 / 58.2 | +3.3 yd |
+| 36 | 88 / 84 / 61.5 | 74 / 78 / 56.5 | +5.0 yd |
+| 37 | 88 / 79 / 61.5 | 70 / 74 / 54.9 | +6.7 yd |
+
+

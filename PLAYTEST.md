@@ -210,54 +210,52 @@ how often do cold and snow games show up.
 
 ## Simulator report and retune (Step 4)
 
-The simulator (`tools/career_sim.tscn`, baseline `tools/career_sim_baseline.md`) now also plays
-spending strategies (balanced, power-first, accuracy-first, perk-hunter, balanced without
-maintenance, and "dedicated": always trains, Power first) and reports range by age, slumps by
-kicker quality, skill points by source and how they're spent, aging, and perk usage. Its kicks
-use the game-day kick profile (perks, rest, weather count).
+Simulator: `tools/career_sim.tscn` (spending styles, slumps by kicker quality, skill point
+economy, aging, perk usage, a wind model, and an aging probe), baseline `tools/career_sim_baseline.md`.
+Two retunes were combined on main: the scenario session's (generated field goal maximums back to
+48 / 55 / 58, Cannon 60 SP at Power 95, range terms in recruiting / draft / retention halved, warmup
+skill points capped per season) and this one.
 
-**Values changed:**
+**Values changed (this session):**
 
 | Setting | Before | After | Why |
 |---|---|---|---|
 | `range_curve` | 0.75 | 1.0 | Linear: less range from cheap early Power points |
-| `upgrade_cost_base` | 1.0 | 2.0 | Every point 1 SP dearer: slower climb at every level |
-| `upgrade_cost_scale` | 9.0 | 14.0 | With the exponent: the last points cost much more |
-| `upgrade_cost_exp` | 2.0 | 3.0 | Cost per point: 30 -> 3, 50 -> 4, 70 -> 7, 90 -> 13, 99 -> 16 (was 2/4/6/9/10) |
-| `kick_window` / `kick_window_misses` | 5 / 3 | 10 / 6 | Slumps rare for good kickers, common for poor ones |
-| `kick_season_pct` / `kick_season_min_att` | 55% / 6 | 50% / 12 | The season rule fired on early small samples |
+| `upgrade_cost_base` / `_scale` / `_exp` | 1 / 9 / 2 | 1 / 14 / 3 | Points 30 -> 2 SP, 50 -> 3, 70 -> 6, 90 -> 12, 99 -> 15 (was 2/4/6/9/10): the top is dear |
+| `kick_window` / `kick_window_misses` | 6 / 4 (main) | 10 / 6 | Slumps rare for good kickers, common for poor ones |
+| `kick_season_pct` / `kick_season_min_att` | 55% / 8 (main) | 50% / 12 | The season rule fired on small samples |
 | `doubt_clear_misses` | 1 | 2 | Same idea for the longer window |
-| `draft_leg_from` (new, was fixed 55) | 55 | 50 | Draft scoring recalibrated to the new attribute levels |
+| `draft_leg_from` (new; was fixed 55) | 55 | 50 | Draft scoring recalibrated to the new attribute levels |
 | `draft_range_from` | 52 | 50 | Same |
+| `draft_base` | 2.5 | 9.5 | Draft scores averaged 29 (camp invite 52, rounds 66+) |
 | Tryout distances (`progression.json`) | walk-on 28-44, camp 36-52, free agent 40-55 | 25-41, 32-48, 34-50 | Old distances were past a typical college range |
+| `aging_base` / `aging_per_year` | 1.0 / 0.5 | 1.5 / 1.0 | Power -1.5 at 30, -4.5 at 33, -7.5 at 36 (was 1.0 / 2.5 / 4.0) |
+| `maintain_cost_mult` | 0.6 | 0.4 | Preserving clearly cheaper than buying lost points back |
 
-Per-kick skill points (`sp_make`, `sp_long_make`, `sp_clutch_make`, `sp_game_winner`) are unchanged:
-at 1 point they are already the smallest whole step.
+**Targets** (main's simulator, 20 careers per choice strategy, seed 1; all careers):
 
-**Before / after** (20 careers per choice strategy, 40 per spending run, seed 1; "after" is on
-main with the other session's changes merged: warmup SP cap, lower scenario values, bad stretch):
-
-| | Target | Before | After |
+| | Target | Main before this session's retune | After |
 |---|---|---|---|
-| FG range, end of HS (balanced) | 48-50 | 53.1 | 49.4 |
-| FG range, end of college (balanced) | 52-55 | 57.8 | 54.1 |
-| Peak range (balanced / dedicated) | | 61.0 / 67.3 | 56.9 / 65.3 |
-| Reach 65 yd (balanced / power-first / perk-hunter / dedicated) | rare | 23 / 63 / 45 / 95% | 0 / 8 / 3 / 63% |
-| Reach 70 yd (any run) | under ~2% | up to 10% (perk-hunter) | 0% |
-| Careers reaching the pros (all choice strategies) | ~68% | 68% | 69% |
-| Careers drafted (all choice strategies) | | 43% | 29% |
+| Careers reaching the pros | 60-70% | 44% (with only the ported values) | 67% |
+| Careers drafted | 25-35% | 2% (same) | 33% |
+| FG range, end of HS | 48-50 | 47.2 | 48.7 (balanced style 47.8) |
+| FG range, end of college | 52-55 | 52.4 | 54.2 (balanced style 52.9) |
+| Careers reaching 70 yd | under 2% | 0% | 0% |
 
-| Kicker quality (expected FG%) | Target | Slump seasons before | After |
-|---|---|---|---|
-| 60-70% (low) | often | 81% | 20% (true 60% kickers: ~57%, model) |
-| 70-75% (average) | | 57% | 12% |
-| 75-80% (average) | rarely | 35% | 7% |
-| 80%+ (high) | almost never | 12% | 7% |
+**Aging: preserving vs not** (aging probe: the same pro from 30, Power 85 / Accuracy 85, the run's
+average pro income of ~51 skill points a season; the non-preserving pro spends it all on buying
+points back):
 
-**Still open:** aging barely bites in the simulator. Pros earn ~59 skill points a season, so a
-player who never preserves just buys lost points back (balanced without maintenance holds a
-similar range into the late 30s). Options: a steeper `aging_per_year`, a lower pro income, or a
-higher `maintain_cost_mult`.
+| Age | Range gap before | Range gap after |
+|---|---|---|
+| 32 | +0.2 yd | +0.9 yd |
+| 34 | +0.7 yd | +2.4 yd |
+| 36 | +1.7 yd | +5.0 yd |
+| 37 | +1.9 yd | +6.7 yd |
+
+The preserving pro holds 61.5 yd through 37 but starts losing Accuracy at 36 (88 -> 84 -> 79):
+careful play holds the mid-30s, not forever. In simulated careers past 30, players who preserve
+lose 1.8 Power a season, those who don't lose 4.1.
 
 ## To playtest (final list)
 Most important first. Simulator numbers are from `tools/career_sim_baseline.md`; the sim's kicks

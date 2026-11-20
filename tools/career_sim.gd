@@ -70,11 +70,22 @@ func _ready() -> void:
 	var problems := CareerContent.validate()
 	var t0 := Time.get_ticks_msec()
 	var results := {}
+	# probe=1: only the aging probe (fast, for tuning Aging); income=N sets its
+	# skill points per season (default: the run's measured pro average, or 50).
+	if str(args.get("probe", "0")) == "1":
+		print(_aging_probe(float(args.get("income", 50))))
+		get_tree().quit()
+		return
 	for strat in STRATEGIES:
 		results[strat] = []
 		for i in careers:
 			results[strat].append(_play_career(strat, i))
 	var report := _report(results, careers, problems, Time.get_ticks_msec() - t0)
+	var pro_sp: Array = []
+	for st in results:
+		for r in results[st]:
+			pro_sp.append_array(r.get("sp_seasons", {}).get("pro", []))
+	report += _aging_probe(_avgf(pro_sp) if not pro_sp.is_empty() else 50.0)
 	print(report)
 	var f := FileAccess.open("user://career_sim_report.md", FileAccess.WRITE)
 	if f:
@@ -765,3 +776,57 @@ func _skill_sections(all: Array, t: CareerTuning) -> PackedStringArray:
 			_pct(all.filter(func(r): return id in r["perks"]).size(), all.size()), " | ".join(cells)])
 	L.append("")
 	return L
+
+
+# --- aging probe ------------------------------------------------------------------------
+
+## Two identical pros from age 30 to 37 on the same skill points per season:
+## one preserves (Power, Accuracy, Toughness, Resilience, while it can afford
+## it, then upgrades with the rest), one never preserves and spends everything
+## on upgrades (buying lost points back). Real Aging / SkillPoints code; no games.
+func _aging_probe(income: float) -> String:
+	var t := CareerTuning.get_default()
+	var start := {"power": 85.0, "accuracy": 85.0, "resilience": 70.0, "toughness": 75.0}
+	var runs := {}
+	for keep in [true, false]:
+		var c := CareerData.create("Probe", t)
+		c.stage = CareerData.STAGE_PRO
+		for k in start:
+			c.set_stat(k, start[k])
+		c.age = t.aging_start_age
+		var rows: Array = []
+		var carry := 0.0
+		for season in range(t.aging_start_age, 38):
+			carry += income
+			c.skill_points += int(carry)
+			carry -= int(carry)
+			c.season = season
+			if keep:
+				for st in ["power", "accuracy", "toughness", "resilience"]:
+					Aging.maintain(c, st, t)
+			for guard in 400:
+				var best := ""
+				for st in start:
+					if SkillPoints.affordable(c, st, t) and (best == "" or c.stat(st) / (1.5 if st in ["power", "accuracy"] else 1.0)
+							< c.stat(best) / (1.5 if best in ["power", "accuracy"] else 1.0)):
+						best = st
+				if best == "" or not SkillPoints.upgrade(c, best, t):
+					break
+			Aging.apply_season_end(c, t)
+			rows.append([c.age, c.stat("power"), KickRange.fg_range(c, t), c.stat("accuracy")])
+			c.age += 1
+		runs[keep] = rows
+	var L := PackedStringArray()
+	L.append("")
+	L.append("## Aging probe: preserving vs not (same pro, %.0f skill points a season)" % income)
+	L.append("")
+	L.append("Start at 30: Power 85, Accuracy 85, Resilience 70, Toughness 75. Values after each season's decline.")
+	L.append("")
+	L.append("| Age | Preserves: Power / Accuracy / FG range | Never preserves: Power / Accuracy / FG range | Range gap |")
+	L.append("|---|---|---|---|")
+	for i in runs[true].size():
+		var a: Array = runs[true][i]
+		var b: Array = runs[false][i]
+		L.append("| %d | %.0f / %.0f / %.1f | %.0f / %.0f / %.1f | %+.1f yd |" % [a[0], a[1], a[3], a[2], b[1], b[3], b[2], a[2] - b[2]])
+	L.append("")
+	return "\n".join(L) + "\n"

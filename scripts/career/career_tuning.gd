@@ -93,17 +93,18 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## From this age on, football attributes decline at the end of every season
 ## unless preserved with skill points (Skills screen, Maintenance).
 ## Decline (points) = (aging_base + aging_per_year * (age - aging_start_age))
-## * the attribute's rate. Ages 30 / 35 / 38 -> 1.0 / 3.5 / 5.0 at rate 1.
+## * the attribute's rate. Ages 30 / 33 / 36 / 38 -> 1.5 / 4.5 / 7.5 / 9.5 at rate 1
+## (steep on purpose: buying lost points back costs more than preserving).
 @export var aging_start_age: int = 30
-@export var aging_base: float = 1.0
-@export var aging_per_year: float = 0.5
+@export var aging_base: float = 1.5
+@export var aging_per_year: float = 1.0
 @export var aging_rate_power: float = 1.0
 @export var aging_rate_toughness: float = 1.0
 @export var aging_rate_accuracy: float = 0.6
 @export var aging_rate_resilience: float = 0.3
 ## Preserving an attribute for a season costs decline * (cost of its next
-## point) * this, rounded up. Level 85 at age 30 / 35 / 38: 7 / 24 / 33 SP.
-@export var maintain_cost_mult: float = 0.6
+## point) * this, rounded up. Level 85 at age 30 / 35 / 38: 6 / 26 / 38 SP.
+@export var maintain_cost_mult: float = 0.4
 
 @export_group("Accuracy -> Aim")
 ## Random aim error at release (std-dev, degrees) at Accuracy 0.
@@ -412,7 +413,7 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## record * (wins - losses) + leg * ((Power + Accuracy) / 2 - draft_leg_from)),
 ## plus choices ("draft" in the data) and trait bonuses.
 @export var draft_season_weights: PackedFloat32Array = PackedFloat32Array([0.4, 0.6, 0.9, 1.1])
-@export var draft_base: float = 2.5
+@export var draft_base: float = 9.5
 @export var draft_fg_pct: float = 0.35
 @export var draft_long: float = 0.5
 @export var draft_record: float = 0.4
@@ -594,8 +595,8 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export_range(0.0, 2.0) var scenario_football_scale: float = 0.5
 ## Upgrade cost: raising an attribute from level L to L+1 costs
 ## ceil(upgrade_cost_base + upgrade_cost_scale * (L/100)^upgrade_cost_exp).
-## 30 -> 3 SP, 50 -> 4, 70 -> 7, 90 -> 13, 99 -> 16.
-@export var upgrade_cost_base: float = 2.0
+## 30 -> 2 SP, 50 -> 3, 70 -> 6, 90 -> 12, 99 -> 15.
+@export var upgrade_cost_base: float = 1.0
 @export var upgrade_cost_scale: float = 14.0
 @export var upgrade_cost_exp: float = 3.0
 ## Upgrades stop here.

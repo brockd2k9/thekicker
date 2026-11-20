@@ -139,37 +139,43 @@ func test_quick_recovery() -> void:
 
 # --- aging ----------------------------------------------------------------------------
 
+## Expected decline from the tuning formula.
+func _dec(age: int, stat: String) -> float:
+	return snappedf((t.aging_base + t.aging_per_year * float(age - t.aging_start_age)) * Aging.rate(stat, t), 0.1)
+
+
 func test_aging_decline_rates() -> void:
 	var c := _career()
 	c.stage = CareerData.STAGE_PRO
-	c.set_stat("power", 85.0)
-	c.set_stat("accuracy", 85.0)
-	c.set_stat("resilience", 85.0)
-	c.set_stat("toughness", 85.0)
-	c.age = 29
-	eq(Aging.decline(c, "power", t), 0.0, "no decline at 29")
-	c.age = 30
-	eq(Aging.decline(c, "power", t), 1.0, "Power -1 at 30")
-	eq(Aging.decline(c, "toughness", t), 1.0, "Toughness -1 at 30")
-	eq(Aging.decline(c, "accuracy", t), 0.6, "Accuracy -0.6 at 30")
-	eq(Aging.decline(c, "resilience", t), 0.3, "Resilience -0.3 at 30")
+	for st in Aging.STATS:
+		c.set_stat(st, 85.0)
+	c.age = t.aging_start_age - 1
+	eq(Aging.decline(c, "power", t), 0.0, "no decline before %d" % t.aging_start_age)
+	c.age = t.aging_start_age
+	for st in Aging.STATS:
+		eq(Aging.decline(c, st, t), _dec(c.age, st), "%s at %d" % [st, c.age])
+	check(Aging.decline(c, "power", t) > Aging.decline(c, "accuracy", t)
+		and Aging.decline(c, "accuracy", t) > Aging.decline(c, "resilience", t), "Power fades fastest, Resilience slowest")
 	c.age = 35
-	eq(Aging.decline(c, "power", t), 3.5, "Power -3.5 at 35")
+	eq(Aging.decline(c, "power", t), _dec(35, "power"), "Power at 35")
 	c.age = 38
-	eq(Aging.decline(c, "power", t), 5.0, "Power -5 at 38")
+	eq(Aging.decline(c, "power", t), _dec(38, "power"), "Power at 38")
+	check(_dec(38, "power") > _dec(35, "power") and _dec(35, "power") > _dec(30, "power"), "worse every year")
 	_give(c, "iron_leg")
-	eq(Aging.decline(c, "power", t), 2.5, "Iron Leg halves Power decline")
-	eq(Aging.decline(c, "toughness", t), 5.0, "Iron Leg: Toughness unchanged")
+	eq(Aging.decline(c, "power", t), snappedf(_dec(38, "power") * 0.5, 0.1), "Iron Leg halves Power decline")
+	eq(Aging.decline(c, "toughness", t), _dec(38, "toughness"), "Iron Leg: Toughness unchanged")
 
 
 func test_maintenance_costs_and_season_end() -> void:
 	var c := _career()
 	c.stage = CareerData.STAGE_PRO
-	c.age = 30
-	for s in Aging.STATS:
-		c.set_stat(s, 85.0)
+	c.age = t.aging_start_age
+	for st in Aging.STATS:
+		c.set_stat(st, 85.0)
 	var cost30 := Aging.maintain_cost(c, "power", t)
-	eq(cost30, int(ceilf(1.0 * SkillPoints.cost_at(85.0, t) * t.maintain_cost_mult)), "decline x next point x mult at 30")
+	eq(cost30, int(ceilf(_dec(c.age, "power") * SkillPoints.cost_at(85.0, t) * t.maintain_cost_mult)),
+		"decline x next point x mult")
+	check(cost30 < ceilf(_dec(c.age, "power") * SkillPoints.cost_at(85.0, t)), "preserving is cheaper than buying back")
 	c.age = 35
 	var cost35 := Aging.maintain_cost(c, "power", t)
 	check(cost35 > cost30 * 2, "much more at 35 (got %d)" % cost35)
@@ -179,7 +185,7 @@ func test_maintenance_costs_and_season_end() -> void:
 	check(not Aging.maintain(c, "power", t), "once per season")
 	var out := Aging.apply_season_end(c, t)
 	eq(c.stat("power"), 85.0, "preserved Power held")
-	eq(c.stat("toughness"), 85.0 - 3.5, "Toughness declined")
+	eq(c.stat("toughness"), 85.0 - _dec(35, "toughness"), "Toughness declined")
 	check(not out.has("power") and out.has("toughness"), "decline report")
 	check(c.maintained.is_empty(), "maintenance resets")
 	c.age = 25
@@ -197,7 +203,7 @@ func test_season_end_applies_aging() -> void:
 	m._start_season(true)
 	c.phase = CareerManager.PHASE_SEASON_END
 	m.end_season()
-	eq(c.stat("power"), 80.0 - 2.0, "Power -2 at 32 after the season")
+	eq(c.stat("power"), 80.0 - _dec(32, "power"), "Power declines after the season at 32")
 	check(c.history[-1].get("aged", {}).has("power"), "history records it")
 
 
