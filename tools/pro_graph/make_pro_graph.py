@@ -41,6 +41,8 @@ def build(design, existing_doc):
     old = {s["id"]: s for s in existing_doc.get("scenarios", []) if str(s.get("id", "")).startswith(PREFIX)}
     out = []
     for e in design["scenarios"]:
+        if e.get("era") == "E":
+            continue  # retirement epilogue: waits for the engine's epilogue stage (request R10)
         sid = e["id"]
         d = {"id": sid, "title": e["title"], "draft": True, "category": "", "text": "", "stages": ["pro"]}
         if e.get("seasons_with_club"):
