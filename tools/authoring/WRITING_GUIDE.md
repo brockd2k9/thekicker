@@ -18,6 +18,9 @@ file plus the template entries you want written to whoever is writing.
    Lint notes catch style slips: he/she on a gender-neutral placeholder, a cast name written by hand,
    curly quotes, a game kick or its result, and a choice that beats another on every number (or all
    but one). `python3 tools/lint_scenarios.py` runs the same checks on scenarios already imported.
+   For college scenes it also checks wrong-path choices (`conduct` bad or scandal must cost something
+   lasting and must not win), party and peer-pressure scenes (there must be a clean "no") and results that
+   show the player drinking or using. Titles are checked like text.
 5. Run the game's tests: `godot --headless --path . res://tests/run_tests.tscn`, then play it.
 
 `tools/authoring/examples.json` has three finished scenarios to copy from.
@@ -227,6 +230,65 @@ The sequel is a new scenario in the same file with `"follow_up_only": true` and 
 scenario's id plus `F`, e.g. `HS_003F`); give it a title, category, text and 2-3 choices. Use
 follow-ups for direct consequences of one choice. To open a *graph* scenario (one with its own id
 in the template), set the flag it requires instead.
+
+## College (the COL_* story graph)
+
+College scenarios are storylines from college life, not sequels to high school. Templates:
+`tools/authoring/college_template_all.json`. The graph comes from `tools/college_graph/college_design.json`
+(`python3 tools/college_graph/make_college_graph.py` regenerates the drafts in
+`data/career/scenarios_college.json`, keeping what's written). Everything above still applies; this adds:
+
+**The cast in college.** `{coach}` is the special teams coach, `{holder}` and `{backup}` are new people,
+and `{teacher}` is the academic advisor (all new each stage). `{parent}`, `{sibling}`, `{best_friend}`,
+`{love_interest}` and `{tyler}` carry over. `{coach}`'s relationship feeds the draft score, so a coach
+hit is a real cost here. Other people (a head coach, a scout, a roommate) are named in the text or left
+unnamed; never give them `{...}`.
+
+**What college choices can move.**
+- `"draft": n` (-10 to +6): draft points. College builds the draft score that decides the draft round.
+- `"grades"`: GPA. Below 2.0 the player is academically ineligible and sits out games.
+- `"conduct": "good" / "bad" / "scandal"`: followers and reputation. Bad and scandal cost followers; a
+  scandal also ends the player's brand deals. Every wrong-path choice has one.
+- `"followers": n` (-20 to +20, scaled by stage), `"followers_exact"`, and `"deal"`
+  (`{"id", "name", "kind": "sp" / "range" / "fun", "value", "seasons"}`) for brand deals.
+- `requires` can also use `"followers_tier"` / `"max_followers_tier"` (local, hometown_hero, rising_star,
+  campus_celebrity, verified, fan_favorite, household_name).
+
+**`"draft": true` versus `"draft": 3`.** Two different things share a name. On a *scenario*,
+`"draft": true` means "not written yet" (the graph files use it; never put it in an import). On a
+*choice*, `"draft": 3` means draft points. The importer rejects `"draft": true` on a choice and any
+`"draft"` at scenario level.
+
+**Parties, drinking and peer pressure.** Most college players are under 21, and the game never shows the
+player drinking or using anything, at any age.
+1. A scene can say there's drinking at a party (that's college), but no choice result shows the player
+   drinking, using or getting drunk, and nothing is played for laughs or as a reward.
+2. Every party or peer-pressure scene has a clean "no" with its own upside, written so the player isn't
+   mocked for taking it.
+3. The wrong choice is about the player's decision (staying out until 3 a.m. before a lift, covering for a
+   teammate, taking a booster's cash), and its consequences are concrete: the coach finds out, scouts
+   hear about it, a strike flag is set. It never describes a substance's effect.
+4. A wrong choice may tempt (fun, social, Team today) but always costs something that lasts: negative
+   `draft`, a `{coach}` or Team hit, or a flag a later scene reads. It never wins on every number.
+5. The blocked-word list (`data/career/content_rules.json`) is unchanged: write around it.
+
+**Mental health.** Pressure, panic, burnout and homesickness are real themes. There is always a healthy
+option (a counselor, the trainer, a teammate, family), it is never mocked, and brushing it off is a
+choice with a cost, not a moral failing.
+
+**The wrong path.** Bad choices set *strike* flags (`missed_curfew`, `took_improper_benefit`,
+`academic_shortcut`... the list is in the design file). A strike opens The Coach's Office; owning it or
+deflecting leads to The Pattern / The Second Strike, then The Final Warning; the worst choices set
+`character_concerns` (the label scouts and the pros see), and The Long Way Back clears it and sets
+`rebuilt_reputation`. Each step clears every strike flag, so only a new strike opens the next one. A
+choice that sets a strike must have `"conduct": "bad"` or `"scandal"` (the importer checks).
+
+**High school callbacks** are only ever locked choices inside an open scene (`requires` + `lock_text`),
+never a gate: a player without the flag still gets the whole scene. The template pre-shapes them.
+
+**Things the game doesn't have.** No redshirts, transfers, bowl games or early draft entry: write those
+as other players' stories or as temptations, never as something that happens to the player. As in high
+school, never describe a game kick or its result.
 
 ## Content rules (teen audience)
 

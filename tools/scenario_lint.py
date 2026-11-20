@@ -15,6 +15,15 @@ tools/lint_scenarios.py (scenarios already in the game data). Each finding is
   dominated      a choice at least as good as another in every number
                  (stats, skill points, recruiting, grades, rel) and better in one
   near_dominated the same except for a single number: probably too one-sided
+  conduct_cost   a choice with conduct bad / scandal must cost something that lasts:
+                 negative draft points, a negative {coach} or Team change, or a flag
+  bad_choice_best a bad / scandal choice beats another choice on every number but one
+                 (or all of them): wrong choices may tempt, never win
+  pressure_no    a party or peer-pressure scene (by its words) with no choice free of
+                 bad conduct: there must always be a clean "no"
+  player_use     a result that shows the player drinking or using ("you drink",
+                 "you take one"...): show the decision and its cost, never the use
+Titles are checked like text (placeholders fill in titles).
 
 The checks are heuristics: read the line before changing it.
 """
@@ -51,7 +60,8 @@ def names_from_people(people_doc):
 
 def _fields(entry):
     """(where, text) for the scenario text, every label/result/lock_text."""
-    out = [("text", str(entry.get("text", "")))]
+    out = [("title", str(entry.get("title", "")))] if entry.get("title") else []
+    out.append(("text", str(entry.get("text", ""))))
     for i, ch in enumerate(entry.get("choices") or []):
         if not isinstance(ch, dict):
             continue
@@ -83,7 +93,7 @@ def _pronoun_findings(entry):
     for where, s in _fields(entry):
         if ambiguous:
             break  # the scene already has a he/she for someone else: too unsure to flag
-        last = None if where == "text" else context
+        last = None if where in ("text", "title") else context
         tokens = sorted([(m.start(), "ph", m.group(1)) for m in PLACEHOLDER.finditer(s)] +
                         [(m.start(), "pr", m.group(0)) for m in GENDERED.finditer(s)])
         for _, kind, val in tokens:
@@ -136,6 +146,45 @@ def dominance_findings(choices):
     return found
 
 
+PRESSURE = re.compile(r"\b(party|parties|drinking|something stronger|prescription|initiation|hazing|"
+                      r"dare|everybody does it|everybody uses|sneak(ing)? out|go out tonight)\b", re.I)
+PLAYER_USE = re.compile(r"\byou (drink|chug|smoke|vape|get (drunk|high|wasted)|black out|"
+                        r"take (one|two|it|them|a few|a hit|a sip|a shot|the tablets?|the pills?)|"
+                        r"try (it|one|them|some)|down (it|a|the|your))\b", re.I)
+BAD = ("bad", "scandal")
+
+
+def conduct_findings(entry):
+    found = []
+    chs = [c for c in (entry.get("choices") or []) if isinstance(c, dict)]
+    for i, c in enumerate(chs):
+        if c.get("conduct") not in BAD:
+            continue
+        costs = (c.get("draft") or 0) < 0 or any(v < 0 for p, v in (c.get("rel") or {}).items()
+                                                   if p in ("coach", "team")) \
+            or any(v for v in (c.get("set_flags") or {}).values())
+        if not costs:
+            found.append(("conduct_cost", f"choice {i + 1}", "conduct is bad but nothing lasting is lost "
+                          "(add negative draft, a {coach} or Team hit, or a flag a later scene reads)"))
+        for j, o in enumerate(chs):
+            if i == j or o.get("requires"):
+                continue
+            better, worse = compare(c, o)
+            if better and len(worse) <= 1:
+                found.append(("bad_choice_best", f"choice {i + 1}", f"a {c['conduct']}-conduct choice "
+                              f"beats choice {j + 1} on everything" + (f" except {worse[0]}" if worse else "")))
+    text = " ".join([str(entry.get("text", ""))] + [str(c.get("label", "")) for c in chs])
+    if PRESSURE.search(text) and chs and all(c.get("conduct") in BAD for c in chs if not c.get("requires")):
+        found.append(("pressure_no", "choices", "party / peer-pressure scene without a clean \"no\" "
+                      "(every open choice has bad conduct)"))
+    for i, c in enumerate(chs):
+        m = PLAYER_USE.search(str(c.get("result", "")))
+        if m:
+            found.append(("player_use", f"choice {i + 1} result", f"'{m.group(0)}': show the decision "
+                          "and its cost, never the player drinking or using"))
+    return found
+
+
 def lint_entry(entry, names):
     found = _pronoun_findings(entry)
     for where, s in _fields(entry):
@@ -151,8 +200,9 @@ def lint_entry(entry, names):
         for n in names:
             if re.search(r"\b" + re.escape(n) + r"\b", s):
                 found.append(("hardcoded_name", where, f"'{n}' looks like a cast name; use its placeholder"))
-        m = TITLE_NAME.search(s)
+        m = TITLE_NAME.search(s) if where != "title" else None  # titles are Title Case: "Coach Wants..."
         if m:
             found.append(("hardcoded_name", where, f"'{m.group(0)}' looks like a cast name; use its placeholder"))
     found += dominance_findings(entry.get("choices") or [])
+    found += conduct_findings(entry)
     return found

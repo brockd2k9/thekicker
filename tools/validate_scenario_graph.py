@@ -7,7 +7,7 @@
         flags, flags only set after the reader's window, expected flags a
         finished scenario doesn't set, story window fields) and prints warnings
         that aren't errors: same-season reads whose windows overlap, flags
-        nothing reads, near-duplicate titles, scenarios per HS season.
+        nothing reads, near-duplicate titles, scenarios per high school and college season.
         Exit code 1 if there are errors.
 
     python3 tools/validate_scenario_graph.py --skeleton <high_school_scenarios.json> [scenarios_*.json ...]
@@ -425,6 +425,18 @@ def audit_data(data_dir):
     print("| season | finished | drafts |\n|---|---|---|")
     for y in sorted(per):
         print(f"| {y} | {per[y][1]} | {per[y][0]} |")
+    col = defaultdict(lambda: [0, 0])
+    for sc in scen:
+        if "college" not in sc.get("stages", []) or sc.get("follow_up_only"):
+            continue
+        se = sc.get("seasons") or [1, 4]
+        for y in range(int(se[0]), min(int(se[1]), 4) + 1):
+            col[y][0 if sc.get("draft") else 1] += 1
+    print("\n## College scenarios available per season (story graph and hand-written; "
+          "a scenario open to several seasons counts in each)\n")
+    print("| season | finished | drafts |\n|---|---|---|")
+    for y in sorted(col):
+        print(f"| {y} | {col[y][1]} | {col[y][0]} |")
     return 1 if errors else 0
 
 

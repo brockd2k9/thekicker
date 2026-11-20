@@ -994,6 +994,5407 @@
 					"grades": -0.15
 				}
 			]
+		},
+		{
+			"id": "COL_001",
+			"title": "Move-In Day",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				1,
+				1
+			],
+			"story": true,
+			"once": true,
+			"expected_flags": [
+				"promised_to_call_home"
+			],
+			"authoring": {
+				"chain": "Home",
+				"premise": "{parent} helps you carry boxes into a cinderblock dorm room and lingers at the door longer than either of you expected.",
+				"people": [
+					"parent"
+				],
+				"hs_callbacks": [
+					"family_college_compromise"
+				],
+				"choice_locks": [
+					"family_college_compromise"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_002",
+			"title": "The First Team Meeting",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				1,
+				2
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Coaching",
+				"premise": "{coach} lays out the rules on day one: curfew, study hall, phones in the bin at meetings, and one strike before the coach calls home.",
+				"people": [
+					"coach"
+				],
+				"hs_callbacks": [
+					"ready_for_college_football"
+				],
+				"choice_locks": [
+					"ready_for_college_football"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_003",
+			"title": "Far From Home",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				2,
+				5
+			],
+			"once": true,
+			"expected_flags": [
+				"homesick_spiral"
+			],
+			"authoring": {
+				"chain": "Home",
+				"premise": "Three weeks in, the dining hall, the dorm and the practice field all feel like someone else's life, and nobody here knew you before.",
+				"people": [],
+				"hs_callbacks": [
+					"prioritized_own_college_choice"
+				],
+				"choice_locks": [
+					"prioritized_own_college_choice"
+				],
+				"leads_to": [
+					{
+						"to": "COL_048",
+						"flag": "homesick_spiral"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_004",
+			"title": "The Empty Group Chat",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Home",
+				"premise": "Your high school group chat goes quiet. {best_friend} posts photos from a new school with new friends, and you realize you haven't texted anyone in a week.",
+				"people": [
+					"best_friend"
+				],
+				"hs_callbacks": [
+					"college_visit_with_friends"
+				],
+				"choice_locks": [
+					"college_visit_with_friends"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_005",
+			"title": "The Roommate Draw",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				1,
+				3
+			],
+			"once": true,
+			"expected_flags": [
+				"roommate_pact",
+				"roommate_cold_war"
+			],
+			"authoring": {
+				"chain": "Roommates",
+				"premise": "Your assigned roommate games until four in the morning, and your first lift is at six.",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_064",
+						"flag": "roommate_pact"
+					},
+					{
+						"to": "COL_064",
+						"flag": "roommate_cold_war"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_006",
+			"title": "Mandatory Study Hall",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				1,
+				4
+			],
+			"once": true,
+			"expected_flags": [
+				"skipped_study_hall"
+			],
+			"authoring": {
+				"chain": "Academics",
+				"premise": "Your academic advisor, {teacher}, sets your schedule: six hours of study hall a week, signed in and out, or you lose eligibility.",
+				"people": [
+					"teacher"
+				],
+				"hs_callbacks": [
+					"academic_recovery"
+				],
+				"choice_locks": [
+					"academic_recovery"
+				],
+				"leads_to": [
+					{
+						"to": "COL_062",
+						"flag": "skipped_study_hall"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_007",
+			"title": "The Veteran Kicker",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				1,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Kicker's job",
+				"premise": "The senior kicker you're replacing next year can make your life easy or miserable, and he hasn't decided which.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_008",
+			"title": "Walk-On Reality",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"once": true,
+			"requires": {
+				"flags": [
+					"walk_on"
+				]
+			},
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Kicker's job",
+				"premise": "You're paying your own way while scholarship players get meal cards and gear you don't. A teammate jokes that walk-ons are practice dummies.",
+				"people": [],
+				"unlocked_by": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_009",
+			"title": "The Redshirt Teammate",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Kicker's job",
+				"premise": "A freshman kicker who's redshirting this year sits out every game and watches you kick. He's lonely, bitter, and good.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_010",
+			"title": "The First Big Party",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				2,
+				6
+			],
+			"once": true,
+			"expected_flags": [
+				"missed_curfew",
+				"left_party_early"
+			],
+			"authoring": {
+				"chain": "Party",
+				"premise": "Upperclassmen throw the first big party of the year on a Thursday. The 6 a.m. lift is in seven hours, and everyone is watching what the freshmen do.",
+				"people": [
+					"coach"
+				],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "missed_curfew"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_011",
+			"title": "Freshman Traditions",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				1,
+				3
+			],
+			"story": true,
+			"once": true,
+			"expected_flags": [
+				"went_along_tradition",
+				"questioned_tradition"
+			],
+			"authoring": {
+				"chain": "Hazing",
+				"premise": "The seniors announce freshman duties: carry their bags, sing the fight song at dinner, fetch whatever they ask for.",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_012",
+						"flag": "went_along_tradition"
+					},
+					{
+						"to": "COL_041",
+						"flag": "went_along_tradition"
+					},
+					{
+						"to": "COL_012",
+						"flag": "questioned_tradition"
+					},
+					{
+						"to": "COL_041",
+						"flag": "questioned_tradition"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_012",
+			"title": "The Hazing Night",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				4,
+				8
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"went_along_tradition",
+					"questioned_tradition"
+				]
+			},
+			"expected_flags": [
+				"reported_hazing",
+				"hazing_participant",
+				"stayed_out_hazing"
+			],
+			"authoring": {
+				"chain": "Hazing",
+				"premise": "The freshman 'initiation' night arrives, and it's not singing anymore. Some of what the seniors have planned is humiliating, and some of it could hurt someone.",
+				"people": [
+					"coach",
+					"team"
+				],
+				"unlocked_by": [
+					{
+						"from": "COL_011",
+						"flag": "went_along_tradition"
+					},
+					{
+						"from": "COL_011",
+						"flag": "questioned_tradition"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "COL_040",
+						"flag": "reported_hazing"
+					},
+					{
+						"to": "COL_036",
+						"flag": "hazing_participant"
+					},
+					{
+						"to": "COL_040",
+						"flag": "stayed_out_hazing"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_013",
+			"title": "Long Distance",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				2,
+				8
+			],
+			"once": true,
+			"expected_flags": [
+				"made_long_distance_work",
+				"ended_long_distance"
+			],
+			"authoring": {
+				"chain": "Love",
+				"premise": "{love_interest} is back home, the calls are getting shorter, and you keep missing each other between practice and class.",
+				"people": [
+					"love_interest"
+				],
+				"leads_to": [
+					{
+						"to": "COL_091",
+						"flag": "made_long_distance_work"
+					},
+					{
+						"to": "COL_052",
+						"flag": "ended_long_distance"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_014",
+			"title": "The Holiday You Miss",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				7,
+				10
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Home",
+				"premise": "The team practices straight through the holiday. {sibling} calls to ask why you're not coming home this year.",
+				"people": [
+					"sibling",
+					"parent"
+				],
+				"hs_callbacks": [
+					"opened_family_conversation"
+				],
+				"choice_locks": [
+					"opened_family_conversation"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_015",
+			"title": "First Road Trip",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				2,
+				6
+			],
+			"once": true,
+			"expected_flags": [
+				"snuck_out_road"
+			],
+			"authoring": {
+				"chain": "Party",
+				"premise": "Your first road game: a hotel, a curfew check at eleven, and two upperclassmen planning to sneak out to a party across town.",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "snuck_out_road"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_016",
+			"title": "The Scholarship Fine Print",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				2,
+				8
+			],
+			"once": true,
+			"expected_flags": [
+				"ignored_fine_print"
+			],
+			"authoring": {
+				"chain": "Academics",
+				"premise": "Your aid paperwork comes with a line you skipped: a minimum GPA to keep it. Midterms are in three weeks.",
+				"people": [],
+				"hs_callbacks": [
+					"secured_academic_path",
+					"explored_combined_aid"
+				],
+				"choice_locks": [
+					"secured_academic_path",
+					"explored_combined_aid"
+				],
+				"leads_to": [
+					{
+						"to": "COL_062",
+						"flag": "ignored_fine_print"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_017",
+			"title": "The Pattern",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				4
+			],
+			"once": true,
+			"requires": {
+				"flags": [
+					"owned_mistake"
+				],
+				"any_flags": [
+					"missed_curfew",
+					"hazing_participant",
+					"snuck_out_road",
+					"took_improper_benefit",
+					"online_incident",
+					"academic_shortcut",
+					"skipped_conditioning",
+					"shared_prescription",
+					"party_trouble",
+					"portal_tampering",
+					"took_unapproved_supplement",
+					"rivalry_prank",
+					"stayed_out_late",
+					"secret_agent_deal",
+					"hosted_recruit_badly",
+					"sabotaged_transfer",
+					"rode_along",
+					"ran_with_wrong_crowd",
+					"cash_camp"
+				]
+			},
+			"expected_flags": [
+				"owned_it_again",
+				"character_concerns",
+				"second_chance_used"
+			],
+			"authoring": {
+				"chain": "Wrong path",
+				"premise": "You owned your first mistake, and the staff believed you. Now there's another one, and {coach} wants to know whether the first apology meant anything.",
+				"people": [
+					"coach"
+				],
+				"clears_strikes": true,
+				"note": "Opens only on a strike after owning the first one (The Coach's Office clears strikes). The good choice sets owned_it_again and second_chance_used; the bad one sets character_concerns.",
+				"unlocked_by": [
+					{
+						"from": "any wrong-path strike",
+						"flag": "(strike flags)"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "COL_078",
+						"flag": "character_concerns"
+					},
+					{
+						"to": "COL_106",
+						"flag": "character_concerns"
+					},
+					{
+						"to": "COL_086",
+						"flag": "second_chance_used"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_018",
+			"title": "The Sports Psychologist",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				4,
+				10
+			],
+			"once": true,
+			"expected_flags": [
+				"saw_sports_psych",
+				"brushed_off_psych"
+			],
+			"authoring": {
+				"chain": "Body and mind",
+				"premise": "The athletic department offers every player sessions with a sports psychologist. Most of the team jokes about it.",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_048",
+						"flag": "brushed_off_psych"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_019",
+			"title": "Homecoming Weekend",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				5,
+				8
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Big moments",
+				"premise": "Alumni pack the campus for homecoming. Boosters want photos, the band wants the specialists for a skit, and the team wants you rested.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_020",
+			"title": "The Booster's Handshake",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				4,
+				9
+			],
+			"once": true,
+			"expected_flags": [
+				"took_improper_benefit",
+				"refused_improper_help"
+			],
+			"authoring": {
+				"chain": "Money",
+				"premise": "A friendly booster shakes your hand after practice and leaves something in it: a prepaid card 'for a nice dinner.'",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "took_improper_benefit"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_021",
+			"title": "The First NIL Pitch",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				3,
+				9
+			],
+			"once": true,
+			"expected_flags": [
+				"signed_first_nil"
+			],
+			"authoring": {
+				"chain": "Money",
+				"premise": "A local sandwich shop offers a small deal: free food all season and a few posts. It's legal, but it's your name on it.",
+				"people": [],
+				"hs_callbacks": [
+					"earned_community_reference"
+				],
+				"choice_locks": [
+					"earned_community_reference"
+				],
+				"leads_to": [
+					{
+						"to": "COL_090",
+						"flag": "signed_first_nil"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_022",
+			"title": "Budget Week",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Money",
+				"premise": "It's the middle of the semester and your account is nearly empty. Rent, books and a phone bill are due the same week.",
+				"people": [],
+				"hs_callbacks": [
+					"saved_first_paycheck"
+				],
+				"choice_locks": [
+					"saved_first_paycheck"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_023",
+			"title": "The Kicker You Know",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				3,
+				10
+			],
+			"once": true,
+			"expected_flags": [
+				"tyler_college_bond",
+				"tyler_college_feud"
+			],
+			"authoring": {
+				"chain": "Rival",
+				"premise": "{tyler} is a college kicker now too, and your names keep showing up next to each other on the same lists.",
+				"people": [
+					"rival"
+				],
+				"hs_callbacks": [
+					"befriended_tyler",
+					"hostile_tyler_rivalry"
+				],
+				"choice_locks": [
+					"befriended_tyler",
+					"hostile_tyler_rivalry"
+				],
+				"leads_to": [
+					{
+						"to": "COL_093",
+						"flag": "tyler_college_bond"
+					},
+					{
+						"to": "COL_118",
+						"flag": "tyler_college_bond"
+					},
+					{
+						"to": "COL_093",
+						"flag": "tyler_college_feud"
+					},
+					{
+						"to": "COL_118",
+						"flag": "tyler_college_feud"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_024",
+			"title": "The New Holder",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				1,
+				6
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Kicker's job",
+				"premise": "Your new holder, {holder}, spins the laces a different way than you're used to, and neither of you wants to be the one to change.",
+				"people": [
+					"holder"
+				],
+				"hs_callbacks": [
+					"holder_big_moment_success"
+				],
+				"choice_locks": [
+					"holder_big_moment_success"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_025",
+			"title": "Sleepless Before Saturday",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				3,
+				9
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Body and mind",
+				"premise": "You haven't slept more than four hours before a game all season. You lie awake replaying kicks you haven't attempted yet.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_026",
+			"title": "The Class You're Failing",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				5,
+				9
+			],
+			"once": true,
+			"expected_flags": [
+				"hid_the_grade"
+			],
+			"authoring": {
+				"chain": "Academics",
+				"premise": "A D on your chemistry midterm. Your advisor will see it Friday whether you tell them or not.",
+				"people": [
+					"teacher"
+				],
+				"leads_to": [
+					{
+						"to": "COL_062",
+						"flag": "hid_the_grade"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_027",
+			"title": "Group Project Ghost",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Academics",
+				"premise": "A teammate in your class wants his name on your group project. He hasn't come to a single meeting.",
+				"people": [],
+				"hs_callbacks": [
+					"covered_teammate",
+					"reported_teammate"
+				],
+				"choice_locks": [
+					"covered_teammate",
+					"reported_teammate"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_028",
+			"title": "The Captain's Talk",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				4,
+				8
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Coaching",
+				"premise": "The senior captain pulls you aside: some of the guys think you act like you're too good for the team.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_029",
+			"title": "The Highlight Clip",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Media",
+				"premise": "A trick-shot clip of you from practice goes around campus, and suddenly people you don't know want a picture.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_030",
+			"title": "The Online Comment",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"once": true,
+			"expected_flags": [
+				"online_incident"
+			],
+			"authoring": {
+				"chain": "Media",
+				"premise": "A fan account tears into you after a loss. Your thumb is already on the reply button.",
+				"people": [],
+				"hs_callbacks": [
+					"handled_old_post"
+				],
+				"choice_locks": [
+					"handled_old_post"
+				],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "online_incident"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_031",
+			"title": "{parent}'s Phone Call",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				6,
+				10
+			],
+			"once": true,
+			"expected_flags": [
+				"offered_to_help_home",
+				"stayed_focused_away"
+			],
+			"authoring": {
+				"chain": "Family crisis",
+				"premise": "{parent} sounds tired on the phone. His hours got cut, he says, but it's nothing for you to worry about.",
+				"people": [
+					"parent"
+				],
+				"hs_callbacks": [
+					"helped_family_financially"
+				],
+				"choice_locks": [
+					"helped_family_financially"
+				],
+				"leads_to": [
+					{
+						"to": "COL_054",
+						"flag": "offered_to_help_home"
+					},
+					{
+						"to": "COL_054",
+						"flag": "stayed_focused_away"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_032",
+			"title": "The Sibling Visit",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Home",
+				"premise": "{sibling} comes to campus for a weekend and wants to see everything: the locker room, the dorm, the parties he's heard about.",
+				"people": [
+					"sibling"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_033",
+			"title": "The Upperclassman's Notes",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"weeks": [
+				6,
+				10
+			],
+			"once": true,
+			"expected_flags": [
+				"academic_shortcut"
+			],
+			"authoring": {
+				"chain": "Academics",
+				"premise": "An upperclassman offers you a folder of last year's exams for your hardest class. 'Everybody uses them,' he says.",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "academic_shortcut"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_034",
+			"title": "Winter Conditioning",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"when": [
+				"offseason"
+			],
+			"once": true,
+			"expected_flags": [
+				"skipped_conditioning"
+			],
+			"authoring": {
+				"chain": "Body and mind",
+				"premise": "Winter workouts start at 5:30 a.m. in the dark. Three teammates have already started skipping and signing each other in.",
+				"people": [],
+				"hs_callbacks": [
+					"built_training_plan"
+				],
+				"choice_locks": [
+					"built_training_plan"
+				],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "skipped_conditioning"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_035",
+			"title": "Spring Kicking Competition",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				1
+			],
+			"when": [
+				"offseason"
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Kicker's job",
+				"premise": "Spring practice opens with a kicking competition for next season. The veteran kicker is graduating, and the job is wide open.",
+				"people": [
+					"coach"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_036",
+			"title": "The Coach's Office",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				3
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"missed_curfew",
+					"hazing_participant",
+					"snuck_out_road",
+					"took_improper_benefit",
+					"online_incident",
+					"academic_shortcut",
+					"skipped_conditioning",
+					"shared_prescription",
+					"party_trouble",
+					"portal_tampering",
+					"took_unapproved_supplement",
+					"rivalry_prank",
+					"stayed_out_late",
+					"hosted_recruit_badly",
+					"sabotaged_transfer",
+					"rode_along",
+					"ran_with_wrong_crowd",
+					"cash_camp"
+				]
+			},
+			"expected_flags": [
+				"owned_mistake",
+				"college_warning"
+			],
+			"authoring": {
+				"chain": "Wrong path",
+				"premise": "{coach} closes the door. Word of what you did got back to the staff, and the coach wants to hear it from you before deciding anything.",
+				"people": [
+					"coach"
+				],
+				"hs_callbacks": [
+					"repaired_coach_trust"
+				],
+				"choice_locks": [
+					"repaired_coach_trust"
+				],
+				"clears_strikes": true,
+				"unlocked_by": [
+					{
+						"from": "any wrong-path strike",
+						"flag": "(strike flags)"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "COL_017",
+						"flag": "owned_mistake"
+					},
+					{
+						"to": "COL_071",
+						"flag": "college_warning"
+					},
+					{
+						"to": "COL_106",
+						"flag": "college_warning"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_037",
+			"title": "The Tutor Who Offers More",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"once": true,
+			"expected_flags": [
+				"academic_shortcut"
+			],
+			"authoring": {
+				"chain": "Academics",
+				"premise": "Your tutor offers to 'clean up' your history paper. You both know that means writing it.",
+				"people": [
+					"teacher"
+				],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "academic_shortcut"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_038",
+			"title": "The Teammate's Prescription",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"weeks": [
+				3,
+				9
+			],
+			"once": true,
+			"expected_flags": [
+				"shared_prescription",
+				"told_trainer_col"
+			],
+			"authoring": {
+				"chain": "Body and mind",
+				"premise": "Your hip is sore, and a teammate offers you some of his prescription. 'It's basically nothing,' he says.",
+				"people": [
+					"coach",
+					"team"
+				],
+				"hs_callbacks": [
+					"reported_kicking_pain"
+				],
+				"choice_locks": [
+					"reported_kicking_pain"
+				],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "shared_prescription"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_039",
+			"title": "The Big House Party",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"weeks": [
+				2,
+				8
+			],
+			"once": true,
+			"expected_flags": [
+				"party_trouble"
+			],
+			"authoring": {
+				"chain": "Party",
+				"premise": "An off-campus party gets out of hand fast. Campus security is on the way, and a teammate who's in bad shape can't find his ride.",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "party_trouble"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_040",
+			"title": "Hazing Fallout",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"weeks": [
+				1,
+				6
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"reported_hazing",
+					"hazing_participant",
+					"stayed_out_hazing"
+				]
+			},
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Hazing",
+				"premise": "The athletic department opens an investigation into last year's initiation night, and investigators want to talk to every sophomore.",
+				"people": [],
+				"unlocked_by": [
+					{
+						"from": "COL_012",
+						"flag": "reported_hazing"
+					},
+					{
+						"from": "COL_012",
+						"flag": "hazing_participant"
+					},
+					{
+						"from": "COL_012",
+						"flag": "stayed_out_hazing"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_041",
+			"title": "Now You're the Upperclassman",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"weeks": [
+				1,
+				3
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"went_along_tradition",
+					"questioned_tradition"
+				]
+			},
+			"expected_flags": [
+				"ended_tradition",
+				"kept_tradition_alive"
+			],
+			"authoring": {
+				"chain": "Hazing",
+				"premise": "The new freshmen arrive, and the seniors look at your class. Freshman duties are yours to run now, or to end.",
+				"people": [],
+				"unlocked_by": [
+					{
+						"from": "COL_011",
+						"flag": "went_along_tradition"
+					},
+					{
+						"from": "COL_011",
+						"flag": "questioned_tradition"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "COL_128",
+						"flag": "ended_tradition"
+					},
+					{
+						"to": "COL_128",
+						"flag": "kept_tradition_alive"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_042",
+			"title": "The New Freshman Kicker",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"weeks": [
+				1,
+				2
+			],
+			"once": true,
+			"expected_flags": [
+				"mentored_backup",
+				"iced_out_backup"
+			],
+			"authoring": {
+				"chain": "Kicker's job",
+				"premise": "{coach} signs a scholarship freshman kicker, {backup}, and assigns them to share your reps and your locker row.",
+				"people": [
+					"backup",
+					"coach"
+				],
+				"leads_to": [
+					{
+						"to": "COL_043",
+						"flag": "mentored_backup"
+					},
+					{
+						"to": "COL_117",
+						"flag": "mentored_backup"
+					},
+					{
+						"to": "COL_043",
+						"flag": "iced_out_backup"
+					},
+					{
+						"to": "COL_117",
+						"flag": "iced_out_backup"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_043",
+			"title": "The Position Battle",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"weeks": [
+				3,
+				6
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"mentored_backup",
+					"iced_out_backup"
+				]
+			},
+			"expected_flags": [
+				"competed_clean",
+				"undermined_backup"
+			],
+			"authoring": {
+				"chain": "Kicker's job",
+				"premise": "Fall camp turns into a public competition with {backup}. Every kick is charted, and the depth chart comes out Friday.",
+				"people": [
+					"backup",
+					"coach"
+				],
+				"unlocked_by": [
+					{
+						"from": "COL_042",
+						"flag": "mentored_backup"
+					},
+					{
+						"from": "COL_042",
+						"flag": "iced_out_backup"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "COL_117",
+						"flag": "competed_clean"
+					},
+					{
+						"to": "COL_117",
+						"flag": "undermined_backup"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_044",
+			"title": "The High School Tape",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"once": true,
+			"expected_flags": [
+				"came_clean_tape"
+			],
+			"authoring": {
+				"chain": "Pro dream",
+				"premise": "{coach} rewatches your old recruiting tape and stops on one clip. 'Tell me about this one,' the coach says.",
+				"people": [
+					"coach"
+				],
+				"hs_callbacks": [
+					"doubled_down_recruiting_lie",
+					"corrected_recruiting_video"
+				],
+				"choice_locks": [
+					"doubled_down_recruiting_lie",
+					"corrected_recruiting_video"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_045",
+			"title": "Did I Pick Right?",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"weeks": [
+				2,
+				8
+			],
+			"once": true,
+			"expected_flags": [
+				"eyed_portal",
+				"recommitted"
+			],
+			"authoring": {
+				"chain": "Transfer",
+				"premise": "Friends at other schools look happier, and a teammate keeps talking about the transfer portal like it's an escape hatch.",
+				"people": [],
+				"hs_callbacks": [
+					"college_decision_pending"
+				],
+				"choice_locks": [
+					"college_decision_pending"
+				],
+				"leads_to": [
+					{
+						"to": "COL_046",
+						"flag": "eyed_portal"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_046",
+			"title": "The Portal Call",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				3
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"eyed_portal",
+					"explored_options"
+				]
+			},
+			"expected_flags": [
+				"portal_tampering",
+				"reported_tampering"
+			],
+			"authoring": {
+				"chain": "Transfer",
+				"premise": "A coach from another school calls you directly, which isn't allowed. He says there's a spot for you if you ever 'get curious.'",
+				"people": [],
+				"unlocked_by": [
+					{
+						"from": "COL_045",
+						"flag": "eyed_portal"
+					},
+					{
+						"from": "COL_066",
+						"flag": "explored_options"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "portal_tampering"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_047",
+			"title": "The Sophomore Slump",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"weeks": [
+				3,
+				8
+			],
+			"once": true,
+			"expected_flags": [
+				"spiraled_alone"
+			],
+			"authoring": {
+				"chain": "Body and mind",
+				"premise": "Your practice charts are the worst they've been since high school, and you can't stop thinking about it, even in class.",
+				"people": [],
+				"college_locks": [
+					"saw_sports_psych"
+				],
+				"choice_locks": [
+					"saw_sports_psych"
+				],
+				"leads_to": [
+					{
+						"to": "COL_048",
+						"flag": "spiraled_alone"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_048",
+			"title": "Panic in the Tunnel",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				3
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"spiraled_alone",
+					"brushed_off_psych",
+					"homesick_spiral"
+				]
+			},
+			"expected_flags": [
+				"got_help_panic",
+				"hid_panic"
+			],
+			"authoring": {
+				"chain": "Body and mind",
+				"premise": "Before warmups your chest goes tight, your hands won't stop shaking and you can't get a full breath.",
+				"people": [],
+				"unlocked_by": [
+					{
+						"from": "COL_047",
+						"flag": "spiraled_alone"
+					},
+					{
+						"from": "COL_018",
+						"flag": "brushed_off_psych"
+					},
+					{
+						"from": "COL_003",
+						"flag": "homesick_spiral"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_049",
+			"title": "The Injury You Can't Hide",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"weeks": [
+				2,
+				9
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Body and mind",
+				"premise": "A groin strain flares on every kickoff. The trainer wants you out a week; the season says otherwise.",
+				"people": [],
+				"hs_callbacks": [
+					"committed_to_recovery"
+				],
+				"choice_locks": [
+					"committed_to_recovery"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_050",
+			"title": "The Training Table",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"once": true,
+			"expected_flags": [
+				"took_unapproved_supplement"
+			],
+			"authoring": {
+				"chain": "Body and mind",
+				"premise": "A guy at the gym swears by a powder that isn't on the team's approved list. Two teammates already use it.",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "took_unapproved_supplement"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_051",
+			"title": "The Visit Home",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"when": [
+				"offseason"
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Home",
+				"premise": "You go home for the first time in months. Your old room is a storage closet now, and everyone talks about people you don't know.",
+				"people": [
+					"parent",
+					"best_friend"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_052",
+			"title": "Someone New",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"ended_long_distance"
+				]
+			},
+			"expected_flags": [
+				"dating_classmate"
+			],
+			"authoring": {
+				"chain": "Love",
+				"premise": "A classmate from your statistics class asks if you want to study together, and it doesn't feel like it's only about studying.",
+				"people": [],
+				"unlocked_by": [
+					{
+						"from": "COL_013",
+						"flag": "ended_long_distance"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "COL_092",
+						"flag": "dating_classmate"
+					},
+					{
+						"to": "COL_119",
+						"flag": "dating_classmate"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_053",
+			"title": "The Best Friend's Crisis",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Home",
+				"premise": "{best_friend} calls at midnight: they're failing out of school and haven't told their family.",
+				"people": [
+					"best_friend"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_054",
+			"title": "{parent} Loses His Job",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"offered_to_help_home",
+					"stayed_focused_away"
+				]
+			},
+			"expected_flags": [
+				"sent_nil_money_home",
+				"kept_money_for_school"
+			],
+			"authoring": {
+				"chain": "Family crisis",
+				"premise": "{parent} finally tells you: the cut hours became a layoff. He says he'll figure it out.",
+				"people": [
+					"parent"
+				],
+				"unlocked_by": [
+					{
+						"from": "COL_031",
+						"flag": "offered_to_help_home"
+					},
+					{
+						"from": "COL_031",
+						"flag": "stayed_focused_away"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "COL_083",
+						"flag": "sent_nil_money_home"
+					},
+					{
+						"to": "COL_083",
+						"flag": "kept_money_for_school"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_055",
+			"title": "The Collective",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"once": true,
+			"expected_flags": [
+				"joined_collective"
+			],
+			"authoring": {
+				"chain": "Money",
+				"premise": "The school's NIL collective offers a monthly deal for appearances at booster events. It's real money, and it's a lot of evenings.",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_090",
+						"flag": "joined_collective"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_056",
+			"title": "The Loaner Car",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"once": true,
+			"expected_flags": [
+				"took_improper_benefit",
+				"refused_improper_help"
+			],
+			"authoring": {
+				"chain": "Money",
+				"premise": "A car dealer who sits behind the bench offers you a 'loaner' for the semester. No paperwork, he says.",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "took_improper_benefit"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_057",
+			"title": "Conference Media Day",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"weeks": [
+				1,
+				2
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Media",
+				"premise": "The team picks you to speak at conference media day, live, with a dozen microphones in your face.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_058",
+			"title": "Rivalry Week",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"weeks": [
+				8,
+				10
+			],
+			"once": true,
+			"expected_flags": [
+				"rivalry_prank"
+			],
+			"authoring": {
+				"chain": "Big moments",
+				"premise": "Rivalry week: someone painted your statue overnight, and teammates plan a midnight trip to the other campus to return the favor.",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "rivalry_prank"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_059",
+			"title": "The Alum in the League",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"when": [
+				"offseason"
+			],
+			"once": true,
+			"expected_flags": [
+				"trained_with_alum"
+			],
+			"authoring": {
+				"chain": "Pro dream",
+				"premise": "A kicker from your school who made it to the pros offers to train you for a week this summer, at his own cost.",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_097",
+						"flag": "trained_with_alum"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_060",
+			"title": "The Summer Plan",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"when": [
+				"offseason"
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Academics",
+				"premise": "Summer is three choices: summer classes to get ahead, a kicking camp circuit, or a job back home.",
+				"people": [],
+				"hs_callbacks": [
+					"built_training_plan",
+					"summer_job"
+				],
+				"choice_locks": [
+					"built_training_plan",
+					"summer_job"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_061",
+			"title": "The Holder Who Wants Out",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Kicker's job",
+				"premise": "{holder} wants to stop holding to focus on winning a starting job elsewhere on the roster.",
+				"people": [
+					"holder"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_062",
+			"title": "The Advisor's Warning",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				3
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"hid_the_grade",
+					"skipped_study_hall",
+					"ignored_fine_print",
+					"academic_shortcut"
+				]
+			},
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Academics",
+				"premise": "{teacher} calls you in: one more bad grade and you're academically ineligible.",
+				"people": [
+					"teacher"
+				],
+				"unlocked_by": [
+					{
+						"from": "COL_026",
+						"flag": "hid_the_grade"
+					},
+					{
+						"from": "COL_006",
+						"flag": "skipped_study_hall"
+					},
+					{
+						"from": "COL_016",
+						"flag": "ignored_fine_print"
+					},
+					{
+						"from": "COL_033",
+						"flag": "academic_shortcut"
+					},
+					{
+						"from": "COL_037",
+						"flag": "academic_shortcut"
+					},
+					{
+						"from": "COL_146",
+						"flag": "academic_shortcut"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_063",
+			"title": "Hosting the Team Party",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"once": true,
+			"expected_flags": [
+				"party_trouble"
+			],
+			"authoring": {
+				"chain": "Party",
+				"premise": "Your apartment is the obvious place for the team party, and everyone's already planning it.",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "party_trouble"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_064",
+			"title": "The Roommate Problem Grows",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"roommate_pact",
+					"roommate_cold_war"
+				]
+			},
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Roommates",
+				"premise": "Your roommate's late nights have turned into parties in your room three nights a week.",
+				"people": [],
+				"unlocked_by": [
+					{
+						"from": "COL_005",
+						"flag": "roommate_pact"
+					},
+					{
+						"from": "COL_005",
+						"flag": "roommate_cold_war"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_065",
+			"title": "The Leadership Council",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"once": true,
+			"expected_flags": [
+				"joined_council"
+			],
+			"authoring": {
+				"chain": "Coaching",
+				"premise": "{coach} invites you onto the team's leadership council, the players who set the rules and handle the problems.",
+				"people": [
+					"coach"
+				],
+				"hs_callbacks": [
+					"accepted_team_leadership",
+					"abused_leadership_role"
+				],
+				"choice_locks": [
+					"accepted_team_leadership",
+					"abused_leadership_role"
+				],
+				"leads_to": [
+					{
+						"to": "COL_074",
+						"flag": "joined_council"
+					},
+					{
+						"to": "COL_114",
+						"flag": "joined_council"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_066",
+			"title": "The Head Coach Is Fired",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"when": [
+				"offseason"
+			],
+			"story": true,
+			"once": true,
+			"expected_flags": [
+				"stayed_loyal",
+				"explored_options"
+			],
+			"authoring": {
+				"chain": "Coaching",
+				"premise": "The head coach is fired the morning after the last game. Staff jobs are up in the air, and half the roster is checking the portal.",
+				"people": [
+					"coach"
+				],
+				"leads_to": [
+					{
+						"to": "COL_070",
+						"flag": "stayed_loyal"
+					},
+					{
+						"to": "COL_046",
+						"flag": "explored_options"
+					},
+					{
+						"to": "COL_070",
+						"flag": "explored_options"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_067",
+			"title": "The Fundraiser Nobody Wants to Run",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Media",
+				"premise": "A children's hospital asks the team to run a kick-a-thon fundraiser. Someone has to organize it.",
+				"people": [],
+				"hs_callbacks": [
+					"community_volunteer"
+				],
+				"choice_locks": [
+					"community_volunteer"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_068",
+			"title": "Spring Break",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"when": [
+				"offseason"
+			],
+			"once": true,
+			"expected_flags": [
+				"stayed_out_late"
+			],
+			"authoring": {
+				"chain": "Party",
+				"premise": "Teammates are going to the beach for spring break. Offseason lifts are optional that week, and so, it seems, are the rules.",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "stayed_out_late"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_069",
+			"title": "The Kicking Camp Coach",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				2
+			],
+			"when": [
+				"offseason"
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Pro dream",
+				"premise": "A private kicking coach who's sent players to the pros offers you a spot in his elite group, if you drop your school's summer program.",
+				"people": [
+					"coach"
+				],
+				"hs_callbacks": [
+					"vetted_trainer",
+					"trusted_unknown_trainer"
+				],
+				"choice_locks": [
+					"vetted_trainer",
+					"trusted_unknown_trainer"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_070",
+			"title": "The New Head Coach",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"weeks": [
+				1,
+				4
+			],
+			"story": true,
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"stayed_loyal",
+					"explored_options"
+				]
+			},
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Coaching",
+				"premise": "The new head coach, Marcus Reyes, starts with a team meeting and a new rulebook. He says he's heard about every player on the roster already.",
+				"people": [],
+				"unlocked_by": [
+					{
+						"from": "COL_066",
+						"flag": "stayed_loyal"
+					},
+					{
+						"from": "COL_066",
+						"flag": "explored_options"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_071",
+			"title": "The Second Strike",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				4
+			],
+			"once": true,
+			"requires": {
+				"flags": [
+					"college_warning"
+				],
+				"any_flags": [
+					"missed_curfew",
+					"hazing_participant",
+					"snuck_out_road",
+					"took_improper_benefit",
+					"online_incident",
+					"academic_shortcut",
+					"skipped_conditioning",
+					"shared_prescription",
+					"party_trouble",
+					"portal_tampering",
+					"took_unapproved_supplement",
+					"rivalry_prank",
+					"stayed_out_late",
+					"secret_agent_deal",
+					"hosted_recruit_badly",
+					"sabotaged_transfer",
+					"rode_along",
+					"ran_with_wrong_crowd",
+					"cash_camp"
+				]
+			},
+			"expected_flags": [
+				"caught_yourself",
+				"character_concerns",
+				"second_chance_used"
+			],
+			"authoring": {
+				"chain": "Wrong path",
+				"premise": "It happens again. This time it isn't only the coaches who know: a reporter is asking questions, and the team has to respond.",
+				"people": [
+					"coach",
+					"team"
+				],
+				"clears_strikes": true,
+				"note": "Opens only on a strike AFTER the first warning: The Coach's Office clears every strike flag, so an old strike can't open it.",
+				"unlocked_by": [
+					{
+						"from": "any wrong-path strike",
+						"flag": "(strike flags)"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "COL_078",
+						"flag": "character_concerns"
+					},
+					{
+						"to": "COL_106",
+						"flag": "character_concerns"
+					},
+					{
+						"to": "COL_086",
+						"flag": "second_chance_used"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_072",
+			"title": "The Runner",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"once": true,
+			"expected_flags": [
+				"took_improper_benefit",
+				"reported_runner"
+			],
+			"authoring": {
+				"chain": "Pro dream",
+				"premise": "A man who says he works 'with' an agent finds you after practice with cash, a new phone and a promise of more.",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "took_improper_benefit"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_073",
+			"title": "The Captain's Vote",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"weeks": [
+				1,
+				3
+			],
+			"once": true,
+			"expected_flags": [
+				"ran_for_captain",
+				"deferred_captaincy"
+			],
+			"authoring": {
+				"chain": "Coaching",
+				"premise": "The team votes for captains, and your name is on the ballot.",
+				"people": [
+					"team"
+				],
+				"hs_callbacks": [
+					"earned_coach_confidence"
+				],
+				"choice_locks": [
+					"earned_coach_confidence"
+				],
+				"leads_to": [
+					{
+						"to": "COL_074",
+						"flag": "ran_for_captain"
+					},
+					{
+						"to": "COL_114",
+						"flag": "ran_for_captain"
+					},
+					{
+						"to": "COL_114",
+						"flag": "deferred_captaincy"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_074",
+			"title": "The Captain's Burden",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				4
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"ran_for_captain",
+					"joined_council"
+				]
+			},
+			"expected_flags": [
+				"held_teammate_accountable"
+			],
+			"authoring": {
+				"chain": "Coaching",
+				"premise": "A teammate breaks team rules and asks you, as captain, to keep it in the locker room.",
+				"people": [
+					"team",
+					"coach"
+				],
+				"unlocked_by": [
+					{
+						"from": "COL_073",
+						"flag": "ran_for_captain"
+					},
+					{
+						"from": "COL_065",
+						"flag": "joined_council"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_075",
+			"title": "The Scouting Questionnaire",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"once": true,
+			"expected_flags": [
+				"shaded_questionnaire"
+			],
+			"authoring": {
+				"chain": "Pro dream",
+				"premise": "A pro team sends a questionnaire. Question 14: 'Describe any off-field incidents in your college career.'",
+				"people": [],
+				"hs_callbacks": [
+					"recruiting_values_clear"
+				],
+				"choice_locks": [
+					"recruiting_values_clear"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_076",
+			"title": "The Agent's Dinner",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"when": [
+				"offseason"
+			],
+			"once": true,
+			"expected_flags": [
+				"secret_agent_deal",
+				"waited_for_agents"
+			],
+			"authoring": {
+				"chain": "Pro dream",
+				"premise": "An agent invites you to a steakhouse to 'talk about your future.' It's a year too early, and you both know the rules.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_077",
+			"title": "The Transfer Kicker",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"weeks": [
+				1,
+				4
+			],
+			"once": true,
+			"expected_flags": [
+				"sabotaged_transfer"
+			],
+			"authoring": {
+				"chain": "Kicker's job",
+				"premise": "A kicker with a big resume transfers in from another school, and the coaches love his leg.",
+				"people": [
+					"coach"
+				],
+				"hs_callbacks": [
+					"sabotaged_teammate",
+					"helped_competing_teammate"
+				],
+				"choice_locks": [
+					"sabotaged_teammate",
+					"helped_competing_teammate"
+				],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "sabotaged_transfer"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_078",
+			"title": "The Long Way Back",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				4
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"character_concerns"
+				]
+			},
+			"expected_flags": [
+				"rebuilt_reputation"
+			],
+			"authoring": {
+				"chain": "Wrong path",
+				"premise": "You've got a reputation now, and the staff is watching. {coach} offers one path back: early workouts, community hours, and no more excuses.",
+				"people": [
+					"coach"
+				],
+				"clears_strikes": true,
+				"unlocked_by": [
+					{
+						"from": "COL_017",
+						"flag": "character_concerns"
+					},
+					{
+						"from": "COL_071",
+						"flag": "character_concerns"
+					},
+					{
+						"from": "COL_086",
+						"flag": "character_concerns"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_079",
+			"title": "The Mental Health Day",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"once": true,
+			"expected_flags": [
+				"took_mental_health_day"
+			],
+			"authoring": {
+				"chain": "Body and mind",
+				"premise": "You're exhausted in a way sleep doesn't fix. The team counselor says taking a day isn't weakness.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_080",
+			"title": "The Old Injury Returns",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Body and mind",
+				"premise": "The groin strain is back, worse this time, right before the conference schedule.",
+				"people": [],
+				"hs_callbacks": [
+					"hid_injury",
+					"ignored_recovery_advice"
+				],
+				"choice_locks": [
+					"hid_injury",
+					"ignored_recovery_advice"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_081",
+			"title": "A High School Teammate Calls",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Home",
+				"premise": "Someone from your old high school team calls: they're visiting campus next weekend and need a place to stay and a tour.",
+				"people": [],
+				"hs_callbacks": [
+					"helped_freshman",
+					"new_qb_friendship"
+				],
+				"choice_locks": [
+					"helped_freshman",
+					"new_qb_friendship"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_082",
+			"title": "Trouble at Home",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Family crisis",
+				"premise": "{sibling} got suspended from school for a fight. {parent} is overwhelmed and asks you to talk to him.",
+				"people": [
+					"sibling",
+					"parent"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_083",
+			"title": "{parent}'s Health Scare",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"sent_nil_money_home",
+					"kept_money_for_school"
+				]
+			},
+			"expected_flags": [
+				"went_home_for_dad"
+			],
+			"authoring": {
+				"chain": "Family crisis",
+				"premise": "A late-night call: {parent} is in the hospital. They think it's his heart, and you're four hundred miles away with a game Saturday.",
+				"people": [
+					"parent"
+				],
+				"hs_callbacks": [
+					"opened_family_conversation"
+				],
+				"choice_locks": [
+					"opened_family_conversation"
+				],
+				"unlocked_by": [
+					{
+						"from": "COL_054",
+						"flag": "sent_nil_money_home"
+					},
+					{
+						"from": "COL_054",
+						"flag": "kept_money_for_school"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_084",
+			"title": "The Integrity Hearing",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"academic_shortcut"
+				]
+			},
+			"expected_flags": [
+				"accepted_sanction"
+			],
+			"authoring": {
+				"chain": "Academics",
+				"premise": "Your professor reports a possible academic integrity violation. The hearing is next week.",
+				"people": [
+					"teacher"
+				],
+				"unlocked_by": [
+					{
+						"from": "COL_033",
+						"flag": "academic_shortcut"
+					},
+					{
+						"from": "COL_037",
+						"flag": "academic_shortcut"
+					},
+					{
+						"from": "COL_146",
+						"flag": "academic_shortcut"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_085",
+			"title": "Choosing a Major",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Academics",
+				"premise": "You have to declare a major. One keeps you eligible with the least effort; another is the one you actually care about.",
+				"people": [
+					"teacher"
+				],
+				"hs_callbacks": [
+					"secured_academic_path",
+					"ready_for_college_future"
+				],
+				"choice_locks": [
+					"secured_academic_path",
+					"ready_for_college_future"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_086",
+			"title": "The Final Warning",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				2,
+				4
+			],
+			"once": true,
+			"requires": {
+				"flags": [
+					"second_chance_used"
+				],
+				"any_flags": [
+					"missed_curfew",
+					"hazing_participant",
+					"snuck_out_road",
+					"took_improper_benefit",
+					"online_incident",
+					"academic_shortcut",
+					"skipped_conditioning",
+					"shared_prescription",
+					"party_trouble",
+					"portal_tampering",
+					"took_unapproved_supplement",
+					"rivalry_prank",
+					"stayed_out_late",
+					"secret_agent_deal",
+					"hosted_recruit_badly",
+					"sabotaged_transfer",
+					"rode_along",
+					"ran_with_wrong_crowd",
+					"cash_camp"
+				]
+			},
+			"expected_flags": [
+				"last_chance",
+				"character_concerns"
+			],
+			"authoring": {
+				"chain": "Wrong path",
+				"premise": "A third incident. {coach} and the head coach sit you down together: one more and you're off the team. This is the last conversation before that one.",
+				"people": [
+					"coach"
+				],
+				"clears_strikes": true,
+				"note": "Opens on second_chance_used (set by the good choice in The Second Strike or The Pattern) plus a new strike. The good choice sets last_chance (no label, heavy cost); the bad one sets character_concerns. Either way, The Long Way Back stays open to anyone with the label.",
+				"unlocked_by": [
+					{
+						"from": "any wrong-path strike",
+						"flag": "(strike flags)"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "COL_078",
+						"flag": "character_concerns"
+					},
+					{
+						"to": "COL_106",
+						"flag": "character_concerns"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_087",
+			"title": "The Twenty-First Birthday",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"once": true,
+			"expected_flags": [
+				"stayed_out_late",
+				"drove_teammates_home"
+			],
+			"authoring": {
+				"chain": "Party",
+				"premise": "A teammate turns twenty-one on a Thursday and everyone is going out. Practice is at seven the next morning.",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "stayed_out_late"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_088",
+			"title": "The Viral Video",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"once": true,
+			"expected_flags": [
+				"online_incident"
+			],
+			"authoring": {
+				"chain": "Media",
+				"premise": "A teammate posts a video of you at a party, edited to look worse than it was. It's everywhere by morning.",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "online_incident"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_089",
+			"title": "The Big Deal",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"weeks": [
+				1,
+				5
+			],
+			"once": true,
+			"expected_flags": [
+				"took_big_deal"
+			],
+			"authoring": {
+				"chain": "Money",
+				"premise": "A regional company offers a real NIL deal, but you'd have to promote a product you'd never use.",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_090",
+						"flag": "took_big_deal"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_090",
+			"title": "The Tax Bill",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"weeks": [
+				6,
+				10
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"signed_first_nil",
+					"joined_collective",
+					"took_big_deal"
+				]
+			},
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Money",
+				"premise": "Your NIL money came with a tax bill nobody warned you about, and it's due next month.",
+				"people": [
+					"parent"
+				],
+				"hs_callbacks": [
+					"saved_first_paycheck"
+				],
+				"choice_locks": [
+					"saved_first_paycheck"
+				],
+				"unlocked_by": [
+					{
+						"from": "COL_021",
+						"flag": "signed_first_nil"
+					},
+					{
+						"from": "COL_055",
+						"flag": "joined_collective"
+					},
+					{
+						"from": "COL_089",
+						"flag": "took_big_deal"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_091",
+			"title": "The Ultimatum",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"made_long_distance_work"
+				]
+			},
+			"expected_flags": [
+				"committed_to_relationship"
+			],
+			"authoring": {
+				"chain": "Love",
+				"premise": "{love_interest} wants you to spend the summer at home instead of at training camp. 'For once,' they say.",
+				"people": [
+					"love_interest"
+				],
+				"unlocked_by": [
+					{
+						"from": "COL_013",
+						"flag": "made_long_distance_work"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "COL_092",
+						"flag": "committed_to_relationship"
+					},
+					{
+						"to": "COL_119",
+						"flag": "committed_to_relationship"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_092",
+			"title": "Meeting the Family",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				4
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"dating_classmate",
+					"committed_to_relationship"
+				]
+			},
+			"expected_flags": [
+				"met_the_family"
+			],
+			"authoring": {
+				"chain": "Love",
+				"premise": "The person you're dating wants you to meet their family over a holiday weekend, the same weekend as the team's leadership retreat.",
+				"people": [
+					"love_interest"
+				],
+				"unlocked_by": [
+					{
+						"from": "COL_052",
+						"flag": "dating_classmate"
+					},
+					{
+						"from": "COL_091",
+						"flag": "committed_to_relationship"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "COL_119",
+						"flag": "met_the_family"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_093",
+			"title": "The Award Race",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"tyler_college_bond",
+					"tyler_college_feud"
+				]
+			},
+			"expected_flags": [
+				"congratulated_tyler",
+				"trash_talked_tyler"
+			],
+			"authoring": {
+				"chain": "Rival",
+				"premise": "You and {tyler} are both finalists for the same national kicking award, and the media wants a feud.",
+				"people": [
+					"rival"
+				],
+				"hs_callbacks": [
+					"tyler_mutual_respect"
+				],
+				"choice_locks": [
+					"tyler_mutual_respect"
+				],
+				"unlocked_by": [
+					{
+						"from": "COL_023",
+						"flag": "tyler_college_bond"
+					},
+					{
+						"from": "COL_023",
+						"flag": "tyler_college_feud"
+					}
+				],
+				"leads_to": [
+					{
+						"to": "COL_118",
+						"flag": "congratulated_tyler"
+					},
+					{
+						"to": "COL_118",
+						"flag": "trash_talked_tyler"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_094",
+			"title": "The Watch List",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"weeks": [
+				1,
+				3
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Big moments",
+				"premise": "You make a preseason watch list for the top kicker in the country. Your phone won't stop.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_095",
+			"title": "The Conference Title Race",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"weeks": [
+				7,
+				10
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Big moments",
+				"premise": "Your team is in the conference title race, and the campus is out of its mind. Everyone wants a piece of the players this week.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_096",
+			"title": "The Holder's Senior Day",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"weeks": [
+				9,
+				10
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Kicker's job",
+				"premise": "It's {holder}'s last home game, and they ask you to walk out with their family on senior day.",
+				"people": [
+					"holder"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_097",
+			"title": "When the Alum Gets Cut",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"trained_with_alum"
+				]
+			},
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Pro dream",
+				"premise": "The pro kicker who trained you gets cut, and he calls you before he calls anyone else.",
+				"people": [],
+				"unlocked_by": [
+					{
+						"from": "COL_059",
+						"flag": "trained_with_alum"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_098",
+			"title": "Hosting a Recruit",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"once": true,
+			"expected_flags": [
+				"hosted_recruit_badly",
+				"hosted_recruit_well"
+			],
+			"authoring": {
+				"chain": "Wrong path",
+				"premise": "{coach} asks you to host a high school kicker on an official visit. The recruit wants to see 'the real college experience.'",
+				"people": [
+					"coach"
+				],
+				"hs_callbacks": [
+					"communicated_recruiting_loyalty"
+				],
+				"choice_locks": [
+					"communicated_recruiting_loyalty"
+				],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "hosted_recruit_badly"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_099",
+			"title": "A Teammate Enters the Portal",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"when": [
+				"offseason"
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Transfer",
+				"premise": "Your closest friend on the team enters the transfer portal without telling you first.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_100",
+			"title": "The Late-Night Drive",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"once": true,
+			"expected_flags": [
+				"rode_along"
+			],
+			"authoring": {
+				"chain": "Party",
+				"premise": "After curfew, a teammate who's in no shape to drive wants to take everyone for food.",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "rode_along"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_101",
+			"title": "Academic Honors",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Academics",
+				"premise": "{teacher} says you're close to academic all-conference, if you take one more hard class instead of an easy elective.",
+				"people": [
+					"teacher"
+				],
+				"hs_callbacks": [
+					"academic_effort"
+				],
+				"choice_locks": [
+					"academic_effort"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_102",
+			"title": "The Weight Room Push",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"when": [
+				"offseason"
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Body and mind",
+				"premise": "The new strength coach wants you to add power fast. Your legs are already sore, and his program doesn't do rest days.",
+				"people": [],
+				"hs_callbacks": [
+					"built_training_plan"
+				],
+				"choice_locks": [
+					"built_training_plan"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_103",
+			"title": "The Leadership Retreat",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				3,
+				3
+			],
+			"when": [
+				"offseason"
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Coaching",
+				"premise": "The team's leaders spend a weekend at a lake planning next season. It's also your only free weekend of the summer.",
+				"people": [],
+				"hs_callbacks": [
+					"accepted_team_leadership"
+				],
+				"choice_locks": [
+					"accepted_team_leadership"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_104",
+			"title": "Senior Year Starts",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"weeks": [
+				1,
+				1
+			],
+			"story": true,
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Big moments",
+				"premise": "The first practice of your last college season. Everyone keeps saying it goes fast.",
+				"people": [
+					"coach"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_105",
+			"title": "The Background Check",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"weeks": [
+				3,
+				9
+			],
+			"story": true,
+			"once": true,
+			"expected_flags": [
+				"scouts_red_flag"
+			],
+			"authoring": {
+				"chain": "Wrong path",
+				"premise": "Pro scouts are interviewing everyone with a chance at the draft, and they've talked to people you haven't spoken to in years.",
+				"people": [],
+				"hs_callbacks": [
+					"corrected_recruiting_video",
+					"doubled_down_recruiting_lie"
+				],
+				"college_locks": [
+					"rebuilt_reputation"
+				],
+				"choice_locks": [
+					"corrected_recruiting_video",
+					"doubled_down_recruiting_lie",
+					"rebuilt_reputation"
+				],
+				"note": "Open to every senior; a locked choice for rebuilt_reputation ('the long way back') joins the high school callbacks."
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_106",
+			"title": "The Red Flag Interview",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"character_concerns",
+					"college_warning"
+				]
+			},
+			"expected_flags": [
+				"took_responsibility_scout"
+			],
+			"authoring": {
+				"chain": "Wrong path",
+				"premise": "A scout sits across from you with a folder: everything that happened in college, in writing. 'Walk me through it,' he says.",
+				"people": [],
+				"college_locks": [
+					"rebuilt_reputation"
+				],
+				"choice_locks": [
+					"rebuilt_reputation"
+				],
+				"unlocked_by": [
+					{
+						"from": "COL_017",
+						"flag": "character_concerns"
+					},
+					{
+						"from": "COL_071",
+						"flag": "character_concerns"
+					},
+					{
+						"from": "COL_086",
+						"flag": "character_concerns"
+					},
+					{
+						"from": "COL_036",
+						"flag": "college_warning"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_107",
+			"title": "Choosing an Agent",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"weeks": [
+				6,
+				10
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Pro dream",
+				"premise": "Three agents want to represent you: a big firm, a former player, and a smooth talker promising a first-round grade.",
+				"people": [
+					"parent"
+				],
+				"hs_callbacks": [
+					"recruiting_values_clear",
+					"recruiting_said_what_they_wanted"
+				],
+				"choice_locks": [
+					"recruiting_values_clear",
+					"recruiting_said_what_they_wanted"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_108",
+			"title": "Combine Prep",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"when": [
+				"offseason"
+			],
+			"once": true,
+			"expected_flags": [
+				"combine_ready",
+				"took_unapproved_supplement"
+			],
+			"authoring": {
+				"chain": "Pro dream",
+				"premise": "A training facility offers to prepare you for the combine. Their 'recovery program' includes things you've never heard of.",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "took_unapproved_supplement"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_109",
+			"title": "Pro Day",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"when": [
+				"offseason"
+			],
+			"once": true,
+			"expected_flags": [
+				"pro_day_ready",
+				"partied_before_pro_day"
+			],
+			"authoring": {
+				"chain": "Pro dream",
+				"premise": "Your school's pro day is Thursday. The team's seniors are throwing a send-off party Wednesday night.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_110",
+			"title": "Draft Weekend",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"when": [
+				"offseason"
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Pro dream",
+				"premise": "Draft weekend is coming. Do you watch with family, with teammates, or with your phone off?",
+				"people": [
+					"parent",
+					"sibling"
+				],
+				"hs_callbacks": [
+					"family_college_compromise",
+					"prioritized_own_college_choice"
+				],
+				"choice_locks": [
+					"family_college_compromise",
+					"prioritized_own_college_choice"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_111",
+			"title": "The Degree Question",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"weeks": [
+				6,
+				10
+			],
+			"once": true,
+			"expected_flags": [
+				"finished_degree_track"
+			],
+			"authoring": {
+				"chain": "Academics",
+				"premise": "You're two classes from a degree. Dropping them would free up hours for draft training.",
+				"people": [
+					"teacher"
+				],
+				"hs_callbacks": [
+					"ready_for_college_future",
+					"secured_academic_path"
+				],
+				"choice_locks": [
+					"ready_for_college_future",
+					"secured_academic_path"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_112",
+			"title": "Senior Night",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"weeks": [
+				8,
+				10
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Big moments",
+				"premise": "Senior night, and your family is driving in. Before kickoff, the seniors walk out one at a time.",
+				"people": [
+					"parent",
+					"sibling"
+				],
+				"hs_callbacks": [
+					"family_college_compromise"
+				],
+				"choice_locks": [
+					"family_college_compromise"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_113",
+			"title": "The Last Rivalry Week",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"weeks": [
+				8,
+				10
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Big moments",
+				"premise": "One last rivalry week. The younger players look to the seniors to set the tone.",
+				"people": [
+					"team"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_114",
+			"title": "The Captain's Last Speech",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"weeks": [
+				9,
+				10
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"ran_for_captain",
+					"joined_council",
+					"deferred_captaincy"
+				]
+			},
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Coaching",
+				"premise": "{coach} asks you to speak to the team before the final game of your career.",
+				"people": [
+					"coach",
+					"team"
+				],
+				"unlocked_by": [
+					{
+						"from": "COL_073",
+						"flag": "ran_for_captain"
+					},
+					{
+						"from": "COL_065",
+						"flag": "joined_council"
+					},
+					{
+						"from": "COL_073",
+						"flag": "deferred_captaincy"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_115",
+			"title": "The Freshman Who Reminds You",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Kicker's job",
+				"premise": "A homesick freshman kicker reminds you of yourself four years ago.",
+				"people": [],
+				"hs_callbacks": [
+					"mentored_younger_student",
+					"mentored_next_generation"
+				],
+				"choice_locks": [
+					"mentored_younger_student",
+					"mentored_next_generation"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_116",
+			"title": "The Holder's Future",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Kicker's job",
+				"premise": "{holder} asks you for a recommendation for a graduate assistant job. It means writing honestly about someone you love working with.",
+				"people": [
+					"holder"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_117",
+			"title": "The Backup's Moment",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"mentored_backup",
+					"iced_out_backup",
+					"competed_clean",
+					"undermined_backup"
+				]
+			},
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Kicker's job",
+				"premise": "You're sore, and {coach} wants to give {backup} the kickoffs this week. {backup} looks at you before saying yes.",
+				"people": [
+					"backup",
+					"coach"
+				],
+				"unlocked_by": [
+					{
+						"from": "COL_042",
+						"flag": "mentored_backup"
+					},
+					{
+						"from": "COL_042",
+						"flag": "iced_out_backup"
+					},
+					{
+						"from": "COL_043",
+						"flag": "competed_clean"
+					},
+					{
+						"from": "COL_043",
+						"flag": "undermined_backup"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_118",
+			"title": "Old Rival, New Stage",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"when": [
+				"offseason"
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"tyler_college_bond",
+					"tyler_college_feud",
+					"congratulated_tyler",
+					"trash_talked_tyler"
+				]
+			},
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Rival",
+				"premise": "{tyler} is entering the draft too, and his agent suggests you two train together for the combine.",
+				"people": [
+					"rival"
+				],
+				"hs_callbacks": [
+					"tyler_mutual_respect"
+				],
+				"choice_locks": [
+					"tyler_mutual_respect"
+				],
+				"unlocked_by": [
+					{
+						"from": "COL_023",
+						"flag": "tyler_college_bond"
+					},
+					{
+						"from": "COL_023",
+						"flag": "tyler_college_feud"
+					},
+					{
+						"from": "COL_093",
+						"flag": "congratulated_tyler"
+					},
+					{
+						"from": "COL_093",
+						"flag": "trash_talked_tyler"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_119",
+			"title": "What Comes After",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"committed_to_relationship",
+					"met_the_family",
+					"dating_classmate"
+				]
+			},
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Love",
+				"premise": "{love_interest} asks the question you've both avoided: what happens to us after college?",
+				"people": [
+					"love_interest"
+				],
+				"unlocked_by": [
+					{
+						"from": "COL_091",
+						"flag": "committed_to_relationship"
+					},
+					{
+						"from": "COL_092",
+						"flag": "met_the_family"
+					},
+					{
+						"from": "COL_052",
+						"flag": "dating_classmate"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_120",
+			"title": "{parent} at Every Game",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Family crisis",
+				"premise": "{parent} has driven to every game this season. You know he can't afford it.",
+				"people": [
+					"parent"
+				],
+				"hs_callbacks": [
+					"helped_family_financially"
+				],
+				"choice_locks": [
+					"helped_family_financially"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_121",
+			"title": "The Little Brother's Recruiting",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Family crisis",
+				"premise": "{sibling} is a high school senior now, and college coaches are calling. He asks you how to handle them.",
+				"people": [
+					"sibling"
+				],
+				"hs_callbacks": [
+					"doubled_down_recruiting_lie",
+					"recruiting_values_clear"
+				],
+				"choice_locks": [
+					"doubled_down_recruiting_lie",
+					"recruiting_values_clear"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_122",
+			"title": "The Mental Toll",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"once": true,
+			"expected_flags": [
+				"leaned_on_support"
+			],
+			"authoring": {
+				"chain": "Body and mind",
+				"premise": "Draft season, final exams and your last season at once. You're short with everyone and you don't sleep.",
+				"people": [],
+				"college_locks": [
+					"saw_sports_psych",
+					"got_help_panic"
+				],
+				"choice_locks": [
+					"saw_sports_psych",
+					"got_help_panic"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_123",
+			"title": "The Last Injury Scare",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Body and mind",
+				"premise": "Your knee buckles on a routine practice kick three weeks before scouts arrive.",
+				"people": [],
+				"hs_callbacks": [
+					"reported_kicking_pain"
+				],
+				"choice_locks": [
+					"reported_kicking_pain"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_124",
+			"title": "Final Exams, Final Season",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"weeks": [
+				7,
+				10
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Academics",
+				"premise": "Your last finals land in the same week as your last regular-season game.",
+				"people": [
+					"teacher"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_125",
+			"title": "The Senior Trip",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"when": [
+				"offseason"
+			],
+			"once": true,
+			"expected_flags": [
+				"senior_trip_trouble"
+			],
+			"authoring": {
+				"chain": "Party",
+				"premise": "Teammates book a senior trip in the middle of draft prep. It's the last time you'll all be together.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_126",
+			"title": "The Exclusive Deal",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Money",
+				"premise": "A national brand wants an exclusive NIL deal for your senior year. It pays more than everything else combined, and it ends all your local deals.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_127",
+			"title": "Giving Back",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Money",
+				"premise": "Your hometown asks if you'd run a free kicking camp for kids this summer. It would cost you a week and some of your NIL money.",
+				"people": [],
+				"hs_callbacks": [
+					"community_volunteer",
+					"earned_community_reference"
+				],
+				"choice_locks": [
+					"community_volunteer",
+					"earned_community_reference"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_128",
+			"title": "The Last Initiation",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"weeks": [
+				1,
+				3
+			],
+			"once": true,
+			"requires": {
+				"any_flags": [
+					"ended_tradition",
+					"kept_tradition_alive"
+				]
+			},
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Hazing",
+				"premise": "Your class is the senior class now. The freshman initiation is your call this year.",
+				"people": [
+					"team"
+				],
+				"unlocked_by": [
+					{
+						"from": "COL_041",
+						"flag": "ended_tradition"
+					},
+					{
+						"from": "COL_041",
+						"flag": "kept_tradition_alive"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_129",
+			"title": "The Scout's Dinner",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Pro dream",
+				"premise": "A scout takes you to dinner and spends more time watching how you treat the waiter than asking about kicking.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_130",
+			"title": "The Old Posts",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Media",
+				"premise": "Someone digs up your freshman-year posts during draft season and they're spreading.",
+				"people": [],
+				"hs_callbacks": [
+					"handled_old_post",
+					"owned_old_group_chat"
+				],
+				"choice_locks": [
+					"handled_old_post",
+					"owned_old_group_chat"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_131",
+			"title": "Conference Awards Night",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"when": [
+				"offseason"
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Big moments",
+				"premise": "You win an all-conference award. You have one minute at the podium.",
+				"people": [
+					"holder",
+					"coach"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_132",
+			"title": "The Coach's Letter",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"weeks": [
+				8,
+				10
+			],
+			"once": true,
+			"expected_flags": [
+				"asked_for_honesty"
+			],
+			"authoring": {
+				"chain": "Coaching",
+				"premise": "{coach} is writing to pro scouts about you and asks what you want included, and what you'd rather leave out.",
+				"people": [
+					"coach"
+				],
+				"hs_callbacks": [
+					"repaired_coach_trust"
+				],
+				"choice_locks": [
+					"repaired_coach_trust"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_133",
+			"title": "The Last Practice",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"weeks": [
+				9,
+				10
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Big moments",
+				"premise": "The last practice of your college career. The field is the same one you walked onto four years ago.",
+				"people": [
+					"coach",
+					"holder"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_134",
+			"title": "The Roommate's Secret",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Roommates",
+				"premise": "Your roommate admits he hasn't left the room in days and asks you not to tell anyone.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_135",
+			"title": "Sunday Night Blues",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Home",
+				"premise": "Every Sunday night the dorm goes quiet and you miss home most.",
+				"people": [
+					"parent"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_136",
+			"title": "The Group Chat Screenshot",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Media",
+				"premise": "A screenshot from the team group chat leaks, and a joke you laughed at is in it.",
+				"people": [],
+				"hs_callbacks": [
+					"owned_old_group_chat",
+					"joined_group_mockery"
+				],
+				"choice_locks": [
+					"owned_old_group_chat",
+					"joined_group_mockery"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_137",
+			"title": "The Parking Ticket Pile",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Money",
+				"premise": "Seven unpaid parking tickets and a hold on your registration.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_138",
+			"title": "The Professor Who Doubts Athletes",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Academics",
+				"premise": "A professor says, in front of the class, that athletes don't belong in her seminar.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_139",
+			"title": "The Bus Argument",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Party",
+				"premise": "An argument on the team bus is turning personal, and two teammates are about to swing.",
+				"people": [
+					"team"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_140",
+			"title": "The Fan Who Goes Too Far",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Media",
+				"premise": "A fan's messages have gone from friendly to strange. Now he says he knows where you live.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_141",
+			"title": "Pickup Basketball",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Body and mind",
+				"premise": "Teammates want you in a pickup basketball game. One rolled ankle could cost you a month.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_142",
+			"title": "The Wrong Crowd",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				4
+			],
+			"once": true,
+			"expected_flags": [
+				"ran_with_wrong_crowd"
+			],
+			"authoring": {
+				"chain": "Wrong path",
+				"premise": "A group of non-team friends parties every night, and they've started inviting you along.",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "ran_with_wrong_crowd"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_143",
+			"title": "The Borrowed Car",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Party",
+				"premise": "A teammate wants to borrow your car for the night and won't say where he's going.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_144",
+			"title": "The Camp You Run",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				4
+			],
+			"when": [
+				"offseason"
+			],
+			"once": true,
+			"expected_flags": [
+				"cash_camp"
+			],
+			"authoring": {
+				"chain": "Money",
+				"premise": "Parents offer you cash to run private kicking lessons for their kids this summer. Compliance has rules about that.",
+				"people": [],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "cash_camp"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_145",
+			"title": "The Aid Office Error",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Money",
+				"premise": "The financial aid office deposits twice what you're owed.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_146",
+			"title": "The Extension",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				4
+			],
+			"once": true,
+			"expected_flags": [
+				"academic_shortcut"
+			],
+			"authoring": {
+				"chain": "Academics",
+				"premise": "Team travel lands on a paper deadline. A teammate says the trick is to claim a family emergency.",
+				"people": [
+					"teacher"
+				],
+				"leads_to": [
+					{
+						"to": "COL_036",
+						"flag": "academic_shortcut"
+					}
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_147",
+			"title": "The Coach From Home",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Home",
+				"premise": "Your high school coach visits campus and wants to watch you practice.",
+				"people": [],
+				"hs_callbacks": [
+					"earned_coach_confidence",
+					"repaired_coach_trust",
+					"coach_trust_damaged"
+				],
+				"choice_locks": [
+					"earned_coach_confidence",
+					"repaired_coach_trust",
+					"coach_trust_damaged"
+				]
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_148",
+			"title": "The Hospital Visit",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Media",
+				"premise": "The team visits a children's hospital. Some players are there for the cameras; one kid asks you to stay longer.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_149",
+			"title": "The Weekend Off",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				1,
+				4
+			],
+			"once": true,
+			"expected_flags": [],
+			"authoring": {
+				"chain": "Body and mind",
+				"premise": "Friends invite you away for a weekend off, your first in months.",
+				"people": []
+			},
+			"choices": []
+		},
+		{
+			"id": "COL_150",
+			"title": "The Next Level",
+			"draft": true,
+			"category": "",
+			"text": "",
+			"stages": [
+				"college"
+			],
+			"seasons": [
+				4,
+				4
+			],
+			"beat": {
+				"season_in_stage": 4,
+				"week": 10
+			},
+			"once": true,
+			"expected_flags": [
+				"ready_for_pros",
+				"life_after_football",
+				"still_proving_it"
+			],
+			"authoring": {
+				"chain": "Finale",
+				"premise": "The last week of your college career. Whatever happens on draft day, this is where the kicker you became walks off the field.",
+				"people": [
+					"parent",
+					"coach"
+				],
+				"college_locks": [
+					"combine_ready",
+					"pro_day_ready",
+					"finished_degree_track",
+					"rebuilt_reputation"
+				],
+				"choice_locks": [
+					"combine_ready",
+					"pro_day_ready",
+					"finished_degree_track",
+					"rebuilt_reputation"
+				],
+				"note": "Locked choices: ready_for_pros needs combine_ready or pro_day_ready; life_after_football needs finished_degree_track; a rebuilt_reputation lock adds 'the long way back'; still_proving_it is open."
+			},
+			"choices": []
 		}
 	]
 }
