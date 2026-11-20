@@ -185,11 +185,10 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var bye_scenarios: int = 2
 @export var offseason_scenarios: int = 2
 ## Applied at the end of every week (through the stat rules). Energy and
-## Health recover. weekly_football_growth is 0: football attributes now grow
-## through skill points (group "Skill Points"); the knob is kept.
+## Health recover. (Football attributes only grow through skill points,
+## group "Skill Points", and scenario choices.)
 @export var weekly_energy_recovery: float = 10.0
 @export var weekly_health_recovery: float = 2.0
-@export var weekly_football_growth: float = 0.0
 ## Every week each life stat also moves this fraction of the way back toward
 ## life_baseline, so streaks of good or bad weeks don't pin them at 0 or 100.
 ## 0 = off.
@@ -200,9 +199,7 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## Extra recovery at the end of a bye week.
 @export var bye_energy_recovery: float = 15.0
 @export var bye_health_recovery: float = 10.0
-## Between seasons: every football stat grows this much (0: skill points do
-## it now), and life stats move this fraction of the way back to start_life.
-@export var offseason_football_growth: float = 0.0
+## Between seasons life stats move this fraction of the way back to start_life.
 @export_range(0.0, 1.0) var offseason_life_reset: float = 0.5
 ## Injury picked up in the weekly roll: weeks out of full health and severity.
 @export var injury_weeks_min: int = 1
@@ -275,23 +272,16 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## Every game costs this (before the weekly recovery).
 @export var game_energy_cost: float = -12.0
 @export var game_health_cost: float = -3.0
-## Direct football stat changes from your kicks. All 0 now: kicks earn skill
-## points instead (group "Skill Points"). The knobs are kept.
-@export var make_accuracy_gain: float = 0.0
-## A make from this far or more counts as a long make (skill points, Power gain).
+## Your kicks change life and personality stats only; football attributes
+## grow through skill points (group "Skill Points").
+## A make from this far or more counts as a long make (skill points).
 @export var long_make_yards: int = 45
-@export var long_make_power_gain: float = 0.0
 ## A make under this much pressure is a clutch make (skill points, Charisma).
 @export_range(0.0, 1.0) var clutch_pressure: float = 0.6
-@export var clutch_resilience_gain: float = 0.0
 @export var clutch_charisma_gain: float = 2.0
 @export var miss_fun: float = -2.0
-@export var miss_resilience_gain: float = 0.0
 ## A perfect day (2+ kicks, no misses) adds this Fun.
 @export var perfect_day_fun: float = 2.0
-## Good kickoffs (touchback / pinned deep): direct Power / Toughness gain (0 now).
-@export var good_kickoff_power_gain: float = 0.0
-@export var good_kickoff_toughness_gain: float = 0.0
 
 @export_group("Sideline Kicks")
 ## Kickoffs, onside kicks and the sideline warmup net (all in the 3D kick scene).

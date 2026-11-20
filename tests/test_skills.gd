@@ -190,10 +190,30 @@ func test_scenario_skill_points_and_scale() -> void:
 	eq(float(s["life"]["fun"]), 4.0, "other gains untouched")
 
 
-func test_passive_football_growth_is_off() -> void:
-	eq(t.weekly_football_growth, 0.0, "weekly")
-	eq(t.offseason_football_growth, 0.0, "offseason")
-	eq(t.make_accuracy_gain, 0.0, "per make")
+func test_no_automatic_football_growth() -> void:
+	# The settings are gone (not just 0), and a game, a week and an offseason
+	# leave football attributes alone.
+	for knob in ["weekly_football_growth", "offseason_football_growth", "make_accuracy_gain",
+			"long_make_power_gain", "clutch_resilience_gain", "miss_resilience_gain",
+			"good_kickoff_power_gain", "good_kickoff_toughness_gain"]:
+		check(not (knob in t), "%s removed" % knob)
+	var c := CareerData.create("Growth", t)
+	c.team = Progression.team_from(CareerContent.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
+	var m := CareerManager.new(c, t)
+	var ch := m.game_changes({"outcome": "W", "warmups": ["pure", "skipped"], "kicks": [
+		{"kind": "fg", "made": true, "yards": 50, "pressure": 0.9}, {"kind": "fg", "made": false, "yards": 30},
+		{"kind": "kickoff", "quality": 1.0}]})
+	for k in CareerData.GROUP_KEYS[CareerData.FOOTBALL]:
+		check(not ch.has(k), "a game doesn't change " + k)
+	m._start_season(false)
+	var before := {}
+	for k in CareerData.GROUP_KEYS[CareerData.FOOTBALL]:
+		before[k] = c.stat(k)
+	c.phase = CareerManager.PHASE_RESULTS
+	m.end_week()
+	m._start_next_season()
+	for k in CareerData.GROUP_KEYS[CareerData.FOOTBALL]:
+		eq(c.stat(k), float(before[k]), "a week and an offseason don't change " + k)
 
 
 # --- kick trust -----------------------------------------------------------------------

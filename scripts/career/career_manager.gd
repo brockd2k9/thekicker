@@ -454,19 +454,10 @@ func game_changes(summary: Dictionary) -> Dictionary:
 				att += 1
 				if k.get("made", false):
 					made += 1
-					_add(ch, "accuracy", tuning.make_accuracy_gain)
-					if int(k.get("yards", 0)) >= tuning.long_make_yards:
-						_add(ch, "power", tuning.long_make_power_gain)
 					if float(k.get("pressure", 0.0)) >= tuning.clutch_pressure:
-						_add(ch, "resilience", tuning.clutch_resilience_gain)
 						_add(ch, "charisma", tuning.clutch_charisma_gain)
 				else:
 					_add(ch, "fun", tuning.miss_fun)
-					_add(ch, "resilience", tuning.miss_resilience_gain)
-			"kickoff":
-				if float(k.get("quality", 0.0)) >= 0.85:
-					_add(ch, "power", tuning.good_kickoff_power_gain)
-					_add(ch, "toughness", tuning.good_kickoff_toughness_gain)
 	if att >= 2 and made == att:
 		_add(ch, "fun", tuning.perfect_day_fun)
 	var results: Dictionary = CareerContent.game_day().get("warmup", {}).get("results", {})
@@ -548,8 +539,6 @@ func end_week() -> void:
 	if data.phase != PHASE_RESULTS:
 		return
 	var growth := {"energy": tuning.weekly_energy_recovery, "health": tuning.weekly_health_recovery}
-	for k in CareerData.GROUP_KEYS[CareerData.FOOTBALL]:
-		growth[k] = tuning.weekly_football_growth
 	for k in CareerData.GROUP_KEYS[CareerData.LIFE]:
 		growth[k] = float(growth.get(k, 0.0)) + (tuning.life_baseline - data.stat(k)) * tuning.weekly_life_drift
 	var rel := Relationships.weekly_growth(data, tuning)
@@ -652,8 +641,6 @@ func _begin_offseason() -> void:
 
 func _start_next_season() -> void:
 	var growth := {}
-	for k in CareerData.GROUP_KEYS[CareerData.FOOTBALL]:
-		growth[k] = tuning.offseason_football_growth
 	for k in CareerData.GROUP_KEYS[CareerData.LIFE]:
 		growth[k] = (tuning.start_life - data.stat(k)) * tuning.offseason_life_reset
 	CareerStats.apply(data, growth, tuning)

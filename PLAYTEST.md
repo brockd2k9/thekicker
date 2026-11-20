@@ -208,8 +208,8 @@ are a stand-in for real swipes, so everything involving kicking quality needs a 
 10. Life (weekly averages): Health 64-70, Energy 48-68, Fun 49-73, Social 61-84. Low-stat weeks
     3-25% by style. Knobs: `life_baseline` 60, `fun_social_gain_mult` 0.7, `weekly_energy_recovery`
     10, `game_energy_cost` -12, `weekly_life_drift` 0.1.
-11. Accuracy at the end of college 68-93: `make_accuracy_gain` 0.06, `weekly_football_growth` 0.1,
-    `offseason_football_growth` 1.5, `football_diminishing` 0.85.
+11. Football attributes grow only through skill points (Skills screen) and scenario choices; the
+    automatic weekly, per-game and offseason growth settings are gone.
 12. GPA: intelligence-heavy players reach 4.0, others 2.6-3.4 (`gpa_intelligence_drift` 0.12);
     college ineligibility below 2.0.
 
