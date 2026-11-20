@@ -1,0 +1,949 @@
+{
+  "_about": "Batch 13, written in-session: senior year (season 4) HS_053-057, 059-065, 067. Game-week scenes (HS_059, HS_062, HS_063) happen before the game and never describe a kick or its result.",
+  "_how": "Fill in category, text and choices; leave _info alone (it's read-only). See tools/authoring/WRITING_GUIDE.md. Import: python3 tools/import_scenarios.py <this file> --dry-run",
+  "scenarios": [
+    {
+      "id": "HS_053",
+      "title": "The Senior Prank",
+      "_info": {
+        "when": "Senior year (season 4), any week"
+      },
+      "category": "social",
+      "text": "The senior class is planning its prank for the last week of school: filling the main hallway with a thousand balloons overnight. A couple of guys want to take it further and move the principal's car onto the football field.",
+      "choices": [
+        {
+          "label": "Help with the balloons only",
+          "result": "You spend a late night blowing up balloons and help fill the hallway before sunrise. The principal pretends to be mad, then posts a picture of it.",
+          "stats": {
+            "life": {
+              "fun": 6,
+              "social": 4,
+              "energy": -6
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "tired"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Talk them out of the car",
+          "result": "You tell the guys moving the car is how seniors lose graduation, and enough people agree that the idea dies. A couple of them call you no fun.",
+          "stats": {
+            "life": {
+              "social": -1,
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Sit this one out",
+          "result": "You skip the whole thing and sleep. The balloons are the talk of the school the next day, and you're the only senior not in the photo.",
+          "stats": {
+            "life": {
+              "energy": 5,
+              "social": -3
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_054",
+      "title": "The Big Interview",
+      "_info": {
+        "when": "Senior year (season 4), any week"
+      },
+      "category": "school",
+      "text": "Your college application calls for an interview with an alumni volunteer. It's Thursday after practice, and you've never done anything like it.",
+      "choices": [
+        {
+          "label": "Prepare like it's a game",
+          "result": "You write out answers, practice with a friend and iron your one good shirt. You walk in nervous but ready, and the interviewer says you were one of the most prepared.",
+          "stats": {
+            "life": {
+              "energy": -4
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "charisma": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {},
+          "grades": 0.05
+        },
+        {
+          "label": "Just be yourself",
+          "result": "You show up without notes and talk about kicking, school and your family. It's a little rambling, but you laugh twice and the interviewer smiles a lot.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Ask to reschedule",
+          "result": "You ask to move it to a week without practice and enjoy a free Thursday. The volunteer agrees, but the new slot lands during finals, and now you have one more thing to juggle.",
+          "stats": {
+            "life": {
+              "energy": 3,
+              "fun": 3
+            },
+            "football": {},
+            "personality": {
+              "ambition": -1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {},
+          "grades": -0.05
+        }
+      ]
+    },
+    {
+      "id": "HS_055",
+      "title": "The Parent Who Can't Attend",
+      "_info": {
+        "when": "Senior year (season 4), any week",
+        "people": [
+          "parent"
+        ]
+      },
+      "category": "family",
+      "text": "{parent} can't make senior night. His company is sending him on a work trip that week, and he's been looking at the floor since he told you.",
+      "choices": [
+        {
+          "label": "Tell him it's okay",
+          "result": "You tell {parent} you understand and you'll call him right after. He looks relieved, and the night before he leaves he gives you a card to open before the game.",
+          "stats": {
+            "life": {
+              "social": 1,
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "charisma": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {},
+          "rel": {
+            "parent": 8
+          }
+        },
+        {
+          "label": "Ask a friend to film it for him",
+          "result": "You set up a friend to film every moment of the senior walk for him. It's a small job, but {parent} watches it three times from his hotel room.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {},
+          "rel": {
+            "parent": 6
+          }
+        },
+        {
+          "label": "Tell him you're upset",
+          "result": "You tell {parent} it stings and he should have pushed back on the trip. He doesn't argue, but the rest of the week is quiet around the house.",
+          "stats": {
+            "life": {
+              "social": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "charisma": -1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "distracted"
+          ],
+          "set_flags": {},
+          "rel": {
+            "parent": -5
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_056",
+      "title": "The Last-Minute Scholarship Camp",
+      "_info": {
+        "when": "Senior year (season 4), any week"
+      },
+      "category": "career",
+      "text": "A college kicking camp has a last-minute opening this weekend, two hours away. It costs most of what you've saved, and you'd miss a friend's birthday party.",
+      "choices": [
+        {
+          "label": "Go to the camp",
+          "result": "You drive out Saturday morning and kick in front of three college coaches. Your legs are dead by Sunday, but one coach asks for your schedule.",
+          "stats": {
+            "life": {
+              "energy": -6,
+              "social": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "skill_points": 3,
+          "modifiers": [
+            "heavy_legs"
+          ],
+          "set_flags": {},
+          "recruiting": 3
+        },
+        {
+          "label": "Go to the party",
+          "result": "You keep your money and spend Saturday night celebrating your friend. It's one of the best nights of senior year, and you try not to check the camp's posts.",
+          "stats": {
+            "life": {
+              "fun": 6,
+              "social": 4,
+              "energy": -3
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Ask the camp for film instead",
+          "result": "You email the camp director and ask if they'll review a video of your kicks. They agree, and you get notes back for free, though no coach sees you in person.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "skill_points": 1,
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {},
+          "recruiting": 1
+        }
+      ]
+    },
+    {
+      "id": "HS_057",
+      "title": "The Teammate's Secret",
+      "_info": {
+        "when": "Senior year (season 4), any week"
+      },
+      "category": "team",
+      "text": "After practice, a teammate tells you he got his bell rung in yesterday's scrimmage and he's still dizzy and seeing spots. He makes you promise not to tell anyone, because he doesn't want to miss senior night.",
+      "choices": [
+        {
+          "label": "Walk him to the trainer",
+          "result": "You tell him you're not keeping that promise and walk him to the training room yourself. He's furious for a day, then quietly thanks you when the trainer sits him for a week.",
+          "stats": {
+            "life": {
+              "social": -3,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 3,
+              "intelligence": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Push him to tell someone himself",
+          "result": "You tell him he has until tomorrow morning to tell the trainer or you will. You barely sleep, but he tells them, and he never brings it up with you again.",
+          "stats": {
+            "life": {
+              "social": -1,
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "charisma": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Keep his secret",
+          "result": "You keep your promise. He plays through the week, and every time he grabs his helmet, your stomach drops.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": -3
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "distracted"
+          ],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_059",
+      "title": "The Breakup Before the Big Game",
+      "_info": {
+        "when": "Senior year (season 4), any week",
+        "people": [
+          "love_interest"
+        ]
+      },
+      "category": "romance",
+      "text": "It's the night before the biggest game of the season, and {love_interest} texts asking to talk. You can tell from the message it isn't good news.",
+      "choices": [
+        {
+          "label": "Talk tonight",
+          "result": "You go over and they tell you they think it's time to end things. It's hard and honest, and you're up later than you planned, but nothing is left unsaid.",
+          "stats": {
+            "life": {
+              "energy": -4,
+              "fun": -3
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "drained"
+          ],
+          "set_flags": {},
+          "rel": {
+            "love_interest": 3
+          }
+        },
+        {
+          "label": "Ask to talk after the game",
+          "result": "You ask if it can wait until Saturday. They say okay, but now you know what's coming, and it sits with you all night.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "fun": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "distracted"
+          ],
+          "set_flags": {},
+          "rel": {
+            "love_interest": -2
+          }
+        },
+        {
+          "label": "Call a friend instead",
+          "result": "You put your phone face down and call your best friend to talk it through. You don't solve anything, but you fall asleep feeling less alone.",
+          "stats": {
+            "life": {
+              "social": 3,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {},
+          "rel": {
+            "love_interest": -4
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_060",
+      "title": "The Coach's Final Challenge",
+      "_info": {
+        "when": "Senior year (season 4), any week",
+        "people": [
+          "coach"
+        ]
+      },
+      "category": "training",
+      "text": "{coach} has a challenge for your last few weeks: twenty straight makes from thirty-five in practice before you leave the field each day, no matter how long it takes.",
+      "choices": [
+        {
+          "label": "Take the challenge every day",
+          "result": "Some days it takes forty kicks, some days ninety. By the end of the week your leg is tired, but your misses have nearly disappeared.",
+          "stats": {
+            "life": {
+              "energy": -6
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "skill_points": 3,
+          "modifiers": [
+            "dialed_in"
+          ],
+          "set_flags": {},
+          "rel": {
+            "coach": 5
+          }
+        },
+        {
+          "label": "Turn it into a team challenge",
+          "result": "You get the other kickers and the holder to join, and the drill turns into a nightly competition. It's louder and slower, and everyone is laughing.",
+          "stats": {
+            "life": {
+              "energy": -4,
+              "social": 3,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "skill_points": 2,
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {},
+          "rel": {
+            "coach": 3
+          }
+        },
+        {
+          "label": "Ask to cap it on game weeks",
+          "result": "You ask {coach} to cap the drill at fifty kicks on game weeks to save your leg. The coach agrees, a little surprised you pushed back.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "health": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "skill_points": 1,
+          "modifiers": [
+            "fresh_legs"
+          ],
+          "set_flags": {},
+          "rel": {
+            "coach": -1
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_061",
+      "title": "The Sponsor Message",
+      "_info": {
+        "when": "Senior year (season 4), any week"
+      },
+      "category": "money",
+      "text": "A local sporting goods store sends you a message: free cleats and gear for the season if you post about the store a few times. It sounds great, but you're not sure what the school's rules say.",
+      "choices": [
+        {
+          "label": "Check with the athletic director",
+          "result": "You ask the athletic director first. It turns out a simple thank-you post is fine but a paid deal isn't, so you take the cleats and post one honest thanks.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Take the deal right away",
+          "result": "You say yes and post the store's ad the next day. The cleats are great, but the athletic director calls you in and you have to take the post down.",
+          "stats": {
+            "life": {
+              "fun": 3,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": -2
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Turn it down",
+          "result": "You thank the store and say no for now. You keep wearing your old cleats, but you don't have to wonder whether you broke a rule.",
+          "stats": {
+            "life": {
+              "energy": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "ambition": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_062",
+      "title": "The Sick Week",
+      "_info": {
+        "when": "Senior year (season 4), any week"
+      },
+      "category": "health",
+      "text": "You wake up Tuesday with a fever and a pounding head. Friday is a big game, and the trainer says if you rest now you'll probably be fine by then.",
+      "choices": [
+        {
+          "label": "Stay home and rest",
+          "result": "You sleep most of two days and drink everything your family puts in front of you. You miss two practices, but you feel human again by Thursday.",
+          "stats": {
+            "life": {
+              "health": 8,
+              "social": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "skill_points": -1,
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Go to school, skip practice",
+          "result": "You drag yourself to class so you don't fall behind, then go straight home. You stay caught up, but the fever hangs on a day longer.",
+          "stats": {
+            "life": {
+              "health": 2,
+              "energy": -3
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "tired"
+          ],
+          "set_flags": {},
+          "grades": 0.05
+        },
+        {
+          "label": "Push through practice too",
+          "result": "You show up to everything, sweating through warmups. Nobody can say you didn't try, but by Thursday you're worse, not better.",
+          "stats": {
+            "life": {
+              "health": -4,
+              "energy": -6
+            },
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "ambition": 2,
+              "intelligence": -1
+            }
+          },
+          "skill_points": 1,
+          "modifiers": [
+            "sore"
+          ],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_063",
+      "title": "The Final Homecoming",
+      "_info": {
+        "when": "Senior year (season 4), any week"
+      },
+      "category": "social",
+      "text": "It's homecoming week of senior year: spirit days, a pep rally, the parade and a dance on Saturday. The whole school is buzzing, and the game is Friday night.",
+      "choices": [
+        {
+          "label": "Go all in on homecoming week",
+          "result": "You dress up for every spirit day, ride on the senior float and dance until the lights come on Saturday. It's the most fun you've had all year, and you're exhausted.",
+          "stats": {
+            "life": {
+              "fun": 8,
+              "social": 6,
+              "energy": -8
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "tired"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Pick a few things",
+          "result": "You go to the pep rally and the dance but skip the late float-building nights. You get the best of it without running yourself down.",
+          "stats": {
+            "life": {
+              "fun": 4,
+              "social": 3,
+              "energy": -3
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Keep your routine",
+          "result": "You treat it like any other game week: practice, homework, sleep. Friday you feel sharp, though Monday's photos are full of people you didn't see all week.",
+          "stats": {
+            "life": {
+              "energy": 3,
+              "social": -3,
+              "fun": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "skill_points": 1,
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_064",
+      "title": "The Unexpected Opportunity",
+      "_info": {
+        "when": "Senior year (season 4), any week"
+      },
+      "category": "media",
+      "text": "A local radio station asks you to co-host its Friday morning high school football preview for the rest of the season. It's live at seven a.m., three hours before school.",
+      "choices": [
+        {
+          "label": "Say yes",
+          "result": "You're nervous on the first show and great by the third. People around town start recognizing your voice, and you learn to talk on your feet.",
+          "stats": {
+            "life": {
+              "energy": -4,
+              "social": 4,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 3
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "spotlight"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Do one guest spot instead",
+          "result": "You offer to come on once as a guest. It's a fun half hour, and you're back in bed by eight.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": 2,
+              "fun": 3
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Turn it down",
+          "result": "You thank them and say mornings are for sleep during the season. They pick a soccer player instead, and you sleep in on Fridays.",
+          "stats": {
+            "life": {
+              "energy": 3
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_065",
+      "title": "The Graduation Speech",
+      "_info": {
+        "when": "Senior year (season 4), any week"
+      },
+      "category": "school",
+      "text": "The athletic director asks you to give the senior speech at the fall sports banquet. You'd have five minutes in front of every team, their families and the coaches.",
+      "choices": [
+        {
+          "label": "Write it from the heart",
+          "result": "You spend three nights writing about the bus rides, the bad weeks and the people who held the ball for you. Your voice cracks once, and the room stands up at the end.",
+          "stats": {
+            "life": {
+              "energy": -4,
+              "social": 4
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "leadership": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Keep it short and funny",
+          "result": "You write two minutes of jokes about practice and a quick thank-you. Everyone laughs, and nobody remembers the thank-you part.",
+          "stats": {
+            "life": {
+              "fun": 4,
+              "social": 3,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Suggest a teammate instead",
+          "result": "You say a teammate who's been through more would say it better. He gives a great speech, and you clap from your seat, relieved.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "intelligence": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_067",
+      "title": "The Younger Kicker's Mistake",
+      "_info": {
+        "when": "Senior year (season 4), any week"
+      },
+      "category": "team",
+      "text": "A freshman kicker leaves the team's ball bag out in the rain overnight, and every ball is waterlogged for Thursday's practice. The coaches are furious, and he's sitting alone in the locker room.",
+      "choices": [
+        {
+          "label": "Help him dry them out",
+          "result": "You stay late with the freshman and a stack of towels, drying balls one by one. You miss your own extra kicks, but he shows up early every day after that.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Tell him how you messed up once",
+          "result": "You sit down and tell him about your own worst freshman mistake. He laughs for the first time all day, and you head home on time.",
+          "stats": {
+            "life": {
+              "social": 1,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Let the coaches handle it",
+          "result": "You figure it's his lesson to learn and get your own reps in. The coaches make him run, and he keeps his distance from the older kickers for a while.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "skill_points": 1,
+          "modifiers": [
+            "dialed_in"
+          ],
+          "set_flags": {}
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,918 @@
+{
+  "_about": "Batch 12, written in-session. Junior year (season 3): HS_124, 128, 130, 131, 138, 140; juniors or seniors (seasons 3-4): HS_076, 078, 088, 098; senior year (season 4): HS_051, 141, 052. HS_141's new special teams coordinator is named Ray Hollis. HS_088 is {coach} deciding what to tell a recruiter, not a recruiter scene.",
+  "_how": "Fill in category, text and choices; leave _info alone (it's read-only). See tools/authoring/WRITING_GUIDE.md. Import: python3 tools/import_scenarios.py <this file> --dry-run",
+  "scenarios": [
+    {
+      "id": "HS_124",
+      "title": "The Recruiter's Social Media Search",
+      "_info": {
+        "when": "Junior year (season 3), any week",
+        "must_set_flags": [
+          "handled_old_post",
+          "questionable_recruiting_clip"
+        ],
+        "leads_to": [
+          "unlocks HS_155 (The Recruiter Checks the Film) when questionable_recruiting_clip"
+        ]
+      },
+      "category": "media",
+      "text": "A college recruiter mentions, almost casually, that their staff looks through every recruit's social media. You remember an old post from freshman year making fun of another team's kicker, still sitting near the top of your page.",
+      "choices": [
+        {
+          "label": "Delete it and own it",
+          "result": "You take the post down and message the recruiter that it was dumb and you've grown up since. The reply is short, but it ends with 'appreciate you saying so.'",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "handled_old_post": true
+          },
+          "recruiting": 1
+        },
+        {
+          "label": "Bury it under a flashy clip",
+          "result": "You pin a slick new highlight to the top of your page, edited so a practice kick looks like it came under the lights. The old post slides out of sight, but now there's something new you'd have to explain.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": -1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "distracted"
+          ],
+          "set_flags": {
+            "questionable_recruiting_clip": true
+          },
+          "recruiting": 2
+        }
+      ]
+    },
+    {
+      "id": "HS_128",
+      "title": "The Scholarship Rumor",
+      "_info": {
+        "when": "Junior year (season 3), any week",
+        "must_set_flags": [
+          "verified_scholarship_rumor",
+          "spread_recruiting_rumor"
+        ]
+      },
+      "category": "career",
+      "text": "A rumor races through school that a big college is about to offer you a scholarship. Teammates are congratulating you, and a few people want you to post about it, but nobody from that school has actually called.",
+      "choices": [
+        {
+          "label": "Find out what's true",
+          "result": "You email the school's special teams coach and ask, politely, where you stand. The answer is honest: you're on their list, nothing more yet. It's less exciting, but it's real.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "verified_scholarship_rumor": true
+          },
+          "recruiting": 1
+        },
+        {
+          "label": "Ride the wave",
+          "result": "You post a cryptic 'big things coming' with the school's colors in the background. Your phone blows up for a week, and you try not to think about what happens when the offer doesn't come.",
+          "stats": {
+            "life": {
+              "social": 4,
+              "fun": 3
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": -2
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "spotlight"
+          ],
+          "set_flags": {
+            "spread_recruiting_rumor": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_130",
+      "title": "The Senior Kicker's Advice",
+      "_info": {
+        "when": "Junior year (season 3), any week",
+        "must_set_flags": [
+          "learned_from_senior"
+        ],
+        "absorbs": [
+          "HS_050"
+        ]
+      },
+      "category": "training",
+      "text": "The team's senior punter has kicked on this field for four years. After practice he offers to show you the little things he's learned: how the wind swirls at the south end, how he settles his breathing before a big kick.",
+      "choices": [
+        {
+          "label": "Spend the week learning from him",
+          "result": "You stay late every day and fill a notebook with his tips. Some of it is superstition, but the wind notes alone are worth it.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "skill_points": 2,
+          "modifiers": [
+            "scouted"
+          ],
+          "set_flags": {
+            "learned_from_senior": true
+          }
+        },
+        {
+          "label": "Thank him and stick to your routine",
+          "result": "You thank him and keep your own approach. Your routine stays tight, though you notice him sharing the same tips with a freshman who soaks it all up.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "skill_points": 1,
+          "modifiers": [
+            "dialed_in"
+          ],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_131",
+      "title": "The Bad Film Session",
+      "_info": {
+        "when": "Junior year (season 3), any week",
+        "must_set_flags": [
+          "owned_film_mistake"
+        ]
+      },
+      "category": "team",
+      "text": "In the team film session, the coaches freeze on a play from last week: your kickoff landed short and inside, and the coverage unit got burned. Everyone in the room turns to look at you.",
+      "choices": [
+        {
+          "label": "Own it out loud",
+          "result": "You say it was your kick, not the coverage, and explain what went wrong with your aim. The room relaxes, and a couple of guys on the coverage unit nod at you afterward.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {
+            "owned_film_mistake": true
+          }
+        },
+        {
+          "label": "Stay quiet and take notes",
+          "result": "You keep your head down and write down what the coaches say. You learn exactly what to fix, though a few coverage guys look annoyed that you didn't say anything.",
+          "stats": {
+            "life": {
+              "social": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "skill_points": 2,
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_138",
+      "title": "The Recruiting Video Deadline",
+      "_info": {
+        "when": "Junior year (season 3), weeks 6-10",
+        "story": "Story event: more likely while its window is open, and it always happens in the window's last week if it hasn't yet.",
+        "must_set_flags": [
+          "honest_recruiting_video",
+          "questionable_recruiting_clip",
+          "coach_reviewed_video"
+        ],
+        "people": [
+          "coach"
+        ],
+        "follow_up_hints": [
+          {
+            "flag": "questionable_recruiting_clip",
+            "id": "HS_155",
+            "weeks": 3
+          }
+        ]
+      },
+      "category": "career",
+      "text": "College coaches want highlight videos by the end of the month, and yours still isn't done. A teammate offers to make it look better than it really was, and {coach} has offered to look at any video before it goes out.",
+      "choices": [
+        {
+          "label": "Send only real kicks",
+          "result": "You cut a plain video of real game kicks, misses left out but nothing faked. It's shorter than you'd like, and it's all true.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "intelligence": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "honest_recruiting_video": true
+          },
+          "recruiting": 2
+        },
+        {
+          "label": "Let your teammate jazz it up",
+          "result": "Your teammate adds slow motion, music and a practice kick dressed up to look like a game. It looks incredible, and you hit send before you can second-guess it.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": -2
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "questionable_recruiting_clip": true
+          },
+          "recruiting": 3
+        },
+        {
+          "label": "Ask {coach} to review it first",
+          "result": "You bring your draft to {coach}, who cuts two clips and adds a short note with your stats. It takes an extra week, but it goes out with your coach's name behind it.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {
+            "coach_reviewed_video": true
+          },
+          "rel": {
+            "coach": 5
+          },
+          "recruiting": 2
+        }
+      ]
+    },
+    {
+      "id": "HS_140",
+      "title": "The Last Junior-Year Kick",
+      "_info": {
+        "when": "Junior year (season 3), any week",
+        "must_set_flags": [
+          "trusted_holder_under_pressure"
+        ],
+        "people": [
+          "holder"
+        ],
+        "leads_to": [
+          "unlocks HS_145 (The Holder's Big Moment) when trusted_holder_under_pressure"
+        ]
+      },
+      "category": "team",
+      "text": "It's the last practice before the final game of junior year. {holder} wants to try a new way of spinning the laces on the hold, something they've practiced at home all week, and asks if you'll trust it on Friday.",
+      "choices": [
+        {
+          "label": "Trust the new hold",
+          "result": "You take twenty reps with the new spin and tell {holder} it's theirs on Friday. It feels strange for a few kicks, then it feels like it was always that way.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "charisma": 1
+            }
+          },
+          "skill_points": 1,
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {
+            "trusted_holder_under_pressure": true
+          },
+          "rel": {
+            "holder": 8
+          }
+        },
+        {
+          "label": "Stick with the old hold for now",
+          "result": "You tell {holder} it's a good idea, but not for the last game of the year. You'll try it in the offseason. The holder nods, a little deflated.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "ambition": 1
+            }
+          },
+          "skill_points": 1,
+          "modifiers": [
+            "dialed_in"
+          ],
+          "set_flags": {},
+          "rel": {
+            "holder": -3
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_076",
+      "title": "The Scholarship That Disappeared",
+      "_info": {
+        "when": "seasons 3-4 (Junior to Senior), any week"
+      },
+      "category": "career",
+      "text": "A college that has been emailing you every month suddenly goes quiet. Then you hear their special teams coach took another job, and the new staff has never heard of you.",
+      "choices": [
+        {
+          "label": "Introduce yourself to the new staff",
+          "result": "You email the new coach with your film, your numbers and a short note about why you'd fit. It's like starting over, but at least you're on their list.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "charisma": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {},
+          "recruiting": 2
+        },
+        {
+          "label": "Follow the old coach",
+          "result": "You reach out to the coach who left and ask about the new school. The coach remembers you and says to keep in touch, though it's a different program.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {},
+          "recruiting": 1
+        },
+        {
+          "label": "Let it go and focus on kicking",
+          "result": "You decide not to chase it and put the energy into practice instead. Your kicking sharpens, but your list of interested schools gets shorter.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": -1
+            }
+          },
+          "skill_points": 2,
+          "modifiers": [
+            "dialed_in"
+          ],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_078",
+      "title": "The College Coach's Question",
+      "_info": {
+        "when": "seasons 3-4 (Junior to Senior), any week"
+      },
+      "category": "career",
+      "text": "On a call, a college coach asks you a question you weren't ready for: if you lost the starting job in college, what would you do?",
+      "choices": [
+        {
+          "label": "Say you'd compete to win it back",
+          "result": "You say you'd treat every practice like a tryout until the job was yours again. The coach laughs and says that's the right answer, but they'll hold you to it.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "pumped_up"
+          ],
+          "set_flags": {},
+          "recruiting": 2
+        },
+        {
+          "label": "Say you'd help whoever won it",
+          "result": "You say you'd make the other kicker better and be ready when your chance came. The coach goes quiet for a second, then says that's rarer than it should be.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {},
+          "recruiting": 1
+        },
+        {
+          "label": "Ask what usually happens",
+          "result": "You turn it around and ask what their backups usually do. The coach is surprised, then gives you a straight answer about redshirts and depth charts.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "ambition": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {},
+          "recruiting": 2
+        }
+      ]
+    },
+    {
+      "id": "HS_088",
+      "title": "The Coach's Recommendation",
+      "_info": {
+        "when": "seasons 3-4 (Junior to Senior), any week",
+        "requires": {
+          "any_flags": [
+            "recruiter_trust"
+          ]
+        },
+        "people": [
+          "coach"
+        ],
+        "unlocked_by": [
+          {
+            "from": "HS_058",
+            "flag": "recruiter_trust",
+            "type": "unlock"
+          }
+        ]
+      },
+      "category": "team",
+      "text": "The recruiter who's been talking to you calls {coach} for a recommendation. Before calling back, {coach} pulls you aside and asks what you'd want said, and what you'd want left out.",
+      "choices": [
+        {
+          "label": "Tell {coach} to be completely honest",
+          "result": "You say to tell them everything, the misses and the bad weeks included. {coach} nods slowly and says that's exactly why the recommendation will be strong.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {},
+          "rel": {
+            "coach": 6
+          },
+          "recruiting": 3
+        },
+        {
+          "label": "Ask {coach} to focus on your best",
+          "result": "You ask {coach} to talk about your leg and your work ethic and skip the rough patch. The coach agrees, but you can tell it isn't the conversation they hoped for.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {},
+          "rel": {
+            "coach": -2
+          },
+          "recruiting": 2
+        },
+        {
+          "label": "Leave it entirely to {coach}",
+          "result": "You say it's {coach}'s call and you trust whatever gets said. The coach looks a little surprised, then says thanks for the trust.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {},
+          "rel": {
+            "coach": 4
+          },
+          "recruiting": 1
+        }
+      ]
+    },
+    {
+      "id": "HS_098",
+      "title": "The Unexpected Recruiter",
+      "_info": {
+        "when": "seasons 3-4 (Junior to Senior), any week"
+      },
+      "category": "career",
+      "text": "You've been hoping to hear from the big programs, but the recruiter who shows up at practice is from a small college two hours away. The coach watched every rep and wants to talk.",
+      "choices": [
+        {
+          "label": "Give them your full attention",
+          "result": "You sit down with the coach for half an hour and ask real questions about the program. You leave impressed by how much they already know about you.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "charisma": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {},
+          "recruiting": 3
+        },
+        {
+          "label": "Be polite, but keep waiting",
+          "result": "You thank the coach and say you're still waiting to hear from a few other schools. The coach says the door is open, and you wonder if you just closed it a little.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {},
+          "recruiting": 1
+        },
+        {
+          "label": "Ask how you'd fit right away",
+          "result": "You ask whether you'd compete for the job as a freshman. The answer is yes, and suddenly the small school looks a lot bigger.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "intelligence": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {},
+          "recruiting": 2
+        }
+      ]
+    },
+    {
+      "id": "HS_051",
+      "title": "The Final Season",
+      "_info": {
+        "when": "Senior year (season 4), any week"
+      },
+      "category": "team",
+      "text": "The first team meeting of senior year. {coach} reminds everyone this is the last season for the seniors and asks each of you to say one thing you want from it.",
+      "choices": [
+        {
+          "label": "Say you want the team to win",
+          "result": "You say you'll do whatever helps the team, even if it means fewer kicks for you. A few underclassmen look at you differently after the meeting.",
+          "stats": {
+            "life": {
+              "social": 3,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {},
+          "rel": {
+            "coach": 4
+          }
+        },
+        {
+          "label": "Say you want to break the school record",
+          "result": "You say you want the school's long field goal record. Some guys whoop, and {coach} grins and says to earn it in practice first.",
+          "stats": {
+            "life": {
+              "social": 1,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 3
+            }
+          },
+          "skill_points": 1,
+          "modifiers": [
+            "pumped_up"
+          ],
+          "set_flags": {},
+          "rel": {
+            "coach": 1
+          }
+        },
+        {
+          "label": "Say you want to enjoy it",
+          "result": "You say you just want to soak up every Friday night, because it goes fast. The room laughs, and a couple of seniors say the same thing.",
+          "stats": {
+            "life": {
+              "fun": 3,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_141",
+      "title": "The New Coach",
+      "_info": {
+        "when": "Senior year (season 4), any week",
+        "must_set_flags": [
+          "adapted_to_new_coach",
+          "resisted_new_coach"
+        ],
+        "people": [
+          "coach"
+        ],
+        "notes": "A new offensive coordinator or position coach joins the staff; the head coach ({coach}) stays the same person. The newcomer has no relationship value or placeholder: name them in the text and keep the name consistent. rel 'coach' still means the head coach."
+      },
+      "category": "team",
+      "text": "The team hires a new special teams coordinator, Ray Hollis, who coached at a small college for ten years. On day one he wants to change your approach: a longer run-up and a different plant spot.",
+      "choices": [
+        {
+          "label": "Give his changes a real try",
+          "result": "You spend two weeks rebuilding your approach the way Hollis wants. It feels awful at first, then a few kicks come off your foot better than ever.",
+          "stats": {
+            "life": {
+              "energy": -4
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
+          },
+          "skill_points": 3,
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "adapted_to_new_coach": true
+          },
+          "rel": {
+            "coach": 3
+          }
+        },
+        {
+          "label": "Push back and keep your approach",
+          "result": "You tell Hollis your approach got you here and you'd rather not change it senior year. He shrugs and says it's your leg, and {coach} watches the whole exchange.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "skill_points": 1,
+          "modifiers": [
+            "pumped_up"
+          ],
+          "set_flags": {
+            "resisted_new_coach": true
+          },
+          "rel": {
+            "coach": -3
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_052",
+      "title": "The College Offer",
+      "_info": {
+        "when": "Senior year (season 4), any week"
+      },
+      "category": "career",
+      "text": "A small college's coach calls and says they're ready to put an offer on the table if you keep kicking the way you are: a roster spot now, scholarship money maybe later. They'd like an answer soon.",
+      "choices": [
+        {
+          "label": "Thank them and ask for time",
+          "result": "You say you're grateful and ask for a few weeks to talk it over with your family. The coach says that's fair, and the pressure in your chest lets go a little.",
+          "stats": {
+            "life": {
+              "energy": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {},
+          "recruiting": 1
+        },
+        {
+          "label": "Ask about the scholarship money",
+          "result": "You ask what it would take to earn scholarship money and when. The coach gives you a straight answer and seems to like that you asked.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "charisma": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {},
+          "recruiting": 2
+        },
+        {
+          "label": "Tell them you're very interested",
+          "result": "You tell the coach their program is near the top of your list. It feels good to say it out loud, and the coach promises to come watch you practice.",
+          "stats": {
+            "life": {
+              "fun": 3,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {},
+          "recruiting": 2
+        }
+      ]
+    }
+  ]
+}
