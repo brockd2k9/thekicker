@@ -70,11 +70,11 @@
       "id": "PRO_338",
       "title": "The Equipment Upgrade",
       "category": "money",
-      "text": "A sales rep wants you on expensive new training equipment: a sensor suit, a kicking machine, an app that charts everything.",
+      "text": "A sales rep corners you after practice with expensive training equipment: a sensor suit, a kicking machine, and an app that charts every kick you've ever taken. He has a tablet and a very good smile.",
       "choices": [
         {
           "label": "Buy the full setup",
-          "result": "You buy all of it. The data is incredible, and so is the bill.",
+          "result": "All of it, delivered Thursday. The data is incredible, your living room is full of machines, and the bill is the kind you read twice.",
           "stats": {
             "life": {
               "energy": -2
@@ -90,13 +90,15 @@
           "skill_points": 3
         },
         {
-          "label": "Use the club's equipment",
-          "result": "You ask the club's staff to chart you with what they already have. It's less fancy and nearly as good.",
+          "label": "Use what the club has",
+          "result": "The club's staff charts you with what they already have. It's less fancy and nearly as good, and the trainer likes being asked.",
           "stats": {
             "life": {
               "energy": -1
             },
-            "football": {},
+            "football": {
+              "accuracy": 1
+            },
             "personality": {
               "intelligence": 2
             }
@@ -105,18 +107,19 @@
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "coach": 1
           }
         },
         {
-          "label": "Skip it",
-          "result": "You decide your leg doesn't need an app. Your weeks stay simple.",
+          "label": "Keep it simple",
+          "result": "Your leg doesn't need an app, you decide. The rep leaves his card, your weeks stay simple, and you never think about sensor suits again.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -129,11 +132,11 @@
       "id": "PRO_553",
       "title": "The Wind Tunnel",
       "category": "training",
-      "text": "The stadium's wind swirls in a way no film can show, and the veterans just laugh when you ask about it.",
+      "text": "The stadium's wind swirls in a way no film can show: in from the left at the bottom, out to the right at the top. The veterans just laugh when you ask about it.",
       "choices": [
         {
           "label": "Kick in it every day",
-          "result": "You kick in the swirl every day after practice until you can feel it before it moves the ball.",
+          "result": "Every day after practice, you kick into the swirl until you can feel it before it moves the ball. Your leg is sore, and the swirl stops surprising you.",
           "stats": {
             "life": {
               "energy": -2
@@ -152,7 +155,7 @@
         },
         {
           "label": "Ask the grounds crew",
-          "result": "You ask the grounds crew, who have watched that wind for twenty years. They know exactly which flags to watch.",
+          "result": "The grounds crew have watched that wind for twenty years. They show you exactly which flags to watch, and one of them draws you a map on a napkin.",
           "stats": {
             "life": {
               "energy": -1
@@ -166,14 +169,11 @@
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         },
         {
-          "label": "Ask the veterans properly",
-          "result": "You stop asking and start listening at lunch. Three veterans tell you everything, one story at a time.",
+          "label": "Listen at lunch instead",
+          "result": "Instead of asking, you listen at lunch. Three veterans tell you everything about the wind, one story at a time, over a week.",
           "stats": {
             "life": {
               "social": 2
@@ -196,11 +196,11 @@
       "id": "PRO_554",
       "title": "The Scout Team",
       "category": "training",
-      "text": "You spend practice kicking for the scout team, and nobody watches.",
+      "text": "You spend practice kicking for the scout team, against the starters, and nobody important watches. The coaches are at the other end of the field.",
       "choices": [
         {
           "label": "Treat it like the real thing",
-          "result": "You kick every scout-team rep like it's the real thing. Nobody watches, and you get better anyway.",
+          "result": "Every scout-team rep, like it's the real thing. Nobody watches, and you get better anyway, and the scout-team players start cheering your makes.",
           "stats": {
             "life": {
               "energy": -2
@@ -219,7 +219,7 @@
         },
         {
           "label": "Get to know the scout team",
-          "result": "You learn the names of every scout-team player. They become your favorite people in the building.",
+          "result": "Every name on the scout team, learned by Friday. They become your favorite people in the building, and they save you a seat on the bus.",
           "stats": {
             "life": {
               "social": 2
@@ -237,8 +237,8 @@
           }
         },
         {
-          "label": "Coast through it",
-          "result": "You coast through the scout-team reps and save your leg. It's easy, and you notice you don't feel like part of it.",
+          "label": "Save your leg",
+          "result": "Easy reps, and your leg stays fresh. It's sensible, and you notice by Thursday that you don't feel like part of anything.",
           "stats": {
             "life": {
               "energy": 2,
@@ -257,18 +257,20 @@
       "id": "PRO_555",
       "title": "The Weight Room Pecking Order",
       "category": "team",
-      "text": "The weight room has a pecking order, and rookies lift last, after the linemen are done with every rack.",
+      "text": "The weight room has a pecking order, and rookies lift last, after the linemen are done with every rack. By the time you get a bench, it's lunch.",
       "choices": [
         {
           "label": "Lift at dawn",
-          "result": "You start lifting at six, before the linemen arrive. It's lonely and very effective.",
+          "result": "Six in the morning, before the linemen arrive. It's lonely and very effective, and the strength coach starts unlocking the door for you.",
           "stats": {
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "power": 1
+            },
             "personality": {
-              "ambition": 2
+              "ambition": 1
             }
           },
           "modifiers": [
@@ -278,12 +280,14 @@
         },
         {
           "label": "Spot a lineman",
-          "result": "You offer to spot a veteran lineman. By the end of the week he's saving you a rack.",
+          "result": "An offer to spot a veteran lineman, and he accepts with suspicion. By the end of the week, he's saving you a rack and calling you 'kicker' fondly.",
           "stats": {
             "life": {
               "social": 2
             },
-            "football": {},
+            "football": {
+              "toughness": 1
+            },
             "personality": {
               "charisma": 1
             }
@@ -297,11 +301,11 @@
         },
         {
           "label": "Take what's left",
-          "result": "You lift whatever's free and don't make a thing of it. Nobody notices you, which is fine for now.",
+          "result": "Whatever's free, without making a thing of it. Nobody notices you, which is fine for now, and you finish your lifts on the stretching mats.",
           "stats": {
             "life": {
               "energy": 2,
-              "fun": 1
+              "health": 1
             },
             "football": {},
             "personality": {}
@@ -316,11 +320,11 @@
       "id": "PRO_556",
       "title": "The Equipment Manager",
       "category": "team",
-      "text": "The equipment manager can make your life easy or miserable, and you haven't said hello yet.",
+      "text": "The equipment manager can make your life easy or miserable: cleats, balls, the locker by the heater or the one by the door. You've been here a week and haven't said hello.",
       "choices": [
         {
           "label": "Bring coffee",
-          "result": "You bring the equipment staff coffee on Monday and learn their names. Your cleats are perfect all season.",
+          "result": "Coffee for the equipment staff on Monday, and you learn every name. Your cleats are perfect all season, and you end up in the locker by the heater.",
           "stats": {
             "life": {
               "social": 2
@@ -339,27 +343,25 @@
         },
         {
           "label": "Ask how the balls are prepared",
-          "result": "You ask how game balls are prepared and listen to all of it. You learn more about kicking than you expected.",
+          "result": "How are game balls prepared? He tells you all of it, for an hour, with visible joy. You learn more about kicking than you expected.",
           "stats": {
             "life": {
               "energy": -1
             },
-            "football": {},
+            "football": {
+              "accuracy": 1
+            },
             "personality": {
               "intelligence": 2
             }
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2,
-            "team": 1
-          }
+          ]
         },
         {
           "label": "Keep it professional",
-          "result": "You say hello, say thank you and nothing more. It's fine, and nothing special happens.",
+          "result": "Hello, thank you and nothing more. It's fine, nothing special happens, and your locker stays the one by the door.",
           "stats": {
             "life": {
               "energy": 2,
@@ -378,14 +380,15 @@
       "id": "PRO_557",
       "title": "The First Fine",
       "category": "team",
-      "text": "You're fined for a dress-code violation you didn't know existed: the wrong socks on a team flight.",
+      "text": "A fine slip in your locker after the first team flight: a dress-code violation you didn't know existed. Your socks, apparently, were the wrong color, and the veterans have already framed a photo of them.",
       "choices": [
         {
           "label": "Laugh and pay it",
-          "result": "You laugh, pay it and wear the worst socks you own to the next team meal. The room loves it.",
+          "result": "Paid in cash, with a grin, and you wear the loudest socks you own to the next team meal. The room loves it, and the fine committee adds a new rule in your honor.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
             "personality": {
@@ -396,38 +399,41 @@
             "loose"
           ],
           "rel": {
-            "team": 3
+            "team": 2
           }
         },
         {
           "label": "Read the whole rulebook",
-          "result": "You read the whole team rulebook that night and find two more rules you've been breaking.",
+          "result": "The full team rulebook, forty pages, read in bed that night. You find two more rules you've been breaking and fix both before anyone notices.",
           "stats": {
             "life": {
               "energy": -1
             },
             "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "coach": 1
           }
         },
         {
-          "label": "Grumble and move on",
-          "result": "You pay it, grumble and put the energy into an extra session at the net.",
+          "label": "Pay it and go kick",
+          "result": "Paid, with some grumbling, and the irritation goes straight into an extra session at the net. Your leg feels better than your pride by dinner.",
           "stats": {
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "power": 1
+            },
             "personality": {
-              "ambition": 2
+              "ambition": 1
             }
           },
           "modifiers": [
@@ -441,11 +447,11 @@
       "id": "PRO_558",
       "title": "The Meal Money",
       "category": "money",
-      "text": "The per diem envelope on the first road trip is thicker than your college scholarship check.",
+      "text": "The per diem envelope on the first road trip is thicker than any scholarship check you ever got in college. The veterans are already planning where theirs is going tonight.",
       "choices": [
         {
-          "label": "Save it",
-          "result": "You put the whole envelope in the bank and eat at the team meals. It adds up faster than you'd think.",
+          "label": "Put it in the bank",
+          "result": "The whole envelope goes in the bank, and you eat the team meals. By December the road trips have quietly paid for your offseason trainer.",
           "stats": {
             "life": {
               "energy": -1
@@ -462,11 +468,12 @@
           ]
         },
         {
-          "label": "Take the rookies to dinner",
-          "result": "You take the rookie class to dinner with it. It's gone in one night, and it's a great night.",
+          "label": "Take the rookies out",
+          "result": "The rookie class eats like kings for one night on your envelope. It's gone by dessert, and four rookies will remember it for years.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 3,
+              "fun": 1
             },
             "football": {},
             "personality": {
@@ -477,23 +484,27 @@
             "loose"
           ],
           "rel": {
-            "team": 3
+            "backup": 2
           }
         },
         {
-          "label": "Treat yourself",
-          "result": "You buy a good dinner, a good book and a nap. It feels like being a grown-up.",
+          "label": "Treat yourself, a little",
+          "result": "A good dinner alone, a good book from the airport and a long nap. It feels like being a grown-up, and you send {parent} a photo of the dessert.",
           "stats": {
             "life": {
               "energy": 2,
-              "fun": 1
+              "fun": 2,
+              "health": 1
             },
             "football": {},
             "personality": {}
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "parent": 1
+          }
         }
       ]
     },
@@ -501,14 +512,14 @@
       "id": "PRO_559",
       "title": "Rookie Year Taxes",
       "category": "money",
-      "text": "Your first tax bill as a pro is a number nobody prepared you for, and it's due in a month.",
+      "text": "Your first tax bill as a pro arrives in a thick envelope: a number nobody prepared you for, due in a month, with forms from every state you played a road game in.",
       "choices": [
         {
-          "label": "Hire an accountant",
-          "result": "You hire an accountant who works with athletes. It's done in two weeks, correctly.",
+          "label": "Hire an athletes' accountant",
+          "result": "An accountant who only works with athletes takes the whole envelope off your hands. It's done in two weeks, correctly, and you learn what a 'jock tax' is.",
           "stats": {
             "life": {
-              "energy": -1
+              "fun": -1
             },
             "football": {
               "resilience": 1
@@ -522,37 +533,42 @@
           ]
         },
         {
-          "label": "Ask a veteran",
-          "result": "You ask a veteran at lunch. He gives you his accountant's number and a story about his first year.",
+          "label": "Ask a veteran at lunch",
+          "result": "One veteran at lunch gives you his accountant's number and a story about his first year that makes you laugh until your stomach hurts.",
           "stats": {
             "life": {
               "social": 2
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "charisma": 1,
+              "intelligence": 1
             }
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 3
+            "team": 2
           }
         },
         {
-          "label": "Figure it out yourself",
-          "result": "You do it yourself over a long weekend. It's stressful, and probably right.",
+          "label": "Do it yourself",
+          "result": "A long weekend with spreadsheets and coffee. It's stressful, probably right, and you feel strangely proud when you click the last button.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": -2,
+              "fun": -1
             },
             "football": {},
-            "personality": {}
+            "personality": {
+              "leadership": 1,
+              "intelligence": 2,
+              "ambition": 1
+            }
           },
           "modifiers": [
-            "rested"
+            "drained"
           ]
         }
       ]
@@ -561,14 +577,14 @@
       "id": "PRO_560",
       "title": "Free Cleats",
       "category": "money",
-      "text": "A shoe company offers free cleats and a small contract, if you wear them on camera.",
+      "text": "A shoe company offers you free cleats and a small contract, if you wear them on camera. The cleats are bright orange, and your old pair has been with you since college.",
       "choices": [
         {
-          "label": "Take the deal",
-          "result": "You sign. The cleats are fine, and the check pays for your offseason training.",
+          "label": "Sign and lace up",
+          "result": "Signed, and the orange cleats arrive the next day. They're fine, the check pays for your offseason training, and the veterans call you 'traffic cone'.",
           "stats": {
             "life": {
-              "energy": -2
+              "fun": 1
             },
             "football": {},
             "personality": {
@@ -576,54 +592,14 @@
             }
           },
           "modifiers": [
-            "dialed_in"
+            "confident"
           ],
-          "skill_points": 1
+          "skill_points": 1,
+          "followers": 2
         },
         {
-          "label": "Test them first",
-          "result": "You ask to test the cleats for a week before signing. They're good; you sign with a better clause.",
-          "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
-            "personality": {
-              "intelligence": 2
-            }
-          },
-          "modifiers": [
-            "focused"
-          ]
-        },
-        {
-          "label": "Stick with your cleats",
-          "result": "You stay with the cleats you trust. Your feet are happy, and your account is the same.",
-          "stats": {
-            "life": {
-              "energy": 2,
-              "fun": 1
-            },
-            "football": {},
-            "personality": {}
-          },
-          "modifiers": [
-            "rested"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "PRO_561",
-      "title": "The Kicking Ball Room",
-      "category": "training",
-      "text": "The equipment staff prepares the game balls, and you have opinions about them.",
-      "choices": [
-        {
-          "label": "Learn how it's done",
-          "result": "You spend an afternoon with the staff learning how the balls are prepared. Your opinions get better informed.",
+          "label": "Test them for a week",
+          "result": "A week of testing before you sign anything. They're good, so you sign, with a clause that lets you wear your old pair if they ever hurt.",
           "stats": {
             "life": {
               "energy": -1
@@ -637,42 +613,79 @@
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         },
         {
-          "label": "Thank the staff",
-          "result": "You thank the staff after every practice. They start showing you the balls before game day.",
+          "label": "Keep your old cleats",
+          "result": "Your old cleats stay. Your feet are happy and your account is the same, and the equipment manager pats them like an old dog.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_561",
+      "title": "The Kicking Ball Room",
+      "category": "training",
+      "text": "The equipment staff prepares the game balls in a back room that smells like leather and brushes, and you have opinions about how the balls feel. Nobody has asked for them yet.",
+      "choices": [
+        {
+          "label": "Learn how it's done",
+          "result": "An afternoon in the ball room with the staff, watching every step. Your opinions get much better informed, and much quieter.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Thank the staff every day",
+          "result": "A thank-you after every practice, every day. By October they start showing you the game balls on Friday, which nobody else gets.",
           "stats": {
             "life": {
               "social": 2
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "charisma": 1,
+              "leadership": 1
             }
           },
           "modifiers": [
             "loose"
-          ],
-          "rel": {
-            "team": 3
-          }
+          ]
         },
         {
-          "label": "Kick every ball you can",
-          "result": "You ask to kick the practice balls until you can feel the difference in your sleep.",
+          "label": "Kick every practice ball",
+          "result": "Every practice ball, kicked, until you can feel the difference between them in your sleep. Your leg aches, and the balls stop surprising you.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -3
             },
             "football": {
-              "power": 1
+              "power": 2
             },
             "personality": {
-              "ambition": 2
+              "ambition": 1
             }
           },
           "modifiers": [
@@ -686,35 +699,35 @@
       "id": "PRO_562",
       "title": "The Trainer's Table",
       "category": "health",
-      "text": "The athletic trainer says your hip flexor is tight, and you think it's nothing.",
+      "text": "The athletic trainer presses a thumb into your hip and says your hip flexor is tight. You think it's nothing. The trainer is still pressing, and looking at you over their glasses.",
       "choices": [
         {
-          "label": "Do what the trainer says",
-          "result": "You do the stretches every day. The tightness is gone in a week.",
+          "label": "Do the stretches",
+          "result": "Every stretch, every day, exactly as written. The tightness is gone in a week, and the trainer says 'told you' with great satisfaction.",
           "stats": {
             "life": {
-              "energy": -1
+              "energy": -1,
+              "health": 3
             },
             "football": {
               "toughness": 1
             },
-            "personality": {
-              "intelligence": 2
-            }
+            "personality": {}
           },
           "modifiers": [
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "coach": 1
           }
         },
         {
-          "label": "Kick through it",
-          "result": "You kick through it. It holds, and it nags all month.",
+          "label": "Kick on it anyway",
+          "result": "Kicking through it works: the hip holds. It nags all month, like a stone in your shoe, and you start every practice a little worried.",
           "stats": {
             "life": {
-              "energy": -2
+              "health": -2,
+              "energy": -1
             },
             "football": {},
             "personality": {
@@ -722,16 +735,17 @@
             }
           },
           "modifiers": [
-            "dialed_in"
+            "sore"
           ],
           "skill_points": 2
         },
         {
-          "label": "Take a day",
-          "result": "You take a day off kicking. It helps more than you'd like to admit.",
+          "label": "Take a day off kicking",
+          "result": "A full day off kicking, which feels like a crime. It helps more than you'd like to admit, and you come back loose.",
           "stats": {
             "life": {
               "energy": 2,
+              "health": 2,
               "fun": 1
             },
             "football": {},
@@ -747,36 +761,37 @@
       "id": "PRO_563",
       "title": "Your First Locker",
       "category": "team",
-      "text": "Your name is on tape above a locker between two veterans who haven't introduced themselves.",
+      "text": "Your name is on a strip of tape above a locker between two veterans who haven't introduced themselves. One is eating a sandwich. The other is staring at you like you're a rumor.",
       "choices": [
         {
-          "label": "Introduce yourself",
-          "result": "You introduce yourself to both. One shakes your hand; the other grunts. By October, the grunt is your friend.",
+          "label": "Introduce yourself to both",
+          "result": "A handshake from one, a grunt from the other. By October, the grunt is your favorite person in the building and steals your snacks.",
           "stats": {
             "life": {
               "social": 2
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "charisma": 2
             }
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 3
+            "team": 2
           }
         },
         {
-          "label": "Wait to be welcomed",
-          "result": "You keep your head down and let your work introduce you. It takes a month, and when it comes it's real.",
+          "label": "Let your work introduce you",
+          "result": "Head down, work loud. It takes a month, and when the welcome comes it's real: the grunting veteran saves you a seat on the plane.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {
               "leadership": 2
             }
@@ -784,25 +799,25 @@
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
-          "rel": {
-            "team": 2
-          }
+          "skill_points": 1
         },
         {
-          "label": "Decorate your locker",
-          "result": "You put up a photo of your family and a calendar. It makes the place feel like yours.",
+          "label": "Make the locker yours",
+          "result": "A photo of your family and a paper calendar go up first. It makes the place feel like yours, and {parent} asks for a picture of it.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 1,
+              "fun": 2
             },
             "football": {},
             "personality": {}
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "parent": 1
+          }
         }
       ]
     }

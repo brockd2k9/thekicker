@@ -66,62 +66,63 @@
       "id": "PRO_734",
       "title": "The Team's Anniversary",
       "category": "community",
-      "text": "The club celebrates an anniversary, and you're one of the faces on the banner.",
+      "text": "The club celebrates its fiftieth anniversary with a gala, a banner of club legends across the stadium, and your face is on it, between two Hall of Famers.",
       "choices": [
         {
           "label": "Meet the old players",
-          "result": "You meet players from every era. One of them held for your hero.",
+          "result": "Players from every era of the club, met one by one at the gala. One of them held for your childhood hero, and he tells you everything.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "intelligence": 1
             }
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 3
+            "team": 1
           }
         },
         {
           "label": "Speak at the event",
-          "result": "You speak at the event. It's short, and the old players clap the loudest.",
+          "result": "A short speech, on stage, about what the club has meant to you. The old players clap the loudest, and one of them cries.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -1
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 2,
+              "charisma": 1
             }
           },
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
-          "rel": {
-            "team": 2
-          }
+          "followers": 2
         },
         {
-          "label": "Enjoy it",
-          "result": "You enjoy it quietly with your family in the stands.",
+          "label": "Enjoy it with your family",
+          "result": "Your family, in the stands, under the banner, quietly. {parent} takes forty photos of your face on the banner, all slightly blurry.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 1,
+              "fun": 2
             },
             "football": {},
             "personality": {}
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "parent": 3
+          }
         }
       ]
     },
@@ -129,51 +130,46 @@
       "id": "PRO_735",
       "title": "The Veteran's Union Meeting",
       "category": "team",
-      "text": "Veterans meet about the next labor agreement, and it's tense.",
+      "text": "The veterans meet about the next labor agreement in a hotel conference room, and it's tense: pensions, health care, the length of the season. Somebody throws a chair.",
       "choices": [
         {
           "label": "Speak for the specialists",
-          "result": "You speak for the specialists. Nobody else was going to.",
-          "stats": {
-            "life": {
-              "energy": -2,
-              "social": 1
-            },
-            "football": {},
-            "personality": {
-              "leadership": 2
-            }
-          },
-          "modifiers": [
-            "inspired"
-          ],
-          "skill_points": 1,
-          "rel": {
-            "team": 2
-          }
-        },
-        {
-          "label": "Read every clause",
-          "result": "You read every clause and find the one that matters for kickers.",
+          "result": "The specialists, spoken for, because nobody else was going to. The union adds two lines about kickers to the proposal.",
           "stats": {
             "life": {
               "energy": -1
             },
             "football": {},
             "personality": {
+              "leadership": 3
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Read every clause",
+          "result": "Every clause of the proposal, read overnight. You find the one about injury guarantees that matters most, and you flag it.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
               "intelligence": 2
             }
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         },
         {
           "label": "Vote with the room",
-          "result": "You vote with the room and keep your opinions for the bus.",
+          "result": "Your vote goes with the room, and your opinions stay for the bus. The meeting ends, and nobody throws anything else.",
           "stats": {
             "life": {
               "energy": 2,
@@ -192,36 +188,34 @@
       "id": "PRO_736",
       "title": "The Teammate in Rehab",
       "category": "team",
-      "text": "A teammate goes into rehab for an injury that may end his career.",
+      "text": "A teammate goes into a long rehab for a knee injury that may end his career. He's thirty-four and has three kids, and he stops answering texts after the second surgery.",
       "choices": [
         {
-          "label": "Visit him",
-          "result": "You visit him every week. Some weeks you just watch television together.",
+          "label": "Visit him every week",
+          "result": "Every week, at his house, whether he wants it or not. Some weeks you just watch television together, and some weeks he talks.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "energy": -1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "drained"
           ],
           "rel": {
-            "team": 5
+            "team": 4
           }
         },
         {
-          "label": "Keep him in the room",
-          "result": "You keep his locker as it was and make sure the room remembers him.",
+          "label": "Keep his locker as it was",
+          "result": "His locker, kept exactly as it was, with his name on it, at your insistence. The room remembers him every day.",
           "stats": {
-            "life": {
-              "energy": -2,
-              "social": 1
+            "life": {},
+            "football": {
+              "resilience": 1
             },
-            "football": {},
             "personality": {
               "leadership": 2
             }
@@ -229,25 +223,29 @@
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
           "rel": {
             "team": 2
           }
         },
         {
           "label": "Send a message",
-          "result": "You send a message. He replies with a thumbs up, weeks later.",
+          "result": "A warm, short message every few weeks. He replies with a thumbs-up months later, and you're glad you kept sending them.",
           "stats": {
             "life": {
               "energy": 2,
               "fun": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "team": 1
+          }
         }
       ]
     },
@@ -255,40 +253,36 @@
       "id": "PRO_737",
       "title": "The Kicking Camp Partner",
       "category": "training",
-      "text": "A college coach asks you to co-host a kicking camp.",
+      "text": "A college coach asks you to co-host a kicking camp in July: two hundred high school kickers, three days, a university field and your name on the poster.",
       "choices": [
         {
           "label": "Co-host it",
-          "result": "You co-host it. It's a great week.",
+          "result": "Three days, co-hosted, from dawn to dusk. It's a great week, and five of the kids end up with college scholarships.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -3
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 3,
+              "charisma": 1
             }
           },
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
-          "rel": {
-            "team": 2
-          }
+          "followers": 1
         },
         {
-          "label": "Bring your holder",
-          "result": "You bring your holder along. The campers love the two of you together.",
+          "label": "Bring {holder} along",
+          "result": "{holder}, recruited to run the holding station. The campers love the two of you together, and {holder} is better with teenagers than you.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -298,12 +292,13 @@
           }
         },
         {
-          "label": "Pass",
-          "result": "You pass this year. The coach says the offer stands.",
+          "label": "Pass this year",
+          "result": "Not this year, you tell the coach. He says the offer stands, and you spend July at the lake with your family.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 3,
+              "fun": 1,
+              "health": 1
             },
             "football": {},
             "personality": {}
@@ -625,15 +620,15 @@
       "id": "PRO_743",
       "title": "The Weekend Away",
       "category": "social",
-      "text": "A rare weekend away from the city, and your phone won't stop.",
+      "text": "A rare weekend away from the city, at a cabin with no neighbors and one bar of signal. Your phone won't stop buzzing anyway: agents, reporters, a teammate's crisis.",
       "choices": [
         {
-          "label": "Turn it off",
-          "result": "You turn it off. Nothing burns down.",
+          "label": "Turn the phone off",
+          "result": "Off, in a drawer, for two days. Nothing burns down, and you come back calmer than you've been since August.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 3,
+              "health": 1
             },
             "football": {},
             "personality": {}
@@ -643,12 +638,10 @@
           ]
         },
         {
-          "label": "Check once a day",
-          "result": "You check once a day after dinner and answer what matters.",
+          "label": "Check it once a day",
+          "result": "Once a day, after dinner, for twenty minutes. You answer what matters and let the rest wait, and it works.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
               "resilience": 1
             },
@@ -661,19 +654,20 @@
           ]
         },
         {
-          "label": "Answer the important ones",
-          "result": "You answer the important ones and lose an afternoon to them.",
+          "label": "Answer the teammate",
+          "result": "The teammate's crisis gets an hour on the porch, on the phone. You lose an afternoon, and he's grateful for years.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "energy": -1
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "leadership": 1
             }
           },
           "modifiers": [
-            "loose"
+            "drained"
           ],
           "rel": {
             "team": 3
@@ -692,12 +686,11 @@
           "result": "You accept and talk to the young players about the year you nearly lost your job. The room is silent, and three rookies find you afterward.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -1
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 3
             }
           },
           "modifiers": [
@@ -713,18 +706,17 @@
           "result": "You bring the specialists up with you and make them stand there while you thank them. {holder} is mortified and delighted.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 3
+            "holder": 3
           }
         },
         {
@@ -732,10 +724,11 @@
           "result": "You accept quietly and thank the equipment staff in a handwritten note. They pin it to the wall of the equipment room.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -748,20 +741,18 @@
       "id": "PRO_745",
       "title": "The Media Feud",
       "category": "media",
-      "text": "A columnist has a feud with you, and every column is about you.",
+      "text": "A columnist has a feud with you, nobody knows why, and every column is about you: your age, your contract, your 'declining leg'. {parent} has started writing letters to the editor.",
       "choices": [
         {
-          "label": "Ignore it",
-          "result": "You ignore it. He runs out of things to say.",
+          "label": "Ignore every column",
+          "result": "Not one column read, not one word said. He runs out of things to say by December and starts writing about the punter.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
-              "resilience": 1
+              "resilience": 2
             },
             "personality": {
-              "intelligence": 2
+              "intelligence": 1
             }
           },
           "modifiers": [
@@ -770,7 +761,7 @@
         },
         {
           "label": "Invite him to practice",
-          "result": "You invite him to practice. The next column is kinder.",
+          "result": "An invitation to watch practice, from the sideline, for a whole day. The next column is kinder, and he admits you're still good.",
           "stats": {
             "life": {
               "social": 2
@@ -783,20 +774,17 @@
           "modifiers": [
             "loose"
           ],
-          "rel": {
-            "team": 3
-          },
           "followers": 1
         },
         {
-          "label": "Use it",
-          "result": "You use it. Every column goes on the wall in your garage.",
+          "label": "Put the columns on your garage wall",
+          "result": "Every column, printed and pinned to the garage wall where you kick. It's very motivating, a little strange, and {parent} adds his letters.",
           "stats": {
             "life": {
               "energy": -2
             },
             "football": {
-              "resilience": 1
+              "power": 1
             },
             "personality": {
               "ambition": 2

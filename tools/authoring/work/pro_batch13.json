@@ -5,14 +5,15 @@
       "id": "PRO_616",
       "title": "The Team Thanksgiving",
       "category": "team",
-      "text": "The veterans host a holiday dinner for the young players who can't go home.",
+      "text": "A veteran and his family host a holiday dinner for the young players who can't go home: long tables in his backyard, his grandmother's recipes, and kids running everywhere.",
       "choices": [
         {
-          "label": "Go and help cook",
-          "result": "You go early and help cook. The veteran's family adopts you for the night.",
+          "label": "Go early and help cook",
+          "result": "Early, with an apron. The veteran's grandmother adopts you for the night, teaches you her stuffing and sends you home with leftovers.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
             "personality": {
@@ -23,16 +24,17 @@
             "loose"
           ],
           "rel": {
-            "team": 4
+            "team": 3
           }
         },
         {
-          "label": "Go and eat",
-          "result": "You go, eat too much and go home happy.",
+          "label": "Eat and go home happy",
+          "result": "Dinner, far too much of it, and home happy by nine. It's the best meal you've had since camp, and you sleep like a stone.",
           "stats": {
             "life": {
               "energy": 2,
-              "fun": 1
+              "fun": 2,
+              "health": 1
             },
             "football": {},
             "personality": {}
@@ -42,22 +44,23 @@
           ]
         },
         {
-          "label": "Bring something meaningful",
-          "result": "You bring a dish from home and tell the story behind it.",
+          "label": "Bring a dish from home",
+          "result": "{parent}'s recipe, cooked badly, and the story behind it. The table goes quiet while you tell it, and somebody asks for seconds.",
           "stats": {
             "life": {
-              "energy": -1
+              "energy": -1,
+              "social": 1
             },
             "football": {},
             "personality": {
-              "intelligence": 2
+              "leadership": 1
             }
           },
           "modifiers": [
-            "focused"
+            "inspired"
           ],
           "rel": {
-            "coach": 2
+            "parent": 2
           }
         }
       ]
@@ -66,17 +69,18 @@
       "id": "PRO_617",
       "title": "The Teammate's Baby",
       "category": "team",
-      "text": "A teammate's baby is born on a game week, and the whole locker room celebrates.",
+      "text": "A teammate's baby is born on a game week, in the middle of the night, and the whole locker room is celebrating with a cake shaped like a football and a banner made of tape.",
       "choices": [
         {
-          "label": "Organize a gift",
-          "result": "You organize a team gift for the baby. The teammate tears up.",
+          "label": "Organize a team gift",
+          "result": "A team gift, organized by you: a tiny jersey with every player's signature. The teammate tears up at his locker and can't speak.",
           "stats": {
             "life": {
               "social": 2
             },
             "football": {},
             "personality": {
+              "leadership": 1,
               "charisma": 1
             }
           },
@@ -84,18 +88,19 @@
             "loose"
           ],
           "rel": {
-            "team": 4
+            "team": 3
           }
         },
         {
-          "label": "Congratulate him",
-          "result": "You congratulate him and go back to your routine.",
+          "label": "Congratulate him and work",
+          "result": "A congratulations and a hug, then back to your routine. He's grateful, and he's not thinking about anyone's routine this week.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -103,25 +108,22 @@
           ]
         },
         {
-          "label": "Cover his duties",
-          "result": "You offer to cover his special teams meeting notes so he can be home.",
+          "label": "Cover his meeting notes",
+          "result": "His special teams meeting notes, covered by you all week, so he can stay home. He comes back to a binder with his name on it.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 2,
+              "intelligence": 1
             }
           },
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
-          "rel": {
-            "team": 2
-          }
+          "skill_points": 1
         }
       ]
     },
@@ -263,14 +265,15 @@
       "id": "PRO_620",
       "title": "The Old College Rival",
       "category": "team",
-      "text": "A kicker you competed against in college is now on a rival club.",
+      "text": "A kicker you competed against all through college has signed with a club in your division. You'll be on the same field twice a year, and the local paper has already noticed.",
       "choices": [
         {
-          "label": "Reach out",
-          "result": "You text him before your first game against his club. You have dinner after.",
+          "label": "Text him before the first game",
+          "result": "A text the week before your first game against his club. You have dinner afterward and laugh about the college stuff that once felt huge.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
             "personality": {
@@ -279,19 +282,18 @@
           },
           "modifiers": [
             "loose"
-          ],
-          "rel": {
-            "team": 1
-          }
+          ]
         },
         {
           "label": "Use the rivalry",
-          "result": "You use the rivalry as fuel all week.",
+          "result": "Fuel, all week: the old rivalry gives every practice a little extra. He doesn't know, and you don't tell him.",
           "stats": {
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "power": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -303,22 +305,21 @@
         },
         {
           "label": "Study his film",
-          "result": "You study his film and learn something about your own technique.",
+          "result": "His film, studied closely, and you learn something about your own hips from the way he sets up. You send him a thank-you he doesn't understand.",
           "stats": {
             "life": {
               "energy": -1
             },
-            "football": {},
+            "football": {
+              "accuracy": 1
+            },
             "personality": {
               "intelligence": 2
             }
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         }
       ]
     },
@@ -326,36 +327,35 @@
       "id": "PRO_621",
       "title": "The Rookie Hazing Report",
       "category": "media",
-      "text": "A reporter asks you, on the record, about the club's rookie traditions.",
+      "text": "A reporter asks you, on the record, about the club's rookie traditions. There's a story going around the league about another club's hazing, and she wants to know about yours.",
       "choices": [
         {
-          "label": "Keep it light",
-          "result": "You say the traditions are mostly about pastries and pads. It's true, and it's enough.",
+          "label": "Keep it to pastries and pads",
+          "result": "Pastries and pads, mostly, you explain, smiling. It's true, it's enough, and the captains notice you didn't give her anything else.",
           "stats": {
             "life": {
               "energy": -1
             },
             "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "charisma": 1
             }
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         },
         {
-          "label": "Speak up about one",
-          "result": "You say the one tradition that made you uncomfortable should change. The captains agree, quietly.",
+          "label": "Name the one that should change",
+          "result": "The one tradition that made you uncomfortable should change, you say carefully, without names. The captains agree, quietly, and change it.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {
               "leadership": 2
             }
@@ -366,18 +366,22 @@
           "skill_points": 1,
           "rel": {
             "team": 1
-          }
+          },
+          "followers": 2
         },
         {
-          "label": "Decline to comment",
-          "result": "You say you'd rather not talk about the locker room.",
+          "label": "Keep the locker room private",
+          "result": "The locker room stays private, you say politely. She writes that the rookies 'declined to comment', and the story moves on.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
-            "personality": {}
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 1
+            }
           },
           "modifiers": [
             "rested"
@@ -389,30 +393,29 @@
       "id": "PRO_622",
       "title": "The Fan Who Sends Gifts",
       "category": "social",
-      "text": "A fan sends gifts to the facility every week, and they're getting stranger.",
+      "text": "A fan sends gifts to the facility every week, addressed to you: candy, then socks, then a framed painting of you as a medieval knight. The notes are getting longer.",
       "choices": [
         {
           "label": "Tell security",
-          "result": "You tell the club's security staff. They handle it kindly and firmly.",
+          "result": "The club's security staff hears about it from you. They handle it kindly and firmly, and the knight painting goes in a storage room.",
           "stats": {
             "life": {
               "energy": -1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {
               "intelligence": 2
             }
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         },
         {
-          "label": "Send a thank-you, once",
-          "result": "You send one thank-you note and ask the fan to stop sending gifts. It works.",
+          "label": "Send one thank-you",
+          "result": "One thank-you note, warm and clear, asking them to stop sending gifts. It works, and you keep the painting, secretly.",
           "stats": {
             "life": {
               "social": 2
@@ -424,24 +427,23 @@
           },
           "modifiers": [
             "loose"
-          ],
-          "rel": {
-            "team": 0
-          }
+          ]
         },
         {
-          "label": "Ignore it",
-          "result": "You ignore it. The gifts keep coming.",
+          "label": "Ignore the gifts",
+          "result": "Ignored. The gifts keep coming, then the letters do, and by December you're a little uneasy every time the mailroom calls.",
           "stats": {
             "life": {
-              "energy": 2,
+              "energy": 1,
               "fun": 1
             },
-            "football": {},
+            "football": {
+              "resilience": -1
+            },
             "personality": {}
           },
           "modifiers": [
-            "rested"
+            "distracted"
           ]
         }
       ]
@@ -450,11 +452,11 @@
       "id": "PRO_623",
       "title": "Your First Endorsement Shoot",
       "category": "media",
-      "text": "The commercial shoot takes eleven hours for fifteen seconds of you holding a sports drink.",
+      "text": "Your first commercial shoot takes eleven hours in a warehouse for fifteen seconds of you holding a sports drink and saying one line. The director keeps saying 'more joy'.",
       "choices": [
         {
           "label": "Nail every take",
-          "result": "You nail every take and the director asks you back.",
+          "result": "Every take, nailed, with more joy each time. The director asks you back for the next campaign and calls you 'a natural', which is a lie.",
           "stats": {
             "life": {
               "energy": -2
@@ -469,14 +471,16 @@
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 1
+          "skill_points": 1,
+          "followers": 2
         },
         {
           "label": "Make the crew laugh",
-          "result": "You make the crew laugh between takes. It's the best part of the day.",
+          "result": "The crew, laughing between takes, is the best part of the day. The makeup artist gives you their number for the next shoot.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
             "personality": {
@@ -486,23 +490,21 @@
           "modifiers": [
             "loose"
           ],
-          "rel": {
-            "team": 1
-          }
+          "followers": 1
         },
         {
-          "label": "Survive it",
-          "result": "You survive it. Your face hurts from smiling.",
+          "label": "Just survive it",
+          "result": "Survived, barely, eleven hours of 'more joy'. Your face hurts from smiling, you sleep in the car on the way home, and you never watch the ad.",
           "stats": {
-            "life": {
-              "energy": 2,
-              "fun": 1
+            "life": {},
+            "football": {
+              "resilience": 2,
+              "toughness": 1
             },
-            "football": {},
             "personality": {}
           },
           "modifiers": [
-            "rested"
+            "tired"
           ]
         }
       ]
@@ -511,16 +513,18 @@
       "id": "PRO_624",
       "title": "The Rookie Who Wants Your Spot",
       "category": "team",
-      "text": "An undrafted kicker in camp keeps showing up early and kicking where you can see.",
+      "text": "An undrafted kicker in camp keeps showing up early and kicking where you can see: long ones, clean ones, every morning, with a little look over his shoulder.",
       "choices": [
         {
           "label": "Show up earlier",
-          "result": "You show up earlier. He shows up earlier. You both get better.",
+          "result": "Earlier. He shows up earlier still. By the end of camp you're both kicking in the dark, and you've both gotten better.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -3
             },
-            "football": {},
+            "football": {
+              "power": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -531,41 +535,44 @@
           "skill_points": 2
         },
         {
-          "label": "Help him",
-          "result": "You give him a tip about his plant foot. He thanks you, and still wants your job.",
+          "label": "Give him a tip",
+          "result": "A tip about his plant foot, freely given. He thanks you sincerely and still wants your job, which you respect.",
           "stats": {
             "life": {
               "social": 2
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "charisma": 1,
+              "leadership": 1
             }
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 3
+            "backup": 3
           }
         },
         {
-          "label": "Ignore and focus",
-          "result": "You ignore him and focus on your charts. The coaches notice your calm.",
+          "label": "Stay with your charts",
+          "result": "Your charts, your routine, nothing else. The coaches notice how calm you are while he keeps glancing over his shoulder at you.",
           "stats": {
             "life": {
               "energy": -1
             },
-            "football": {},
+            "football": {
+              "resilience": 2
+            },
             "personality": {
-              "intelligence": 2
+              "intelligence": 1
             }
           },
           "modifiers": [
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "coach": 1
           }
         }
       ]
@@ -644,20 +651,21 @@
       "id": "PRO_626",
       "title": "The First Time You Hear Boos",
       "category": "training",
-      "text": "Fans boo at a practice open to the public, and you know who they mean.",
+      "text": "Fans boo at a practice that's open to the public, after you miss two in a row in front of the bleachers. There are maybe three hundred people, and you know exactly who they mean.",
       "choices": [
         {
-          "label": "Kick through it",
-          "result": "You kick through it and make the next ten. The boos stop.",
+          "label": "Answer with the next ten",
+          "result": "The next ten kicks go through. The boos stop somewhere around number six, and by number ten somebody in the bleachers is clapping.",
           "stats": {
             "life": {
               "energy": -2
             },
             "football": {
-              "power": 1
+              "power": 1,
+              "resilience": 1
             },
             "personality": {
-              "ambition": 2
+              "ambition": 1
             }
           },
           "modifiers": [
@@ -666,11 +674,12 @@
           "skill_points": 2
         },
         {
-          "label": "Wave",
-          "result": "You wave at the boo section. They laugh, and so do you.",
+          "label": "Wave at the boo section",
+          "result": "A big, friendly wave at the boo section. They laugh, and so do you, and one of them asks for an autograph after practice.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
             "personality": {
@@ -680,30 +689,25 @@
           "modifiers": [
             "loose"
           ],
-          "rel": {
-            "team": 1
-          }
+          "followers": 1
         },
         {
-          "label": "Ask the psychologist for a tool",
-          "result": "You ask the team psychologist for one tool for crowd noise. It works.",
+          "label": "Ask for a tool for crowd noise",
+          "result": "The team psychologist gives you one tool for crowd noise: a word, a breath, a spot on the ball. It works the next week.",
           "stats": {
             "life": {
               "energy": -1
             },
             "football": {
-              "accuracy": 1
+              "resilience": 2
             },
             "personality": {
-              "intelligence": 2
+              "intelligence": 1
             }
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         }
       ]
     },
@@ -711,19 +715,19 @@
       "id": "PRO_627",
       "title": "The Phone Call Home",
       "category": "family",
-      "text": "You call home every Sunday, and this Sunday you don't know what to say.",
+      "text": "You call home every Sunday at six, and this Sunday, after a bad week, you don't know what to say. {parent} answers on the first ring, like always.",
       "choices": [
         {
-          "label": "Say the truth",
-          "result": "You tell {parent} you're struggling. He says he's proud of you anyway, and you believe him.",
+          "label": "Tell him the truth",
+          "result": "You're struggling, you tell him. {parent} says he's proud of you anyway, and the way he says it, you believe him for the first time in a month.",
           "stats": {
             "life": {
               "social": 2
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -734,7 +738,7 @@
         },
         {
           "label": "Talk about anything else",
-          "result": "You talk about the weather and his garden for an hour. It helps.",
+          "result": "The weather, his garden, the neighbor's new fence: an hour of anything else but football. It helps more than you expected it to.",
           "stats": {
             "life": {
               "energy": 2,
@@ -745,25 +749,31 @@
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "parent": 2
+          }
         },
         {
-          "label": "Ask him how he got through hard years",
-          "result": "You ask {parent} how he got through his hardest year. He tells you, and you write it down.",
+          "label": "Ask about his hardest year",
+          "result": "How did he get through his hardest year? He tells you, slowly, things you never knew, and you write it down after you hang up.",
           "stats": {
             "life": {
               "energy": -1
             },
             "football": {
-              "resilience": 1
+              "resilience": 2
             },
             "personality": {
-              "intelligence": 2
+              "intelligence": 1
             }
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "rel": {
+            "parent": 3
+          }
         }
       ]
     },
@@ -771,30 +781,31 @@
       "id": "PRO_628",
       "title": "The Rookie Paycheck Math",
       "category": "career",
-      "text": "You do the math on your rookie contract and realize how short a career really is.",
+      "text": "Late one night you do the math on your rookie contract, on the back of an envelope: the average career, the taxes, the agent's cut. The number at the bottom is smaller than you thought.",
       "choices": [
         {
           "label": "Make a five-year plan",
-          "result": "You make a five-year plan with your agent and a financial advisor.",
+          "result": "A five-year plan, made with your agent and an honest financial advisor. It's dull and comforting, like a good warmup.",
           "stats": {
             "life": {
               "energy": -1
             },
             "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
           ],
-          "rel": {
-            "coach": 2
+          "set_flags": {
+            "honest_advisor": true
           }
         },
         {
-          "label": "Make the most of it",
-          "result": "You decide to make every season count and add an extra workout a week.",
+          "label": "Make every season count",
+          "result": "Every season has to count, you decide, and you add an extra workout every week. The envelope goes on your fridge.",
           "stats": {
             "life": {
               "energy": -2
@@ -812,18 +823,18 @@
           "skill_points": 2
         },
         {
-          "label": "Try not to think about it",
-          "result": "You try not to think about it. You sleep less well than you'd like.",
+          "label": "Put the envelope away",
+          "result": "The envelope goes in a drawer, and you try not to think about it. You sleep less well than you'd like.",
           "stats": {
             "life": {
-              "energy": 2,
+              "energy": 1,
               "fun": 1
             },
             "football": {},
             "personality": {}
           },
           "modifiers": [
-            "rested"
+            "distracted"
           ]
         }
       ]

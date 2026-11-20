@@ -5,11 +5,11 @@
       "id": "PRO_759",
       "title": "The Lost Season",
       "category": "career",
-      "text": "A season where nothing goes right, for the team or for you.",
+      "text": "A season where nothing goes right: the team loses nine straight, the coach is on the hot seat, and your own kicks feel like someone else's.",
       "choices": [
         {
           "label": "Keep working",
-          "result": "You keep working. It's all you can do, and by December it's enough to feel like yourself again.",
+          "result": "You keep working, because it's all you can do. By December your kicks feel like yours again, even if the team doesn't.",
           "stats": {
             "life": {
               "energy": -2
@@ -28,42 +28,39 @@
         },
         {
           "label": "Hold the room together",
-          "result": "You hold the room together when the losses pile up. The young players remember who stayed calm.",
+          "result": "The room, held together while the losses pile up. The young players remember who stayed calm, long after the season.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -1
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 3
             }
           },
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
           "rel": {
-            "team": 2
+            "team": 3
           }
         },
         {
           "label": "Lean on home",
-          "result": "You lean on home. Dinner with the people who don't care about the score saves your season.",
+          "result": "Home, every night: dinner with people who don't care about the score. It saves your season, and maybe more than that.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "love_interest": 3
+            "parent": 2
           }
         }
       ]
@@ -72,15 +69,13 @@
       "id": "PRO_760",
       "title": "The Comeback Practice",
       "category": "training",
-      "text": "After a rough week, you have the best practice of your career.",
+      "text": "After a rough week, you have the best practice of your career: every kick perfect, every hold perfect, and the coaches stop talking to watch.",
       "choices": [
         {
           "label": "Write down what changed",
-          "result": "You write down everything that changed: the sleep, the warmup, the one thought. You keep the page in your bag.",
+          "result": "Everything that changed, written down that night: the sleep, the warmup, the one thought. You keep the page in your bag for years.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
               "accuracy": 1
             },
@@ -90,14 +85,11 @@
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         },
         {
           "label": "Thank the unit",
-          "result": "You thank the unit before you leave the field. {holder} grins all the way to the locker room.",
+          "result": "The unit, thanked before you leave the field, one by one. {holder} grins all the way back to the locker room.",
           "stats": {
             "life": {
               "social": 2
@@ -108,7 +100,7 @@
             }
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
             "holder": 3
@@ -116,10 +108,10 @@
         },
         {
           "label": "Go home happy",
-          "result": "You go home happy and sleep ten hours for the first time in a month.",
+          "result": "Home, happy, and ten hours of sleep for the first time in a month. You don't analyze any of it.",
           "stats": {
             "life": {
-              "energy": 2,
+              "energy": 3,
               "fun": 1
             },
             "football": {},
@@ -135,39 +127,38 @@
       "id": "PRO_761",
       "title": "The Kicker Who Took Your Spot in College",
       "category": "social",
-      "text": "The kicker who beat you for a job in college is out of football and asks for help.",
+      "text": "The kicker who beat you for a scholarship in college, the one whose name you used to say like a curse, is out of football now and asks for your help finding work.",
       "choices": [
         {
-          "label": "Help him",
-          "result": "You help him find work. He's grateful, and so are you.",
-          "stats": {
-            "life": {
-              "social": 2
-            },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
-          },
-          "modifiers": [
-            "loose"
-          ],
-          "rel": {
-            "team": 3
-          }
-        },
-        {
-          "label": "Make one call",
-          "result": "You make one call for him. It turns into a job interview.",
+          "label": "Help him find work",
+          "result": "Calls to people you know, for him, over a week. A job comes through, and he's grateful, and so, strangely, are you.",
           "stats": {
             "life": {
               "energy": -1
             },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "rival": 2
+          }
+        },
+        {
+          "label": "Make one call",
+          "result": "One call, for him, to a friend in sales. It turns into a job interview, and he sends you a long message afterward.",
+          "stats": {
+            "life": {},
             "football": {
               "resilience": 1
             },
             "personality": {
-              "intelligence": 2
+              "intelligence": 1
             }
           },
           "modifiers": [
@@ -176,7 +167,7 @@
         },
         {
           "label": "Wish him well",
-          "result": "You wish him well and mean it. It's strange how small the old wounds look now.",
+          "result": "Good luck, said sincerely, and meant. It's strange how small the old wounds look now, and you sleep well that night.",
           "stats": {
             "life": {
               "energy": 2,
@@ -195,40 +186,38 @@
       "id": "PRO_762",
       "title": "The Captain's Dinner",
       "category": "team",
-      "text": "You host the captains for dinner, and it turns into a three-hour argument about the season.",
+      "text": "You host the captains for dinner at your house, and it turns into a three-hour argument about the season: the coaches, the quarterback, the losing streak.",
       "choices": [
         {
-          "label": "Steer it",
-          "result": "You steer it to a plan by dessert. The captains leave with three things to fix.",
+          "label": "Steer it to a plan",
+          "result": "By dessert, a plan: three things to fix, written on a napkin. The captains leave with a purpose, and the season turns.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -1
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 3,
+              "intelligence": 1
             }
           },
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
           "rel": {
             "team": 2
           }
         },
         {
           "label": "Let it run",
-          "result": "You let it run. Some things need saying.",
+          "result": "Three hours of everyone saying everything that needed saying. The room is closer for it, and the dishes take an hour.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -238,13 +227,13 @@
           }
         },
         {
-          "label": "Take notes",
-          "result": "You take notes and bring the best ideas to the coaches without names on them.",
+          "label": "Take notes for the coaches",
+          "result": "Notes, taken quietly all night, and the best ideas brought to the coaches the next morning, without anyone's name on them.",
           "stats": {
-            "life": {
-              "energy": -1
+            "life": {},
+            "football": {
+              "resilience": 1
             },
-            "football": {},
             "personality": {
               "intelligence": 2
             }
@@ -291,7 +280,8 @@
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "charisma": 1,
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -311,14 +301,17 @@
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "charisma": 1,
+              "ambition": 1
             }
           },
           "modifiers": [
             "loose"
           ],
-          "retention": -2,
-          "followers": 1
+          "followers": 1,
+          "rel": {
+            "coach": -2
+          }
         }
       ]
     },
@@ -326,11 +319,27 @@
       "id": "PRO_764",
       "title": "The Team Doctor's Advice",
       "category": "health",
-      "text": "The team doctor suggests you start planning your body's next twenty years, not just this season.",
+      "text": "The team doctor suggests, over coffee, that you start planning your body's next twenty years, not just this season. She has a folder, and it's labeled with your name.",
       "choices": [
         {
-          "label": "Make the plan",
-          "result": "You make the plan with the doctor: stretching, scans and a word you've never used before, 'longevity'.",
+          "label": "Make the plan with her",
+          "result": "The plan, made with the doctor: stretching, scans, and a word you've never used before, 'longevity'. It's sobering and comforting.",
+          "stats": {
+            "life": {
+              "health": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Focus on this season",
+          "result": "This season first, you tell her. The folder goes in your locker, and you think about it more than you admit.",
           "stats": {
             "life": {
               "energy": -1
@@ -339,50 +348,31 @@
               "toughness": 1
             },
             "personality": {
-              "intelligence": 2
-            }
-          },
-          "modifiers": [
-            "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
-        },
-        {
-          "label": "Focus on this season",
-          "result": "You focus on this season for now. The doctor's card stays in your wallet.",
-          "stats": {
-            "life": {
-              "energy": -2
-            },
-            "football": {},
-            "personality": {
               "ambition": 2
             }
           },
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2
+          "skill_points": 1
         },
         {
-          "label": "Bring {love_interest}",
-          "result": "You bring {love_interest} to the next appointment. They ask the questions you were afraid to.",
+          "label": "Bring family to the appointment",
+          "result": "{parent} comes to the next appointment and asks the questions you were afraid to. You leave with a plan and a calmer heart.",
           "stats": {
             "life": {
               "social": 2
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "love_interest": 3
+            "parent": 3
           }
         }
       ]
@@ -391,35 +381,34 @@
       "id": "PRO_765",
       "title": "The Kicker in the Stands",
       "category": "social",
-      "text": "A retired kicker you admired is in the stands, watching you warm up.",
+      "text": "A retired kicker you admired as a kid is in the stands, watching you warm up. You recognize the walk before you see the face, and your stomach flips.",
       "choices": [
         {
           "label": "Go say hello",
-          "result": "You go say hello. He knows your name, and your stats, and the one kick you'd rather forget.",
+          "result": "Over to the railing to say hello. He knows your name, your stats and the one kick you'd rather forget, and he laughs about it kindly.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
-          "rel": {
-            "team": 1
-          }
+          "followers": 1
         },
         {
-          "label": "Give him a show",
-          "result": "You give him a show in warmups. He nods once from the stands.",
+          "label": "Give him a show in warmups",
+          "result": "The best warmup of your year, for an audience of one. He nods once from the stands, and you feel twelve.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -1
             },
-            "football": {},
+            "football": {
+              "accuracy": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -427,21 +416,22 @@
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2
+          "skill_points": 1
         },
         {
           "label": "Stay in your routine",
-          "result": "You stay in your routine. Afterward he leaves you a note: 'Good habits.'",
+          "result": "Your routine, unchanged. Afterward he leaves you a short note at the equipment window: 'Good habits.' You keep it for years.",
           "stats": {
-            "life": {
-              "energy": 2,
-              "fun": 1
+            "life": {},
+            "football": {
+              "resilience": 2
             },
-            "football": {},
-            "personality": {}
+            "personality": {
+              "intelligence": 1
+            }
           },
           "modifiers": [
-            "rested"
+            "focused"
           ]
         }
       ]

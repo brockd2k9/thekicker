@@ -22,7 +22,8 @@ Fonts were taken unmodified from the Google Fonts repository
 All icons, backgrounds, badges and UI shapes are original and drawn in code
 (`scripts/ui/ui_icons.gd`, `scripts/ui/backdrop.gd`, `scripts/ui/ui_kit.gd`).
 No third-party images, logos or team marks are used. Team names and colors in
-`data/career/world.json` are fictional.
+`data/career/world.json` are fictional. The score bug's network, "GRIDCAST", is fictional
+too; its look is built from code-drawn panels and the bundled OFL fonts.
 
 ## Engine
 

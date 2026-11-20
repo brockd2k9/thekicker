@@ -37,11 +37,11 @@ College flags set severity through locked choices.
 |---|---|---|---|---|---|---|---|---|
 | Era 1: Rookie (22-25) | 150 | 150 | 0 | 18 | 0 | 0 | 0 | 0 |
 | Era 2: Settled In (26-29) | 150 | 150 | 0 | 26 | 0 | 0 | 0 | 0 |
-| Era 3: Veteran (30-33) | 150 | 148 | 0 | 17 | 2 | 0 | 0 | 2 |
-| Era 4: Aging Veteran (34-37) | 150 | 20 | 0 | 14 | 0 | 2 | 0 | 2 |
+| Era 3: Veteran (30-33) | 150 | 150 | 0 | 17 | 2 | 0 | 0 | 2 |
+| Era 4: Aging Veteran (34-37) | 150 | 22 | 0 | 14 | 0 | 2 | 0 | 2 |
 | Era 5: Grizzled Veteran (38-41) | 80 | 0 | 80 | 5 | 0 | 0 | 0 | 0 |
 | Era 6: Hall of Fame Era (42+) | 40 | 0 | 40 | 1 | 0 | 0 | 0 | 40 |
-| Across eras (state-driven) | 108 | 22 | 0 | 10 | 1 | 0 | 0 | 1 |
+| Across eras (state-driven) | 108 | 24 | 0 | 10 | 1 | 0 | 0 | 1 |
 | Epilogue (after retirement) | 12 | 0 | 0 | 0 | 0 | 0 | 12 | 12 |
 
 Era 5 counts the age-38 scenes as playable now (the cap retires a player after the age-38 season); its ages 39-41 wait on R1. Eras 5 and 6 and the epilogue are proposals until the user confirms them.
@@ -723,8 +723,8 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_109 | The Awards Show | age 30-33 | once | tier fan_favorite |  |  |  |
 | PRO_131 | Thirty | age 30 | once |  |  |  |  |
 | PRO_132 | The Maintenance Bill | age 30-33 | once |  |  |  |  |
-| PRO_219 | Someone New, Later | age 30-33 | once | divorced / broke_up_pro |  |  | R8 re-point {love_interest} |
-| PRO_220 | The Second Wedding | age 30-33 | once | engaged + divorced |  |  | R8 re-point {love_interest} |
+| PRO_219 | Someone New, Later | age 30-33 | once | divorced / broke_up_pro; not new_partner / engaged / married | new_partner |  | R8 re-point {love_interest} |
+| PRO_220 | The Second Wedding | age 30-33 | once | divorced + new_partner; not married / engaged; rel_love_interest 55+ | married |  | R8 re-point {love_interest} |
 | PRO_221 | The Anniversary | age 30-33 | once | married |  |  |  |
 | PRO_225 | {sibling}'s Family | age 30-33 | once |  |  |  |  |
 | PRO_229 | The Radio Show | age 30-33 | once |  | radio_show |  |  |
@@ -875,7 +875,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 - **PRO_131 Thirty**: You turn thirty in camp, and the trainer starts talking about 'maintenance'.
 - **PRO_132 The Maintenance Bill**: Holding on to your leg costs more every year: more treatment, more rest, more skill points.
 - **PRO_219 Someone New, Later**: Years after it ended, a friend's dinner party seats you next to someone who doesn't care about football at all.
-- **PRO_220 The Second Wedding**: A second wedding is smaller, quieter and somehow harder to plan.
+- **PRO_220 The Second Wedding**: Married before, both of you, and somewhere between the dishes and the dog you start talking about doing it again: smaller, quieter, and somehow harder to plan. *(Covers the decision and the wedding: PRO_074 The Proposal plays once, usually for the first partner.)*
 - **PRO_221 The Anniversary**: Ten years married, and you're in a hotel in a city you can't remember the name of.
 - **PRO_225 {sibling}'s Family**: {sibling} has kids of his own now, and they think you're the most famous person alive.
 - **PRO_229 The Radio Show**: A local station offers you a weekly radio show during the season.
@@ -1067,7 +1067,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_265 | The Grudge | age 34-37 | once |  | pro_bar_fight |  |  |
 | PRO_266 | The Insurance Claim | age 34-37 | once |  | pro_insurance_fraud |  | R3 money values |
 | PRO_267 | The Last Big Night | age 34-37 | once | announced_retirement | pro_night_before |  |  |
-| PRO_268 | The Veteran Hearing | age 34-37 | once | pro_warning | pro_second_chance |  | R9 longer suspensions |
+| PRO_268 | The Veteran Hearing | age 34-37 | once | pro_warning; (every pro strike) | pro_second_chance |  | R9 longer suspensions |
 | PRO_281 | The Body Rebuild | age 34-37, offseason | once |  |  |  |  |
 | PRO_289 | The Locker Room Elder | age 34-37 | once |  |  |  |  |
 | PRO_290 | Uncle to the Rookies | age 34-37 | once |  |  |  |  |
@@ -1218,7 +1218,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 - **PRO_265 The Grudge**: The general manager who released you two years ago is at the same restaurant, and he's laughing. *(Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps.)*
 - **PRO_266 The Insurance Claim**: Your agent suggests an insurance claim on an injury that's mostly healed. *(Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps.)*
 - **PRO_267 The Last Big Night**: Your farewell season, a city that loves you, and a night out that could end it badly. *(Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps.)*
-- **PRO_268 The Veteran Hearing**: Another hearing at your age. The league says experience should have known better. *(Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps.)*
+- **PRO_268 The Veteran Hearing**: Another hearing at your age. The league says experience should have known better. *(Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps. Needs a current strike, like PRO_125; a veteran's second hearing runs longer (R9).)*
 - **PRO_281 The Body Rebuild**: A new trainer wants to rebuild how you move, from the ground up, at an age when most kickers stop changing.
 - **PRO_289 The Locker Room Elder**: You're the oldest player in the locker room, and the young ones bring their problems to you.
 - **PRO_290 Uncle to the Rookies**: A rookie calls you 'unc' at practice. It sticks.

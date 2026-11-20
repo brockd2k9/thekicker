@@ -6070,9 +6070,16 @@
     "any_flags": [
      "divorced",
      "broke_up_pro"
+    ],
+    "not_flags": [
+     "new_partner",
+     "engaged",
+     "married"
     ]
    },
-   "sets": [],
+   "sets": [
+    "new_partner"
+   ],
    "people": [
     "love_interest"
    ],
@@ -6089,7 +6096,7 @@
    "title": "The Second Wedding",
    "group": "Era 3: Veteran (30-33)",
    "chain": "Partner",
-   "premise": "A second wedding is smaller, quieter and somehow harder to plan.",
+   "premise": "Married before, both of you, and somewhere between the dishes and the dog you start talking about doing it again: smaller, quieter, and somehow harder to plan.",
    "ages": [
     30,
     33
@@ -6099,11 +6106,20 @@
    "when": null,
    "requires": {
     "flags": [
-     "engaged",
-     "divorced"
-    ]
+     "divorced",
+     "new_partner"
+    ],
+    "not_flags": [
+     "married",
+     "engaged"
+    ],
+    "min": {
+     "rel_love_interest": 55
+    }
    },
-   "sets": [],
+   "sets": [
+    "married"
+   ],
    "people": [
     "love_interest"
    ],
@@ -6113,7 +6129,8 @@
    ],
    "callbacks": [],
    "era": 3,
-   "subgroup": "Long career: life chapters"
+   "subgroup": "Long career: life chapters",
+   "note": "Covers the decision and the wedding: PRO_074 The Proposal plays once, usually for the first partner."
   },
   {
    "id": "PRO_221",
@@ -7440,6 +7457,9 @@
    "requires": {
     "flags": [
      "pro_warning"
+    ],
+    "any_flags": [
+     "(every pro strike)"
     ]
    },
    "sets": [
@@ -7454,7 +7474,7 @@
     "R9 longer suspensions"
    ],
    "callbacks": [],
-   "note": "Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps.",
+   "note": "Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps. Needs a current strike, like PRO_125; a veteran's second hearing runs longer (R9).",
    "era": 4,
    "subgroup": "Long career: veteran wrong path (35+)"
   },
@@ -14526,7 +14546,7 @@
   },
   {
    "id": "PRO_581",
-   "title": "The Old Girlfriend",
+   "title": "The Old Flame",
    "group": "Era 1: Rookie (22-25)",
    "chain": "New",
    "premise": "Someone from college messages you the week your first big headline runs.",

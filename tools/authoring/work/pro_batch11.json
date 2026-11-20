@@ -5,31 +5,36 @@
       "id": "PRO_590",
       "title": "Kicks for the Hospital",
       "category": "community",
-      "text": "The club runs a kick-a-thon for a children's hospital, and you're the main event: a donation for every kick you make in an hour.",
+      "text": "The club runs a kick-a-thon for the children's hospital, and you're the main event: a donation for every kick you make in an hour, with the patients watching from the sideline.",
       "choices": [
         {
           "label": "Kick for the full hour",
-          "result": "You kick for the full hour without stopping. Your leg is jelly, and the total is the biggest the hospital has ever seen.",
+          "result": "A full hour without stopping. Your leg is jelly, and the total is the biggest the hospital has ever seen.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -3
             },
-            "football": {},
+            "football": {
+              "power": 1,
+              "toughness": 1
+            },
             "personality": {
-              "ambition": 2
+              "ambition": 1
             }
           },
           "modifiers": [
-            "dialed_in"
+            "heavy_legs"
           ],
-          "skill_points": 2
+          "skill_points": 1,
+          "followers": 2
         },
         {
           "label": "Let the kids kick too",
-          "result": "You give every kid a turn at the tee. The donations drop; the photos are the best of the year.",
+          "result": "Every kid gets a turn at the tee. The donations drop a little; the photos are the best of the year, and a nurse cries.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
             "personality": {
@@ -39,14 +44,11 @@
           "modifiers": [
             "loose"
           ],
-          "rel": {
-            "team": 3
-          },
-          "followers": 2
+          "followers": 3
         },
         {
           "label": "Recruit the specialists",
-          "result": "You talk the punter and snapper into joining. It turns into a contest, and the crowd doubles.",
+          "result": "The punter, the snapper and {holder} join in, and it turns into a contest. The crowd doubles, and so does the total.",
           "stats": {
             "life": {
               "energy": -2,
@@ -62,7 +64,8 @@
           ],
           "skill_points": 1,
           "rel": {
-            "team": 2
+            "holder": 2,
+            "team": 1
           }
         }
       ]
@@ -71,17 +74,18 @@
       "id": "PRO_591",
       "title": "The Night Before Your Debut",
       "category": "training",
-      "text": "The night before your first regular-season game, and your phone won't stop buzzing.",
+      "text": "The night before your first regular-season game, and your phone won't stop: old coaches, cousins, a girl from your third-grade class. It's ten o'clock and you're wide awake.",
       "choices": [
         {
           "label": "Phone off, early night",
-          "result": "You turn the phone off at eight and read until you fall asleep.",
+          "result": "The phone goes in a drawer at eight, and you read until you fall asleep. Nobody's message is more important than the morning.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 3
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -89,27 +93,27 @@
           ]
         },
         {
-          "label": "Answer the important ones",
-          "result": "You answer {parent} and {best_friend} and ignore the rest. Their messages are the right ones.",
+          "label": "Answer two people",
+          "result": "{parent} and {best_friend}, nobody else. Their messages are the right ones, and you fall asleep with the phone on your chest.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "parent": 3
+            "parent": 2,
+            "best_friend": 2
           }
         },
         {
-          "label": "Go over the plan once more",
-          "result": "You go over the special teams plan one more time, then sleep. You walk in calm.",
+          "label": "One more look at the plan",
+          "result": "The special teams plan, once more, then sleep. You walk in calm, and {coach} notices you're the only rookie not pacing.",
           "stats": {
             "life": {
               "energy": -1
@@ -125,7 +129,7 @@
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "coach": 1
           }
         }
       ]
@@ -134,18 +138,18 @@
       "id": "PRO_592",
       "title": "The Debut Week Interview",
       "category": "media",
-      "text": "The national broadcast crew wants five minutes with the rookie kicker before the game.",
+      "text": "The national broadcast crew wants five minutes with the rookie kicker before your first game. The producer has a clipboard and very specific ideas about your 'story'.",
       "choices": [
         {
-          "label": "Tell your story",
-          "result": "You tell them about kicking in your backyard with {parent}. It makes the broadcast.",
+          "label": "Tell your real story",
+          "result": "Kicking in the backyard with {parent}, into a fence with a hole in it. It makes the broadcast, and {parent} watches it forty times.",
           "stats": {
             "life": {
               "social": 2
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "charisma": 2
             }
           },
           "modifiers": [
@@ -157,17 +161,17 @@
           "followers": 3
         },
         {
-          "label": "Keep it short",
-          "result": "You keep it to football and keep it short. The crew thanks you; nothing makes air.",
+          "label": "Keep it to football",
+          "result": "Football only, short and polite. The crew thanks you, nothing makes air, you're secretly glad, and {parent} is quietly disappointed for a day.",
           "stats": {
             "life": {
-              "energy": -1
+              "energy": 1
             },
             "football": {
               "resilience": 1
             },
             "personality": {
-              "intelligence": 2
+              "intelligence": 1
             }
           },
           "modifiers": [
@@ -176,11 +180,10 @@
         },
         {
           "label": "Talk about the unit",
-          "result": "You talk about the snapper and the holder. The specialists' group chat is very happy.",
+          "result": "The snapper and {holder}, mostly, and how a kick is really three people. The specialists' chat is very happy, and {holder} pretends to be annoyed.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -1
             },
             "football": {},
             "personality": {
@@ -190,9 +193,8 @@
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
           "rel": {
-            "team": 2
+            "holder": 3
           },
           "followers": 1
         }
@@ -202,11 +204,11 @@
       "id": "PRO_593",
       "title": "The Team Photo",
       "category": "team",
-      "text": "The team photo, and you're in the back row next to a lineman who has never learned your name.",
+      "text": "The team photo, and you're in the back row next to a lineman who has never learned your name. He calls you 'kick' and asks which number you are.",
       "choices": [
         {
-          "label": "Introduce yourself, again",
-          "result": "You introduce yourself to the lineman, again. He laughs, and from then on he calls you by name.",
+          "label": "Introduce yourself again",
+          "result": "Your name, again, with a handshake. He laughs, and from then on he calls you by name, loudly, across the cafeteria.",
           "stats": {
             "life": {
               "social": 2
@@ -220,12 +222,12 @@
             "loose"
           ],
           "rel": {
-            "team": 3
+            "team": 2
           }
         },
         {
-          "label": "Smile and wait",
-          "result": "You smile, wait for the flash and go back to the locker room.",
+          "label": "Smile for the flash",
+          "result": "A smile, the flash, and back to the locker room. You're the blurry one in the corner of the framed print.",
           "stats": {
             "life": {
               "energy": 2,
@@ -239,8 +241,8 @@
           ]
         },
         {
-          "label": "Organize the specialists' photo",
-          "result": "You organize a specialists-only photo afterward. It ends up framed in the facility.",
+          "label": "Organize a specialists' photo",
+          "result": "A specialists-only photo afterward, organized by you. It ends up framed in the facility hallway, and {holder} puts a copy on their fridge.",
           "stats": {
             "life": {
               "energy": -2,
@@ -256,7 +258,7 @@
           ],
           "skill_points": 1,
           "rel": {
-            "team": 2
+            "holder": 2
           }
         }
       ]
@@ -265,54 +267,56 @@
       "id": "PRO_594",
       "title": "The Rookie Payday Dinner",
       "category": "money",
-      "text": "Your rookie class decides to celebrate your first full paycheck together, at a restaurant you can't pronounce.",
+      "text": "Your rookie class decides to celebrate your first full paychecks together at a restaurant you can't pronounce, with a menu that doesn't have prices on it.",
       "choices": [
         {
           "label": "Go and enjoy it",
-          "result": "You go and enjoy it. The bill is absurd, and the night is worth it.",
+          "result": "The whole night, every course. The bill is absurd, the night is worth it, and you all take a photo with the chef.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 3
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 3
+            "team": 2
           }
         },
         {
           "label": "Suggest a cheaper place",
-          "result": "You suggest a cheaper place with the same view. Half the class comes, and the rest think you're cheap.",
+          "result": "A cheaper place with the same view, you suggest. Half the class comes, the rest think you're cheap, and your half has more fun.",
           "stats": {
             "life": {
               "energy": -1
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "rel": {
+            "backup": 1
+          }
         },
         {
-          "label": "Skip it",
-          "result": "You skip it and order in. Your account is happier than you are.",
+          "label": "Order in",
+          "result": "Takeout, alone, on the couch. Your account is happier than you are, and you see the photos the next morning.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -325,32 +329,31 @@
       "id": "PRO_595",
       "title": "The Trainer's Warning",
       "category": "health",
-      "text": "A trainer quietly warns you about the supplements a veteran keeps recommending to the rookies.",
+      "text": "A trainer stops you in the hallway and quietly warns you about the supplements a veteran keeps recommending to the rookies. Some of them, the trainer says, aren't on the approved list.",
       "choices": [
         {
-          "label": "Thank the trainer and stop",
-          "result": "You thank the trainer and stop taking anything the club didn't approve. You sleep better knowing.",
+          "label": "Make a rule for yourself",
+          "result": "A rule, made that night: nothing the club hasn't approved, ever. You sleep better knowing it, and the trainer notices.",
           "stats": {
             "life": {
-              "energy": -1
+              "energy": -1,
+              "health": 2
             },
-            "football": {
-              "toughness": 1
-            },
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 1
             }
           },
           "modifiers": [
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "coach": 1
           }
         },
         {
-          "label": "Tell the other rookies",
-          "result": "You tell the other rookies what the trainer said. Two of them throw theirs out that night.",
+          "label": "Warn the other rookies",
+          "result": "The other rookies hear exactly what the trainer said, from you. Two of them throw theirs out that night, and one of them thanks you a year later.",
           "stats": {
             "life": {
               "energy": -2,
@@ -370,8 +373,8 @@
           }
         },
         {
-          "label": "Ask no questions",
-          "result": "You decide you never took anything anyway and move on. You're fine, and you never ask what the others are taking.",
+          "label": "Let the veterans sort it out",
+          "result": "Not your business, you decide, and you never ask what the others are taking. You're fine. You're not sure all of them are.",
           "stats": {
             "life": {
               "energy": 2,
@@ -381,7 +384,7 @@
             "personality": {}
           },
           "modifiers": [
-            "rested"
+            "distracted"
           ]
         }
       ]
@@ -390,14 +393,14 @@
       "id": "PRO_596",
       "title": "The Rookie Who Talks Too Much",
       "category": "team",
-      "text": "A rookie in your class keeps leaking locker room jokes online, and the veterans are getting angry.",
+      "text": "A rookie in your class keeps posting locker-room jokes online: who fell asleep in meetings, who cried at a movie on the plane. The veterans are getting angry, and they've noticed you sit with him.",
       "choices": [
         {
-          "label": "Talk to him",
-          "result": "You talk to him privately. He didn't know it was a big deal. He stops.",
+          "label": "Talk to him privately",
+          "result": "A quiet word in the parking lot. He genuinely didn't know it was a big deal, deletes four posts on the spot and buys the veterans breakfast on Friday.",
           "stats": {
             "life": {
-              "energy": -2,
+              "energy": -1,
               "social": 1
             },
             "football": {},
@@ -410,17 +413,19 @@
           ],
           "skill_points": 1,
           "rel": {
-            "team": 3
+            "team": 2
           }
         },
         {
-          "label": "Tell a veteran",
-          "result": "You tell a veteran you trust, who handles it. It's quieter than you'd have managed.",
+          "label": "Let a veteran handle it",
+          "result": "A veteran you trust hears it from you, and handles it better than you could have: one sentence in the weight room, and the posts stop.",
           "stats": {
             "life": {
               "energy": -1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {
               "intelligence": 2
             }
@@ -429,18 +434,20 @@
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "team": 1
           }
         },
         {
-          "label": "Stay out of it",
-          "result": "You stay out of it. The veterans handle it, loudly.",
+          "label": "Let him learn the hard way",
+          "result": "Not your fight, you decide. The veterans handle it loudly, with a whole-team meeting, and the rookie doesn't speak to anyone for a week.",
           "stats": {
             "life": {
               "energy": 2,
               "fun": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -453,19 +460,19 @@
       "id": "PRO_597",
       "title": "The Specialist Meeting Room",
       "category": "team",
-      "text": "The specialists' meeting room is the size of a closet, and three of you share it with a broken projector.",
+      "text": "The specialists' meeting room is the size of a closet, with a broken projector, one working outlet and a mop bucket nobody has moved since September. Three of you share it every morning.",
       "choices": [
         {
-          "label": "Ask for a better room",
-          "result": "You ask the operations staff for a real room. You get one, and the punter calls you a hero.",
+          "label": "Ask for a real room",
+          "result": "The operations staff gets a polite, specific request from you, with a floor plan. You get a real room by Monday, and the punter calls you a hero for a month.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 2,
+              "intelligence": 1
             }
           },
           "modifiers": [
@@ -473,46 +480,44 @@
           ],
           "skill_points": 1,
           "rel": {
-            "team": 2
+            "holder": 2
           }
         },
         {
-          "label": "Make the closet work",
-          "result": "You bring snacks and a better extension cord. The closet becomes the best room in the building.",
+          "label": "Make the closet great",
+          "result": "Snacks, a better extension cord and a lamp from home. The closet becomes the best room in the building, and the linebackers start asking to visit.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 3
+            "holder": 2
           }
         },
         {
           "label": "Use the film room at night",
-          "result": "You use the main film room after hours. It's empty, and you learn more.",
+          "result": "The main film room after hours, empty and quiet. You learn more alone there in a week than in a month of closet mornings.",
           "stats": {
             "life": {
-              "energy": -1
+              "energy": -2
             },
-            "football": {},
+            "football": {
+              "accuracy": 1
+            },
             "personality": {
               "intelligence": 2
             }
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         }
       ]
     },
@@ -520,14 +525,15 @@
       "id": "PRO_598",
       "title": "The Wrong Bus",
       "category": "team",
-      "text": "You get on the wrong team bus after a road practice and end up at the airport alone.",
+      "text": "After a road practice you get on the wrong team bus, fall asleep, and wake up alone at the airport cargo terminal. Your phone is at four percent, and the team plane leaves in three hours.",
       "choices": [
         {
-          "label": "Laugh about it",
-          "result": "You laugh about it in the group chat. The nickname sticks for a season.",
+          "label": "Post it in the group chat",
+          "result": "A photo of you alone at the cargo terminal goes to the group chat. The nickname 'Freight' sticks for a whole season, and you secretly love it.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
             "personality": {
@@ -538,37 +544,37 @@
             "loose"
           ],
           "rel": {
-            "team": 3
+            "team": 2
           }
         },
         {
           "label": "Call the travel staff",
-          "result": "You call the travel staff, who send a car. You're back before anyone notices.",
+          "result": "Four percent is enough for one call to the travel staff, who send a car. You're back before anyone notices, except the travel director, who never forgets.",
           "stats": {
             "life": {
               "energy": -1
             },
             "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         },
         {
-          "label": "Wait at the airport",
-          "result": "You wait at the airport with a book until the team arrives. Nobody believes your story.",
+          "label": "Wait with a book",
+          "result": "Three hours with a paperback and a vending-machine dinner until the team arrives. Nobody believes your story, and the snapper still brings it up.",
           "stats": {
             "life": {
               "energy": 2,
               "fun": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -581,37 +587,38 @@
       "id": "PRO_599",
       "title": "Your First Billboard",
       "category": "media",
-      "text": "Your face goes up on a billboard by the highway, and you drive past it twice.",
+      "text": "Your face goes up on a billboard by the highway for a local bank, forty feet wide, smiling a smile you don't remember making. You drive past it twice on the way to practice.",
       "choices": [
         {
           "label": "Send a photo home",
-          "result": "You send a photo to {parent}, who drives three hours to see it in person.",
+          "result": "A photo from the shoulder goes to {parent}, who drives three hours just to stand under it and take his own. He frames it for the hallway.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "parent": 3
+            "parent": 4
           },
           "followers": 1
         },
         {
-          "label": "Avoid that highway",
-          "result": "You take a different route to practice. It's too strange to look at.",
+          "label": "Take a different road",
+          "result": "A different route to practice, every day. It's too strange to look at your own face that big, and you feel silly about it.",
           "stats": {
             "life": {
-              "energy": 2,
+              "energy": 1,
               "fun": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -619,14 +626,14 @@
           ]
         },
         {
-          "label": "Use it as motivation",
-          "result": "You tell yourself you have to earn it. You kick an extra hundred balls that week.",
+          "label": "Earn the billboard",
+          "result": "Billboards are for people who've earned them, you decide, and you kick an extra hundred balls that week to start.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -3
             },
             "football": {
-              "resilience": 1
+              "power": 1
             },
             "personality": {
               "ambition": 2
@@ -643,36 +650,35 @@
       "id": "PRO_600",
       "title": "The Veteran's Retirement Party",
       "category": "team",
-      "text": "A veteran you barely know retires, and you're expected at the party.",
+      "text": "A veteran you barely know is retiring after eleven seasons, and the whole team is expected at the party in a hotel ballroom. He has never said more than three words to you.",
       "choices": [
         {
-          "label": "Go and listen",
-          "result": "You go and listen to the stories. You learn more about the league in one night than in a month.",
+          "label": "Listen to the stories",
+          "result": "An evening of stories at the back table: the old coaches, the cut days, the plays nobody filmed. You learn more about the league in one night than in a month.",
           "stats": {
             "life": {
               "social": 2
             },
             "football": {},
             "personality": {
+              "intelligence": 1,
               "charisma": 1
             }
           },
           "modifiers": [
             "loose"
-          ],
-          "rel": {
-            "team": 3
-          }
+          ]
         },
         {
           "label": "Stop by briefly",
-          "result": "You stop by for half an hour and congratulate him. Then you go home.",
+          "result": "Half an hour, a handshake and a congratulations. He remembers your name, which surprises you both, and you're home by nine.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -680,8 +686,8 @@
           ]
         },
         {
-          "label": "Give a toast",
-          "result": "You give a short toast on behalf of the rookies. The veteran shakes your hand for a long time.",
+          "label": "Toast for the rookies",
+          "result": "A short toast on behalf of the rookies, written on a napkin at the table. The veteran shakes your hand for a long time afterward.",
           "stats": {
             "life": {
               "energy": -2,
@@ -697,7 +703,7 @@
           ],
           "skill_points": 1,
           "rel": {
-            "team": 2
+            "team": 1
           }
         }
       ]
@@ -706,14 +712,15 @@
       "id": "PRO_601",
       "title": "The Mentor Who Leaves",
       "category": "team",
-      "text": "The veteran who took you under his wing is traded to another club.",
+      "text": "The veteran who took you under his wing in camp is traded on a Tuesday night. By Wednesday morning his locker is empty and his name is off the parking spot.",
       "choices": [
         {
-          "label": "Help him pack",
-          "result": "You help him pack his locker and keep in touch every week.",
+          "label": "Help him pack the car",
+          "result": "His car, packed at midnight, with you carrying the heavy boxes. You keep in touch every week, and he texts you after every one of your games.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "energy": -1
             },
             "football": {},
             "personality": {
@@ -721,23 +728,22 @@
             }
           },
           "modifiers": [
-            "loose"
+            "drained"
           ],
           "rel": {
-            "team": 3
+            "team": 2
           }
         },
         {
           "label": "Take his place in the room",
-          "result": "You start doing for the next rookie what he did for you.",
+          "result": "For the next rookie, you start doing exactly what he did for you: lunch, film, the long talks. It's the best way to thank him.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 3
             }
           },
           "modifiers": [
@@ -745,19 +751,21 @@
           ],
           "skill_points": 1,
           "rel": {
-            "team": 2
+            "backup": 2
           }
         },
         {
-          "label": "Kick harder",
-          "result": "You turn the sting into extra work. It helps, a little.",
+          "label": "Kick the sting out",
+          "result": "The sting goes into extra work that afternoon. It helps, a little, and you still look at his empty locker every morning.",
           "stats": {
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {
-              "ambition": 2
+              "ambition": 1
             }
           },
           "modifiers": [
@@ -771,30 +779,28 @@
       "id": "PRO_602",
       "title": "The Agent's Other Rookies",
       "category": "career",
-      "text": "Your agent has four rookie clients, and you can tell you're fourth.",
+      "text": "Your agent has four rookie clients, and from how long your calls take to be returned, you can tell you're fourth. The last text you got was a thumbs-up to a question.",
       "choices": [
         {
-          "label": "Ask for a plan",
-          "result": "You ask your agent for a written plan and a monthly call. You get both.",
+          "label": "Ask for a written plan",
+          "result": "A written plan and a monthly call, requested politely and firmly. You get both, and your agent starts calling first.",
           "stats": {
             "life": {
               "energy": -1
             },
             "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         },
         {
-          "label": "Make yourself first",
-          "result": "You decide to be the client who's impossible to ignore, and kick like it.",
+          "label": "Be impossible to ignore",
+          "result": "The client who's impossible to ignore, that's the plan, and you kick like it all month. Your agent calls in October to say the club asked about you.",
           "stats": {
             "life": {
               "energy": -2
@@ -813,7 +819,7 @@
         },
         {
           "label": "Let it ride",
-          "result": "You let it ride. Rookie contracts are fixed anyway.",
+          "result": "Rookie contracts are fixed anyway, you reason, and let it ride. It's fine for now, and you wonder about next year.",
           "stats": {
             "life": {
               "energy": 2,

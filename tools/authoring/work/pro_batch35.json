@@ -5,17 +5,18 @@
       "id": "PRO_746",
       "title": "The Social Media Break",
       "category": "social",
-      "text": "You take a month off social media, and it feels strange.",
+      "text": "You take a month off social media after a rough stretch, the apps deleted and the password changed. On day three you keep reaching for a phone that has nothing on it.",
       "choices": [
         {
           "label": "Stay off the whole month",
-          "result": "You stay off the whole month. By week three, you stop reaching for your phone.",
+          "result": "The whole month, off. By week three you stop reaching for your phone, and you read two books and sleep better than in years.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 2
+            },
             "personality": {}
           },
           "modifiers": [
@@ -25,16 +26,13 @@
         },
         {
           "label": "Have someone post for you",
-          "result": "You have someone post the basics. You don't read the replies.",
+          "result": "Someone else posts the basics for you: game days, charity events. You don't read the replies, and it's the perfect middle.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -43,21 +41,21 @@
         },
         {
           "label": "Spend the time with people",
-          "result": "You spend the time with real people. Dinners get longer.",
+          "result": "The time, spent with real people instead: long dinners, a walk with {best_friend}, an afternoon with {parent}. It's so much better.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "love_interest": 3
+            "best_friend": 2,
+            "parent": 1
           }
         }
       ]
@@ -66,63 +64,63 @@
       "id": "PRO_747",
       "title": "The Charity Ride",
       "category": "community",
-      "text": "You ride in a charity bike ride across the state with teammates.",
+      "text": "You ride in a charity bike ride across the state with four teammates: three hundred miles, five days, and a support van driven by the equipment manager.",
       "choices": [
         {
           "label": "Ride with the slowest group",
-          "result": "You ride with the slowest group and finish last, laughing.",
+          "result": "The slowest group, the whole way, telling stories. You finish last, laughing, and the charity raises the most it ever has.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 4
+            "team": 3
           }
         },
         {
           "label": "Ride it hard",
-          "result": "You ride it hard. Your legs hate you, and the charity raises a lot.",
+          "result": "Hard, every day, at the front. Your legs hate you by day three, and the charity gets a huge photo of you at the finish line.",
+          "stats": {
+            "life": {
+              "energy": -3
+            },
+            "football": {
+              "toughness": 2
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "heavy_legs"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Organize the team's riders",
+          "result": "The team's riders and the support van, organized by you. Everyone finishes, nobody gets lost, and the equipment manager calls you 'boss'.",
           "stats": {
             "life": {
               "energy": -2
             },
             "football": {},
             "personality": {
-              "ambition": 2
-            }
-          },
-          "modifiers": [
-            "dialed_in"
-          ],
-          "skill_points": 2
-        },
-        {
-          "label": "Organize the team",
-          "result": "You organize the team's riders and the support van.",
-          "stats": {
-            "life": {
-              "energy": -2,
-              "social": 1
-            },
-            "football": {},
-            "personality": {
-              "leadership": 2
+              "leadership": 3,
+              "intelligence": 1
             }
           },
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
           "rel": {
-            "team": 2
+            "team": 1
           }
         }
       ]
@@ -131,22 +129,21 @@
       "id": "PRO_748",
       "title": "The Coach Who Believed in You",
       "category": "family",
-      "text": "The coach who gave you your first chance is in the hospital.",
+      "text": "The coach who gave you your first chance is in the hospital after a heart attack. He's seventy-three, and his wife says he keeps asking about your last game.",
       "choices": [
         {
-          "label": "Visit",
-          "result": "You visit on your day off. He's thin and still giving you notes.",
+          "label": "Visit on your day off",
+          "result": "A day off, spent at his bedside. He's thin and pale and still giving you notes about your follow-through, which makes you laugh.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "energy": -2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
             "coach": 1
@@ -154,32 +151,29 @@
         },
         {
           "label": "Call his family",
-          "result": "You call his family and ask what would help. You do it.",
+          "result": "His family, called, to ask what would actually help. You do all of it, including fixing his porch steps yourself on a Sunday.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 1,
+              "leadership": 2
             }
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         },
         {
-          "label": "Send a letter",
-          "result": "You send a long letter. His wife reads it to him.",
+          "label": "Send a long letter",
+          "result": "A long letter, handwritten over two nights, about everything he did for you. His wife reads it to him, twice, and he keeps it.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 2
+            },
             "personality": {}
           },
           "modifiers": [
@@ -192,58 +186,58 @@
       "id": "PRO_749",
       "title": "The Teammate's Kid",
       "category": "community",
-      "text": "A teammate's kid wants to kick, and asks you for lessons.",
+      "text": "A teammate's ten-year-old wants to kick and asks you for lessons, very formally, in a handwritten letter he delivers to your locker himself, wearing a tie.",
       "choices": [
         {
-          "label": "Teach him",
-          "result": "You teach him every Saturday. He's good, and so is his smile.",
+          "label": "Teach him every Saturday",
+          "result": "Saturday mornings, all fall, on the practice field. He's good, and so is his smile, and his father watches from the fence every week.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 3,
+              "charisma": 1
             }
           },
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
           "rel": {
             "team": 2
           }
         },
         {
           "label": "Make it a family thing",
-          "result": "You bring your own family. The two families become close.",
+          "result": "Your family and his, together every Saturday: kicking first, then pancakes. The two families become very close over the season.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 4
+            "team": 3
           }
         },
         {
-          "label": "Give one lesson",
-          "result": "You give one lesson and a pair of cleats.",
+          "label": "Give one lesson and cleats",
+          "result": "One proper lesson and a pair of cleats, signed. He wears the cleats to bed for a month and to school for another.",
           "stats": {
             "life": {
               "energy": 2,
-              "fun": 1
+              "fun": 2
             },
             "football": {},
-            "personality": {}
+            "personality": {
+              "charisma": 1
+            }
           },
           "modifiers": [
             "rested"
@@ -317,57 +311,49 @@
       "id": "PRO_751",
       "title": "The Neighbor's Kid",
       "category": "community",
-      "text": "The neighbor's kid practices kicking in the street every day.",
+      "text": "The neighbor's kid practices kicking in the street every day after school, against a recycling bin, with a ball that's lost most of its air.",
       "choices": [
         {
           "label": "Show him one thing",
-          "result": "You walk over and show him one thing. He does it right the next day.",
+          "result": "One thing, shown from the curb: the plant foot. He does it right the next day, and waves at your window.",
           "stats": {
-            "life": {
-              "energy": -2,
-              "social": 1
-            },
+            "life": {},
             "football": {},
             "personality": {
-              "leadership": 2
-            }
-          },
-          "modifiers": [
-            "inspired"
-          ],
-          "skill_points": 1,
-          "rel": {
-            "team": 2
-          }
-        },
-        {
-          "label": "Set up a net",
-          "result": "You set up a net in your driveway and tell him it's his.",
-          "stats": {
-            "life": {
-              "social": 2
-            },
-            "football": {},
-            "personality": {
+              "leadership": 2,
               "charisma": 1
             }
           },
           "modifiers": [
-            "loose"
-          ],
-          "rel": {
-            "team": 1
-          }
+            "inspired"
+          ]
         },
         {
-          "label": "Watch from the window",
-          "result": "You watch from the window and remember.",
+          "label": "Set up a net in your driveway",
+          "result": "A net in your driveway, with a new ball, and a sign that says it's his. His mother brings you cookies.",
           "stats": {
             "life": {
-              "energy": 2,
+              "social": 2,
               "fun": 1
             },
             "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "followers": 1
+        },
+        {
+          "label": "Watch from the window",
+          "result": "From your kitchen window, every afternoon, you watch him kick against the recycling bin and remember, exactly, what it was like being that kid.",
+          "stats": {
+            "life": {
+              "energy": 2
+            },
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -380,15 +366,14 @@
       "id": "PRO_752",
       "title": "Running the Music",
       "category": "team",
-      "text": "You've been the locker room DJ for years, and a rookie wants the job.",
+      "text": "You've been the locker room DJ for six years, and a rookie wants the job. He has a speaker the size of a refrigerator and opinions about your playlists.",
       "choices": [
         {
-          "label": "Hand it over",
-          "result": "You hand it over with a speech. The room cheers.",
+          "label": "Hand it over with a speech",
+          "result": "The aux cord, handed over with a ceremony and a speech about responsibility. The room cheers, and he plays your favorite song first.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "fun": 1
             },
             "football": {},
             "personality": {
@@ -398,38 +383,36 @@
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
           "rel": {
-            "team": 2
+            "backup": 2
           }
         },
         {
           "label": "Share the job",
-          "result": "You share it. Fridays are his.",
+          "result": "Fridays are his, the rest are yours. It works, and his Fridays are better than you would ever admit out loud.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 3
+            "team": 2
           }
         },
         {
           "label": "Make him earn it",
-          "result": "You make him earn it. His playlist is better.",
+          "result": "A month of proving himself, playlist by playlist. His is better, and you admit it in front of the whole team meeting.",
           "stats": {
-            "life": {
-              "energy": -2
+            "life": {},
+            "football": {
+              "resilience": 1
             },
-            "football": {},
             "personality": {
               "ambition": 2
             }
@@ -437,7 +420,7 @@
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2
+          "skill_points": 1
         }
       ]
     },
@@ -637,25 +620,24 @@
       "id": "PRO_756",
       "title": "The Middle-Aged Rookie",
       "category": "team",
-      "text": "A thirty-year-old rookie kicker joins the club after years of tryouts and day jobs. Everyone keeps saying you two should talk.",
+      "text": "A thirty-year-old rookie kicker joins the club after years of tryouts, day jobs and empty stadiums at midnight. Everyone keeps saying you two should talk.",
       "choices": [
         {
           "label": "Talk to him",
           "result": "You talk to him over lunch. He spent six years kicking at midnight in a high school stadium, and you leave the table humbled.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 4
+            "backup": 4
           }
         },
         {
@@ -663,12 +645,11 @@
           "result": "You help him learn the league: travel, routines, which coaches mean what. He's grateful and fast, which makes you nervous.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 3
             }
           },
           "modifiers": [
@@ -676,17 +657,19 @@
           ],
           "skill_points": 1,
           "rel": {
-            "team": 2
+            "backup": 2
           }
         },
         {
           "label": "Stay focused",
-          "result": "You stay polite and focused. He's still competition, and his story won't keep your job for you.",
+          "result": "Polite, and focused on your job. He's still competition, whatever his story is, and his story won't keep your job for you.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -706,12 +689,12 @@
       "choices": [
         {
           "label": "Take notes",
-          "result": "You take notes. Some of it scares you, usefully, and you call your advisor on the drive home.",
+          "result": "Notes, pages of them, in the back row. Some of it scares you, usefully, and you call your advisor on the drive home.",
           "stats": {
-            "life": {
-              "energy": -1
+            "life": {},
+            "football": {
+              "resilience": 1
             },
-            "football": {},
             "personality": {
               "intelligence": 2
             }
@@ -732,14 +715,14 @@
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "leadership": 1
             }
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 3
+            "team": 2
           }
         },
         {

@@ -5,44 +5,44 @@
       "id": "PRO_636",
       "title": "The Pregnancy",
       "category": "family",
-      "text": "{love_interest} is pregnant, and the due date falls right in the middle of the season. You're thrilled, and already counting weeks on the schedule.",
+      "text": "{love_interest} is pregnant, and the due date falls right in the middle of the season. You're thrilled, terrified, and already counting weeks on the team schedule.",
       "choices": [
         {
           "label": "Plan to be there",
           "result": "You tell {coach} now that you'll miss a game if the baby comes on a Sunday. The coach says it's the right call and means it.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "love_interest": 6
+            "love_interest": 6,
+            "coach": 1
           }
         },
         {
           "label": "Make a plan with everyone",
           "result": "You make a plan with {love_interest}, the coach and both families: who's on call, which flights, which bags. It feels like a playbook, and it helps.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "love_interest": 2,
+            "parent": 1
           }
         },
         {
@@ -50,9 +50,11 @@
           "result": "You hope the baby comes in the bye week. You also keep a bag packed in the car and check your phone at every break.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -68,51 +70,51 @@
       "id": "PRO_637",
       "title": "The Baby's First Year",
       "category": "family",
-      "text": "Sleepless nights with a newborn during the season.",
+      "text": "Sleepless nights with a newborn, in the middle of the season. The baby wakes at two and four, practice starts at eight, and you've started falling asleep in film sessions.",
       "choices": [
         {
           "label": "Take the night shifts",
-          "result": "You take the night shifts on off days. You're tired and close.",
+          "result": "The night shifts on your off days, every one. You're tired and closer to {love_interest} and the baby than you've ever been to anyone.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "energy": -3
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "drained"
           ],
           "rel": {
             "love_interest": 5
           }
         },
         {
-          "label": "Sleep in shifts",
-          "result": "You and {love_interest} sleep in shifts by the schedule. It works, roughly.",
+          "label": "Sleep in shifts by schedule",
+          "result": "A sleep schedule, written on the fridge like a practice plan. It works, roughly, and nobody falls asleep in a meeting again.",
           "stats": {
             "life": {
-              "energy": -1
+              "health": 1
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
               "intelligence": 2
             }
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "rel": {
+            "love_interest": 2
+          }
         },
         {
-          "label": "Ask for help",
-          "result": "You ask the grandparents to come for a month. Everyone sleeps.",
+          "label": "Ask the grandparents for help",
+          "result": "The grandparents, invited for a month. Everyone sleeps, the house is loud and full, and {parent} becomes a diaper expert.",
           "stats": {
             "life": {
-              "energy": 2,
+              "energy": 3,
               "fun": 1
             },
             "football": {},
@@ -120,7 +122,10 @@
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "parent": 3
+          }
         }
       ]
     },
@@ -128,20 +133,19 @@
       "id": "PRO_638",
       "title": "The Daycare",
       "category": "family",
-      "text": "Finding daycare in a city where you might not live next year.",
+      "text": "Finding daycare in a city where you might not live next year. Every good place has a waiting list, and every waiting list asks how long you'll be in town.",
       "choices": [
         {
-          "label": "Do the research",
-          "result": "You visit six places and pick the best one.",
+          "label": "Visit every place",
+          "result": "Six daycares, visited in one week, with a notebook. You pick the best one and get on the list by being honest about the contract.",
           "stats": {
             "life": {
               "energy": -1
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -150,7 +154,7 @@
         },
         {
           "label": "Ask the team families",
-          "result": "You ask the other team families. They have a list and a group chat.",
+          "result": "The other team families, asked at the next game. They have a list, a group chat and a spot opening up in March.",
           "stats": {
             "life": {
               "social": 2
@@ -164,12 +168,12 @@
             "loose"
           ],
           "rel": {
-            "team": 3
+            "team": 2
           }
         },
         {
-          "label": "Hire a nanny for now",
-          "result": "You hire a nanny for the season and decide later.",
+          "label": "Hire a nanny for the season",
+          "result": "A nanny for the season, and a decision later. It's expensive and easy, and the baby adores her within a week.",
           "stats": {
             "life": {
               "energy": 2,
@@ -188,14 +192,15 @@
       "id": "PRO_639",
       "title": "The In-Laws",
       "category": "family",
-      "text": "{love_interest}'s family visits for two weeks during the season.",
+      "text": "{love_interest}'s family visits for two weeks during the season: parents, a grandmother, and a brother-in-law who is certain that kicking is easy and has a lot of advice about it.",
       "choices": [
         {
-          "label": "Be the host",
-          "result": "You make them feel welcome every evening. {love_interest} notices.",
+          "label": "Be the perfect host",
+          "result": "Every evening at home with them: dinners, card games, the grandmother's long stories. {love_interest} notices, and so does the grandmother.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "energy": -1
             },
             "football": {},
             "personality": {
@@ -211,10 +216,10 @@
         },
         {
           "label": "Keep your routine",
-          "result": "You keep your routine and see them at dinner.",
+          "result": "Your routine, unchanged, and you see them at dinner every night. It's polite and a little distant, and {love_interest} doesn't say anything.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": 1
             },
             "football": {},
             "personality": {
@@ -224,25 +229,28 @@
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2
+          "skill_points": 1,
+          "rel": {
+            "love_interest": -1
+          }
         },
         {
           "label": "Plan their days",
-          "result": "You plan their days so everyone has something to do.",
+          "result": "Their days, planned by you: the museum, the stadium tour, a lake. Everyone has something to do, and the brother-in-law gets a practice pass.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "rel": {
+            "love_interest": 2
+          }
         }
       ]
     },
@@ -250,41 +258,36 @@
       "id": "PRO_640",
       "title": "The Kicking Video Series",
       "category": "media",
-      "text": "You start a video series teaching kids how to kick.",
+      "text": "You start a video series teaching kids how to kick, filmed in your backyard on a phone. The first episode has more views than your team's highlight reel.",
       "choices": [
         {
-          "label": "Make it good",
-          "result": "You make it good: real drills, real mistakes, real fixes.",
+          "label": "Make it really good",
+          "result": "Real drills, real mistakes, real fixes, and a lot of editing late at night. Coaches start using it in practice.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 2,
+              "intelligence": 1
             }
           },
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
-          "rel": {
-            "team": 2
-          },
           "followers": 4
         },
         {
-          "label": "Bring in {holder}",
-          "result": "You bring {holder} in for an episode. It's the most popular one.",
+          "label": "Bring {holder} in",
+          "result": "{holder}, invited for an episode on holding. It's the most popular one by far, because {holder} is much funnier on camera than you.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -296,13 +299,15 @@
         },
         {
           "label": "Keep it simple",
-          "result": "You film one video a month on your phone.",
+          "result": "One video a month on your phone, unedited. It's honest and charming, and it never takes more than an hour.",
           "stats": {
             "life": {
               "energy": 2,
               "fun": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -316,42 +321,39 @@
       "id": "PRO_641",
       "title": "The Podcast Guest Spot",
       "category": "media",
-      "text": "A podcast wants you every week, and the host likes controversy.",
+      "text": "A popular podcast wants you as a weekly guest. The host likes controversy and has a reputation for getting athletes to say things about their teammates.",
       "choices": [
         {
-          "label": "Set your terms",
-          "result": "You agree on terms: no teammates, no coaches. It's good radio.",
+          "label": "Set your terms first",
+          "result": "Terms, agreed up front: no teammates, no coaches, no locker room. It's good radio anyway, and the host respects the line.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
           ],
-          "rel": {
-            "coach": 2
-          },
           "followers": 2
         },
         {
-          "label": "Say yes",
-          "result": "You say yes and say too much once. You apologize to a teammate.",
+          "label": "Say yes and wing it",
+          "result": "Yes, and you're great at it, until the fourth episode, when you say too much about a teammate. You apologize to him in person.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "charisma": 2
             }
           },
           "modifiers": [
-            "loose"
+            "spotlight"
           ],
           "rel": {
             "team": -1
@@ -359,14 +361,15 @@
           "followers": 5
         },
         {
-          "label": "Decline",
-          "result": "You decline. The host finds another kicker.",
+          "label": "Pass on the podcast",
+          "result": "No podcast this year. The host finds another kicker, who says something he regrets by October, and you're quietly relieved.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -379,51 +382,55 @@
       "id": "PRO_642",
       "title": "The Teammate Who Becomes a Friend",
       "category": "social",
-      "text": "A teammate becomes your closest friend in the league.",
+      "text": "A teammate has become your closest friend in the league: same humor, same bad taste in movies, families who get along. You realize it on a road trip, laughing at three in the morning.",
       "choices": [
         {
           "label": "Make time for it",
-          "result": "You make time: dinners, families, the off days.",
+          "result": "Time, made on purpose: dinners, families, the off days together. The friendship becomes the best part of the whole job.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 3,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 5
+            "team": 3
           }
         },
         {
-          "label": "Train together",
-          "result": "You train together in the offseason. You both get better.",
+          "label": "Train together all summer",
+          "result": "A whole summer of training together, every morning. You both get better, and the friendship gets a rhythm of its own.",
           "stats": {
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "power": 1
+            },
             "personality": {
-              "ambition": 2
+              "ambition": 1
             }
           },
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2
+          "skill_points": 2,
+          "rel": {
+            "team": 1
+          }
         },
         {
           "label": "Keep it easy",
-          "result": "You keep it easy. Some friendships don't need work.",
+          "result": "No effort required, and none spent. Some friendships don't need any work at all, and this one never does, even years later.",
           "stats": {
             "life": {
               "energy": 2,
-              "fun": 1
+              "fun": 2
             },
             "football": {},
             "personality": {}
@@ -438,22 +445,22 @@
       "id": "PRO_643",
       "title": "The Holder's Wedding",
       "category": "social",
-      "text": "{holder} asks you to be in the wedding party.",
+      "text": "{holder} asks you to be in the wedding party. It's in June, in {holder}'s hometown, and there's a rehearsal dinner where you're expected to say something.",
       "choices": [
         {
-          "label": "Say yes with joy",
-          "result": "You say yes and give a toast nobody forgets.",
+          "label": "Say yes and give a toast",
+          "result": "Yes, and a toast at the rehearsal dinner that nobody forgets: the first hold, the bad haircut, the night they saved your season.",
           "stats": {
             "life": {
               "social": 2
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "charisma": 2
             }
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
             "holder": 5
@@ -461,36 +468,41 @@
         },
         {
           "label": "Organize the weekend",
-          "result": "You organize the whole weekend so {holder} doesn't have to.",
+          "result": "The whole weekend, organized by you: the hotel block, the shuttle, the backup suits. {holder} doesn't lift a finger and cries about it.",
           "stats": {
             "life": {
-              "energy": -1
+              "energy": -2
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "leadership": 2,
+              "intelligence": 1
             }
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "rel": {
+            "holder": 3
+          }
         },
         {
-          "label": "Show up, enjoy it",
-          "result": "You show up, stand where they tell you and enjoy the day.",
+          "label": "Show up and enjoy it",
+          "result": "Showing up, standing where they tell you, dancing badly at the reception. You enjoy every minute, and {holder} says it was perfect.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 1,
+              "fun": 3
             },
             "football": {},
             "personality": {}
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "holder": 2
+          }
         }
       ]
     },
@@ -498,14 +510,15 @@
       "id": "PRO_644",
       "title": "The Fan Club",
       "category": "media",
-      "text": "Fans start an official fan club, and they want you at the first meeting.",
+      "text": "Fans start an official fan club in your name, with T-shirts and a newsletter. They want you at the first meeting, in the back room of a pizza place on a Tuesday.",
       "choices": [
         {
           "label": "Go to the meeting",
-          "result": "You go and stay two hours. They make you an honorary member.",
+          "result": "Two hours in the back room of the pizza place. They make you an honorary member, and the T-shirt becomes your favorite shirt.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
             "personality": {
@@ -515,40 +528,37 @@
           "modifiers": [
             "loose"
           ],
-          "rel": {
-            "team": 1
-          },
           "followers": 4
         },
         {
-          "label": "Send a message",
-          "result": "You send a recorded message and a signed ball.",
+          "label": "Send a message and a ball",
+          "result": "A recorded message and a signed ball for the raffle. They play the message three times and frame the ball.",
           "stats": {
-            "life": {
-              "energy": -1
+            "life": {},
+            "football": {
+              "resilience": 1
             },
-            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 1,
+              "charisma": 1
             }
           },
           "modifiers": [
             "focused"
           ],
-          "rel": {
-            "coach": 2
-          },
           "followers": 2
         },
         {
           "label": "Thank them online",
-          "result": "You thank them online and keep your evening.",
+          "result": "A thank-you post, and your Tuesday stays your own. The club grows anyway, without you, which feels a little strange and kind of nice.",
           "stats": {
             "life": {
               "energy": 2,
               "fun": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -561,16 +571,18 @@
       "id": "PRO_645",
       "title": "The Rival's Big Contract",
       "category": "media",
-      "text": "{tyler} signs a bigger contract than yours, and the media want a comment.",
+      "text": "{tyler} signs a bigger contract than yours, by a lot, and the media want a comment. A reporter reads you the number, slowly, and waits.",
       "choices": [
         {
           "label": "Congratulate him",
-          "result": "You congratulate him, and mean it. He texts you thanks.",
+          "result": "Congratulations, publicly, and you mean it. He texts you thanks within the hour and a photo of the two of you at seventeen.",
           "stats": {
             "life": {
               "social": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {
               "charisma": 1
             }
@@ -583,17 +595,15 @@
           }
         },
         {
-          "label": "Say nothing",
-          "result": "You decline to comment. It makes a headline anyway.",
+          "label": "Decline to comment",
+          "result": "No comment, politely, and you walk away from the cameras. It makes a headline anyway: 'Kicker silent on rival's huge new deal.'",
           "stats": {
             "life": {
-              "energy": -1
+              "energy": 1
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 1
             }
           },
           "modifiers": [
@@ -601,14 +611,14 @@
           ]
         },
         {
-          "label": "Use it",
-          "result": "You put the number on your locker where only you can see it.",
+          "label": "Keep the number private",
+          "result": "The number, written on a card, goes inside your locker where only you can see it. Every practice that month has a little more in it.",
           "stats": {
             "life": {
               "energy": -2
             },
             "football": {
-              "resilience": 1
+              "power": 1
             },
             "personality": {
               "ambition": 2
@@ -625,41 +635,37 @@
       "id": "PRO_646",
       "title": "The Charity Golf Tournament",
       "category": "community",
-      "text": "You host a charity golf tournament for the first time.",
+      "text": "You host your own charity golf tournament for the first time: thirty-six foursomes, a silent auction, and a sponsor who keeps asking for 'more visibility'.",
       "choices": [
         {
           "label": "Run it yourself",
-          "result": "You run it yourself, from the sign-up sheet to the last trophy.",
+          "result": "Every detail, run by you, from the sign-up sheet to the last trophy. You're exhausted, and the tournament raises twice the goal.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -3
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 2,
+              "intelligence": 1,
+              "charisma": 1
             }
           },
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
-          "rel": {
-            "team": 2
-          },
           "followers": 2
         },
         {
-          "label": "Invite the old crew",
-          "result": "You invite your college teammates. It turns into a reunion.",
+          "label": "Invite the old college crew",
+          "result": "Your college teammates, invited, and {best_friend} runs the auction. It turns into a reunion, and the bidding gets very competitive.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 3,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -669,12 +675,10 @@
           }
         },
         {
-          "label": "Find a sponsor",
-          "result": "You find a sponsor to cover the costs. It raises twice as much.",
+          "label": "Find a sponsor to run it",
+          "result": "A sponsor who covers everything and handles the details. It raises more than you'd have alone, and feels less like yours.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
               "resilience": 1
             },
@@ -692,19 +696,18 @@
       "id": "PRO_647",
       "title": "The Investment Club",
       "category": "money",
-      "text": "A group of teammates forms an investment club and wants you in.",
+      "text": "A group of teammates forms an investment club: monthly meetings, a shared account, a lot of opinions about technology stocks. They want you in, and the first meeting is at the quarterback's house.",
       "choices": [
         {
           "label": "Join the club",
-          "result": "You join. The meetings are mostly jokes and some good ideas.",
+          "result": "Joined. The meetings are mostly jokes and some good ideas, and the account does fine, and the friendships do better.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -715,12 +718,12 @@
         },
         {
           "label": "Join with limits",
-          "result": "You join with a small amount and one rule: nothing you don't understand.",
+          "result": "In, with a small amount and one rule: nothing you don't understand. You end up explaining index funds to a linebacker, who becomes your biggest convert.",
           "stats": {
-            "life": {
-              "energy": -1
+            "life": {},
+            "football": {
+              "resilience": 1
             },
-            "football": {},
             "personality": {
               "intelligence": 2
             }
@@ -736,14 +739,16 @@
           }
         },
         {
-          "label": "Stay out",
-          "result": "You stay out. Money and friends don't mix for you.",
+          "label": "Keep money and friends apart",
+          "result": "Money and friends don't mix, for you. You stay out, politely, and still go to the meetings for the food.",
           "stats": {
             "life": {
               "energy": 2,
               "fun": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -756,15 +761,13 @@
       "id": "PRO_648",
       "title": "The Second Car",
       "category": "money",
-      "text": "You buy a second car, and then realize you never drive the first one.",
+      "text": "You buy a second car on a whim after a good week, a convertible in a color the salesman called 'victory'. Then you realize you haven't driven the first one in a month.",
       "choices": [
         {
-          "label": "Sell one",
-          "result": "You sell one and feel smarter for it.",
+          "label": "Sell one of them",
+          "result": "One of them goes back on the market by Friday, at a loss. You feel smarter for it, and a little silly every time you see a convertible.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
               "resilience": 1
             },
@@ -777,16 +780,15 @@
           ]
         },
         {
-          "label": "Give one to {sibling}",
-          "result": "You give the old one to {sibling}. He cries a little.",
+          "label": "Give the old one to {sibling}",
+          "result": "The old car, keys and all, goes to {sibling}, who cries in the driveway and then honks the horn for ten straight seconds.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -796,15 +798,17 @@
           }
         },
         {
-          "label": "Keep both",
-          "result": "You keep both. They sit in the driveway, shining.",
+          "label": "Keep both cars",
+          "result": "Both stay. They sit side by side in the driveway, shining, and the insurance bill makes you laugh out loud in a bad way.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "fun": 2,
+              "energy": 1
             },
             "football": {},
-            "personality": {}
+            "personality": {
+              "charisma": 1
+            }
           },
           "modifiers": [
             "rested"

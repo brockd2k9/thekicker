@@ -5,17 +5,17 @@
       "id": "PRO_371",
       "title": "The Financial Mistake",
       "category": "money",
-      "text": "An investment or a purchase wasn't as smart as it looked.",
+      "text": "An investment you were sure about turns out not to be smart: a restaurant that closed, a fund that froze, a statement you read three times in the car outside the facility.",
       "choices": [
         {
           "label": "Cut the loss",
-          "result": "You cut the loss and learn from it. It stings for a month.",
+          "result": "The loss, cut cleanly, and a lesson learned. It stings for a month, and then it becomes a story you tell rookies.",
           "stats": {
             "life": {
-              "energy": -1
+              "fun": -1
             },
             "football": {
-              "resilience": 1
+              "resilience": 2
             },
             "personality": {
               "intelligence": 2
@@ -26,32 +26,35 @@
           ]
         },
         {
-          "label": "Tell {love_interest}",
-          "result": "You tell {love_interest} the whole thing. It's a hard talk and a good one.",
+          "label": "Tell {love_interest} everything",
+          "result": "Everything, at the kitchen table, including the part you were embarrassed about. It's a hard talk and a good one, and you make the next decision together.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 1,
+              "energy": -1
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "leadership": 1
             }
           },
           "modifiers": [
-            "loose"
+            "drained"
           ],
           "rel": {
-            "love_interest": 3
+            "parent": 2
           }
         },
         {
-          "label": "Make it back",
-          "result": "You throw yourself into work to forget it. It doesn't quite work.",
+          "label": "Bury it in work",
+          "result": "Work, to forget it: early mornings, long sessions, no thinking. It doesn't quite work, and the statement is still in the glove box.",
           "stats": {
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "power": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -63,7 +66,7 @@
         },
         {
           "label": "Call the advisor you trust",
-          "result": "You call the one advisor who has always told you the truth. You make a plan, and you stick to it.",
+          "result": "The one advisor who has always told you the truth gets a call that afternoon. You make a plan together, you stick to it, and the hole closes by spring.",
           "stats": {
             "life": {
               "energy": 1
@@ -90,55 +93,57 @@
       "id": "PRO_372",
       "title": "The Family Conversation",
       "category": "family",
-      "text": "You and {love_interest} talk about starting a family, and neither of you knows the right time.",
+      "text": "You and {love_interest} start talking about starting a family, late at night, and neither of you knows the right time. The schedule, the contract, the next city: everything feels uncertain.",
       "choices": [
         {
-          "label": "Say now",
-          "result": "You both say now. It's terrifying and right.",
+          "label": "Decide on now",
+          "result": "Now, you both say, at almost the same moment. It's terrifying and right, and you laugh for ten minutes afterward.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
             "love_interest": 5
           }
         },
         {
-          "label": "Make a plan",
-          "result": "You make a plan around the contract and the seasons.",
+          "label": "Plan around the seasons",
+          "result": "A plan, built around the contract and the seasons: when, where, who helps. It's sensible, and it makes the dream feel real.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "love_interest": 2
+          }
+        },
+        {
+          "label": "Agree to wait",
+          "result": "Waiting, for now, you both agree. The conversation comes back every few months, a little more urgent each time, and a little warmer.",
           "stats": {
             "life": {
-              "energy": -1
+              "energy": 1
             },
             "football": {
               "resilience": 1
             },
             "personality": {
-              "intelligence": 2
+              "ambition": 1
             }
-          },
-          "modifiers": [
-            "focused"
-          ]
-        },
-        {
-          "label": "Wait",
-          "result": "You agree to wait. The conversation comes back every few months.",
-          "stats": {
-            "life": {
-              "energy": 2,
-              "fun": 1
-            },
-            "football": {},
-            "personality": {}
           },
           "modifiers": [
             "rested"
@@ -150,18 +155,19 @@
       "id": "PRO_373",
       "title": "The Family Business",
       "category": "money",
-      "text": "A cousin wants your money and your name to expand the family store into three towns. The whole family is waiting for your answer.",
+      "text": "A cousin wants your money and your name to expand the family store into three towns. The whole family is waiting for your answer, and Thanksgiving is in two weeks.",
       "choices": [
         {
           "label": "Invest",
           "result": "You invest and put your name on the sign. The opening is a family party, and for the first time in years, everyone is in one room.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -178,9 +184,7 @@
           "label": "Invest, quietly",
           "result": "You put in money but keep your name off the sign. It's safer, and your cousin is a little hurt by the distance.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
               "resilience": 1
             },
@@ -196,19 +200,24 @@
           }
         },
         {
-          "label": "Say no",
-          "result": "You say no, kindly and clearly. Thanksgiving is quieter this year, and you're sure it was the right answer, mostly.",
+          "label": "Turn the cousin down",
+          "result": "No, as kindly and clearly as you can manage. Thanksgiving is quieter this year, and you're sure it was the right answer, mostly.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 1,
+              "fun": -1
             },
             "football": {},
-            "personality": {}
+            "personality": {
+              "ambition": 1
+            }
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "parent": -1
+          }
         }
       ]
     },
@@ -216,58 +225,58 @@
       "id": "PRO_374",
       "title": "The Memorabilia Deal",
       "category": "money",
-      "text": "A collector wants to pay you to sign five hundred footballs.",
+      "text": "A memorabilia collector wants to pay you to sign five hundred footballs in one afternoon, in a hotel ballroom, with a man counting and a camera to prove each one is real.",
       "choices": [
         {
-          "label": "Sign them all",
-          "result": "You sign all five hundred in one long afternoon. Your hand hurts for days.",
+          "label": "Sign all five hundred",
+          "result": "Five hundred signatures in one long afternoon. Your hand hurts for days, the check is large, and the man counting never smiles once.",
           "stats": {
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "toughness": 1
+            },
             "personality": {
               "ambition": 2
             }
           },
           "modifiers": [
-            "dialed_in"
-          ],
-          "skill_points": 2
+            "tired"
+          ]
         },
         {
-          "label": "Sign some for charity",
-          "result": "You sign them and ask for a hundred extra for the children's hospital.",
+          "label": "Add a hundred for charity",
+          "result": "All five hundred, plus a hundred extra for the children's hospital auction. The auction raises more than your check, and the collector pays for the extra hundred.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 1
             },
             "football": {},
             "personality": {
+              "leadership": 2,
               "charisma": 1
             }
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
-          "rel": {
-            "team": 1
-          },
           "followers": 2
         },
         {
-          "label": "Pass",
-          "result": "You pass. You'd rather sign them for kids at the fence.",
+          "label": "Sign for kids at the fence",
+          "result": "No ballroom, no counting man. You'd rather sign for kids at the practice fence, for free, and you do, every Thursday.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 1,
+              "fun": 2,
+              "social": 1
             },
             "football": {},
             "personality": {}
           },
           "modifiers": [
-            "rested"
+            "loose"
           ]
         }
       ]
@@ -276,35 +285,32 @@
       "id": "PRO_375",
       "title": "The Young Kicker's Question",
       "category": "social",
-      "text": "A college kicker emails you for career advice, and it's a good question.",
+      "text": "A college kicker emails you for career advice. It's a long email, carefully written, and the question at the end is a good one: how do you know when to change and when to wait?",
       "choices": [
         {
           "label": "Write a real answer",
-          "result": "You write a long, honest answer. He prints it out.",
+          "result": "A long, honest answer, written over two evenings. He prints it out, and two years later he sends you a photo of it taped inside his locker.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -1
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 2,
+              "intelligence": 1
             }
           },
           "modifiers": [
             "inspired"
-          ],
-          "skill_points": 1,
-          "rel": {
-            "team": 2
-          }
+          ]
         },
         {
-          "label": "Call him",
-          "result": "You call him instead. You talk for an hour.",
+          "label": "Call him instead",
+          "result": "A phone call instead of an email. You talk for an hour, and he sounds exactly like you did at twenty, which is strange and a little moving.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
             "personality": {
@@ -315,18 +321,19 @@
             "loose"
           ],
           "rel": {
-            "team": 3
+            "backup": 1
           }
         },
         {
           "label": "Send a short reply",
-          "result": "You send a short reply and a good luck.",
+          "result": "A short, kind reply and a 'good luck'. He's grateful, and you wonder later what the longer answer would have been.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -339,20 +346,17 @@
       "id": "PRO_376",
       "title": "The Retirement Savings",
       "category": "money",
-      "text": "A financial advisor reviews your long-term plan and asks a question you can't answer.",
+      "text": "A financial advisor reviews your long-term plan and asks a question you can't answer: what does your life cost after football, per year, in today's money?",
       "choices": [
         {
           "label": "Learn the answer",
-          "result": "You learn the answer, and the next ten questions too.",
+          "result": "The answer, learned over two weeks of spreadsheets, and the next ten questions too. You understand your own money for the first time, and it's calming.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -363,27 +367,27 @@
           }
         },
         {
-          "label": "Bring {love_interest}",
-          "result": "You bring {love_interest} to the next meeting. You make the plan together.",
+          "label": "Bring {parent} to the next meeting",
+          "result": "{parent} comes to the next meeting with a legal pad and better questions than yours. You make the plan together, and he insists on paying for lunch.",
           "stats": {
             "life": {
               "social": 2
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "intelligence": 1
             }
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "love_interest": 3
+            "parent": 3
           }
         },
         {
           "label": "Trust the advisor",
-          "result": "You trust the advisor and stop asking questions.",
+          "result": "The advisor knows best, you decide, and stop asking questions. It's easy and restful, and you never learn the number.",
           "stats": {
             "life": {
               "energy": 2,
@@ -402,14 +406,15 @@
       "id": "PRO_377",
       "title": "The Public Appearance",
       "category": "media",
-      "text": "You're asked to attend a high-profile event in a suit you don't own yet.",
+      "text": "You're invited to a high-profile charity gala in black tie: actors, owners, a senator, a string quartet. You don't own a tuxedo, and the event is Saturday.",
       "choices": [
         {
           "label": "Go and enjoy it",
-          "result": "You buy the suit and enjoy the night. You meet people you didn't know existed.",
+          "result": "A rented tuxedo, a long night and people you didn't know existed. You enjoy it more than you expected, and someone from a children's charity asks for your number.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
             "personality": {
@@ -419,23 +424,17 @@
           "modifiers": [
             "loose"
           ],
-          "rel": {
-            "love_interest": 3
-          },
           "followers": 2
         },
         {
-          "label": "Go and network",
-          "result": "You go with a plan and leave with three useful numbers.",
+          "label": "Go with a purpose",
+          "result": "A plan, three introductions, and home by eleven. You leave with three useful numbers and a sponsor for your youth camp.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -443,14 +442,15 @@
           ]
         },
         {
-          "label": "Skip it",
-          "result": "You skip it and stay home. Nobody notices but your agent.",
+          "label": "Stay home",
+          "result": "Home, in sweatpants, with takeout and a movie. Nobody at the gala notices except your agent, who sends a single sad emoji at midnight.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -463,61 +463,68 @@
       "id": "PRO_378",
       "title": "The Family Holiday",
       "category": "family",
-      "text": "The schedule lands on a family holiday again.",
+      "text": "The schedule lands on a family holiday again, the third year in a row. {parent} has already set a place for you at the table, just in case.",
       "choices": [
         {
           "label": "Bring the holiday to you",
-          "result": "You fly the family in for the weekend. Dinner is in a hotel, and it's still home.",
+          "result": "The whole family, flown in for the weekend. Dinner is in a hotel ballroom, and it's still home, and {sibling} carves the turkey badly.",
           "stats": {
             "life": {
-              "social": 2
-            },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
-          },
-          "modifiers": [
-            "loose"
-          ],
-          "rel": {
-            "parent": 4
-          }
-        },
-        {
-          "label": "Keep your routine",
-          "result": "You keep your routine and call between meetings.",
-          "stats": {
-            "life": {
+              "social": 2,
+              "fun": 2,
               "energy": -2
             },
             "football": {},
-            "personality": {
-              "ambition": 2
-            }
+            "personality": {}
           },
           "modifiers": [
-            "dialed_in"
+            "inspired"
           ],
-          "skill_points": 2
+          "rel": {
+            "parent": 3,
+            "sibling": 2
+          }
         },
         {
-          "label": "Celebrate a day late",
-          "result": "You plan a celebration for the day after. Everyone says it's fine. It mostly is.",
+          "label": "Keep your routine and call",
+          "result": "Your routine, and a long call between meetings. They put you on speaker at the table, and you hear everyone laughing.",
           "stats": {
             "life": {
-              "energy": -1
+              "energy": 1
             },
             "football": {
               "resilience": 1
             },
             "personality": {
-              "intelligence": 2
+              "ambition": 1
             }
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "rel": {
+            "parent": 1
+          }
+        },
+        {
+          "label": "Plan a second celebration",
+          "result": "A second holiday, planned for the bye week, with everything: the dishes, the games, the arguments. Everyone says it's fine. It mostly is.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "parent": 2
+          }
         }
       ]
     },
@@ -525,19 +532,18 @@
       "id": "PRO_379",
       "title": "The Teammates' Dispute",
       "category": "team",
-      "text": "Two teammates ask you to settle an argument, which means picking a side.",
+      "text": "Two teammates ask you to settle an argument about who gets the corner locker by the heater. It's been going on for a week, and they both say you're the only fair one.",
       "choices": [
         {
           "label": "Make them talk it out",
-          "result": "You make them talk it out in front of you. It works.",
+          "result": "Both of them, in a room, talking it out in front of you. It takes forty minutes, ends with a handshake, and they decide to share.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 3
             }
           },
           "modifiers": [
@@ -550,12 +556,12 @@
         },
         {
           "label": "Pick the right side",
-          "result": "You listen and pick the side that's right. One of them sulks for a week.",
+          "result": "The right side, after listening to both. One of them sulks for a week, and then admits you were right, grudgingly.",
           "stats": {
-            "life": {
-              "energy": -1
+            "life": {},
+            "football": {
+              "resilience": 1
             },
-            "football": {},
             "personality": {
               "intelligence": 2
             }
@@ -564,13 +570,12 @@
             "focused"
           ],
           "rel": {
-            "coach": 2,
             "team": -1
           }
         },
         {
-          "label": "Stay out of it",
-          "result": "You tell them to settle it themselves.",
+          "label": "Let them settle it",
+          "result": "Settle it yourselves, you tell them, and walk away. They do, eventually, with a coin flip, some shouting and a handshake.",
           "stats": {
             "life": {
               "energy": 2,
@@ -589,38 +594,33 @@
       "id": "PRO_380",
       "title": "The Sponsored Posts",
       "category": "media",
-      "text": "A company offers to pay for sponsored posts, and the product is fine, mostly.",
+      "text": "A supplement-free sports drink company offers to pay you for sponsored posts. The product is fine, mostly, and the contract has a clause about 'authentic enthusiasm'.",
       "choices": [
         {
           "label": "Take the deal",
-          "result": "You take the deal. The posts do well and feel a little hollow.",
+          "result": "The deal, signed. The posts do well, the money is real, and the 'authentic enthusiasm' feels a little hollow every time.",
           "stats": {
             "life": {
-              "energy": -2
+              "fun": 1
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
               "ambition": 2
             }
           },
           "modifiers": [
-            "dialed_in"
+            "spotlight"
           ],
-          "skill_points": 2,
           "followers": 3
         },
         {
-          "label": "Test it first",
-          "result": "You use the product for a month before you post. It's actually good.",
+          "label": "Test it for a month",
+          "result": "A month of actually drinking it before you post a word. It's genuinely good, and your posts say so honestly.",
           "stats": {
             "life": {
-              "energy": -1
+              "health": 1
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
               "intelligence": 2
             }
@@ -631,14 +631,15 @@
           "followers": 2
         },
         {
-          "label": "Decline",
-          "result": "You decline. Your page stays yours.",
+          "label": "Keep your page yours",
+          "result": "No sponsored posts, ever. Your page stays yours, full of your dog, your family and very bad photos of sunsets.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -651,19 +652,18 @@
       "id": "PRO_381",
       "title": "The Long-Term Commitment",
       "category": "family",
-      "text": "{love_interest} wants to talk about where you'll live after football.",
+      "text": "{love_interest} wants to talk about where you'll live after football. It's a quiet Sunday, and they've made a list of places on the back of an envelope.",
       "choices": [
         {
           "label": "Let {love_interest} choose",
-          "result": "You let {love_interest} choose. It's the right call.",
+          "result": "Their choice, from the envelope: a town near the coast, near their family. It's the right call, and you both know it.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -673,40 +673,42 @@
           }
         },
         {
-          "label": "Make a list together",
-          "result": "You make a list together. Your hometown wins.",
+          "label": "Make the list together",
+          "result": "A list together, with pros and cons in two colors. Your hometown wins by a point, and {parent} cries on the phone when you tell him.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
           ],
           "rel": {
-            "parent": 1
+            "love_interest": 2,
+            "parent": 2
           }
         },
         {
-          "label": "Not yet",
-          "result": "You say there's time. {love_interest} says there isn't always.",
+          "label": "Say there's still time",
+          "result": "There's still time, you say. {love_interest} says there isn't always, and puts the envelope away in a drawer you both pretend not to see.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 1
             },
             "football": {},
-            "personality": {}
+            "personality": {
+              "ambition": 1
+            }
           },
           "modifiers": [
-            "rested"
-          ]
+            "distracted"
+          ],
+          "rel": {
+            "love_interest": -2
+          }
         }
       ]
     },
@@ -714,39 +716,40 @@
       "id": "PRO_382",
       "title": "The Injury Prevention Program",
       "category": "health",
-      "text": "The club wants you on a new training and recovery routine.",
+      "text": "The club wants you on a new training and recovery program: sleep tracking, cold tubs, a mobility routine at six in the morning. The sports science staff is very excited about it.",
       "choices": [
         {
-          "label": "Follow it exactly",
-          "result": "You follow it exactly. Your legs feel younger by October.",
+          "label": "Follow it to the letter",
+          "result": "Every piece of it, exactly. Your legs feel younger by October, and the sports science staff starts using your numbers in presentations.",
           "stats": {
             "life": {
-              "energy": -1
+              "energy": -1,
+              "health": 3
             },
             "football": {
               "toughness": 1
             },
-            "personality": {
-              "intelligence": 2
-            }
+            "personality": {}
           },
           "modifiers": [
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "coach": 1
           }
         },
         {
           "label": "Add your own work",
-          "result": "You do it and add your own work on top. You're stronger, and tired.",
+          "result": "The program, plus your own work on top. You're stronger and more tired, and the staff worries quietly about the extra load.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -3
             },
-            "football": {},
+            "football": {
+              "power": 2
+            },
             "personality": {
-              "ambition": 2
+              "ambition": 1
             }
           },
           "modifiers": [
@@ -756,11 +759,12 @@
         },
         {
           "label": "Do the minimum",
-          "result": "You do the minimum. The trainers notice.",
+          "result": "The minimum: the cold tubs, never the six o'clock mobility. The trainers notice right away, and so, by December, does your hip.",
           "stats": {
             "life": {
               "energy": 2,
-              "fun": 1
+              "fun": 1,
+              "health": -1
             },
             "football": {},
             "personality": {}
@@ -775,19 +779,18 @@
       "id": "PRO_383",
       "title": "The Younger Teammate's Mistake",
       "category": "team",
-      "text": "A rookie makes a mistake and comes to you, not the coaches.",
+      "text": "A rookie makes a mistake: he missed a meeting, then lied about why. He comes to you, not the coaches, white-faced, asking what to do before anyone finds out.",
       "choices": [
         {
           "label": "Walk him to the coaches",
-          "result": "You walk him to the coaches and stand beside him while he tells them.",
+          "result": "Down the hall, together, and you stand beside him while he tells them. It goes better than he feared, and he never lies to a coach again.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 3
             }
           },
           "modifiers": [
@@ -795,17 +798,20 @@
           ],
           "skill_points": 1,
           "rel": {
-            "team": 2
+            "coach": 1,
+            "team": 1
           }
         },
         {
           "label": "Listen first",
-          "result": "You listen first and help him find the words.",
+          "result": "Listening first, all of it, and then helping him find the words. He goes in alone, which matters to him.",
           "stats": {
             "life": {
               "social": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {
               "charisma": 1
             }
@@ -814,27 +820,23 @@
             "loose"
           ],
           "rel": {
-            "team": 3
+            "backup": 2
           }
         },
         {
           "label": "Tell him what you'd do",
-          "result": "You tell him exactly what you'd do. He does it.",
+          "result": "Exactly what you'd do, step by step. He does it, it works, and he thanks you without quite looking at you.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         }
       ]
     }
