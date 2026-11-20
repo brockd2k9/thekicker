@@ -20,6 +20,26 @@ extends RefCounted
 
 const CONCERNS := "character_concerns"
 const REBUILT := "rebuilt_reputation"
+## Story flag: dismissed from the team, carried out at season end (pros: a
+## release; college: out of the program and the draft, to the open tryout).
+const DISMISSED := "dismissed"
+
+
+## What "dismissed" means for this player (Hub notice, season summary); ""
+## where it does nothing (high school and junior college).
+static func dismissed_text(c: CareerData) -> String:
+	match c.stage:
+		CareerData.STAGE_PRO:
+			return "DISMISSED: the team will release you at the end of the season, however you kick."
+		CareerData.STAGE_COLLEGE:
+			return "DISMISSED: at the end of the season you leave the program, and you won't be drafted. " \
+				+ "Your way back is an open tryout."
+	return ""
+
+
+## Dismissed and it will be carried out (college and the pros only).
+static func is_dismissed(c: CareerData) -> bool:
+	return bool(c.flags.get(DISMISSED, false)) and c.stage in [CareerData.STAGE_COLLEGE, CareerData.STAGE_PRO]
 
 ## Dev hook for the balance simulator: true = reputation and suspensions have
 ## no effect (before / after comparisons). Never set in the game.
@@ -67,6 +87,11 @@ static func retention_adjust(c: CareerData, t: CareerTuning) -> float:
 ## and a line on this week's Results).
 static func on_flags(c: CareerData, set_flags: Dictionary, t: CareerTuning) -> void:
 	var text := ""
+	if set_flags.get(DISMISSED, false):
+		text = dismissed_text(c)
+		if text != "":
+			c.notice = text if c.notice == "" else c.notice + " " + text
+		return
 	if set_flags.get(REBUILT, false):
 		text = "You've rebuilt your reputation. Scouts and teams notice: no character penalty on draft day%s." \
 			% (", and a little extra standing early in the pros" if t.rep_rebuilt_retention > 0.0 else "")

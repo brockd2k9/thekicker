@@ -315,6 +315,8 @@ static func validate() -> PackedStringArray:
 			if sc.get("when", []) != ["offseason"] and not (wk is Array and wk.size() == 2):
 				problems.append("scenario %s: story needs weeks [first, last] (or when [offseason])" % id)
 		_check_requires(problems, "scenario %s" % id, sc.get("requires", {}))
+		if sc.has("once_per_club") and not (sc["once_per_club"] is bool):
+			problems.append("scenario %s: once_per_club must be true or false" % id)
 		if sc.get("draft", false):
 			# No text or choices yet: only the graph data is checked.
 			if str(sc.get("title", "")) == "":
@@ -392,7 +394,9 @@ static func validate() -> PackedStringArray:
 
 ## Flags the game itself sets (CareerManager), not scenario choices.
 const ENGINE_FLAGS := ["walk_on", "juco", "failed_tryouts", "fa_attempts", "recruiting_update",
-	"traits_reported", "kicking_slump", "kick_slumps"]
+	"traits_reported", "kicking_slump", "kick_slumps", "coach_lost_faith", "benched", "benched_for_tyler",
+	"won_job_back", "lost_audition", "contract_year", "re_signed", "released", "signed_new_club", "pro_clubs",
+	"was_dismissed", "reputation_week", "reputation_text"]
 const _STAGE_ORDER := {"high_school": 0, "juco": 1, "college": 2, "pro": 3, "free_agent": 3}
 
 

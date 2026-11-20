@@ -203,6 +203,8 @@ var last_challenge: Dictionary = {}
 ## none. suspensions_total: career count. Rules: Reputation.
 var suspension: Dictionary = {}
 var suspensions_total: int = 0
+## Field goals of yours in a row: +n makes / -n misses (games only).
+var fg_streak: int = 0
 
 
 ## A fresh career with starting stats from the tuning file.
@@ -266,7 +268,9 @@ func stat(key: String) -> float:
 ## Stats plus the progression numbers scenario requirements can test:
 ## "recruiting", "draft", "retention", "gpa", "age", and "rel_<person id>"
 ## (a relationship value, e.g. "rel_coach"; 50 for someone not in the cast now).
-const METRICS := ["recruiting", "draft", "retention", "gpa", "age", "followers"]
+const METRICS := ["recruiting", "draft", "retention", "gpa", "age", "followers",
+	"slump_now", "benched_now", "injured_now", "fg_streak", "season_fg_pct", "pro_seasons",
+	"contract_years_left", "clubs"]
 
 
 func metric(key: String) -> float:
@@ -283,6 +287,25 @@ func metric(key: String) -> float:
 			return float(age)
 		"followers":
 			return float(followers)
+		# "Right now" values for scenario requirements (the present, whatever
+		# the story flags say).
+		"slump_now":
+			return 1.0 if not coach_doubt.is_empty() else 0.0
+		"benched_now":
+			return 1.0 if Bench.benched(self) else 0.0
+		"injured_now":
+			return 1.0 if is_injured() else 0.0
+		"fg_streak":
+			return float(fg_streak)
+		"season_fg_pct":
+			var att := int(season_stats.get("fg_att", 0))
+			return 100.0 * int(season_stats.get("fg_made", 0)) / att if att > 0 else 0.0
+		"pro_seasons":
+			return float(pro_seasons())
+		"contract_years_left":
+			return float(int(contract.get("years_left", 0)))
+		"clubs":
+			return float(pro_clubs().size())
 	if key.begins_with("rel_"):
 		return Relationships.value(self, key.substr(4))
 	return stat(key)
@@ -303,6 +326,26 @@ func set_stat(key: String, value: float) -> void:
 
 func has_trait(id: String) -> bool:
 	return id in traits
+
+
+## Pro seasons played (finished; history).
+func pro_seasons() -> int:
+	return history.filter(func(h: Dictionary) -> bool: return str(h.get("stage", "")) == STAGE_PRO).size()
+
+
+## Pro clubs played for, by name (flags "pro_clubs"; older saves: from the
+## history and the current team).
+func pro_clubs() -> Array:
+	var out: Array = []
+	if flags.get("pro_clubs") is Array:
+		out = (flags["pro_clubs"] as Array).duplicate()
+	else:
+		for h in history:
+			if str(h.get("stage", "")) == STAGE_PRO and not (str(h.get("team", "")) in out):
+				out.append(str(h.get("team", "")))
+		if stage == STAGE_PRO and not (str(team.get("name", "")) in out):
+			out.append(str(team.get("name", "")))
+	return out
 
 
 func is_injured() -> bool:
@@ -386,6 +429,7 @@ func to_dict() -> Dictionary:
 		"last_challenge": last_challenge.duplicate(true),
 		"suspension": suspension.duplicate(),
 		"suspensions_total": suspensions_total,
+		"fg_streak": fg_streak,
 	}
 
 
@@ -492,6 +536,7 @@ static func from_dict(d: Dictionary) -> CareerData:
 	c.last_challenge = _dict(d, "last_challenge")
 	c.suspension = _dict(d, "suspension")
 	c.suspensions_total = maxi(_num(d, "suspensions_total"), 0)
+	c.fg_streak = _num(d, "fg_streak")
 	for id in _dict(d, "people"):
 		var p: Variant = d["people"][id]
 		if p is Dictionary and not Relationships.def(str(id)).is_empty():

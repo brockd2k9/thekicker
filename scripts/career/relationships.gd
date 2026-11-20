@@ -107,6 +107,10 @@ static func text_vars(c: CareerData) -> Dictionary:
 		var id := str(d.get("id", ""))
 		out[id] = name_of(c, id) if c.people.has(id) else str(d.get("role", id))
 	out["tyler"] = name_of(c, TYLER)
+	# Your team and its town: {club} (the school in high school and college,
+	# the club in the pros), {town}.
+	out["club"] = str(c.team.get("name", ""))
+	out["town"] = str(c.team.get("town", ""))
 	return out
 
 

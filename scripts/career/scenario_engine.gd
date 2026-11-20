@@ -154,11 +154,20 @@ static func is_eligible(c: CareerData, s: Dictionary, when: String, tuning: Care
 	if not log.is_empty():
 		if bool(s.get("once", false)) or s.has("beat"):
 			return false
+		# once_per_club: once at each club (old log entries: seen at this club).
+		if bool(s.get("once_per_club", false)) and _club_key(c) in (log.get("clubs", [_club_key(c)]) as Array):
+			return false
 		if not forced and c.week_index - int(log.get("last_week_index", -999)) < int(s.get("cooldown", 0)):
 			return false
 	if not forced and int(c.season_log.get("ids", {}).get(id, 0)) >= tuning.max_scenario_repeats_per_season:
 		return false
 	return requirements_met(c, s.get("requires", {}))
+
+
+## The club a once_per_club scene counts against (team id, else name).
+static func _club_key(c: CareerData) -> String:
+	var id := str(c.team.get("id", ""))
+	return id if id != "" else str(c.team.get("name", ""))
 
 
 static func weight(c: CareerData, s: Dictionary, tuning: CareerTuning) -> float:
@@ -279,6 +288,11 @@ static func apply_choice(c: CareerData, id: String, index: int, tuning: CareerTu
 	log["times"] = int(log.get("times", 0)) + 1
 	log["last_week_index"] = c.week_index
 	log["last_choice"] = index
+	if bool(s.get("once_per_club", false)):
+		var clubs: Array = log.get("clubs", [])
+		if not (_club_key(c) in clubs):
+			clubs.append(_club_key(c))
+		log["clubs"] = clubs
 	c.scenario_log[id] = log
 	var ids: Dictionary = c.season_log["ids"]
 	ids[id] = int(ids.get(id, 0)) + 1

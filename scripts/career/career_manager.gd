@@ -201,6 +201,7 @@ func stage_name() -> String:
 ## game-day modifiers carry into week 1). false for a brand-new career.
 func _start_season(continuing: bool) -> void:
 	Bench.new_season(data)
+	_season_flags()
 	Followers.new_season(data)
 	if continuing:
 		data.team["strength"] = clampf(float(data.team.get("strength", 50)) +
@@ -218,6 +219,34 @@ func _start_season(continuing: bool) -> void:
 	data.pending_scenarios.clear()
 	data.game_checkpoint = {}
 	data.phase = PHASE_WEEK_START
+
+
+## Game-set flags at the start of a season (for scenario writers):
+##   contract_year    this pro season started with 1 contract year left
+##   re_signed        re-signed: true through the next season
+##   signed_new_club  signed with a new pro club (not the first): true through
+##                    the first season there
+## released (ever released / not re-signed) and pro_clubs (names) stay.
+func _season_flags() -> void:
+	# (data.season is already the season about to be played.)
+	data.flags["contract_year"] = data.stage == CareerData.STAGE_PRO and int(data.contract.get("years_left", 0)) == 1
+	for f in ["re_signed", "signed_new_club"]:
+		if bool(data.flags.get(f, false)) and data.season > int(data.flags.get(f + "_season", data.season)):
+			data.flags[f] = false
+
+
+## Engine state wins over story flags: scenes may clear kicking_slump,
+## coach_lost_faith or benched, but while the coach still doubts you, a bad
+## stretch is still fresh, or you're still benched, they're set again (after
+## every choice and at the start of every week). Use the metrics slump_now /
+## benched_now for "right now".
+func _sync_flags() -> void:
+	if not data.coach_doubt.is_empty():
+		data.flags["kicking_slump"] = true
+	if data.stretch_cooldown > 0:
+		data.flags["coach_lost_faith"] = true
+	if Bench.benched(data):
+		data.flags["benched"] = true
 
 
 ## games_per_season games + byes_per_season byes against this stage's teams
@@ -263,6 +292,7 @@ func begin_week() -> void:
 		return
 	# A suspended game isn't a benched game (Reputation): pass it as a bye.
 	Bench.begin_week(data, tuning, is_bye() or Reputation.suspended(data))
+	_sync_flags()
 	var when := "bye" if is_bye() else "season"
 	var count := tuning.bye_scenarios if is_bye() else \
 		(2 if rng.randf() < tuning.second_scenario_chance else 1)
@@ -313,6 +343,7 @@ func choose(index: int) -> Dictionary:
 	if s.is_empty():
 		return {}
 	var out := ScenarioEngine.apply_choice(data, str(s["id"]), index, tuning)
+	_sync_flags()
 	data.pending_scenarios.pop_front()
 	if out.get("challenge", false):
 		start_challenge(str(s["id"]), index)
@@ -483,6 +514,12 @@ func finish_game(summary: Dictionary) -> void:
 		Followers.gain(data, tuning.buzz_benched, "Benched", tuning)
 		bench_info = {"started": true, "backup": Bench.backup_name(data), "weeks": int(data.bench["weeks"]),
 			"reason": str(data.bench.get("reason", ""))}
+	for k in summary.get("kicks", []):
+		if str(k.get("kind", "")) == "fg" and not k.get("backup", false):
+			if k.get("made", false):
+				data.fg_streak = data.fg_streak + 1 if data.fg_streak > 0 else 1
+			else:
+				data.fg_streak = data.fg_streak - 1 if data.fg_streak < 0 else -1
 	var line := _record_kicks(summary.get("kicks", []))
 	var e := entry()
 	e["result"] = {"us": summary.get("us", 0), "them": summary.get("them", 0), "outcome": outcome}
@@ -721,9 +758,17 @@ func end_season() -> void:
 			data.gpa = clampf(data.gpa + Progression.gpa_drift(data, tuning), 0.0, 4.0)
 			h["draft"] = data.draft_score
 			h["draft_gain"] = gain
-			if _stage_done():
+			# Dismissed (story flag "dismissed"): out of the program now, and out of
+			# the draft: undrafted free agency (the open tryout path).
+			var dismissed := bool(data.flags.get("dismissed", false))
+			if _stage_done() or dismissed:
 				Relationships.advance_tyler(data, CareerData.STAGE_PRO)
 				data.draft_result = Progression.draft(data, rng)
+				if dismissed:
+					data.draft_result["kind"] = "open"
+					data.draft_result["round"] = 0
+					data.draft_result["dismissed"] = true
+					_dismissal_done()
 				data.phase = PHASE_DRAFT
 			else:
 				_begin_offseason()
@@ -780,6 +825,18 @@ func _start_next_season() -> void:
 ## A new stage starts with its offseason (that stage's offseason scenarios),
 ## then season 1.
 func _enter_stage(stage: String, team: Dictionary, route_text: String) -> void:
+	if stage == CareerData.STAGE_PRO:
+		var clubs := data.pro_clubs() if data.stage == CareerData.STAGE_PRO or data.flags.get("pro_clubs") is Array \
+			else data.history.filter(func(h: Dictionary) -> bool: return h.get("stage", "") == CareerData.STAGE_PRO) \
+				.map(func(h: Dictionary) -> String: return str(h.get("team", "")))
+		var name := str(team.get("name", ""))
+		var had := clubs.filter(func(x: Variant) -> bool: return str(x) != "").size() > 0
+		if not (name in clubs):
+			clubs.append(name)
+		data.flags["pro_clubs"] = clubs.filter(func(x: Variant) -> bool: return str(x) != "")
+		if had:
+			data.flags["signed_new_club"] = true
+			data.flags["signed_new_club_season"] = data.season + 1
 	data.stage = stage
 	data.team = team
 	data.season_in_stage = 0
@@ -1041,7 +1098,12 @@ func _pro_season_end() -> void:
 		retire("age_cap")
 		return
 	var status := "continue"
-	if data.retention_score < tuning.release_below:
+	if bool(data.flags.get("dismissed", false)):
+		# Dismissed (story flag): released at season end, whatever the standing.
+		status = "released"
+		data.contract["dismissed"] = true
+		_dismissal_done()
+	elif data.retention_score < tuning.release_below:
 		status = "released"
 	elif int(data.contract["years_left"]) <= 0:
 		if data.retention_score >= tuning.resign_min:
@@ -1054,6 +1116,13 @@ func _pro_season_end() -> void:
 	data.phase = PHASE_CONTRACT
 
 
+## The story's "dismissed" flag has been carried out: cleared (so it can't fire
+## twice), with was_dismissed left for scenario writers.
+func _dismissal_done() -> void:
+	data.flags["dismissed"] = false
+	data.flags["was_dismissed"] = true
+
+
 ## Contract screen buttons.
 func contract_continue() -> void:
 	if data.phase != PHASE_CONTRACT:
@@ -1062,6 +1131,8 @@ func contract_continue() -> void:
 		"continue":
 			_begin_offseason()
 		"resign":
+			data.flags["re_signed"] = true
+			data.flags["re_signed_season"] = data.season + 1
 			var off: Dictionary = data.contract.get("offer", {})
 			data.contract["years_left"] = int(off.get("years", 1))
 			data.contract["salary"] = int(off.get("salary", 0))
@@ -1070,6 +1141,7 @@ func contract_continue() -> void:
 				int(off.get("years", 1)), Progression.money(int(off.get("salary", 0)))])
 			_begin_offseason()
 		"released", "not_resigned":
+			data.flags["released"] = true
 			data.poor_streak += 1
 			data.add_route("%s by the %s" % ["Released" if data.contract["status"] == "released" else "Not re-signed",
 				data.contract.get("team_name", "")])
