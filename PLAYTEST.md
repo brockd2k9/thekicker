@@ -208,6 +208,56 @@ decline x next-point cost x 0.6. **Weather** ("Weather"): from 60% of the season
 To playtest: do perk costs feel worth it; is maintenance affordable but not free in the early 30s;
 how often do cold and snow games show up.
 
+## Simulator report and retune (Step 4)
+
+The simulator (`tools/career_sim.tscn`, baseline `tools/career_sim_baseline.md`) now also plays
+spending strategies (balanced, power-first, accuracy-first, perk-hunter, balanced without
+maintenance, and "dedicated": always trains, Power first) and reports range by age, slumps by
+kicker quality, skill points by source and how they're spent, aging, and perk usage. Its kicks
+use the game-day kick profile (perks, rest, weather count).
+
+**Values changed:**
+
+| Setting | Before | After | Why |
+|---|---|---|---|
+| `range_curve` | 0.75 | 1.0 | Linear: less range from cheap early Power points |
+| `upgrade_cost_base` | 1.0 | 2.0 | Every point 1 SP dearer: slower climb at every level |
+| `upgrade_cost_scale` | 9.0 | 14.0 | With the exponent: the last points cost much more |
+| `upgrade_cost_exp` | 2.0 | 3.0 | Cost per point: 30 -> 3, 50 -> 4, 70 -> 7, 90 -> 13, 99 -> 16 (was 2/4/6/9/10) |
+| `kick_window` / `kick_window_misses` | 5 / 3 | 10 / 6 | Slumps rare for good kickers, common for poor ones |
+| `kick_season_pct` / `kick_season_min_att` | 55% / 6 | 50% / 12 | The season rule fired on early small samples |
+| `doubt_clear_misses` | 1 | 2 | Same idea for the longer window |
+| `draft_leg_from` (new, was fixed 55) | 55 | 50 | Draft scoring recalibrated to the new attribute levels |
+| `draft_range_from` | 52 | 50 | Same |
+| Tryout distances (`progression.json`) | walk-on 28-44, camp 36-52, free agent 40-55 | 25-41, 32-48, 34-50 | Old distances were past a typical college range |
+
+Per-kick skill points (`sp_make`, `sp_long_make`, `sp_clutch_make`, `sp_game_winner`) are unchanged:
+at 1 point they are already the smallest whole step.
+
+**Before / after** (20 careers per choice strategy, 40 per spending run, seed 1):
+
+| | Target | Before | After |
+|---|---|---|---|
+| FG range, end of HS (balanced) | 48-50 | 53.1 | 49.5 |
+| FG range, end of college (balanced) | 52-55 | 57.8 | 54.1 |
+| Peak range (balanced / dedicated) | | 61.0 / 67.3 | 57.8 / 66.1 |
+| Reach 65 yd (balanced / power-first / perk-hunter / dedicated) | rare | 23 / 63 / 45 / 95% | 0 / 33 / 8 / 73% |
+| Reach 70 yd (any run) | under ~2% | up to 10% (perk-hunter) | 0% |
+| Careers reaching the pros (all choice strategies) | ~68% | 68% | 69% |
+| Careers drafted (all choice strategies) | | 43% | 37% |
+
+| Kicker quality (expected FG%) | Target | Slump seasons before | After |
+|---|---|---|---|
+| 60-70% (low) | often | 81% | 21% (true 60% kickers: ~57%, model) |
+| 70-75% (average) | | 57% | 12% |
+| 75-80% (average) | rarely | 35% | 7% |
+| 80%+ (high) | almost never | 12% | 4% |
+
+**Still open:** aging barely bites in the simulator. Pros earn ~59 skill points a season, so a
+player who never preserves just buys lost points back (balanced without maintenance holds a
+similar range into the late 30s). Options: a steeper `aging_per_year`, a lower pro income, or a
+higher `maintain_cost_mult`.
+
 ## To playtest (final list)
 Most important first. Simulator numbers are from `tools/career_sim_baseline.md`; the sim's kicks
 are a stand-in for real swipes, so everything involving kicking quality needs a real-phone check.

@@ -388,7 +388,10 @@ sideline pad is gone.
 **Balance simulator:** `godot --headless res://tools/career_sim.tscn -- careers=40 seed=1` plays
 many careers with different choice strategies through the real systems and writes
 `user://career_sim_report.md` (trait unlock rates, personality / football / life stat
-distributions, scenario frequencies). `tools/career_sim_baseline.md` is the current baseline.
+distributions, scenario frequencies, and for skill-point spending strategies: range by age, slumps
+by kicker quality, skill points by source and use, aging, perk usage). Options: `spend_careers=N`,
+`main=0` (spending runs only), `runs=balanced,dedicated`. `tools/career_sim_baseline.md` is the
+current baseline.
 Design decisions and values to playtest: `PLAYTEST.md`, "Career Mode".
 
 **Relationships:** eight recurring people (head coach, holder, teacher, best friend, Tyler

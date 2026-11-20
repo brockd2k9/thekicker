@@ -19,14 +19,15 @@ func _career() -> CareerData:
 func test_range_curve() -> void:
 	eq(KickRange.fg_from_power(30.0, t), 40.0, "a new freshman kicks 40")
 	eq(KickRange.fg_from_power(100.0, t), 66.0, "Power 100: 66 before perks")
-	check(absf(KickRange.fg_from_power(50.0, t) - 50.2) < 0.2, "Power 50 is about 50")
+	var x50 := pow((50.0 - t.range_power_start) / (100.0 - t.range_power_start), t.range_curve)
+	eq(KickRange.fg_from_power(50.0, t), t.range_at_start + (t.range_at_100 - t.range_at_start) * x50, "Power 50 on the curve")
 	var prev := 0.0
 	var prev_step := 99.0
 	for p in range(30, 101, 10):
 		var r := KickRange.fg_from_power(p, t)
 		check(r > prev, "range grows with Power (%d)" % p)
 		if p > 30:
-			check(r - prev <= prev_step + 0.001, "diminishing yards per Power (%d)" % p)
+			check(r - prev <= prev_step + 0.001, "no more yards per Power as it climbs (%d)" % p)
 			prev_step = r - prev
 		prev = r
 	eq(KickRange.kickoff_from_power(30.0, t), 52.0, "kickoff range at the start")
@@ -94,16 +95,18 @@ func test_touchback_check() -> void:
 # --- skill points ---------------------------------------------------------------------
 
 func test_upgrade_costs_and_purchase() -> void:
-	eq(SkillPoints.cost_at(30, t), 2, "cost at 30")
-	eq(SkillPoints.cost_at(50, t), 4, "cost at 50")
-	eq(SkillPoints.cost_at(70, t), 6, "cost at 70")
-	eq(SkillPoints.cost_at(90, t), 9, "cost at 90")
+	for lvl in [30, 50, 70, 90]:
+		eq(SkillPoints.cost_at(lvl, t), int(ceilf(t.upgrade_cost_base + t.upgrade_cost_scale
+			* pow(lvl / 100.0, t.upgrade_cost_exp))), "cost at %d" % lvl)
+	check(SkillPoints.cost_at(90, t) > SkillPoints.cost_at(70, t) and SkillPoints.cost_at(70, t) > SkillPoints.cost_at(30, t),
+		"cost rises with the level")
 	var c := _career()
-	c.skill_points = 3
+	var cost := SkillPoints.cost_at(c.stat("power"), t)
+	c.skill_points = cost + 1
 	var before := c.stat("power")
 	check(SkillPoints.upgrade(c, "power", t), "affordable upgrade")
 	eq(c.stat("power"), before + 1.0, "one point")
-	eq(c.skill_points, 1, "paid 2")
+	eq(c.skill_points, 1, "paid the cost")
 	check(not SkillPoints.upgrade(c, "power", t), "can't afford the next")
 	eq(float(c.sp_upgrades.get("power", 0.0)), 1.0, "upgrade logged")
 	check(not SkillPoints.upgrade(c, "energy", t), "life stats can't be bought")
@@ -215,10 +218,12 @@ func test_resilience_and_leadership_soften_misses() -> void:
 func test_slump_window_and_coach_doubt() -> void:
 	var c := _career()
 	var kicks := []
-	for made in [true, false, true, false, false]:
-		kicks.append(_kick("fg", made))
+	for i in t.kick_window - t.kick_window_misses:
+		kicks.append(_kick("fg", true))
+	for i in t.kick_window_misses:
+		kicks.append(_kick("fg", false))
 	var res := KickTrust.apply_game(c, kicks, 50.0, t)
-	check(res["slump"], "3 misses in the last 5: slump")
+	check(res["slump"], "%d misses in the last %d: slump" % [t.kick_window_misses, t.kick_window])
 	check(not c.coach_doubt.is_empty(), "coach doubt starts")
 	check(c.flags.get("kicking_slump", false), "story flag for HS_142")
 	check(Relationships.value(c, "coach") < 50.0, "coach trust lost")
@@ -237,13 +242,21 @@ func test_slump_window_and_coach_doubt() -> void:
 
 func test_slump_window_clears_early() -> void:
 	var c := _career()
-	KickTrust.apply_game(c, [_kick("fg", false), _kick("fg", false), _kick("fg", false)], 50.0, t)
-	check(c.coach_doubt.is_empty(), "3 misses: window not full, too few tries for the season rule")
-	KickTrust.apply_game(c, [_kick("fg", true), _kick("fg", true)], 50.0, t)
-	check(not c.coach_doubt.is_empty(), "window full with 3 misses: slump")
-	KickTrust.apply_game(c, [_kick("fg", true), _kick("fg", true), _kick("fg", true),
-		_kick("fg", true), _kick("fg", true)], 50.0, t)
-	check(c.coach_doubt.is_empty(), "5 straight makes clear the doubt early")
+	var misses: Array = []
+	for i in t.kick_window_misses:
+		misses.append(_kick("fg", false))
+	KickTrust.apply_game(c, misses, 50.0, t)
+	check(c.coach_doubt.is_empty(), "window not full yet, too few tries for the season rule")
+	var makes: Array = []
+	for i in t.kick_window - t.kick_window_misses:
+		makes.append(_kick("fg", true))
+	KickTrust.apply_game(c, makes, 50.0, t)
+	check(not c.coach_doubt.is_empty(), "window full with too many misses: slump")
+	var streak: Array = []
+	for i in t.kick_window:
+		streak.append(_kick("fg", true))
+	KickTrust.apply_game(c, streak, 50.0, t)
+	check(c.coach_doubt.is_empty(), "a full window of makes clears the doubt early")
 
 
 func test_live_view_matches_saved_result() -> void:

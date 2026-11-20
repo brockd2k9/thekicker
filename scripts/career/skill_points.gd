@@ -12,11 +12,18 @@ extends RefCounted
 ## directly (through CareerStats, scaled by scenario_football_scale).
 
 
+## Dev hook for the balance simulator: when set to a Dictionary, every earn()
+## adds its points under its source text. null (the default) in the game.
+static var tally: Variant = null
+
+
 ## Adds earned points (also counted for the season and career) and a line for
 ## this week's Results. n <= 0 does nothing.
 static func earn(c: CareerData, n: int, text: String) -> void:
 	if n <= 0:
 		return
+	if tally is Dictionary:
+		tally[text] = int(tally.get(text, 0)) + n
 	c.skill_points += n
 	c.sp_season += n
 	c.sp_career += n

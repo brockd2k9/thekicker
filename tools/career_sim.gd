@@ -5,6 +5,8 @@ extends Node
 ##
 ## Run (from the project folder):
 ##   godot --headless res://tools/career_sim.tscn -- careers=40 seed=1
+## Options: spend_careers=N (spending-strategy runs, default 2x careers),
+## main=0 (skip the choice-strategy runs), runs=balanced,dedicated (pick runs).
 ## Report: printed, and saved to user://career_sim_report.md
 ##
 ## Careers run from freshman year to retirement through the real progression
@@ -34,6 +36,28 @@ const STRATEGIES := {
 }
 const FOCUSED := ["always-social", "always-train", "ambitious", "lean-charisma", "lean-ambition",
 	"lean-leadership", "lean-intelligence"]
+## Skill point spending (Step 4). weights: the next point goes to the lowest
+## value / weight it can afford. maintain: preserve attributes from age 30
+## (in weight order). perks: which perks it buys when affordable; save: wait
+## for an available perk instead of buying points (perk-hunter).
+const SPEND := {
+	"balanced": {"weights": {"power": 1.5, "accuracy": 1.5, "resilience": 1.0, "toughness": 1.0},
+		"maintain": true, "perks": "all", "save": false},
+	"power-first": {"weights": {"power": 4.0, "accuracy": 1.5, "resilience": 1.0, "toughness": 1.0},
+		"maintain": true, "perks": ["big_leg", "cannon", "hang_time"], "save": false},
+	"accuracy-first": {"weights": {"power": 1.5, "accuracy": 4.0, "resilience": 1.0, "toughness": 1.0},
+		"maintain": true, "perks": ["laser", "smooth_swing"], "save": false},
+	"perk-hunter": {"weights": {"power": 1.5, "accuracy": 1.5, "resilience": 1.0, "toughness": 1.0},
+		"maintain": true, "perks": "all", "save": true},
+	"balanced-no-maint": {"weights": {"power": 1.5, "accuracy": 1.5, "resilience": 1.0, "toughness": 1.0},
+		"maintain": false, "perks": "all", "save": false},
+}
+## Spending runs: [label, choice strategy, spending strategy]. "dedicated" is a
+## well-managed career (always trains, Power first) for the range ceiling.
+const SPEND_RUNS := [["balanced", "mixed", "balanced"], ["power-first", "mixed", "power-first"],
+	["accuracy-first", "mixed", "accuracy-first"], ["perk-hunter", "mixed", "perk-hunter"],
+	["balanced-no-maint", "mixed", "balanced-no-maint"], ["dedicated", "always-train", "power-first"]]
+
 ## Progression values scenario choices carry count a little for every strategy.
 const PROGRESS_WEIGHT := {"recruiting": 0.3, "draft": 0.3, "retention": 0.3, "grades": 3.0}
 
@@ -41,6 +65,12 @@ var _kt: KickTuning
 var _rng := RandomNumberGenerator.new()
 var _scen_count := {}  # id -> appearances
 var _scen_careers := {}  # id -> careers that saw it
+## The career being played: spending strategy and what it spent this season.
+var _spend_strat := "balanced"
+var _spent := {}
+## This season's field goals: summed make chance and count (expected FG% =
+## the kicker's true quality, for the slump table).
+var _exp := [0.0, 0]
 
 
 func _ready() -> void:
@@ -55,11 +85,25 @@ func _ready() -> void:
 	var problems := CareerContent.validate()
 	var t0 := Time.get_ticks_msec()
 	var results := {}
-	for strat in STRATEGIES:
+	# main=0 skips the choice-strategy runs; runs=balanced,dedicated picks
+	# spending runs (both for quick tuning loops).
+	for strat in (STRATEGIES if str(args.get("main", "1")) != "0" else {}):
 		results[strat] = []
 		for i in careers:
 			results[strat].append(_play_career(strat, i))
-	var report := _report(results, careers, problems, Time.get_ticks_msec() - t0)
+	var spend_n := int(args.get("spend_careers", careers * 2))
+	var spend_results := {}
+	var only: Array = Array(str(args.get("runs", "")).split(",", false))
+	for run in SPEND_RUNS:
+		if not only.is_empty() and not (run[0] in only):
+			spend_results[run[0]] = []
+			continue
+		spend_results[run[0]] = []
+		for i in spend_n:
+			spend_results[run[0]].append(_play_career(run[1], 1000 + i, run[2]))
+	var report := _report(results, careers, problems, Time.get_ticks_msec() - t0) if not results.is_empty() \
+		else "# Career balance report (spending runs only)\n"
+	report += _step4_report(spend_results, spend_n, results)
 	print(report)
 	var f := FileAccess.open("user://career_sim_report.md", FileAccess.WRITE)
 	if f:
@@ -71,7 +115,10 @@ func _ready() -> void:
 
 # --- one career -----------------------------------------------------------------------
 
-func _play_career(strat: String, n: int) -> Dictionary:
+func _play_career(strat: String, n: int, spend := "balanced") -> Dictionary:
+	_spend_strat = spend
+	_spent = {"upgrades": 0, "maintain": 0, "perks": 0}
+	SkillPoints.tally = {}
 	var schools := CareerContent.high_schools()
 	var c := CareerData.create("Sim %d" % n, CareerTuning.get_default())
 	c.team = Progression.team_from(schools[_rng.randi_range(0, schools.size() - 1)], CareerData.STAGE_HIGH_SCHOOL)
@@ -152,6 +199,10 @@ func _play_career(strat: String, n: int) -> Dictionary:
 					out["events"].append(st)
 				m.contract_continue()
 	out["end_traits"] = c.traits.duplicate()
+	out["perks"] = c.perks.duplicate()
+	out["sp_src"] = SkillPoints.tally
+	out["sp_unspent"] = c.skill_points
+	SkillPoints.tally = null
 	out["retire_reason"] = str(c.retirement.get("reason", "unfinished"))
 	out["retire_age"] = c.age
 	out["pro_seasons"] = c.history.filter(func(h: Dictionary) -> bool:
@@ -169,6 +220,19 @@ func _snapshot(m: CareerManager, out: Dictionary) -> void:
 	var st := "college" if c.stage == CareerData.STAGE_JUCO else c.stage
 	(sps.get_or_add(st, []) as Array).append(c.sp_season + SkillPoints.season_bonus(c, m.tuning))
 	out["sp_seasons"] = sps
+	# Per season: range at this age, slumps by kicker quality, what was spent.
+	(out.get_or_add("range_by_age", {}) as Dictionary)[c.age] = KickRange.fg_range(c, m.tuning)
+	out["max_range"] = maxf(float(out.get("max_range", 0.0)), KickRange.fg_range(c, m.tuning))
+	(out.get_or_add("power_by_age", {}) as Dictionary)[c.age] = c.stat("power")
+	var slumps := int(c.flags.get("kick_slumps", 0))
+	var ss := c.season_stats
+	if int(ss.get("fg_att", 0)) >= 8:
+		(out.get_or_add("slump_seasons", []) as Array).append([Progression.fg_pct(ss),
+			slumps > int(out.get("_slumps", 0)), float(_exp[0]) / maxi(int(_exp[1]), 1), int(ss.get("fg_att", 0))])
+	_exp = [0.0, 0]
+	out["_slumps"] = slumps
+	(out.get_or_add("spent_seasons", []) as Array).append([st, _spent.duplicate()])
+	_spent = {"upgrades": 0, "maintain": 0, "perks": 0}
 	var tag := ""
 	if c.stage == CareerData.STAGE_HIGH_SCHOOL and c.season_in_stage >= m.tuning.high_school_seasons:
 		tag = "hs"
@@ -246,23 +310,55 @@ func _choose(c: CareerData, s: Dictionary, strat: String, t: CareerTuning) -> in
 ## Balanced spending: Power and Accuracy count 1.5x, Resilience and Toughness
 ## 1x; the next point goes to the lowest weighted attribute it can afford.
 func _spend(c: CareerData, t: CareerTuning) -> void:
-	# From age 30: preserve Power, then Accuracy, Toughness, Resilience first.
-	for st in ["power", "accuracy", "toughness", "resilience"]:
-		Aging.maintain(c, st, t)
-	var w := {"power": 1.5, "accuracy": 1.5, "resilience": 1.0, "toughness": 1.0}
-	for guard in 200:
+	var cfg: Dictionary = SPEND[_spend_strat]
+	var w: Dictionary = cfg["weights"]
+	var order := (w.keys() as Array)
+	order.sort_custom(func(a, b) -> bool: return float(w[a]) > float(w[b]))
+	# 1. From age 30: preserve attributes (most-weighted first).
+	if cfg["maintain"]:
+		for st in order:
+			var cost := Aging.maintain_cost(c, st, t)
+			if Aging.maintain(c, st, t):
+				_spent["maintain"] = int(_spent["maintain"]) + cost
+	# 2. Perks this strategy wants (cheapest first).
+	var wanted: Array = []
+	for d in Perks.defs():
+		var id := str(d["id"])
+		if (cfg["perks"] is String or id in cfg["perks"]) and not Perks.owned(c, id) \
+				and Perks.requirements_met(c, d):
+			wanted.append(d)
+	wanted.sort_custom(func(a, b) -> bool: return int(a["cost"]) < int(b["cost"]))
+	for d in wanted:
+		if Perks.buy(c, str(d["id"])):
+			_spent["perks"] = int(_spent["perks"]) + int(d["cost"])
+	if cfg["save"] and wanted.any(func(d) -> bool: return not Perks.owned(c, str(d["id"]))):
+		return  # perk-hunter: saving up for an available perk
+	# 3. Attribute points: the lowest value / weight it can afford.
+	for guard in 300:
 		var best := ""
-		for s in w:
-			if SkillPoints.affordable(c, s, t) and (best == "" or c.stat(s) / w[s] < c.stat(best) / w[best]):
-				best = s
-		if best == "" or not SkillPoints.upgrade(c, best, t):
+		for st in w:
+			if SkillPoints.affordable(c, st, t) and (best == "" or c.stat(st) / float(w[st]) < c.stat(best) / float(w[best])):
+				best = st
+		if best == "":
 			return
+		var cost := SkillPoints.cost(c, best, t)
+		if not SkillPoints.upgrade(c, best, t):
+			return
+		_spent["upgrades"] = int(_spent["upgrades"]) + cost
 
 
-func _make_chance(c: CareerData, yards: int, pressure: float, stage: String) -> float:
+## prof (a game's KickProfile): today's range, aim error and pressure
+## sensitivity, so perks, rest, injuries and weather count. Without one the
+## career's stats are used (tryouts).
+func _make_chance(c: CareerData, yards: int, pressure: float, stage: String, prof: KickProfile = null) -> float:
+	var t := CareerTuning.get_default()
 	var acc := c.stat("accuracy") / 100.0
 	var res := c.stat("resilience") / 100.0
-	var range := KickRange.fg_range(c, CareerTuning.get_default())
+	var range := KickRange.fg_range(c, t)
+	if prof != null:
+		acc = clampf((t.spread_at_0 - prof.accuracy_spread_deg) / maxf(t.spread_at_0 - t.spread_at_100, 0.01), 0.0, 1.2)
+		res = clampf((t.pressure_sens_at_0 - prof.pressure_sensitivity) / maxf(t.pressure_sens_at_0 - t.pressure_sens_at_100, 0.01), 0.0, 1.2)
+		range = prof.fg_range
 	if yards > range:
 		return 0.02  # past your range: a full flick falls short
 	var narrow: float = {"college": 0.03, "juco": 0.03, "pro": 0.06, "free_agent": 0.06}.get(stage, 0.0)
@@ -286,6 +382,7 @@ func _tryout(c: CareerData) -> int:
 func _play_game(m: CareerManager) -> Dictionary:
 	var c := m.data
 	var sim := m.new_game_sim(_kt)
+	var prof := m.profile()
 	var guard := 0
 	while guard < 1000:
 		guard += 1
@@ -299,8 +396,12 @@ func _play_game(m: CareerManager) -> Dictionary:
 			"call":
 				match str(e["kind"]):
 					"fg", "pat":
-						sim.resolve_call({"made": _rng.randf() < _make_chance(c, int(e["yards"]),
-							float(e.get("pressure", 0.0)), c.stage)})
+						var ce := CareerGameMode.adjust_call(e, prof)
+						var pm := _make_chance(c, int(e["yards"]), float(ce.get("pressure", 0.0)), c.stage, prof)
+						if str(e["kind"]) == "fg":
+							_exp[0] += pm
+							_exp[1] += 1
+						sim.resolve_call({"made": _rng.randf() < pm})
 					"kickoff":
 						var q := clampf(_rng.randf() * 0.6 + c.stat("power") / 100.0 * 0.4, 0.0, 1.0)
 						sim.resolve_call({"quality": q, "carry": 40.0 + q * 25.0, "text": "Kickoff."})
@@ -582,3 +683,165 @@ static func _fmt_dist(v: Array, decimals: bool) -> String:
 	if decimals:
 		return "%.2f (%.2f-%.2f)" % [mean, p10, p90]
 	return "%d (%d-%d)" % [roundi(mean), roundi(p10), roundi(p90)]
+
+
+# --- Step 4: spending, range, slumps, aging, perks ---------------------------------------
+
+const AGES := [14, 15, 16, 17, 18, 19, 20, 21, 22, 24, 26, 28, 30, 32, 34, 36, 38]
+const SOURCE_GROUPS := {"Practice (tired)": "Practice", "Field goals made": "Makes", "Long makes": "Long makes",
+	"Clutch makes": "Clutch makes", "Game winner": "Game winners", "Perfect game": "Perfect games",
+	"Sideline warmup": "Warmups", "Choices": "Choices", "Season bonus": "Season bonus",
+	"Offseason training": "Offseason", "Practice": "Practice"}
+
+
+func _step4_report(sr: Dictionary, n: int, main: Dictionary) -> String:
+	var L := PackedStringArray()
+	L.append("")
+	L.append("## Spending strategies (%d careers each, choice strategy in brackets)" % n)
+	L.append("")
+	L.append("balanced: Power and Accuracy 1.5x, preserves from 30, buys any perk it can afford. power-first /")
+	L.append("accuracy-first: that attribute 4x and only its perks. perk-hunter: saves for every available")
+	L.append("perk. balanced-no-maint: never preserves. dedicated: always trains, power-first.")
+	L.append("")
+	L.append("| Run | Pro | Drafted | FG range end HS | end college | peak | reach 50 / 60 / 65 / 70 | perks | tryouts passed | draft score |")
+	L.append("|---|---|---|---|---|---|---|---|---|---|")
+	for run in SPEND_RUNS:
+		var rs: Array = sr[run[0]]
+		var hs := rs.filter(func(r): return r.has("hs_range"))
+		var col := rs.filter(func(r): return r.has("col_range"))
+		var reach := PackedStringArray()
+		for yd in [50, 60, 65, 70]:
+			reach.append(_pct(rs.filter(func(r): return float(r.get("max_range", 0.0)) >= yd - 0.001).size(), rs.size()))
+		var tp := 0
+		var tf := 0
+		for r in rs:
+			for ev in r["events"]:
+				if str(ev).begins_with("tryout_"):
+					if str(ev).ends_with("_pass"):
+						tp += 1
+					else:
+						tf += 1
+		L.append("| %s (%s) | %s | %s | %.1f | %.1f | %.1f | %s | %.1f | %s of %d | %.0f |" % [run[0], run[1],
+			_pct(rs.filter(func(r): return r["reached"].has("pro")).size(), rs.size()),
+			_pct(rs.filter(func(r): return str(r["draft"].get("kind", "")) == "drafted").size(), rs.size()),
+			_avgf(hs.map(func(r): return r["hs_range"])), _avgf(col.map(func(r): return r["col_range"])),
+			_avgf(rs.map(func(r): return r.get("max_range", 0.0))), " / ".join(reach),
+			_avgf(rs.map(func(r): return r["perks"].size())), _pct(tp, tp + tf), tp + tf,
+			_avgf(rs.filter(func(r): return r.has("draft_score")).map(func(r): return r["draft_score"]))])
+	L.append("")
+	# --- range by age
+	L.append("## Field goal range by age (mean at season end; careers still playing in brackets)")
+	L.append("")
+	var head := "| Age |"
+	var sep := "|---|"
+	for run in SPEND_RUNS:
+		head += " %s |" % run[0]
+		sep += "---|"
+	L.append(head)
+	L.append(sep)
+	for age in AGES:
+		var row := "| %d |" % age
+		for run in SPEND_RUNS:
+			var xs: Array = []
+			for r in sr[run[0]]:
+				var by: Dictionary = r.get("range_by_age", {})
+				if by.has(age):
+					xs.append(by[age])
+			row += (" %.1f (%d) |" % [_avgf(xs), xs.size()]) if not xs.is_empty() else " - |"
+		L.append(row)
+	L.append("")
+	# --- regression
+	L.append("## Aging after 30: preserving vs not (mean Power and FG range at season end)")
+	L.append("")
+	L.append("| Age | balanced: Power / range | balanced-no-maint: Power / range | dedicated: Power / range |")
+	L.append("|---|---|---|---|")
+	for age in [29, 30, 31, 32, 33, 34, 35, 36, 37, 38]:
+		var cells := PackedStringArray()
+		for name in ["balanced", "balanced-no-maint", "dedicated"]:
+			var pw: Array = []
+			var rg: Array = []
+			for r in sr[name]:
+				if r.get("power_by_age", {}).has(age):
+					pw.append(r["power_by_age"][age])
+					rg.append(r["range_by_age"][age])
+			cells.append(("%.0f / %.1f (%d)" % [_avgf(pw), _avgf(rg), pw.size()]) if not pw.is_empty() else "-")
+		L.append("| %d | %s |" % [age, " | ".join(cells)])
+	L.append("")
+	# --- slumps
+	L.append("## Coach doubt (slumps) by kicker quality")
+	L.append("")
+	L.append("Seasons with 8+ field goal attempts, grouped by the kicker's quality that season (expected FG%:")
+	L.append("the kick model's average make chance; actual FG% in brackets); share of seasons in which a slump")
+	L.append("started. Rule: %d of the last %d missed, or season FG%% under %d%% after %d attempts." % [
+		CareerTuning.get_default().kick_window_misses, CareerTuning.get_default().kick_window,
+		roundi(CareerTuning.get_default().kick_season_pct * 100.0), CareerTuning.get_default().kick_season_min_att])
+	L.append("")
+	L.append("| Expected FG% | Quality | Seasons (avg attempts) | Actual FG% | With a slump |")
+	L.append("|---|---|---|---|---|")
+	var pool: Array = []
+	for d in [sr, main]:
+		for k in d:
+			for r in d[k]:
+				pool.append_array(r.get("slump_seasons", []))
+	for b in [[0.0, 0.6, "low"], [0.6, 0.7, "low"], [0.7, 0.75, "average"], [0.75, 0.8, "average"],
+			[0.8, 0.9, "high"], [0.9, 1.01, "high"]]:
+		var xs := pool.filter(func(x): return x.size() > 2 and float(x[2]) >= b[0] and float(x[2]) < b[1])
+		L.append("| %d-%d%% | %s | %d (%.0f) | %.0f%% | %s |" % [roundi(b[0] * 100), mini(roundi(b[1] * 100), 100), b[2],
+			xs.size(), _avgf(xs.map(func(x): return x[3])), 100.0 * _avgf(xs.map(func(x): return x[0])),
+			_pct(xs.filter(func(x): return x[1]).size(), xs.size())])
+	L.append("")
+	# --- skill points
+	L.append("## Skill points earned per season, by source (mean per season played)")
+	L.append("")
+	var groups := ["Makes", "Long makes", "Clutch makes", "Game winners", "Perfect games", "Warmups", "Practice",
+		"Rival", "Choices", "Season bonus", "Offseason"]
+	L.append("| Run | " + " | ".join(groups) + " | Total | Spent: points / preserve / perks | Unspent at end |")
+	L.append("|---|" + "---|".repeat(groups.size()) + "---|---|---|")
+	for run in SPEND_RUNS:
+		var tot := {}
+		var seasons := 0
+		var spent := {"upgrades": 0, "maintain": 0, "perks": 0}
+		for r in sr[run[0]]:
+			seasons += (r.get("spent_seasons", []) as Array).size()
+			for src in r.get("sp_src", {}):
+				var g := str(SOURCE_GROUPS.get(src, "Rival"))
+				tot[g] = int(tot.get(g, 0)) + int(r["sp_src"][src])
+			for ps in r.get("spent_seasons", []):
+				for k in spent:
+					spent[k] = int(spent[k]) + int(ps[1].get(k, 0))
+		var cells := PackedStringArray()
+		var sum := 0.0
+		for g in groups:
+			var v := float(tot.get(g, 0)) / maxi(seasons, 1)
+			sum += v
+			cells.append("%.1f" % v)
+		L.append("| %s | %s | %.1f | %.1f / %.1f / %.1f | %.0f |" % [run[0], " | ".join(cells), sum,
+			float(spent["upgrades"]) / maxi(seasons, 1), float(spent["maintain"]) / maxi(seasons, 1),
+			float(spent["perks"]) / maxi(seasons, 1), _avgf(sr[run[0]].map(func(r): return r["sp_unspent"]))])
+	L.append("")
+	L.append("Skill points earned per season by stage (mean):")
+	L.append("")
+	L.append("| Run | High school | College | Pro |")
+	L.append("|---|---|---|---|")
+	for run in SPEND_RUNS:
+		var cells := PackedStringArray()
+		for st in ["high_school", "college", "pro"]:
+			var xs: Array = []
+			for r in sr[run[0]]:
+				xs.append_array(r.get("sp_seasons", {}).get(st, []))
+			cells.append(("%.0f" % _avgf(xs)) if not xs.is_empty() else "-")
+		L.append("| %s | %s |" % [run[0], " | ".join(cells)])
+	L.append("")
+	# --- perks
+	L.append("## Perk usage (share of careers that bought it)")
+	L.append("")
+	L.append("| Perk | " + " | ".join(SPEND_RUNS.map(func(x): return x[0])) + " |")
+	L.append("|---|" + "---|".repeat(SPEND_RUNS.size()))
+	for d in Perks.defs():
+		var cells := PackedStringArray()
+		for run in SPEND_RUNS:
+			var rs: Array = sr[run[0]]
+			cells.append(_pct(rs.filter(func(r): return str(d["id"]) in r["perks"]).size(), rs.size()))
+		L.append("| %s (%d) | %s |" % [d["name"], int(d["cost"]), " | ".join(cells)])
+	L.append("")
+	return "\n".join(L) + "\n"

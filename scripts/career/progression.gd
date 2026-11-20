@@ -79,7 +79,7 @@ static func draft_gain(c: CareerData, t: CareerTuning) -> float:
 	var g := t.draft_base + t.draft_fg_pct * pct \
 		+ t.draft_long * maxf(float(s.get("long", 0)) - 40.0, 0.0) \
 		+ t.draft_record * (int(c.record["w"]) - int(c.record["l"])) \
-		+ t.draft_leg * (_leg(c) - 55.0) \
+		+ t.draft_leg * (_leg(c) - t.draft_leg_from) \
 		+ t.draft_range * maxf(KickRange.fg_range(c, t) - t.draft_range_from, 0.0)
 	var exposure := float(tier(str(c.team.get("tier", "mid"))).get("exposure", 1.0))
 	return w * g * exposure + trait_bonus(c, "draft") + Relationships.draft_recommendation(c, t)

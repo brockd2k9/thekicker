@@ -164,7 +164,7 @@ func test_maintenance_costs_and_season_end() -> void:
 	for s in Aging.STATS:
 		c.set_stat(s, 85.0)
 	var cost30 := Aging.maintain_cost(c, "power", t)
-	check(cost30 >= 4 and cost30 <= 6, "about 5 SP at 30 (got %d)" % cost30)
+	eq(cost30, int(ceilf(1.0 * SkillPoints.cost_at(85.0, t) * t.maintain_cost_mult)), "decline x next point x mult at 30")
 	c.age = 35
 	var cost35 := Aging.maintain_cost(c, "power", t)
 	check(cost35 > cost30 * 2, "much more at 35 (got %d)" % cost35)

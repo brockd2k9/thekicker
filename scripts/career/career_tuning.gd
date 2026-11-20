@@ -23,11 +23,12 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## x = (Power - range_power_start) / (100 - range_power_start). A curve below 1
 ## means early points buy more yards than late ones (diminishing returns).
 ## Perks add to it; game-day life stats add or take a few yards (below).
-## Power 30/40/50/60/70/80/90/100 -> 40/46/50/54/57/60/63/66 yd.
+## Power 30/40/50/60/70/80/90/100 -> 40/44/47/51/55/59/62/66 yd (linear,
+## range_curve 1.0; the rising upgrade cost is the diminishing return).
 @export var range_power_start: float = 30.0
 @export var range_at_start: float = 40.0
 @export var range_at_100: float = 66.0
-@export_range(0.3, 2.0) var range_curve: float = 0.75
+@export_range(0.3, 2.0) var range_curve: float = 1.0
 ## Hard cap on range after perks and game-day changes; and the shortest it can get.
 @export var range_cap: float = 70.0
 @export var range_min: float = 30.0
@@ -86,7 +87,7 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var aging_rate_accuracy: float = 0.6
 @export var aging_rate_resilience: float = 0.3
 ## Preserving an attribute for a season costs decline * (cost of its next
-## point) * this, rounded up. Level 85 at age 30 / 35 / 38: ~5 / 17 / 24 SP.
+## point) * this, rounded up. Level 85 at age 30 / 35 / 38: 7 / 24 / 33 SP.
 @export var maintain_cost_mult: float = 0.6
 
 @export_group("Accuracy -> Aim")
@@ -400,7 +401,7 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export_group("Draft")
 ## Draft score (0-100) gained each college season, times the school's exposure:
 ## season_weight * (base + fg_pct * (FG% - 70) + long * yards past 40 +
-## record * (wins - losses) + leg * ((Power + Accuracy) / 2 - 55)),
+## record * (wins - losses) + leg * ((Power + Accuracy) / 2 - draft_leg_from)),
 ## plus choices ("draft" in the data) and trait bonuses.
 @export var draft_season_weights: PackedFloat32Array = PackedFloat32Array([0.4, 0.6, 0.9, 1.1])
 @export var draft_base: float = 2.5
@@ -408,9 +409,11 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var draft_long: float = 0.5
 @export var draft_record: float = 0.4
 @export var draft_leg: float = 0.2
+## The leg term counts from this (Power + Accuracy) / 2.
+@export var draft_leg_from: float = 50.0
 ## Points per yard of field goal range past draft_range_from.
 @export var draft_range: float = 0.6
-@export var draft_range_from: float = 52.0
+@export var draft_range_from: float = 50.0
 
 @export_group("Pro Contracts")
 ## Retention (0-100) at the end of each pro season: 50 + fg_pct * (FG% - 80)
@@ -522,10 +525,10 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## Window: your last kick_window field goal attempts (across games).
 ## A slump: kick_window_misses or more misses in the window, OR a season FG%
 ## below kick_season_pct after at least kick_season_min_att attempts.
-@export var kick_window: int = 5
-@export var kick_window_misses: int = 3
-@export_range(0.0, 1.0) var kick_season_pct: float = 0.55
-@export var kick_season_min_att: int = 6
+@export var kick_window: int = 10
+@export var kick_window_misses: int = 6
+@export_range(0.0, 1.0) var kick_season_pct: float = 0.5
+@export var kick_season_min_att: int = 12
 ## When a slump starts: the coach loses this much, and doubts you for
 ## doubt_weeks weeks: his longest call drops doubt_range_yd and he goes for
 ## field goals doubt_fg_chance_mult as often. Doubt ends early once the window
@@ -534,7 +537,7 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var doubt_weeks: int = 3
 @export var doubt_range_yd: float = 6.0
 @export_range(0.0, 1.0) var doubt_fg_chance_mult: float = 0.75
-@export var doubt_clear_misses: int = 1
+@export var doubt_clear_misses: int = 2
 
 @export_group("Skill Points")
 ## Earned on the field (per kick of yours, field goals only) ...
@@ -565,10 +568,10 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export_range(0.0, 2.0) var scenario_football_scale: float = 0.5
 ## Upgrade cost: raising an attribute from level L to L+1 costs
 ## ceil(upgrade_cost_base + upgrade_cost_scale * (L/100)^upgrade_cost_exp).
-## 30 -> 2 SP, 50 -> 4, 70 -> 6, 90 -> 9, 99 -> 10.
-@export var upgrade_cost_base: float = 1.0
-@export var upgrade_cost_scale: float = 9.0
-@export var upgrade_cost_exp: float = 2.0
+## 30 -> 3 SP, 50 -> 4, 70 -> 7, 90 -> 13, 99 -> 16.
+@export var upgrade_cost_base: float = 2.0
+@export var upgrade_cost_scale: float = 14.0
+@export var upgrade_cost_exp: float = 3.0
 ## Upgrades stop here.
 @export var attribute_max: float = 100.0
 ## Saves from before skill points (version < 4) start with this many per
