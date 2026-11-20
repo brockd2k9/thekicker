@@ -1,9 +1,9 @@
-# PRO batch 15: era 1-2 (imported)
+# PRO batch 15: quality pass (rewrites and stat fixes) (imported)
 
 Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 
 
-## PRO batch 15: era 1-2
+## PRO batch 15: quality pass (rewrites and stat fixes)
 
 ### PRO_086 {tyler} Gets Cut
 - **Category:** social  
@@ -41,13 +41,13 @@ Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 - **Cast:** Team  
 - **Premise:** A teammate who has had too many concussions is hiding another one, and you saw it happen.
 
-A teammate who has had too many concussions is hiding another one, and you saw it happen.
+A teammate who has had too many concussions takes another hit in practice and hides it. You saw it happen, and he saw you see it.
 
-1. **Tell the trainers**: You tell the trainers. He's angry for a week, then he thanks you.  
+1. **Tell the trainers**: You tell the trainers before the next drill. He's angry for a week and won't look at you, then thanks you in the parking lot.  
    *(energy -2; social +1; leadership +2; 1 SP; Team +1; modifier inspired)*
-2. **Talk to him first**: You talk to him first and convince him to tell the trainers himself.  
+2. **Talk to him first**: You talk to him first, away from everyone, and convince him to tell the trainers himself. It costs you an hour and some of his pride.  
    *(social +2; charisma +1; Team +3; modifier loose)*
-3. **Stay out of it**: You stay out of it. He plays the next game, and you watch him the whole time.  
+3. **Stay out of it**: You stay out of it. He plays the next game, and you watch him every snap, wondering.  
    *(energy +2; fun +1; modifier rested)*
 
 ### PRO_098 A College Teammate's Wedding
@@ -61,7 +61,7 @@ Your old college roommate is getting married, and he wants you to give a toast.
 1. **Write a great toast**: You write a great toast and deliver it from memory. The bride's grandmother hugs you.  
    *(social +2; charisma +1; {best_friend} +2; modifier loose)*
 2. **Tell one true story**: You tell one true story from freshman year. It's the one people repeat at breakfast.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. 🔒 *locked: needs `roommate_pact`, shown as "having made a pact with your college roommate"*  
    **Remember the pact**: You raise a glass to the pact you made freshman year. He laughs so hard he can't finish his drink.  
    *(social +2; fun +2; charisma +1; modifier inspired)*
@@ -153,7 +153,7 @@ A teammate who tore his knee for the team is cut the day he's cleared to practic
 A popular podcast wants you for an hour. The host is known for getting athletes to say too much.
 
 1. **Prepare and stay disciplined**: You prepare and stay disciplined. It's a good episode with no headlines.  
-   *(energy -1; intelligence +2; followers +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; followers +2; modifier focused)*
 2. **Be yourself**: You're funny and honest. One joke about a teammate gets clipped everywhere.  
    *(social +2; charisma +1; followers +5; Team -1; modifier loose)*
 3. **Decline**: You decline. The host says something snide about kickers on the next episode.  
@@ -168,9 +168,9 @@ A popular podcast wants you for an hour. The host is known for getting athletes 
 A national brand wants you for a commercial that would play during every game this year.
 
 1. **Take it**: You sign on. You're everywhere, and the shoot eats your bye week.  
-   *(energy -2; ambition +2; 2 SP; followers +6; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; followers +6; modifier dialed_in)*
 2. **Negotiate the schedule**: You agree if they shoot in the offseason. They do.  
-   *(energy -1; intelligence +2; followers +4; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; followers +4; modifier focused)*
 3. **Pass**: You pass. You'd rather be known for kicking.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -195,13 +195,13 @@ Someone is leaking locker-room conversations to a reporter, and the coaches thin
 - **Cast:** {coach}, {holder}  
 - **Premise:** You're supposed to be at your best, and the misses in practice have started making headlines.
 
-You're supposed to be at your best, and the misses in practice have started making headlines.
+You're supposed to be at your best, and the misses in practice have started making headlines. The coaches haven't said anything, which is worse.
 
-1. **Go back to the film**: You go back to film of your best season and find the one thing that changed.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
-2. **Kick through it**: You kick through it until the misses stop.  
-   *(energy -2; ambition +2; 3 SP; modifier dialed_in)*
-3. **Lean on the holder**: You and {holder} go back to basics together. It helps more than you expected.  
+1. **Go back to the film**: You go back to the film of your best season and find the one thing that changed: your plant foot drifted half an inch. It takes a week to fix.  
+   *(energy -1; accuracy +1; intelligence +2; {coach} +2; modifier focused)*
+2. **Kick through it**: You kick through it, two hundred extra balls a day. Your leg aches, your rhythm comes back, and nobody can say you didn't work.  
+   *(energy -2; power +1; ambition +2; 3 SP; modifier dialed_in)*
+3. **Lean on the holder**: You and {holder} go back to basics together, laughing at how far you've come. It helps more than you expected.  
    *(social +2; charisma +1; {holder} +3; modifier loose)*
 4. 🔒 *locked: needs `saw_sports_psych` or `leaned_on_support`, shown as "having gotten help before"*  
    **Use the tools you learned**: You use the tools you learned the last time this happened. It's shorter this time.  

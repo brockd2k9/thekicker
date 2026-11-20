@@ -1,9 +1,9 @@
-# PRO batch 31: era 3 (imported)
+# PRO batch 31: quality pass (rewrites and stat fixes) (imported)
 
 Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 
 
-## PRO batch 31: era 3
+## PRO batch 31: quality pass (rewrites and stat fixes)
 
 ### PRO_694 The Kicker They Drafted
 - **Category:** career  
@@ -14,7 +14,7 @@ Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 The club drafts a kicker in the middle rounds, and he's watching your every kick.
 
 1. **Give him a show**: You give him a show every day.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; modifier dialed_in)*
 2. **Teach him**: You teach him. It's the right thing, and the room notices.  
    *(energy -2; social +1; leadership +2; 1 SP; Team +2; modifier inspired)*
 3. **Ask {coach} the plan**: You ask {coach} the plan. It's honest.  
@@ -29,7 +29,7 @@ The club drafts a kicker in the middle rounds, and he's watching your every kick
 An injury in your thirties, and the recovery takes longer than it used to.
 
 1. **Follow the plan**: You follow the plan exactly. It takes longer, and you come back whole.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; toughness +1; intelligence +2; {coach} +2; modifier focused)*
 2. **Push it**: You push it. You're back sooner, and sore.  
    *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
 3. **Take extra time**: You take extra time and come back fresh.  
@@ -104,16 +104,16 @@ A rookie holds out, and the veterans want you to talk to him.
 - **Cast:** (no cast)  
 - **Premise:** Your foundation holds its first gala.
 
-Your foundation holds its first gala.
+Your foundation holds its first gala. There are round tables, donors in suits, and a ballroom that costs more than you like to think about.
 
-1. **Give the speech**: You give the speech. It raises more than you hoped.  
+1. **Give the speech**: You give the speech, nervous and honest. It raises more than you hoped, and a donor finds you afterward to double their check.  
    *(energy -2; social +1; leadership +2; 1 SP; followers +2; Team +2; modifier inspired)*
-2. **Bring the kids it helps**: You bring the kids the foundation helps. Nobody forgets it.  
+2. **Bring the kids it helps**: You bring the kids the foundation helps and seat them at the front table. Nobody in the room forgets them, which was the point.  
    *(social +2; charisma +1; Team +3; modifier loose)*
-3. **Keep it small**: You keep it small and personal.  
+3. **Keep it small**: You keep it small and personal: fewer tables, better food, one story. It raises less money and feels like yours.  
    *(energy +2; fun +1; modifier rested)*
 4. 🔒 *locked: needs `started_foundation`, shown as "having started your foundation"*  
-   **Tell the story of why**: You tell the room why you started it. The donations double.  
+   **Tell the story of why**: You tell the room why you started it, all of it. The donations double, and you have to sit down afterward.  
    *(social +2; energy -1; leadership +1; charisma +1; followers +2; modifier inspired)*
 
 ### PRO_701 Kindergarten Morning
@@ -127,7 +127,7 @@ Your youngest's first day of kindergarten is a practice day.
 1. **Ask to come in late**: You ask {coach} for an hour. You're there for the wave.  
    *(social +2; charisma +1; {love_interest} +4; modifier loose)*
 2. **Do drop-off and run**: You do drop-off and make it to the meeting with a minute to spare.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Go to practice**: You go to practice and hear about it at dinner.  
    *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
 
@@ -167,13 +167,13 @@ You and {love_interest} plan a trip for your anniversary, and the club schedules
 - **Cast:** (no cast)  
 - **Premise:** You and {love_interest} decide to see a counselor, before anything's wrong.
 
-You and {love_interest} decide to see a counselor, before anything's wrong.
+You and {love_interest} decide to see a counselor, before anything's wrong. It was their idea, and you agreed faster than you expected.
 
-1. **Commit to it**: You commit to it. It's the best thing you do for the marriage.  
+1. **Commit to it**: You commit to it, every other Tuesday, even in season. It's the best thing you do for the marriage, and you say so out loud.  
    *(social +2; charisma +1; {love_interest} +5; modifier loose)*
-2. **Go every other week**: You go every other week.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
-3. **Try it once**: You go to one session and see.  
+2. **Go every other week**: You go every other week when the schedule allows. It helps, and you learn how differently you two remember the same arguments.  
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
+3. **Try it once**: You go to one session to see what it's like. It's harder than practice, and you leave unsure whether you'll go back.  
    *(energy +2; fun +1; modifier rested)*
 
 ### PRO_705 The Old College Friend's Wedding
@@ -187,7 +187,7 @@ A college friend's wedding brings back the whole old crowd.
 1. **Catch up with everyone**: You catch up with everyone until the lights come on.  
    *(social +2; charisma +1; {best_friend} +4; modifier loose)*
 2. **Go for the ceremony**: You go for the ceremony and a dance, then home.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Send a gift**: You send a gift and a call.  
    *(energy +2; fun +1; modifier rested)*
 

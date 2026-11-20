@@ -1,9 +1,9 @@
-# PRO batch 32: era 3 (imported)
+# PRO batch 32: quality pass (rewrites and stat fixes) (imported)
 
 Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 
 
-## PRO batch 32: era 3
+## PRO batch 32: quality pass (rewrites and stat fixes)
 
 ### PRO_707 A Kind Word From {tyler}
 - **Category:** social  
@@ -16,7 +16,7 @@ Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 1. **Call him back**: You call him back. You talk for an hour, like old teammates.  
    *(social +2; charisma +1; {tyler} +5; modifier loose)*
 2. **Reply with thanks**: You reply with thanks and one honest line about the week.  
-   *(energy -1; intelligence +2; {coach} +2; {tyler} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; {tyler} +2; modifier focused)*
 3. **Read it twice**: You read it twice and keep it.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -74,7 +74,7 @@ A rookie in crisis calls you at 2 a.m.
 You consider a second business, while the first is still finding its feet.
 
 1. **Wait a year**: You wait a year until the first one is steady.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 2. **Do both**: You do both. You don't sleep much.  
    *(energy -2; ambition +2; 2 SP; modifier dialed_in; sets `business_owner`)*
 3. **Ask your partner in the first one**: You ask your partner. The answer is 'please not yet'.  
@@ -86,13 +86,13 @@ You consider a second business, while the first is still finding its feet.
 - **Cast:** (no cast)  
 - **Premise:** A real estate agent pitches you on rental properties.
 
-A real estate agent pitches you on rental properties.
+A real estate agent with very white teeth pitches you on rental properties. The numbers look great on her tablet.
 
-1. **Study the numbers**: You study the numbers and buy one small building.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
-2. **Ask {parent}**: You ask {parent}, who has opinions about landlords.  
+1. **Study the numbers**: You take the numbers home, study them for a week and buy one small building. It's work, and it's yours.  
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
+2. **Ask {parent}**: You ask {parent}, who has strong opinions about landlords and stronger ones about leaky roofs. You don't buy, and you learn a lot.  
    *(social +2; charisma +1; {parent} +3; modifier loose)*
-3. **Pass**: You pass. You'd rather not fix anyone's sink.  
+3. **Pass on it**: You pass. You'd rather not fix anyone's sink, and the agent finds a linebacker by the end of the week.  
    *(energy +2; fun +1; modifier rested)*
 
 ### PRO_713 The Investment That Works
@@ -101,13 +101,13 @@ A real estate agent pitches you on rental properties.
 - **Cast:** (no cast)  
 - **Premise:** An investment you made years ago starts paying off.
 
-An investment you made years ago starts paying off.
+An investment you made years ago, mostly to stop your advisor asking, has quietly turned into real money. Nobody knows about it but you.
 
-1. **Leave it alone**: You leave it alone and let it keep growing.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
-2. **Share some of it**: You use some of it to help family.  
+1. **Leave it alone**: You leave it alone and let it keep growing. It's the first time money has felt like a plan instead of a pressure.  
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
+2. **Share some of it**: You use some of it to clear a family debt nobody talks about. The call where you tell them is short, and nobody can speak at the end.  
    *(social +2; charisma +1; {parent} +4; modifier loose)*
-3. **Treat yourself once**: You treat yourself once, quietly.  
+3. **Treat yourself once**: You treat yourself once, quietly: the watch you looked at for years. You wear it on game days and feel a little foolish and very happy.  
    *(energy +2; fun +1; modifier rested)*
 
 ### PRO_714 The Tax Audit
@@ -119,7 +119,7 @@ An investment you made years ago starts paying off.
 You're audited, and every receipt from the last three years matters.
 
 1. **Hire an accountant**: You hire a good accountant. It's expensive and calm.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused; sets `honest_advisor`)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused; sets `honest_advisor`)*
 2. **Do it yourself**: You do it yourself, every night for a month. You learn a lot.  
    *(energy -2; ambition +2; 1 SP; modifier dialed_in)*
 3. **Ask {love_interest} to help**: You and {love_interest} sort receipts at the kitchen table for a week.  
@@ -134,7 +134,7 @@ You're audited, and every receipt from the last three years matters.
 A charity using your name turns out to be a scam.
 
 1. **Go to the authorities**: You go to the authorities and make it public.  
-   *(energy -1; intelligence +2; followers +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; followers +2; modifier focused)*
 2. **Make it right**: You donate to the families who were fooled.  
    *(energy -2; social +1; leadership +2; 1 SP; Team +2; modifier inspired)*
 3. **Let your lawyer handle it**: You let your lawyer handle it. It takes a year, and the story keeps your name in it the whole time.  
@@ -149,11 +149,11 @@ A charity using your name turns out to be a scam.
 A sponsor is in the news for the wrong reasons, and your face is on its ads.
 
 1. **End the deal**: You end the deal the same day and say why.  
-   *(energy -1; intelligence +2; followers +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; followers +2; modifier focused)*
 2. **Talk to the sponsor first**: You talk to the sponsor first. They pull the ads.  
    *(social +2; charisma +1; Team +3; modifier loose)*
 3. **Ride it out**: You ride it out. It costs you some fans.  
-   *(energy -2; ambition +2; 2 SP; followers -2; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; followers -2; modifier dialed_in)*
 
 ### PRO_717 The Public Speaking Gig
 - **Category:** community  
@@ -176,13 +176,13 @@ A company wants you to give a motivational talk to its employees.
 - **Cast:** (no cast)  
 - **Premise:** A publisher wants you to write a kids' book about kicking.
 
-A publisher wants you to write a kids' book about kicking.
+A publisher wants you to write a children's book about learning to kick. The editor says to write it the way you'd tell it to a seven-year-old.
 
-1. **Write it**: You write it with your kids beside you.  
+1. **Write it**: You write it at the kitchen table with your kids correcting every page. The dedication is to them, and they read it to their classes.  
    *(energy -2; social +1; leadership +2; 1 SP; Team +2; modifier inspired)*
-2. **Write it with {holder}**: You write it with {holder}. It's funny.  
+2. **Write it with {holder}**: You write it with {holder}, who insists on a chapter about the holder. It's funnier than the one you'd have written alone.  
    *(social +2; charisma +1; {holder} +3; modifier loose)*
-3. **Pass**: You pass. Maybe after football.  
+3. **Not yet**: You pass for now and tell the editor maybe after football. You keep the email, and some nights you start a first line in your head.  
    *(energy +2; fun +1; modifier rested)*
 
 ### PRO_719 The Commercial Shoot
@@ -196,7 +196,7 @@ A national commercial shoot, and the director wants you to act.
 1. **Go for it**: You go for it. The commercial is silly and everywhere.  
    *(social +2; charisma +1; followers +4; Team +1; modifier loose)*
 2. **Keep it simple**: You ask for fewer lines. It works better.  
-   *(energy -1; intelligence +2; followers +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; followers +2; modifier focused)*
 3. **Do one take**: You do one take and leave. The director uses it, and it's stiff.  
    *(energy +2; fun +1; modifier rested)*
 

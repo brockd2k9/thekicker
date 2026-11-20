@@ -1,9 +1,9 @@
-# PRO batch 34: era 3 (imported)
+# PRO batch 34: quality pass (rewrites and stat fixes) (imported)
 
 Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 
 
-## PRO batch 34: era 3
+## PRO batch 34: quality pass (rewrites and stat fixes)
 
 ### PRO_733 The Kicking Records Board
 - **Category:** career  
@@ -16,7 +16,7 @@ Your name goes up on the club's kicking records board.
 1. **Bring {holder}**: You bring {holder} to see it. Their name should be there too.  
    *(social +2; charisma +1; {holder} +4; modifier loose)*
 2. **Aim for more**: You look at the next name on the list.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; modifier dialed_in)*
 3. **Take a picture**: You take a picture for {parent}.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -86,13 +86,13 @@ A college coach asks you to co-host a kicking camp.
 - **Cast:** (no cast)  
 - **Premise:** A second child, and the house feels much smaller.
 
-A second child, and the house feels much smaller.
+A second child, and the house feels half its size. Everyone is tired, nobody is sleeping, and the season starts in three weeks.
 
-1. **Take the night shift**: You take the night shift on off days.  
+1. **Take the night shift**: You take the night shifts on your off days. You're exhausted at practice and closer to {love_interest} than you've been in years.  
    *(social +2; charisma +1; {love_interest} +5; modifier loose)*
-2. **Make a plan**: You make a plan for the season, down to who sleeps when.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
-3. **Ask the grandparents**: You ask the grandparents for help.  
+2. **Make a plan**: You make a plan for the season, down to who sleeps when. It works about half the time, which is better than nothing.  
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
+3. **Ask the grandparents**: You ask the grandparents to come for a month. Everyone sleeps, and the house is loud and full in the best way.  
    *(energy +2; fun +1; modifier rested)*
 
 ### PRO_739 The School Play
@@ -106,7 +106,7 @@ Your kid's school play is the night before a road game.
 1. **Go to the play**: You go to the play and catch a late flight.  
    *(social +2; charisma +1; {love_interest} +5; modifier loose)*
 2. **Watch the dress rehearsal**: You watch the dress rehearsal instead.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Watch the video**: You watch the video on the plane, twice. Your kid forgives you faster than you forgive yourself.  
    *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
 
@@ -121,7 +121,7 @@ You go to your first parent-teacher conference and get recognized by the teacher
 1. **Laugh about it**: You laugh about it and focus on your kid.  
    *(social +2; charisma +1; {love_interest} +3; modifier loose)*
 2. **Ask good questions**: You ask good questions. The teacher forgets you kick.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Keep it short**: You keep it short and leave with a list of spelling words.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -136,7 +136,7 @@ The family dog is getting old, and the kids are asking questions.
 1. **Answer honestly**: You answer honestly. It's a hard and good talk.  
    *(social +2; charisma +1; {love_interest} +4; modifier loose)*
 2. **Find a good book**: You find a good book about it and read it together.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Spend the time**: You spend more time with the dog. The kids join you on the slow walks.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -146,13 +146,13 @@ The family dog is getting old, and the kids are asking questions.
 - **Cast:** (no cast)  
 - **Premise:** {love_interest} gets a big job offer of their own.
 
-{love_interest} gets a big job offer of their own.
+{love_interest} gets a big job offer of their own, in a city you'd never live in during the season. They're excited, and trying not to show it.
 
-1. **Back them all the way**: You back them all the way. Your life gets busier, and {love_interest} glows.  
+1. **Back them all the way**: You back them all the way and work out the travel later. Your life gets busier and lonelier, and {love_interest} glows every time you call.  
    *(social +2; charisma +1; {love_interest} +6; modifier loose)*
-2. **Make it work together**: You make a plan that works for both careers.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
-3. **Ask them to wait**: You ask them to wait. They don't love that.  
+2. **Make it work together**: You sit down with a calendar and make a plan that works for both careers. It's complicated and fair, and it holds.  
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
+3. **Ask them to wait**: You ask them to wait a year, until your contract is settled. They agree, and something goes quiet between you.  
    *(energy -2; ambition +2; 2 SP; {love_interest} -3; modifier dialed_in)*
 
 ### PRO_743 The Weekend Away
@@ -166,7 +166,7 @@ A rare weekend away from the city, and your phone won't stop.
 1. **Turn it off**: You turn it off. Nothing burns down.  
    *(energy +2; fun +1; modifier rested)*
 2. **Check once a day**: You check once a day after dinner and answer what matters.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Answer the important ones**: You answer the important ones and lose an afternoon to them.  
    *(social +2; charisma +1; Team +3; modifier loose)*
 
@@ -176,13 +176,13 @@ A rare weekend away from the city, and your phone won't stop.
 - **Cast:** (no cast)  
 - **Premise:** The club names you its veteran leadership honoree.
 
-The club names you its veteran leadership honoree.
+The club names you its veteran leadership honoree. The award comes with a dinner, a speech, and a young team that will be listening to every word.
 
-1. **Accept and speak**: You accept and speak to the young players.  
+1. **Accept and speak**: You accept and talk to the young players about the year you nearly lost your job. The room is silent, and three rookies find you afterward.  
    *(energy -2; social +1; leadership +2; 1 SP; Team +2; modifier inspired)*
-2. **Share it**: You share it with the specialists.  
+2. **Share it**: You bring the specialists up with you and make them stand there while you thank them. {holder} is mortified and delighted.  
    *(social +2; charisma +1; Team +3; modifier loose)*
-3. **Accept quietly**: You accept quietly and thank the staff in a note.  
+3. **Accept quietly**: You accept quietly and thank the equipment staff in a handwritten note. They pin it to the wall of the equipment room.  
    *(energy +2; fun +1; modifier rested)*
 
 ### PRO_745 The Media Feud
@@ -194,11 +194,11 @@ The club names you its veteran leadership honoree.
 A columnist has a feud with you, and every column is about you.
 
 1. **Ignore it**: You ignore it. He runs out of things to say.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 2. **Invite him to practice**: You invite him to practice. The next column is kinder.  
    *(social +2; charisma +1; followers +1; Team +3; modifier loose)*
 3. **Use it**: You use it. Every column goes on the wall in your garage.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; modifier dialed_in)*
 
 #### Flags this batch sets, and what they open
 

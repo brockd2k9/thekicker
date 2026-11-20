@@ -1,9 +1,9 @@
-# PRO batch 20: era 2 (imported)
+# PRO batch 20: quality pass (rewrites and stat fixes) (imported)
 
 Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 
 
-## PRO batch 20: era 2
+## PRO batch 20: quality pass (rewrites and stat fixes)
 
 ### PRO_384 The Personal Trainer
 - **Category:** training  
@@ -14,9 +14,9 @@ Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 A private trainer could change your offseason, for a price.
 
 1. **Hire the trainer**: You hire the trainer. The summer is brutal, and you come back faster.  
-   *(energy -2; ambition +2; 3 SP; modifier dialed_in)*
+   *(energy -2; power +1; ambition +2; 3 SP; modifier dialed_in)*
 2. **Ask for a trial week**: You ask for a trial week first. It's good, and you hire them for half the summer.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; accuracy +1; intelligence +2; {coach} +2; modifier focused)*
 3. **Train on your own**: You train on your own, the way you always have.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -59,7 +59,7 @@ Your high school invites you back for its homecoming.
 The franchise is talking about a full rebuild, and your name is on a list.
 
 1. **Make yourself essential**: You make yourself the one veteran they can't rebuild without.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; modifier dialed_in)*
 2. **Ask your agent to find out**: You ask your agent to find out which list it is. It's the good one, for now.  
    *(energy -1; intelligence +2; {coach} +2; modifier focused)*
 3. **Help the young players**: You help the young players, because they're the future and so, maybe, are you.  
@@ -76,7 +76,7 @@ A family member needs more of your time than the season has.
 1. **Make the time**: You make the time: flights on off days, calls every night. You're exhausted and present.  
    *(social +2; charisma +1; {parent} +5; modifier loose)*
 2. **Build a plan with family**: You build a plan with the rest of the family so nobody carries it alone.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Wait for the offseason**: You promise the offseason and keep the promise. It's a long wait for both of you.  
    *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
 
@@ -91,7 +91,7 @@ Your growing reputation comes with an offseason full of interviews.
 1. **Say yes to most**: You say yes to most of them. Your name is everywhere by June.  
    *(social +2; charisma +1; followers +4; Team +1; modifier loose)*
 2. **Pick the good ones**: You pick the three best and do them well.  
-   *(energy -1; intelligence +2; followers +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; followers +2; modifier focused)*
 3. **Keep the summer quiet**: You keep the summer quiet and train.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -121,7 +121,7 @@ Your fourth pro season, and nobody calls you a rookie anymore.
 1. **Look out for the rookies**: You look out for the rookies the way someone once looked out for you.  
    *(energy -2; social +1; leadership +2; 1 SP; Team +2; modifier inspired)*
 2. **Raise your own bar**: You raise your own bar. Nobody else will now.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; modifier dialed_in)*
 3. **Enjoy it**: You enjoy it. You've earned some ease.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -134,9 +134,9 @@ Your fourth pro season, and nobody calls you a rookie anymore.
 Your routine works so well it's starting to feel like a rut.
 
 1. **Change one small thing**: You change one small thing. It's enough to wake you up.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; accuracy +1; intelligence +2; {coach} +2; modifier focused)*
 2. **Push harder**: You push harder inside the routine. It's tiring and it works.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; power +1; ambition +2; 2 SP; modifier dialed_in)*
 3. **Trust the rut**: You trust the rut. A rut that works is a groove.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -149,7 +149,7 @@ Your routine works so well it's starting to feel like a rut.
 Your second contract is real money, and everyone you know has noticed.
 
 1. **Set a rule for everyone**: You set one rule for everyone and stick to it. It's fair and a little lonely.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 2. **Help a few people**: You help a few people who really need it.  
    *(social +2; charisma +1; {parent} +3; modifier loose)*
 3. **Change your number**: You change your phone number. Things get quieter.  
@@ -194,11 +194,11 @@ The punter you've worked beside for years retires suddenly.
 A new long snapper, and your timing is off for the first time in years.
 
 1. **Rep it out**: You rep it out after every practice until the timing is back.  
-   *(energy -2; ambition +2; 3 SP; modifier dialed_in)*
+   *(energy -2; power +1; ambition +2; 3 SP; modifier dialed_in)*
 2. **Get to know him**: You get to know him off the field first. The timing follows.  
    *(social +2; charisma +1; Team +3; modifier loose)*
 3. **Film every snap**: You film every snap and find the tenth of a second.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; accuracy +1; intelligence +2; {coach} +2; modifier focused)*
 
 #### Flags this batch sets, and what they open
 

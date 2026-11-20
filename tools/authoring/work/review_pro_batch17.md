@@ -1,9 +1,9 @@
-# PRO batch 17: era 2 (imported)
+# PRO batch 17: quality pass (rewrites and stat fixes) (imported)
 
 Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 
 
-## PRO batch 17: era 2
+## PRO batch 17: quality pass (rewrites and stat fixes)
 
 ### PRO_288 The Off-Season Weight
 - **Category:** training  
@@ -14,9 +14,9 @@ Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 You come back from the offseason heavier than the club likes, and the strength coach has a scale ready.
 
 1. **Get on the scale**: You step on the scale, hear the number and spend six weeks earning back the old one.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; power +1; ambition +2; 2 SP; modifier dialed_in)*
 2. **Bring your own numbers**: You bring your leg-speed numbers from the summer. They're better than last year, and the strength coach backs off a little.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; accuracy +1; intelligence +2; {coach} +2; modifier focused)*
 3. **Laugh with the strength coach**: You joke your way through it and agree to a plan. The strength coach likes you more for it.  
    *(social +2; charisma +1; Team +3; modifier loose)*
 
@@ -74,9 +74,9 @@ Your agent says this is the contract that matters, and the club agrees, eventual
 Your biggest sponsor wants to renew, with new conditions: more appearances, more posts, more of you.
 
 1. **Accept the conditions**: You accept. The money is good, and your weeks get a lot shorter.  
-   *(energy -2; ambition +2; 2 SP; followers +4; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; followers +4; modifier dialed_in)*
 2. **Negotiate fewer appearances**: You negotiate the appearances down by half. They agree, grudgingly.  
-   *(energy -1; intelligence +2; followers +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; followers +2; modifier focused)*
 3. **Walk away**: You walk away. You get your Tuesdays back.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -108,7 +108,7 @@ A rival club's general manager makes it clear they'd pay more, next time you're 
 2. **Tell your club**: You tell your own club about the call. They appreciate it and remember it.  
    *(social +2; charisma +1; **retention +2**; {coach} +1; modifier loose)*
 3. **Ignore it**: You ignore it and kick the season out. Whatever comes, comes.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; modifier dialed_in)*
 
 ### PRO_315 The Motivation Slump
 - **Category:** health  
@@ -146,13 +146,13 @@ A high school kicker's video goes around: he copies your routine down to the las
 - **Cast:** Team  
 - **Premise:** Your closest teammate is holding out for a new contract, and wants you to say something publicly.
 
-Your closest teammate is holding out for a new contract, and wants you to say something publicly.
+Your closest teammate is holding out for a new contract and wants you to say something publicly. The front office is watching who stands with him.
 
-1. **Back him publicly**: You back him publicly. He's grateful, and the front office notices.  
+1. **Back him publicly**: You back him publicly in front of the cameras. He's grateful for good, and the front office remembers your name in a different way.  
    *(social +2; charisma +1; **retention -2**; Team +4; modifier loose)*
-2. **Back him privately**: You tell him you're with him and keep it out of the papers.  
+2. **Back him privately**: You tell him privately you're with him and keep it out of the papers. He understands, and wishes you'd said it louder.  
    *(energy -1; intelligence +2; {coach} +2; modifier focused)*
-3. **Speak for the room**: You say the whole team wants him back and leave the money to the people who handle it.  
+3. **Speak for the room**: You tell reporters the whole team wants him back and leave the money to the people who handle it. Both sides nod, neither is thrilled.  
    *(energy -2; social +1; leadership +2; 1 SP; Team +2; modifier inspired)*
 
 ### PRO_318 The Coordinator's Son
@@ -181,7 +181,7 @@ Your first prime-time game in years, and the broadcast crew wants an interview a
 1. **Do the interview**: You do the interview and tell one good story. It runs before kickoff.  
    *(social +2; charisma +1; followers +3; Team +1; modifier loose)*
 2. **Keep it short**: You give them ten minutes and go to bed early.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Decline politely**: You decline politely and watch film in your room.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -196,7 +196,7 @@ The club wants to talk about extending your contract, a year early.
 1. **Take the security**: You sign early. Your agent says you left money on the table; you sleep fine.  
    *(energy -1; intelligence +2; **retention +2**; {coach} +2; modifier focused)*
 2. **Bet on yourself**: You decline and play out the deal. Every kick is an audition now.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; modifier dialed_in)*
 3. **Ask {love_interest}**: You talk it over at home. You sign a shorter version.  
    *(social +2; charisma +1; {love_interest} +3; modifier loose)*
 

@@ -1,9 +1,9 @@
-# PRO batch 37: era 3-4 (imported)
+# PRO batch 37: quality pass (rewrites and stat fixes) (imported)
 
 Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 
 
-## PRO batch 37: era 3-4
+## PRO batch 37: quality pass (rewrites and stat fixes)
 
 ### PRO_134 The One-Year Deal
 - **Category:** career  
@@ -14,7 +14,7 @@ Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 The offer is one year, the minimum, and a phone call that says take it or leave it.
 
 1. **Sign it**: You sign it. A year is a year, and you still love the work.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; modifier dialed_in)*
 2. **Test the market**: You test the market. Two clubs call, and one makes the same offer with more respect.  
    *(energy -1; intelligence +2; {coach} +2; modifier focused)*
 3. **Ask home**: You ask home. {love_interest} says, 'Do you still want it?' You do.  
@@ -31,7 +31,7 @@ You're making a third of what you made five years ago, and the rookie next to yo
 1. **Laugh about it**: You laugh about it with him. He offers to sell it back to you. You decline.  
    *(social +2; charisma +1; Team +3; modifier loose)*
 2. **Adjust the budget**: You adjust the budget. Nobody in the house misses the things you cut.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Kick for the next deal**: You kick like the next deal depends on it. It does.  
    *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
 
@@ -44,7 +44,7 @@ You're making a third of what you made five years ago, and the rookie next to yo
 Your hip takes an hour to warm up now, and Monday mornings take two.
 
 1. **Build a new routine**: You build a new morning routine: heat, bands, a long walk. It takes ninety minutes and works.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; toughness +1; intelligence +2; {coach} +2; modifier focused)*
 2. **Push through**: You push through. Your hip complains all season, and holds.  
    *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
 3. **Rest more**: You rest more and practice less. You're fresher on game days and stiffer at practice.  
@@ -76,7 +76,7 @@ Do you tell the world this is your last season, or let it end quietly?
 The general manager says they're going in a different direction at kicker next season.
 
 1. **Prove them wrong**: You decide to prove them wrong, here or somewhere else. The fire is back.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; modifier dialed_in)*
 2. **Ask your agent to look**: You ask your agent to look around quietly. There's interest, and it's modest.  
    *(energy -1; intelligence +2; {coach} +2; modifier focused)*
 3. **Tell your family**: You tell your family that night. Nobody panics, and that helps.  
@@ -91,7 +91,7 @@ The general manager says they're going in a different direction at kicker next s
 Released last spring, signed this summer: everyone in camp thinks you're finished.
 
 1. **Show them**: You show them on the first day of camp and every day after. By August, nobody calls you finished.  
-   *(energy -2; ambition +2; 3 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 3 SP; modifier dialed_in)*
 2. **Help the young players**: You help the young players from day one. You're the veteran they didn't know they needed.  
    *(energy -2; social +1; leadership +2; 1 SP; Team +2; modifier inspired)*
 3. **Prove it with numbers**: You chart every kick and leave the numbers on the coach's desk. They're good numbers.  
@@ -136,13 +136,13 @@ A college asks if you'd coach their kickers when you retire.
 - **Cast:** (no cast)  
 - **Premise:** This contract is probably the last one, and your agent says so out loud.
 
-This contract is probably the last one, and your agent says so out loud.
+This contract is probably the last one. Your agent says so out loud, gently, while you're signing it.
 
-1. **Make it count**: You make it count: every practice, every rep, every goodbye you don't say yet.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
-2. **Plan the end**: You plan the end with your agent and your family. It's calm and a little sad.  
+1. **Make it count**: You make every day of it count: every practice, every rep, every goodbye you aren't ready to say yet.  
+   *(energy -2; resilience +1; ambition +2; 2 SP; modifier dialed_in)*
+2. **Plan the end**: You plan the end with your agent and your family, calmly, at the kitchen table. It's a little sad, and you sleep well that night.  
    *(energy -1; intelligence +2; {coach} +2; modifier focused)*
-3. **Celebrate it**: You celebrate it with dinner at the place you went after your first contract.  
+3. **Celebrate it**: You celebrate it with dinner at the place you went after your first contract. The same waiter is there, older, and remembers you.  
    *(social +2; charisma +1; {love_interest} +3; modifier loose)*
 
 ### PRO_146 Your Kid Wants to Kick
@@ -187,7 +187,7 @@ The box from your old locker is still in the trunk. Nobody walked by while you p
 1. **Call someone from the old club**: You call {holder} from the old club. 'I should have come by,' they say. It helps.  
    *(social +2; charisma +1; {holder} +3; modifier loose)*
 2. **Unpack it at the new place**: You unpack the box at the new facility on the first day. New locker, same routine.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; modifier dialed_in)*
 3. **Leave it in the trunk**: You leave it in the trunk for a few more weeks. Some things take time.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -204,7 +204,7 @@ Your agent, your partner and your accountant all ask the same question in the sa
 2. **Ask your family what they want**: You ask your family what they want. Their answers change your list.  
    *(social +2; charisma +1; {love_interest} +4; modifier loose)*
 3. **Answer after the season**: You tell everyone you'll answer after the season. You mean it.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; modifier dialed_in)*
 4. 🔒 *locked: needs `finished_degree_track` or `life_after_football`, shown as "having prepared for life after football"*  
    **Pull out the plan you already made**: You pull out the plan you started years ago. Most of it still fits, and the rest is easy to fix.  
    *(energy +1; intelligence +2; modifier focused)*

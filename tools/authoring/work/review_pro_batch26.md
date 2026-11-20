@@ -1,9 +1,9 @@
-# PRO batch 26: era 3 (imported)
+# PRO batch 26: quality pass (rewrites and stat fixes) (imported)
 
 Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 
 
-## PRO batch 26: era 3
+## PRO batch 26: quality pass (rewrites and stat fixes)
 
 ### PRO_094 The Letter From a Kid
 - **Category:** community  
@@ -47,7 +47,7 @@ The league's awards show wants you on the red carpet the night before a practice
 You turn thirty in camp, and the trainer starts talking about 'maintenance'.
 
 1. **Listen to the trainer**: You listen and add the new routine. It's dull and it works.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; toughness +1; intelligence +2; {coach} +2; modifier focused)*
 2. **Prove you don't need it**: You decide to prove you don't need it. Your body disagrees by October.  
    *(energy -2; ambition +2; 3 SP; modifier dialed_in)*
 3. **Celebrate with the unit**: You let the specialists throw you a birthday in the cafeteria.  
@@ -62,7 +62,7 @@ You turn thirty in camp, and the trainer starts talking about 'maintenance'.
 Holding on to your leg costs more every year: more treatment, more rest, more of your time.
 
 1. **Budget your body**: You plan the whole year around recovery. It's a second job.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; toughness +1; intelligence +2; {coach} +2; modifier focused)*
 2. **Work harder instead**: You work harder instead of smarter. It holds, for now.  
    *(energy -2; ambition +2; 3 SP; modifier dialed_in)*
 3. **Rest more**: You rest more and train less. Your leg feels fresh, and a little slower.  
@@ -79,7 +79,7 @@ Ten years married, and you're in a hotel in a city you can't remember the name o
 1. **Fly {love_interest} in**: You fly {love_interest} in for one night. It's the best anniversary yet.  
    *(social +2; charisma +1; {love_interest} +6; modifier loose)*
 2. **Plan the real one**: You plan a real celebration for the bye week, down to the restaurant.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Call for an hour**: You call for an hour from the hotel room and talk about the first year.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -109,7 +109,7 @@ A local station offers you a weekly radio show during the season.
 1. **Say yes**: You say yes. The callers love you, and so do some teammates.  
    *(social +2; charisma +1; followers +3; Team +1; modifier loose; sets `radio_show`)*
 2. **Do it in the offseason**: You agree to an offseason show only. It works.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused; sets `radio_show`)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused; sets `radio_show`)*
 3. **Decline**: You decline. Your Mondays stay quiet.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -122,7 +122,7 @@ A local station offers you a weekly radio show during the season.
 A restaurant chain offers you a franchise with your name on it, this time with professionals running it.
 
 1. **Do it with professionals**: You sign with professionals running it and lawyers reading everything.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused; sets `franchise_owner`)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused; sets `franchise_owner`)*
 2. **Bring family in**: You bring {sibling} in to keep an eye on it.  
    *(social +2; charisma +1; {sibling} +3; modifier loose; sets `franchise_owner`)*
 3. **Pass**: You pass. You have enough to think about.  
@@ -137,7 +137,7 @@ A restaurant chain offers you a franchise with your name on it, this time with p
 Last year everyone wrote your obituary. This year you're the first one on the field.
 
 1. **Be first every day**: You're first on the field every day, and last off it.  
-   *(energy -2; ambition +2; 3 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 3 SP; modifier dialed_in)*
 2. **Bring the young players**: You bring the young players with you. The early sessions become a club.  
    *(energy -2; social +1; leadership +2; 1 SP; Team +2; modifier inspired)*
 3. **Prove it with numbers**: You track every kick and show the coaches the curve.  
@@ -154,7 +154,7 @@ A sleepless night: if you're not the kicker, who are you?
 1. **Wake {love_interest}**: You wake {love_interest} and talk until dawn.  
    *(social +2; charisma +1; {love_interest} +4; modifier loose)*
 2. **Write it down**: You write down everything you are besides a kicker. The list is longer than you thought.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; toughness +1; intelligence +2; {coach} +2; modifier focused)*
 3. **Go for a walk**: You go for a walk at three in the morning. The question comes with you.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -184,7 +184,7 @@ A real vacation, no phones, and a family that's not used to having you around fo
 1. **Be fully there**: You leave your phone in the drawer all week. Everyone notices.  
    *(social +2; charisma +1; {love_interest} +6; modifier loose)*
 2. **Plan every day**: You plan every day. It's fun and a little exhausting.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Train in the mornings**: You train every morning before anyone wakes up.  
    *(energy -2; ambition +2; 2 SP; {love_interest} -1; modifier dialed_in)*
 

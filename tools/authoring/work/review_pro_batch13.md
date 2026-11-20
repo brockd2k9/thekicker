@@ -1,9 +1,9 @@
-# PRO batch 13: era 1, Rookie (imported)
+# PRO batch 13: quality pass (rewrites and stat fixes) (imported)
 
 Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 
 
-## PRO batch 13: era 1, Rookie
+## PRO batch 13: quality pass (rewrites and stat fixes)
 
 ### PRO_616 The Team Thanksgiving
 - **Category:** team  
@@ -59,7 +59,7 @@ A teammate's baby is born on a game week, and the whole locker room celebrates.
 For the first time in your life, nobody tells you what to do all summer.
 
 1. **Build your own plan**: You build a strict plan and follow it. You come back stronger.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; power +1; ambition +2; 2 SP; modifier dialed_in)*
 2. **Take a real break**: You take three weeks off completely. You come back hungry.  
    *(energy +2; fun +1; modifier rested)*
 3. **Train with friends**: You train with old college teammates. It's fun and it's real work.  
@@ -119,7 +119,7 @@ A fan sends gifts to the facility every week, and they're getting stranger.
 The commercial shoot takes eleven hours for fifteen seconds of you holding a sports drink.
 
 1. **Nail every take**: You nail every take and the director asks you back.  
-   *(energy -2; ambition +2; 1 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 1 SP; modifier dialed_in)*
 2. **Make the crew laugh**: You make the crew laugh between takes. It's the best part of the day.  
    *(social +2; charisma +1; Team +1; modifier loose)*
 3. **Survive it**: You survive it. Your face hurts from smiling.  
@@ -164,11 +164,11 @@ Released after your first camp and signed somewhere new, you're starting your ro
 Fans boo at a practice open to the public, and you know who they mean.
 
 1. **Kick through it**: You kick through it and make the next ten. The boos stop.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; power +1; ambition +2; 2 SP; modifier dialed_in)*
 2. **Wave**: You wave at the boo section. They laugh, and so do you.  
    *(social +2; charisma +1; Team +1; modifier loose)*
 3. **Ask the psychologist for a tool**: You ask the team psychologist for one tool for crowd noise. It works.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; accuracy +1; intelligence +2; {coach} +2; modifier focused)*
 
 ### PRO_627 The Phone Call Home
 - **Category:** family  
@@ -183,7 +183,7 @@ You call home every Sunday, and this Sunday you don't know what to say.
 2. **Talk about anything else**: You talk about the weather and his garden for an hour. It helps.  
    *(energy +2; fun +1; modifier rested)*
 3. **Ask him how he got through hard years**: You ask {parent} how he got through his hardest year. He tells you, and you write it down.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 
 ### PRO_628 The Rookie Paycheck Math
 - **Category:** career  
@@ -196,7 +196,7 @@ You do the math on your rookie contract and realize how short a career really is
 1. **Make a five-year plan**: You make a five-year plan with your agent and a financial advisor.  
    *(energy -1; intelligence +2; {coach} +2; modifier focused)*
 2. **Make the most of it**: You decide to make every season count and add an extra workout a week.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; modifier dialed_in)*
 3. **Try not to think about it**: You try not to think about it. You sleep less well than you'd like.  
    *(energy +2; fun +1; modifier rested)*
 

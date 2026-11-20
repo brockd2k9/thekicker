@@ -1,9 +1,9 @@
-# PRO batch 14: era 1-2 (imported)
+# PRO batch 14: quality pass (rewrites and stat fixes) (imported)
 
 Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 
 
-## PRO batch 14: era 1-2
+## PRO batch 14: quality pass (rewrites and stat fixes)
 
 ### PRO_629 The Rookie Who Calls Home Crying
 - **Category:** team  
@@ -44,9 +44,9 @@ The specialists have a superstition: nobody says the streak out loud. A rookie j
 A private coach who rebuilt three pro kickers offers you his offseason, for a price.
 
 1. **Hire him**: You hire him for the summer. His drills are brutal and brilliant, and your leg feels new by August.  
-   *(energy -2; ambition +2; 3 SP; modifier dialed_in; sets `hired_private_coach`)*
+   *(energy -2; power +1; ambition +2; 3 SP; modifier dialed_in; sets `hired_private_coach`)*
 2. **Train with the club's staff**: You stay with the club's staff, who know your body. It's less glamorous and steady.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; accuracy +1; intelligence +2; {coach} +2; modifier focused)*
 3. **Take the summer off**: You take the summer mostly off. You come back rested and a little rusty.  
    *(energy +2; fun +1; modifier rested)*
 4. 🔒 *locked: needs `vetted_trainer` or `trained_with_alum`, shown as "having checked out trainers before"*  
@@ -62,7 +62,7 @@ A private coach who rebuilt three pro kickers offers you his offseason, for a pr
 Your contract pays a bonus if you hit 90 percent this season, and your agent keeps texting you the math.
 
 1. **Ask your agent to stop**: You ask your agent to stop sending the math. You'll know at the end of the season.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 2. **Chase it**: You put the number on your locker and chase it every practice.  
    *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
 3. **Forget about it**: You forget about it entirely. If it comes, it comes.  
@@ -108,7 +108,7 @@ You snapped at {holder}, ignored {coach} and skipped the team meal. It's been th
 This is the contract that sets up your family for life, if you earn it this season.
 
 1. **Make the season undeniable**: You make every practice count. Nothing about this season will be an accident.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; modifier dialed_in)*
 2. **Let your agent work**: You let your agent handle every conversation and keep your head on kicking.  
    *(energy -1; intelligence +2; {coach} +2; modifier focused)*
 3. **Talk it through at home**: You talk it through with your family. Their calm becomes your calm.  
@@ -151,13 +151,13 @@ The club traded your holder's best friend at midnight. He found out from his pho
 - **Cast:** {parent}  
 - **Premise:** You could pay off {parent}'s mortgage this week. He's told you not to, twice.
 
-You could pay off {parent}'s mortgage this week. He's told you not to, twice.
+You could pay off {parent}'s mortgage this week with one transfer. He's told you not to, twice, in the voice he used when you were twelve.
 
-1. **Do it anyway**: You pay it off and tell him after. He's furious for an hour and grateful forever.  
+1. **Do it anyway**: You pay it off and tell him after. He's furious for an hour and doesn't speak at dinner. A month later, he still has the letter from the bank on his fridge.  
    *(social +2; charisma +1; {parent} +6; modifier loose)*
-2. **Ask what he'd accept**: You ask {parent} what he would accept. He agrees to a loan with no interest, and pays it back early.  
-   *(energy -1; intelligence +2; {coach} +2; {parent} +3; modifier focused)*
-3. **Respect his wish**: You respect his wish and let it go. He's proud of that, too.  
+2. **Ask what he'd accept**: You ask {parent} what he would actually accept. He agrees to a loan with no interest, insists on paying it back, and pays it back early.  
+   *(energy -1; resilience +1; intelligence +2; {parent} +3; modifier focused)*
+3. **Respect his wish**: You respect his wish and let it go. He's proud of that, in his quiet way, and you send money to his church instead.  
    *(energy +2; fun +1; modifier rested)*
 4. 🔒 *locked: needs `helped_family_financially`, shown as "having helped your family with money before"*  
    **Do it the way that worked before**: You set it up the way you did last time: quietly, through the bank, with his name on everything. He grumbles and signs.  
@@ -189,7 +189,7 @@ Your kid's first day of school is a Thursday practice.
 1. **Go home for a weekend**: You go home for the bye weekend and spend every minute with him.  
    *(social +2; charisma +1; {parent} +5; modifier loose)*
 2. **Find him a doctor**: You find him a specialist and go to the first appointment by video.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Call more often**: You start calling every other day. It's not much, and it's something.  
    *(energy +2; fun +1; modifier rested)*
 

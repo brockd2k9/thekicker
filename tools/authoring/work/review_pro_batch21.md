@@ -1,9 +1,9 @@
-# PRO batch 21: era 2 (imported)
+# PRO batch 21: quality pass (rewrites and stat fixes) (imported)
 
 Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 
 
-## PRO batch 21: era 2
+## PRO batch 21: quality pass (rewrites and stat fixes)
 
 ### PRO_636 The Pregnancy
 - **Category:** family  
@@ -11,13 +11,13 @@ Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 - **Cast:** (no cast)  
 - **Premise:** {love_interest} is pregnant, and the due date is in the middle of the season.
 
-{love_interest} is pregnant, and the due date is in the middle of the season.
+{love_interest} is pregnant, and the due date falls right in the middle of the season. You're thrilled, and already counting weeks on the schedule.
 
-1. **Plan to be there**: You tell {coach} now that you'll miss a game if you have to. The coach says that's the right call.  
+1. **Plan to be there**: You tell {coach} now that you'll miss a game if the baby comes on a Sunday. The coach says it's the right call and means it.  
    *(social +2; charisma +1; {love_interest} +6; modifier loose)*
-2. **Make a plan with everyone**: You make a plan with {love_interest}, the coach and both families.  
+2. **Make a plan with everyone**: You make a plan with {love_interest}, the coach and both families: who's on call, which flights, which bags. It feels like a playbook, and it helps.  
    *(energy -1; intelligence +2; {coach} +2; modifier focused)*
-3. **Hope for the bye week**: You hope the baby comes in the bye week. You also pack a bag.  
+3. **Hope for the bye week**: You hope the baby comes in the bye week. You also keep a bag packed in the car and check your phone at every break.  
    *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
 
 ### PRO_637 The Baby's First Year
@@ -31,7 +31,7 @@ Sleepless nights with a newborn during the season.
 1. **Take the night shifts**: You take the night shifts on off days. You're tired and close.  
    *(social +2; charisma +1; {love_interest} +5; modifier loose)*
 2. **Sleep in shifts**: You and {love_interest} sleep in shifts by the schedule. It works, roughly.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Ask for help**: You ask the grandparents to come for a month. Everyone sleeps.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -44,7 +44,7 @@ Sleepless nights with a newborn during the season.
 Finding daycare in a city where you might not live next year.
 
 1. **Do the research**: You visit six places and pick the best one.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 2. **Ask the team families**: You ask the other team families. They have a list and a group chat.  
    *(social +2; charisma +1; Team +3; modifier loose)*
 3. **Hire a nanny for now**: You hire a nanny for the season and decide later.  
@@ -63,7 +63,7 @@ Finding daycare in a city where you might not live next year.
 2. **Keep your routine**: You keep your routine and see them at dinner.  
    *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
 3. **Plan their days**: You plan their days so everyone has something to do.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 
 ### PRO_640 The Kicking Video Series
 - **Category:** media  
@@ -121,7 +121,7 @@ A teammate becomes your closest friend in the league.
 1. **Say yes with joy**: You say yes and give a toast nobody forgets.  
    *(social +2; charisma +1; {holder} +5; modifier loose)*
 2. **Organize the weekend**: You organize the whole weekend so {holder} doesn't have to.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Show up, enjoy it**: You show up, stand where they tell you and enjoy the day.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -151,9 +151,9 @@ Fans start an official fan club, and they want you at the first meeting.
 1. **Congratulate him**: You congratulate him, and mean it. He texts you thanks.  
    *(social +2; charisma +1; {tyler} +4; modifier loose)*
 2. **Say nothing**: You decline to comment. It makes a headline anyway.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Use it**: You put the number on your locker where only you can see it.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; modifier dialed_in)*
 
 ### PRO_646 The Charity Golf Tournament
 - **Category:** community  
@@ -168,7 +168,7 @@ You host a charity golf tournament for the first time.
 2. **Invite the old crew**: You invite your college teammates. It turns into a reunion.  
    *(social +2; charisma +1; {best_friend} +4; modifier loose)*
 3. **Find a sponsor**: You find a sponsor to cover the costs. It raises twice as much.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 
 ### PRO_647 The Investment Club
 - **Category:** money  
@@ -194,7 +194,7 @@ A group of teammates forms an investment club and wants you in.
 You buy a second car, and then realize you never drive the first one.
 
 1. **Sell one**: You sell one and feel smarter for it.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 2. **Give one to {sibling}**: You give the old one to {sibling}. He cries a little.  
    *(social +2; charisma +1; {sibling} +5; modifier loose)*
 3. **Keep both**: You keep both. They sit in the driveway, shining.  

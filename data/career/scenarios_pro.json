@@ -2820,6 +2820,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -2827,10 +2830,7 @@
 					"modifiers": [
 						"focused"
 					],
-					"followers": 3,
-					"rel": {
-						"coach": 2
-					}
+					"followers": 3
 				},
 				{
 					"label": "Do none",
@@ -2881,6 +2881,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -3027,6 +3030,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"power": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -3045,6 +3051,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"accuracy": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -3362,16 +3371,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Chase it",
@@ -3796,6 +3805,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -3878,6 +3890,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -5000,6 +5015,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -6236,16 +6254,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Buy him lunch, not the idea",
@@ -6284,7 +6302,7 @@
 			"id": "PRO_069",
 			"title": "{parent}'s House",
 			"category": "money",
-			"text": "You could pay off {parent}'s mortgage this week. He's told you not to, twice.",
+			"text": "You could pay off {parent}'s mortgage this week with one transfer. He's told you not to, twice, in the voice he used when you were twelve.",
 			"stages": [
 				"pro"
 			],
@@ -6316,7 +6334,7 @@
 			"choices": [
 				{
 					"label": "Do it anyway",
-					"result": "You pay it off and tell him after. He's furious for an hour and grateful forever.",
+					"result": "You pay it off and tell him after. He's furious for an hour and doesn't speak at dinner. A month later, he still has the letter from the bank on his fridge.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -6334,10 +6352,13 @@
 				},
 				{
 					"label": "Ask what he'd accept",
-					"result": "You ask {parent} what he would accept. He agrees to a loan with no interest, and pays it back early.",
+					"result": "You ask {parent} what he would actually accept. He agrees to a loan with no interest, insists on paying it back, and pays it back early.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -6347,13 +6368,12 @@
 						"focused"
 					],
 					"rel": {
-						"coach": 2,
 						"parent": 3
 					}
 				},
 				{
 					"label": "Respect his wish",
-					"result": "You respect his wish and let it go. He's proud of that, too.",
+					"result": "You respect his wish and let it go. He's proud of that, in his quiet way, and you send money to his church instead.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -6451,6 +6471,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -6460,9 +6483,6 @@
 					],
 					"set_flags": {
 						"started_foundation": true
-					},
-					"rel": {
-						"coach": 2
 					}
 				},
 				{
@@ -6568,7 +6588,7 @@
 			"id": "PRO_072",
 			"title": "Broke at Thirty-Three",
 			"category": "money",
-			"text": "The money's gone faster than the career, and you have a mortgage, a family and maybe three seasons.",
+			"text": "The money's gone faster than the career. There's a mortgage, a family, and maybe three seasons left in your leg, if you're lucky.",
 			"stages": [
 				"pro"
 			],
@@ -6602,10 +6622,13 @@
 			"choices": [
 				{
 					"label": "Make a hard plan",
-					"result": "You make a hard plan with an honest advisor and stick to it.",
+					"result": "You sit down with an honest advisor and make a hard plan: a smaller house, no new cars, a budget on the fridge. It hurts, and it works.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -6616,14 +6639,11 @@
 					],
 					"set_flags": {
 						"honest_advisor": true
-					},
-					"rel": {
-						"coach": 2
 					}
 				},
 				{
 					"label": "Tell your family everything",
-					"result": "You tell your family everything. It's the worst conversation and the best one.",
+					"result": "You tell your family everything at the kitchen table. It's the worst conversation of your life and the best one; nobody leaves.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -6641,7 +6661,7 @@
 				},
 				{
 					"label": "Kick for one more contract",
-					"result": "You kick for one more contract like your family depends on it. It does.",
+					"result": "You decide to kick for one more contract like your family depends on it. It does, and every practice feels heavier.",
 					"stats": {
 						"life": {
 							"energy": -2
@@ -7240,16 +7260,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Call more often",
@@ -7319,16 +7339,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Thank him",
@@ -7858,6 +7878,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -7865,10 +7888,7 @@
 					"modifiers": [
 						"focused"
 					],
-					"followers": 2,
-					"rel": {
-						"coach": 2
-					}
+					"followers": 2
 				},
 				{
 					"label": "Laugh about it",
@@ -8056,6 +8076,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -8277,7 +8300,7 @@
 			"id": "PRO_093",
 			"title": "The Concussion",
 			"category": "team",
-			"text": "A teammate who has had too many concussions is hiding another one, and you saw it happen.",
+			"text": "A teammate who has had too many concussions takes another hit in practice and hides it. You saw it happen, and he saw you see it.",
 			"stages": [
 				"pro"
 			],
@@ -8303,7 +8326,7 @@
 			"choices": [
 				{
 					"label": "Tell the trainers",
-					"result": "You tell the trainers. He's angry for a week, then he thanks you.",
+					"result": "You tell the trainers before the next drill. He's angry for a week and won't look at you, then thanks you in the parking lot.",
 					"stats": {
 						"life": {
 							"energy": -2,
@@ -8323,7 +8346,7 @@
 				},
 				{
 					"label": "Talk to him first",
-					"result": "You talk to him first and convince him to tell the trainers himself.",
+					"result": "You talk to him first, away from everyone, and convince him to tell the trainers himself. It costs you an hour and some of his pride.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -8341,7 +8364,7 @@
 				},
 				{
 					"label": "Stay out of it",
-					"result": "You stay out of it. He plays the next game, and you watch him the whole time.",
+					"result": "You stay out of it. He plays the next game, and you watch him every snap, wondering.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -8572,16 +8595,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Skip it",
@@ -8656,16 +8679,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Remember the pact",
@@ -9292,6 +9315,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -9299,10 +9325,7 @@
 					"modifiers": [
 						"focused"
 					],
-					"followers": 2,
-					"rel": {
-						"coach": 2
-					}
+					"followers": 2
 				},
 				{
 					"label": "Be yourself",
@@ -9475,6 +9498,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -9492,6 +9518,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -9499,10 +9528,7 @@
 					"modifiers": [
 						"focused"
 					],
-					"followers": 4,
-					"rel": {
-						"coach": 2
-					}
+					"followers": 4
 				},
 				{
 					"label": "Pass",
@@ -10848,6 +10874,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"toughness": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -10927,6 +10956,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"toughness": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -11009,6 +11041,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -11094,6 +11129,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -11196,16 +11234,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Kick for the next deal",
@@ -11257,6 +11295,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"toughness": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -11541,6 +11582,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -11624,6 +11668,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -11935,7 +11982,7 @@
 			"id": "PRO_145",
 			"title": "The Last Contract",
 			"category": "career",
-			"text": "This contract is probably the last one, and your agent says so out loud.",
+			"text": "This contract is probably the last one. Your agent says so out loud, gently, while you're signing it.",
 			"stages": [
 				"pro"
 			],
@@ -11962,10 +12009,13 @@
 			"choices": [
 				{
 					"label": "Make it count",
-					"result": "You make it count: every practice, every rep, every goodbye you don't say yet.",
+					"result": "You make every day of it count: every practice, every rep, every goodbye you aren't ready to say yet.",
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -11978,7 +12028,7 @@
 				},
 				{
 					"label": "Plan the end",
-					"result": "You plan the end with your agent and your family. It's calm and a little sad.",
+					"result": "You plan the end with your agent and your family, calmly, at the kitchen table. It's a little sad, and you sleep well that night.",
 					"stats": {
 						"life": {
 							"energy": -1
@@ -11996,7 +12046,7 @@
 				},
 				{
 					"label": "Celebrate it",
-					"result": "You celebrate it with dinner at the place you went after your first contract.",
+					"result": "You celebrate it with dinner at the place you went after your first contract. The same waiter is there, older, and remembers you.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -12240,6 +12290,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -12336,6 +12389,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -13899,7 +13955,7 @@
 			"id": "PRO_179",
 			"title": "The Prime Slump",
 			"category": "training",
-			"text": "You're supposed to be at your best, and the misses in practice have started making headlines.",
+			"text": "You're supposed to be at your best, and the misses in practice have started making headlines. The coaches haven't said anything, which is worse.",
 			"stages": [
 				"pro"
 			],
@@ -13931,10 +13987,13 @@
 			"choices": [
 				{
 					"label": "Go back to the film",
-					"result": "You go back to film of your best season and find the one thing that changed.",
+					"result": "You go back to the film of your best season and find the one thing that changed: your plant foot drifted half an inch. It takes a week to fix.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"accuracy": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -13949,10 +14008,13 @@
 				},
 				{
 					"label": "Kick through it",
-					"result": "You kick through it until the misses stop.",
+					"result": "You kick through it, two hundred extra balls a day. Your leg aches, your rhythm comes back, and nobody can say you didn't work.",
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"power": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -13965,7 +14027,7 @@
 				},
 				{
 					"label": "Lean on the holder",
-					"result": "You and {holder} go back to basics together. It helps more than you expected.",
+					"result": "You and {holder} go back to basics together, laughing at how far you've come. It helps more than you expected.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -14252,16 +14314,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Enjoy it",
@@ -14695,6 +14757,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"toughness": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -15122,7 +15187,7 @@
 			"id": "PRO_202",
 			"title": "The Rookie Asks",
 			"category": "team",
-			"text": "A rookie specialist corners you after practice with a question you used to ask.",
+			"text": "A rookie specialist catches you after practice with a question you used to ask: how do you stop thinking about the last kick?",
 			"stages": [
 				"pro"
 			],
@@ -15149,7 +15214,7 @@
 			"choices": [
 				{
 					"label": "Answer it fully",
-					"result": "You answer it fully and stay an hour. He asks you something new every week after.",
+					"result": "You answer it fully and stay an hour, showing him the breathing and the one thought. He asks you something new every week after.",
 					"stats": {
 						"life": {
 							"energy": -2,
@@ -15169,7 +15234,7 @@
 				},
 				{
 					"label": "Take him to dinner",
-					"result": "You take him to dinner and answer everything.",
+					"result": "You take him to dinner and answer everything he asks. He's homesick, too, which you can hear between the questions.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -15187,7 +15252,7 @@
 				},
 				{
 					"label": "Keep it short",
-					"result": "You give him a short answer and go home.",
+					"result": "You give him a short answer and go home. On the drive you think of a better one, and you tell him in the morning.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -15776,16 +15841,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Call for an hour",
@@ -16129,6 +16194,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -16138,9 +16206,6 @@
 					],
 					"set_flags": {
 						"radio_show": true
-					},
-					"rel": {
-						"coach": 2
 					}
 				},
 				{
@@ -16362,6 +16427,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -16371,9 +16439,6 @@
 					],
 					"set_flags": {
 						"franchise_owner": true
-					},
-					"rel": {
-						"coach": 2
 					}
 				},
 				{
@@ -16514,6 +16579,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -17153,6 +17221,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"toughness": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -17833,16 +17904,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Train in the mornings",
@@ -17921,16 +17992,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Pick one",
@@ -17984,6 +18055,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"toughness": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -18083,6 +18157,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"power": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -18155,16 +18232,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Bring a teammate",
@@ -18368,16 +18445,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Keep renting",
@@ -18463,6 +18540,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"toughness": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -18534,6 +18614,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -18541,10 +18624,7 @@
 					"modifiers": [
 						"focused"
 					],
-					"followers": 2,
-					"rel": {
-						"coach": 2
-					}
+					"followers": 2
 				},
 				{
 					"label": "Do one day",
@@ -18599,16 +18679,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Go and hike instead",
@@ -18834,6 +18914,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"accuracy": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -19000,6 +19083,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -19102,16 +19188,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Leave early",
@@ -19166,6 +19252,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"power": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -19181,6 +19270,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"accuracy": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -19350,16 +19442,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Shake his hand",
@@ -19408,6 +19500,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"power": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -19423,6 +19518,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"accuracy": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -19647,7 +19745,7 @@
 			"id": "PRO_299",
 			"title": "The Coach You Outlasted",
 			"category": "team",
-			"text": "The head coach who drafted you is fired. You're still here.",
+			"text": "The head coach who drafted you is fired after a bad season. You've outlasted him. It doesn't feel like a win.",
 			"stages": [
 				"pro"
 			],
@@ -19670,7 +19768,7 @@
 			"choices": [
 				{
 					"label": "Call him",
-					"result": "You call him that night. He thanks you for calling.",
+					"result": "You call him that night. He thanks you for calling, talks about your rookie camp for twenty minutes, and you hear his family in the background.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -19688,7 +19786,7 @@
 				},
 				{
 					"label": "Steady the room",
-					"result": "You steady the room. The new coach notices.",
+					"result": "You steady the room the next morning, before the rumors start. The new coach hears about it before you meet him.",
 					"stats": {
 						"life": {
 							"energy": -2,
@@ -19708,7 +19806,7 @@
 				},
 				{
 					"label": "Keep going",
-					"result": "You keep going. That's the business.",
+					"result": "You keep going, because that's the business. You keep his old playbook on a shelf at home.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -20273,6 +20371,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -20290,6 +20391,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -20297,10 +20401,7 @@
 					"modifiers": [
 						"focused"
 					],
-					"followers": 2,
-					"rel": {
-						"coach": 2
-					}
+					"followers": 2
 				},
 				{
 					"label": "Walk away",
@@ -20476,6 +20577,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -20644,7 +20748,7 @@
 			"id": "PRO_317",
 			"title": "A Teammate Holds Out",
 			"category": "team",
-			"text": "Your closest teammate is holding out for a new contract, and wants you to say something publicly.",
+			"text": "Your closest teammate is holding out for a new contract and wants you to say something publicly. The front office is watching who stands with him.",
 			"stages": [
 				"pro"
 			],
@@ -20667,7 +20771,7 @@
 			"choices": [
 				{
 					"label": "Back him publicly",
-					"result": "You back him publicly. He's grateful, and the front office notices.",
+					"result": "You back him publicly in front of the cameras. He's grateful for good, and the front office remembers your name in a different way.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -20686,7 +20790,7 @@
 				},
 				{
 					"label": "Back him privately",
-					"result": "You tell him you're with him and keep it out of the papers.",
+					"result": "You tell him privately you're with him and keep it out of the papers. He understands, and wishes you'd said it louder.",
 					"stats": {
 						"life": {
 							"energy": -1
@@ -20704,7 +20808,7 @@
 				},
 				{
 					"label": "Speak for the room",
-					"result": "You say the whole team wants him back and leave the money to the people who handle it.",
+					"result": "You tell reporters the whole team wants him back and leave the money to the people who handle it. Both sides nod, neither is thrilled.",
 					"stats": {
 						"life": {
 							"energy": -2,
@@ -20836,6 +20940,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -20934,16 +21041,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Decline politely",
@@ -23913,6 +24020,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -23996,16 +24106,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Wait a year",
@@ -24075,6 +24185,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -24082,10 +24195,7 @@
 					"modifiers": [
 						"focused"
 					],
-					"followers": 2,
-					"rel": {
-						"coach": 2
-					}
+					"followers": 2
 				},
 				{
 					"label": "Pass on it",
@@ -24106,7 +24216,7 @@
 			"id": "PRO_360",
 			"title": "The Investment Pitch",
 			"category": "money",
-			"text": "Someone pitches you an investment that sounds too good, and they know it.",
+			"text": "A man at a charity dinner pitches you an investment: guaranteed returns, a famous partner, no risk. He's done this before, and he knows you can tell.",
 			"stages": [
 				"pro"
 			],
@@ -24133,10 +24243,13 @@
 			"choices": [
 				{
 					"label": "Walk away",
-					"result": "You thank them and walk away. Six months later you read about it in the paper.",
+					"result": "You thank him and walk away. Six months later you read his name in the paper, and you pass the article to your teammates.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -24144,14 +24257,11 @@
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Ask someone you trust",
-					"result": "You show it to someone you trust. They laugh, then they explain.",
+					"result": "You show it to someone you trust. They laugh, then explain exactly how it works. You learn more in an hour than in a year of statements.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -24169,7 +24279,7 @@
 				},
 				{
 					"label": "Put money in",
-					"result": "You put money in. The statements look great for a while, then they stop coming.",
+					"result": "You put money in. The statements look great for a while, then they stop coming, and so does he. The shame lasts longer than the loss.",
 					"stats": {
 						"life": {
 							"fun": -2,
@@ -24380,6 +24490,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"power": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -24395,6 +24508,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"accuracy": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -24486,16 +24602,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Let it blow over",
@@ -24548,16 +24664,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Ask {parent} to oversee it",
@@ -24724,16 +24840,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Decline",
@@ -24827,16 +24943,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				}
 			]
 		},
@@ -24891,16 +25007,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Let it go to voicemail",
@@ -25032,16 +25148,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Tell {love_interest}",
@@ -25159,16 +25275,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Wait",
@@ -25189,7 +25305,7 @@
 			"id": "PRO_373",
 			"title": "The Family Business",
 			"category": "money",
-			"text": "A relative wants your money and your name to expand the family business.",
+			"text": "A cousin wants your money and your name to expand the family store into three towns. The whole family is waiting for your answer.",
 			"stages": [
 				"pro"
 			],
@@ -25218,7 +25334,7 @@
 			"choices": [
 				{
 					"label": "Invest",
-					"result": "You invest and put your name on it. The opening is a family party.",
+					"result": "You invest and put your name on the sign. The opening is a family party, and for the first time in years, everyone is in one room.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -25239,10 +25355,13 @@
 				},
 				{
 					"label": "Invest, quietly",
-					"result": "You put in money but keep your name off the sign.",
+					"result": "You put in money but keep your name off the sign. It's safer, and your cousin is a little hurt by the distance.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -25253,14 +25372,11 @@
 					],
 					"set_flags": {
 						"family_business": true
-					},
-					"rel": {
-						"coach": 2
 					}
 				},
 				{
 					"label": "Say no",
-					"result": "You say no kindly. Thanksgiving is a little quieter.",
+					"result": "You say no, kindly and clearly. Thanksgiving is quieter this year, and you're sure it was the right answer, mostly.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -25467,6 +25583,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -25476,9 +25595,6 @@
 					],
 					"set_flags": {
 						"honest_advisor": true
-					},
-					"rel": {
-						"coach": 2
 					}
 				},
 				{
@@ -25566,16 +25682,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Skip it",
@@ -25659,16 +25775,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				}
 			]
 		},
@@ -25786,6 +25902,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -25803,6 +25922,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -25810,10 +25932,7 @@
 					"modifiers": [
 						"focused"
 					],
-					"followers": 2,
-					"rel": {
-						"coach": 2
-					}
+					"followers": 2
 				},
 				{
 					"label": "Decline",
@@ -25888,6 +26007,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -25896,7 +26018,6 @@
 						"focused"
 					],
 					"rel": {
-						"coach": 2,
 						"parent": 1
 					}
 				},
@@ -25947,6 +26068,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"toughness": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -26110,6 +26234,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"power": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -26125,6 +26252,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"accuracy": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -26345,6 +26475,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -26445,16 +26578,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Wait for the offseason",
@@ -26529,6 +26662,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -26536,10 +26672,7 @@
 					"modifiers": [
 						"focused"
 					],
-					"followers": 2,
-					"rel": {
-						"coach": 2
-					}
+					"followers": 2
 				},
 				{
 					"label": "Keep the summer quiet",
@@ -26640,7 +26773,7 @@
 			"id": "PRO_391",
 			"title": "The Room Starts Looking at You",
 			"category": "team",
-			"text": "Teammates have started bringing their problems to your locker.",
+			"text": "Teammates have started bringing their problems to your locker: contracts, girlfriends, coaches, homesick kids. You're not sure when that happened.",
 			"stages": [
 				"pro"
 			],
@@ -26664,7 +26797,7 @@
 			"choices": [
 				{
 					"label": "Make time",
-					"result": "You make time for each of them.",
+					"result": "You make time for every one of them, even when it costs you film work. You're more tired, and the room is steadier for it.",
 					"stats": {
 						"life": {
 							"energy": -2,
@@ -26684,7 +26817,7 @@
 				},
 				{
 					"label": "Listen",
-					"result": "You listen. Mostly they need that.",
+					"result": "You mostly listen. It turns out that's what they need, and the young ones start bringing coffee as payment.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -26702,7 +26835,7 @@
 				},
 				{
 					"label": "Set limits",
-					"result": "You set limits so you can still do your job.",
+					"result": "You set limits: after practice, never before. A few people take it personally, and you keep enough of yourself to do the job.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -26748,6 +26881,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"accuracy": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -26765,6 +26901,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"power": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -26849,16 +26988,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Watch the videos",
@@ -26914,6 +27053,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -26923,9 +27065,6 @@
 					],
 					"set_flags": {
 						"honest_advisor": true
-					},
-					"rel": {
-						"coach": 2
 					}
 				},
 				{
@@ -26965,7 +27104,7 @@
 			"id": "PRO_395",
 			"title": "The Former Teammate's Retirement",
 			"category": "team",
-			"text": "A longtime teammate retires, and the locker room feels different.",
+			"text": "A teammate you've lined up beside for years retires on a Wednesday. Thursday morning his locker is empty, and the room sounds different.",
 			"stages": [
 				"pro"
 			],
@@ -26989,7 +27128,7 @@
 			"choices": [
 				{
 					"label": "Keep in touch",
-					"result": "You keep in touch. He calls on game days.",
+					"result": "You keep in touch. He calls on game days with notes from his couch, and the calls get funnier the longer he's away.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -27007,7 +27146,7 @@
 				},
 				{
 					"label": "Fill the space",
-					"result": "You fill the space he left in the room.",
+					"result": "You start doing the things he used to do: the jokes before meetings, the check-ins on rookies. It's harder than he made it look.",
 					"stats": {
 						"life": {
 							"energy": -2,
@@ -27027,7 +27166,7 @@
 				},
 				{
 					"label": "Let it be different",
-					"result": "You let it be different.",
+					"result": "You let it be different. Rooms change; this one will too. You notice his empty chair less each week, and feel guilty about that.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -27170,6 +27309,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -27203,7 +27345,7 @@
 			"id": "PRO_398",
 			"title": "The Media Debate",
 			"category": "media",
-			"text": "Analysts debate whether you're still among the best in the league.",
+			"text": "On a sports show, two analysts spend ten minutes arguing about whether you're still among the best kickers in the league. Your phone fills with clips.",
 			"stages": [
 				"pro"
 			],
@@ -27227,10 +27369,13 @@
 			"choices": [
 				{
 					"label": "Use it",
-					"result": "You use it. The debate becomes a reason.",
+					"result": "You watch it once and put the losing argument on a card in your locker. Every practice that week, you kick like you're answering it.",
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -27243,10 +27388,13 @@
 				},
 				{
 					"label": "Ignore it",
-					"result": "You turn off the television.",
+					"result": "You turn off the television and leave your phone in the car during practice. By Thursday the debate has moved on, and so have you.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -27254,14 +27402,11 @@
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Laugh about it",
-					"result": "You laugh about it with the specialists.",
+					"result": "You laugh about it with the specialists, who do impressions of both analysts all week. It's the loosest the unit has been all year.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -27283,7 +27428,7 @@
 			"id": "PRO_399",
 			"title": "The Community Commitment",
 			"category": "community",
-			"text": "A local charity wants you as its face, year-round.",
+			"text": "A local charity wants you as its face, year-round: the posters, the hospital visits, the winter coat drive. It's a real commitment.",
 			"stages": [
 				"pro"
 			],
@@ -27307,7 +27452,7 @@
 			"choices": [
 				{
 					"label": "Commit",
-					"result": "You commit to the full year. It's a lot, and it matters.",
+					"result": "You commit to the full year. It's a lot of evenings, and the coat drive breaks the city's record.",
 					"stats": {
 						"life": {
 							"energy": -2,
@@ -27328,7 +27473,7 @@
 				},
 				{
 					"label": "Bring teammates",
-					"result": "You bring teammates so the load is shared.",
+					"result": "You bring teammates so the work is shared. It becomes a team tradition, and the young players start signing up on their own.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -27346,7 +27491,7 @@
 				},
 				{
 					"label": "Do the big events",
-					"result": "You do the big events only.",
+					"result": "You do the big events only. It helps, and you can tell the charity hoped for more.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -27395,16 +27540,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Talk to {love_interest}",
@@ -27443,7 +27588,7 @@
 			"id": "PRO_401",
 			"title": "The Advisor's Concern",
 			"category": "money",
-			"text": "Your financial advisor questions one of your investments, carefully.",
+			"text": "Your financial advisor slides one line of your statement across the table and asks, carefully, whether you still want to be in it. It's the investment a teammate talked you into.",
 			"stages": [
 				"pro"
 			],
@@ -27470,10 +27615,13 @@
 			"choices": [
 				{
 					"label": "Listen and adjust",
-					"result": "You listen and adjust.",
+					"result": "You listen, ask the questions you skipped the first time, and move most of the money out. It costs you a little, and you sleep better.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -27484,14 +27632,11 @@
 					],
 					"set_flags": {
 						"honest_advisor": true
-					},
-					"rel": {
-						"coach": 2
 					}
 				},
 				{
-					"label": "Ask a second opinion",
-					"result": "You ask someone you trust for a second opinion.",
+					"label": "Get a second opinion",
+					"result": "You show it to someone you trust before deciding. They read it twice, sigh, and explain the part you didn't understand. You get out together.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -27509,7 +27654,7 @@
 				},
 				{
 					"label": "Keep it",
-					"result": "You keep it. You like the idea.",
+					"result": "You keep it. You like the idea and the teammate, and you tell yourself the advisor is just being careful. The statement keeps arriving.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -27526,7 +27671,7 @@
 			"id": "PRO_402",
 			"title": "The Team Rebuild",
 			"category": "career",
-			"text": "The club starts replacing veterans with younger players.",
+			"text": "The club has started replacing veterans with younger, cheaper players. Every week another familiar locker is cleared out, and you've started counting.",
 			"stages": [
 				"pro"
 			],
@@ -27550,10 +27695,13 @@
 			"choices": [
 				{
 					"label": "Stay ahead",
-					"result": "You stay ahead of the clock.",
+					"result": "You get ahead of the clock: earlier mornings, cleaner numbers. If they want to replace you, they'll have to find someone better.",
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -27566,7 +27714,7 @@
 				},
 				{
 					"label": "Help the young players",
-					"result": "You help the young players. It's the best way to stay.",
+					"result": "You help the young players learn the job. It's the right thing, and it makes you the veteran the club can't afford to lose.",
 					"stats": {
 						"life": {
 							"energy": -2,
@@ -27586,7 +27734,7 @@
 				},
 				{
 					"label": "Talk to your agent",
-					"result": "You talk to your agent about the next step.",
+					"result": "You sit down with your agent and talk through the next two years honestly. It's a hard conversation, and a relief to have it.",
 					"stats": {
 						"life": {
 							"energy": -1
@@ -27608,7 +27756,7 @@
 			"id": "PRO_403",
 			"title": "The New Special Teams Coach",
 			"category": "training",
-			"text": "The new coach challenges your preparation, publicly.",
+			"text": "The new special teams coach stops a drill in front of the whole unit to ask why you still warm up the way you did as a rookie. Everyone is watching to see what you do.",
 			"stages": [
 				"pro"
 			],
@@ -27632,10 +27780,13 @@
 			"choices": [
 				{
 					"label": "Answer with data",
-					"result": "You answer with data, privately.",
+					"result": "You bring him three seasons of charts after practice, in his office, with the door closed. He reads every page and changes one drill, not yours.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"accuracy": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -27650,10 +27801,13 @@
 				},
 				{
 					"label": "Answer with work",
-					"result": "You answer with work.",
+					"result": "You say nothing and out-work everyone for a week. He stops asking in public, though you can tell the question is still there.",
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"power": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -27666,7 +27820,7 @@
 				},
 				{
 					"label": "Talk to him alone",
-					"result": "You ask for ten minutes alone. It clears the air.",
+					"result": "You ask for ten minutes alone and tell him what the routine is for. He listens, and the next morning he warms up the young kicker your way.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -27688,7 +27842,7 @@
 			"id": "PRO_404",
 			"title": "The Mentor's Retirement",
 			"category": "team",
-			"text": "A coach who shaped your career is stepping away.",
+			"text": "The special teams coach who rebuilt your swing in your second season is stepping away at the end of the year. He hasn't told the room yet; he told you first.",
 			"stages": [
 				"pro"
 			],
@@ -27712,7 +27866,7 @@
 			"choices": [
 				{
 					"label": "Thank him",
-					"result": "You thank him in person.",
+					"result": "You drive to his house on a Tuesday and thank him in his kitchen. He waves it off, then walks you to the car and doesn't let go of the handshake.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -27730,7 +27884,7 @@
 				},
 				{
 					"label": "Organize a send-off",
-					"result": "You organize a send-off with former players.",
+					"result": "You call every kicker and punter he ever coached. Eleven of them show up for his last practice, and he has to turn around to the fence for a minute.",
 					"stats": {
 						"life": {
 							"energy": -2,
@@ -27749,8 +27903,8 @@
 					}
 				},
 				{
-					"label": "Send a note",
-					"result": "You send a note.",
+					"label": "Leave a note",
+					"result": "You write him a note and leave it in his playbook. He never mentions it, but on his last day it's the only thing he takes from the desk.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -27814,16 +27968,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Reply politely",
@@ -27881,16 +28035,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Step back",
@@ -27932,7 +28086,7 @@
 			"id": "PRO_407",
 			"title": "The College Invitation",
 			"category": "community",
-			"text": "A university invites you to speak to its football program.",
+			"text": "A university you never played for invites you to speak to its football program. The head coach says the kickers have been asking for you by name all spring.",
 			"stages": [
 				"pro"
 			],
@@ -27956,7 +28110,7 @@
 			"choices": [
 				{
 					"label": "Speak to the team",
-					"result": "You speak to the team. The kickers stay after.",
+					"result": "You give the team a short talk about failing in front of people. The kickers stay after and ask questions until the groundskeeper turns off the lights.",
 					"stats": {
 						"life": {
 							"energy": -2,
@@ -27976,7 +28130,7 @@
 				},
 				{
 					"label": "Spend the day",
-					"result": "You spend the day with the players.",
+					"result": "You spend the whole day: meetings, lunch, practice. By the end, a freshman kicker who barely spoke at breakfast is showing you his notebook.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -27994,7 +28148,7 @@
 				},
 				{
 					"label": "Send a video",
-					"result": "You send a video.",
+					"result": "You send a video instead. It's thoughtful and it plays well, and you see later that the kickers watched it twice.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -28148,16 +28302,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Make it work",
@@ -28206,6 +28360,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"toughness": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -28337,7 +28494,7 @@
 			"id": "PRO_412",
 			"title": "The Charity Board",
 			"category": "community",
-			"text": "A nonprofit invites you to join its board.",
+			"text": "A children's nonprofit you've supported for years invites you to join its board. The meetings are monthly, and the work is real.",
 			"stages": [
 				"pro"
 			],
@@ -28361,7 +28518,7 @@
 			"choices": [
 				{
 					"label": "Join and work",
-					"result": "You join and actually work. The board meetings run long.",
+					"result": "You join and actually work: budgets, hiring, a summer program. The meetings run long, and you've never been prouder of a spreadsheet.",
 					"stats": {
 						"life": {
 							"energy": -2,
@@ -28381,10 +28538,13 @@
 				},
 				{
 					"label": "Join as an adviser",
-					"result": "You join as an adviser, with fewer meetings.",
+					"result": "You join as an adviser, with a seat at four meetings a year. You help where a famous name helps and stay out of the rest.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -28392,14 +28552,11 @@
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Decline",
-					"result": "You decline politely and send a donation.",
+					"result": "You decline politely and send a donation with a long letter. They read the letter at their next meeting.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -28453,16 +28610,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Sell together",
@@ -28551,16 +28708,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Promise the offseason",
@@ -28612,6 +28769,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -28693,16 +28853,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Joke about it",
@@ -28729,6 +28889,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -28894,6 +29057,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -28956,16 +29122,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Make it about the kids",
@@ -29041,6 +29207,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -29048,10 +29217,7 @@
 					"modifiers": [
 						"focused"
 					],
-					"followers": 2,
-					"rel": {
-						"coach": 2
-					}
+					"followers": 2
 				},
 				{
 					"label": "Rest instead",
@@ -29129,16 +29295,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Make your case",
@@ -29165,7 +29331,7 @@
 			"id": "PRO_422",
 			"title": "The Teammate's Contract",
 			"category": "team",
-			"text": "A teammate asks you how to handle his negotiation.",
+			"text": "A young teammate is in his first big negotiation and comes to your locker with the offer folded in his pocket. He wants to know what you'd do.",
 			"stages": [
 				"pro"
 			],
@@ -29189,7 +29355,7 @@
 			"choices": [
 				{
 					"label": "Tell him what you learned",
-					"result": "You tell him everything you learned, including the mistakes.",
+					"result": "You tell him everything you learned, including the mistakes that cost you. He takes notes on a napkin and gets a better deal than yours.",
 					"stats": {
 						"life": {
 							"energy": -1
@@ -29207,7 +29373,7 @@
 				},
 				{
 					"label": "Introduce your agent",
-					"result": "You introduce him to your agent.",
+					"result": "You introduce him to your agent over lunch. It goes well, and he thanks you in the locker room loudly enough to embarrass you both.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -29225,7 +29391,7 @@
 				},
 				{
 					"label": "Tell him to trust his agent",
-					"result": "You tell him to trust his agent.",
+					"result": "You tell him to trust his agent and not to read the comments. It's good advice, and he looks like he wanted more.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -29308,16 +29474,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				}
 			]
 		},
@@ -29325,7 +29491,7 @@
 			"id": "PRO_424",
 			"title": "The Hall of Fame Conversation",
 			"category": "media",
-			"text": "A broadcaster asks whether you ever think about your legacy.",
+			"text": "A broadcaster asks, on air, whether you ever think about your legacy. It's a soft question, and it lands harder than he meant it to.",
 			"stages": [
 				"pro"
 			],
@@ -29350,10 +29516,13 @@
 			"choices": [
 				{
 					"label": "Give an honest answer",
-					"result": "You give an honest answer: you think about the next kick.",
+					"result": "You say you think about the next kick, which is true. Later, in the car, you think about the question for a long time.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -29361,14 +29530,11 @@
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Talk about the people",
-					"result": "You talk about the people who got you here.",
+					"result": "You talk about the people who got you here: {parent}, your first coach, the holders. The clip is the one your family keeps.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -29387,7 +29553,7 @@
 				},
 				{
 					"label": "Laugh it off",
-					"result": "You laugh it off.",
+					"result": "You laugh and say you'll worry about it when you're old. Your teammates tease you about it, and the question stays with you.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -29471,6 +29637,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"power": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -29486,7 +29655,7 @@
 			"id": "PRO_426",
 			"title": "The Business Reputation",
 			"category": "money",
-			"text": "A public complaint threatens your business's reputation.",
+			"text": "A customer's angry post about your business has been shared all over town, with your face in the picture. Your name is on the sign, so it's your problem now.",
 			"stages": [
 				"pro"
 			],
@@ -29518,10 +29687,13 @@
 			"choices": [
 				{
 					"label": "Fix the problem",
-					"result": "You fix the actual problem and say so publicly.",
+					"result": "You find out what actually went wrong, fix it, and say so publicly in plain words. A few people unfollow, more come back, and the manager stops dreading Mondays.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -29530,14 +29702,11 @@
 					"modifiers": [
 						"focused"
 					],
-					"followers": 2,
-					"rel": {
-						"coach": 2
-					}
+					"followers": 2
 				},
 				{
 					"label": "Call the customer",
-					"result": "You call the customer yourself. They're stunned.",
+					"result": "You call the customer yourself. They don't believe it's you at first, then talk for twenty minutes. Their next post is about the phone call.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -29555,7 +29724,7 @@
 				},
 				{
 					"label": "Let the managers handle it",
-					"result": "You let the managers handle it.",
+					"result": "You leave it to the managers. They handle it fine, slowly, and for a month people bring it up whenever they recognize you.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -29715,16 +29884,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				}
 			]
 		},
@@ -29732,7 +29901,7 @@
 			"id": "PRO_429",
 			"title": "The Old Teammate's Request",
 			"category": "money",
-			"text": "A former teammate asks you to back his new venture.",
+			"text": "A former teammate is starting a business and asks you to back him. He's earnest, he's prepared, and he's never run anything in his life.",
 			"stages": [
 				"pro"
 			],
@@ -29761,10 +29930,13 @@
 			"choices": [
 				{
 					"label": "Back it with conditions",
-					"result": "You back it with conditions and a lawyer.",
+					"result": "You back it with conditions, a lawyer and a quarterly meeting. He grumbles about the paperwork and thanks you for it later.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -29775,14 +29947,11 @@
 					],
 					"set_flags": {
 						"business_owner": true
-					},
-					"rel": {
-						"coach": 2
 					}
 				},
 				{
 					"label": "Back him fully",
-					"result": "You back him fully. It's a risk, and he's a friend.",
+					"result": "You back him fully, because he's your friend. It's a risk, and he calls after every small win like a kid with a report card.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -29803,7 +29972,7 @@
 				},
 				{
 					"label": "Say no",
-					"result": "You say no kindly. He understands, mostly.",
+					"result": "You say no, kindly. He understands, mostly, and you both pretend at the next reunion that it didn't change anything.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -29874,16 +30043,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Not yet",
@@ -33397,6 +33566,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"power": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -33412,6 +33584,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"accuracy": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -33476,6 +33651,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"power": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -33788,16 +33966,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Take the rookies to dinner",
@@ -33868,16 +34046,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Ask a veteran",
@@ -33964,16 +34142,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Stick with your cleats",
@@ -34023,6 +34201,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"accuracy": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -34058,6 +34239,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"power": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -34102,6 +34286,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"toughness": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -34595,16 +34782,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				}
 			]
 		},
@@ -34811,6 +34998,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"accuracy": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -35123,6 +35313,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -35255,6 +35448,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"accuracy": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -35272,6 +35468,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"power": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -35511,16 +35710,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Mute the chat",
@@ -35593,16 +35792,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Leave it on read",
@@ -35652,6 +35851,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"accuracy": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -35669,6 +35871,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"power": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -35809,6 +36014,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"toughness": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -35886,6 +36094,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"toughness": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -35960,6 +36171,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"toughness": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -36040,6 +36254,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"toughness": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -36411,6 +36628,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"accuracy": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -36476,16 +36696,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Talk about the unit",
@@ -36643,16 +36863,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Skip it",
@@ -36701,6 +36921,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"toughness": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -37053,6 +37276,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -37275,6 +37501,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -37507,16 +37736,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Mute it during the season",
@@ -37598,16 +37827,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				}
 			]
 		},
@@ -37647,16 +37876,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Pay it and forget it",
@@ -37724,6 +37953,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"power": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -37739,6 +37971,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"accuracy": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -37822,6 +38057,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"accuracy": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -37881,6 +38119,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"power": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -37896,6 +38137,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"accuracy": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -37956,6 +38200,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"accuracy": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -37986,6 +38233,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"power": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -38586,6 +38836,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"power": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -38895,6 +39148,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -39142,6 +39398,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"power": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -39175,6 +39434,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"accuracy": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -39253,16 +39515,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				}
 			]
 		},
@@ -39316,6 +39578,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -39473,6 +39738,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -39530,6 +39798,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"accuracy": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -39547,6 +39818,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"power": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -39608,16 +39882,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Help a few people",
@@ -39842,6 +40116,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"power": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -39876,6 +40153,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"accuracy": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -39893,7 +40173,7 @@
 			"id": "PRO_636",
 			"title": "The Pregnancy",
 			"category": "family",
-			"text": "{love_interest} is pregnant, and the due date is in the middle of the season.",
+			"text": "{love_interest} is pregnant, and the due date falls right in the middle of the season. You're thrilled, and already counting weeks on the schedule.",
 			"stages": [
 				"pro"
 			],
@@ -39924,7 +40204,7 @@
 			"choices": [
 				{
 					"label": "Plan to be there",
-					"result": "You tell {coach} now that you'll miss a game if you have to. The coach says that's the right call.",
+					"result": "You tell {coach} now that you'll miss a game if the baby comes on a Sunday. The coach says it's the right call and means it.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -39942,7 +40222,7 @@
 				},
 				{
 					"label": "Make a plan with everyone",
-					"result": "You make a plan with {love_interest}, the coach and both families.",
+					"result": "You make a plan with {love_interest}, the coach and both families: who's on call, which flights, which bags. It feels like a playbook, and it helps.",
 					"stats": {
 						"life": {
 							"energy": -1
@@ -39960,7 +40240,7 @@
 				},
 				{
 					"label": "Hope for the bye week",
-					"result": "You hope the baby comes in the bye week. You also pack a bag.",
+					"result": "You hope the baby comes in the bye week. You also keep a bag packed in the car and check your phone at every break.",
 					"stats": {
 						"life": {
 							"energy": -2
@@ -40030,16 +40310,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Ask for help",
@@ -40092,16 +40372,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Ask the team families",
@@ -40210,16 +40490,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				}
 			]
 		},
@@ -40511,16 +40791,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Show up, enjoy it",
@@ -40667,16 +40947,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Use it",
@@ -40684,6 +40964,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -40768,16 +41051,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				}
 			]
 		},
@@ -40900,16 +41183,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Give one to {sibling}",
@@ -40976,6 +41259,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -41139,6 +41425,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"toughness": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -41193,7 +41482,7 @@
 			"id": "PRO_652",
 			"title": "The Rehab Partner",
 			"category": "health",
-			"text": "You rehab alongside a teammate with the same injury.",
+			"text": "You're rehabbing beside a teammate with the same injury, on the same table, at the same hours. Whoever's back first will notice.",
 			"stages": [
 				"pro"
 			],
@@ -41217,7 +41506,7 @@
 			"choices": [
 				{
 					"label": "Make it a team",
-					"result": "You push each other every day. You both come back.",
+					"result": "You push each other every day and swap the bad days. You both come back, and you've got a friend for life.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -41235,7 +41524,7 @@
 				},
 				{
 					"label": "Race him back",
-					"result": "You race him back. You win, barely.",
+					"result": "You race him back and win by a week. He shakes your hand, and something between you cools a little.",
 					"stats": {
 						"life": {
 							"energy": -2
@@ -41251,10 +41540,13 @@
 				},
 				{
 					"label": "Compare notes",
-					"result": "You compare notes and both do it smarter.",
+					"result": "You compare notes every afternoon: what hurts, what helps, what the trainers said. You both come back smarter.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"toughness": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -41317,6 +41609,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"toughness": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -41423,16 +41718,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				}
 			]
 		},
@@ -41472,16 +41767,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Bring {parent}",
@@ -41567,16 +41862,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Stay with the team",
@@ -41727,16 +42022,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Bring the specialists",
@@ -41796,6 +42091,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -41813,6 +42111,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -41820,10 +42121,7 @@
 					"modifiers": [
 						"focused"
 					],
-					"followers": 2,
-					"rel": {
-						"coach": 2
-					}
+					"followers": 2
 				},
 				{
 					"label": "Pass",
@@ -41896,6 +42194,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"power": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -42198,6 +42499,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"accuracy": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -42215,6 +42519,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"power": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -42276,16 +42583,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Treat the specialists",
@@ -42377,16 +42684,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Leave it to {love_interest}",
@@ -42413,7 +42720,7 @@
 			"id": "PRO_667",
 			"title": "The House Party You Host",
 			"category": "social",
-			"text": "You host a team party at your new house, and it gets bigger than planned.",
+			"text": "You host a team party at your new house, and by ten o'clock it's twice as big as planned. There are people in your backyard you've never met.",
 			"stages": [
 				"pro"
 			],
@@ -42437,7 +42744,7 @@
 			"choices": [
 				{
 					"label": "Set the rules early",
-					"result": "You set the rules at the door: rides home, nothing stupid, done by midnight. Everyone respects it.",
+					"result": "You set the rules at the door: rides home, nothing stupid, done by midnight. Everyone respects them, and the night stays fun.",
 					"stats": {
 						"life": {
 							"energy": -2,
@@ -42457,7 +42764,7 @@
 				},
 				{
 					"label": "Enjoy it",
-					"result": "You enjoy it. Half the team is in your backyard, and it's a good night.",
+					"result": "You let it run and enjoy it. Half the team is in your backyard, laughing, and you've never felt more like one of them.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -42475,7 +42782,7 @@
 				},
 				{
 					"label": "Shut it down early",
-					"result": "You shut it down early when it gets too big. A few teammates grumble.",
+					"result": "You shut it down early when it gets too big. A few teammates grumble on the way out, and nobody calls the police.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -42539,6 +42846,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"accuracy": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -42556,6 +42866,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"power": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -42698,16 +43011,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Look at your favorites",
@@ -42840,6 +43153,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"power": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -42855,6 +43171,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"accuracy": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -42946,16 +43265,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				}
 			]
 		},
@@ -42995,6 +43314,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -43004,9 +43326,6 @@
 					],
 					"set_flags": {
 						"honest_advisor": true
-					},
-					"rel": {
-						"coach": 2
 					}
 				},
 				{
@@ -43129,7 +43448,7 @@
 			"id": "PRO_676",
 			"title": "Supporting a Teammate's Cause",
 			"category": "community",
-			"text": "A teammate asks you to support his foundation.",
+			"text": "A teammate is launching a foundation for kids in his old neighborhood and asks you to stand beside him. It's his cause, and he's nervous about it.",
 			"stages": [
 				"pro"
 			],
@@ -43153,7 +43472,7 @@
 			"choices": [
 				{
 					"label": "Show up",
-					"result": "You show up at every event this season.",
+					"result": "You show up at every event this season, early. He stops looking nervous by the third one.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -43171,10 +43490,13 @@
 				},
 				{
 					"label": "Help with the plan",
-					"result": "You help him with the plan, not just the photos.",
+					"result": "You help him build the plan, not just the photos: a budget, a board, a calendar. A year later, it's still running.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -43182,14 +43504,11 @@
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Donate quietly",
-					"result": "You donate quietly and send your best.",
+					"result": "You donate quietly and send your best. He's grateful, and you can tell he hoped for more.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -43335,6 +43654,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -43343,7 +43665,6 @@
 						"focused"
 					],
 					"rel": {
-						"coach": 2,
 						"sibling": 2
 					}
 				},
@@ -43429,16 +43750,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				}
 			]
 		},
@@ -43475,6 +43796,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -43492,16 +43816,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Say no",
@@ -43568,6 +43892,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -43710,6 +44037,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -43815,16 +44145,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Keep it",
@@ -44155,6 +44485,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -44198,6 +44531,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"accuracy": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -44358,6 +44694,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -44439,6 +44778,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"accuracy": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -44456,6 +44798,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"power": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -44543,16 +44888,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Share it with the unit",
@@ -44619,6 +44964,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -44702,6 +45050,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"toughness": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -45107,7 +45458,7 @@
 			"id": "PRO_700",
 			"title": "The Charity Foundation Gala",
 			"category": "community",
-			"text": "Your foundation holds its first gala.",
+			"text": "Your foundation holds its first gala. There are round tables, donors in suits, and a ballroom that costs more than you like to think about.",
 			"stages": [
 				"pro"
 			],
@@ -45134,7 +45485,7 @@
 			"choices": [
 				{
 					"label": "Give the speech",
-					"result": "You give the speech. It raises more than you hoped.",
+					"result": "You give the speech, nervous and honest. It raises more than you hoped, and a donor finds you afterward to double their check.",
 					"stats": {
 						"life": {
 							"energy": -2,
@@ -45155,7 +45506,7 @@
 				},
 				{
 					"label": "Bring the kids it helps",
-					"result": "You bring the kids the foundation helps. Nobody forgets it.",
+					"result": "You bring the kids the foundation helps and seat them at the front table. Nobody in the room forgets them, which was the point.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -45173,7 +45524,7 @@
 				},
 				{
 					"label": "Keep it small",
-					"result": "You keep it small and personal.",
+					"result": "You keep it small and personal: fewer tables, better food, one story. It raises less money and feels like yours.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -45186,7 +45537,7 @@
 				},
 				{
 					"label": "Tell the story of why",
-					"result": "You tell the room why you started it. The donations double.",
+					"result": "You tell the room why you started it, all of it. The donations double, and you have to sit down afterward.",
 					"requires": {
 						"flags": [
 							"started_foundation"
@@ -45264,16 +45615,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Go to practice",
@@ -45467,7 +45818,7 @@
 			"id": "PRO_704",
 			"title": "The Marriage Counselor",
 			"category": "family",
-			"text": "You and {love_interest} decide to see a counselor, before anything's wrong.",
+			"text": "You and {love_interest} decide to see a counselor, before anything's wrong. It was their idea, and you agreed faster than you expected.",
 			"stages": [
 				"pro"
 			],
@@ -45498,7 +45849,7 @@
 			"choices": [
 				{
 					"label": "Commit to it",
-					"result": "You commit to it. It's the best thing you do for the marriage.",
+					"result": "You commit to it, every other Tuesday, even in season. It's the best thing you do for the marriage, and you say so out loud.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -45516,10 +45867,13 @@
 				},
 				{
 					"label": "Go every other week",
-					"result": "You go every other week.",
+					"result": "You go every other week when the schedule allows. It helps, and you learn how differently you two remember the same arguments.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -45527,14 +45881,11 @@
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Try it once",
-					"result": "You go to one session and see.",
+					"result": "You go to one session to see what it's like. It's harder than practice, and you leave unsure whether you'll go back.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -45601,16 +45952,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Send a gift",
@@ -45758,6 +46109,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -45766,7 +46120,6 @@
 						"focused"
 					],
 					"rel": {
-						"coach": 2,
 						"rival": 2
 					}
 				},
@@ -46076,16 +46429,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Do both",
@@ -46130,7 +46483,7 @@
 			"id": "PRO_712",
 			"title": "The Real Estate Pitch",
 			"category": "money",
-			"text": "A real estate agent pitches you on rental properties.",
+			"text": "A real estate agent with very white teeth pitches you on rental properties. The numbers look great on her tablet.",
 			"stages": [
 				"pro"
 			],
@@ -46157,10 +46510,13 @@
 			"choices": [
 				{
 					"label": "Study the numbers",
-					"result": "You study the numbers and buy one small building.",
+					"result": "You take the numbers home, study them for a week and buy one small building. It's work, and it's yours.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -46168,14 +46524,11 @@
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Ask {parent}",
-					"result": "You ask {parent}, who has opinions about landlords.",
+					"result": "You ask {parent}, who has strong opinions about landlords and stronger ones about leaky roofs. You don't buy, and you learn a lot.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -46192,8 +46545,8 @@
 					}
 				},
 				{
-					"label": "Pass",
-					"result": "You pass. You'd rather not fix anyone's sink.",
+					"label": "Pass on it",
+					"result": "You pass. You'd rather not fix anyone's sink, and the agent finds a linebacker by the end of the week.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -46210,7 +46563,7 @@
 			"id": "PRO_713",
 			"title": "The Investment That Works",
 			"category": "money",
-			"text": "An investment you made years ago starts paying off.",
+			"text": "An investment you made years ago, mostly to stop your advisor asking, has quietly turned into real money. Nobody knows about it but you.",
 			"stages": [
 				"pro"
 			],
@@ -46237,10 +46590,13 @@
 			"choices": [
 				{
 					"label": "Leave it alone",
-					"result": "You leave it alone and let it keep growing.",
+					"result": "You leave it alone and let it keep growing. It's the first time money has felt like a plan instead of a pressure.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -46248,14 +46604,11 @@
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Share some of it",
-					"result": "You use some of it to help family.",
+					"result": "You use some of it to clear a family debt nobody talks about. The call where you tell them is short, and nobody can speak at the end.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -46273,7 +46626,7 @@
 				},
 				{
 					"label": "Treat yourself once",
-					"result": "You treat yourself once, quietly.",
+					"result": "You treat yourself once, quietly: the watch you looked at for years. You wear it on game days and feel a little foolish and very happy.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -46322,6 +46675,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -46331,9 +46687,6 @@
 					],
 					"set_flags": {
 						"honest_advisor": true
-					},
-					"rel": {
-						"coach": 2
 					}
 				},
 				{
@@ -46405,6 +46758,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -46412,10 +46768,7 @@
 					"modifiers": [
 						"focused"
 					],
-					"followers": 2,
-					"rel": {
-						"coach": 2
-					}
+					"followers": 2
 				},
 				{
 					"label": "Make it right",
@@ -46485,6 +46838,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -46492,10 +46848,7 @@
 					"modifiers": [
 						"focused"
 					],
-					"followers": 2,
-					"rel": {
-						"coach": 2
-					}
+					"followers": 2
 				},
 				{
 					"label": "Talk to the sponsor first",
@@ -46521,6 +46874,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -46620,7 +46976,7 @@
 			"id": "PRO_718",
 			"title": "The Kids' Book",
 			"category": "community",
-			"text": "A publisher wants you to write a kids' book about kicking.",
+			"text": "A publisher wants you to write a children's book about learning to kick. The editor says to write it the way you'd tell it to a seven-year-old.",
 			"stages": [
 				"pro"
 			],
@@ -46647,7 +47003,7 @@
 			"choices": [
 				{
 					"label": "Write it",
-					"result": "You write it with your kids beside you.",
+					"result": "You write it at the kitchen table with your kids correcting every page. The dedication is to them, and they read it to their classes.",
 					"stats": {
 						"life": {
 							"energy": -2,
@@ -46667,7 +47023,7 @@
 				},
 				{
 					"label": "Write it with {holder}",
-					"result": "You write it with {holder}. It's funny.",
+					"result": "You write it with {holder}, who insists on a chapter about the holder. It's funnier than the one you'd have written alone.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -46684,8 +47040,8 @@
 					}
 				},
 				{
-					"label": "Pass",
-					"result": "You pass. Maybe after football.",
+					"label": "Not yet",
+					"result": "You pass for now and tell the editor maybe after football. You keep the email, and some nights you start a first line in your head.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -46751,6 +47107,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -46758,10 +47117,7 @@
 					"modifiers": [
 						"focused"
 					],
-					"followers": 2,
-					"rel": {
-						"coach": 2
-					}
+					"followers": 2
 				},
 				{
 					"label": "Do one take",
@@ -46782,7 +47138,7 @@
 			"id": "PRO_720",
 			"title": "The Late-Night Show",
 			"category": "media",
-			"text": "A late-night show wants you as a guest.",
+			"text": "A late-night show wants you as a guest during the bye week. The producers want a funny kicker story and maybe a kick on the studio set.",
 			"stages": [
 				"pro"
 			],
@@ -46807,7 +47163,7 @@
 			"choices": [
 				{
 					"label": "Be funny",
-					"result": "You're funny. The clip goes around the league.",
+					"result": "You're funny, mostly at your own expense. The clip goes around the league, and the whole locker room does the bit back at you for a month.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -46826,10 +47182,13 @@
 				},
 				{
 					"label": "Bring one story",
-					"result": "You bring one great story and tell it well.",
+					"result": "You bring one good story about your first pro camp and tell it well. The host stops laughing long enough to say it was a good story.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -46838,14 +47197,11 @@
 					"modifiers": [
 						"focused"
 					],
-					"followers": 2,
-					"rel": {
-						"coach": 2
-					}
+					"followers": 2
 				},
 				{
 					"label": "Decline",
-					"result": "You decline. Late nights aren't your thing.",
+					"result": "You decline and spend the bye week at home. The producers book a punter instead, and he's better on television than you'd have been.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -46862,7 +47218,7 @@
 			"id": "PRO_721",
 			"title": "The Hometown Field",
 			"category": "community",
-			"text": "Your hometown names a field after you.",
+			"text": "Your hometown is naming the youth field after you, the one with the crooked goalpost where you learned to kick. The ceremony is in June.",
 			"stages": [
 				"pro"
 			],
@@ -46886,7 +47242,7 @@
 			"choices": [
 				{
 					"label": "Bring the family",
-					"result": "You bring the whole family. {parent} cries.",
+					"result": "You bring the whole family. {parent} stands under the sign for a long time without saying anything, then asks someone to take the picture again.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -46904,7 +47260,7 @@
 				},
 				{
 					"label": "Kick the first ball",
-					"result": "You kick the first ball with the youth league.",
+					"result": "You kick the first ball with the youth league. It hits the crooked post, the kids scream, and it's the best thing that happens all summer.",
 					"stats": {
 						"life": {
 							"energy": -2,
@@ -46924,7 +47280,7 @@
 				},
 				{
 					"label": "Keep it quiet",
-					"result": "You ask them to keep it small.",
+					"result": "You ask them to keep it small: no speeches, just the sign. Afterward you walk the field alone and find your old spot by the fence.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -47023,7 +47379,7 @@
 			"id": "PRO_723",
 			"title": "The Kicker You Mentored",
 			"category": "career",
-			"text": "A kicker you mentored signs with a rival club.",
+			"text": "A kicker you spent two summers mentoring signs with a rival club, the one you play twice a year. He sends you a picture of his new locker.",
 			"stages": [
 				"pro"
 			],
@@ -47047,7 +47403,7 @@
 			"choices": [
 				{
 					"label": "Congratulate him",
-					"result": "You congratulate him. He says he learned it from you.",
+					"result": "You congratulate him first, before the news breaks. He tells a reporter he learned everything from you, and you pretend not to be moved.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -47065,10 +47421,13 @@
 				},
 				{
 					"label": "Raise your game",
-					"result": "You raise your game. Now it's a competition.",
+					"result": "You raise your game. Twice a year you'll be on the same field, and you're not letting him outkick his teacher.",
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -47081,7 +47440,7 @@
 				},
 				{
 					"label": "Watch him play",
-					"result": "You watch him play and smile.",
+					"result": "You watch his first game from your couch and smile at every warmup kick that looks like yours.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -47098,7 +47457,7 @@
 			"id": "PRO_724",
 			"title": "The New Special Teams Unit",
 			"category": "team",
-			"text": "Half your special teams unit is new this season.",
+			"text": "Half your special teams unit is new this season: a new snapper, two new wings, a holder who has never held in a real game. The timing is all wrong.",
 			"stages": [
 				"pro"
 			],
@@ -47122,7 +47481,7 @@
 			"choices": [
 				{
 					"label": "Teach the new ones",
-					"result": "You teach the new ones everything you know.",
+					"result": "You teach the new ones everything you know, from the cadence to the jokes. By October the unit sounds like a unit.",
 					"stats": {
 						"life": {
 							"energy": -2,
@@ -47142,7 +47501,7 @@
 				},
 				{
 					"label": "Build the unit",
-					"result": "You take the unit to dinner every week.",
+					"result": "You take the unit to dinner every Thursday. The timing comes after the trust, which is how it always works.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -47160,7 +47519,7 @@
 				},
 				{
 					"label": "Rep it out",
-					"result": "You rep it out until the timing is right.",
+					"result": "You rep it out after every practice until the timing is right. Your leg is tired, and the operation is clean.",
 					"stats": {
 						"life": {
 							"energy": -2
@@ -47209,6 +47568,9 @@
 						"life": {
 							"energy": -2
 						},
+						"football": {
+							"power": 1
+						},
 						"personality": {
 							"ambition": 2
 						}
@@ -47224,6 +47586,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"accuracy": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -47364,6 +47729,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"toughness": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -47410,7 +47778,7 @@
 			"id": "PRO_728",
 			"title": "The Massage Therapist",
 			"category": "health",
-			"text": "The team's massage therapist knows your body better than you do.",
+			"text": "The team's massage therapist has worked on your legs for years and can tell how your week went by touching your hamstring. They want you to change something.",
 			"stages": [
 				"pro"
 			],
@@ -47434,10 +47802,13 @@
 			"choices": [
 				{
 					"label": "Listen to them",
-					"result": "You listen to them about everything.",
+					"result": "You listen to them about everything: sleep, stretching, the way you sit on the plane. Your legs feel younger by midseason.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"toughness": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -47452,7 +47823,7 @@
 				},
 				{
 					"label": "Thank them",
-					"result": "You thank them, publicly, at the end of the season.",
+					"result": "You thank them publicly at the end of the season, in front of the whole team. They pretend to be annoyed and keep the clip.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -47471,7 +47842,7 @@
 				},
 				{
 					"label": "Book extra sessions",
-					"result": "You book extra sessions and sleep better.",
+					"result": "You book extra sessions and sleep better than you have in years. Your bank account notices, and your legs are worth it.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -47516,6 +47887,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"toughness": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -47592,6 +47966,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"accuracy": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -47609,6 +47986,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"power": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -47722,7 +48102,7 @@
 			"id": "PRO_732",
 			"title": "The Team Historian",
 			"category": "media",
-			"text": "The club's historian interviews you for the team's archive.",
+			"text": "The club's historian wants an hour with you for the team archive. She has a recorder, a list of questions and a photo of you as a rookie.",
 			"stages": [
 				"pro"
 			],
@@ -47746,7 +48126,7 @@
 			"choices": [
 				{
 					"label": "Tell every story",
-					"result": "You tell every story you can remember.",
+					"result": "You tell every story you can remember, including some you probably shouldn't. She laughs until she has to stop the recorder.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -47764,7 +48144,7 @@
 				},
 				{
 					"label": "Tell the true ones",
-					"result": "You tell the true ones, carefully.",
+					"result": "You tell the true ones, carefully, including the hard years. She says it's the most honest interview in the archive.",
 					"stats": {
 						"life": {
 							"energy": -1
@@ -47782,7 +48162,7 @@
 				},
 				{
 					"label": "Keep it short",
-					"result": "You keep it short. The archive gets a few good lines.",
+					"result": "You keep it short. The archive gets a few good lines, and you realize later you didn't mention the people who got you there.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -47846,6 +48226,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -48194,7 +48577,7 @@
 			"id": "PRO_738",
 			"title": "Baby Number Two",
 			"category": "family",
-			"text": "A second child, and the house feels much smaller.",
+			"text": "A second child, and the house feels half its size. Everyone is tired, nobody is sleeping, and the season starts in three weeks.",
 			"stages": [
 				"pro"
 			],
@@ -48221,7 +48604,7 @@
 			"choices": [
 				{
 					"label": "Take the night shift",
-					"result": "You take the night shift on off days.",
+					"result": "You take the night shifts on your off days. You're exhausted at practice and closer to {love_interest} than you've been in years.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -48239,10 +48622,13 @@
 				},
 				{
 					"label": "Make a plan",
-					"result": "You make a plan for the season, down to who sleeps when.",
+					"result": "You make a plan for the season, down to who sleeps when. It works about half the time, which is better than nothing.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -48250,14 +48636,11 @@
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Ask the grandparents",
-					"result": "You ask the grandparents for help.",
+					"result": "You ask the grandparents to come for a month. Everyone sleeps, and the house is loud and full in the best way.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -48324,16 +48707,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Watch the video",
@@ -48407,16 +48790,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Keep it short",
@@ -48487,16 +48870,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Spend the time",
@@ -48517,7 +48900,7 @@
 			"id": "PRO_742",
 			"title": "The Partner's New Job",
 			"category": "family",
-			"text": "{love_interest} gets a big job offer of their own.",
+			"text": "{love_interest} gets a big job offer of their own, in a city you'd never live in during the season. They're excited, and trying not to show it.",
 			"stages": [
 				"pro"
 			],
@@ -48548,7 +48931,7 @@
 			"choices": [
 				{
 					"label": "Back them all the way",
-					"result": "You back them all the way. Your life gets busier, and {love_interest} glows.",
+					"result": "You back them all the way and work out the travel later. Your life gets busier and lonelier, and {love_interest} glows every time you call.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -48566,10 +48949,13 @@
 				},
 				{
 					"label": "Make it work together",
-					"result": "You make a plan that works for both careers.",
+					"result": "You sit down with a calendar and make a plan that works for both careers. It's complicated and fair, and it holds.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -48577,14 +48963,11 @@
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Ask them to wait",
-					"result": "You ask them to wait. They don't love that.",
+					"result": "You ask them to wait a year, until your contract is settled. They agree, and something goes quiet between you.",
 					"stats": {
 						"life": {
 							"energy": -2
@@ -48649,16 +49032,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Answer the important ones",
@@ -48684,7 +49067,7 @@
 			"id": "PRO_744",
 			"title": "The Veteran Leadership Award",
 			"category": "team",
-			"text": "The club names you its veteran leadership honoree.",
+			"text": "The club names you its veteran leadership honoree. The award comes with a dinner, a speech, and a young team that will be listening to every word.",
 			"stages": [
 				"pro"
 			],
@@ -48708,7 +49091,7 @@
 			"choices": [
 				{
 					"label": "Accept and speak",
-					"result": "You accept and speak to the young players.",
+					"result": "You accept and talk to the young players about the year you nearly lost your job. The room is silent, and three rookies find you afterward.",
 					"stats": {
 						"life": {
 							"energy": -2,
@@ -48728,7 +49111,7 @@
 				},
 				{
 					"label": "Share it",
-					"result": "You share it with the specialists.",
+					"result": "You bring the specialists up with you and make them stand there while you thank them. {holder} is mortified and delighted.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -48746,7 +49129,7 @@
 				},
 				{
 					"label": "Accept quietly",
-					"result": "You accept quietly and thank the staff in a note.",
+					"result": "You accept quietly and thank the equipment staff in a handwritten note. They pin it to the wall of the equipment room.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -48792,16 +49175,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Invite him to practice",
@@ -48828,6 +49211,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -48887,16 +49273,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Spend the time with people",
@@ -49212,6 +49598,9 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
@@ -49219,10 +49608,7 @@
 					"modifiers": [
 						"focused"
 					],
-					"followers": 2,
-					"rel": {
-						"coach": 2
-					}
+					"followers": 2
 				},
 				{
 					"label": "Keep it light",
@@ -49461,16 +49847,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Focus on kicking",
@@ -49527,16 +49913,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Joke about it",
@@ -49563,6 +49949,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -49658,7 +50047,7 @@
 			"id": "PRO_756",
 			"title": "The Middle-Aged Rookie",
 			"category": "team",
-			"text": "A thirty-year-old rookie kicker joins the club, and everyone wants you two to talk.",
+			"text": "A thirty-year-old rookie kicker joins the club after years of tryouts and day jobs. Everyone keeps saying you two should talk.",
 			"stages": [
 				"pro"
 			],
@@ -49682,7 +50071,7 @@
 			"choices": [
 				{
 					"label": "Talk to him",
-					"result": "You talk to him. His story is incredible.",
+					"result": "You talk to him over lunch. He spent six years kicking at midnight in a high school stadium, and you leave the table humbled.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -49700,7 +50089,7 @@
 				},
 				{
 					"label": "Help him",
-					"result": "You help him learn the league.",
+					"result": "You help him learn the league: travel, routines, which coaches mean what. He's grateful and fast, which makes you nervous.",
 					"stats": {
 						"life": {
 							"energy": -2,
@@ -49720,7 +50109,7 @@
 				},
 				{
 					"label": "Stay focused",
-					"result": "You stay focused. He's still competition.",
+					"result": "You stay polite and focused. He's still competition, and his story won't keep your job for you.",
 					"stats": {
 						"life": {
 							"energy": -2
@@ -49740,7 +50129,7 @@
 			"id": "PRO_757",
 			"title": "The Retirement Seminar",
 			"category": "career",
-			"text": "The union holds a retirement seminar, and you sit in the back row.",
+			"text": "The union holds a retirement seminar on a Tuesday night. You sit in the back row, near the door, in case you want to leave.",
 			"stages": [
 				"pro"
 			],
@@ -49764,7 +50153,7 @@
 			"choices": [
 				{
 					"label": "Take notes",
-					"result": "You take notes. Some of it scares you, usefully.",
+					"result": "You take notes. Some of it scares you, usefully, and you call your advisor on the drive home.",
 					"stats": {
 						"life": {
 							"energy": -1
@@ -49782,7 +50171,7 @@
 				},
 				{
 					"label": "Bring a teammate",
-					"result": "You bring a teammate who needs it more.",
+					"result": "You bring a teammate who needs it more than you do. He doesn't say a word all night and asks for your notes the next day.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -49800,7 +50189,7 @@
 				},
 				{
 					"label": "Leave early",
-					"result": "You leave early. Not yet.",
+					"result": "You leave at the break. Not yet. In the parking lot, you sit in the car a while before you start it.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -49867,16 +50256,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Go with it",
@@ -49925,6 +50314,9 @@
 					"stats": {
 						"life": {
 							"energy": -2
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"ambition": 2
@@ -50007,6 +50399,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"accuracy": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -50103,16 +50498,16 @@
 						"life": {
 							"energy": -1
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
 							"intelligence": 2
 						}
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Wish him well",
@@ -50217,7 +50612,7 @@
 			"id": "PRO_763",
 			"title": "The Booster's Favor",
 			"category": "social",
-			"text": "A wealthy booster asks you for a favor that isn't quite against the rules.",
+			"text": "A wealthy booster asks you to make a few appearances at his business, on his schedule, for a private thank-you. It isn't quite against the rules.",
 			"stages": [
 				"pro"
 			],
@@ -50241,10 +50636,13 @@
 			"choices": [
 				{
 					"label": "Say no politely",
-					"result": "You say no politely. He doesn't call again.",
+					"result": "You say no politely. He doesn't call again, and you never have to wonder what the thank-you would have cost.",
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"resilience": 1
 						},
 						"personality": {
 							"intelligence": 2
@@ -50252,14 +50650,11 @@
 					},
 					"modifiers": [
 						"focused"
-					],
-					"rel": {
-						"coach": 2
-					}
+					]
 				},
 				{
 					"label": "Ask {coach} first",
-					"result": "You ask {coach} first. The coach says no for you.",
+					"result": "You ask {coach} before answering. The coach says no for you, and you're relieved to have someone else to blame.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -50277,7 +50672,7 @@
 				},
 				{
 					"label": "Do the favor",
-					"result": "You do the favor. It's fine, technically. He calls again, and again.",
+					"result": "You do the favor. It's fine, technically, and the parties are fun. Then he calls again, and again, and it's harder to say no each time.",
 					"stats": {
 						"life": {
 							"fun": 2,
@@ -50327,6 +50722,9 @@
 					"stats": {
 						"life": {
 							"energy": -1
+						},
+						"football": {
+							"toughness": 1
 						},
 						"personality": {
 							"intelligence": 2

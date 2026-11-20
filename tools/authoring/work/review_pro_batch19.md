@@ -1,9 +1,9 @@
-# PRO batch 19: era 2 (imported)
+# PRO batch 19: quality pass (rewrites and stat fixes) (imported)
 
 Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 
 
-## PRO batch 19: era 2
+## PRO batch 19: quality pass (rewrites and stat fixes)
 
 ### PRO_371 The Financial Mistake
 - **Category:** money  
@@ -14,7 +14,7 @@ Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 An investment or a purchase wasn't as smart as it looked.
 
 1. **Cut the loss**: You cut the loss and learn from it. It stings for a month.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 2. **Tell {love_interest}**: You tell {love_interest} the whole thing. It's a hard talk and a good one.  
    *(social +2; charisma +1; {love_interest} +3; modifier loose)*
 3. **Make it back**: You throw yourself into work to forget it. It doesn't quite work.  
@@ -34,7 +34,7 @@ You and {love_interest} talk about starting a family, and neither of you knows t
 1. **Say now**: You both say now. It's terrifying and right.  
    *(social +2; charisma +1; {love_interest} +5; modifier loose)*
 2. **Make a plan**: You make a plan around the contract and the seasons.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Wait**: You agree to wait. The conversation comes back every few months.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -44,13 +44,13 @@ You and {love_interest} talk about starting a family, and neither of you knows t
 - **Cast:** (no cast)  
 - **Premise:** A relative wants your money and your name to expand the family business.
 
-A relative wants your money and your name to expand the family business.
+A cousin wants your money and your name to expand the family store into three towns. The whole family is waiting for your answer.
 
-1. **Invest**: You invest and put your name on it. The opening is a family party.  
+1. **Invest**: You invest and put your name on the sign. The opening is a family party, and for the first time in years, everyone is in one room.  
    *(social +2; charisma +1; {parent} +4; modifier loose; sets `family_business`)*
-2. **Invest, quietly**: You put in money but keep your name off the sign.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused; sets `family_business`)*
-3. **Say no**: You say no kindly. Thanksgiving is a little quieter.  
+2. **Invest, quietly**: You put in money but keep your name off the sign. It's safer, and your cousin is a little hurt by the distance.  
+   *(energy -1; resilience +1; intelligence +2; modifier focused; sets `family_business`)*
+3. **Say no**: You say no, kindly and clearly. Thanksgiving is quieter this year, and you're sure it was the right answer, mostly.  
    *(energy +2; fun +1; modifier rested)*
 
 ### PRO_374 The Memorabilia Deal
@@ -92,7 +92,7 @@ A college kicker emails you for career advice, and it's a good question.
 A financial advisor reviews your long-term plan and asks a question you can't answer.
 
 1. **Learn the answer**: You learn the answer, and the next ten questions too.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused; sets `honest_advisor`)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused; sets `honest_advisor`)*
 2. **Bring {love_interest}**: You bring {love_interest} to the next meeting. You make the plan together.  
    *(social +2; charisma +1; {love_interest} +3; modifier loose)*
 3. **Trust the advisor**: You trust the advisor and stop asking questions.  
@@ -109,7 +109,7 @@ You're asked to attend a high-profile event in a suit you don't own yet.
 1. **Go and enjoy it**: You buy the suit and enjoy the night. You meet people you didn't know existed.  
    *(social +2; charisma +1; followers +2; {love_interest} +3; modifier loose)*
 2. **Go and network**: You go with a plan and leave with three useful numbers.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Skip it**: You skip it and stay home. Nobody notices but your agent.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -126,7 +126,7 @@ The schedule lands on a family holiday again.
 2. **Keep your routine**: You keep your routine and call between meetings.  
    *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
 3. **Celebrate a day late**: You plan a celebration for the day after. Everyone says it's fine. It mostly is.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 
 ### PRO_379 The Teammates' Dispute
 - **Category:** team  
@@ -152,9 +152,9 @@ Two teammates ask you to settle an argument, which means picking a side.
 A company offers to pay for sponsored posts, and the product is fine, mostly.
 
 1. **Take the deal**: You take the deal. The posts do well and feel a little hollow.  
-   *(energy -2; ambition +2; 2 SP; followers +3; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; followers +3; modifier dialed_in)*
 2. **Test it first**: You use the product for a month before you post. It's actually good.  
-   *(energy -1; intelligence +2; followers +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; followers +2; modifier focused)*
 3. **Decline**: You decline. Your page stays yours.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -169,7 +169,7 @@ A company offers to pay for sponsored posts, and the product is fine, mostly.
 1. **Let {love_interest} choose**: You let {love_interest} choose. It's the right call.  
    *(social +2; charisma +1; {love_interest} +5; modifier loose)*
 2. **Make a list together**: You make a list together. Your hometown wins.  
-   *(energy -1; intelligence +2; {coach} +2; {parent} +1; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; {parent} +1; modifier focused)*
 3. **Not yet**: You say there's time. {love_interest} says there isn't always.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -182,7 +182,7 @@ A company offers to pay for sponsored posts, and the product is fine, mostly.
 The club wants you on a new training and recovery routine.
 
 1. **Follow it exactly**: You follow it exactly. Your legs feel younger by October.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; toughness +1; intelligence +2; {coach} +2; modifier focused)*
 2. **Add your own work**: You do it and add your own work on top. You're stronger, and tired.  
    *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
 3. **Do the minimum**: You do the minimum. The trainers notice.  

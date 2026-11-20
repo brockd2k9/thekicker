@@ -1,9 +1,9 @@
-# PRO batch 16: era 1-2 (imported)
+# PRO batch 16: quality pass (rewrites and stat fixes) (imported)
 
 Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 
 
-## PRO batch 16: era 1-2
+## PRO batch 16: quality pass (rewrites and stat fixes)
 
 ### PRO_184 Untouchable
 - **Category:** media  
@@ -16,7 +16,7 @@ The streak is the longest in the league, and the other team's kicker is asking y
 1. **Share a tip**: You share a tip. He thanks you publicly, and the league notices.  
    *(social +2; charisma +1; followers +2; Team +1; modifier loose)*
 2. **Say nothing about it**: You don't talk about the streak, at all, to anyone.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Enjoy it**: You enjoy it quietly at home with a good dinner.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -29,7 +29,7 @@ The streak is the longest in the league, and the other team's kicker is asking y
 A hip flexor in the best season of your career, and the club wants to know how long.
 
 1. **Follow the plan exactly**: You follow the trainers' plan exactly. You're back on schedule.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; toughness +1; intelligence +2; {coach} +2; modifier focused)*
 2. **Push to come back**: You push to come back early. You do, sore.  
    *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
 3. **Take the full time**: You take the full recovery time and then a little more.  
@@ -60,13 +60,13 @@ A new club, a new town, and a locker room that has already decided whether you'r
 - **Premise:** A rookie specialist corners you after practice with a question you used to ask.  
 - **Note:** Repeatable (15-week cooldown). Locked choices open with experience: min pro_seasons 3 / 6 / 10, age, earlier flags.
 
-A rookie specialist corners you after practice with a question you used to ask.
+A rookie specialist catches you after practice with a question you used to ask: how do you stop thinking about the last kick?
 
-1. **Answer it fully**: You answer it fully and stay an hour. He asks you something new every week after.  
+1. **Answer it fully**: You answer it fully and stay an hour, showing him the breathing and the one thought. He asks you something new every week after.  
    *(energy -2; social +1; leadership +2; 1 SP; Team +2; modifier inspired)*
-2. **Take him to dinner**: You take him to dinner and answer everything.  
+2. **Take him to dinner**: You take him to dinner and answer everything he asks. He's homesick, too, which you can hear between the questions.  
    *(social +2; charisma +1; Team +3; modifier loose)*
-3. **Keep it short**: You give him a short answer and go home.  
+3. **Keep it short**: You give him a short answer and go home. On the drive you think of a better one, and you tell him in the morning.  
    *(energy +2; fun +1; modifier rested)*
 
 ### PRO_272 Wedding Season
@@ -80,7 +80,7 @@ Four friends are getting married this summer, and every one of them wants you to
 1. **Say yes to all four**: You give four toasts in five weeks. You're tired, and loved.  
    *(social +2; charisma +1; {best_friend} +4; modifier loose)*
 2. **Write one great toast**: You write one great toast structure and adapt it. It works every time.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Pick one**: You give one toast and attend the rest quietly.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -93,7 +93,7 @@ Four friends are getting married this summer, and every one of them wants you to
 The doctors say a small surgery now saves your next three seasons. The recovery takes the whole summer.
 
 1. **Have the surgery**: You have it. The summer is long and boring, and your hip is better than it's been in years.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; toughness +1; intelligence +2; {coach} +2; modifier focused)*
 2. **Train through it**: You skip the surgery and train through it. It holds, for now.  
    *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
 3. **Get a second opinion**: You get a second opinion and take a month to decide.  
@@ -110,7 +110,7 @@ A young kicker from a rival club asks to train with you this summer.
 1. **Say yes**: You train together all summer. You both get better, and you make a friend.  
    *(social +2; charisma +1; Team +3; modifier loose)*
 2. **Say no**: You say no. You don't help the competition.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; power +1; ambition +2; 2 SP; modifier dialed_in)*
 3. **Make it a group**: You make it a group of four kickers. It becomes a summer camp.  
    *(energy -2; social +1; leadership +2; 1 SP; Team +2; modifier inspired)*
 
@@ -123,7 +123,7 @@ A young kicker from a rival club asks to train with you this summer.
 You sign up for a class at the community college, something that has nothing to do with football.
 
 1. **Take it seriously**: You treat it seriously and get an A. It's the best part of your week.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 2. **Bring a teammate**: You talk a teammate into taking it with you. You study together.  
    *(social +2; charisma +1; Team +3; modifier loose)*
 3. **Audit it**: You audit it, no grades, no pressure.  
@@ -143,7 +143,7 @@ You're buying a house, and every room is an argument about how long you'll stay 
 1. **Buy what your partner wants**: You buy the house {love_interest} loves. It's the right call.  
    *(social +2; charisma +1; {love_interest} +5; modifier loose)*
 2. **Buy something you can sell**: You buy something easy to sell. It's practical and a little sad.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Keep renting**: You keep renting another year. The argument waits.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -160,7 +160,7 @@ For one offseason, you put the bag in the closet and don't touch a ball for six 
 2. **Spend it with family**: You spend it all with family. It's the best summer in years.  
    *(social +2; charisma +1; {parent} +3; modifier loose)*
 3. **Use the time to learn**: You use the time to study film of the best kickers in history.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; toughness +1; intelligence +2; {coach} +2; modifier focused)*
 
 ### PRO_283 The Hometown Parade
 - **Category:** community  
@@ -186,7 +186,7 @@ Your hometown throws you a parade after your best season. {parent} rides in the 
 Your old private kicking coach calls with an idea about your plant foot.
 
 1. **Try the idea**: You work on it for a week and chart everything. It helps.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; accuracy +1; intelligence +2; {coach} +2; modifier focused)*
 2. **Visit him**: You visit him and spend a day working together like old times.  
    *(social +2; charisma +1; Team +1; modifier loose)*
 3. **Thank him, not now**: You thank him and say you're happy with your form.  

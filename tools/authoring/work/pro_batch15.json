@@ -132,11 +132,11 @@
       "id": "PRO_093",
       "title": "The Concussion",
       "category": "team",
-      "text": "A teammate who has had too many concussions is hiding another one, and you saw it happen.",
+      "text": "A teammate who has had too many concussions takes another hit in practice and hides it. You saw it happen, and he saw you see it.",
       "choices": [
         {
           "label": "Tell the trainers",
-          "result": "You tell the trainers. He's angry for a week, then he thanks you.",
+          "result": "You tell the trainers before the next drill. He's angry for a week and won't look at you, then thanks you in the parking lot.",
           "stats": {
             "life": {
               "energy": -2,
@@ -157,7 +157,7 @@
         },
         {
           "label": "Talk to him first",
-          "result": "You talk to him first and convince him to tell the trainers himself.",
+          "result": "You talk to him first, away from everyone, and convince him to tell the trainers himself. It costs you an hour and some of his pride.",
           "stats": {
             "life": {
               "social": 2
@@ -176,7 +176,7 @@
         },
         {
           "label": "Stay out of it",
-          "result": "You stay out of it. He plays the next game, and you watch him the whole time.",
+          "result": "You stay out of it. He plays the next game, and you watch him every snap, wondering.",
           "stats": {
             "life": {
               "energy": 2,
@@ -223,17 +223,16 @@
             "life": {
               "energy": -1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {
               "intelligence": 2
             }
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         },
         {
           "label": "Remember the pact",
@@ -616,7 +615,9 @@
             "life": {
               "energy": -1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {
               "intelligence": 2
             }
@@ -624,9 +625,6 @@
           "modifiers": [
             "focused"
           ],
-          "rel": {
-            "coach": 2
-          },
           "followers": 2
         },
         {
@@ -679,7 +677,9 @@
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -697,7 +697,9 @@
             "life": {
               "energy": -1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {
               "intelligence": 2
             }
@@ -705,9 +707,6 @@
           "modifiers": [
             "focused"
           ],
-          "rel": {
-            "coach": 2
-          },
           "followers": 4
         },
         {
@@ -795,16 +794,18 @@
       "id": "PRO_179",
       "title": "The Prime Slump",
       "category": "training",
-      "text": "You're supposed to be at your best, and the misses in practice have started making headlines.",
+      "text": "You're supposed to be at your best, and the misses in practice have started making headlines. The coaches haven't said anything, which is worse.",
       "choices": [
         {
           "label": "Go back to the film",
-          "result": "You go back to film of your best season and find the one thing that changed.",
+          "result": "You go back to the film of your best season and find the one thing that changed: your plant foot drifted half an inch. It takes a week to fix.",
           "stats": {
             "life": {
               "energy": -1
             },
-            "football": {},
+            "football": {
+              "accuracy": 1
+            },
             "personality": {
               "intelligence": 2
             }
@@ -818,12 +819,14 @@
         },
         {
           "label": "Kick through it",
-          "result": "You kick through it until the misses stop.",
+          "result": "You kick through it, two hundred extra balls a day. Your leg aches, your rhythm comes back, and nobody can say you didn't work.",
           "stats": {
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "power": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -835,7 +838,7 @@
         },
         {
           "label": "Lean on the holder",
-          "result": "You and {holder} go back to basics together. It helps more than you expected.",
+          "result": "You and {holder} go back to basics together, laughing at how far you've come. It helps more than you expected.",
           "stats": {
             "life": {
               "social": 2

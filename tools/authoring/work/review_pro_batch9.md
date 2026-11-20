@@ -1,9 +1,9 @@
-# PRO batch 9: era 1, Rookie (imported)
+# PRO batch 9: quality pass (rewrites and stat fixes) (imported)
 
 Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 
 
-## PRO batch 9: era 1, Rookie
+## PRO batch 9: quality pass (rewrites and stat fixes)
 
 ### PRO_564 The Group Text
 - **Category:** team  
@@ -78,7 +78,7 @@ Your hometown paper runs a story about you with a photo from your senior prom.
 2. **Let it be**: You let it be. The prom photo is now on your locker, courtesy of the veterans.  
    *(energy +2; fun +1; modifier rested)*
 3. **Thank the reporter**: You call the reporter who wrote it and thank them. They become the first person to tell your story right.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 
 ### PRO_569 The Card Signing
 - **Category:** money  
@@ -121,7 +121,7 @@ The first night game under the lights, and you can't sleep the night before.
 1. **Do nothing all day**: You read, nap and do nothing all day. You're calm by kickoff.  
    *(energy +2; fun +1; modifier rested)*
 2. **Talk to the sports psychologist**: You call the team's sports psychologist. Two exercises, and you sleep like a baby.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; accuracy +1; intelligence +2; {coach} +2; modifier focused)*
 3. **Call home**: You call {parent}, who tells you about every night game he ever watched you in. You laugh yourself to sleep.  
    *(social +2; charisma +1; {parent} +3; modifier loose)*
 
@@ -181,7 +181,7 @@ You finally read your rookie contract all the way through.
 1. **Read every clause**: You read every clause and call your agent with six questions. You learn what a guarantee really means.  
    *(energy -1; intelligence +2; {coach} +2; modifier focused)*
 2. **Focus on the incentives**: You focus on the incentive clauses and tape them inside your locker.  
-   *(energy -2; ambition +2; 1 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 1 SP; modifier dialed_in)*
 3. **Skim it**: You skim it and trust your agent. It's fine.  
    *(energy +2; fun +1; modifier rested)*
 

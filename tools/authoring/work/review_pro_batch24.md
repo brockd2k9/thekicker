@@ -1,9 +1,9 @@
-# PRO batch 24: era 2-3 (imported)
+# PRO batch 24: quality pass (rewrites and stat fixes) (imported)
 
 Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 
 
-## PRO batch 24: era 2-3
+## PRO batch 24: quality pass (rewrites and stat fixes)
 
 ### PRO_675 The Charity Basketball Game
 - **Category:** community  
@@ -26,13 +26,13 @@ A charity basketball game with teammates, and you're the worst player on the cou
 - **Cast:** (no cast)  
 - **Premise:** A teammate asks you to support his foundation.
 
-A teammate asks you to support his foundation.
+A teammate is launching a foundation for kids in his old neighborhood and asks you to stand beside him. It's his cause, and he's nervous about it.
 
-1. **Show up**: You show up at every event this season.  
+1. **Show up**: You show up at every event this season, early. He stops looking nervous by the third one.  
    *(social +2; charisma +1; Team +4; modifier loose)*
-2. **Help with the plan**: You help him with the plan, not just the photos.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
-3. **Donate quietly**: You donate quietly and send your best.  
+2. **Help with the plan**: You help him build the plan, not just the photos: a budget, a board, a calendar. A year later, it's still running.  
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
+3. **Donate quietly**: You donate quietly and send your best. He's grateful, and you can tell he hoped for more.  
    *(energy +2; fun +1; modifier rested)*
 
 ### PRO_677 The Old Rival on Your Team
@@ -61,7 +61,7 @@ A kicker you competed with in college signs with your club as a backup.
 1. **Ask to be there**: You ask {coach} for the Friday and fly back Saturday night. You give the toast.  
    *(social +2; charisma +1; {sibling} +6; modifier loose)*
 2. **Help plan around it**: You help {sibling} find a date that works. He moves it, and you're there all weekend.  
-   *(energy -1; intelligence +2; {coach} +2; {sibling} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; {sibling} +2; modifier focused)*
 3. **Send a video toast**: You send a video toast. He plays it twice.  
    *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
 
@@ -78,7 +78,7 @@ You realize you know your neighbors and your coffee order.
 2. **Enjoy it quietly**: You enjoy it quietly. Home is a nice word.  
    *(energy +2; fun +1; modifier rested)*
 3. **Think about staying**: You start thinking about staying here after football.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 
 ### PRO_680 The Sponsor's Event
 - **Category:** media  
@@ -89,9 +89,9 @@ You realize you know your neighbors and your coffee order.
 Your sponsor wants you at an event on your only day off.
 
 1. **Go**: You go and do it well. Your day off disappears.  
-   *(energy -2; ambition +2; 2 SP; followers +2; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; followers +2; modifier dialed_in)*
 2. **Offer another day**: You offer another day. They take it.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Say no**: You say no politely. The sponsor is cooler next time.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -106,7 +106,7 @@ Your agent asks where you want to be in five years.
 1. **Write it down**: You write it down: the club, the house, the life.  
    *(energy -1; intelligence +2; {coach} +2; modifier focused)*
 2. **Say the top**: You say the top. Your agent smiles and gets to work.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; modifier dialed_in)*
 3. **Ask {love_interest}**: You ask {love_interest} first. The answer surprises you.  
    *(social +2; charisma +1; {love_interest} +3; modifier loose)*
 
@@ -134,7 +134,7 @@ A teammate signs a huge contract and starts acting like it.
 The practice squad kicker is good, and the coaches know it.
 
 1. **Raise your level**: You raise your level and keep it there.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; modifier dialed_in)*
 2. **Help him anyway**: You help him anyway. He'll get a job somewhere, and he'll remember you.  
    *(social +2; charisma +1; Team +3; modifier loose)*
 3. **Ask where you stand**: You ask {coach} where you stand. The answer is fair.  
@@ -151,7 +151,7 @@ You set up a net in the living room, and {love_interest} has opinions.
 1. **Move it to the garage**: You move it to the garage. Peace returns.  
    *(social +2; charisma +1; {love_interest} +4; modifier loose)*
 2. **Make a deal**: You make a deal: weekdays only, and you hang the art.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Keep it**: You keep it. Some arguments are worth having.  
    *(energy -2; ambition +2; 2 SP; {love_interest} -2; modifier dialed_in)*
 
@@ -202,4 +202,4 @@ The coaches invite you to dinner, which they've never done before.
 
 #### Flags this batch sets, and what they open
 
-- `community_volunteer` (from PRO_686) → COL_067 The Fundraiser Nobody Wants to Run (locked choice); COL_127 Giving Back (locked choice); HS_134 The Community Recognition; HS_153 The Unexpected Reference; HS_156 The Younger Athlete Looks Up to You; PRO_094 The Letter From a Kid (planned locked choice)
+- `community_volunteer` (from PRO_686) → COL_067 The Fundraiser Nobody Wants to Run (locked choice); COL_127 Giving Back (locked choice); HS_134 The Community Recognition; HS_153 The Unexpected Reference; HS_156 The Younger Athlete Looks Up to You; PRO_094 The Letter From a Kid (locked choice); PRO_094 The Letter From a Kid (planned locked choice)

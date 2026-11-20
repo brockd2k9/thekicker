@@ -1,9 +1,9 @@
-# PRO batch 11: era 1, Rookie (imported)
+# PRO batch 11: quality pass (rewrites and stat fixes) (imported)
 
 Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 
 
-## PRO batch 11: era 1, Rookie
+## PRO batch 11: quality pass (rewrites and stat fixes)
 
 ### PRO_590 Kicks for the Hospital
 - **Category:** community  
@@ -33,7 +33,7 @@ The night before your first regular-season game, and your phone won't stop buzzi
 2. **Answer the important ones**: You answer {parent} and {best_friend} and ignore the rest. Their messages are the right ones.  
    *(social +2; charisma +1; {parent} +3; modifier loose)*
 3. **Go over the plan once more**: You go over the special teams plan one more time, then sleep. You walk in calm.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; accuracy +1; intelligence +2; {coach} +2; modifier focused)*
 
 ### PRO_592 The Debut Week Interview
 - **Category:** media  
@@ -46,7 +46,7 @@ The national broadcast crew wants five minutes with the rookie kicker before the
 1. **Tell your story**: You tell them about kicking in your backyard with {parent}. It makes the broadcast.  
    *(social +2; charisma +1; followers +3; {parent} +3; modifier loose)*
 2. **Keep it short**: You keep it to football and keep it short. The crew thanks you; nothing makes air.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Talk about the unit**: You talk about the snapper and the holder. The specialists' group chat is very happy.  
    *(energy -2; social +1; leadership +2; 1 SP; followers +1; Team +2; modifier inspired)*
 
@@ -76,7 +76,7 @@ Your rookie class decides to celebrate your first full paycheck together, at a r
 1. **Go and enjoy it**: You go and enjoy it. The bill is absurd, and the night is worth it.  
    *(social +2; charisma +1; Team +3; modifier loose)*
 2. **Suggest a cheaper place**: You suggest a cheaper place with the same view. Half the class comes, and the rest think you're cheap.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Skip it**: You skip it and order in. Your account is happier than you are.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -89,7 +89,7 @@ Your rookie class decides to celebrate your first full paycheck together, at a r
 A trainer quietly warns you about the supplements a veteran keeps recommending to the rookies.
 
 1. **Thank the trainer and stop**: You thank the trainer and stop taking anything the club didn't approve. You sleep better knowing.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; toughness +1; intelligence +2; {coach} +2; modifier focused)*
 2. **Tell the other rookies**: You tell the other rookies what the trainer said. Two of them throw theirs out that night.  
    *(energy -2; social +1; leadership +2; 1 SP; Team +2; modifier inspired)*
 3. **Ask no questions**: You decide you never took anything anyway and move on. You're fine, and you never ask what the others are taking.  
@@ -153,7 +153,7 @@ Your face goes up on a billboard by the highway, and you drive past it twice.
 2. **Avoid that highway**: You take a different route to practice. It's too strange to look at.  
    *(energy +2; fun +1; modifier rested)*
 3. **Use it as motivation**: You tell yourself you have to earn it. You kick an extra hundred balls that week.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; modifier dialed_in)*
 
 ### PRO_600 The Veteran's Retirement Party
 - **Category:** team  
@@ -196,7 +196,7 @@ Your agent has four rookie clients, and you can tell you're fourth.
 1. **Ask for a plan**: You ask your agent for a written plan and a monthly call. You get both.  
    *(energy -1; intelligence +2; {coach} +2; modifier focused)*
 2. **Make yourself first**: You decide to be the client who's impossible to ignore, and kick like it.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; modifier dialed_in)*
 3. **Let it ride**: You let it ride. Rookie contracts are fixed anyway.  
    *(energy +2; fun +1; modifier rested)*
 

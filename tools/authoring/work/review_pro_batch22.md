@@ -1,9 +1,9 @@
-# PRO batch 22: era 2 (imported)
+# PRO batch 22: quality pass (rewrites and stat fixes) (imported)
 
 Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 
 
-## PRO batch 22: era 2
+## PRO batch 22: quality pass (rewrites and stat fixes)
 
 ### PRO_649 The Contract Rumors
 - **Category:** career  
@@ -14,7 +14,7 @@ Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 Rumors say the club might not re-sign you next spring.
 
 1. **Kick through it**: You kick through it. The rumors get quieter.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; modifier dialed_in)*
 2. **Ask the club directly**: You ask the club directly. The answer is honest and incomplete.  
    *(energy -1; intelligence +2; {coach} +2; modifier focused)*
 3. **Talk it over at home**: You talk it over at home and agree not to look at houses yet.  
@@ -44,7 +44,7 @@ The players' union asks you to run for team representative.
 A torn muscle in practice: the first serious injury of your career, in your prime.
 
 1. **Follow the rehab exactly**: You follow every step of the rehab. It's slow and it works.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused; sets `committed_to_recovery`)*
+   *(energy -1; toughness +1; intelligence +2; {coach} +2; modifier focused; sets `committed_to_recovery`)*
 2. **Push the timeline**: You push the timeline. You're back early and not quite right.  
    *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
 3. **Lean on home**: You lean on {love_interest} through the worst weeks.  
@@ -56,14 +56,14 @@ A torn muscle in practice: the first serious injury of your career, in your prim
 - **Cast:** (no cast)  
 - **Premise:** You rehab alongside a teammate with the same injury.
 
-You rehab alongside a teammate with the same injury.
+You're rehabbing beside a teammate with the same injury, on the same table, at the same hours. Whoever's back first will notice.
 
-1. **Make it a team**: You push each other every day. You both come back.  
+1. **Make it a team**: You push each other every day and swap the bad days. You both come back, and you've got a friend for life.  
    *(social +2; charisma +1; Team +4; modifier loose)*
-2. **Race him back**: You race him back. You win, barely.  
+2. **Race him back**: You race him back and win by a week. He shakes your hand, and something between you cools a little.  
    *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
-3. **Compare notes**: You compare notes and both do it smarter.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+3. **Compare notes**: You compare notes every afternoon: what hurts, what helps, what the trainers said. You both come back smarter.  
+   *(energy -1; toughness +1; intelligence +2; {coach} +2; modifier focused)*
 
 ### PRO_653 The Long Offseason
 - **Category:** health  
@@ -76,7 +76,7 @@ The longest offseason of your career, and you don't know what to do with it.
 1. **Rest for real**: You rest for real. Your body thanks you.  
    *(energy +2; fun +1; modifier rested)*
 2. **Learn something**: You take a course in something you've always wondered about.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; toughness +1; intelligence +2; {coach} +2; modifier focused)*
 3. **Travel with family**: You travel with family for three weeks.  
    *(social +2; charisma +1; {love_interest} +3; modifier loose)*
 
@@ -93,7 +93,7 @@ You run a free camp for kids in your hometown.
 2. **Bring teammates**: You bring three teammates. The kids lose their minds.  
    *(social +2; charisma +1; Team +3; modifier loose)*
 3. **Partner with the school**: You partner with the high school so it happens every year.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 
 ### PRO_655 The Mortgage
 - **Category:** money  
@@ -104,7 +104,7 @@ You run a free camp for kids in your hometown.
 Your first mortgage, and the papers are thicker than your playbook.
 
 1. **Read every page**: You read every page and ask about the parts that matter.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 2. **Bring {parent}**: You bring {parent} to the signing. They've done this before.  
    *(social +2; charisma +1; {parent} +3; modifier loose)*
 3. **Sign where they point**: You sign where they point and hope for the best.  
@@ -121,7 +121,7 @@ A family member gets scary news while you're on a road trip.
 1. **Fly home**: You fly home overnight and fly back for the game.  
    *(social +2; charisma +1; {parent} +6; modifier loose)*
 2. **Stay on the phone**: You stay on the phone with the doctors all night.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Stay with the team**: You stay with the team and call every hour.  
    *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
 
@@ -151,7 +151,7 @@ You donate an experience to a charity auction, and the winner is very excited.
 1. **Make it special**: You make it a full day: practice, lunch, the field. They cry.  
    *(social +2; charisma +1; followers +2; Team +1; modifier loose)*
 2. **Keep it to the plan**: You do exactly what was promised, and do it well.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Bring the specialists**: You bring the whole specialist unit. The winner gets four for one.  
    *(energy -2; social +1; leadership +2; 1 SP; Team +2; modifier inspired)*
 
@@ -164,9 +164,9 @@ You donate an experience to a charity auction, and the winner is very excited.
 A brand wants you as its regional ambassador for three years.
 
 1. **Sign for three**: You sign for three years. It's steady, and it's a lot.  
-   *(energy -2; ambition +2; 2 SP; followers +3; modifier dialed_in)*
+   *(energy -2; resilience +1; ambition +2; 2 SP; followers +3; modifier dialed_in)*
 2. **Sign for one**: You sign for one year and see.  
-   *(energy -1; intelligence +2; followers +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; followers +2; modifier focused)*
 3. **Pass**: You pass. Three years is a long time.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -181,7 +181,7 @@ A kicking company wants you on a weekend clinic tour.
 1. **Do the tour**: You do the tour. You see a hundred young kickers and remember being one.  
    *(energy -2; social +1; leadership +2; 1 SP; followers +2; Team +2; modifier inspired)*
 2. **Do some dates**: You do the dates near home and train the rest.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; power +1; ambition +2; 2 SP; modifier dialed_in)*
 3. **Pass**: You pass and keep your weekends.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -202,5 +202,5 @@ A new head coach arrives and doesn't seem to think kickers matter.
 
 #### Flags this batch sets, and what they open
 
-- `committed_to_recovery` (from PRO_651) → COL_049 The Injury You Can't Hide (locked choice); HS_148 The Better Training Plan; PRO_028 Kicking Hurt (planned locked choice); PRO_191 The Rookie Injury (locked choice); PRO_191 The Rookie Injury (planned locked choice); PRO_192 Hurt in Your Prime (locked choice); PRO_192 Hurt in Your Prime (planned locked choice); PRO_193 The Body Keeps Score (planned locked choice); PRO_194 Six Weeks at Your Age (planned locked choice); PRO_195 One More Comeback (planned locked choice)
+- `committed_to_recovery` (from PRO_651) → COL_049 The Injury You Can't Hide (locked choice); HS_148 The Better Training Plan; PRO_028 Kicking Hurt (planned locked choice); PRO_191 The Rookie Injury (locked choice); PRO_191 The Rookie Injury (planned locked choice); PRO_192 Hurt in Your Prime (locked choice); PRO_192 Hurt in Your Prime (planned locked choice); PRO_193 The Body Keeps Score (planned locked choice); PRO_194 Six Weeks at Your Age (planned locked choice); PRO_195 One More Comeback (planned locked choice); PRO_695 Hurt at Thirty (locked choice)
 - `player_rep` (from PRO_650) → PRO_104 The Labor Fight; PRO_304 The Retired Players' Meeting

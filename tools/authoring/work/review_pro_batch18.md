@@ -1,9 +1,9 @@
-# PRO batch 18: era 2 (imported)
+# PRO batch 18: quality pass (rewrites and stat fixes) (imported)
 
 Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 
 
-## PRO batch 18: era 2
+## PRO batch 18: quality pass (rewrites and stat fixes)
 
 ### PRO_358 The First Big Purchase
 - **Category:** money  
@@ -16,7 +16,7 @@ You can finally afford the car you've wanted since high school.
 1. **Buy it and show {parent}**: You buy it and drive it home first. {parent} won't stop smiling.  
    *(social +2; charisma +1; {parent} +3; modifier loose)*
 2. **Buy something sensible**: You buy something sensible and put the rest away. It's a good car. It isn't the car.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Wait a year**: You wait a year. The want fades a little, and so does the fun.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -31,7 +31,7 @@ A regional company offers you a sponsorship worth more than your rookie salary.
 1. **Sign it**: You sign it. The shoots take some weekends, and the money is real.  
    *(energy -2; ambition +2; 2 SP; followers +3; modifier dialed_in)*
 2. **Read the fine print**: You read the fine print and strike two clauses. They agree.  
-   *(energy -1; intelligence +2; followers +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; followers +2; modifier focused)*
 3. **Pass on it**: You pass. Your weekends stay yours.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -41,13 +41,13 @@ A regional company offers you a sponsorship worth more than your rookie salary.
 - **Cast:** (no cast)  
 - **Premise:** Someone pitches you an investment that sounds too good, and they know it.
 
-Someone pitches you an investment that sounds too good, and they know it.
+A man at a charity dinner pitches you an investment: guaranteed returns, a famous partner, no risk. He's done this before, and he knows you can tell.
 
-1. **Walk away**: You thank them and walk away. Six months later you read about it in the paper.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
-2. **Ask someone you trust**: You show it to someone you trust. They laugh, then they explain.  
+1. **Walk away**: You thank him and walk away. Six months later you read his name in the paper, and you pass the article to your teammates.  
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
+2. **Ask someone you trust**: You show it to someone you trust. They laugh, then explain exactly how it works. You learn more in an hour than in a year of statements.  
    *(social +2; charisma +1; {parent} +3; modifier loose)*
-3. **Put money in**: You put money in. The statements look great for a while, then they stop coming.  
+3. **Put money in**: You put money in. The statements look great for a while, then they stop coming, and so does he. The shame lasts longer than the loss.  
    *(fun -2; energy -1; ambition +1; 1 SP; modifier stressed; sets `bad_venture`)*
 
 ### PRO_361 The Rookie Mentor
@@ -89,9 +89,9 @@ Younger teammates have started looking at you when something goes wrong.
 A new special teams coach arrives with a new way of doing everything.
 
 1. **Try it all**: You try every new drill without complaint. Some of it helps.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; power +1; ambition +2; 2 SP; modifier dialed_in)*
 2. **Pick what works**: You keep what works and explain why the rest doesn't. He respects the reasoning.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; accuracy +1; intelligence +2; {coach} +2; modifier focused)*
 3. **Get to know him**: You get to know him before you judge the drills.  
    *(social +2; charisma +1; {coach} +1; modifier loose)*
 
@@ -106,7 +106,7 @@ Your relationship becomes a topic of public interest, and {love_interest} didn't
 1. **Protect {love_interest}**: You stop posting about home entirely. {love_interest} notices and is grateful.  
    *(social +2; charisma +1; followers -2; {love_interest} +5; modifier loose)*
 2. **Set boundaries together**: You agree together on what stays private and what doesn't.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Let it blow over**: You let it blow over. It takes longer than you thought.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -119,7 +119,7 @@ Your relationship becomes a topic of public interest, and {love_interest} didn't
 The roof leaks the week of a road trip, and the bill is enormous.
 
 1. **Handle it by phone**: You handle it by phone from the hotel. It gets done, expensively.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 2. **Ask {parent} to oversee it**: You ask {parent} to oversee the repair. They love being useful.  
    *(social +2; charisma +1; {parent} +3; modifier loose)*
 3. **Patch it for now**: You patch it for now and deal with it in the offseason.  
@@ -151,7 +151,7 @@ You're offered a recurring weekly segment on sports radio.
 1. **Take it**: You say yes. You're good at it, and your Tuesdays disappear.  
    *(social +2; charisma +1; followers +4; Team +1; modifier loose)*
 2. **Try it for a month**: You sign up for a month and then decide. You keep it, shorter.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Decline**: You decline. You'd rather talk about kicking with kickers.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -168,7 +168,7 @@ You're offered a recurring weekly segment on sports radio.
 2. **Train instead**: You train. {love_interest} goes with friends and sends pictures.  
    *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
 3. **Find a place with a field**: You find a beach town with a high school field. Everyone wins, sort of.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 
 ### PRO_369 The Former Teammate
 - **Category:** social  
@@ -181,7 +181,7 @@ A former teammate can't find another job in the league and keeps calling.
 1. **Keep picking up**: You keep picking up. Mostly he needs someone to listen.  
    *(social +2; charisma +1; Team +3; modifier loose)*
 2. **Help him find work**: You call people you know about jobs outside football. One works out.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Let it go to voicemail**: You let it go to voicemail sometimes. You feel bad about it.  
    *(energy +2; fun +1; modifier rested)*
 

@@ -5,11 +5,11 @@
       "id": "PRO_720",
       "title": "The Late-Night Show",
       "category": "media",
-      "text": "A late-night show wants you as a guest.",
+      "text": "A late-night show wants you as a guest during the bye week. The producers want a funny kicker story and maybe a kick on the studio set.",
       "choices": [
         {
           "label": "Be funny",
-          "result": "You're funny. The clip goes around the league.",
+          "result": "You're funny, mostly at your own expense. The clip goes around the league, and the whole locker room does the bit back at you for a month.",
           "stats": {
             "life": {
               "social": 2
@@ -29,12 +29,14 @@
         },
         {
           "label": "Bring one story",
-          "result": "You bring one great story and tell it well.",
+          "result": "You bring one good story about your first pro camp and tell it well. The host stops laughing long enough to say it was a good story.",
           "stats": {
             "life": {
               "energy": -1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {
               "intelligence": 2
             }
@@ -42,14 +44,11 @@
           "modifiers": [
             "focused"
           ],
-          "rel": {
-            "coach": 2
-          },
           "followers": 2
         },
         {
           "label": "Decline",
-          "result": "You decline. Late nights aren't your thing.",
+          "result": "You decline and spend the bye week at home. The producers book a punter instead, and he's better on television than you'd have been.",
           "stats": {
             "life": {
               "energy": 2,
@@ -68,11 +67,11 @@
       "id": "PRO_721",
       "title": "The Hometown Field",
       "category": "community",
-      "text": "Your hometown names a field after you.",
+      "text": "Your hometown is naming the youth field after you, the one with the crooked goalpost where you learned to kick. The ceremony is in June.",
       "choices": [
         {
           "label": "Bring the family",
-          "result": "You bring the whole family. {parent} cries.",
+          "result": "You bring the whole family. {parent} stands under the sign for a long time without saying anything, then asks someone to take the picture again.",
           "stats": {
             "life": {
               "social": 2
@@ -91,7 +90,7 @@
         },
         {
           "label": "Kick the first ball",
-          "result": "You kick the first ball with the youth league.",
+          "result": "You kick the first ball with the youth league. It hits the crooked post, the kids scream, and it's the best thing that happens all summer.",
           "stats": {
             "life": {
               "energy": -2,
@@ -112,7 +111,7 @@
         },
         {
           "label": "Keep it quiet",
-          "result": "You ask them to keep it small.",
+          "result": "You ask them to keep it small: no speeches, just the sign. Afterward you walk the field alone and find your old spot by the fence.",
           "stats": {
             "life": {
               "energy": 2,
@@ -194,11 +193,11 @@
       "id": "PRO_723",
       "title": "The Kicker You Mentored",
       "category": "career",
-      "text": "A kicker you mentored signs with a rival club.",
+      "text": "A kicker you spent two summers mentoring signs with a rival club, the one you play twice a year. He sends you a picture of his new locker.",
       "choices": [
         {
           "label": "Congratulate him",
-          "result": "You congratulate him. He says he learned it from you.",
+          "result": "You congratulate him first, before the news breaks. He tells a reporter he learned everything from you, and you pretend not to be moved.",
           "stats": {
             "life": {
               "social": 2
@@ -217,12 +216,14 @@
         },
         {
           "label": "Raise your game",
-          "result": "You raise your game. Now it's a competition.",
+          "result": "You raise your game. Twice a year you'll be on the same field, and you're not letting him outkick his teacher.",
           "stats": {
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -234,7 +235,7 @@
         },
         {
           "label": "Watch him play",
-          "result": "You watch him play and smile.",
+          "result": "You watch his first game from your couch and smile at every warmup kick that looks like yours.",
           "stats": {
             "life": {
               "energy": 2,
@@ -253,11 +254,11 @@
       "id": "PRO_724",
       "title": "The New Special Teams Unit",
       "category": "team",
-      "text": "Half your special teams unit is new this season.",
+      "text": "Half your special teams unit is new this season: a new snapper, two new wings, a holder who has never held in a real game. The timing is all wrong.",
       "choices": [
         {
           "label": "Teach the new ones",
-          "result": "You teach the new ones everything you know.",
+          "result": "You teach the new ones everything you know, from the cadence to the jokes. By October the unit sounds like a unit.",
           "stats": {
             "life": {
               "energy": -2,
@@ -278,7 +279,7 @@
         },
         {
           "label": "Build the unit",
-          "result": "You take the unit to dinner every week.",
+          "result": "You take the unit to dinner every Thursday. The timing comes after the trust, which is how it always works.",
           "stats": {
             "life": {
               "social": 2
@@ -297,7 +298,7 @@
         },
         {
           "label": "Rep it out",
-          "result": "You rep it out until the timing is right.",
+          "result": "You rep it out after every practice until the timing is right. Your leg is tired, and the operation is clean.",
           "stats": {
             "life": {
               "energy": -2
@@ -327,7 +328,9 @@
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "power": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -344,7 +347,9 @@
             "life": {
               "energy": -1
             },
-            "football": {},
+            "football": {
+              "accuracy": 1
+            },
             "personality": {
               "intelligence": 2
             }
@@ -449,7 +454,9 @@
             "life": {
               "energy": -1
             },
-            "football": {},
+            "football": {
+              "toughness": 1
+            },
             "personality": {
               "intelligence": 2
             }
@@ -499,16 +506,18 @@
       "id": "PRO_728",
       "title": "The Massage Therapist",
       "category": "health",
-      "text": "The team's massage therapist knows your body better than you do.",
+      "text": "The team's massage therapist has worked on your legs for years and can tell how your week went by touching your hamstring. They want you to change something.",
       "choices": [
         {
           "label": "Listen to them",
-          "result": "You listen to them about everything.",
+          "result": "You listen to them about everything: sleep, stretching, the way you sit on the plane. Your legs feel younger by midseason.",
           "stats": {
             "life": {
               "energy": -1
             },
-            "football": {},
+            "football": {
+              "toughness": 1
+            },
             "personality": {
               "intelligence": 2
             }
@@ -522,7 +531,7 @@
         },
         {
           "label": "Thank them",
-          "result": "You thank them, publicly, at the end of the season.",
+          "result": "You thank them publicly at the end of the season, in front of the whole team. They pretend to be annoyed and keep the clip.",
           "stats": {
             "life": {
               "social": 2
@@ -542,7 +551,7 @@
         },
         {
           "label": "Book extra sessions",
-          "result": "You book extra sessions and sleep better.",
+          "result": "You book extra sessions and sleep better than you have in years. Your bank account notices, and your legs are worth it.",
           "stats": {
             "life": {
               "energy": 2,
@@ -570,7 +579,9 @@
             "life": {
               "energy": -1
             },
-            "football": {},
+            "football": {
+              "toughness": 1
+            },
             "personality": {
               "intelligence": 2
             }
@@ -629,7 +640,9 @@
             "life": {
               "energy": -1
             },
-            "football": {},
+            "football": {
+              "accuracy": 1
+            },
             "personality": {
               "intelligence": 2
             }
@@ -648,7 +661,9 @@
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "power": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -746,11 +761,11 @@
       "id": "PRO_732",
       "title": "The Team Historian",
       "category": "media",
-      "text": "The club's historian interviews you for the team's archive.",
+      "text": "The club's historian wants an hour with you for the team archive. She has a recorder, a list of questions and a photo of you as a rookie.",
       "choices": [
         {
           "label": "Tell every story",
-          "result": "You tell every story you can remember.",
+          "result": "You tell every story you can remember, including some you probably shouldn't. She laughs until she has to stop the recorder.",
           "stats": {
             "life": {
               "social": 2
@@ -769,7 +784,7 @@
         },
         {
           "label": "Tell the true ones",
-          "result": "You tell the true ones, carefully.",
+          "result": "You tell the true ones, carefully, including the hard years. She says it's the most honest interview in the archive.",
           "stats": {
             "life": {
               "energy": -1
@@ -788,7 +803,7 @@
         },
         {
           "label": "Keep it short",
-          "result": "You keep it short. The archive gets a few good lines.",
+          "result": "You keep it short. The archive gets a few good lines, and you realize later you didn't mention the people who got you there.",
           "stats": {
             "life": {
               "energy": 2,
