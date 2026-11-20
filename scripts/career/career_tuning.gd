@@ -595,7 +595,7 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export_range(0.0, 2.0) var scenario_football_scale: float = 0.5
 ## Scenario choices' "recruiting" and "draft" points are multiplied by these
 ## (the story graphs give many of them; the simulator checks pro / draft rates).
-@export_range(0.0, 2.0) var scenario_recruiting_scale: float = 0.7
+@export_range(0.0, 2.0) var scenario_recruiting_scale: float = 0.75
 @export_range(0.0, 2.0) var scenario_draft_scale: float = 1.0
 ## Upgrade cost: raising an attribute from level L to L+1 costs
 ## ceil(upgrade_cost_base + upgrade_cost_scale * (L/100)^upgrade_cost_exp).
@@ -803,7 +803,7 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## agents get fewer tryouts: the chance a club calls is 1 at fa_age_from and
 ## drops fa_age_drop a year after (a year with no call uses up one of the
 ## free_agent_attempts).
-@export var fa_age_from: int = 35
+@export var fa_age_from: int = 36
 @export var fa_age_drop: float = 0.1
 
 @export_group("Goalposts")

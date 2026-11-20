@@ -496,29 +496,39 @@ now "play until 40". The contract screen no longer names a hard limit.
 |---|---|---|---|---|---|
 | Age cap removed, nothing else (seed 11/12) | 12-16% | 5-7% | 0-1% | 0% | 0% |
 | `retention_age` 5 -> 3 alone | 11% | 6% | 1% | 0% | 0% |
-| **Final** (`fa_age_from` 35, `fa_age_drop` 0.1, `retention_age` 3; 4 seeds) | 10% | 6% | 2.8% | 0.8% | 0% |
+| Before the pro story merge (`fa_age_from` 35, `fa_age_drop` 0.1, `retention_age` 3; 4 seeds) | 10% | 6% | 2.8% | 0.8% | 0% |
 
 Targets: 40 uncommon (about 3% of pro careers), 42 rare (under 1%), 45+ under 1% (none). The
 oldest kickers in 1,440 careers were 43-44.
 
-**Final, 4 seeds x 360 careers (followers on):** pros 69 / 69 / 68 / 69%, drafted 30 / 26 / 26 / 31%
-(mean 68.8% / 28.3%); FG range end of HS 48.7-48.8, end of college 54.0-54.1; 70 yd 0%; challenges
-unchanged (average kicker 81-98%); followers end of HS 1.9-2.0K, end of college 28-30K, pro season 6
-350-410K.
+**After merging the pro story graph** (178 written pro scenes; pro careers got shorter: 2.4 pro
+seasons on average, was 3.3) the draft rate fell to about 25%, so the final values are
+`scenario_recruiting_scale` 0.75 and `fa_age_from` 36.
 
-**Benching** (fixed kicker quality, 180 careers each over 2 seeds): 60% kicker 74% benched at least
-once (target over 60%), 70% 36% (target 15-35%), 75% 21% (15-35%), 80% 6.5% (under 5%), 85% 0%.
-The 70% and 80% kickers sit just above their targets because careers are longer now (no age cap):
-the per-season rate is unchanged, and lowering `bench_trust` 35 -> 32 or 33 made no measurable
-difference (35-46%, 3-7%: noise). Left as is.
+**Final (merged game, followers on; seeds 11-14 x 360 careers):** pros 66-71% (mean 68.5%),
+drafted 28-31% (mean 28.5%); FG range end of HS 48.7-48.8, end of college 54.0; 70 yd 0%; challenges
+unchanged (average kicker 81-98%); followers end of HS about 2.0K, end of college about 29K, pro
+season 6 about 525-560K.
+
+| Pro careers that played to at least | 36 | 38 | 40 | 42 | 45 |
+|---|---|---|---|---|---|
+| Final (merged game) | 5-7% | 3-5% | 2% | 0-1% | 0% |
+
+40 stays uncommon (2% of pro careers; the pro story's choices end many careers early), 42 rare,
+45+ under 1% (the oldest kicker in 1,440 careers was 45).
+
+**Benching** (fixed kicker quality, 180 careers each, merged game): 60% kicker 68% benched at least
+once (target over 60%), 70% 30% (15-35%), 75% 18% (15-35%), 80% 6% (under 5%: within noise; the
+same kicker measured 4-7% across runs), 85% 0%. `bench_trust` unchanged: lowering it to 32-33 made no
+measurable difference.
 
 | Value | Before | After |
 |---|---|---|
 | `pro_age_cap` | 38 | removed |
-| `fa_age_from` (new) | - | 35 |
+| `fa_age_from` (new) | - | 36 |
 | `fa_age_drop` (new) | - | 0.1 |
 | `retention_age` | 5.0 | 3.0 |
-| `scenario_recruiting_scale` (new) | (1.0) | 0.7 |
+| `scenario_recruiting_scale` (new) | (1.0) | 0.75 |
 | `scenario_draft_scale` (new) | - | 1.0 |
 | `rel_recast_start` (new, recast) | - | 55 |
 | `suspend_max_weeks_pro` (new) | - | 11 |
