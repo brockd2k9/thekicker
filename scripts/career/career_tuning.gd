@@ -658,11 +658,11 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## counts. Internally every event is worth some "buzz" (also what a scenario
 ## choice's "followers" field holds), turned into followers by the stage:
 ## followers gained = buzz x followers_per_buzz (stage) x (1 + Charisma bonus).
-@export var followers_per_buzz_hs: float = 10.0
-@export var followers_per_buzz_juco: float = 40.0
-@export var followers_per_buzz_college: float = 120.0
-@export var followers_per_buzz_free_agent: float = 600.0
-@export var followers_per_buzz_pro: float = 1200.0
+@export var followers_per_buzz_hs: float = 15.0
+@export var followers_per_buzz_juco: float = 60.0
+@export var followers_per_buzz_college: float = 200.0
+@export var followers_per_buzz_free_agent: float = 750.0
+@export var followers_per_buzz_pro: float = 1500.0
 ## Gains (not losses) x (1 + this x Charisma / 100).
 @export var buzz_charisma_bonus: float = 0.2
 ## Field goals of yours in a game: a make, a long make (long_make_yards+ or near
@@ -700,8 +700,8 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var follower_tiers: PackedInt32Array = PackedInt32Array([0, 500, 5000, 25000, 100000, 500000, 2000000])
 ## A week with at least this much buzz gained: +Fun / +Social ("your phone's
 ## buzzing"); this much lost: -Fun.
-@export var buzz_week_good: float = 5.0
-@export var buzz_week_bad: float = -5.0
+@export var buzz_week_good: float = 12.0
+@export var buzz_week_bad: float = -8.0
 @export var followers_week_fun: float = 1.0
 @export var followers_week_social: float = 1.0
 @export var followers_week_bad_fun: float = -2.0
@@ -710,10 +710,15 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var tier_up_team: float = 1.0
 ## Skill points from followers (tiers, brand deals): at most this many a season.
 @export var followers_sp_season_cap: int = 5
-## End of season: recruiting / draft / retention + this per tier above
-## Hometown Hero, at most followers_progress_cap.
-@export var followers_progress_per_tier: float = 1.0
-@export var followers_progress_cap: float = 3.0
+## End of season: recruiting (high school, junior college) / draft stock
+## (college) / standing (pros) + followers_progress_per_tier per tier above
+## Hometown Hero, at most followers_progress_cap (before the pros) or
+## followers_standing_cap (pros). The simulator found even +0.5 a season of
+## recruiting / draft moved the draft rate 4-5 points, so it's off (0) before
+## the pros; standing in the pros doesn't change who gets there.
+@export var followers_progress_per_tier: float = 0.5
+@export var followers_progress_cap: float = 0.0
+@export var followers_standing_cap: float = 1.0
 ## Pro contracts: salary + this per tier, at most followers_salary_cap.
 @export_range(0.0, 0.1) var followers_salary_per_tier: float = 0.02
 @export_range(0.0, 0.5) var followers_salary_cap: float = 0.1

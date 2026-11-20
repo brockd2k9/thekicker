@@ -205,10 +205,14 @@ func test_week_effects() -> void:
 func test_season_bonus_salary_and_pressure() -> void:
 	var c := _career(CareerData.STAGE_PRO).data
 	eq(Followers.progress_bonus(c, t), 0.0, "no bonus for Local Name")
-	c.followers = Followers.threshold(4, t)  # Verified
-	eq(Followers.progress_bonus(c, t), minf(3.0 * t.followers_progress_per_tier, t.followers_progress_cap), "capped bonus")
+	c.followers = Followers.threshold(3, t)  # Campus Celebrity
+	eq(Followers.progress_bonus(c, t), minf(2.0 * t.followers_progress_per_tier, t.followers_standing_cap),
+		"pros: standing bonus")
 	c.followers = Followers.threshold(6, t)
-	eq(Followers.progress_bonus(c, t), t.followers_progress_cap, "never past the cap")
+	eq(Followers.progress_bonus(c, t), t.followers_standing_cap, "never past the cap")
+	var col := _career(CareerData.STAGE_COLLEGE).data
+	col.followers = Followers.threshold(6, t)
+	eq(Followers.progress_bonus(col, t), t.followers_progress_cap, "college: the draft bonus cap (0: off)")
 	eq(Followers.salary_bonus(c, t), t.followers_salary_cap, "salary bump capped at 10%")
 	eq(Followers.salary(c, 1000000, t), roundi(1000000 * (1.0 + t.followers_salary_cap)), "salary")
 	eq(Followers.fan_pressure(c, t), t.fan_pressure_cap, "fan pressure capped")

@@ -229,6 +229,7 @@ func test_kickoffs() -> void:
 	check(TryoutMode.kickoff_good({"carry": 66.0, "result": "returned"}, 65.0), "carry counts")
 	check(TryoutMode.kickoff_good({"carry": 50.0, "result": "touchback"}, 65.0), "a touchback counts")
 	check(not TryoutMode.kickoff_good({"carry": 50.0, "result": "returned"}, 65.0), "short and returned")
+	check(not TryoutMode.kickoff_good({"carry": 58.0, "result": "deep"}, 65.0), "deep but short of min_yards")
 
 
 func test_offseason_challenge_continues_the_offseason() -> void:

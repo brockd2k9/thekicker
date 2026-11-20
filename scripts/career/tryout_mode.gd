@@ -108,11 +108,11 @@ func record(r: KickReport) -> void:
 
 
 ## A kickoff's result (KickoffJudge, the scene's tee_result): made if it
-## carries kickoff_min_yards or lands deep / for a touchback.
+## carries kickoff_min_yards, or goes for a touchback.
 func record_kickoff(tee_result: Dictionary) -> bool:
 	kickoffs_taken += 1
 	return kickoff_good(tee_result, kickoff_min_yards)
 
 
 static func kickoff_good(tee_result: Dictionary, min_yards: float) -> bool:
-	return float(tee_result.get("carry", 0.0)) >= min_yards or str(tee_result.get("result", "")) in ["touchback", "deep"]
+	return float(tee_result.get("carry", 0.0)) >= min_yards or str(tee_result.get("result", "")) == "touchback"
