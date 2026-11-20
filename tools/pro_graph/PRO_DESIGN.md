@@ -1,34 +1,38 @@
 # PRO story graph design (skeleton)
 
-Skeleton for review: nothing is generated into the game data and no scene is written. Source: `tools/pro_graph/pro_design.json`. Scoping and engine facts: `PRO_SCOPING.md`.
+Skeleton for review: only the six tone-check scenes are written (`tools/authoring/work/pro_tone_check.json`, not imported); nothing is generated into the game data. Source: `pro_design.json` (regenerate this file with `make_pro_design_md.py`). Scoping and engine facts: `PRO_SCOPING.md`.
 
-**Timing.** The game has no pro season count, so scenes gate on **age** (requires min/max age) and on **seasons with the current club** (the count restarts at every new club). `kind`:
+**Timing.** The game has no pro season count, so scenes gate on **age** and on **seasons with the current club** (the count restarts at every new club). Kinds:
 - **once**: one time per career.
 - **variant**: one of an age-banded set (rookie, prime, veteran).
-- **repeat**: re-fires on its trigger, with a 15-20 week cooldown.
+- **repeat**: re-fires on its trigger, with a 15-week cooldown.
 
-**Waits on** the consolidated gameplay request (sent to the gameplay session):
+**Waits on** the consolidated gameplay request:
 - R1: no age cap
-- R3: savings and the `money` field
-- R4: transition flags and right-now state
-- R5: `{club}` / `{town}`
-- R6: once per club
+- R3: savings + money field
+- R4: transition flags + right-now state metrics
+- R5: {club} / {town}
+- R6: once_per_club
 - R7: season-end dismissal
+- R8: re-point {love_interest} to a new person (choice field)
 
-R2 (draft and retention reading the character flags) changes numbers only; no scene waits on it. Money scenes are written now with flags and stress costs, and get `money` values when R3 lands.
+R2 changes numbers only; no scene waits on it. Money scenes (R3) are written now with flags and stress costs and get `money` values later.
 
-**Pro strike flags** (pro wrong path; the steps PRO_124-128 read and clear only these, so a college strike left uncleared doesn't open them): `stayed_out_pro`, `pro_night_out`, `pro_unapproved_supplement`, `pro_bar_fight`, `pro_shared_inside_info`, `pro_party_house`, `pro_reckless_driving`, `pro_online_rant`, `pro_gambling_debt`. College flags set severity through locked choices: `character_concerns` / `last_chance` harsher, `rebuilt_reputation` / `owned_mistake` more lenient.
+**Pro strike flags** (the team-discipline steps PRO_124-128 read and clear only these): `stayed_out_pro`, `pro_night_out`, `pro_unapproved_supplement`, `pro_bar_fight`, `pro_shared_inside_info`, `pro_party_house`, `pro_reckless_driving`, `pro_online_rant`, `pro_gambling_debt`.
+**Relationship strike flags** (the cheating storyline PRO_155-163; never read by team discipline): `pro_cheated`, `affair_public`.
+College flags set severity through locked choices.
 
-**Totals:** 150 scenes. **116 can be written now**: 94 need nothing new, and 22 are money scenes written with flags and stress costs that get `money` values when R3 lands. **34 are blocked** until R1, R4, R5, R6 or R7 lands. Kinds: 127 once, 18 repeat, 5 variant.
+**Totals:** 163 scenes. **128 can be written now**: 105 need nothing new, and 23 are money scenes written with flags and stress costs. **35 are blocked** until R1, R4, R5, R6, R7 or R8 lands. Kinds: 139 once, 19 repeat, 5 variant.
 
 | Waits on | Scenes |
 |---|---|
 | R1 | 2: 143, 144 |
-| R3 | 24: 003, 007, 026, 031, 040, 056, 057, 059, 060, 061, 062, 063, 064, 065, 066, 067, 068, 069, 070, 071, 072, 073, 123, 135 |
+| R3 | 25: 003, 007, 026, 031, 040, 056, 057, 059, 060, 061, 062, 063, 064, 065, 066, 067, 068, 069, 070, 071, 072, 073, 123, 135, 163 |
 | R4 | 28: 016, 017, 018, 019, 020, 021, 024, 025, 027, 028, 033, 036, 037, 038, 039, 040, 041, 042, 043, 045, 046, 047, 051, 055, 134, 140, 145, 148 |
 | R5 | 5: 007, 008, 043, 045, 046 |
 | R6 | 3: 043, 044, 045 |
 | R7 | 1: 127 |
+| R8 | 1: 151 |
 
 **Chains:**
 - Rookie: PRO_001 → PRO_002 → PRO_003 → PRO_004 → PRO_005 → PRO_006 → PRO_007 → PRO_008 → PRO_009 → PRO_010 → PRO_011 → PRO_012 → PRO_013 → PRO_014 → PRO_015
@@ -43,7 +47,7 @@ R2 (draft and retention reading the character flags) changes numbers only; no sc
 - New club: PRO_042 → PRO_043 → PRO_044 → PRO_045 → PRO_046 → PRO_047 → PRO_051
 - Agent: PRO_048 → PRO_049 → PRO_050
 - Money: PRO_056 → PRO_057 → PRO_058 → PRO_059 → PRO_060 → PRO_061 → PRO_062 → PRO_063 → PRO_064 → PRO_065 → PRO_066 → PRO_067 → PRO_068 → PRO_069 → PRO_070 → PRO_071 → PRO_072 → PRO_073
-- Partner: PRO_074 → PRO_075 → PRO_079 → PRO_095 → PRO_096
+- Partner: PRO_074 → PRO_075 → PRO_079 → PRO_095 → PRO_096 → PRO_151
 - Family: PRO_076 → PRO_077 → PRO_078 → PRO_080 → PRO_081 → PRO_082 → PRO_146
 - Friends: PRO_083 → PRO_084 → PRO_097 → PRO_098
 - Rival: PRO_085 → PRO_086 → PRO_087
@@ -56,6 +60,8 @@ R2 (draft and retention reading the character flags) changes numbers only; no sc
 - Retirement: PRO_137 → PRO_138
 - Forced out: PRO_139 → PRO_148
 - After: PRO_141 → PRO_142 → PRO_149
+- Single: PRO_152 → PRO_153 → PRO_154
+- Temptation: PRO_155 → PRO_156 → PRO_157 → PRO_158 → PRO_159 → PRO_160 → PRO_161 → PRO_162 → PRO_163
 
 ## Arrival and rookie years (15)
 
@@ -149,7 +155,7 @@ R2 (draft and retention reading the character flags) changes numbers only; no sc
 | PRO_039 | The Re-Sign Call | any | repeat |  |  |  | R4 re_signed |
 | PRO_040 | The Hometown Discount | any | once |  |  |  | R4 contract_year; R3 money values |
 | PRO_041 | The Holdout Talk | any | once |  |  |  | R4 contract_year |
-| PRO_042 | Starting Over | any | once |  |  |  | R4 released + signed_new_club |
+| PRO_042 | Starting Over | club season 1, weeks 1-3 | once | failed_tryouts |  |  | R4 released (failed_tryouts is also set by a failed college walk-on tryout) |
 | PRO_043 | New Club, New Locker Room | club season 1, weeks 1-2 | repeat |  |  |  | R4 signed_new_club; R5 {club}; R6 once_per_club |
 | PRO_044 | The New Holder | club season 1, weeks 1-4 | repeat |  |  |  | R6 once_per_club |
 | PRO_045 | Moving the Family | club season 1, offseason | repeat |  |  |  | R4 signed_new_club; R5 {town}; R6 once_per_club |
@@ -170,7 +176,7 @@ R2 (draft and retention reading the character flags) changes numbers only; no sc
 - **PRO_039 The Re-Sign Call**: The club wants you back. Your agent wants to wait for the market.
 - **PRO_040 The Hometown Discount**: The club offers less than the market, and asks you to take it because you're family here.
 - **PRO_041 The Holdout Talk**: Your agent says the only way to get paid is to stay home from camp. *(A temptation, not a mechanic: the game has no holdouts. Holding firm costs retention and the coach.)*
-- **PRO_042 Starting Over**: You were released in March. Now you're in a stranger's locker room in a city you've never visited.
+- **PRO_042 Starting Over**: The last club let you go. A week ago you were cleaning out a locker; today you're in a stranger's locker room in a city you've never visited. *(Opens after any release or cut (the engine's failed_tryouts list), in the first weeks at the next club. Tone-check scene (being cut at the end of camp).)*
 - **PRO_043 New Club, New Locker Room**: First day at {club}. Your name is on tape above a locker that still has someone else's sticker on it.
 - **PRO_044 The New Holder**: {holder} spins the laces differently than anyone you've worked with.
 - **PRO_045 Moving the Family**: The new contract is in {town}. Your partner has a job and friends where you live now.
@@ -192,7 +198,7 @@ R2 (draft and retention reading the character flags) changes numbers only; no sc
 | PRO_056 | The Big Check | age 24-34 | once |  | saved_big_check, spent_big_check |  | R3 money values |
 | PRO_057 | The Honest Advisor | any | once |  | honest_advisor |  | R3 money values |
 | PRO_058 | The Advisor With the Yacht | any | once |  | trusted_flashy_advisor | good_agent, honest_advisor |  |
-| PRO_059 | The Missing Money | any | once | trusted_flashy_advisor | advisor_stole |  | R3 money values (-0.4) |
+| PRO_059 | The Missing Money | any | once | trusted_flashy_advisor | advisor_stole, hid_the_loss |  | R3 money values (-0.4) |
 | PRO_060 | The Lawsuit | any | once | advisor_stole | sued_advisor |  | R3 money values |
 | PRO_061 | The Restaurant | any | once |  | opened_restaurant |  | R3 money values |
 | PRO_062 | The Restaurant Is Failing | any | once | opened_restaurant | bad_venture | honest_advisor | R3 money values |
@@ -205,7 +211,7 @@ R2 (draft and retention reading the character flags) changes numbers only; no sc
 | PRO_069 | {parent}'s House | any | once |  |  | helped_family_financially | R3 money values |
 | PRO_070 | The Foundation | any | once |  | started_foundation |  | R3 money values |
 | PRO_071 | The Watch, the Car, the Chain | any | once |  |  |  | R3 money values |
-| PRO_072 | Broke at Thirty-Three | age 31+ | once | advisor_stole / bad_venture / spent_big_check / lived_large |  |  | R3 money values + savings check |
+| PRO_072 | Broke at Thirty-Three | age 31+ | once | advisor_stole / bad_venture / spent_big_check / lived_large / hid_the_loss |  |  | R3 money values + savings check |
 | PRO_073 | The Pension Meeting | any | once |  |  |  | R3 money values |
 
 - **PRO_056 The Big Check**: The signing bonus clears. Your phone lights up with cousins.
@@ -213,7 +219,7 @@ R2 (draft and retention reading the character flags) changes numbers only; no sc
 - **PRO_058 The Advisor With the Yacht**: A financial advisor who manages three teammates invites you onto his boat and talks about 'real returns'.
 - **PRO_059 The Missing Money**: Your accounts are lighter than they should be, and the advisor isn't answering. *(Works now with flags and stress; the stolen 40% lands with R3.)*
 - **PRO_060 The Lawsuit**: Your lawyer says you can sue the advisor. It'll take three years and your name will be in every story.
-- **PRO_061 The Restaurant**: A teammate's cousin wants your name and your money on a steakhouse downtown.
+- **PRO_061 The Restaurant**: An old college teammate wants your name and your money on a steakhouse downtown. He has a chef, a location and a business plan he wrote last night.
 - **PRO_062 The Restaurant Is Failing**: The steakhouse is losing money every week, and your name is on the sign.
 - **PRO_063 The Car Dealership**: A dealership wants you as a partner: your face on the billboards, your money in the lot.
 - **PRO_064 The Friend's Start-Up**: {best_friend} is starting a company and asks you to be the first investor.
@@ -369,7 +375,7 @@ R2 (draft and retention reading the character flags) changes numbers only; no sc
 | PRO_134 | The One-Year Deal | age 34+ | once |  |  |  | R4 re_signed / contract_year |
 | PRO_135 | The Veteran Minimum | age 35+ | once |  |  |  | R3 money values |
 | PRO_136 | The Body Says No | age 35+ | once |  |  |  |  |
-| PRO_137 | The Retirement Talk at Home | age 34+ | once |  | planning_retirement |  |  |
+| PRO_137 | The Retirement Talk | age 34+ | once | made_long_distance_work / committed_to_relationship / new_partner / engaged / married | planning_retirement |  |  |
 | PRO_138 | The Farewell Season | age 34+ | once | planning_retirement |  |  |  |
 | PRO_139 | The General Manager's Office | age 34+ | once | retention under 45 |  |  |  |
 | PRO_140 | The Comeback Workout | age 33+ | once |  |  |  | R4 released + signed_new_club |
@@ -390,7 +396,7 @@ R2 (draft and retention reading the character flags) changes numbers only; no sc
 - **PRO_134 The One-Year Deal**: The offer is one year, the minimum, and a phone call that says take it or leave it.
 - **PRO_135 The Veteran Minimum**: You're making a third of what you made five years ago, and the rookie next to you has your old car.
 - **PRO_136 The Body Says No**: Your hip takes an hour to warm up now, and Monday mornings take two.
-- **PRO_137 The Retirement Talk at Home**: Your partner asks, gently, how many more seasons.
+- **PRO_137 The Retirement Talk**: Your partner asks, gently, how many more seasons. *(Partner version; a single player gets the same question in PRO_149 What's Next.)*
 - **PRO_138 The Farewell Season**: Do you tell the world this is your last season, or let it end quietly? *(The retirement itself is the player's choice on the contract screen.)*
 - **PRO_139 The General Manager's Office**: The general manager says they're going in a different direction at kicker next season. *(Foreshadows the engine's release; retention lags a season.)*
 - **PRO_140 The Comeback Workout**: Released last spring, signed this summer: everyone in camp thinks you're finished.
@@ -404,4 +410,36 @@ R2 (draft and retention reading the character flags) changes numbers only; no sc
 - **PRO_148 Cleaning Out the Locker**: You're cleaning out a locker after a release for the first time, and nobody walks by. *(At the new club, about the old one.)*
 - **PRO_149 What's Next**: Your agent, your partner and your accountant all ask the same question in the same week.
 - **PRO_150 The Note in the Locker**: A rookie leaves a note in your locker: he grew up watching you. *(Age 38 is reachable now (the cap retires a player after the age-38 season); ages above wait on R1.)*
+
+## Relationships (13)
+
+| ID | Title | Window | Kind | Opens on | Sets | Callbacks (locked choices) | Waits on |
+|---|---|---|---|---|---|---|---|
+| PRO_151 | Someone New | any | repeat | ended_long_distance / dating_classmate / broke_up_pro / divorced; not new_partner / engaged / married | new_partner, enjoying_single_life | dating_classmate | R8 re-point {love_interest} |
+| PRO_152 | The Setup | any | once | not made_long_distance_work / committed_to_relationship / new_partner / engaged / married / dating_classmate |  |  |  |
+| PRO_153 | The Profile | any | once | not made_long_distance_work / committed_to_relationship / new_partner / engaged / married / dating_classmate |  |  |  |
+| PRO_154 | The Famous Date | any | once | not made_long_distance_work / committed_to_relationship / new_partner / engaged / married / dating_classmate |  |  |  |
+| PRO_155 | The Fan | any | once | new_partner; not engaged / married | pro_cheated |  |  |
+| PRO_156 | The Hotel Bar | any | once | made_long_distance_work / committed_to_relationship; not engaged / married | pro_cheated |  |  |
+| PRO_157 | The Sponsor's Rep | any | once | engaged; not married | pro_cheated, affair_public |  |  |
+| PRO_158 | The Teammate's Friend | any | once | married; not became_parent | pro_cheated |  |  |
+| PRO_159 | The Long Week on the Road | any | once | married + became_parent | pro_cheated |  |  |
+| PRO_160 | Found Out | any | once | pro_cheated | confessed_affair, lied_about_affair |  |  |
+| PRO_161 | The Lie Comes Out | any | once | lied_about_affair | affair_public, broke_up_pro |  |  |
+| PRO_162 | Starting Over, Together | any | once | confessed_affair | repaired_relationship, broke_up_pro |  |  |
+| PRO_163 | The Divorce | any | once | married; lied_about_affair / affair_public / confessed_affair / marriage_strained | divorced |  | R3 money values |
+
+- **PRO_151 Someone New**: You're single in a new city, or the person you dated in college has followed you here, and it's starting to feel serious. *(One scene for both paths: a player who ended things with the high school love interest meets someone new; a player who dated the college classmate makes the classmate the pro partner (locked choice). Committing re-points {love_interest} to the new partner (R8). Repeats after a breakup or divorce (cooldown 15 weeks).)*
+- **PRO_152 The Setup**: A teammate's wife has decided you need to meet her friend, and dinner is Saturday whether you like it or not. *(Single, dating around; no cheating framing.)*
+- **PRO_153 The Profile**: Someone screenshots your dating profile and it ends up on a fan account with a caption you didn't write.
+- **PRO_154 The Famous Date**: You're photographed at dinner with someone famous, and by morning the internet has decided you're engaged. *(Followers up; the date has opinions about your schedule.)*
+- **PRO_155 The Fan**: A fan who's been at every signing this season slips you a hotel key card with your autograph. *(Dating stage. Strike: pro_cheated.)*
+- **PRO_156 The Hotel Bar**: After a road game, the team hotel's bar. Someone who isn't {love_interest} has been talking to you for an hour and doesn't want the night to end. *(Committed stage (still with the high school love interest). Tone-check scene.)*
+- **PRO_157 The Sponsor's Rep**: The rep from your biggest sponsor has handled your account for a year. Tonight the dinner is just the two of you, and she suggests a nightcap at her hotel. *(Engaged stage. Going public costs the sponsor (scandal).)*
+- **PRO_158 The Teammate's Friend**: A teammate's friend keeps showing up at the team's Thursday dinners, and keeps sitting next to you. *(Married stage.)*
+- **PRO_159 The Long Week on the Road**: Two road games back to back, ten days from home, and a woman at the team hotel who knows exactly who you are and doesn't care that you're married. *(Married with kids. The kids appear only in the text.)*
+- **PRO_160 Found Out**: {love_interest} has your phone in one hand and a question in the other. *(Story event, soon after the strike. Confess: costs now, keeps the door open. Lie: worse when it surfaces.)*
+- **PRO_161 The Lie Comes Out**: The story you told {love_interest} has just fallen apart, in a text from someone you've never met. *(Breaking up clears every partner flag (made_long_distance_work, committed_to_relationship, new_partner, engaged).)*
+- **PRO_162 Starting Over, Together**: {love_interest} agrees to see a counselor with you. The first session is Thursday, and the counselor asks who wants to go first.
+- **PRO_163 The Divorce**: The lawyers have the paperwork ready, and {love_interest} wants to talk before anyone signs anything. *(Divorce clears married and the other partner flags; the money cost lands with savings (R3). People: kids in the text only.)*
 

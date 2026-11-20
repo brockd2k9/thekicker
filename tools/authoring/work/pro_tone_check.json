@@ -1,0 +1,561 @@
+{
+  "_about": "Pro tone check: six full scenes (the stolen fortune, a friend's bad venture, the first temptation scene at the committed stage, the agent and a contract the player doesn't like, being cut at the end of camp, the retirement talk). Not imported. Money scenes use flags and stress costs; money values come with the savings stat.",
+  "scenarios": [
+    {
+      "id": "PRO_059",
+      "title": "The Missing Money",
+      "category": "money",
+      "text": "Your bank calls on a Tuesday morning: a transfer you didn't authorize, the third one this year. The advisor with the boat isn't answering, and his office number goes to a recording.",
+      "choices": [
+        {
+          "label": "Call a lawyer before practice",
+          "result": "You make the calls in the parking lot. By Friday the accounts are frozen, a forensic accountant is on it, and you know the number: a little under half of everything you've earned.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "fun": -3
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "advisor_stole": true
+          },
+          "retention": -1
+        },
+        {
+          "label": "Call {parent}",
+          "result": "You call {parent} and say the number out loud. He's quiet for a long time, then tells you about the year he lost his job and what he did the next morning. You write it all down.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "fun": -2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "advisor_stole": true
+          },
+          "rel": {
+            "parent": 5
+          },
+          "retention": -2
+        },
+        {
+          "label": "Keep it quiet and fix it yourself",
+          "result": "You tell nobody, including the three teammates he also manages. You tell them everything's fine, which is a lie, and spend the season doing math in the training room.",
+          "stats": {
+            "life": {
+              "energy": -4,
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ],
+          "set_flags": {
+            "advisor_stole": true,
+            "hid_the_loss": true
+          },
+          "rel": {
+            "team": -3
+          },
+          "retention": -1
+        },
+        {
+          "label": "Call your agent first",
+          "result": "Your agent has seen this before. Within an hour you have a lawyer, an accountant and a plan, and a warning to call the other three players he manages before the news does.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "fun": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "advisor_stole": true
+          },
+          "rel": {
+            "team": 2
+          },
+          "retention": -1,
+          "requires": {
+            "flags": [
+              "good_agent"
+            ]
+          },
+          "lock_text": "having hired an agent who tells you the truth"
+        }
+      ]
+    },
+    {
+      "id": "PRO_061",
+      "title": "The Restaurant",
+      "category": "money",
+      "text": "An old college teammate wants your name and your money on a steakhouse downtown. He has a chef, a location and a business plan he wrote last night, and he keeps saying 'can't miss.'",
+      "choices": [
+        {
+          "label": "Put your money in",
+          "result": "You sign the papers at his kitchen table. Your name goes up in lights in March, and you eat there twice a week because it's yours.",
+          "stats": {
+            "life": {
+              "fun": 3,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "opened_restaurant": true
+          },
+          "followers": 2
+        },
+        {
+          "label": "Ask to see real numbers",
+          "result": "You ask for a real plan, the lease and an accountant's review. He's offended, sends half of it, then stops answering. You keep your money and lose some of a friendship.",
+          "stats": {
+            "life": {
+              "social": -2,
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Lend your name, not your money",
+          "result": "You agree to show up for the opening and sign photos, nothing more. He's disappointed and says so, then takes it.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "followers": 1
+        },
+        {
+          "label": "Send it to your advisor",
+          "result": "Your advisor reads the plan in an afternoon and circles four things that would sink it. You send the list to your old teammate as a favor. He fixes two of them and opens without you.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "requires": {
+            "flags": [
+              "honest_advisor"
+            ]
+          },
+          "lock_text": "having an advisor you trust"
+        }
+      ]
+    },
+    {
+      "id": "PRO_156",
+      "title": "The Hotel Bar",
+      "category": "romance",
+      "text": "After a road game, the team hotel's bar. She has been talking to you for an hour, laughs at the right moments and doesn't want the night to end. Your phone buzzes on the bar: a goodnight text from {love_interest}.",
+      "choices": [
+        {
+          "label": "Walk away and call home",
+          "result": "You say goodnight, pay the tab and take the elevator up alone. You call {love_interest} back from the hallway, and the two of you talk until you're both half asleep.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": -1,
+              "social": -1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "love_interest": 4
+          }
+        },
+        {
+          "label": "Tell {love_interest} what happened",
+          "result": "You go upstairs and tell {love_interest} about the hour at the bar and what was offered. It's an uncomfortable call. At the end of it, {love_interest} says thank you for telling the truth.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "fun": -2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "love_interest": 6
+          }
+        },
+        {
+          "label": "Leave the bar together",
+          "result": "You leave the bar together. The next morning you're on the team bus with your phone face down in your lap, three unanswered texts from home, and a teammate who saw everything looking at you a second too long.",
+          "stats": {
+            "life": {
+              "fun": 4,
+              "social": 2,
+              "energy": -3
+            },
+            "football": {},
+            "personality": {
+              "leadership": -1
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ],
+          "set_flags": {
+            "pro_cheated": true
+          },
+          "rel": {
+            "love_interest": -12,
+            "team": -2
+          },
+          "retention": -2,
+          "conduct": "bad"
+        }
+      ]
+    },
+    {
+      "id": "PRO_041",
+      "title": "The Holdout Talk",
+      "category": "career",
+      "text": "Your agent slides the club's offer across a restaurant table: less than a kicker in your division got last spring, with a pay cut in year two. 'We hold out,' your agent says. 'You stay home from camp until they pay you what you're worth.'",
+      "choices": [
+        {
+          "label": "Sign it and say why",
+          "result": "You sign, then tell your agent you'd rather kick for a fair number than sit at home waiting for a better one. Your agent calls it leaving money on the table. {coach} calls it the best news of the week.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "ambition": -1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "rel": {
+            "coach": 3
+          },
+          "retention": 2
+        },
+        {
+          "label": "Hold out",
+          "result": "You stay home when camp opens. The club fines you every day, talk radio calls you greedy, and two weeks later you sign for a little more and walk into a locker room that moved on without you.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "coach": -5,
+            "team": -3
+          },
+          "followers": -2,
+          "retention": -3
+        },
+        {
+          "label": "Call the general manager yourself",
+          "result": "You call the general manager directly, which agents hate. You get a better guarantee in year two and an agent who sulks for a month.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 1
+          },
+          "retention": 1
+        },
+        {
+          "label": "Ask for the honest read",
+          "result": "The agent you hired for honesty admits the offer is fair for a kicker and a holdout would cost more than it gains. You sign, and you don't regret it.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "ambition": -1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "rel": {
+            "coach": 2
+          },
+          "retention": 2,
+          "requires": {
+            "flags": [
+              "good_agent"
+            ]
+          },
+          "lock_text": "having hired an agent who tells you the truth"
+        }
+      ]
+    },
+    {
+      "id": "PRO_042",
+      "title": "Starting Over",
+      "category": "career",
+      "text": "The last club let you go at the end of camp: a ten-minute meeting, a plastic bag for your cleats and a security guard who walked you to the parking lot. Ten days later you're in a stranger's locker room, and the kicker you're replacing still has his name above the stall.",
+      "choices": [
+        {
+          "label": "Learn every name by Friday",
+          "result": "You learn every name in the specialists' room by Friday and buy the long snapper lunch. Nobody here owes you anything, and by Sunday a few of them act like they might.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Say nothing and kick",
+          "result": "You keep your head down, kick until the trainers send you in and let the work introduce you. It's lonely. It's also the cleanest practice week you've had in a year.",
+          "stats": {
+            "life": {
+              "social": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2,
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Call {parent} before the first practice",
+          "result": "You call {parent} from the hotel parking lot. He doesn't ask what went wrong; he asks what the new place smells like. You laugh for the first time in ten days.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "parent": 4
+          }
+        },
+        {
+          "label": "Ask {coach} what they heard",
+          "result": "You've rebuilt a reputation before. On day one you walk into {coach}'s office and ask what they heard about you at the last club, and you answer every part of it.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "rel": {
+            "coach": 4
+          },
+          "requires": {
+            "flags": [
+              "rebuilt_reputation"
+            ]
+          },
+          "lock_text": "having taken the long way back"
+        }
+      ]
+    },
+    {
+      "id": "PRO_137",
+      "title": "The Retirement Talk",
+      "category": "family",
+      "text": "It's late, the house is quiet, and {love_interest} finally asks the question you've both been walking around: how many more seasons?",
+      "choices": [
+        {
+          "label": "Say one more",
+          "result": "You say one more season, and you mean it out loud for the first time. {love_interest} takes your hand, and suddenly every practice this year feels like a last one.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": -2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "planning_retirement": true
+          },
+          "rel": {
+            "love_interest": 6
+          }
+        },
+        {
+          "label": "Say you're not done",
+          "result": "You say the leg still has it and you're not ready. {love_interest} nods slowly and says okay, and you both know the question will come back.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "love_interest": -3
+          }
+        },
+        {
+          "label": "Ask what they want",
+          "result": "You turn it around and ask what the next ten years should look like. It's the longest conversation you've had in months, and nobody mentions kicking until the very end.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "love_interest": 5
+          }
+        },
+        {
+          "label": "Bring out the old plan",
+          "result": "You find the plan you wrote in college for life after football. It's out of date and still mostly right, and the two of you rewrite it at the kitchen table until two in the morning.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "planning_retirement": true
+          },
+          "rel": {
+            "love_interest": 4
+          },
+          "requires": {
+            "any_flags": [
+              "finished_degree_track",
+              "life_after_football"
+            ]
+          },
+          "lock_text": "having planned for life after football in college"
+        }
+      ]
+    }
+  ]
+}
