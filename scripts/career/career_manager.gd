@@ -309,6 +309,9 @@ func choose(index: int) -> Dictionary:
 		return {}
 	var out := ScenarioEngine.apply_choice(data, str(s["id"]), index, tuning)
 	data.pending_scenarios.pop_front()
+	if out.get("challenge", false):
+		start_challenge(str(s["id"]), index)
+		return out
 	if data.pending_scenarios.is_empty():
 		_after_scenarios()
 	save()
@@ -828,7 +831,7 @@ func start_tryout(purpose: String, team_id: String) -> void:
 	var def: Dictionary = Progression.rules().get("tryouts", {}).get(purpose, {})
 	var team := CareerContent.team_by_id(team_id)
 	data.tryout = def.duplicate(true)
-	data.tryout.merge({"purpose": purpose, "team": team_id, "team_name": str(team.get("name", "")),
+	data.tryout.merge({"purpose": purpose, "team": team_id, "team_name": str(team.get("name", "")), "results": [],
 		"made": 0, "taken": 0, "seed": rng.randi()}, true)
 	data.phase = PHASE_TRYOUT
 	save()
@@ -838,9 +841,54 @@ func start_tryout(purpose: String, team_id: String) -> void:
 ## kick scene; Bench.audition sets the kicks).
 func start_audition() -> void:
 	data.tryout = Bench.audition(data, tuning, profile().fg_range)
-	data.tryout.merge({"made": 0, "taken": 0, "seed": rng.randi()}, true)
+	data.tryout.merge({"made": 0, "taken": 0, "results": [], "seed": rng.randi()}, true)
 	data.phase = PHASE_TRYOUT
 	save()
+
+
+## A scenario choice's kick challenge (KickChallenge): the kicks happen in the
+## tryout screen, then the week (or offseason) carries on where it was.
+func start_challenge(scenario_id: String, index: int) -> void:
+	var ch: Dictionary = (CareerContent.scenario(scenario_id).get("choices", []) as Array)[index]
+	data.tryout = KickChallenge.tryout(data, KickChallenge.of(ch), scenario_id, index, profile().fg_range,
+		data.phase, rng.randi(), tuning)
+	data.phase = PHASE_TRYOUT
+	save()
+
+
+## The ball has been kicked: saved, so quitting before the result is a miss.
+func tryout_struck() -> void:
+	if data.phase != PHASE_TRYOUT:
+		return
+	data.tryout["struck"] = true
+	save()
+
+
+## One tryout kick's result (saved, so a reload continues at the next kick).
+func tryout_kick(made: bool) -> void:
+	if data.phase != PHASE_TRYOUT:
+		return
+	var results: Array = data.tryout.get("results", [])
+	if results.size() >= TryoutMode.total_kicks(data.tryout):
+		return
+	results.append(made)
+	data.tryout["results"] = results
+	data.tryout["struck"] = false
+	data.tryout["taken"] = results.size()
+	data.tryout["made"] = results.count(true)
+	save()
+
+
+## Opening the tryout screen: a kick that was struck but never resolved (the
+## game quit mid-flight) counts as a miss.
+func tryout_resume() -> void:
+	if data.phase == PHASE_TRYOUT and bool(data.tryout.get("struck", false)):
+		tryout_kick(false)
+
+
+## All kicks taken?
+func tryout_done() -> bool:
+	return (data.tryout.get("results", []) as Array).size() >= TryoutMode.total_kicks(data.tryout)
 
 
 func tryout_passed() -> bool:
@@ -848,11 +896,25 @@ func tryout_passed() -> bool:
 
 
 ## The tryout's kicks are done: join the team, or fall back.
+## made: from the screen; the saved per-kick results win when there are any.
 func finish_tryout(made: int) -> void:
 	if data.phase != PHASE_TRYOUT:
 		return
+	if data.tryout.has("results") and not (data.tryout["results"] as Array).is_empty():
+		made = (data.tryout["results"] as Array).count(true)
 	data.tryout["made"] = made
 	var purpose := str(data.tryout.get("purpose", ""))
+	if purpose == "challenge":
+		var res := KickChallenge.finish(data, data.tryout, tuning)
+		data.last_challenge = res.duplicate(true)
+		data.last_challenge["title"] = str(data.tryout.get("title", ""))
+		data.last_challenge["scenario"] = str(data.tryout.get("scenario", ""))
+		data.phase = str(data.tryout.get("return_phase", PHASE_SCENARIO))
+		data.tryout = {}
+		if data.pending_scenarios.is_empty():
+			_after_scenarios()
+		save()
+		return
 	if purpose == "job":  # the bench audition: back to the week either way
 		data.tryout["result"] = Bench.finish_audition(data, tuning, made)
 		if str(data.tryout["result"]) == "passed":

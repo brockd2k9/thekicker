@@ -17,6 +17,9 @@ enum Phase { SETUP, SNAP, KICK_WINDOW, FLIGHT, RESULT }
 
 ## The result has been shown for result_min_display seconds.
 signal attempt_finished(outcome: KickResult.Outcome)
+## The ball has been kicked (field goal / extra point or tee kick), before its
+## result: a tryout saves that the kick was taken, so quitting now is a miss.
+signal kick_struck
 
 @export var tuning: KickTuning
 
@@ -267,6 +270,7 @@ func _try_kick(swipe: Swipe) -> void:
 	var shot: KickController.Shot = kicker.build_shot(
 		swipe, tuning, modifiers, pressure.wobble_deg(), _rng, _play_t)
 	phase = Phase.FLIGHT
+	kick_struck.emit()
 	_wind_at_kick = wind.mph
 	aim_marker.visible = false
 	hud.set_window(0.0, false)
@@ -585,6 +589,7 @@ func _kick_off_tee(swipe: Swipe) -> void:
 	phase = Phase.FLIGHT
 	_wind_at_kick = wind.mph
 	_flight_t = 0.0
+	kick_struck.emit()
 	hud.set_window(0.0, false)
 	hud.set_hint("")
 	if tuning.show_debug_readout:
