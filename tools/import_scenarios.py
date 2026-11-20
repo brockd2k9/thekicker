@@ -46,7 +46,33 @@ CATEGORIES = ["social", "school", "training", "health", "work", "media", "family
 METRICS = ["recruiting", "draft", "retention", "gpa", "age"]
 # Hard limits per choice (errors). Typical values are in the writing guide.
 STAT_RANGE = {"life": (-20, 15), "football": (-2, 5), "personality": (-4, 6)}
-PROGRESS_RANGE = {"recruiting": (-3, 8), "grades": (-0.2, 0.4), "draft": (-3, 6), "retention": (-6, 6)}
+PROGRESS_RANGE = {"recruiting": (-3, 8), "grades": (-0.2, 0.4), "draft": (-10, 6), "retention": (-6, 6)}
+# Followers (scripts/career/followers.gd): "followers" is buzz (-20..20, scaled by stage),
+# "followers_exact" a raw count, "conduct" good / bad / scandal (a scandal ends brand deals),
+# "deal" a brand deal {id, name, kind, value, seasons}.
+FOLLOWERS_RANGE = (-20, 20)
+CONDUCTS = {"good", "bad", "scandal"}
+
+
+def _gd_list(name, fallback):
+    """A const string list from scripts/career/followers.gd, so the tool follows the game."""
+    try:
+        src = open(os.path.join(ROOT, "scripts", "career", "followers.gd"), encoding="utf-8").read()
+        m = re.search(r"const " + name + r" := \[(.*?)\]", src, re.S)
+        return re.findall(r'"([a-z_]+)"', m.group(1)) if m else fallback
+    except OSError:
+        return fallback
+
+
+DEAL_KINDS = set(_gd_list("DEAL_KINDS", ["sp", "range", "fun"]))
+FOLLOWER_TIERS = _gd_list("TIER_IDS", [])
+# Wrong-path strike flags (tools/college_graph/college_design.json): a choice that sets one
+# must carry conduct bad or scandal.
+try:
+    STRIKE_FLAGS = set(json.load(open(os.path.join(ROOT, "tools", "college_graph", "college_design.json"),
+                                      encoding="utf-8")).get("strike_flags", []))
+except (OSError, ValueError):
+    STRIKE_FLAGS = set()
 # Optional: skill points a choice awards (negative = practice skipped). Typical
 # +1 to +3, training choices +2 to +4 (WRITING_GUIDE.md).
 SKILL_POINTS_RANGE = (-2, 6)
@@ -55,7 +81,8 @@ STATS_PER_CHOICE_WARN = 7
 TEXT_WARN_CHARS = 320
 WHEN_VALUES = {"season", "bye", "offseason"}
 CHOICE_FIELDS = {"label", "result", "stats", "modifiers", "set_flags", "rel", "requires", "lock_text",
-                 "follow_up", "recruiting", "grades", "draft", "retention", "skill_points"}
+                 "follow_up", "recruiting", "grades", "draft", "retention", "skill_points",
+                 "followers", "followers_exact", "conduct", "deal"}
 SCENARIO_FIELDS = {"id", "title", "_info", "category", "text", "choices", "weight", "cooldown", "when",
                    "follow_up_only", "stages", "seasons", "weeks", "once", "_note"}
 # Fields a template may set on a scenario that already exists (graph fields stay
@@ -107,9 +134,13 @@ def clean_choice(ch):
             stats[g] = d
     out["stats"] = stats
     out["modifiers"] = list(ch.get("modifiers") or [])
-    for k in ["recruiting", "grades", "draft", "retention", "skill_points"]:
+    for k in ["recruiting", "grades", "draft", "retention", "skill_points", "followers", "followers_exact"]:
         if ch.get(k) not in (None, 0, 0.0):
             out[k] = ch[k]
+    if ch.get("conduct") not in (None, ""):
+        out["conduct"] = ch["conduct"]
+    if ch.get("deal") not in (None, {}, ""):
+        out["deal"] = ch["deal"]
     sf = {k: v for k, v in (ch.get("set_flags") or {}).items()}
     if sf:
         out["set_flags"] = sf
@@ -136,7 +167,7 @@ def check_requires(rep, sid, where, req, people, known_flags):
         return
     for bound in ("min", "max"):
         for k, v in (req.get(bound) or {}).items():
-            ok = any(k in ks for ks in GROUP_KEYS.values()) or k in METRICS or \
+            ok = any(k in ks for ks in GROUP_KEYS.values()) or k in METRICS or k == "followers" or \
                 (k.startswith("rel_") and k[4:] in people)
             if not ok:
                 rep.add(sid, "ERROR", f"{where}: unknown requirement '{k}' (stats, {', '.join(METRICS)}, "
@@ -147,8 +178,12 @@ def check_requires(rep, sid, where, req, people, known_flags):
         if f not in known_flags:
             rep.add(sid, "ERROR", f"{where}: requires flag '{f}' that nothing in the game sets (typo?)")
     for k in req:
-        if k not in ("min", "max", "traits", "any_traits", "flags", "any_flags", "not_flags", "any_of"):
+        if k not in ("min", "max", "traits", "any_traits", "flags", "any_flags", "not_flags", "any_of",
+                     "followers_tier", "max_followers_tier"):
             rep.add(sid, "ERROR", f"{where}: unknown requires field '{k}'")
+    for k in ("followers_tier", "max_followers_tier"):
+        if k in req and FOLLOWER_TIERS and req[k] not in FOLLOWER_TIERS:
+            rep.add(sid, "ERROR", f"{where}: {k} '{req[k]}' must be one of: {', '.join(FOLLOWER_TIERS)}")
 
 
 def check_text(rep, sid, where, text, blocked, placeholders):
@@ -248,14 +283,18 @@ def main(argv=None):
             rep.add(sid, "warning", "new follow-up-only scenario that no choice in this import "
                     "follows up into (it can't be reached)")
         for k in e:
-            if k not in SCENARIO_FIELDS:
+            if k == "draft":
+                rep.add(sid, "ERROR", "\"draft\" at scenario level marks an unwritten graph entry; leave it "
+                        "out (importing removes it). Draft points go on a choice: \"draft\": -3")
+            elif k not in SCENARIO_FIELDS:
                 rep.add(sid, "ERROR", f"unknown field '{k}'")
         if existing is not None:
             for k in ("stages", "seasons", "weeks", "once", "follow_up_only"):
                 if k in e and e[k] != existing.get(k):
-                    rep.add(sid, "ERROR", f"'{k}' is graph data; change it in tools/convert_hs_graph.py")
+                    rep.add(sid, "ERROR", f"'{k}' is graph data; change it in the graph generator "
+                            "(tools/convert_hs_graph.py or tools/college_graph/make_college_graph.py)")
             if "when" in e and (existing.get("story") or existing.get("beat")):
-                rep.add(sid, "ERROR", "'when' of a story event is set by its window (convert_hs_graph.py)")
+                rep.add(sid, "ERROR", "'when' of a story event is set by its window (the graph generator)")
         if e.get("category") not in CATEGORIES:
             rep.add(sid, "ERROR", f"category '{e.get('category')}' must be one of: {', '.join(CATEGORIES)}")
         text = str(e.get("text", "")).strip()
@@ -312,6 +351,39 @@ def main(argv=None):
                 if not isinstance(sp, int) or isinstance(sp, bool) or not lo <= sp <= hi:
                     rep.add(sid, "ERROR", f"{w}: skill_points {sp} must be a whole number from {lo} to {hi}")
                 n_stats += 1
+            if "followers" in ch:
+                v = ch["followers"]
+                if not isinstance(v, (int, float)) or isinstance(v, bool) or not FOLLOWERS_RANGE[0] <= v <= FOLLOWERS_RANGE[1]:
+                    rep.add(sid, "ERROR", f"{w}: followers {v} must be a number from {FOLLOWERS_RANGE[0]} to "
+                            f"{FOLLOWERS_RANGE[1]} (buzz, scaled by stage)")
+                n_stats += 1
+            if "followers_exact" in ch:
+                if not isinstance(ch["followers_exact"], int) or isinstance(ch["followers_exact"], bool):
+                    rep.add(sid, "ERROR", f"{w}: followers_exact must be a whole number (a raw follower count)")
+                n_stats += 1
+            if "conduct" in ch and ch["conduct"] not in CONDUCTS:
+                rep.add(sid, "ERROR", f"{w}: conduct '{ch['conduct']}' must be good, bad or scandal")
+            if "deal" in ch:
+                d = ch["deal"]
+                if not isinstance(d, dict) or not d.get("id") or not d.get("name"):
+                    rep.add(sid, "ERROR", f"{w}: deal needs an object with id and name")
+                elif d.get("kind") not in DEAL_KINDS:
+                    rep.add(sid, "ERROR", f"{w}: deal kind '{d.get('kind')}' must be one of: {', '.join(sorted(DEAL_KINDS))}")
+                elif not isinstance(d.get("value"), (int, float)) or not isinstance(d.get("seasons", 1), int):
+                    rep.add(sid, "ERROR", f"{w}: deal needs a number value and whole-number seasons")
+            if isinstance(raw.get("draft"), bool):
+                rep.add(sid, "ERROR", f"{w}: \"draft\": {str(raw['draft']).lower()} on a choice - on a choice, "
+                        "\"draft\" is draft points (a number, e.g. -3); \"draft\": true only marks an "
+                        "unwritten scenario in the graph files")
+            strikes = [f for f, v in (ch.get("set_flags") or {}).items() if v is True and f in STRIKE_FLAGS]
+            if strikes and ch.get("conduct") not in ("bad", "scandal"):
+                rep.add(sid, "ERROR", f"{w}: sets wrong-path strike '{strikes[0]}' but has no conduct "
+                        "bad or scandal")
+            cleared = {f for f, v in (ch.get("set_flags") or {}).items() if v is False and f in STRIKE_FLAGS}
+            if len(cleared) > 1 and cleared != STRIKE_FLAGS:
+                missing = sorted(STRIKE_FLAGS - cleared)
+                rep.add(sid, "ERROR", f"{w}: a wrong-path step must clear every strike flag; missing "
+                        f"{', '.join(missing)} (strike_flags in tools/college_graph/college_design.json)")
             if n_stats == 0:
                 rep.add(sid, "ERROR", f"{w}: changes no stats (every choice needs at least one stat change)")
             elif n_stats > STATS_PER_CHOICE_WARN:
@@ -371,21 +443,24 @@ def main(argv=None):
                     rep.add(sid, "warning", f"choice {a + 1} is at least as good as choice {b + 1} in every "
                             f"stat; give choice {b + 1} an upside (no choice should be strictly best)")
         lint_names = scenario_lint.names_from_people(people_doc)
-        for code, where, msg in scenario_lint.lint_entry({"text": text, "choices": cleaned}, lint_names):
+        for code, where, msg in scenario_lint.lint_entry({"title": (existing or e).get("title", ""),
+                                                          "text": text, "choices": cleaned}, lint_names):
             if code != "dominated":  # reported as a warning above
                 rep.add(sid, "lint", f"{code} - {where}: {msg}")
         e["_clean_choices"] = cleaned
 
     # Merge into copies of the data files.
     graph_file = "scenarios_hs_graph.json"
+    COLLEGE_FILE = "scenarios_college.json"  # the college story graph (COL_*) lives here
     changed = set()
     for sid, e in written:
         if sid in where_is:
             f = where_is[sid]
             s = next(s for s in docs[f]["scenarios"] if s["id"] == sid)
         else:
-            f = graph_file
-            s = {"id": sid, "title": e.get("title", sid), "stages": e.get("stages", ["high_school"]),
+            f = COLLEGE_FILE if sid.startswith("COL_") else graph_file
+            stage = ["college"] if sid.startswith("COL_") else ["high_school"]
+            s = {"id": sid, "title": e.get("title", sid), "stages": e.get("stages", stage),
                  "follow_up_only": True, "added_by_import": True}
             docs[f]["scenarios"].append(s)
             where_is[sid] = f

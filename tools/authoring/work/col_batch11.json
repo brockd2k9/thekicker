@@ -1,0 +1,804 @@
+{
+  "_about": "College batch 11: COL_103 and the seven remaining senior scenes (113, 121, 123, 124, 126, 127, 130). Locked choices read the wrong-path flags (rebuilt_reputation, character_concerns, last_chance, online_incident), came_clean_tape (COL_121) and went_home_for_dad (COL_121).",
+  "scenarios": [
+    {
+      "id": "COL_103",
+      "title": "The Leadership Retreat",
+      "category": "team",
+      "text": "The team's leaders spend a summer weekend at a lake house planning next season: team rules, goals, who sits where on the bus. It's also your only free weekend of the summer.",
+      "choices": [
+        {
+          "label": "Go and speak up",
+          "result": "You go and argue for one thing you care about: no freshman duties that aren't about football. It's in the rulebook by Sunday.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 3,
+            "coach": 2
+          }
+        },
+        {
+          "label": "Go and mostly listen",
+          "result": "You go, fish with the linemen and listen more than you talk. You come back knowing the team better than you did.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Keep the weekend for yourself",
+          "result": "You skip it and spend the weekend doing nothing at all. You're rested, and you hear about the new rules secondhand.",
+          "stats": {
+            "life": {
+              "energy": 4,
+              "fun": 3
+            },
+            "football": {},
+            "personality": {
+              "leadership": -1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "coach": -1
+          }
+        },
+        {
+          "label": "Run the meeting",
+          "result": "You've led a team before, so when the room stalls on Saturday, you take the whiteboard. The plan that comes out of it has your handwriting all over it.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 3
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "rel": {
+            "team": 3,
+            "coach": 3
+          },
+          "requires": {
+            "flags": [
+              "accepted_team_leadership"
+            ]
+          },
+          "lock_text": "having led a team before"
+        }
+      ]
+    },
+    {
+      "id": "COL_113",
+      "title": "The Last Rivalry Week",
+      "category": "team",
+      "text": "One last rivalry week. The younger players are watching the seniors to see what this week is supposed to look like, and somebody has already floated a midnight trip to the rival's campus.",
+      "choices": [
+        {
+          "label": "Set the tone in the film room",
+          "result": "You call a seniors-only film session and tell the younger players the rivalry gets settled on Saturday, not at midnight. The trip never happens.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 3
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "team": 3,
+            "coach": 2
+          }
+        },
+        {
+          "label": "Plan something legal and loud",
+          "result": "You organize a pep rally banner and a team video instead. It's loud, it's fun, and nobody has to explain anything to anyone.",
+          "stats": {
+            "life": {
+              "fun": 3,
+              "social": 3,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "pumped_up"
+          ],
+          "rel": {
+            "team": 2
+          },
+          "followers": 3
+        },
+        {
+          "label": "Go on the midnight trip",
+          "result": "You pile into the car with the younger players. Campus security at the rival school takes down every name, and the first call the next morning goes to {coach}.",
+          "stats": {
+            "life": {
+              "fun": 5,
+              "social": 4,
+              "energy": -6
+            },
+            "football": {},
+            "personality": {
+              "leadership": -3
+            }
+          },
+          "modifiers": [
+            "late_night"
+          ],
+          "set_flags": {
+            "rivalry_prank": true
+          },
+          "rel": {
+            "coach": -6,
+            "team": -2
+          },
+          "draft": -3,
+          "conduct": "bad"
+        },
+        {
+          "label": "Tell them what the long way back costs",
+          "result": "You tell the younger players about the six a.m. workouts and the community hours, and what one midnight trip cost you. Nobody gets in the car.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 3
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 4
+          },
+          "requires": {
+            "flags": [
+              "rebuilt_reputation"
+            ]
+          },
+          "lock_text": "having taken the long way back"
+        }
+      ]
+    },
+    {
+      "id": "COL_121",
+      "title": "The Little Brother's Recruiting",
+      "category": "family",
+      "text": "{sibling} is a high school senior now, and college coaches are calling. He wants to know how to handle them, and he wants to know what you'd do differently.",
+      "choices": [
+        {
+          "label": "Tell him to be honest with every coach",
+          "result": "You tell him to be honest early, with every coach, even when it costs him an offer. He writes it down, which you've never seen him do.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "sibling": 5
+          }
+        },
+        {
+          "label": "Make a list of his questions",
+          "result": "You build him a list of questions to ask every coach: who'll be his position coach, what happens if he's hurt, what the players really say. It takes a whole Sunday.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "sibling": 6,
+            "parent": 1
+          }
+        },
+        {
+          "label": "Tell him the truth about your tape",
+          "result": "You tell {sibling} about the clip on your recruiting tape and what owning it taught you. He goes back and checks his own highlight video that night.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "sibling": 7
+          },
+          "requires": {
+            "any_flags": [
+              "came_clean_tape",
+              "corrected_recruiting_video"
+            ]
+          },
+          "lock_text": "having owned up to your own recruiting tape"
+        },
+        {
+          "label": "Tell him what to ask about family",
+          "result": "You remind {sibling} of the night you flew home to the hospital, and tell him to ask every coach what happens when family needs you. Two coaches give answers he likes.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "sibling": 6,
+            "parent": 3
+          },
+          "requires": {
+            "flags": [
+              "went_home_for_dad"
+            ]
+          },
+          "lock_text": "having gone home when {parent} was in the hospital"
+        }
+      ]
+    },
+    {
+      "id": "COL_123",
+      "title": "The Last Injury Scare",
+      "category": "health",
+      "text": "Your knee buckles on a routine practice kick three weeks before the scouts' workout. It holds, mostly. The trainer wants an MRI.",
+      "choices": [
+        {
+          "label": "Get the MRI today",
+          "result": "You get the scan the same afternoon. It's a sprain, not a tear, and you have a three-week plan before you leave the building.",
+          "stats": {
+            "life": {
+              "health": 5,
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Wait until after the workout",
+          "result": "You ask to put off the scan until after the scouts come. You kick with a brace and a careful plant, and you don't sleep well.",
+          "stats": {
+            "life": {
+              "health": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Say nothing and keep kicking",
+          "result": "You tell the trainer it was nothing and keep your full load. It holds for two weeks, and then it doesn't.",
+          "stats": {
+            "life": {
+              "health": -5,
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "sore"
+          ],
+          "skill_points": 3,
+          "rel": {
+            "coach": -3
+          }
+        },
+        {
+          "label": "Do what worked in high school",
+          "result": "You reported pain early once and it saved your season. You walk into the training room before practice ends and ask for the scan yourself.",
+          "stats": {
+            "life": {
+              "health": 6,
+              "fun": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "coach": 3
+          },
+          "requires": {
+            "flags": [
+              "reported_kicking_pain"
+            ]
+          },
+          "lock_text": "having reported kicking pain early before"
+        }
+      ]
+    },
+    {
+      "id": "COL_124",
+      "title": "Final Exams, Final Season",
+      "category": "school",
+      "text": "Your last finals land in the same week as your last regular-season game. {teacher} has the exam schedule on the screen, and two of them are the morning after team travel.",
+      "choices": [
+        {
+          "label": "Study on the bus and the plane",
+          "result": "You turn every trip into a study session and get four hours of sleep a night. You pass everything, and you're exhausted on Saturday.",
+          "stats": {
+            "life": {
+              "energy": -5
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "teacher": 3
+          },
+          "grades": 0.15
+        },
+        {
+          "label": "Ask {teacher} to move two exams",
+          "result": "You ask {teacher} to arrange makeup times with your professors. It takes three emails each, and you get a normal week.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "teacher": 2
+          },
+          "grades": 0.1
+        },
+        {
+          "label": "Let the grades slide this once",
+          "result": "You do the minimum on two exams and focus on the last game. It's your senior year, and you don't regret it until the transcript arrives.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2,
+          "grades": -0.1
+        },
+        {
+          "label": "Take every exam by the book",
+          "result": "You've been in front of an integrity panel once. You take every exam early, in the testing center, with nothing on the desk, and {teacher} notices without saying anything.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "teacher": 5
+          },
+          "grades": 0.1,
+          "requires": {
+            "flags": [
+              "accepted_sanction"
+            ]
+          },
+          "lock_text": "having sat through an integrity hearing"
+        }
+      ]
+    },
+    {
+      "id": "COL_126",
+      "title": "The Exclusive Deal",
+      "category": "money",
+      "text": "A national brand wants an exclusive NIL deal for your senior year. It pays more than everything else combined, it ends all your local deals, and the contract has a morality clause on page nine.",
+      "choices": [
+        {
+          "label": "Sign the exclusive deal",
+          "result": "You sign. The money is life-changing, and the local sandwich shop that sponsored you first takes your photo off the wall.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "followers": 6,
+          "deal": {
+            "id": "national_exclusive",
+            "name": "the national brand",
+            "kind": "sp",
+            "value": 2,
+            "seasons": 1
+          }
+        },
+        {
+          "label": "Keep the local deals",
+          "result": "You turn it down and keep the deals with the people who backed you first. The sandwich shop names a sandwich after you.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "followers": 2
+        },
+        {
+          "label": "Ask your agent to negotiate",
+          "result": "You ask to keep one local deal as a condition. The brand says yes, for a little less money, and everyone gets something.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "followers": 4,
+          "deal": {
+            "id": "national_exclusive",
+            "name": "the national brand",
+            "kind": "sp",
+            "value": 1.5,
+            "seasons": 1
+          }
+        },
+        {
+          "label": "Tell them about your record first",
+          "result": "You tell the brand about your college record before they find it themselves. They rewrite the morality clause and sign you anyway, for less, because you told them.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "followers": 4,
+          "deal": {
+            "id": "national_exclusive",
+            "name": "the national brand",
+            "kind": "sp",
+            "value": 1,
+            "seasons": 1
+          },
+          "requires": {
+            "any_flags": [
+              "character_concerns",
+              "last_chance"
+            ]
+          },
+          "lock_text": "having a record the brand will find"
+        }
+      ]
+    },
+    {
+      "id": "COL_127",
+      "title": "Giving Back",
+      "category": "community",
+      "text": "Your hometown asks if you'd run a free kicking camp for kids this summer. It would cost you a week of draft training and some of your NIL money for the equipment.",
+      "choices": [
+        {
+          "label": "Run it, and pay for it",
+          "result": "You run the camp and buy every kid a ball with your name on it. Eighty kids show up, and {parent} works the check-in table.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "social": 3,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "parent": 3
+          },
+          "followers": 3
+        },
+        {
+          "label": "Run it, and find a sponsor",
+          "result": "You call the local businesses that backed you in high school. Two of them pay for everything, and you run the camp for free.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "parent": 1
+          },
+          "followers": 2
+        },
+        {
+          "label": "Not this summer",
+          "result": "You say it'll have to wait until after the draft. They understand, and the camp happens without you.",
+          "stats": {
+            "life": {
+              "energy": 2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Bring in the people you volunteered with",
+          "result": "You call the people you did community work with, and they turn the camp into a weekend: a clinic, a cookout and a reading tent. It's the best week of your summer.",
+          "stats": {
+            "life": {
+              "energy": -4,
+              "social": 3,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 3
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "parent": 2
+          },
+          "followers": 4,
+          "requires": {
+            "any_flags": [
+              "community_volunteer",
+              "rebuilt_reputation"
+            ]
+          },
+          "lock_text": "having put in community hours before"
+        }
+      ]
+    },
+    {
+      "id": "COL_130",
+      "title": "The Old Posts",
+      "category": "media",
+      "text": "Someone digs up posts from your first year of college, right in the middle of draft season. They're mean, they're stupid, and they're spreading.",
+      "choices": [
+        {
+          "label": "Post a short, real apology",
+          "result": "You write three sentences yourself: what you said, why it was wrong and who you are now. It's quoted everywhere, and the scouts mostly move on.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "followers": -2,
+          "draft": 1
+        },
+        {
+          "label": "Let the media staff handle it",
+          "result": "You hand it to the school's media staff, who write a careful statement for you. It's polished, and nobody believes you wrote it.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "followers": -3
+        },
+        {
+          "label": "Say they're taken out of context",
+          "result": "You post that the screenshots are fake and out of context. Someone posts the originals an hour later, with the dates.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "online_incident": true
+          },
+          "rel": {
+            "coach": -4
+          },
+          "followers": -5,
+          "draft": -3,
+          "conduct": "bad"
+        },
+        {
+          "label": "Go to {coach} before anyone asks",
+          "result": "You've been here before, so you walk into {coach}'s office with the screenshots before the coach sees them. You write the apology together.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 3
+          },
+          "followers": -1,
+          "draft": 1,
+          "requires": {
+            "any_flags": [
+              "handled_old_post",
+              "last_chance",
+              "online_incident"
+            ]
+          },
+          "lock_text": "having been through an online mess before"
+        }
+      ]
+    }
+  ]
+}

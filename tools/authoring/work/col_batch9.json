@@ -1,0 +1,1095 @@
+{
+  "_about": "College batch 9: the last freshman scenes (COL_034, 035), all nine sophomore drafts (COL_044, 051, 054, 060, 061, 066-069), then junior COL_070 (opened by COL_066) and COL_077.",
+  "scenarios": [
+    {
+      "id": "COL_034",
+      "title": "Winter Conditioning",
+      "category": "training",
+      "text": "Winter conditioning starts at 5:30 a.m., in the dark, in the snow. Three teammates have already started skipping and signing each other in on the attendance sheet, and they've offered to sign you in too.",
+      "choices": [
+        {
+          "label": "Let them sign you in",
+          "result": "You sleep in twice. The third time, the strength coach checks the sheet against the door cameras, and every name on it gets a phone call home and a meeting with {coach}.",
+          "stats": {
+            "life": {
+              "energy": 4,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {
+            "skipped_conditioning": true
+          },
+          "rel": {
+            "coach": -5,
+            "team": -1
+          },
+          "draft": -2,
+          "conduct": "bad"
+        },
+        {
+          "label": "Show up every morning",
+          "result": "You're there at 5:30 every day for six weeks. By February, you're the one the freshmen follow across the parking lot.",
+          "stats": {
+            "life": {
+              "energy": -5
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "heavy_legs"
+          ],
+          "skill_points": 3,
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Show up and bring them",
+          "result": "You start knocking on their doors at 5:10. Two of them start coming. The third stops answering the door.",
+          "stats": {
+            "life": {
+              "energy": -5,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 3
+            }
+          },
+          "modifiers": [
+            "tired"
+          ],
+          "skill_points": 2,
+          "rel": {
+            "team": 3,
+            "coach": 1
+          }
+        },
+        {
+          "label": "Add your own plan on top",
+          "result": "You show up every morning and add the plan you've kept since high school in the evenings. It's a lot, and by spring your leg feels like somebody else's.",
+          "stats": {
+            "life": {
+              "energy": -6,
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "heavy_legs"
+          ],
+          "skill_points": 4,
+          "requires": {
+            "flags": [
+              "built_training_plan"
+            ]
+          },
+          "lock_text": "having built your own training plan before"
+        }
+      ]
+    },
+    {
+      "id": "COL_035",
+      "title": "Spring Kicking Competition",
+      "category": "training",
+      "text": "Spring practice opens with a kicking competition for next season. The veteran kicker is graduating, the job is open, and {coach} will chart every kick for three weeks.",
+      "choices": [
+        {
+          "label": "Treat it like a job interview",
+          "result": "You show up early, chart your own kicks next to {coach}'s chart and ask for feedback after every session. By the end, the coach is asking you what you see.",
+          "stats": {
+            "life": {
+              "energy": -3
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 2,
+          "rel": {
+            "coach": 4
+          }
+        },
+        {
+          "label": "Kick loose and have fun with it",
+          "result": "You treat it like a backyard contest and trash-talk the other kickers all spring. It keeps you relaxed, and it doesn't make {coach} smile.",
+          "stats": {
+            "life": {
+              "fun": 4,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "coach": -1
+          }
+        },
+        {
+          "label": "Help the other kickers too",
+          "result": "You share your warmup with the other kickers in the competition, even the one chasing your spot. The room gets better, and so do they.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 3,
+            "coach": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "COL_044",
+      "title": "The High School Tape",
+      "category": "career",
+      "text": "{coach} rewatches your old recruiting tape and stops on one clip: a long kick in perfect conditions with the distance marker cropped out. 'Tell me about this one,' the coach says.",
+      "choices": [
+        {
+          "label": "Tell the truth about the clip",
+          "result": "You say it was a practice kick, wind at your back, and the crop was your idea. {coach} nods slowly and says the honest answer is worth more than the clip.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "came_clean_tape": true
+          },
+          "rel": {
+            "coach": 4
+          }
+        },
+        {
+          "label": "Shrug and change the subject",
+          "result": "You say it was a long time ago and ask about this week's practice plan. {coach} lets it go, and doesn't forget it.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ],
+          "rel": {
+            "coach": -2
+          }
+        },
+        {
+          "label": "Stop defending it",
+          "result": "You defended that clip once to a high school coach. This time you don't. You tell {coach} the whole thing, including the defending.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "set_flags": {
+            "came_clean_tape": true
+          },
+          "rel": {
+            "coach": 5
+          },
+          "requires": {
+            "flags": [
+              "doubled_down_recruiting_lie"
+            ]
+          },
+          "lock_text": "having defended that clip in high school"
+        },
+        {
+          "label": "Say you fixed it years ago",
+          "result": "You tell {coach} you caught it in high school and sent the corrected version to every coach. The coach checks the files, finds it, and smiles.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {
+            "came_clean_tape": true
+          },
+          "rel": {
+            "coach": 5
+          },
+          "requires": {
+            "flags": [
+              "corrected_recruiting_video"
+            ]
+          },
+          "lock_text": "having corrected that video in high school"
+        }
+      ]
+    },
+    {
+      "id": "COL_051",
+      "title": "The Visit Home",
+      "category": "family",
+      "text": "You go home for the first time in months. Your old room is a storage closet now, {parent} has a new routine you don't know, and {best_friend} keeps talking about people you've never met.",
+      "choices": [
+        {
+          "label": "Ask about the new stuff",
+          "result": "You ask {parent} about his new routine and {best_friend} about the new friends, and you mean it. By the end of the week, you're in some of the stories.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "parent": 4,
+            "best_friend": 4
+          }
+        },
+        {
+          "label": "Bring back the old routine",
+          "result": "You talk {best_friend} into the old diner, the old field and the old jokes. It's good, and it's a little like visiting a museum.",
+          "stats": {
+            "life": {
+              "fun": 3
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "best_friend": 3,
+            "parent": 1
+          }
+        },
+        {
+          "label": "Cut the trip short",
+          "result": "You go back to campus two days early and spend them in the weight room. It's easier than feeling like a guest at home.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2,
+          "rel": {
+            "parent": -2,
+            "best_friend": -2
+          }
+        }
+      ]
+    },
+    {
+      "id": "COL_054",
+      "title": "{parent} Loses His Job",
+      "category": "family",
+      "text": "{parent} finally tells you: the cut hours turned into a layoff. He says he'll figure it out. You have a little NIL money in the bank and a semester of books still to buy.",
+      "choices": [
+        {
+          "label": "Send money home",
+          "result": "You send most of what you have and don't tell anyone on the team. {parent} calls to argue, then to say thank you.",
+          "stats": {
+            "life": {
+              "fun": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "sent_nil_money_home": true
+          },
+          "rel": {
+            "parent": 6
+          }
+        },
+        {
+          "label": "Keep it for school",
+          "result": "You talk it through with {parent}, and he insists: keep it for books and rent, so he doesn't have to worry about you too. You do, and you call every Sunday.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "kept_money_for_school": true
+          },
+          "rel": {
+            "parent": 2
+          },
+          "grades": 0.05
+        },
+        {
+          "label": "Send half, keep half",
+          "result": "You split it down the middle. It doesn't solve either problem, and it helps both a little.",
+          "stats": {
+            "life": {
+              "fun": -1,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "sent_nil_money_home": true
+          },
+          "rel": {
+            "parent": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "COL_060",
+      "title": "The Summer Plan",
+      "category": "school",
+      "text": "Summer is three choices: summer classes to get ahead, a circuit of kicking camps, or a job back home that pays real money.",
+      "choices": [
+        {
+          "label": "Summer classes",
+          "result": "You stay on campus and take two classes. It's hot and quiet, and you start the fall a semester ahead.",
+          "stats": {
+            "life": {
+              "fun": -2,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "teacher": 2
+          },
+          "grades": 0.15
+        },
+        {
+          "label": "The kicking camp circuit",
+          "result": "You drive to four camps in six weeks and kick in front of coaches who've never heard of you. Your leg's never been more tired, or better.",
+          "stats": {
+            "life": {
+              "energy": -4,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "heavy_legs"
+          ],
+          "skill_points": 4
+        },
+        {
+          "label": "The job back home",
+          "result": "You work at the warehouse and kick in the park at night. You come back with money in the bank and calluses on the wrong body part.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "tired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "parent": 3
+          }
+        },
+        {
+          "label": "Job by day, your plan by night",
+          "result": "You take the job back home and run your own training plan every evening. It's exhausting, and it's the most complete summer you've had.",
+          "stats": {
+            "life": {
+              "energy": -5
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "heavy_legs"
+          ],
+          "skill_points": 3,
+          "rel": {
+            "parent": 3
+          },
+          "requires": {
+            "flags": [
+              "built_training_plan"
+            ]
+          },
+          "lock_text": "having built your own training plan before"
+        }
+      ]
+    },
+    {
+      "id": "COL_061",
+      "title": "The Holder Who Wants Out",
+      "category": "team",
+      "text": "{holder} wants to stop holding and focus on winning a starting job in the secondary. It means a new holder for you in the middle of the season.",
+      "choices": [
+        {
+          "label": "Back {holder}'s decision",
+          "result": "You tell {holder} to go get the job and offer to help break in the replacement. It costs you two weeks of awkward holds.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "holder": 6
+          }
+        },
+        {
+          "label": "Ask {holder} to stay through the season",
+          "result": "You ask {holder} to hold until the season ends and chase the job in spring. {holder} agrees, a little reluctantly.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "holder": -2
+          }
+        },
+        {
+          "label": "Find a way to do both",
+          "result": "You go to {coach} with a plan: {holder} holds on game days and spends the rest of the week with the secondary. The coach is skeptical, then says yes.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "holder": 4,
+            "coach": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "COL_066",
+      "title": "The Head Coach Is Fired",
+      "category": "team",
+      "text": "The head coach is fired the morning after the last game. Staff jobs are up in the air, {coach} may not be back, and half the roster is checking the transfer portal.",
+      "choices": [
+        {
+          "label": "Stay and say so",
+          "result": "You tell {coach} and the athletic director you're staying, no matter who they hire. It's a bet on yourself and on this place.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {
+            "stayed_loyal": true
+          },
+          "rel": {
+            "coach": 4,
+            "team": 2
+          }
+        },
+        {
+          "label": "Look at your options",
+          "result": "You put your name in a few group chats and take a couple of calls, just to know what's out there. Nothing's decided, and the program notices.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ],
+          "set_flags": {
+            "explored_options": true
+          },
+          "rel": {
+            "coach": -2
+          }
+        },
+        {
+          "label": "Wait and see who they hire",
+          "result": "You decide to wait for the new staff before deciding anything. It's sensible, and a lot of anxious weeks.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "skill_points": 1,
+          "set_flags": {
+            "stayed_loyal": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "COL_067",
+      "title": "The Fundraiser Nobody Wants to Run",
+      "category": "community",
+      "text": "The children's hospital asks the team to run a kick-a-thon fundraiser: pledges per field goal in practice, kids on the sideline. Someone has to organize it, and nobody's volunteering.",
+      "choices": [
+        {
+          "label": "Run it yourself",
+          "result": "You spend three weeks on sponsors, permits and pledge sheets. The kick-a-thon raises more than the hospital asked for, and two of the kids wear your number.",
+          "stats": {
+            "life": {
+              "energy": -4,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 3
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 3
+          },
+          "followers": 4
+        },
+        {
+          "label": "Share it with the specialists",
+          "result": "You split the work with the punter and the snapper. It's smaller, and it gets done.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "team": 2
+          },
+          "followers": 2
+        },
+        {
+          "label": "Let someone else take it",
+          "result": "You say you're too busy this month, which is true. The event happens without you, and you watch it on someone else's phone.",
+          "stats": {
+            "life": {
+              "energy": 2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Bring in your old volunteer contacts",
+          "result": "You call the people you volunteered with back home, who know exactly how to run one of these. It's the best-run event the team's ever had.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "social": 3
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 3
+          },
+          "followers": 4,
+          "requires": {
+            "flags": [
+              "community_volunteer"
+            ]
+          },
+          "lock_text": "having volunteered in your community before"
+        }
+      ]
+    },
+    {
+      "id": "COL_068",
+      "title": "Spring Break",
+      "category": "social",
+      "text": "Spring break, and teammates are going to the beach. Offseason lifts are optional that week, and so, it seems, are the team's rules.",
+      "choices": [
+        {
+          "label": "Go, and keep your rules",
+          "result": "You go, lift at the hotel gym every morning and are in bed before anything gets loud. You come back tan, rested and with nothing to explain.",
+          "stats": {
+            "life": {
+              "fun": 3,
+              "social": 2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Stay on campus",
+          "result": "You stay and use the empty facility all week. It's quiet, a little lonely, and productive.",
+          "stats": {
+            "life": {
+              "social": -2,
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 3
+        },
+        {
+          "label": "Go all in",
+          "result": "You go to every party and stay out every night. On Thursday, the police break one up, and your name ends up on a list that gets back to {coach} before you do.",
+          "stats": {
+            "life": {
+              "fun": 6,
+              "social": 4,
+              "energy": -6
+            },
+            "football": {},
+            "personality": {
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "late_night"
+          ],
+          "set_flags": {
+            "stayed_out_late": true
+          },
+          "rel": {
+            "coach": -5
+          },
+          "draft": -2,
+          "conduct": "bad"
+        }
+      ]
+    },
+    {
+      "id": "COL_069",
+      "title": "The Kicking Camp Coach",
+      "category": "training",
+      "text": "A private kicking coach who has sent players to the pros offers you a spot in his elite summer group, but only if you drop the school's summer program that {coach} runs.",
+      "choices": [
+        {
+          "label": "Join the private group",
+          "result": "You join. The drills are brilliant, the price is high, and {coach} takes it personally.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 4,
+          "rel": {
+            "coach": -4
+          }
+        },
+        {
+          "label": "Stay with the school program",
+          "result": "You thank him and stay. The program is less flashy, and {coach} gives you more reps than ever.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 2,
+          "rel": {
+            "coach": 3
+          }
+        },
+        {
+          "label": "Ask {coach} to make it work",
+          "result": "You ask {coach} whether you could do the private group's first two weeks and then come back. It takes two meetings, and the coach agrees.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 3,
+          "rel": {
+            "coach": 1
+          }
+        },
+        {
+          "label": "Check his record first",
+          "result": "You call two of his former players before deciding. One loved him; one says he ruins hips. You stay with {coach} and borrow his best drill.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 2,
+          "rel": {
+            "coach": 3
+          },
+          "requires": {
+            "flags": [
+              "vetted_trainer"
+            ]
+          },
+          "lock_text": "having checked out a trainer before trusting him"
+        }
+      ]
+    },
+    {
+      "id": "COL_070",
+      "title": "The New Head Coach",
+      "category": "team",
+      "text": "The new head coach starts with a team meeting and a new rulebook: phones in a basket, no hats indoors, every player at breakfast. He says he's already heard about every player on the roster.",
+      "choices": [
+        {
+          "label": "Buy in from day one",
+          "result": "You're at breakfast early every day for a month. The new staff notices, and so do the players who were waiting to see which way the room would go.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 3,
+            "team": 2
+          }
+        },
+        {
+          "label": "Ask him what he heard about you",
+          "result": "You knock on his door and ask, straight out, what he's heard about you. He tells you, and it's fairer than you expected.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Keep your head down",
+          "result": "You follow the new rules and say nothing. It's safe. It also means the new staff learns about you from other people.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "skill_points": 1
+        }
+      ]
+    },
+    {
+      "id": "COL_077",
+      "title": "The Transfer Kicker",
+      "category": "team",
+      "text": "A kicker with a big resume transfers in from another school, and the coaches love his leg. {coach} says the job is open again.",
+      "choices": [
+        {
+          "label": "Compete for it",
+          "result": "You out-prepare everyone: film, sleep, charts. You don't say a word about the transfer, good or bad, and {coach} notices that too.",
+          "stats": {
+            "life": {
+              "energy": -3
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 3,
+          "rel": {
+            "coach": 3
+          }
+        },
+        {
+          "label": "Welcome him in",
+          "result": "You show the transfer around and invite him to the specialists' dinner. It's strange to help the person chasing your job, and the room respects it.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Make his life harder",
+          "result": "You 'forget' to tell him about schedule changes and move his ball bag twice. He figures it out in a week, and so does {coach}.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "leadership": -3
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "sabotaged_transfer": true
+          },
+          "rel": {
+            "coach": -6,
+            "team": -3
+          },
+          "draft": -2,
+          "conduct": "bad"
+        },
+        {
+          "label": "Do what you did in high school",
+          "result": "You helped a rival for your job once and it made you both better. You split warmups with the transfer and push each other every day.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 3,
+          "rel": {
+            "team": 3,
+            "coach": 1
+          },
+          "requires": {
+            "flags": [
+              "helped_competing_teammate"
+            ]
+          },
+          "lock_text": "having helped a teammate who was competing with you"
+        }
+      ]
+    }
+  ]
+}

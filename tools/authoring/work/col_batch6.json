@@ -1,0 +1,1070 @@
+{
+  "_about": "College batch 6: senior year. COL_104, 111, 112, 114, 115, 116, 117, 119, 120, 122, 125, 131, 133 (chains: The Captain's Last Speech, The Backup's Moment, What Comes After).",
+  "scenarios": [
+    {
+      "id": "COL_104",
+      "title": "Senior Year Starts",
+      "category": "team",
+      "text": "The first practice of your last college season. The grass smells the way it did on your first day, {coach} is already holding the clipboard, and every senior keeps saying the same thing: it goes fast.",
+      "choices": [
+        {
+          "label": "Set a goal for every week",
+          "result": "You write ten goals on an index card, one for each week, and tape it inside your locker. Most of them have nothing to do with kicking.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "ambition": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Thank the people who got you here",
+          "result": "Before practice you find the equipment manager, the trainers and the groundskeeper and thank each of them by name. It takes twenty minutes, and you're almost late.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 2,
+            "coach": -1
+          }
+        },
+        {
+          "label": "Get there early",
+          "result": "You're on the field forty minutes before everyone else, like your freshman year. {coach} notices and doesn't say anything, which is how you know it counts.",
+          "stats": {
+            "life": {
+              "energy": -3
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2,
+          "rel": {
+            "coach": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "COL_111",
+      "title": "The Degree Question",
+      "category": "school",
+      "text": "You're two classes from a degree. An agent's assistant suggests dropping them this spring to free up hours for draft training, and {teacher} has the registration form open on the screen, waiting for your answer.",
+      "choices": [
+        {
+          "label": "Finish the degree",
+          "result": "You keep both classes and plan your training around them. It means early mornings and a lot of reading on buses, and {teacher} prints the graduation checklist with a small smile.",
+          "stats": {
+            "life": {
+              "energy": -3
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "finished_degree_track": true
+          },
+          "rel": {
+            "teacher": 5
+          },
+          "grades": 0.1
+        },
+        {
+          "label": "Drop them for training",
+          "result": "You drop both classes and fill the hours with kicking and the weight room. Your leg has never been stronger, and the degree goes into a folder marked 'someday.'",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 3,
+          "rel": {
+            "teacher": -3
+          }
+        },
+        {
+          "label": "Take one now, one later",
+          "result": "You keep one class and sign up to finish the other online after the draft. It's a compromise, and it leaves you one class short in May.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1,
+          "grades": 0.05
+        },
+        {
+          "label": "Finish it, with a plan for after",
+          "result": "You already know what the degree is for, so you keep both classes and ask {teacher} to add a Tuesday-night career-planning seminar. You walk out with a plan for football and a plan for after it.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "fun": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "finished_degree_track": true
+          },
+          "rel": {
+            "teacher": 6
+          },
+          "grades": 0.1,
+          "requires": {
+            "any_flags": [
+              "ready_for_college_future",
+              "secured_academic_path"
+            ]
+          },
+          "lock_text": "having planned your path past football in high school"
+        }
+      ]
+    },
+    {
+      "id": "COL_112",
+      "title": "Senior Night",
+      "category": "family",
+      "text": "Senior night. {parent} and {sibling} drove in this morning, and before kickoff the seniors walk out one at a time to their families waiting at midfield.",
+      "choices": [
+        {
+          "label": "Walk out with both of them",
+          "result": "You walk out with {parent} on one side and {sibling} on the other. {parent} doesn't say a word the whole way, and his hand on your shoulder says plenty.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "fun": 2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "parent": 6,
+            "sibling": 4
+          }
+        },
+        {
+          "label": "Give {sibling} the moment",
+          "result": "You let {sibling} carry your helmet and walk in front. Someday he'll do this himself, and you want him to know what it feels like.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "sibling": 8,
+            "parent": 2
+          }
+        },
+        {
+          "label": "Keep it short and stay loose",
+          "result": "You hug them at midfield, then jog straight back to the net to stay warm. They understand. Mostly.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "parent": 1
+          }
+        },
+        {
+          "label": "Thank {parent} out loud",
+          "result": "You take the microphone the announcer offers and thank {parent} for every compromise that got you here. Half the stadium claps. {parent} looks at the grass.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "parent": 8,
+            "sibling": 3
+          },
+          "requires": {
+            "flags": [
+              "family_college_compromise"
+            ]
+          },
+          "lock_text": "having found a middle ground with your family over college"
+        }
+      ]
+    },
+    {
+      "id": "COL_114",
+      "title": "The Captain's Last Speech",
+      "category": "team",
+      "text": "{coach} asks you to speak to the team before the last game of your college career. You have five minutes, a locker room full of people you've lived with for four years and no idea where to start.",
+      "choices": [
+        {
+          "label": "Tell them about your hardest year",
+          "result": "You talk about the worst stretch of your college career and the people in this room who got you through it. Nobody makes a sound until you're done.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 5,
+            "coach": 2
+          }
+        },
+        {
+          "label": "Keep it short and loud",
+          "result": "Thirty seconds, loud, and you finish by slamming a locker door. The room explodes.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "social": 2,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "pumped_up"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Give the floor to the freshmen",
+          "result": "You say a few words, then ask the youngest players what this season meant to them. It turns into the best twenty minutes of the year.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 3
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 4,
+            "coach": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "COL_115",
+      "title": "The Freshman Who Reminds You",
+      "category": "team",
+      "text": "A walk-on freshman kicker sits alone at the end of the bench after practice, scrolling through photos from home. Four years ago, that was you.",
+      "choices": [
+        {
+          "label": "Sit down next to him",
+          "result": "You sit, and you don't talk about kicking. You tell him about your own first month, the bad one, and give him your number. He texts you every Sunday for the rest of the year.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Bring him to the net",
+          "result": "You hand him a ball and say the best cure for homesick is a hundred kicks. It helps more than you expect, for both of you.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "skill_points": 2,
+          "rel": {
+            "team": 1
+          }
+        },
+        {
+          "label": "Mention it to the coaches",
+          "result": "You stop by {coach}'s office on your way out and head home. The coach checks in; you never find out how it goes.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        },
+        {
+          "label": "Start a specialists' dinner",
+          "result": "You invite every freshman specialist to a weekly dinner at your place, the one you wish you'd had. By October, the juniors say they'll keep it going.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "social": 3
+            },
+            "football": {},
+            "personality": {
+              "leadership": 3
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 4
+          },
+          "requires": {
+            "any_flags": [
+              "mentored_younger_student",
+              "mentored_next_generation"
+            ]
+          },
+          "lock_text": "having mentored younger players before"
+        }
+      ]
+    },
+    {
+      "id": "COL_116",
+      "title": "The Holder's Future",
+      "category": "team",
+      "text": "{holder} is applying for a graduate assistant job on a coaching staff and asks you for a recommendation. You love working with {holder}, and the honest version includes a few things a coach might not want to read.",
+      "choices": [
+        {
+          "label": "Write the honest letter",
+          "result": "You write about the hours, the calm in the worst weather and the habit of being late to meetings, and how {holder} fixed it when you said something. {holder} reads it and laughs: 'That's actually me.'",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "holder": 5
+          }
+        },
+        {
+          "label": "Write a glowing letter",
+          "result": "You write the best letter you can, without a single flaw in it. {holder} gets the interview, and you wonder whether the coaches can tell.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "rel": {
+            "holder": 7
+          }
+        },
+        {
+          "label": "Help with the whole application",
+          "result": "You write the letter, then give up two evenings to run {holder} through the hardest interview questions you can think of.",
+          "stats": {
+            "life": {
+              "energy": -4,
+              "fun": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "tired"
+          ],
+          "rel": {
+            "holder": 8
+          }
+        }
+      ]
+    },
+    {
+      "id": "COL_117",
+      "title": "The Backup's Moment",
+      "category": "team",
+      "text": "Your hip is sore, and {coach} wants to give {backup} the kickoffs this week to save your leg. {backup} looks over at you before saying yes.",
+      "choices": [
+        {
+          "label": "Tell {backup} to take them",
+          "result": "You nod and say, 'They're yours.' {backup} spends the week asking about every detail of your kickoff routine, and you give all of it.",
+          "stats": {
+            "life": {
+              "health": 4
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "backup": 6,
+            "coach": 2
+          }
+        },
+        {
+          "label": "Ask to keep them",
+          "result": "You tell {coach} the hip is fine and you want every kick of your senior year. The coach gives in. The hip doesn't get better.",
+          "stats": {
+            "life": {
+              "health": -3
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "sore"
+          ],
+          "skill_points": 2,
+          "rel": {
+            "backup": -3,
+            "coach": -1
+          }
+        },
+        {
+          "label": "Split them",
+          "result": "You suggest {backup} takes the deep ones and you take the short squibs. {coach} likes it, and you both get to kick.",
+          "stats": {
+            "life": {
+              "health": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "backup": 3,
+            "coach": 1
+          }
+        },
+        {
+          "label": "Apologize first",
+          "result": "Before you answer, you tell {backup} you're sorry for the mind games at camp two years ago. It takes a while to get an answer, and then it's: 'I'll take the kickoffs.'",
+          "stats": {
+            "life": {
+              "health": 4,
+              "energy": -2,
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "backup": 10,
+            "coach": 2
+          },
+          "requires": {
+            "flags": [
+              "undermined_backup"
+            ]
+          },
+          "lock_text": "having gotten in {backup}'s head at camp"
+        }
+      ]
+    },
+    {
+      "id": "COL_119",
+      "title": "What Comes After",
+      "category": "romance",
+      "text": "On a Sunday walk, the person you're dating finally asks the question you've both been avoiding: what happens to the two of you when college is over and you could end up in any city in the country?",
+      "choices": [
+        {
+          "label": "Say you'll figure it out together",
+          "result": "You say there's no version of the future you're planning without them in it. It doesn't answer where you'll live. It answers the question they were really asking.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "fun": 3,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "ambition": -1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ]
+        },
+        {
+          "label": "Say football comes first for now",
+          "result": "You say the next year has to be about football, and you don't want to make a promise you can't keep. It's honest, and the walk home is very quiet.",
+          "stats": {
+            "life": {
+              "fun": -3,
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Ask what they want",
+          "result": "You turn the question around and really listen. It turns out they've had a job offer in another city for a month and didn't say so. You have a lot more to talk about now.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Say you already chose once",
+          "result": "You remind {love_interest} about the summer you spent at home. 'I picked us then,' you say. 'I'll pick us wherever I end up.'",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "fun": 3,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "ambition": -1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "love_interest": 10
+          },
+          "requires": {
+            "flags": [
+              "committed_to_relationship"
+            ]
+          },
+          "lock_text": "having spent a summer at home for {love_interest}"
+        }
+      ]
+    },
+    {
+      "id": "COL_120",
+      "title": "{parent} at Every Game",
+      "category": "family",
+      "text": "{parent} has driven to every game this season, home and away, eight hours some weekends. He says it's nothing. You've seen the gas receipts in his truck, and you know he can't afford it.",
+      "choices": [
+        {
+          "label": "Ask him to pick a few games",
+          "result": "You ask him to choose the three games that matter most and watch the rest at home. He argues, then gives in, and you hear the relief in his voice.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "parent": 3
+          }
+        },
+        {
+          "label": "Let him keep coming",
+          "result": "You say nothing. It's his choice, and seeing him behind the bench after every game is the best part of your week.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "parent": 5
+          }
+        },
+        {
+          "label": "Find him a ride",
+          "result": "You ask the booster club whether any fans from home drive to away games. Two of them have been driving down every week anyway and are happy to have the company.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "parent": 4
+          }
+        },
+        {
+          "label": "Cover his gas yourself",
+          "result": "You put a gas card in his glovebox with a note: 'For the drive. Don't argue.' He doesn't argue. He calls that night to say thank you, twice.",
+          "stats": {
+            "life": {
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "parent": 8
+          },
+          "requires": {
+            "flags": [
+              "helped_family_financially"
+            ]
+          },
+          "lock_text": "having helped your family with money before"
+        }
+      ]
+    },
+    {
+      "id": "COL_122",
+      "title": "The Mental Toll",
+      "category": "health",
+      "text": "Draft calls, final exams and your last season are all happening at once. You've snapped at {holder} twice this week, you haven't slept a full night in a month, and you don't feel like yourself.",
+      "choices": [
+        {
+          "label": "Tell the people closest to you",
+          "result": "You call {parent} and {best_friend} the same night and say it plainly: you're not okay right now. Neither of them tries to fix it, and both of them check in every day after.",
+          "stats": {
+            "life": {
+              "health": 3,
+              "energy": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "ambition": -1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {
+            "leaned_on_support": true
+          },
+          "rel": {
+            "parent": 3,
+            "best_friend": 3
+          }
+        },
+        {
+          "label": "Cut everything but football",
+          "result": "You stop answering texts, skip the study group and live at the facility. The kicking holds up. You don't.",
+          "stats": {
+            "life": {
+              "health": -3,
+              "social": -3,
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "skill_points": 3
+        },
+        {
+          "label": "Apologize and keep going",
+          "result": "You apologize to {holder} before practice and promise yourself you'll sleep more. You do, for about three nights.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "holder": 4
+          }
+        },
+        {
+          "label": "Book the sports psychologist again",
+          "result": "You book the Tuesday slot again and say the word 'overwhelmed' out loud for the first time. You leave with a plan that cuts your week into pieces small enough to carry.",
+          "stats": {
+            "life": {
+              "health": 3,
+              "energy": 2,
+              "fun": -1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "leaned_on_support": true
+          },
+          "requires": {
+            "any_flags": [
+              "saw_sports_psych",
+              "got_help_panic"
+            ]
+          },
+          "lock_text": "having gotten help before"
+        }
+      ]
+    },
+    {
+      "id": "COL_125",
+      "title": "The Senior Trip",
+      "category": "social",
+      "text": "The seniors have booked a beach house for the bye weekend: two nights, twelve players, one last trip before everyone scatters. You have a workout for pro scouts on Monday morning.",
+      "choices": [
+        {
+          "label": "Go, and come home early",
+          "result": "You go for the first night, cook breakfast for everyone and drive back Saturday afternoon. You're rested for Monday, and you're in the photo that ends up framed in eleven apartments.",
+          "stats": {
+            "life": {
+              "fun": 3,
+              "social": 3,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Skip it and train",
+          "result": "You stay behind and spend the bye weekend getting ready for Monday. The group chat photos look like the best weekend of their lives.",
+          "stats": {
+            "life": {
+              "fun": -2,
+              "social": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 3
+        },
+        {
+          "label": "Stay the whole weekend",
+          "result": "You stay both nights. The neighbors call the police on Saturday, the trip makes the local news, and {coach} hears about it before you're late to Monday's workout with your name in the police report.",
+          "stats": {
+            "life": {
+              "fun": 6,
+              "social": 4,
+              "energy": -7
+            },
+            "football": {},
+            "personality": {
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "late_night"
+          ],
+          "set_flags": {
+            "senior_trip_trouble": true
+          },
+          "rel": {
+            "coach": -5
+          },
+          "draft": -3,
+          "conduct": "bad"
+        }
+      ]
+    },
+    {
+      "id": "COL_131",
+      "title": "The Leadership Award",
+      "category": "community",
+      "text": "The conference names you your school's senior leadership honoree, and Monday's banquet gives you one minute at the podium. {holder} and {coach} are at your table, and you're the only kicker in the room.",
+      "choices": [
+        {
+          "label": "Thank the specialists",
+          "result": "You spend the whole minute on the people nobody films: {holder}'s hands, the snapper's five a.m. reps. {holder} pretends not to tear up.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "holder": 6,
+            "team": 2
+          }
+        },
+        {
+          "label": "Thank {coach}",
+          "result": "You thank {coach} for every hard conversation, by name and by date. The coach shakes your hand afterward and holds on a second too long.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "rel": {
+            "coach": 6
+          }
+        },
+        {
+          "label": "Talk about the hospital visits",
+          "result": "You use the minute to talk about the team's Tuesday visits to the children's hospital and ask the room to come once. Three boosters sign up at the dessert table.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "followers": 3
+        }
+      ]
+    },
+    {
+      "id": "COL_133",
+      "title": "The Last Practice",
+      "category": "team",
+      "text": "The last practice of your college career. The field is the one you walked onto four years ago, and when it's over, nobody seems to want to leave.",
+      "choices": [
+        {
+          "label": "One last hold from {holder}",
+          "result": "After everyone's gone, you ask {holder} for one more hold, from the spot of your first college practice kick. Neither of you says much.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "holder": 6
+          }
+        },
+        {
+          "label": "Thank {coach} in private",
+          "result": "You find {coach} in the office and say thank you for the four years, the good ones and the others. The coach says the door stays open, and means it.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "rel": {
+            "coach": 6
+          }
+        },
+        {
+          "label": "Stay late with the freshmen",
+          "result": "You stay an hour, kicking with the freshmen and answering every question they have. One of them asks if he can have your locker.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 4
+          }
+        }
+      ]
+    }
+  ]
+}

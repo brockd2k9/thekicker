@@ -142,6 +142,134 @@ def entry(s):
     return {"id": s["id"], "title": s["title"], "_info": info, "category": "", "text": "", "choices": choices}
 
 
+# --- college story graph (COL_* in data/career/scenarios_college.json) ----------------------
+COLLEGE = os.path.join(ROOT, "data", "career", "scenarios_college.json")
+DESIGN = os.path.join(ROOT, "tools", "college_graph", "college_design.json")
+COL_YEARS = {1: "Freshman", 2: "Sophomore", 3: "Junior", 4: "Senior"}
+# A flag that rides along with another one on the same choice.
+COMPANION = {"second_chance_used": ["caught_yourself", "owned_it_again"]}
+
+
+def col_when(s):
+    se = s.get("seasons")
+    if s.get("beat"):
+        b = s["beat"]
+        return f"{COL_YEARS.get(b['season_in_stage'])} year of college, week {b['week']} (always plays)"
+    if se[0] == se[1]:
+        yr = f"{COL_YEARS.get(se[0])} year of college (college season {se[0]})"
+    else:
+        yr = f"college seasons {se[0]}-{se[1]} ({COL_YEARS.get(se[0])} to {COL_YEARS.get(se[1])})"
+    if s.get("when") == ["offseason"]:
+        return yr + ", in the offseason after that season"
+    wk = s.get("weeks")
+    if wk and wk[0] == wk[1]:
+        return yr + f", week {wk[0]}"
+    return yr + (f", weeks {wk[0]}-{wk[1]}" if wk else ", any week")
+
+
+def _blank(rel_people):
+    ch = {"label": "", "result": "", "stats": {"life": {}, "football": {}, "personality": {}},
+          "skill_points": 0, "modifiers": [], "set_flags": {}}
+    if rel_people:
+        ch["rel"] = {p: 0 for p in rel_people}
+    return ch
+
+
+def col_entry(s, strikes, design_row):
+    a = s.get("authoring", {})
+    people = list(a.get("people", []))
+    rel_people = [("rival" if p == "tyler" else p) for p in people]
+    flags = list(s.get("expected_flags", []))
+    groups = []  # flags per choice
+    for f in flags:
+        host = next((g for g in groups if any(h in g for h in COMPANION.get(f, []))), None)
+        if host is not None:
+            host.append(f)
+        elif f in COMPANION:
+            continue
+        else:
+            groups.append([f])
+    for f, hosts in COMPANION.items():
+        if f in flags and not any(f in g for g in groups):
+            groups.append([f])
+    clears = a.get("clears_strikes")
+    choices = []
+    for g in groups:
+        ch = _blank(rel_people)
+        if clears:
+            ch["set_flags"].update({x: False for x in strikes})
+        for f in g:
+            ch["set_flags"][f] = True
+        if any(f in strikes for f in g) or set(g) & {"character_concerns", "college_warning"}:
+            ch["conduct"] = "bad"
+        choices.append(ch)
+    while len(choices) < (3 if not flags else 2):
+        ch = _blank(rel_people)
+        if clears:
+            ch["set_flags"].update({x: False for x in strikes})
+        choices.append(ch)
+    finale = s.get("beat") is not None
+    locks = list(a.get("choice_locks", []))
+    leftover = []
+    if finale:
+        fl = design_row.get("choice_locks", {}) if design_row else {}
+        for ch in choices:
+            for f in list(ch["set_flags"]):
+                need = fl.get(f)
+                if need:
+                    ch["requires"] = {"any_flags": need} if len(need) > 1 else {"flags": need}
+                    ch["lock_text"] = ""
+        if "rebuilt_reputation" in locks and len(choices) < 4:
+            ch = _blank(rel_people)
+            ch["requires"] = {"flags": ["rebuilt_reputation"]}
+            ch["lock_text"] = ""
+            choices.insert(len(choices) - 1, ch)
+    else:
+        for f in locks:
+            if len(choices) < 4:
+                ch = _blank(rel_people)
+                ch["requires"] = {"flags": [f]}
+                ch["lock_text"] = ""
+                choices.append(ch)
+            else:
+                leftover.append(f)
+    info = {
+        "when": col_when(s),
+        "story": ("Story event: more likely while its window is open, and it always happens in the "
+                  "window's last week if it hasn't yet.") if s.get("story") else None,
+        "premise": a.get("premise"),
+        "chain": a.get("chain"),
+        "requires": s.get("requires") or None,
+        "must_set_flags": flags or None,
+        "people": people or None,
+        "callbacks": ("Locked choices for these flags are pre-shaped below (requires + lock_text). "
+                      "Players without them still get the whole scene.") if locks and not finale else None,
+        "more_callback_ideas": leftover or None,
+        "clears": "Every choice clears all wrong-path strike flags (pre-filled as false)." if clears else None,
+        "unlocked_by": a.get("unlocked_by"),
+        "leads_to": [f'{l["to"]} ({titles.get(l["to"], "?")}) when {l["flag"]}' for l in a.get("leads_to", [])] or None,
+        "notes": a.get("note"),
+    }
+    info = {k: v for k, v in info.items() if v}
+    return {"id": s["id"], "title": s["title"], "_info": info, "category": "", "text": "", "choices": choices}
+
+
+def college_templates():
+    if not (os.path.exists(COLLEGE) and os.path.exists(DESIGN)):
+        return
+    design = load(DESIGN)
+    strikes = design.get("strike_flags", [])
+    rows = {r["id"]: r for r in design["scenarios"]}
+    col = [s for s in load(COLLEGE)["scenarios"] if str(s["id"]).startswith("COL_") and not s.get("added_by_import")]
+    titles.update({s["id"]: s["title"] for s in col})
+    items = [col_entry(s, strikes, rows.get(s["id"])) for s in col]
+    doc = {"_about": "Every college story graph scenario (COL_*). College rules: WRITING_GUIDE.md, 'College'.",
+           "_how": GUIDE_POINTER, "scenarios": items}
+    with open(os.path.join(OUT_DIR, "college_template_all.json"), "w", encoding="utf-8") as f:
+        f.write(json.dumps(doc, indent="\t", ensure_ascii=False) + "\n")
+    print(f"wrote tools/authoring/college_template_all.json: {len(items)} scenarios")
+
+
 GUIDE_POINTER = ("Fill in category, text and choices; leave _info alone (it's read-only). See "
                  "tools/authoring/WRITING_GUIDE.md. Import: python3 tools/import_scenarios.py <this file> --dry-run")
 
@@ -169,6 +297,7 @@ def main():
         with open(os.path.join(OUT_DIR, name), "w", encoding="utf-8") as f:
             f.write(json.dumps(doc, indent="\t", ensure_ascii=False) + "\n")
         print(f"wrote tools/authoring/{name}: {len(items)} scenarios")
+    college_templates()
 
 
 if __name__ == "__main__":

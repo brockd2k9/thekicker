@@ -7,7 +7,7 @@
         flags, flags only set after the reader's window, expected flags a
         finished scenario doesn't set, story window fields) and prints warnings
         that aren't errors: same-season reads whose windows overlap, flags
-        nothing reads, near-duplicate titles, scenarios per HS season.
+        nothing reads, near-duplicate titles, scenarios per high school and college season.
         Exit code 1 if there are errors.
 
     python3 tools/validate_scenario_graph.py --skeleton <high_school_scenarios.json> [scenarios_*.json ...]
@@ -345,6 +345,33 @@ def can_precede(a, b):
     return time_span(a)[0] < time_span(b)[1]
 
 
+def _strike_flags():
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "college_graph", "college_design.json")
+    try:
+        return set(load(path).get("strike_flags", []))
+    except (OSError, ValueError):
+        return set()
+
+
+STRIKES = _strike_flags()
+
+
+def stage_seasons():
+    """Seasons per stage, from CareerTuning (high_school_seasons, juco_seasons, college_seasons)."""
+    path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                        "scripts", "career", "career_tuning.gd")
+    out = {"high_school": 4, "juco": 1, "college": 4}
+    try:
+        src = open(path, encoding="utf-8").read()
+    except OSError:
+        return out
+    for st in list(out):
+        m = re.search(r"var %s_seasons\s*:\s*int\s*=\s*(\d+)" % st, src)
+        if m:
+            out[st] = int(m.group(1))
+    return out
+
+
 def audit_data(data_dir):
     files = sorted(f for f in os.listdir(data_dir) if f.startswith("scenarios_") and f.endswith(".json"))
     scen = []
@@ -358,8 +385,27 @@ def audit_data(data_dir):
         for f in flags_set(sc):
             setters[f].append(sc)
     readers = defaultdict(set)
+    last_season = stage_seasons()
     for sc in scen:
         sid = sc["id"]
+        # A stage's last season has no offseason: it ends in recruiting (high school) or
+        # the draft (college), and the next stage starts with its own offseason.
+        se = sc.get("seasons")
+        if sc.get("when") == ["offseason"] and isinstance(se, list) and len(se) == 2:
+            for st in sc.get("stages", []):
+                if st in last_season and int(se[0]) >= last_season[st]:
+                    errors.append(f"{sid}: offseason in {st} season {se[0]} never happens "
+                                  f"(the stage ends after season {last_season[st]}); use weeks instead")
+        for ch in sc.get("choices", []):
+            off = {f for f, v in (ch.get("set_flags") or {}).items() if v is False and f in STRIKES}
+            if len(off) > 1 and off != STRIKES:
+                warns.append(f"{sid}: choice '{ch.get('label', '')}' clears {len(off)} of {len(STRIKES)} strike flags "
+                             f"(missing {', '.join(sorted(STRIKES - off))})")
+            creq = ch.get("requires", {}) or {}
+            for f in creq.get("flags", []) + creq.get("any_flags", []):
+                src = setters.get(f, [])
+                if src and f not in ENGINE_FLAGS and not any(can_precede(x, sc) for x in src if x["id"] != sid):
+                    warns.append(f"{sid}: locked choice needs '{f}', only set after this scenario's window")
         req = sc.get("requires", {})
         reads = flags_read(req)
         for ch in sc.get("choices", []):
@@ -425,6 +471,18 @@ def audit_data(data_dir):
     print("| season | finished | drafts |\n|---|---|---|")
     for y in sorted(per):
         print(f"| {y} | {per[y][1]} | {per[y][0]} |")
+    col = defaultdict(lambda: [0, 0])
+    for sc in scen:
+        if "college" not in sc.get("stages", []) or sc.get("follow_up_only"):
+            continue
+        se = sc.get("seasons") or [1, 4]
+        for y in range(int(se[0]), min(int(se[1]), 4) + 1):
+            col[y][0 if sc.get("draft") else 1] += 1
+    print("\n## College scenarios available per season (story graph and hand-written; "
+          "a scenario open to several seasons counts in each)\n")
+    print("| season | finished | drafts |\n|---|---|---|")
+    for y in sorted(col):
+        print(f"| {y} | {col[y][1]} | {col[y][0]} |")
     return 1 if errors else 0
 
 
