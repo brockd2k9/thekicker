@@ -5,11 +5,11 @@
       "id": "PRO_191",
       "title": "The Rookie Injury",
       "category": "health",
-      "text": "Your first pro injury, a strained hip flexor, and the trainers are talking about you like a part that might not fit back in.",
+      "text": "Your first pro injury, a strained hip flexor, and the trainers are talking about you like a part that might not fit back in. You can hear them through the curtain.",
       "choices": [
         {
           "label": "Do the rehab exactly",
-          "result": "You do every exercise the trainers give you, on time, and nothing extra. You're back a week early.",
+          "result": "Every exercise the trainers give you gets done on time, and nothing extra. You're back a week early, and the head trainer starts using you as an example.",
           "stats": {
             "life": {
               "health": 5,
@@ -29,7 +29,7 @@
         },
         {
           "label": "Push to come back early",
-          "result": "You push to kick before the trainers clear you. You're back on time, and sore for a month.",
+          "result": "Kicking before the trainers clear you gets you back on time, and sore for a month. You never quite trust your hip on cold mornings after that.",
           "stats": {
             "life": {
               "health": -2
@@ -45,8 +45,8 @@
           "skill_points": 2
         },
         {
-          "label": "Ask the veterans",
-          "result": "You ask the veterans how they came back from their first injury. Each has a story, and one has a stretch that works.",
+          "label": "Ask how the veterans came back",
+          "result": "Each veteran has a comeback story, and one has a stretch that works. By the end of the week you're doing it in the hallway with three of them.",
           "stats": {
             "life": {
               "health": 3,
@@ -98,11 +98,11 @@
       "id": "PRO_269",
       "title": "Summer at Home",
       "category": "family",
-      "text": "Your first offseason back home, and everyone at the grocery store wants to talk about one kick.",
+      "text": "Your first offseason back home. Everyone at the grocery store wants to talk about one kick, the high school has your picture in the trophy case, and {parent} has told the whole street you're coming.",
       "choices": [
         {
           "label": "Enjoy being home",
-          "result": "You sleep in your old bedroom, eat {parent}'s cooking and let the town make a fuss. It's the best month you've had in a year.",
+          "result": "Your old bedroom, {parent}'s cooking and {sibling} in the next room, just like before. The town makes a fuss, you let it, and it's the best month you've had in a year.",
           "stats": {
             "life": {
               "fun": 4,
@@ -115,7 +115,8 @@
             "rested"
           ],
           "rel": {
-            "parent": 4
+            "parent": 4,
+            "sibling": 2
           }
         },
         {
@@ -138,7 +139,7 @@
         },
         {
           "label": "Hide from the attention",
-          "result": "You stay in, see a few friends, and avoid the grocery store. It's quiet, and a little lonely.",
+          "result": "You stay in, see {best_friend} and a few old friends at night, and avoid the grocery store entirely. It's quiet and restful, and by July it's a little lonely.",
           "stats": {
             "life": {
               "energy": 2,
@@ -162,28 +163,27 @@
       "id": "PRO_321",
       "title": "The Veteran's Advice",
       "category": "team",
-      "text": "An eleven-year veteran pulls you aside after practice with a few rules for surviving the league.",
+      "text": "An eleven-year veteran pulls you aside after practice, sits you on a bench by the field and says he has a few rules for surviving the league, if you're smart enough to want them.",
       "choices": [
         {
-          "label": "Write them down",
-          "result": "You write every rule down that night. Some are about kicking. Most are about money and people.",
+          "label": "Write them down tonight",
+          "result": "Every rule goes in a notebook that night. Some are about kicking; most are about money, agents and who to trust. You reread them every season after.",
           "stats": {
             "life": {},
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {
               "intelligence": 2
             }
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "team": 2
-          }
+          ]
         },
         {
-          "label": "Ask about the hard years",
-          "result": "You ask about his worst season. He talks for an hour, and you learn more than the rules.",
+          "label": "Ask about his worst season",
+          "result": "His worst season comes out over an hour on that bench: the cut, the divorce, the comeback. You learn more from the story than from any rule.",
           "stats": {
             "life": {
               "energy": -1,
@@ -204,7 +204,7 @@
         },
         {
           "label": "Nod and forget them",
-          "result": "You nod politely and forget them by dinner. Three of them come back to you later, the hard way.",
+          "result": "Nodding politely gets you to dinner on time, and you forget the rules by dessert. Three of them come back to you later, the hard way.",
           "stats": {
             "life": {
               "energy": 1,
@@ -225,11 +225,11 @@
       "id": "PRO_322",
       "title": "The First Media Interview",
       "category": "media",
-      "text": "Local reporters catch you at your locker before you've learned what not to say.",
+      "text": "Local reporters catch you at your locker on your second day, before anyone has taught you what not to say. There are four microphones, and one of them is very close to your face.",
       "choices": [
         {
-          "label": "Keep it simple",
-          "result": "You give short, polite answers and nothing quotable. The story is boring, which {coach} likes.",
+          "label": "Keep it boring",
+          "result": "Short, polite answers and nothing quotable. The story that runs is boring, which {coach} likes, and your agent sends you a thumbs-up you didn't expect.",
           "stats": {
             "life": {
               "energy": 1

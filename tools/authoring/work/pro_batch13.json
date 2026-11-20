@@ -129,16 +129,18 @@
       "id": "PRO_618",
       "title": "The Rookie Year Review",
       "category": "team",
-      "text": "{coach} sits you down for an honest review of your first season.",
+      "text": "{coach} closes the office door and sits you down for an honest review of your first season: a folder of charts, a laptop of clips, and a list that starts with the word 'concerns'.",
       "choices": [
         {
-          "label": "Take notes",
-          "result": "You take notes on everything and ask follow-up questions. You leave with a plan.",
+          "label": "Take notes on all of it",
+          "result": "Every point goes in your notebook, and you ask about the ones that sting. You leave with a summer plan and the feeling that the coach is actually on your side.",
           "stats": {
             "life": {
               "energy": -1
             },
-            "football": {},
+            "football": {
+              "accuracy": 1
+            },
             "personality": {
               "intelligence": 2
             }
@@ -147,17 +149,19 @@
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "coach": 3
           }
         },
         {
-          "label": "Ask for the hard truths",
-          "result": "You ask for the three hardest truths. You get them, and you work on them all summer.",
+          "label": "Ask for the three hardest truths",
+          "result": "{coach} gives you three without softening them: your plant foot drifts, you look rattled after misses, and you don't lift enough. You work on all three until August.",
           "stats": {
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "resilience": 2
+            },
             "personality": {
               "ambition": 2
             }
@@ -168,22 +172,25 @@
           "skill_points": 2
         },
         {
-          "label": "Share your own review",
-          "result": "You bring your own review and compare. The coach is impressed you thought about it.",
+          "label": "Bring your own review",
+          "result": "Your own review is four handwritten pages, and half of it matches theirs. The coach is impressed you thought about it, and {holder} laughs that you graded yourself harder.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 1
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "charisma": 1,
+              "leadership": 1,
+              "intelligence": 1
             }
           },
           "modifiers": [
-            "loose"
+            "confident"
           ],
           "rel": {
-            "coach": 1
+            "coach": 1,
+            "holder": 2
           }
         }
       ]
@@ -192,20 +199,20 @@
       "id": "PRO_619",
       "title": "The Offseason Without Structure",
       "category": "training",
-      "text": "For the first time in your life, nobody tells you what to do all summer.",
+      "text": "For the first time in your life, nobody tells you what to do all summer. No coach, no schedule, no bell. The facility is closed for six weeks, and your phone is very quiet.",
       "choices": [
         {
-          "label": "Build your own plan",
-          "result": "You build a strict plan and follow it. You come back stronger.",
+          "label": "Write your own program",
+          "result": "Twelve weeks, written by hand and taped to the fridge, and you follow it to the day. It's lonely work, and you report to camp stronger than anyone expected.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -3
             },
             "football": {
-              "power": 1
+              "power": 2
             },
             "personality": {
-              "ambition": 2
+              "ambition": 1
             }
           },
           "modifiers": [
@@ -214,12 +221,13 @@
           "skill_points": 2
         },
         {
-          "label": "Take a real break",
-          "result": "You take three weeks off completely. You come back hungry.",
+          "label": "Disappear for three weeks",
+          "result": "Three weeks with no ball, no film and no phone. It feels wrong for five days and wonderful after, and you come back to the field genuinely hungry.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 3,
+              "fun": 2,
+              "health": 1
             },
             "football": {},
             "personality": {}
@@ -229,22 +237,24 @@
           ]
         },
         {
-          "label": "Train with friends",
-          "result": "You train with old college teammates. It's fun and it's real work.",
+          "label": "Train with {best_friend}",
+          "result": "{best_friend} drives up for a month and holds for you every morning in a city park. It's real work and a lot of laughing, and neither of you wants it to end.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1,
+              "energy": -1
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "best_friend": 3
+            "best_friend": 4
           }
         }
       ]
@@ -564,35 +574,40 @@
       "id": "PRO_625",
       "title": "The New Club as a Rookie",
       "category": "team",
-      "text": "Released after your first camp and signed somewhere new, you're starting your rookie year over.",
+      "text": "Released after your first camp and signed somewhere new three days later, you walk into a building where nobody knows your name, your locker still has the last kicker's tape on it, and the season starts Sunday.",
       "choices": [
         {
-          "label": "Learn every name fast",
-          "result": "You learn every name in the new building by Friday. Nobody owes you anything, and that starts to change.",
+          "label": "Learn the building by Friday",
+          "result": "Every name in the building is yours by Friday: trainers, equipment staff, the snapper's kids. Nobody owes you anything here, and by the first game that has started to change.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "energy": -1
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "charisma": 2
             }
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 3
+            "team": 2,
+            "holder": 2
           }
         },
         {
-          "label": "Kick like it's a tryout",
-          "result": "You kick every practice like it's a tryout, because it still is.",
+          "label": "Kick like it's still a tryout",
+          "result": "Every rep in practice is a tryout, because it still is. Your leg is tired by Thursday, and the coaches stop watching you like a stranger who might leave.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -3
             },
-            "football": {},
+            "football": {
+              "power": 1,
+              "resilience": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -603,13 +618,15 @@
           "skill_points": 2
         },
         {
-          "label": "Ask what they saw in you",
-          "result": "You ask {coach} what the club saw in your film. It's a list to build on.",
+          "label": "Find out what they saw",
+          "result": "{coach} pulls up your college film and shows you the three kicks that got you signed. It's a short list, and you build your whole first month around it.",
           "stats": {
             "life": {
               "energy": -1
             },
-            "football": {},
+            "football": {
+              "accuracy": 1
+            },
             "personality": {
               "intelligence": 2
             }

@@ -5,7 +5,7 @@
       "id": "PRO_068",
       "title": "The Cousin Nobody Remembers",
       "category": "money",
-      "text": "Someone from your hometown with your last name and a business idea is waiting by your car after practice.",
+      "text": "Someone from your hometown with your last name, a folder of drawings and a business idea is waiting by your car after practice. He says you met at a wedding when you were nine.",
       "choices": [
         {
           "label": "Hear the pitch, then check it",
@@ -14,11 +14,10 @@
             "life": {
               "energy": -1
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -30,7 +29,8 @@
           "result": "You buy him lunch and talk about family for an hour. You don't invest, and he leaves happier than he came.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
             "personality": {
@@ -41,23 +41,28 @@
             "loose"
           ],
           "rel": {
-            "parent": 3
+            "parent": 3,
+            "sibling": 1
           }
         },
         {
-          "label": "Say no on the spot",
-          "result": "You say no before he finishes and get in your car. It's quick, and a little cold.",
+          "label": "Say no before he finishes",
+          "result": "No, before he's finished his first sentence, and you get in your car. It's quick and a little cold, and {parent} hears about it from three relatives by Sunday.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
             "football": {},
-            "personality": {}
+            "personality": {
+              "ambition": 1
+            }
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "parent": -1
+          }
         }
       ]
     },

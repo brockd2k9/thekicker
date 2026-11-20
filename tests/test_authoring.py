@@ -202,7 +202,7 @@ class CollegeImportTests(unittest.TestCase):
                 json.dump(bad, f)
             code, out = run(path, "--dry-run")
         self.assertEqual(code, 1, out)
-        self.assertIn("suspend_weeks 5 must be a whole number 1-3", out)
+        self.assertIn("suspend_weeks 5 is over 3, which only a scene that plays only in the pros may use", out)
         self.assertIn("suspend_weeks without conduct bad or scandal", out)
 
     def test_wrong_path_step_must_clear_every_strike(self):
@@ -339,3 +339,77 @@ class CollegeLintTests(unittest.TestCase):
     def test_player_use_ignores_take_it_to(self):
         self.assertIsNone(scenario_lint.PLAYER_USE.search("You take it to the compliance office."))
         self.assertIsNotNone(scenario_lint.PLAYER_USE.search("You take it before warmups."))
+
+
+class ProWritingStandardTests(unittest.TestCase):
+    """The pro story writing floor and the repetition checks across the pro stage."""
+
+    def _scene(self, sid, text, results, labels=None, rel=None):
+        labels = labels or [f"Choice {i}" for i in range(len(results))]
+        return {"id": sid, "stages": ["pro"], "text": text, "choices": [
+            {"label": l, "result": r, "stats": {"life": {"energy": i - 1}}, "modifiers": ["focused"],
+             **({"rel": rel} if rel else {})} for i, (l, r) in enumerate(zip(labels, results))]}
+
+    def test_thin_premise_and_result_are_flagged_in_the_pros_only(self):
+        e = self._scene("PRO_900", "Too short.", ["Done.", " ".join(["word"] * 25)])
+        codes = [c for c, _, _ in scenario_lint.writing_findings(e)]
+        self.assertEqual(codes, ["thin_text", "thin_result"])
+        e["id"], e["stages"] = "HS_900", ["high_school"]
+        self.assertEqual(scenario_lint.writing_findings(e), [])
+
+    def test_repeated_labels_openings_and_stat_patterns(self):
+        long = " ".join(["word"] * 25)
+        scenes = [self._scene(f"PRO_9{i:02d}", long, ["You ask the coach " + long, "Fine " + long],
+                              labels=["Pass", f"Other {i}"]) for i in range(5)]
+        found = scenario_lint.corpus_findings(scenes)
+        codes = {c for f in found.values() for c, _, _ in f}
+        self.assertEqual(codes, {"label_repeat", "opening_repeat", "stat_pattern"})
+        self.assertEqual(scenario_lint.corpus_findings(scenes[:3]), {})
+
+    def test_one_relationship_target_taking_most_changes_is_flagged(self):
+        long = " ".join(["word"] * 25)
+        scenes = [self._scene(f"PRO_9{i:02d}", long, [long, long], rel={"coach": 1}) for i in range(6)]
+        self.assertEqual([c for c, _, _ in scenario_lint.rel_balance_findings(scenes, 0.25)], ["rel_balance"])
+        scenes[0]["choices"][0]["rel"] = {"parent": 1}
+        for s, who in zip(scenes[1:], ["sibling", "holder", "backup", "best_friend", "rival"]):
+            s["choices"][1]["rel"] = {who: 1}
+        self.assertNotIn("coach", " ".join(m for _, _, m in scenario_lint.rel_balance_findings(scenes, 0.5)))
+
+
+class RecastAndProSuspensionTests(unittest.TestCase):
+    """Gameplay requests R8 (recast a cast member) and R9 (pro suspensions up to a season)."""
+
+    def _run(self, doc):
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "x.json")
+            with open(path, "w") as f:
+                json.dump(doc, f)
+            return run(path, "--dry-run")
+
+    def test_pro_scene_may_suspend_a_season_and_recast(self):
+        ok = {"scenarios": [{"id": "PRO_219", "title": "x", "category": "family", "text": "A dinner party.",
+                             "choices": [_choice(recast=["love_interest"]),
+                                         _choice(suspend_weeks=11, conduct="scandal"),
+                                         _choice(suspend_weeks=6, conduct="bad")]}]}
+        code, out = self._run(ok)
+        self.assertEqual(code, 0, out)
+        self.assertIn("0 error(s)", out)
+        self.assertIn("a suspension over 3 weeks is for a serious step", out)  # bad conduct, no flag
+
+    def test_bad_recast_and_suspension_values_are_errors(self):
+        bad = {"scenarios": [{"id": "PRO_219", "title": "x", "category": "family", "text": "A dinner party.",
+                              "choices": [_choice(recast=["team"]), _choice(recast=["nobody"]),
+                                          _choice(recast="love_interest"), _choice(recast=["parent", "parent"]),
+                                          _choice(suspend_weeks=12, conduct="scandal")]}]}
+        code, out = self._run(bad)
+        self.assertEqual(code, 1, out)
+        for msg in ["can't replace 'team'", "recast 'nobody' is not a cast id", "recast must be a list",
+                    "recast lists the same person twice", "suspend_weeks 12 must be a whole number 1-11"]:
+            self.assertIn(msg, out)
+
+    def test_recast_outside_the_pros_warns_and_rel_on_the_recast_person_warns(self):
+        doc = {"scenarios": [{"id": "COL_010", "title": "x", "category": "social", "text": "A dinner.",
+                              "choices": [_choice(recast=["love_interest"], rel={"love_interest": 3}), _choice()]}]}
+        code, out = self._run(doc)
+        self.assertIn("recast is meant for the pros", out)
+        self.assertIn("the rel change goes to the person being replaced", out)

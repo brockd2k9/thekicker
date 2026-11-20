@@ -353,11 +353,36 @@ information, a banned substance offered, a night out at a strip club) are the on
 and the scene always ends at the choice. The blocked words still apply everywhere ("bets" is
 fine; "gamble" and "bet on the game" are blocked).
 
-**Suspensions.** `"suspend_weeks": n` (a whole number 1-3; the engine caps stacked suspensions at 3)
-sits the player out the next n games, like academic ineligibility, with a SUSPENDED banner. Use it
-only for the worst choices, always with `"conduct": "bad"` or `"scandal"` (the importer warns
-otherwise), and usually in a follow-up scene such as The Search. A new stage clears it.
+**Suspensions.** `"suspend_weeks": n` sits the player out the next n games, like academic
+ineligibility, with a SUSPENDED banner. A whole number 1-3 in high school and college; **up to 11
+(a full season) in a scene that plays only in the pros** (engine: `suspend_max_weeks_pro`). In the pros
+a suspension carries across seasons; a new stage clears it. Use it only for the worst choices, always
+with `"conduct": "bad"` or `"scandal"` (the importer warns otherwise); over 3 weeks is for a serious
+step, so give it `"scandal"` or a flag later scenes read (the importer warns otherwise). Usually in a
+follow-up scene such as The Search.
 Example: `{"label": "...", "suspend_weeks": 2, "conduct": "scandal", "set_flags": {"pro_caught_with_package": true}}`.
+
+**Someone new in a role.** `"recast": ["love_interest"]` on a choice moves the current person to the
+player's former people and brings in someone new in that role (known, at relationship 55); from then
+on `{love_interest}` names the new person and the flag `recast_love_interest` counts the recasts. It is
+for the pros (the Someone New scenes; the importer warns elsewhere). Any cast id except `team` works.
+Don't put a `rel` change for the same person in that choice (it would go to the person being replaced).
+
+### Pro writing standard (checked by the lint)
+
+Every PRO_* / pro_* scene meets the college standard or better:
+- **Premise: 25+ words** with a concrete situation (who, where, what just happened).
+- **Results: 20+ words, aim for 25-35**: a consequence and a beat of feeling.
+- **Choices fit this scene**, not a rest / think it through / people triad. Vary which stats and how
+  much; use football stats where the scene is about the body or the craft.
+- **Spread the cast**: `{best_friend}`, `{tyler}`, `{sibling}`, `{backup}`, `{parent}` and the partner,
+  not only `{coach}` and Team. Only give a person a `rel` change if the scene involves them.
+- **Vary labels and openings**: no label more than 3 times across the pro stage ("Pass", "Decline",
+  "Ignore it"...), no three-word result opening more than 4 times ("You ask the...").
+
+Lint codes: `thin_text`, `thin_result`, `label_repeat`, `opening_repeat`, `stat_pattern` (the same stats,
+modifiers and people moved in more than 3 scenes), `rel_balance` (one target over 25% of the pro
+stage's relationship changes, or over 35% of one import's).
 
 ## Content rules (teen audience)
 
