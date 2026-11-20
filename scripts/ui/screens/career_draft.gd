@@ -25,6 +25,9 @@ func _build(col: VBoxContainer) -> void:
 		26, UiKit.MUTED))
 	list = UiKit.scroll_list(col)
 	var team := CareerContent.team_by_id(str(d.get("team", "")))
+	if d.get("dismissed", false):
+		list.add_child(UiKit.label("Dismissed from the program: no team drafts you. Your way in is an open tryout.",
+			26, UiKit.BAD))
 	# Character on draft day (Reputation).
 	var adj := float(d.get("character", 0.0))
 	if str(d.get("character_state", "")) == "concerns":

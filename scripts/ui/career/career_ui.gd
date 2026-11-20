@@ -494,6 +494,9 @@ static func sp_lines(c: CareerData) -> Array:
 ## Character on record (Hub): "Character concerns" (red) or "Rebuilt
 ## reputation" (green), with what it means; null when there's nothing.
 static func reputation_chip(c: CareerData, t: CareerTuning) -> Control:
+	if Reputation.is_dismissed(c):
+		return UiKit.chip("Dismissed: %s at season end" % ("released" if c.stage == CareerData.STAGE_PRO
+			else "out of the program"), UiKit.BAD, true, "career", 22)
 	match Reputation.state(c):
 		"concerns":
 			return UiKit.chip("Character concerns: %d draft stock on draft day" % roundi(t.rep_concerns_draft)

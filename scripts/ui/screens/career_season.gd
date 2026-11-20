@@ -13,6 +13,8 @@ func _build(col: VBoxContainer) -> void:
 	list.add_child(UiKit.stat_row("Record", "%d-%d%s" % [int(c.record["w"]), int(c.record["l"]),
 		("-%d" % int(c.record["t"])) if int(c.record["t"]) > 0 else ""], UiKit.ACCENT))
 	_stat_rows(list, c.season_stats)
+	if Reputation.is_dismissed(c):
+		list.add_child(UiKit.label(Reputation.dismissed_text(c), 26, UiKit.BAD))
 	if Progression.is_poor_season(c, career.tuning):
 		list.add_child(UiKit.label("A rough season: field goal percentage under %d%%. Another one or two like it "
 			% roundi(career.tuning.poor_fg_pct * 100.0) + "and your options start to dry up.", 24, UiKit.BAD))
@@ -30,7 +32,8 @@ func _next_text() -> String:
 		CareerData.STAGE_HIGH_SCHOOL, CareerData.STAGE_JUCO:
 			return "Recruiting Update"
 		CareerData.STAGE_COLLEGE:
-			return "Draft Day" if career.data.season_in_stage >= career.tuning.college_seasons else "Start Offseason"
+			return "Draft Day" if career.data.season_in_stage >= career.tuning.college_seasons \
+				or Reputation.is_dismissed(career.data) else "Start Offseason"
 		CareerData.STAGE_PRO:
 			return "Contract Review"
 	return "Continue"

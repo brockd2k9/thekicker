@@ -337,6 +337,17 @@ func _reputation_shots() -> void:
 		"suspended": {"reason": "The Balcony Dare", "left": 1}}
 	c.phase = CareerManager.PHASE_RESULTS
 	await _shot("results_suspended", Screens.CAREER_RESULTS)
+	c.suspension = {}
+	c.notice = ""
+	var stage := c.stage  # a dismissal only acts in college and the pros
+	c.stage = CareerData.STAGE_COLLEGE
+	c.flags[Reputation.DISMISSED] = true
+	Reputation.on_flags(c, {Reputation.DISMISSED: true}, _m.tuning)
+	c.phase = CareerManager.PHASE_WEEK_START
+	await _shot("hub_dismissed", Screens.CAREER_HUB)
+	c.phase = CareerManager.PHASE_SEASON_END
+	await _shot("season_dismissed", Screens.CAREER_SEASON)
+	c.stage = stage
 	c.flags = keep["flags"]
 	c.suspension = keep["susp"]
 	c.phase = keep["phase"]

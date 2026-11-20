@@ -37,7 +37,8 @@ func _build(col: VBoxContainer) -> void:
 			list.add_child(UiKit.label("Your contract is up and the team is moving on.", 30, UiKit.BAD))
 			main = UiKit.button("Free Agency", _continue)
 		"released":
-			list.add_child(UiKit.label("RELEASED. Your standing fell below %d." % roundi(t.release_below), 32, UiKit.BAD))
+			list.add_child(UiKit.label("RELEASED. %s" % ("You were dismissed from the team." if k.get("dismissed", false)
+				else "Your standing fell below %d." % roundi(t.release_below)), 32, UiKit.BAD))
 			main = UiKit.button("Free Agency", _continue)
 	list.add_child(UiKit.label("You can retire after any pro season.", 22, UiKit.MUTED))
 	col.add_child(CareerUi.button_row([UiKit.button("Retire", _retire, UiKit.DANGER), main]))
