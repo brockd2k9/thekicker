@@ -448,3 +448,20 @@ func test_warmup_sp_cap_and_sources() -> void:
 	for k in c.sp_sources:
 		total += int(c.sp_sources[k])
 	eq(total, c.sp_season, "every SP this season has a source")
+
+
+
+func test_70_yard_cap_needs_big_leg_and_cannon() -> void:
+	var c := _career()
+	c.set_stat("power", 100)
+	c.set_stat("energy", 100)
+	c.set_stat("health", 100)
+	check(KickProfile.build(c, t).range_yd > 0.0, "rested and healthy: game-day yards on top")
+	eq(KickProfile.build(c, t).fg_range, t.range_at_100, "no perks: 66 at most, even on a great day")
+	var ko0 := KickProfile.build(c, t).kickoff_range
+	c.perks = ["big_leg"]
+	eq(KickProfile.build(c, t).fg_range, t.range_at_100 + 2.0, "Big Leg: 68")
+	eq(KickProfile.build(c, t).kickoff_range, ko0 + 2.0, "Big Leg: +2 kickoff yards")
+	c.perks = ["big_leg", "cannon"]
+	eq(KickProfile.build(c, t).fg_range, t.range_cap, "Big Leg + Cannon: the 70 yd hard cap")
+	eq(KickRange.fg_cap(c, t), 70.0, "never past 70")

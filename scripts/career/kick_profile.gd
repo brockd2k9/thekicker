@@ -176,7 +176,7 @@ static func _week_weather(data: CareerData) -> Dictionary:
 ## (game-day yards back in old power units). Kickoffs carry kickoff_range
 ## either way (CareerGameMode.kickoff_rules_for divides by power_mult).
 func _finish_range(data: CareerData, t: CareerTuning) -> void:
-	fg_range = clampf(fg_range_base + range_yd, t.range_min, t.range_cap)
+	fg_range = clampf(fg_range_base + range_yd, t.range_min, KickRange.fg_cap(data, t))
 	kickoff_range = clampf(KickRange.kickoff_range(data, t) + range_yd, t.range_min, t.kickoff_range_cap)
 	if data.range_physics:
 		power_mult = KickRange.speed_mult_for(fg_range, KickRange.kick_tuning(), t.range_physics_margin_yd)

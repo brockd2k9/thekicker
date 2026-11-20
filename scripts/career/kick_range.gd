@@ -44,7 +44,14 @@ static func kickoff_from_power(power: float, t: CareerTuning) -> float:
 ## Field goal range on paper (Power + perks), before game day. What the Hub shows.
 static func fg_range(c: CareerData, t: CareerTuning, power: float = -1.0) -> float:
 	var p := c.stat("power") if power < 0.0 else power
-	return clampf(fg_from_power(p, t) + perk_yards(c, "range_yd"), t.range_min, t.range_cap)
+	return clampf(fg_from_power(p, t) + perk_yards(c, "range_yd"), t.range_min, fg_cap(c, t))
+
+
+## Highest field goal range this kicker can have, even on a great day:
+## range_at_100 (66) without perks; perk range yards raise it (Big Leg 68, Big
+## Leg + Cannon 70), never past the range_cap hard cap (70).
+static func fg_cap(c: CareerData, t: CareerTuning) -> float:
+	return minf(t.range_at_100 + maxf(perk_yards(c, "range_yd"), 0.0), t.range_cap)
 
 
 ## Kickoff range on paper (Power + perks), before game day.
