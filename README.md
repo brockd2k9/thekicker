@@ -492,6 +492,10 @@ little standing. A choice's `suspend_weeks` (1-3) sits the player out games like
 ineligibility. Rules: `scripts/career/reputation.gd`; notes for writers:
 `docs/story_note_reputation_suspensions.md`.
 
+**Career state for scenarios:** "right now" values (`slump_now`, `benched_now`, `fg_streak`, `clubs`, ...),
+game-set flags (`contract_year`, `re_signed`, `signed_new_club`, `released`), `{club}` / `{town}`,
+`once_per_club`, and a season-end `dismissed` flag: `docs/story_note_career_state.md`.
+
 **Kick challenges:** a scenario choice can be a real kick challenge (showcase, camp, combine,
 kicker battle): picking it opens the kick scene (field goals clamped to your range - 1, and kickoffs
 for combines); pass for the full reward, miss for a milder outcome. Tryouts, the bench audition and

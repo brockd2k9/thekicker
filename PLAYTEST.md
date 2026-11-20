@@ -450,6 +450,18 @@ rebuilt, so the way back pays for itself on draft day. The concerns careers were
 drafted because the story's own wrong-path scenes take draft points; the note to the story session
 suggests giving some back on the rebuilt path. No scenario uses `suspend_weeks` yet (0 per career).
 
+## Readable career state (stage 5A)
+
+For scenario writers (`docs/story_note_career_state.md`): metrics `slump_now`, `benched_now`,
+`injured_now`, `fg_streak`, `season_fg_pct`, `pro_seasons`, `contract_years_left`, `clubs`; game-set
+flags `contract_year`, `re_signed`, `signed_new_club`, `released`, `was_dismissed`; `{club}` and
+`{town}`; `once_per_club`; the `dismissed` story flag (pros: released at season end; college: out of
+the program and the draft, to an open tryout; a Hub notice and chip, a season summary line). Scenes
+may clear `kicking_slump` / `coach_lost_faith` / `benched`, but the engine sets them back while the
+slump, bad stretch or bench is still on (engine state wins).
+
+To playtest: a dismissal in college before senior year goes straight to draft day; is that clear?
+
 ## Kick challenge tuning
 
 The simulator plays each proposed conversion (`tests/fixtures/kick_challenge_conversions.json`) for
