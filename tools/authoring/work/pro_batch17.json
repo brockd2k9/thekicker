@@ -1,0 +1,836 @@
+{
+  "_about": "PRO batch 17: era 2, Settled In (26-29).",
+  "scenarios": [
+    {
+      "id": "PRO_288",
+      "title": "The Off-Season Weight",
+      "category": "training",
+      "text": "You come back from the offseason heavier than the club likes, and the strength coach has a scale ready.",
+      "choices": [
+        {
+          "label": "Get on the scale",
+          "result": "You step on the scale, hear the number and spend six weeks earning back the old one.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Bring your own numbers",
+          "result": "You bring your leg-speed numbers from the summer. They're better than last year, and the strength coach backs off a little.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Laugh with the strength coach",
+          "result": "You joke your way through it and agree to a plan. The strength coach likes you more for it.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_309",
+      "title": "The Captaincy",
+      "category": "team",
+      "text": "The team votes for captains, and for the first time a kicker is on the ballot.",
+      "choices": [
+        {
+          "label": "Ask for the vote",
+          "result": "You tell the room why a kicker can lead too. You win by four votes.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "set_flags": {
+            "pro_captain": true
+          },
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Let the room decide",
+          "result": "You don't campaign. The room votes you in anyway, and that means more.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {
+            "pro_captain": true
+          },
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Take your name off",
+          "result": "You take your name off the ballot. A linebacker who wanted it more gets it.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_310",
+      "title": "The Big Second Contract",
+      "category": "money",
+      "text": "Your agent says this is the contract that matters, and the club agrees, eventually.",
+      "choices": [
+        {
+          "label": "Hold firm",
+          "result": "You hold firm for three tense weeks. You get your number and lose some sleep getting it.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Take the fair deal",
+          "result": "You take a fair deal early and stop thinking about it. Your agent calls it smart, and means it.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Ask the family first",
+          "result": "You talk it over at home before you sign. The number matters less than you thought.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "love_interest": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_311",
+      "title": "The Teammate Who Becomes a Coach",
+      "category": "team",
+      "text": "{holder} retires and joins the coaching staff. Now they're your boss.",
+      "choices": [
+        {
+          "label": "Keep the friendship",
+          "result": "You keep the friendship and let {holder} coach you anyway. It works, mostly.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "holder": 3
+          }
+        },
+        {
+          "label": "Set new rules",
+          "result": "You agree on new rules: coach at the facility, friends on the weekend.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2,
+            "holder": 2
+          }
+        },
+        {
+          "label": "Earn it fresh",
+          "result": "You treat {holder} like any new coach and earn their trust again.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        }
+      ]
+    },
+    {
+      "id": "PRO_312",
+      "title": "The Endorsement Renewal",
+      "category": "media",
+      "text": "Your biggest sponsor wants to renew, with new conditions: more appearances, more posts, more of you.",
+      "choices": [
+        {
+          "label": "Accept the conditions",
+          "result": "You accept. The money is good, and your weeks get a lot shorter.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2,
+          "followers": 4
+        },
+        {
+          "label": "Negotiate fewer appearances",
+          "result": "You negotiate the appearances down by half. They agree, grudgingly.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          },
+          "followers": 2
+        },
+        {
+          "label": "Walk away",
+          "result": "You walk away. You get your Tuesdays back.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_313",
+      "title": "The Hometown Charity Game",
+      "category": "community",
+      "text": "You organize a charity game in your hometown with players from five clubs.",
+      "choices": [
+        {
+          "label": "Run it yourself",
+          "result": "You run every detail yourself. It's exhausting and it raises more than anyone expected.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Bring in {best_friend}",
+          "result": "You put {best_friend} in charge of the day. It's the most fun either of you has had in years.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "best_friend": 4
+          }
+        },
+        {
+          "label": "Hire an organizer",
+          "result": "You hire someone who knows events. It runs perfectly, and it feels a little less like yours.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_314",
+      "title": "The Rival Club Calls",
+      "category": "career",
+      "text": "A rival club's general manager makes it clear they'd pay more, next time you're free.",
+      "choices": [
+        {
+          "label": "Tell your agent, nobody else",
+          "result": "You tell your agent and nobody else. You kick like a player who has options.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Tell your club",
+          "result": "You tell your own club about the call. They appreciate it and remember it.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "coach": 1
+          },
+          "retention": 2
+        },
+        {
+          "label": "Ignore it",
+          "result": "You ignore it and kick the season out. Whatever comes, comes.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        }
+      ]
+    },
+    {
+      "id": "PRO_315",
+      "title": "The Motivation Slump",
+      "category": "health",
+      "text": "Nothing's wrong. That's the problem: practice feels like a job, and the job feels like nothing.",
+      "choices": [
+        {
+          "label": "Take a real break",
+          "result": "You take your days off seriously: no film, no phone. Some of the spark comes back.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Talk to someone",
+          "result": "You talk to someone about it, out loud, for the first time.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "love_interest": 3
+          }
+        },
+        {
+          "label": "Set a new goal",
+          "result": "You set a goal nobody else knows about. Practice has a point again.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        }
+      ]
+    },
+    {
+      "id": "PRO_316",
+      "title": "The Kid Who Copies Your Routine",
+      "category": "media",
+      "text": "A high school kicker's video goes around: he copies your routine down to the last step.",
+      "choices": [
+        {
+          "label": "Send him a message",
+          "result": "You send him a message and a pair of cleats. His video of opening the box gets more views than yours.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 1
+          },
+          "followers": 3
+        },
+        {
+          "label": "Fix one thing",
+          "result": "You post a short reply showing him one thing to fix. Kickers everywhere try it.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Smile and move on",
+          "result": "You smile, show {love_interest} the video and move on.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_317",
+      "title": "A Teammate Holds Out",
+      "category": "team",
+      "text": "Your closest teammate is holding out for a new contract, and wants you to say something publicly.",
+      "choices": [
+        {
+          "label": "Back him publicly",
+          "result": "You back him publicly. He's grateful, and the front office notices.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 4
+          },
+          "retention": -2
+        },
+        {
+          "label": "Back him privately",
+          "result": "You tell him you're with him and keep it out of the papers.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Speak for the room",
+          "result": "You say the whole team wants him back and leave the money to the people who handle it.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_318",
+      "title": "The Coordinator's Son",
+      "category": "team",
+      "text": "The new special teams coordinator's son is a kicker on the practice squad.",
+      "choices": [
+        {
+          "label": "Out-kick him daily",
+          "result": "You out-kick him every day. It's awkward and undeniable.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Help the kid",
+          "result": "You help the kid with his plant foot. The coordinator watches and says nothing, and something changes.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        },
+        {
+          "label": "Ask the coordinator directly",
+          "result": "You ask the coordinator directly how the job is decided. He respects the question.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_320",
+      "title": "The Prime-Time Game",
+      "category": "media",
+      "text": "Your first prime-time game in years, and the broadcast crew wants an interview at the hotel.",
+      "choices": [
+        {
+          "label": "Do the interview",
+          "result": "You do the interview and tell one good story. It runs before kickoff.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 1
+          },
+          "followers": 3
+        },
+        {
+          "label": "Keep it short",
+          "result": "You give them ten minutes and go to bed early.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Decline politely",
+          "result": "You decline politely and watch film in your room.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_357",
+      "title": "The Contract Extension",
+      "category": "career",
+      "text": "The club wants to talk about extending your contract, a year early.",
+      "choices": [
+        {
+          "label": "Take the security",
+          "result": "You sign early. Your agent says you left money on the table; you sleep fine.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          },
+          "retention": 2
+        },
+        {
+          "label": "Bet on yourself",
+          "result": "You decline and play out the deal. Every kick is an audition now.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Ask {love_interest}",
+          "result": "You talk it over at home. You sign a shorter version.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "love_interest": 3
+          }
+        }
+      ]
+    }
+  ]
+}
