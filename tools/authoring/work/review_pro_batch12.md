@@ -1,9 +1,9 @@
-# PRO batch 12: era 1, Rookie (imported)
+# PRO batch 12: quality pass (rewrites and stat fixes) (imported)
 
 Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 
 
-## PRO batch 12: era 1, Rookie
+## PRO batch 12: quality pass (rewrites and stat fixes)
 
 ### PRO_603 The Practice Squad Promotion
 - **Category:** team  
@@ -46,7 +46,7 @@ Your family group chat has become a running commentary on your career, including
 1. **Join the fun**: You join in and roast yourself. The chat becomes the best part of your week.  
    *(social +2; charisma +1; {parent} +3; modifier loose)*
 2. **Set a rule**: You set one rule: no football talk after nine. Everyone sleeps better.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Mute it during the season**: You mute it until the season ends. Your mother is offended.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -63,7 +63,7 @@ A stranger messages you about his fantasy team, and he's angry that you only kic
 2. **Ignore it**: You ignore it. There will be more.  
    *(energy +2; fun +1; modifier rested)*
 3. **Block and move on**: You block him and turn off messages from strangers.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 
 ### PRO_607 Your First Credit Card Bill
 - **Category:** money  
@@ -74,7 +74,7 @@ A stranger messages you about his fantasy team, and he's angry that you only kic
 Your first credit card statement as a pro, and you don't remember half the charges.
 
 1. **Go through every line**: You go through every line with a highlighter and cancel four subscriptions.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 2. **Pay it and forget it**: You pay it and forget it. It happens again next month.  
    *(energy +2; fun +1; modifier rested)*
 3. **Ask a veteran for help**: You ask a veteran how he manages it. He shows you an app and his worst statement ever.  
@@ -89,9 +89,9 @@ Your first credit card statement as a pro, and you don't remember half the charg
 A fancy gym offers you a free membership if you post about it.
 
 1. **Take it and train**: You accept, post once and train there all offseason. The equipment is incredible.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; power +1; ambition +2; 2 SP; modifier dialed_in)*
 2. **Stick to the club's gym**: You stick to the club's facility, where the staff knows your body.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; accuracy +1; intelligence +2; {coach} +2; modifier focused)*
 3. **Bring the rookies**: You get them to include the rookie class. You all train there together.  
    *(social +2; charisma +1; Team +3; modifier loose)*
 
@@ -106,7 +106,7 @@ Your college kicking coach wants to come watch a practice.
 1. **Say yes**: You get him a pass. He watches every kick and has notes for days.  
    *(social +2; charisma +1; {coach} +1; modifier loose)*
 2. **Send film instead**: You send him film instead. His notes are just as good.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; accuracy +1; intelligence +2; {coach} +2; modifier focused)*
 3. **Not this season**: You say this season isn't a good time. He understands.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -119,9 +119,9 @@ Your college kicking coach wants to come watch a practice.
 Your first winter in a cold-weather city, and the ball feels like a rock.
 
 1. **Kick outside every day**: You kick outside every day, no matter the temperature. By December, you've stopped noticing.  
-   *(energy -2; ambition +2; 3 SP; modifier dialed_in)*
+   *(energy -2; power +1; ambition +2; 3 SP; modifier dialed_in)*
 2. **Ask the equipment staff**: You ask the equipment staff how they keep balls warm on the sideline. You learn tricks.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; accuracy +1; intelligence +2; {coach} +2; modifier focused)*
 3. **Stay warm between kicks**: You build a warm-up routine that keeps your leg loose. It's half the battle.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -134,11 +134,11 @@ Your first winter in a cold-weather city, and the ball feels like a rock.
 A road game in a city where it's ninety degrees in December.
 
 1. **Hydrate like a pro**: You follow the trainer's hydration plan to the letter. You feel great all week.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; accuracy +1; intelligence +2; {coach} +2; modifier focused)*
 2. **Rest in the shade**: You save every ounce of energy and stay in the shade between drills.  
    *(energy +2; fun +1; modifier rested)*
 3. **Kick in the heat**: You kick in the midday heat to get used to it. You're exhausted and ready.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; power +1; ambition +2; 2 SP; modifier dialed_in)*
 
 ### PRO_612 The Long Flight
 - **Category:** team  

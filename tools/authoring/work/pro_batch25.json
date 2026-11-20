@@ -1,0 +1,897 @@
+{
+  "_about": "PRO batch 25: era 2 (last 3) and era 3, The Prime (30-33).",
+  "scenarios": [
+    {
+      "id": "PRO_688",
+      "title": "The Big Market Rumor",
+      "category": "career",
+      "text": "A big-market club is rumored to want you next season.",
+      "choices": [
+        {
+          "label": "Say nothing",
+          "result": "You say nothing and let the rumor be a rumor.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Reassure your club",
+          "result": "You tell your club you're happy here.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "coach": 1
+          },
+          "retention": 2
+        },
+        {
+          "label": "Use it",
+          "result": "You use it as fuel. You kick like you're auditioning.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        }
+      ]
+    },
+    {
+      "id": "PRO_689",
+      "title": "The Weather Delay",
+      "category": "training",
+      "text": "A long weather delay, and you have to stay warm for three hours.",
+      "choices": [
+        {
+          "label": "Plan the warmup",
+          "result": "You plan a warmup schedule with the trainers and stick to it.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Keep the unit loose",
+          "result": "You keep the specialists laughing. Time passes.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Rest and wait",
+          "result": "You rest in the locker room and wait.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_690",
+      "title": "The Players' Council",
+      "category": "team",
+      "text": "The players form a leadership council, and you're on it.",
+      "choices": [
+        {
+          "label": "Take it seriously",
+          "result": "You commit to it. The council fixes three real problems.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Bring data",
+          "result": "You bring data to every meeting. The coaches listen.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Stay quiet",
+          "result": "You stay quiet and let the others lead.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_022",
+      "title": "The National List",
+      "category": "media",
+      "text": "Your name is on the national list for the league's best kicker, and the team's PR staff has eleven requests for you.",
+      "choices": [
+        {
+          "label": "Do them all",
+          "result": "You do all eleven. Your face is everywhere.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 1
+          },
+          "followers": 5
+        },
+        {
+          "label": "Pick three",
+          "result": "You pick three and do them well.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "followers": 3
+        },
+        {
+          "label": "Do none",
+          "result": "You do none and keep kicking.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_023",
+      "title": "The Skills Contest",
+      "category": "media",
+      "text": "The league invites you to the long-distance contest at the all-star week.",
+      "choices": [
+        {
+          "label": "Go and compete",
+          "result": "You go and compete. You train for it like a playoff game.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2,
+          "followers": 3
+        },
+        {
+          "label": "Go for the fun",
+          "result": "You go for the fun and spend the week with kickers from every club.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          },
+          "followers": 2
+        },
+        {
+          "label": "Decline",
+          "result": "You decline and rest your leg.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_053",
+      "title": "A Coach Out of a Job",
+      "category": "team",
+      "text": "The head coach is fired after a team meeting. {coach}'s office lights are on late.",
+      "choices": [
+        {
+          "label": "Check on {coach}",
+          "result": "You stop by {coach}'s office. You talk for an hour.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "coach": 4
+          }
+        },
+        {
+          "label": "Steady the room",
+          "result": "You steady the specialists. The week goes on.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Keep your head down",
+          "result": "You keep your head down and wait.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_054",
+      "title": "The General Manager's Nephew",
+      "category": "team",
+      "text": "The new general manager is the owner's nephew, and he has opinions about kickers.",
+      "choices": [
+        {
+          "label": "Educate him",
+          "result": "You ask for a meeting and educate him, politely.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Let the work speak",
+          "result": "You let the work speak. He stops having opinions.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Win him over",
+          "result": "You invite him to watch a special teams practice.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_055",
+      "title": "Loyalty or the Paycheck",
+      "category": "career",
+      "text": "Another club would pay you double. This one gave you your first chance.",
+      "choices": [
+        {
+          "label": "Stay",
+          "result": "You stay. The club remembers, and so do you.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {
+            "stayed_loyal": true
+          },
+          "rel": {
+            "coach": 1
+          },
+          "retention": 2
+        },
+        {
+          "label": "Explore it",
+          "result": "You tell your agent to explore it. You kick like a free agent.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2,
+          "set_flags": {
+            "explored_options": true
+          }
+        },
+        {
+          "label": "Ask your club to match",
+          "result": "You ask your club to come closer. They meet you partway.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "stayed_loyal": true
+          },
+          "rel": {
+            "coach": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_070",
+      "title": "The Foundation",
+      "category": "community",
+      "text": "Your charity foundation's director is spending more on galas than on kids.",
+      "choices": [
+        {
+          "label": "Replace the director",
+          "result": "You replace the director and run the next year yourself.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "set_flags": {
+            "started_foundation": true
+          },
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Audit the books",
+          "result": "You audit the books and set new rules.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "started_foundation": true
+          }
+        },
+        {
+          "label": "Let it run",
+          "result": "You let it run. The galas are nice.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_072",
+      "title": "Broke at Thirty-Three",
+      "category": "money",
+      "text": "The money's gone faster than the career. There's a mortgage, a family, and maybe three seasons left in your leg, if you're lucky.",
+      "choices": [
+        {
+          "label": "Make a hard plan",
+          "result": "You sit down with an honest advisor and make a hard plan: a smaller house, no new cars, a budget on the fridge. It hurts, and it works.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "honest_advisor": true
+          }
+        },
+        {
+          "label": "Tell your family everything",
+          "result": "You tell your family everything at the kitchen table. It's the worst conversation of your life and the best one; nobody leaves.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "love_interest": 4
+          }
+        },
+        {
+          "label": "Kick for one more contract",
+          "result": "You decide to kick for one more contract like your family depends on it. It does, and every practice feels heavier.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        }
+      ]
+    },
+    {
+      "id": "PRO_073",
+      "title": "The Pension Meeting",
+      "category": "team",
+      "text": "The players' union holds a meeting about pensions and retirement plans. Six players show up.",
+      "choices": [
+        {
+          "label": "Go and take notes",
+          "result": "You go and take notes. It's boring and important.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Bring teammates next time",
+          "result": "You bring twelve teammates to the next one.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Skip it",
+          "result": "You skip it. Retirement feels far away.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_084",
+      "title": "The Coach Who Taught You",
+      "category": "community",
+      "text": "Your high school coach is retiring, and the school wants you to speak at the dinner.",
+      "choices": [
+        {
+          "label": "Speak from the heart",
+          "result": "You tell the room what that coach did for you. They stand.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        },
+        {
+          "label": "Bring the team",
+          "result": "You bring the current high school team to the dinner.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Send a letter",
+          "result": "You send a letter that gets read aloud.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Tell the story of the trust",
+          "result": "You tell the story of how that trust was earned, and what it taught you about earning it again.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "requires": {
+            "any_flags": [
+              "earned_coach_confidence",
+              "repaired_coach_trust"
+            ]
+          },
+          "lock_text": "having earned a coach's trust before"
+        }
+      ]
+    },
+    {
+      "id": "PRO_088",
+      "title": "The Rookie Kicker You Mentor",
+      "category": "team",
+      "text": "The club drafts a kicker and asks you to show the rookie how things work, knowing what that means.",
+      "choices": [
+        {
+          "label": "Teach him everything",
+          "result": "You teach him everything. He'll take your job someday, and he'll do it right.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "set_flags": {
+            "mentored_rookie_kicker": true
+          },
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Teach him the basics",
+          "result": "You teach him the basics and keep the rest.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Let the coaches do it",
+          "result": "You let the coaches do it.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "retention": -1
+        },
+        {
+          "label": "Do it the way you've done it",
+          "result": "You've done this before. You know what to teach and when.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "mentored_rookie_kicker": true
+          },
+          "requires": {
+            "any_flags": [
+              "mentored_backup",
+              "mentored_younger_student"
+            ]
+          },
+          "lock_text": "having mentored before"
+        }
+      ]
+    }
+  ]
+}

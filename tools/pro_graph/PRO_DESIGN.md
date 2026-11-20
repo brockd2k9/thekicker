@@ -35,10 +35,10 @@ College flags set severity through locked choices.
 
 | Era | Scenes | Written | Waits on R1 | R3 (money values) | R8 | R9 | R10 | Blocked (cannot be written yet) |
 |---|---|---|---|---|---|---|---|---|
-| Era 1: Rookie (22-25) | 150 | 149 | 0 | 18 | 0 | 0 | 0 | 0 |
-| Era 2: Settled In (26-29) | 150 | 5 | 0 | 26 | 0 | 0 | 0 | 0 |
-| Era 3: Veteran (30-33) | 150 | 1 | 0 | 17 | 2 | 0 | 0 | 2 |
-| Era 4: Aging Veteran (34-37) | 150 | 1 | 0 | 14 | 0 | 2 | 0 | 2 |
+| Era 1: Rookie (22-25) | 150 | 150 | 0 | 18 | 0 | 0 | 0 | 0 |
+| Era 2: Settled In (26-29) | 150 | 150 | 0 | 26 | 0 | 0 | 0 | 0 |
+| Era 3: Veteran (30-33) | 150 | 148 | 0 | 17 | 2 | 0 | 0 | 2 |
+| Era 4: Aging Veteran (34-37) | 150 | 20 | 0 | 14 | 0 | 2 | 0 | 2 |
 | Era 5: Grizzled Veteran (38-41) | 80 | 0 | 80 | 5 | 0 | 0 | 0 | 0 |
 | Era 6: Hall of Fame Era (42+) | 40 | 0 | 40 | 1 | 0 | 0 | 0 | 40 |
 | Across eras (state-driven) | 108 | 22 | 0 | 10 | 1 | 0 | 0 | 1 |
@@ -434,7 +434,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_179 | The Prime Slump | age 26-29 | variant | slump_now 1+ |  | saw_sports_psych, leaned_on_support |  |
 | PRO_184 | Untouchable | age 26-29 | variant | fg_streak 8+ |  |  |  |
 | PRO_192 | Hurt in Your Prime | age 26-29 | variant | injured_now 1+ |  | committed_to_recovery, hid_injury |  |
-| PRO_196 | A New City at Thirty | age 26-29 | variant | signed_new_club |  |  |  |
+| PRO_196 | A New City, Mid-Career | age 26-29 | variant | signed_new_club |  |  |  |
 | PRO_202 | The Rookie Asks | age 26-29 | repeat |  |  |  |  |
 | PRO_272 | Wedding Season | age 26-29, offseason | once |  |  |  |  |
 | PRO_273 | The Offseason Surgery | age 26-29, offseason | once |  |  |  |  |
@@ -527,7 +527,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_663 | The Team Trip Abroad | age 26-29 | once |  |  |  |  |
 | PRO_664 | The Jet Lag Game | age 26-29 | once |  |  |  |  |
 | PRO_665 | The Contract Bonus | age 26-29 | once |  |  |  | R3 money values |
-| PRO_666 | The Wedding Planning | age 26-29 | once | made_long_distance_work / committed_to_relationship / new_partner / engaged / married |  |  |  |
+| PRO_666 | The Wedding Planning | age 26-29 | once | engaged; not married |  |  |  |
 | PRO_667 | The House Party You Host | age 26-29 | once |  |  |  |  |
 | PRO_668 | Your Old Coach Visits | age 26-29 | once |  |  |  |  |
 | PRO_669 | The Ball Boy | age 26-29 | once |  |  |  |  |
@@ -585,7 +585,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 - **PRO_179 The Prime Slump**: You're supposed to be at your best, and the misses in practice have started making headlines.
 - **PRO_184 Untouchable**: The streak is the longest in the league, and the other team's kicker is asking you for tips.
 - **PRO_192 Hurt in Your Prime**: A hip flexor in the best season of your career, and the club wants to know how long.
-- **PRO_196 A New City at Thirty**: A new club, a new town, and a locker room that has already decided whether you're a mercenary.
+- **PRO_196 A New City, Mid-Career**: A new club, a new town, and a locker room that has already decided whether you're a mercenary.
 - **PRO_202 The Rookie Asks**: A rookie specialist corners you after practice with a question you used to ask. *(Repeatable (15-week cooldown). Locked choices open with experience: min pro_seasons 3 / 6 / 10, age, earlier flags.)*
 - **PRO_272 Wedding Season**: Four friends are getting married this summer, and every one of them wants you to give a toast.
 - **PRO_273 The Offseason Surgery**: The doctors say a small surgery now saves your next three seasons. The recovery takes the whole summer.
@@ -817,7 +817,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_722 | The High School Visit | age 30-33, offseason | once |  |  |  |  |
 | PRO_723 | The Kicker You Mentored | age 30-33 | once |  |  |  |  |
 | PRO_724 | The New Special Teams Unit | age 30-33 | once |  |  |  |  |
-| PRO_725 | The Coordinator's Gamble | age 30-33 | once |  |  |  |  |
+| PRO_725 | The Coordinator's Trick Plays | age 30-33 | once |  |  |  |  |
 | PRO_726 | The Veteran Day Off | age 30-33 | once |  |  |  |  |
 | PRO_727 | The Body Maintenance Plan | age 30-33 | once |  |  |  |  |
 | PRO_728 | The Massage Therapist | age 30-33 | once |  |  |  |  |
@@ -968,7 +968,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 - **PRO_722 The High School Visit**: You visit your old high school, and the kicking net is still behind the bleachers.
 - **PRO_723 The Kicker You Mentored**: A kicker you mentored signs with a rival club.
 - **PRO_724 The New Special Teams Unit**: Half your special teams unit is new this season.
-- **PRO_725 The Coordinator's Gamble**: The coordinator wants more fakes and more onside kicks, and he wants you to run them.
+- **PRO_725 The Coordinator's Trick Plays**: The coordinator wants more fakes and more onside kicks, and he wants you to run them.
 - **PRO_726 The Veteran Day Off**: The club gives veterans a day off each week, and you're now one of them.
 - **PRO_727 The Body Maintenance Plan**: A trainer builds you a maintenance plan for the next five years.
 - **PRO_728 The Massage Therapist**: The team's massage therapist knows your body better than you do.

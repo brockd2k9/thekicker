@@ -1,9 +1,9 @@
-# PRO batch 10: era 1, Rookie (imported)
+# PRO batch 10: quality pass (rewrites and stat fixes) (imported)
 
 Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 
 
-## PRO batch 10: era 1, Rookie
+## PRO batch 10: quality pass (rewrites and stat fixes)
 
 ### PRO_577 The Film You Hate
 - **Category:** training  
@@ -14,9 +14,9 @@ Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 You watch your own college film with the coaches, and it looks different now.
 
 1. **Take notes on everything**: You take notes on every flaw the coaches point out. It's a long list, and it's useful.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; accuracy +1; intelligence +2; {coach} +2; modifier focused)*
 2. **Fix one thing a week**: You pick one flaw a week and fix it. By midseason, the old film looks like someone else.  
-   *(energy -2; ambition +2; 2 SP; modifier dialed_in)*
+   *(energy -2; power +1; ambition +2; 2 SP; modifier dialed_in)*
 3. **Ask your college coach**: You call your college coach and talk through the film. He laughs and says he always knew.  
    *(social +2; charisma +1; Team +3; modifier loose)*
 
@@ -61,7 +61,7 @@ Your old college teammates' group chat wants inside stories from the league.
 1. **Tell the funny ones**: You tell the funny stories and keep the private ones private. The chat loves you.  
    *(social +2; charisma +1; Team +3; modifier loose)*
 2. **Say nothing about the team**: You say you can't talk about the team. It's a little awkward, and it's right.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Mute the chat**: You mute it for the season. You miss some jokes.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -76,7 +76,7 @@ Someone from college messages you the week your first big headline runs.
 1. **Meet for coffee**: You meet for coffee. It's warm and a little strange, and you're glad you went.  
    *(social +2; charisma +1; {best_friend} +0; modifier loose)*
 2. **Ask yourself why now**: You ask yourself why now, and don't answer. You keep it friendly from a distance.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; resilience +1; intelligence +2; modifier focused)*
 3. **Leave it on read**: You leave it on read. It's simpler.  
    *(energy +2; fun +1; modifier rested)*
 
@@ -89,9 +89,9 @@ Someone from college messages you the week your first big headline runs.
 Five bad practices in a row, and the coaches have stopped saying 'next one'.
 
 1. **Go back to basics with {coach}**: You ask {coach} to strip your routine back to basics. It's humbling, and it works.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; accuracy +1; intelligence +2; {coach} +2; modifier focused)*
 2. **Kick until it's back**: You kick until the field lights come on, every night, until it's back.  
-   *(energy -2; ambition +2; 3 SP; modifier dialed_in)*
+   *(energy -2; power +1; ambition +2; 3 SP; modifier dialed_in)*
 3. **Talk to the holder**: You talk it through with {holder}, who has seen this before. It helps more than the kicking.  
    *(social +2; charisma +1; {holder} +3; modifier loose)*
 
@@ -119,7 +119,7 @@ A veteran tosses you his keys and asks you to move his car, which costs more tha
 Your first apartment, and your diet is cereal and takeout.
 
 1. **Learn to cook**: You learn five meals and cook them on rotation. Your energy in practice is better within a week.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; toughness +1; intelligence +2; {coach} +2; modifier focused)*
 2. **Cook with teammates**: You start a Sunday cooking night with two rookies. Everyone burns something; nobody cares.  
    *(social +2; charisma +1; Team +3; modifier loose)*
 3. **Meal service**: You sign up for a meal service. It's expensive, and you never think about food again.  
@@ -134,7 +134,7 @@ Your first apartment, and your diet is cereal and takeout.
 The team nutritionist reviews what you eat and doesn't hide her reaction.
 
 1. **Follow her plan**: You follow her plan to the letter. You feel better by week two.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; toughness +1; intelligence +2; {coach} +2; modifier focused)*
 2. **Ask for a performance plan**: You ask for a plan built for kicking power. It's strict and it works.  
    *(energy -2; ambition +2; 1 SP; modifier dialed_in)*
 3. **Change one thing**: You change one thing: breakfast. It's a start.  
@@ -149,7 +149,7 @@ The team nutritionist reviews what you eat and doesn't hide her reaction.
 The club puts every rookie through a sleep study, and your results are embarrassing.
 
 1. **Fix your sleep**: You follow every recommendation: dark room, no phone, same bedtime. Your practices improve.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; toughness +1; intelligence +2; {coach} +2; modifier focused)*
 2. **Sleep more, simply**: You just go to bed an hour earlier. It helps.  
    *(energy +2; fun +1; modifier rested)*
 3. **Compare with the rookies**: You compare results with the other rookies. Everyone's are bad, and you laugh about it for a week.  
@@ -164,7 +164,7 @@ The club puts every rookie through a sleep study, and your results are embarrass
 The club's team psychologist offers you a standing Tuesday appointment.
 
 1. **Take the Tuesday slot**: You take the slot. Some weeks you talk about kicking; most weeks you talk about everything else.  
-   *(energy -1; intelligence +2; {coach} +2; modifier focused)*
+   *(energy -1; toughness +1; intelligence +2; {coach} +2; modifier focused)*
 2. **Say you're fine**: You say you're fine. You are, mostly.  
    *(energy +2; fun +1; modifier rested)*
 3. **Use it for routines**: You use the sessions to build a pre-kick routine. It's the best thing you do all year.  

@@ -1,0 +1,902 @@
+{
+  "_about": "PRO batch 14: era 1 (last scene) and era 2, Settled In (26-29).",
+  "scenarios": [
+    {
+      "id": "PRO_629",
+      "title": "The Rookie Who Calls Home Crying",
+      "category": "team",
+      "text": "A rookie in your class calls home after every practice, and the veterans have started to notice.",
+      "choices": [
+        {
+          "label": "Sit with him at lunch",
+          "result": "You start sitting with him at lunch. He calls home a little less, and laughs a little more.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Tell the veterans to ease up",
+          "result": "You ask the veterans to ease up. One of them tells you about his own first year.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 1
+          }
+        },
+        {
+          "label": "Mind your own business",
+          "result": "You mind your own business. He makes it through, barely.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_021",
+      "title": "Don't Talk About It",
+      "category": "team",
+      "text": "The specialists have a superstition: nobody says the streak out loud. A rookie just said it, at lunch, loudly.",
+      "choices": [
+        {
+          "label": "Laugh it off",
+          "result": "You laugh and tell the rookie it's fine. The room relaxes, and the streak goes on.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Change nothing",
+          "result": "You keep every part of your routine exactly the same, including the socks.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Make the rookie buy lunch",
+          "result": "You make the rookie buy the specialists lunch as penance. It becomes a tradition.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_026",
+      "title": "The Coach for Hire",
+      "category": "training",
+      "text": "A private coach who rebuilt three pro kickers offers you his offseason, for a price.",
+      "choices": [
+        {
+          "label": "Hire him",
+          "result": "You hire him for the summer. His drills are brutal and brilliant, and your leg feels new by August.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "power": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 3,
+          "set_flags": {
+            "hired_private_coach": true
+          }
+        },
+        {
+          "label": "Train with the club's staff",
+          "result": "You stay with the club's staff, who know your body. It's less glamorous and steady.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Take the summer off",
+          "result": "You take the summer mostly off. You come back rested and a little rusty.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Check his record first",
+          "result": "You call two of his former clients before deciding. Both rave. You hire him with your eyes open.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2,
+          "set_flags": {
+            "hired_private_coach": true
+          },
+          "requires": {
+            "any_flags": [
+              "vetted_trainer",
+              "trained_with_alum"
+            ]
+          },
+          "lock_text": "having checked out trainers before"
+        }
+      ]
+    },
+    {
+      "id": "PRO_031",
+      "title": "The Incentive Clause",
+      "category": "money",
+      "text": "Your contract pays a bonus if you hit 90 percent this season, and your agent keeps texting you the math.",
+      "choices": [
+        {
+          "label": "Ask your agent to stop",
+          "result": "You ask your agent to stop sending the math. You'll know at the end of the season.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Chase it",
+          "result": "You put the number on your locker and chase it every practice.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Forget about it",
+          "result": "You forget about it entirely. If it comes, it comes.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_032",
+      "title": "The Kicker Brought In",
+      "category": "team",
+      "text": "The club signs a kicker with a bigger leg and a lower salary, and puts him at the locker next to yours.",
+      "choices": [
+        {
+          "label": "Out-prepare him",
+          "result": "You out-prepare him every single day. He has the leg; you have the habits.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Get to know him",
+          "result": "You get to know him. He's nervous and decent, and you both kick better without the tension.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Ask {coach} the plan",
+          "result": "You ask {coach} straight out what the plan is. The answer is honest: it's open.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_035",
+      "title": "The Bad Week",
+      "category": "team",
+      "text": "You snapped at {holder}, ignored {coach} and skipped the team meal. It's been that kind of week.",
+      "choices": [
+        {
+          "label": "Apologize to {holder}",
+          "result": "You apologize to {holder} before practice. The holds are better that afternoon.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "holder": 3
+          }
+        },
+        {
+          "label": "Tell {coach} what's going on",
+          "result": "You tell {coach} what's actually going on. The coach listens and gives you a lighter week.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Take a night off",
+          "result": "You take a night completely off: no film, no phone. It resets you.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_037",
+      "title": "Contract Year: The Payday",
+      "category": "career",
+      "text": "This is the contract that sets up your family for life, if you earn it this season.",
+      "choices": [
+        {
+          "label": "Make the season undeniable",
+          "result": "You make every practice count. Nothing about this season will be an accident.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Let your agent work",
+          "result": "You let your agent handle every conversation and keep your head on kicking.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Talk it through at home",
+          "result": "You talk it through with your family. Their calm becomes your calm.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "parent": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_040",
+      "title": "The Hometown Discount",
+      "category": "money",
+      "text": "The club offers less than the market and asks you to take it because you're family here.",
+      "choices": [
+        {
+          "label": "Take the discount",
+          "result": "You accept the discount. The club remembers, and so does the locker room.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          },
+          "retention": 2
+        },
+        {
+          "label": "Meet in the middle",
+          "result": "You ask your agent to find the middle. It takes two weeks, and everyone is a little unhappy and fine.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Test the market",
+          "result": "You decide to test the market next spring and kick like it all year.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        }
+      ]
+    },
+    {
+      "id": "PRO_052",
+      "title": "The Teammate Traded Away",
+      "category": "team",
+      "text": "The club traded your holder's best friend at midnight. He found out from his phone.",
+      "choices": [
+        {
+          "label": "Check on {holder}",
+          "result": "You check on {holder} first thing in the morning and stay through lunch.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "holder": 3
+          }
+        },
+        {
+          "label": "Talk to the team",
+          "result": "You say something to the specialists about how the business works. It helps the young ones.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Keep your head down",
+          "result": "You keep your head down. It's the business, and you know it could be you.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_069",
+      "title": "{parent}'s House",
+      "category": "money",
+      "text": "You could pay off {parent}'s mortgage this week with one transfer. He's told you not to, twice, in the voice he used when you were twelve.",
+      "choices": [
+        {
+          "label": "Do it anyway",
+          "result": "You pay it off and tell him after. He's furious for an hour and doesn't speak at dinner. A month later, he still has the letter from the bank on his fridge.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "parent": 6
+          }
+        },
+        {
+          "label": "Ask what he'd accept",
+          "result": "You ask {parent} what he would actually accept. He agrees to a loan with no interest, insists on paying it back, and pays it back early.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "parent": 3
+          }
+        },
+        {
+          "label": "Respect his wish",
+          "result": "You respect his wish and let it go. He's proud of that, in his quiet way, and you send money to his church instead.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Do it the way that worked before",
+          "result": "You set it up the way you did last time: quietly, through the bank, with his name on everything. He grumbles and signs.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "parent": 5
+          },
+          "requires": {
+            "flags": [
+              "helped_family_financially"
+            ]
+          },
+          "lock_text": "having helped your family with money before"
+        }
+      ]
+    },
+    {
+      "id": "PRO_077",
+      "title": "First Day of School",
+      "category": "family",
+      "text": "Your kid's first day of school is a Thursday practice.",
+      "choices": [
+        {
+          "label": "Ask to come in late",
+          "result": "You ask {coach} to come in an hour late. You're there for the first wave goodbye.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "love_interest": 4
+          }
+        },
+        {
+          "label": "Go to practice",
+          "result": "You go to practice and get a video. You watch it four times at lunch.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Plan around it",
+          "result": "You plan the morning with the coach and your partner. You make the drop-off and the meeting.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_080",
+      "title": "{parent} Is Getting Older",
+      "category": "family",
+      "text": "{parent} forgets the name of a neighbor he's known for twenty years.",
+      "choices": [
+        {
+          "label": "Go home for a weekend",
+          "result": "You go home for the bye weekend and spend every minute with him.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "parent": 5
+          }
+        },
+        {
+          "label": "Find him a doctor",
+          "result": "You find him a specialist and go to the first appointment by video.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Call more often",
+          "result": "You start calling every other day. It's not much, and it's something.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_082",
+      "title": "{sibling}'s Own Shot",
+      "category": "family",
+      "text": "{sibling} has a tryout of his own, and he wants you there.",
+      "choices": [
+        {
+          "label": "Be there",
+          "result": "You fly in for the tryout and stand behind the fence. He looks for you before every kick.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "sibling": 6
+          }
+        },
+        {
+          "label": "Coach him by phone",
+          "result": "You coach him by phone the night before: one thought, one routine.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Send a message",
+          "result": "You send a message and watch the video later. He understands, mostly.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Tell him what you learned",
+          "result": "You tell {sibling} the hardest thing you ever learned: show up, tell the truth, let the rest go. Then you're there at the fence.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "sibling": 7
+          },
+          "requires": {
+            "any_flags": [
+              "went_home_for_dad",
+              "came_clean_tape"
+            ]
+          },
+          "lock_text": "having learned what showing up means"
+        }
+      ]
+    }
+  ]
+}

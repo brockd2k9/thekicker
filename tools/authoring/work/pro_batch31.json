@@ -1,0 +1,879 @@
+{
+  "_about": "PRO batch 31: era 3, The Prime (30-33).",
+  "scenarios": [
+    {
+      "id": "PRO_694",
+      "title": "The Kicker They Drafted",
+      "category": "career",
+      "text": "The club drafts a kicker in the middle rounds, and he's watching your every kick.",
+      "choices": [
+        {
+          "label": "Give him a show",
+          "result": "You give him a show every day.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Teach him",
+          "result": "You teach him. It's the right thing, and the room notices.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Ask {coach} the plan",
+          "result": "You ask {coach} the plan. It's honest.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_695",
+      "title": "Hurt at Thirty",
+      "category": "health",
+      "text": "An injury in your thirties, and the recovery takes longer than it used to.",
+      "choices": [
+        {
+          "label": "Follow the plan",
+          "result": "You follow the plan exactly. It takes longer, and you come back whole.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Push it",
+          "result": "You push it. You're back sooner, and sore.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Take extra time",
+          "result": "You take extra time and come back fresh.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Use what you learned",
+          "result": "You use what you learned last time. You're back on schedule and smarter about it.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "health": 3
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "requires": {
+            "any_flags": [
+              "committed_to_recovery",
+              "hid_injury"
+            ]
+          },
+          "lock_text": "having been through a hard recovery before"
+        }
+      ]
+    },
+    {
+      "id": "PRO_696",
+      "title": "The New Club at Thirty",
+      "category": "team",
+      "text": "A new club, and the young players already know your name.",
+      "choices": [
+        {
+          "label": "Earn it anyway",
+          "result": "You earn it anyway, one practice at a time.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Take them to lunch",
+          "result": "You take the young specialists to lunch the first week.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Focus on the job",
+          "result": "You focus on the job. The rest follows.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        }
+      ]
+    },
+    {
+      "id": "PRO_697",
+      "title": "The Captain's Patch",
+      "category": "team",
+      "text": "You wear the captain's patch for the first time.",
+      "choices": [
+        {
+          "label": "Lead out loud",
+          "result": "You speak before the first game. Your voice shakes, and they listen.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Thank the room",
+          "result": "You thank the room for the vote.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Lead by example",
+          "result": "You lead by example. You're first on the field.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        }
+      ]
+    },
+    {
+      "id": "PRO_698",
+      "title": "The Holder Retires",
+      "category": "team",
+      "text": "Your longtime holder retires, and the new one is half your age.",
+      "choices": [
+        {
+          "label": "Build trust fast",
+          "result": "You spend every spare minute with the new holder.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "holder": 4
+          }
+        },
+        {
+          "label": "Rep it out",
+          "result": "You rep it out until the timing is right.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 3
+        },
+        {
+          "label": "Teach the details",
+          "result": "You teach the new holder the details that took years to learn.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_699",
+      "title": "The Rookie's Holdout",
+      "category": "team",
+      "text": "A rookie holds out, and the veterans want you to talk to him.",
+      "choices": [
+        {
+          "label": "Talk to him",
+          "result": "You talk to him about the long game. He signs a week later.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Stay out of it",
+          "result": "You stay out of it. It's his money.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Talk to his family",
+          "result": "You talk to his family, who are worried.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_700",
+      "title": "The Charity Foundation Gala",
+      "category": "community",
+      "text": "Your foundation holds its first gala. There are round tables, donors in suits, and a ballroom that costs more than you like to think about.",
+      "choices": [
+        {
+          "label": "Give the speech",
+          "result": "You give the speech, nervous and honest. It raises more than you hoped, and a donor finds you afterward to double their check.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          },
+          "followers": 2
+        },
+        {
+          "label": "Bring the kids it helps",
+          "result": "You bring the kids the foundation helps and seat them at the front table. Nobody in the room forgets them, which was the point.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Keep it small",
+          "result": "You keep it small and personal: fewer tables, better food, one story. It raises less money and feels like yours.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Tell the story of why",
+          "result": "You tell the room why you started it, all of it. The donations double, and you have to sit down afterward.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "followers": 2,
+          "requires": {
+            "flags": [
+              "started_foundation"
+            ]
+          },
+          "lock_text": "having started your foundation"
+        }
+      ]
+    },
+    {
+      "id": "PRO_701",
+      "title": "Kindergarten Morning",
+      "category": "family",
+      "text": "Your youngest's first day of kindergarten is a practice day.",
+      "choices": [
+        {
+          "label": "Ask to come in late",
+          "result": "You ask {coach} for an hour. You're there for the wave.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "love_interest": 4
+          }
+        },
+        {
+          "label": "Do drop-off and run",
+          "result": "You do drop-off and make it to the meeting with a minute to spare.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Go to practice",
+          "result": "You go to practice and hear about it at dinner.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        }
+      ]
+    },
+    {
+      "id": "PRO_702",
+      "title": "The Kid's Team",
+      "category": "family",
+      "text": "Your kid's youth team needs a coach, and everyone looks at you.",
+      "choices": [
+        {
+          "label": "Coach the team",
+          "result": "You coach the team. It's the most stressful thing you do all year.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Be an assistant",
+          "result": "You help as an assistant.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "love_interest": 3
+          }
+        },
+        {
+          "label": "Cheer from the stands",
+          "result": "You cheer from the stands.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_703",
+      "title": "The Anniversary Trip",
+      "category": "family",
+      "text": "You and {love_interest} plan a trip for your anniversary, and the club schedules a minicamp.",
+      "choices": [
+        {
+          "label": "Ask to miss a day",
+          "result": "You ask to miss a day. The club agrees, grudgingly.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "love_interest": 5
+          },
+          "retention": -1
+        },
+        {
+          "label": "Move the trip",
+          "result": "You move the trip by a week.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Go to minicamp",
+          "result": "You go to minicamp and promise next year.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        }
+      ]
+    },
+    {
+      "id": "PRO_704",
+      "title": "The Marriage Counselor",
+      "category": "family",
+      "text": "You and {love_interest} decide to see a counselor, before anything's wrong. It was their idea, and you agreed faster than you expected.",
+      "choices": [
+        {
+          "label": "Commit to it",
+          "result": "You commit to it, every other Tuesday, even in season. It's the best thing you do for the marriage, and you say so out loud.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "love_interest": 5
+          }
+        },
+        {
+          "label": "Go every other week",
+          "result": "You go every other week when the schedule allows. It helps, and you learn how differently you two remember the same arguments.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Try it once",
+          "result": "You go to one session to see what it's like. It's harder than practice, and you leave unsure whether you'll go back.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_705",
+      "title": "The Old College Friend's Wedding",
+      "category": "social",
+      "text": "A college friend's wedding brings back the whole old crowd.",
+      "choices": [
+        {
+          "label": "Catch up with everyone",
+          "result": "You catch up with everyone until the lights come on.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "best_friend": 4
+          }
+        },
+        {
+          "label": "Go for the ceremony",
+          "result": "You go for the ceremony and a dance, then home.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Send a gift",
+          "result": "You send a gift and a call.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_706",
+      "title": "The Old College Rival Retires",
+      "category": "social",
+      "text": "A kicker you've competed with since college retires.",
+      "choices": [
+        {
+          "label": "Call him",
+          "result": "You call him. You talk for an hour about every game.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "rival": 3
+          }
+        },
+        {
+          "label": "Say something public",
+          "result": "You say something kind publicly. He thanks you.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          },
+          "followers": 1
+        },
+        {
+          "label": "Think about it",
+          "result": "You think about it a while. It's closer than it used to be.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    }
+  ]
+}
