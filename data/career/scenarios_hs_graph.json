@@ -2107,9 +2107,8 @@
 		{
 			"id": "HS_049",
 			"title": "The Academic Comeback",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "school",
+			"text": "Junior year has your grades sliding: two Cs and a D in chemistry at midterm. Your guidance counselor says it's not too late, but colleges look hardest at junior year.",
 			"stages": [
 				"high_school"
 			],
@@ -2130,7 +2129,47 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Build a comeback plan",
+					"result": "You set up study blocks after practice, trade the bus ride for flashcards and retake the chemistry quiz you bombed. By the end of the semester, the D is a B-minus.",
+					"stats": {
+						"life": {
+							"energy": -5,
+							"fun": -3
+						},
+						"personality": {
+							"intelligence": 3,
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"grades": 0.25,
+					"set_flags": {
+						"academic_recovery": true
+					}
+				},
+				{
+					"label": "Ride it out",
+					"result": "You tell yourself the grades will sort themselves out once the season ends. You keep your evenings for kicking and friends, and the report card comes home about the same.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 3
+						},
+						"personality": {
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"grades": -0.1,
+					"skill_points": 1
+				}
+			]
 		},
 		{
 			"id": "HS_051",
@@ -2261,9 +2300,8 @@
 		{
 			"id": "HS_058",
 			"title": "The Recruiter Wants Numbers",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "The college coach who called your house a while back follows up: before the staff meeting, they want your real numbers from this season, makes and misses from every distance.",
 			"stages": [
 				"high_school"
 			],
@@ -2300,7 +2338,48 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Send every number",
+					"result": "You send the whole chart, every miss included. The coach writes back that honest numbers are rarer than good ones.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"recruiting": 3,
+					"set_flags": {
+						"recruiter_trust": true
+					}
+				},
+				{
+					"label": "Leave out the misses",
+					"result": "You send your makes and round a couple of distances up. It looks great on paper, but you know the film will tell a different story.",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"personality": {
+							"charisma": 1,
+							"intelligence": -2
+						}
+					},
+					"modifiers": [
+						"stressed"
+					],
+					"recruiting": 1,
+					"set_flags": {
+						"recruiter_trust": false
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_059",
@@ -3963,9 +4042,8 @@
 		{
 			"id": "HS_112",
 			"title": "The Missed Team Bus",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "Your alarm doesn't go off, and you wake up to six missed texts: the bus to the away game left ten minutes ago. You can still make warmups if you find a ride now.",
 			"stages": [
 				"high_school"
 			],
@@ -3991,7 +4069,66 @@
 					"HS_037"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Call {coach} and own it",
+					"result": "You call {coach} first and admit you overslept, then get {parent} to drive you. You make warmups with minutes to spare, and the coach says the call is what counted.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"social": -1
+						},
+						"personality": {
+							"leadership": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"set_flags": {
+						"owned_bus_mistake": true
+					}
+				},
+				{
+					"label": "Find a ride and slip in",
+					"result": "You get {parent} to drive you and jog into warmups like nothing happened. Nobody says much, but you spend the whole night wondering who noticed.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"distracted"
+					],
+					"set_flags": {
+						"found_own_transport": true
+					}
+				},
+				{
+					"label": "Blame the schedule",
+					"result": "You text the team chat that nobody told you the bus time changed. A few guys back you up, but a teammate posts the reminder from yesterday, and the chat goes quiet.",
+					"stats": {
+						"life": {
+							"social": -3,
+							"energy": -1
+						},
+						"personality": {
+							"charisma": 1,
+							"leadership": -2
+						}
+					},
+					"modifiers": [
+						"stressed"
+					],
+					"set_flags": {
+						"blamed_someone_else": true
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_113",
@@ -4038,9 +4175,8 @@
 		{
 			"id": "HS_115",
 			"title": "The Summer Job Interview",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "work",
+			"text": "The pizza place downtown is hiring for the summer, and the manager offers you a job on the spot: twenty hours a week, nights and weekends. It's real money, but summer is when kickers make their biggest jump.",
 			"stages": [
 				"high_school"
 			],
@@ -4063,7 +4199,71 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Take every shift",
+					"result": "You take the full schedule and come home smelling like pizza most nights. Your savings grow fast, though your kicking bag sits in the closet more than you'd like.",
+					"stats": {
+						"life": {
+							"energy": -6,
+							"social": 2
+						},
+						"personality": {
+							"ambition": 1,
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"tired"
+					],
+					"skill_points": -1,
+					"set_flags": {
+						"summer_job": true
+					}
+				},
+				{
+					"label": "Turn it down to train",
+					"result": "You tell the manager thanks, but this summer is for football. You kick almost every morning and lift every afternoon, and your wallet stays empty.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"fun": -1
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 3,
+					"set_flags": {
+						"football_first_summer": true
+					}
+				},
+				{
+					"label": "Ask for hours around training",
+					"result": "You ask for evenings only so your mornings stay free for kicking. The manager agrees to fifteen hours, and you spend the summer tired but juggling both.",
+					"stats": {
+						"life": {
+							"energy": -5,
+							"social": 1
+						},
+						"personality": {
+							"intelligence": 1,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"tired"
+					],
+					"skill_points": 1,
+					"set_flags": {
+						"summer_job": true,
+						"negotiated_work_hours": true
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_116",
@@ -4508,9 +4708,8 @@
 		{
 			"id": "HS_122",
 			"title": "The Starting Job Is in Question",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "After two shaky weeks, {coach} starts splitting first-team practice reps between you and the backup kicker. Nobody has said the job is open, but everyone has noticed.",
 			"stages": [
 				"high_school"
 			],
@@ -4532,7 +4731,55 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Ask {coach} what to fix",
+					"result": "You stay after practice and ask what {coach} needs to see from you. The answer is blunt: quicker get-off, fewer hooks. You have a list and a deadline.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"intelligence": 1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"skill_points": 2,
+					"set_flags": {
+						"asked_for_starting_feedback": true
+					},
+					"rel": {
+						"coach": 5
+					}
+				},
+				{
+					"label": "Tell {coach} it isn't fair",
+					"result": "You tell {coach} that two bad weeks shouldn't cost you reps after everything you've done. The conversation gets tense, and you leave fired up but no surer of where you stand.",
+					"stats": {
+						"life": {
+							"energy": -1,
+							"social": -2
+						},
+						"personality": {
+							"ambition": 2,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"pumped_up"
+					],
+					"skill_points": 1,
+					"set_flags": {
+						"challenged_coach_decision": true
+					},
+					"rel": {
+						"coach": -6
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_123",
@@ -5611,9 +5858,8 @@
 		{
 			"id": "HS_142",
 			"title": "The Coach Wants an Explanation",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "{coach} closes the office door and says something about the last few weeks doesn't add up. Before deciding anything, the coach wants the full story from you.",
 			"stages": [
 				"high_school"
 			],
@@ -5664,7 +5910,53 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Tell the whole truth",
+					"result": "You lay it all out, including the parts that make you look bad. It's an uncomfortable twenty minutes, but {coach} thanks you and says you can rebuild from here.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"social": -1
+						},
+						"personality": {
+							"leadership": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"drained"
+					],
+					"set_flags": {
+						"repaired_coach_trust": true
+					},
+					"rel": {
+						"coach": 8
+					}
+				},
+				{
+					"label": "Keep it vague",
+					"result": "You say it's been a weird stretch and promise it's handled. {coach} lets you go, but the look on the coach's face says the conversation isn't over.",
+					"stats": {
+						"life": {
+							"energy": 1
+						},
+						"personality": {
+							"ambition": 1,
+							"leadership": -2
+						}
+					},
+					"modifiers": [
+						"stressed"
+					],
+					"set_flags": {
+						"coach_trust_damaged": true
+					},
+					"rel": {
+						"coach": -8
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_143",
@@ -5976,9 +6268,8 @@
 		{
 			"id": "HS_146",
 			"title": "The Final Evaluation",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "{coach} runs a preseason evaluation for every senior: a timed kicking session, a film review and a one-on-one about your role this year. It's your last first impression.",
 			"stages": [
 				"high_school"
 			],
@@ -6005,7 +6296,54 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Let your work speak",
+					"result": "You hit your marks, own the misses on film and tell {coach} you'll take whatever role helps the team. The coach nods and says that's what a starter sounds like.",
+					"stats": {
+						"life": {
+							"energy": -3
+						},
+						"personality": {
+							"leadership": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"skill_points": 1,
+					"set_flags": {
+						"earned_coach_confidence": true
+					},
+					"rel": {
+						"coach": 8
+					}
+				},
+				{
+					"label": "Ask for a shot at the long kicks",
+					"result": "You tell {coach} you want the long field goals this year, not just the chip shots. The coach promises a look in practice, and you leave knowing you'll have to back it up.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"social": 1
+						},
+						"personality": {
+							"ambition": 3
+						}
+					},
+					"modifiers": [
+						"pumped_up"
+					],
+					"skill_points": 2,
+					"set_flags": {
+						"requested_final_opportunity": true
+					},
+					"rel": {
+						"coach": 2
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_147",
@@ -6104,9 +6442,8 @@
 		{
 			"id": "HS_148",
 			"title": "The Better Training Plan",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "training",
+			"text": "Halfway through senior season, you've been training on your own plan for months. {coach} watches a session and offers to rebuild it with you for the stretch run.",
 			"stages": [
 				"high_school"
 			],
@@ -6151,7 +6488,55 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Stick to your plan, all in",
+					"result": "You thank {coach} and double down on the plan you built: every lift, every rep, every rest day. It's your program, and you see it through.",
+					"stats": {
+						"life": {
+							"energy": -4,
+							"health": 2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 3,
+					"set_flags": {
+						"committed_to_final_training": true
+					},
+					"rel": {
+						"coach": 1
+					}
+				},
+				{
+					"label": "Rebuild it together",
+					"result": "You sit down with {coach} and rework the plan around the opponents left on the schedule. It means unlearning a few habits, but the coach is invested in it now too.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"social": 1
+						},
+						"personality": {
+							"intelligence": 1,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"skill_points": 2,
+					"set_flags": {
+						"coach_customized_training": true
+					},
+					"rel": {
+						"coach": 7
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_149",
@@ -6284,9 +6669,8 @@
 		{
 			"id": "HS_151",
 			"title": "The Favor Returned",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "After a rough week, a teammate you once went out of your way to help catches you at your locker. That favor hasn't been forgotten, and now it's their turn: extra reps after practice, notes from the class you've been missing, whatever you need.",
 			"stages": [
 				"high_school"
 			],
@@ -6309,14 +6693,53 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Take them up on it",
+					"result": "You swallow your pride and say yes. For two weeks they stay late to work with you and walk you through the notes, and the rough patch starts to feel like a bump.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"social": 3,
+							"fun": 2
+						},
+						"personality": {
+							"charisma": 1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"skill_points": 1,
+					"set_flags": {
+						"accepted_teammate_help": true
+					}
+				},
+				{
+					"label": "Say you've got it handled",
+					"result": "You thank them and insist you're fine. You dig out of the hole on your own, slower than you'd like, and they don't offer again.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"social": -1
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"skill_points": 2
+				}
+			]
 		},
 		{
 			"id": "HS_152",
 			"title": "The Family Disagreement About College",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "family",
+			"text": "{parent} has a stack of brochures on the kitchen table, all from schools within two hours of home. The program you're most excited about is eight hours away, and dinner keeps turning into a debate.",
 			"stages": [
 				"high_school"
 			],
@@ -6342,7 +6765,54 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Stand by your choice",
+					"result": "You tell {parent} this is your decision and you've thought it through. He goes quiet, then says he'll support you, but the next few dinners are short.",
+					"stats": {
+						"life": {
+							"social": -2,
+							"energy": -1
+						},
+						"personality": {
+							"ambition": 2,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"stressed"
+					],
+					"set_flags": {
+						"prioritized_own_college_choice": true
+					},
+					"rel": {
+						"parent": -4
+					}
+				},
+				{
+					"label": "Work out a deal together",
+					"result": "You sit down with {parent} and make a list that matters to both of you: distance, degree, playing time, cost. A couple of schools move up, a couple drop off, and the debates turn into planning.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"social": 2
+						},
+						"personality": {
+							"intelligence": 2,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"set_flags": {
+						"family_college_compromise": true
+					},
+					"rel": {
+						"parent": 8
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_153",
@@ -6431,9 +6901,8 @@
 		{
 			"id": "HS_154",
 			"title": "The Second Recruiting Invitation",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "Another college sends an official visit invitation, even though you've been talking seriously with a different program for months. Both coaches will hear about it either way.",
 			"stages": [
 				"high_school"
 			],
@@ -6457,7 +6926,49 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Tell both coaches the truth",
+					"result": "You call the coach you've been talking with and explain the invitation before deciding. The coach appreciates it, and you take the visit with nobody blindsided.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"social": 1
+						},
+						"personality": {
+							"leadership": 1,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"recruiting": 2,
+					"set_flags": {
+						"communicated_recruiting_loyalty": true
+					}
+				},
+				{
+					"label": "Take the visit quietly",
+					"result": "You go on the visit without mentioning it to anyone. It's eye-opening to see another program up close, but you spend the drive home wondering how to bring it up.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"fun": 2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"distracted"
+					],
+					"recruiting": 3,
+					"set_flags": {
+						"kept_recruiting_options_open": true
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_155",
@@ -6730,9 +7241,8 @@
 		{
 			"id": "HS_158",
 			"title": "The Backup Plan Pays Off",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "school",
+			"text": "The letter from the state scholarship office arrives: your grades held up, and the academic scholarship is yours if you accept by the end of the month. A football offer may still come, or it may not.",
 			"stages": [
 				"high_school"
 			],
@@ -6771,7 +7281,48 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Accept the scholarship",
+					"result": "You sign the acceptance and mail it the same day. Whatever happens with football, college is paid for, and a weight you didn't know you were carrying lifts.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 2
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"grades": 0.05,
+					"set_flags": {
+						"secured_academic_path": true
+					}
+				},
+				{
+					"label": "Ask about combining aid",
+					"result": "You call the financial aid office to ask whether the scholarship can stack with an athletic offer. It takes three calls and a lot of forms, but you learn exactly what's possible.",
+					"stats": {
+						"life": {
+							"energy": -3
+						},
+						"personality": {
+							"ambition": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"recruiting": 1,
+					"set_flags": {
+						"explored_combined_aid": true
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_159",
