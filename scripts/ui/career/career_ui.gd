@@ -491,6 +491,19 @@ static func sp_lines(c: CareerData) -> Array:
 
 # --- followers ---------------------------------------------------------------------------
 
+## Character on record (Hub): "Character concerns" (red) or "Rebuilt
+## reputation" (green), with what it means; null when there's nothing.
+static func reputation_chip(c: CareerData, t: CareerTuning) -> Control:
+	match Reputation.state(c):
+		"concerns":
+			return UiKit.chip("Character concerns: %d draft stock on draft day" % roundi(t.rep_concerns_draft)
+				if c.stage in [CareerData.STAGE_HIGH_SCHOOL, CareerData.STAGE_JUCO, CareerData.STAGE_COLLEGE]
+				else "Character concerns", UiKit.BAD, false, "career", 22)
+		"rebuilt":
+			return UiKit.chip("Rebuilt reputation", UiKit.GOOD, false, "career", 22)
+	return null
+
+
 ## "2.4K followers  ·  Hometown Hero" chip (Hub).
 static func followers_chip(c: CareerData, t: CareerTuning) -> PanelContainer:
 	return UiKit.chip("%s followers  ·  %s" % [Followers.short(c.followers), Followers.tier_name(Followers.tier(c, t))],
@@ -520,7 +533,12 @@ static func bench_banner(c: CareerData, t: CareerTuning, week_start: bool) -> Co
 	var body := ""
 	var col: Color = UiKit.BAD
 	var backup := Bench.backup_name(c)
-	if Bench.audition_due(c):
+	if Reputation.suspended(c):
+		var left := int(c.suspension.get("weeks_left", 0))
+		title = "SUSPENDED"
+		body = "You sit out your next %d game%s%s. No kicks and no game skill points; practice still counts." % [
+			left, "" if left == 1 else "s", (" (%s)" % c.suspension["reason"]) if str(c.suspension.get("reason", "")) != "" else ""]
+	elif Bench.audition_due(c):
 		var dist: Array = Bench.audition_distances(c, t, KickRange.fg_range(c, t))
 		title = "AUDITION THIS WEEK"
 		body = "Make %d of %d from %d-%d yards to win your job back from %s." % [t.audition_need, dist.size(),

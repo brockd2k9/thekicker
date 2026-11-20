@@ -18,7 +18,18 @@ func _build(col: VBoxContainer) -> void:
 		_banner(col, o)
 		col.add_child(CareerUi.scoreboard(c.team, opp, str(int(w.get("us", 0))), str(int(w.get("them", 0))),
 			"FINAL")["root"])
-		col.add_child(UiKit.chip("You sat out: academically ineligible (GPA %.2f)." % c.gpa, UiKit.BAD, false, "book", 24))
+		var susp: Dictionary = w.get("suspended", {})
+		if not susp.is_empty():
+			var left := int(susp.get("left", 0))
+			var n := UiKit.chip("You sat out: suspended%s. %s" % [
+				(" (%s)" % susp["reason"]) if str(susp.get("reason", "")) != "" else "",
+				("%d more game%s." % [left, "" if left == 1 else "s"]) if left > 0 else "You're back next week."],
+				UiKit.BAD, false, "whistle", 24)
+			n.get_child(0).get_child(1).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			n.get_child(0).get_child(1).size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			col.add_child(n)
+		else:
+			col.add_child(UiKit.chip("You sat out: academically ineligible (GPA %.2f)." % c.gpa, UiKit.BAD, false, "book", 24))
 		list = UiKit.scroll_list(col)
 	elif w.get("type", "") == "bye":
 		col.add_child(UiKit.title_block("Bye Week %d" % int(w.get("week", c.week)), "No game"))
@@ -103,6 +114,14 @@ func _build(col: VBoxContainer) -> void:
 		if c.skill_points > 0:
 			list.add_child(UiKit.button("Spend in Skills", Screens.go.bind(Screens.CAREER_SKILLS),
 				UiKit.SECONDARY, "skill"))
+	# A reputation change this week (Reputation): what it means for the draft and the pros.
+	var rep := Reputation.week_text(c)
+	if rep != "":
+		var good := Reputation.state(c) != "concerns"
+		var rc := UiKit.chip(rep, UiKit.GOOD if good else UiKit.BAD, false, "career", 22)
+		rc.get_child(0).get_child(1).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		rc.get_child(0).get_child(1).size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		list.add_child(rc)
 	# Followers this week (real counts) and where they came from.
 	var fl := CareerUi.followers_lines(c)
 	if not fl.is_empty():

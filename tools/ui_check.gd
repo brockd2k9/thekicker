@@ -176,6 +176,7 @@ func _capture_all() -> void:
 	await _bench_shots()
 	await _followers_shots()
 	await _challenge_shots()
+	await _reputation_shots()
 	await _shot("debug", Screens.CAREER_DEBUG)
 	await _shot("challenge", Screens.CHALLENGE, Callable(), Callable(), 2.0)
 	if _want("pause"):
@@ -312,6 +313,35 @@ func _challenge_shots() -> void:
 	c.pending_scenarios = keep["pending"]
 	c.tryout = keep["tryout"]
 	c.last_challenge = keep["last"]
+
+
+## Reputation: character concerns on the Hub, a suspension (Hub banner and
+## Results), and a reputation change on Results.
+func _reputation_shots() -> void:
+	var c := _m.data
+	var keep := {"flags": c.flags.duplicate(true), "susp": c.suspension.duplicate(), "phase": c.phase,
+		"last_week": c.last_week.duplicate(true), "notice": c.notice}
+	c.notice = ""
+	c.flags[Reputation.CONCERNS] = true
+	Reputation.on_flags(c, {Reputation.CONCERNS: true}, _m.tuning)
+	c.phase = CareerManager.PHASE_WEEK_START
+	await _shot("hub_concerns", Screens.CAREER_HUB)
+	c.phase = CareerManager.PHASE_RESULTS
+	await _shot("results_concerns", Screens.CAREER_RESULTS)
+	c.notice = ""
+	Reputation.suspend(c, 2, "The Balcony Dare", _m.tuning)
+	c.phase = CareerManager.PHASE_WEEK_START
+	await _shot("hub_suspended", Screens.CAREER_HUB)
+	c.last_week = {"type": "benched", "week": c.week, "opponent": "Stonegate High", "us": 17, "them": 14,
+		"outcome": "W", "kicks": [], "line": "Sat out (suspended)", "changes": {},
+		"suspended": {"reason": "The Balcony Dare", "left": 1}}
+	c.phase = CareerManager.PHASE_RESULTS
+	await _shot("results_suspended", Screens.CAREER_RESULTS)
+	c.flags = keep["flags"]
+	c.suspension = keep["susp"]
+	c.phase = keep["phase"]
+	c.last_week = keep["last_week"]
+	c.notice = keep["notice"]
 
 
 ## Plays the career forward with the real rules until `done` (or it retires).

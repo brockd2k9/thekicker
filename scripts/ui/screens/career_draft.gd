@@ -25,6 +25,13 @@ func _build(col: VBoxContainer) -> void:
 		26, UiKit.MUTED))
 	list = UiKit.scroll_list(col)
 	var team := CareerContent.team_by_id(str(d.get("team", "")))
+	# Character on draft day (Reputation).
+	var adj := float(d.get("character", 0.0))
+	if str(d.get("character_state", "")) == "concerns":
+		list.add_child(UiKit.stat_row("Character concerns", "%d draft stock" % roundi(adj), UiKit.BAD, "career"))
+	elif str(d.get("character_state", "")) == "rebuilt":
+		list.add_child(UiKit.stat_row("Rebuilt reputation", "no character penalty" if adj == 0.0
+			else "%+d draft stock" % roundi(adj), UiKit.GOOD, "career"))
 	match kind:
 		"drafted":
 			list.add_child(_stripe_panel(team, "ROUND %d" % int(d["round"]),

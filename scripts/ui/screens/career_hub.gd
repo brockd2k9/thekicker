@@ -281,6 +281,9 @@ func _status_line() -> HFlowContainer:
 		_:
 			f.add_child(UiKit.chip(career.stage_name(), UiKit.MUTED, false, "", 22))
 	f.add_child(CareerUi.followers_chip(c, t))
+	var rep := CareerUi.reputation_chip(c, t)
+	if rep != null:
+		f.add_child(rep)
 	return f
 
 
