@@ -1,5 +1,5 @@
 {
- "_doc": "College story graph design (skeleton for review). Each entry becomes a draft in data/career/scenarios_college_graph.json once approved. 'sets' = flags its choices must set; 'requires.any_flags' = opened by; 'hs_callbacks' = high school flags read by a locked choice inside an open scene (light callbacks, never a gate); 'clears' = flags a choice sets to false. Flags are kept only where something reads them (a later scene, a locked choice, the finale or a planned pro scenario) or where they are a wrong-path strike; the other choices set no flag.",
+ "_doc": "College story graph design (skeleton for review). Each entry becomes a draft in data/career/scenarios_college_graph.json once approved. 'sets' = flags its choices must set; 'requires.any_flags' = opened by; 'hs_callbacks' = high school flags read by a locked choice inside an open scene (light callbacks, never a gate); 'clears' = flags a choice sets to false. Flags are kept only where something reads them (a later scene, a locked choice, the finale or a planned pro scenario) or where they are a wrong-path strike; the other choices set no flag. pivot_flags: big choices (loyalty, honesty, partying, family, improper help, pressure) kept as flags for later college or pro callbacks.",
  "strike_flags": [
   "missed_curfew",
   "hazing_participant",
@@ -49,7 +49,9 @@
    "chain": "Home",
    "premise": "{parent} helps you carry boxes into a cinderblock dorm room and lingers at the door longer than either of you expected.",
    "requires": null,
-   "sets": [],
+   "sets": [
+    "promised_to_call_home"
+   ],
    "people": [
     "parent"
    ],
@@ -242,7 +244,8 @@
    "premise": "Upperclassmen throw the first big party of the year on a Thursday. The 6 a.m. lift is in seven hours, and everyone is watching what the freshmen do.",
    "requires": null,
    "sets": [
-    "missed_curfew"
+    "missed_curfew",
+    "left_party_early"
    ],
    "people": [],
    "hs_callbacks": []
@@ -393,19 +396,56 @@
   },
   {
    "id": "COL_017",
-   "title": "The Dining Hall Diet",
-   "group": "Freshman",
+   "title": "The Pattern",
+   "group": "Sophomore",
    "seasons": [
-    1,
-    1
+    2,
+    4
    ],
    "weeks": null,
-   "chain": "Body and mind",
-   "premise": "You've been living on late-night fries, and your legs feel heavy in every practice.",
-   "requires": null,
-   "sets": [],
-   "people": [],
-   "hs_callbacks": []
+   "chain": "Wrong path",
+   "premise": "You owned your first mistake, and the staff believed you. Now there's another one, and {coach} wants to know whether the first apology meant anything.",
+   "requires": {
+    "flags": [
+     "owned_mistake"
+    ],
+    "any_flags": [
+     "missed_curfew",
+     "hazing_participant",
+     "snuck_out_road",
+     "took_improper_benefit",
+     "online_incident",
+     "academic_shortcut",
+     "skipped_conditioning",
+     "shared_prescription",
+     "party_trouble",
+     "portal_tampering",
+     "took_unapproved_supplement",
+     "rivalry_prank",
+     "stayed_out_late",
+     "secret_agent_deal",
+     "hosted_recruit_badly",
+     "sabotaged_transfer",
+     "rode_along",
+     "ran_with_wrong_crowd",
+     "cash_camp",
+     "partied_before_pro_day",
+     "senior_trip_trouble"
+    ]
+   },
+   "sets": [
+    "owned_it_again",
+    "character_concerns",
+    "second_chance_used"
+   ],
+   "people": [
+    "coach"
+   ],
+   "hs_callbacks": [],
+   "clears": [
+    "(every strike flag)"
+   ],
+   "note": "Opens only on a strike after owning the first one (The Coach's Office clears strikes). The good choice sets owned_it_again and second_chance_used; the bad one sets character_concerns."
   },
   {
    "id": "COL_018",
@@ -464,7 +504,8 @@
    "premise": "A friendly booster shakes your hand after practice and leaves something in it: a prepaid card 'for a nice dinner.'",
    "requires": null,
    "sets": [
-    "took_improper_benefit"
+    "took_improper_benefit",
+    "refused_improper_help"
    ],
    "people": [],
    "hs_callbacks": []
@@ -678,7 +719,7 @@
   },
   {
    "id": "COL_031",
-   "title": "Dad's Phone Call",
+   "title": "{parent}'s Phone Call",
    "group": "Freshman",
    "seasons": [
     1,
@@ -830,6 +871,9 @@
    ],
    "hs_callbacks": [
     "repaired_coach_trust"
+   ],
+   "clears": [
+    "(every strike flag)"
    ]
   },
   {
@@ -868,7 +912,8 @@
    "premise": "Your hip is sore, and a teammate offers you some of his prescription. 'It's basically nothing,' he says.",
    "requires": null,
    "sets": [
-    "shared_prescription"
+    "shared_prescription",
+    "told_trainer_col"
    ],
    "people": [],
    "hs_callbacks": [
@@ -1015,7 +1060,9 @@
    "chain": "Pro dream",
    "premise": "{coach} rewatches your old recruiting tape and stops on one clip. 'Tell me about this one,' the coach says.",
    "requires": null,
-   "sets": [],
+   "sets": [
+    "came_clean_tape"
+   ],
    "people": [
     "coach"
    ],
@@ -1040,7 +1087,8 @@
    "premise": "Friends at other schools look happier, and a teammate keeps talking about the transfer portal like it's an escape hatch.",
    "requires": null,
    "sets": [
-    "eyed_portal"
+    "eyed_portal",
+    "recommitted"
    ],
    "people": [],
    "hs_callbacks": [
@@ -1065,7 +1113,8 @@
     ]
    },
    "sets": [
-    "portal_tampering"
+    "portal_tampering",
+    "reported_tampering"
    ],
    "people": [],
    "hs_callbacks": []
@@ -1113,7 +1162,8 @@
     ]
    },
    "sets": [
-    "got_help_panic"
+    "got_help_panic",
+    "hid_panic"
    ],
    "people": [],
    "hs_callbacks": []
@@ -1221,7 +1271,7 @@
   },
   {
    "id": "COL_054",
-   "title": "Dad Loses His Job",
+   "title": "{parent} Loses His Job",
    "group": "Sophomore",
    "seasons": [
     2,
@@ -1276,7 +1326,8 @@
    "premise": "A car dealer who sits behind the bench offers you a 'loaner' for the semester. No paperwork, he says.",
    "requires": null,
    "sets": [
-    "took_improper_benefit"
+    "took_improper_benefit",
+    "refused_improper_help"
    ],
    "people": [],
    "hs_callbacks": []
@@ -1594,18 +1645,47 @@
    "chain": "Wrong path",
    "premise": "It happens again. This time it isn't only the coaches who know: a reporter is asking questions, and the team has to respond.",
    "requires": {
-    "any_flags": [
+    "flags": [
      "college_warning"
+    ],
+    "any_flags": [
+     "missed_curfew",
+     "hazing_participant",
+     "snuck_out_road",
+     "took_improper_benefit",
+     "online_incident",
+     "academic_shortcut",
+     "skipped_conditioning",
+     "shared_prescription",
+     "party_trouble",
+     "portal_tampering",
+     "took_unapproved_supplement",
+     "rivalry_prank",
+     "stayed_out_late",
+     "secret_agent_deal",
+     "hosted_recruit_badly",
+     "sabotaged_transfer",
+     "rode_along",
+     "ran_with_wrong_crowd",
+     "cash_camp",
+     "partied_before_pro_day",
+     "senior_trip_trouble"
     ]
    },
    "sets": [
-    "character_concerns"
+    "caught_yourself",
+    "character_concerns",
+    "second_chance_used"
    ],
    "people": [
     "coach",
     "team"
    ],
-   "hs_callbacks": []
+   "hs_callbacks": [],
+   "clears": [
+    "(every strike flag)"
+   ],
+   "note": "Opens only on a strike AFTER the first warning: The Coach's Office clears every strike flag, so an old strike can't open it."
   },
   {
    "id": "COL_072",
@@ -1620,7 +1700,8 @@
    "premise": "A man who says he works 'with' an agent finds you after practice with cash, a new phone and a promise of more.",
    "requires": null,
    "sets": [
-    "took_improper_benefit"
+    "took_improper_benefit",
+    "reported_runner"
    ],
    "people": [],
    "hs_callbacks": []
@@ -1668,7 +1749,9 @@
      "joined_council"
     ]
    },
-   "sets": [],
+   "sets": [
+    "held_teammate_accountable"
+   ],
    "people": [
     "team",
     "coach"
@@ -1687,7 +1770,9 @@
    "chain": "Pro dream",
    "premise": "A pro team sends a questionnaire. Question 14: 'Describe any off-field incidents in your college career.'",
    "requires": null,
-   "sets": [],
+   "sets": [
+    "shaded_questionnaire"
+   ],
    "people": [],
    "hs_callbacks": [
     "recruiting_values_clear"
@@ -1706,7 +1791,8 @@
    "premise": "An agent invites you to a steakhouse to 'talk about your future.' It's a year too early, and you both know the rules.",
    "requires": null,
    "sets": [
-    "secret_agent_deal"
+    "secret_agent_deal",
+    "waited_for_agents"
    ],
    "people": [],
    "hs_callbacks": [],
@@ -1779,7 +1865,9 @@
    "chain": "Body and mind",
    "premise": "You're exhausted in a way sleep doesn't fix. The team counselor says taking a day isn't weakness.",
    "requires": null,
-   "sets": [],
+   "sets": [
+    "took_mental_health_day"
+   ],
    "people": [],
    "hs_callbacks": []
   },
@@ -1842,7 +1930,7 @@
   },
   {
    "id": "COL_083",
-   "title": "Dad's Health Scare",
+   "title": "{parent}'s Health Scare",
    "group": "Junior",
    "seasons": [
     3,
@@ -1857,7 +1945,9 @@
      "kept_money_for_school"
     ]
    },
-   "sets": [],
+   "sets": [
+    "went_home_for_dad"
+   ],
    "people": [
     "parent"
    ],
@@ -1881,7 +1971,9 @@
      "academic_shortcut"
     ]
    },
-   "sets": [],
+   "sets": [
+    "accepted_sanction"
+   ],
    "people": [
     "teacher"
    ],
@@ -1910,22 +2002,55 @@
   },
   {
    "id": "COL_086",
-   "title": "The Summer Showcase",
+   "title": "The Final Warning",
    "group": "Junior",
    "seasons": [
-    3,
-    3
+    2,
+    4
    ],
    "weeks": null,
-   "chain": "Pro dream",
-   "premise": "A pro-style specialist showcase invites the top college kickers. It's the same week as your summer classes' final exams.",
-   "requires": null,
-   "sets": [],
-   "people": [],
+   "chain": "Wrong path",
+   "premise": "A third incident. {coach} and the head coach sit you down together: one more and you're off the team. This is the last conversation before that one.",
+   "requires": {
+    "flags": [
+     "second_chance_used"
+    ],
+    "any_flags": [
+     "missed_curfew",
+     "hazing_participant",
+     "snuck_out_road",
+     "took_improper_benefit",
+     "online_incident",
+     "academic_shortcut",
+     "skipped_conditioning",
+     "shared_prescription",
+     "party_trouble",
+     "portal_tampering",
+     "took_unapproved_supplement",
+     "rivalry_prank",
+     "stayed_out_late",
+     "secret_agent_deal",
+     "hosted_recruit_badly",
+     "sabotaged_transfer",
+     "rode_along",
+     "ran_with_wrong_crowd",
+     "cash_camp",
+     "partied_before_pro_day",
+     "senior_trip_trouble"
+    ]
+   },
+   "sets": [
+    "last_chance",
+    "character_concerns"
+   ],
+   "people": [
+    "coach"
+   ],
    "hs_callbacks": [],
-   "when": [
-    "offseason"
-   ]
+   "clears": [
+    "(every strike flag)"
+   ],
+   "note": "Opens on second_chance_used (set by the good choice in The Second Strike or The Pattern) plus a new strike. The good choice sets last_chance (no label, heavy cost); the bad one sets character_concerns. Either way, The Long Way Back stays open to anyone with the label."
   },
   {
    "id": "COL_087",
@@ -1940,7 +2065,8 @@
    "premise": "A teammate turns twenty-one on a Thursday and everyone is going out. Practice is at seven the next morning.",
    "requires": null,
    "sets": [
-    "stayed_out_late"
+    "stayed_out_late",
+    "drove_teammates_home"
    ],
    "people": [],
    "hs_callbacks": []
@@ -2176,7 +2302,8 @@
    "premise": "{coach} asks you to host a high school kicker on an official visit. The recruit wants to see 'the real college experience.'",
    "requires": null,
    "sets": [
-    "hosted_recruit_badly"
+    "hosted_recruit_badly",
+    "hosted_recruit_well"
    ],
    "people": [
     "coach"
@@ -2672,7 +2799,7 @@
   },
   {
    "id": "COL_120",
-   "title": "Dad at Every Game",
+   "title": "{parent} at Every Game",
    "group": "Senior",
    "seasons": [
     4,
@@ -2723,7 +2850,9 @@
    "chain": "Body and mind",
    "premise": "Draft season, final exams and your last season at once. You're short with everyone and you don't sleep.",
    "requires": null,
-   "sets": [],
+   "sets": [
+    "leaned_on_support"
+   ],
    "people": [],
    "hs_callbacks": [],
    "college_locks": [
@@ -2924,7 +3053,9 @@
    "chain": "Coaching",
    "premise": "{coach} is writing to pro scouts about you and asks what you want included, and what you'd rather leave out.",
    "requires": null,
-   "sets": [],
+   "sets": [
+    "asked_for_honesty"
+   ],
    "people": [
     "coach"
    ],
@@ -3279,5 +3410,27 @@
     "rebuilt_reputation"
    ]
   }
+ ],
+ "pivot_flags": [
+  "accepted_sanction",
+  "asked_for_honesty",
+  "came_clean_tape",
+  "drove_teammates_home",
+  "held_teammate_accountable",
+  "hid_panic",
+  "hosted_recruit_well",
+  "leaned_on_support",
+  "left_party_early",
+  "promised_to_call_home",
+  "recommitted",
+  "refused_improper_help",
+  "reported_hazing",
+  "reported_runner",
+  "reported_tampering",
+  "shaded_questionnaire",
+  "told_trainer_col",
+  "took_mental_health_day",
+  "waited_for_agents",
+  "went_home_for_dad"
  ]
 }
