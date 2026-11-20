@@ -114,7 +114,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_029 | The Backup Wants Your Job | age 21-25 | once |  |  |  |  |
 | PRO_030 | The New Holder Midseason | age 21-25 | once |  |  |  |  |
 | PRO_034 | The Kick Everyone Saw | age 21-25 | once |  |  |  |  |
-| PRO_036 | Contract Year: Prove It | age 21-25 | variant |  |  |  |  |
+| PRO_036 | Contract Year: Prove It | age 21-25 | variant | contract_year |  |  |  |
 | PRO_050 | The Good Agent | age 21-25 | once |  | good_agent |  |  |
 | PRO_057 | The Honest Advisor | age 21-25 | once |  | honest_advisor |  | R3 money values |
 | PRO_058 | The Advisor With the Yacht | age 21-25 | once |  | trusted_flashy_advisor | good_agent, honest_advisor |  |
@@ -402,14 +402,14 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 
 | ID | Title | Window | Kind | Opens on | Sets | Callbacks (locked choices) | Waits on |
 |---|---|---|---|---|---|---|---|
-| PRO_021 | Don't Talk About It | age 26-29 | once |  |  |  |  |
+| PRO_021 | Don't Talk About It | age 26-29 | once | fg_streak 6+ |  |  |  |
 | PRO_026 | The Private Kicking Coach | age 26-29, offseason | once |  | hired_private_coach | vetted_trainer, trained_with_alum | R3 money values |
 | PRO_031 | The Incentive Clause | age 26-29 | once |  |  |  | R3 money values |
 | PRO_032 | The Kicker Brought In | age 26-29, weeks 1-3 | variant |  |  |  |  |
 | PRO_035 | The Bad Week | age 26-29 | once |  |  |  |  |
-| PRO_037 | Contract Year: The Payday | age 26-29 | variant |  |  |  |  |
-| PRO_040 | The Hometown Discount | age 26-29 | once |  |  |  | R3 money values |
-| PRO_041 | The Holdout Talk | age 26-29 | once |  |  |  |  |
+| PRO_037 | Contract Year: The Payday | age 26-29 | variant | contract_year |  |  |  |
+| PRO_040 | The Hometown Discount | age 26-29 | once | contract_year |  |  | R3 money values |
+| PRO_041 | The Holdout Talk | age 26-29 | once | contract_year |  |  |  |
 | PRO_048 | The Agent's Bigger Client | age 26-29 | once |  | agent_neglect |  |  |
 | PRO_052 | The Teammate Traded Away | age 26-29 | once |  |  |  |  |
 | PRO_056 | The Big Check | age 26-29 | once |  | saved_big_check, spent_big_check |  | R3 money values |
@@ -712,7 +712,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_023 | The Skills Contest | age 30-33 | once | tier fan_favorite |  |  |  |
 | PRO_053 | The Head Coach Is Fired | age 30-33 | once |  |  |  |  |
 | PRO_054 | The General Manager's Nephew | age 30-33 | once |  |  |  |  |
-| PRO_055 | Loyalty or the Paycheck | age 30-33 | once |  |  | stayed_loyal, explored_options |  |
+| PRO_055 | Loyalty or the Paycheck | age 30-33 | once | contract_year |  | stayed_loyal, explored_options |  |
 | PRO_063 | The Car Dealership | age 30-33 | once |  | dealership_partner |  | R3 money values |
 | PRO_070 | The Foundation | age 30-33 | once |  | started_foundation |  | R3 money values |
 | PRO_072 | Broke at Thirty-Three | age 30-33 | once | advisor_stole / bad_venture / spent_big_check / lived_large / hid_the_loss |  |  | R3 money values + savings check |
@@ -1014,25 +1014,25 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 
 | ID | Title | Window | Kind | Opens on | Sets | Callbacks (locked choices) | Waits on |
 |---|---|---|---|---|---|---|---|
-| PRO_038 | Contract Year: One More | age 35-37 | variant |  |  |  |  |
+| PRO_038 | Contract Year: One More | age 35-37 | variant | contract_year |  |  |  |
 | PRO_081 | {parent}'s Last Season in the Stands | age 34-37 | once |  |  |  |  |
 | PRO_087 | {tyler}'s Second Act | age 34-37 | once |  |  |  |  |
 | PRO_089 | The Mentee Takes Your Job | age 34-37 | once | mentored_rookie_kicker |  |  |  |
 | PRO_097 | The Reunion | age 34-37, offseason | once |  |  |  |  |
 | PRO_133 | The Younger Kicker in Camp | age 35-37, weeks 1-3 | variant |  |  |  |  |
-| PRO_134 | The One-Year Deal | age 34-37 | once |  |  |  |  |
+| PRO_134 | The One-Year Deal | age 34-37 | once | contract_year |  |  |  |
 | PRO_135 | The Veteran Minimum | age 34-37 | once |  |  |  | R3 money values |
 | PRO_136 | The Body Says No | age 34-37 | once |  |  |  |  |
 | PRO_137 | The Retirement Talk | age 34-37 | once | made_long_distance_work / committed_to_relationship / new_partner / engaged / married | planning_retirement |  |  |
 | PRO_138 | The Farewell Season | age 34-37 | once | planning_retirement |  |  |  |
 | PRO_139 | The General Manager's Office | age 34-37 | once | retention under 45 |  |  |  |
-| PRO_140 | The Comeback Workout | age 34-37 | once |  |  |  |  |
+| PRO_140 | The Comeback Workout | age 34-37 | once | signed_new_club + released |  |  |  |
 | PRO_141 | The Broadcast Booth | age 34-37 | once |  | broadcast_offer |  |  |
 | PRO_142 | The Coaching Offer | age 34-37 | once |  | coaching_offer | mentored_rookie_kicker, mentored_backup |  |
-| PRO_145 | The Last Contract | age 34-37 | once |  |  |  |  |
+| PRO_145 | The Last Contract | age 34-37 | once | re_signed |  |  |  |
 | PRO_146 | Your Kid Wants to Kick | age 34-37 | once | became_parent |  |  |  |
 | PRO_147 | The Ring of Honor | age 34-37, club season 7+ | once |  |  |  |  |
-| PRO_148 | Cleaning Out the Locker | age 34-37 | once |  |  |  |  |
+| PRO_148 | Cleaning Out the Locker | age 34-37 | once | released |  |  |  |
 | PRO_149 | What's Next | age 34-37 | once |  |  | finished_degree_track, life_after_football |  |
 | PRO_180 | The Veteran Slump | age 35-37 | variant | slump_now 1+ |  | saw_sports_psych, leaned_on_support |  |
 | PRO_185 | Still Got It | age 35-37 | variant | fg_streak 8+ |  |  |  |
@@ -1634,25 +1634,25 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 
 | ID | Title | Window | Kind | Opens on | Sets | Callbacks (locked choices) | Waits on |
 |---|---|---|---|---|---|---|---|
-| PRO_016 | The Slump | any | repeat |  |  | saw_sports_psych, leaned_on_support |  |
-| PRO_017 | The Coach Loses Faith | any | repeat |  |  |  |  |
-| PRO_018 | Benched | any | repeat |  |  |  |  |
-| PRO_019 | The Job Back | any | repeat |  |  |  |  |
-| PRO_020 | The Hot Streak | any | repeat |  |  |  |  |
-| PRO_024 | Talk Radio | any | once |  |  |  |  |
-| PRO_025 | The Yips | any | once |  |  | saw_sports_psych, got_help_panic |  |
-| PRO_027 | The Film That Hurts | any | once |  |  |  |  |
-| PRO_028 | Kicking Hurt | any | repeat |  |  | committed_to_recovery, hid_injury |  |
-| PRO_033 | Playing for a Contract | any | once |  |  |  |  |
-| PRO_039 | The Re-Sign Call | any | repeat |  |  |  |  |
-| PRO_042 | Starting Over | club season 1, weeks 1-3 | once | failed_tryouts |  |  |  |
-| PRO_043 | New Club, New Locker Room | club season 1, weeks 1-2 | per_club |  |  |  |  |
+| PRO_016 | The Slump | any | repeat | slump_now 1+ |  | saw_sports_psych, leaned_on_support |  |
+| PRO_017 | The Coach Loses Faith | any | repeat | slump_now 1+ |  |  |  |
+| PRO_018 | Benched | any | repeat | benched_now 1+ |  |  |  |
+| PRO_019 | The Job Back | any | repeat | won_job_back |  |  |  |
+| PRO_020 | The Hot Streak | any | repeat | fg_streak 6+ |  |  |  |
+| PRO_024 | Talk Radio | any | once | slump_now 1+ |  |  |  |
+| PRO_025 | The Yips | any | once | slump_now 1+ |  | saw_sports_psych, got_help_panic |  |
+| PRO_027 | The Film That Hurts | any | once | slump_now 1+ |  |  |  |
+| PRO_028 | Kicking Hurt | any | repeat | injured_now 1+ |  | committed_to_recovery, hid_injury |  |
+| PRO_033 | Playing for a Contract | any | once | contract_year |  |  |  |
+| PRO_039 | The Re-Sign Call | any | repeat | re_signed |  |  |  |
+| PRO_042 | Starting Over | club season 1, weeks 1-3 | once | signed_new_club + released |  |  |  |
+| PRO_043 | New Club, New Locker Room | club season 1, weeks 1-2 | per_club | signed_new_club |  |  |  |
 | PRO_044 | The New Holder | club season 1, weeks 1-4 | per_club |  |  |  |  |
-| PRO_045 | Moving the Family | club season 1, offseason | per_club |  |  |  |  |
-| PRO_046 | The Family Stays Behind | club season 1 | once |  |  |  |  |
-| PRO_047 | Your Old Team Comes to Town | any | once |  |  |  |  |
+| PRO_045 | Moving the Family | club season 1, offseason | per_club | signed_new_club |  |  |  |
+| PRO_046 | The Family Stays Behind | club season 1 | once | signed_new_club |  |  |  |
+| PRO_047 | Your Old Team Comes to Town | any | once | clubs 2+ |  |  |  |
 | PRO_049 | Firing Your Agent | any | once | agent_neglect | fired_agent |  |  |
-| PRO_051 | The Tryout Hotel | club season 1 | once |  |  |  |  |
+| PRO_051 | The Tryout Hotel | club season 1 | once | signed_new_club |  |  |  |
 | PRO_059 | The Missing Money | any | once | trusted_flashy_advisor | advisor_stole, hid_the_loss |  | R3 money values (-0.4) |
 | PRO_060 | The Lawsuit | any | once | advisor_stole | sued_advisor |  | R3 money values |
 | PRO_062 | The Restaurant Is Failing | any | once | opened_restaurant | bad_venture | honest_advisor | R3 money values |
