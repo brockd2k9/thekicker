@@ -533,6 +533,39 @@ measurable difference.
 | `rel_recast_start` (new, recast) | - | 55 |
 | `suspend_max_weeks_pro` (new) | - | 11 |
 
+## Pro standing retune (before overtime)
+
+**Cause of short pro careers.** Not the pro scenes: standing from all pro scene choices nets about
++0.9 per pro career (the biggest single costs: the shared offseason scenes, about -3 a time). The
+standing formula was the problem: 50 + 1.2 x (FG% - 80) with release under 35 and re-signing from
+50, while the simulated pro kicks about 60% (long attempts, narrow pro posts). Almost every pro
+sat one bad season from release (82-85% of pro careers ended by release).
+
+| Setting (seeds 12-13 unless noted) | Pro seasons, preserving careers | Preserving reaching 38+ | 42+ | Pro / drafted |
+|---|---|---|---|---|
+| Before (FG% reference 80) | 2.6-3.2 | 0-1% | 0% | 68-73% / 25-30% |
+| Reference 70% (seeds 11-13) | 4.7-6.1 | 5-14% | 2-3% | 69-71% / 29-30% |
+| Reference 68% | 5.5-5.7 | 11-12% | 4% | 69-73% / 26-36% |
+| 68% + 1.5 standing per preserved attribute | 5.6-5.7 | 10-11% | 0-2% | 63-70% / 29-30% |
+| 68% + 3 per preserved attribute | 5.3-6.5 | 10-14% | 3-4% | 68-70% / 26-28% |
+| **66% + 3 per preserved attribute (final, seeds 11-14)** | **5.8-6.2** | **15-18%** | **5-9%** | **68-70% / 28-30%** |
+| 65% + 3 per preserved attribute | 6.3-7.9 | 13-24% | 6-7% | 71-73% / 31% |
+
+"Preserving" = careers that use Maintenance from 30 (half the simulated careers). All pro careers:
+5.9 pro seasons on average (was 2.4), 12-14% reach 38, 4-5% reach 42, none 45. Preserving now pays:
+6.1 seasons and 16% at 38+ vs 5.6 and 9% without.
+
+Targets: careful careers average 6-8 pro seasons (6.1: met at the low end); 38+ about 10-15% of
+careful careers (about 16%: slightly above). Pros 60-70% and drafted 25-35% hold (68-70% / 28-30%);
+FG range 48.7-48.8 / 54.0-54.1; 70 yd 0%; challenges and followers unchanged. Benching (180 careers
+each): 70% kicker 38% benched at least once (target 15-35%: longer careers mean more seasons to be
+benched in), 80% 3%.
+
+| Value | Before | After |
+|---|---|---|
+| `retention_fg_ref` (new; was fixed at 80%) | 0.80 | 0.66 |
+| `retention_maintained` (new) | - | 3.0 per preserved attribute |
+
 ## Kick challenge tuning
 
 The simulator plays each proposed conversion (`tests/fixtures/kick_challenge_conversions.json`) for
