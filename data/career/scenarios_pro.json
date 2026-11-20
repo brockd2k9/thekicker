@@ -4,7 +4,7 @@
 		{
 			"id": "pro_rookie_dinner",
 			"title": "Rookie Dinner",
-			"text": "The veterans 'invite' the rookies to cover the team dinner at a fancy steakhouse.",
+			"text": "The veterans 'invite' the rookies to cover the team dinner at a fancy steakhouse: forty players, a private room, and a menu with no prices on it at all.",
 			"category": "team",
 			"stages": [
 				"pro"
@@ -17,7 +17,7 @@
 			"choices": [
 				{
 					"label": "Pay for the whole thing",
-					"result": "Expensive, but the vets love you.",
+					"result": "The whole bill, on your card, with a straight face. It's painfully expensive, and the veterans love you for it for the rest of the season.",
 					"stats": {
 						"life": {
 							"social": 6,
@@ -36,7 +36,7 @@
 				},
 				{
 					"label": "Split it with the other rookies",
-					"result": "Fair and friendly.",
+					"result": "Split evenly with the other rookies, after a quick huddle by the coat check. It's fair and friendly, and the rookie class gets closer for it.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -52,7 +52,7 @@
 				},
 				{
 					"label": "Politely pass",
-					"result": "A couple of veterans give you the cold shoulder.",
+					"result": "A polite pass, with an excuse about your budget. A couple of veterans give you the cold shoulder for a month, and one of them respects you for it.",
 					"stats": {
 						"life": {
 							"social": -6
@@ -64,15 +64,14 @@
 					},
 					"modifiers": [
 						"stressed"
-					],
-					"retention": -2
+					]
 				}
 			]
 		},
 		{
 			"id": "pro_agent_meeting",
 			"title": "Agent Meeting",
-			"text": "Three agencies want to represent you. Each one has a pitch.",
+			"text": "Three agencies want to represent you, and each one has a pitch: a famous name with forty clients, a careful agent with six, and your own reflection in the mirror.",
 			"category": "career",
 			"stages": [
 				"pro"
@@ -85,7 +84,7 @@
 			"choices": [
 				{
 					"label": "Sign with the big agency",
-					"result": "Big name, big plans.",
+					"result": "The big agency, with the famous name and the glossy folder. Big plans, big promises, and you're one of forty clients from the first meeting.",
 					"stats": {
 						"personality": {
 							"charisma": -1,
@@ -100,11 +99,10 @@
 				},
 				{
 					"label": "Hire a small, careful agent",
-					"result": "Fewer promises, more attention.",
+					"result": "The small, careful agent, who returns every call within an hour. Fewer promises, much more attention, and a plan written on one page.",
 					"stats": {
 						"personality": {
 							"charisma": -2,
-							"ambition": 0,
 							"leadership": 1,
 							"intelligence": 4
 						}
@@ -115,7 +113,7 @@
 				},
 				{
 					"label": "Represent yourself",
-					"result": "Saves money. Costs sleep.",
+					"result": "Yourself, at the kitchen table, reading contracts at midnight. It saves money, costs a lot of sleep, and teaches you more than any agent would.",
 					"stats": {
 						"life": {
 							"energy": -4
@@ -139,7 +137,7 @@
 		{
 			"id": "pro_contract_talks",
 			"title": "Contract Talks",
-			"text": "Your agent says the team wants to talk about an extension.",
+			"text": "Your agent says the team wants to talk about an extension before the season. The general manager has a number in mind, and so do you, and they're far apart.",
 			"category": "money",
 			"stages": [
 				"pro"
@@ -156,23 +154,21 @@
 			"choices": [
 				{
 					"label": "Push for top dollar",
-					"result": "Talks get tense.",
+					"result": "Top dollar, and nothing less. The talks get tense, the general manager stops smiling, and it takes a month to reach a number you can both live with.",
 					"stats": {
 						"personality": {
 							"charisma": 1,
 							"ambition": 4,
-							"leadership": -2,
-							"intelligence": 0
+							"leadership": -2
 						}
 					},
 					"modifiers": [
 						"stressed"
-					],
-					"retention": -3
+					]
 				},
 				{
 					"label": "Take a team-friendly deal",
-					"result": "Teammates notice. Management does too.",
+					"result": "A team-friendly deal, signed in a week. Teammates notice, management notices, and the locker room thinks a little more of you.",
 					"stats": {
 						"life": {
 							"social": 2
@@ -189,7 +185,7 @@
 				},
 				{
 					"label": "Wait until the season ends",
-					"result": "Bet on yourself.",
+					"result": "Wait until the season ends, and bet on yourself. Your agent sighs, the club shrugs, and every practice becomes a negotiation.",
 					"stats": {
 						"football": {
 							"resilience": 1
@@ -199,14 +195,19 @@
 							"intelligence": 3
 						}
 					},
-					"skill_points": 1,
 					"modifiers": [
 						"focused"
-					]
+					],
+					"skill_points": 1
 				},
 				{
 					"label": "Let the fans make your case",
-					"result": "Your public profile does the negotiating.",
+					"result": "Your public profile does the negotiating for you. Fans ask the club about you on every broadcast, and the offer gets better by Friday.",
+					"requires": {
+						"traits": [
+							"media_savvy"
+						]
+					},
 					"stats": {
 						"life": {
 							"fun": 3
@@ -221,11 +222,6 @@
 					"modifiers": [
 						"confident"
 					],
-					"requires": {
-						"traits": [
-							"media_savvy"
-						]
-					},
 					"retention": 2
 				}
 			]
@@ -233,7 +229,7 @@
 		{
 			"id": "pro_media_interview",
 			"title": "Postgame Questions",
-			"text": "After a missed kick last week, reporters are waiting at your locker.",
+			"text": "After a missed kick last week, the reporters are waiting at your locker, five of them, with their phones out and the same question ready to go.",
 			"category": "media",
 			"stages": [
 				"pro"
@@ -242,7 +238,7 @@
 			"choices": [
 				{
 					"label": "Own the miss",
-					"result": "Straight answers earn respect.",
+					"result": "Straight answers about the miss, no excuses, looking at each reporter in turn. It earns respect in the room, and the story dies by Wednesday.",
 					"stats": {
 						"football": {
 							"resilience": 1
@@ -254,15 +250,15 @@
 							"intelligence": -1
 						}
 					},
-					"skill_points": 1,
 					"modifiers": [
 						"confident"
 					],
-					"retention": 4
+					"retention": 4,
+					"skill_points": 1
 				},
 				{
 					"label": "Blame the conditions",
-					"result": "The quote doesn't land well.",
+					"result": "The wind, the hold, the field: you blame the conditions. The quote doesn't land well at all, and {holder} hears about it before practice.",
 					"stats": {
 						"life": {
 							"social": -3,
@@ -279,11 +275,13 @@
 					"modifiers": [
 						"distracted"
 					],
-					"retention": -6
+					"rel": {
+						"holder": -3
+					}
 				},
 				{
 					"label": "Decline to talk",
-					"result": "You skip the circus.",
+					"result": "No comment, today. You skip the circus, and the reporters write that you 'declined to talk', which follows you for a few days.",
 					"stats": {
 						"life": {
 							"social": -2
@@ -295,12 +293,17 @@
 					},
 					"modifiers": [
 						"focused"
-					],
-					"retention": -1
+					]
 				},
 				{
 					"label": "Turn it into a rallying cry",
-					"result": "The locker room plays your quote all week.",
+					"result": "Your answer turns into a rallying cry, about the whole unit having each other's backs. The locker room plays your quote all week.",
+					"requires": {
+						"any_traits": [
+							"team_captain",
+							"field_general"
+						]
+					},
 					"stats": {
 						"life": {
 							"social": 3
@@ -313,24 +316,18 @@
 							"leadership": 3
 						}
 					},
-					"skill_points": 2,
 					"modifiers": [
 						"inspired"
 					],
-					"requires": {
-						"any_traits": [
-							"team_captain",
-							"field_general"
-						]
-					},
-					"retention": 5
+					"retention": 5,
+					"skill_points": 2
 				}
 			]
 		},
 		{
 			"id": "pro_family_finances",
 			"title": "Family and Finances",
-			"text": "Relatives keep asking for loans now that you're a pro.",
+			"text": "Relatives keep asking for loans now that you're a pro: a cousin's car, an uncle's business, a great-aunt you've never met who has a very specific number in mind.",
 			"category": "family",
 			"stages": [
 				"pro"
@@ -339,7 +336,7 @@
 			"choices": [
 				{
 					"label": "Set a budget with an advisor",
-					"result": "Clear rules, fewer awkward calls.",
+					"result": "A budget, built with an advisor, with one yearly amount for family help. Clear rules mean fewer awkward calls, and {parent} approves.",
 					"stats": {
 						"personality": {
 							"charisma": -2,
@@ -353,7 +350,7 @@
 				},
 				{
 					"label": "Help everyone out",
-					"result": "Generous, and stressful.",
+					"result": "Help for everyone who asks. It's generous and stressful, and by spring you realize you've stopped saying no to anything at all.",
 					"stats": {
 						"life": {
 							"social": 5,
@@ -372,7 +369,7 @@
 				},
 				{
 					"label": "Say no to everyone",
-					"result": "Peace for your wallet, tension at home.",
+					"result": "No, to everyone, every time. It's peace for your wallet and tension at every holiday, and {sibling} stops calling for a while.",
 					"stats": {
 						"life": {
 							"social": -5
@@ -393,7 +390,7 @@
 		{
 			"id": "pro_hospital_visit",
 			"title": "Team Hospital Visit",
-			"text": "The team is visiting the children's hospital this week.",
+			"text": "The team is visiting the children's hospital this week: an afternoon of games, signed footballs and a ward full of kids who have been looking forward to it for a month.",
 			"category": "community",
 			"stages": [
 				"pro"
@@ -402,7 +399,7 @@
 			"choices": [
 				{
 					"label": "Stay all afternoon",
-					"result": "You'll remember this one forever.",
+					"result": "The whole afternoon, ward by ward, until the nurses chase you out. You'll remember one boy's face forever, and so will he remember yours.",
 					"stats": {
 						"life": {
 							"social": 4,
@@ -411,9 +408,7 @@
 						},
 						"personality": {
 							"charisma": 3,
-							"ambition": -1,
-							"leadership": 2,
-							"intelligence": -1
+							"leadership": 2
 						}
 					},
 					"modifiers": [
@@ -423,14 +418,16 @@
 				},
 				{
 					"label": "Join for the group photo",
-					"result": "A quick, kind visit.",
+					"result": "A quick, kind visit and the group photo. You sign a few balls and leave on time, and a mother thanks you in the elevator.",
 					"stats": {
 						"life": {
 							"social": 2
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
-							"charisma": 1,
-							"intelligence": -1
+							"charisma": 1
 						}
 					},
 					"modifiers": [
@@ -439,24 +436,24 @@
 				},
 				{
 					"label": "Skip it for treatment",
-					"result": "You get extra recovery time.",
+					"result": "Skipped, for extra treatment on your hip. You get the recovery time, and you see the photos of everyone else the next day.",
 					"stats": {
 						"life": {
 							"health": 4,
-							"social": -3
+							"social": -3,
+							"energy": 2
 						}
 					},
 					"modifiers": [
 						"rested"
-					],
-					"retention": -1
+					]
 				}
 			]
 		},
 		{
 			"id": "pro_holder_chemistry",
 			"title": "Holder Chemistry",
-			"text": "Your holder wants extra time to work on timing this week.",
+			"text": "{holder} wants extra time to work on timing this week: an hour after every practice, just the two of you and a bag of balls, in the cold.",
 			"category": "training",
 			"stages": [
 				"pro"
@@ -466,7 +463,7 @@
 			"choices": [
 				{
 					"label": "Extra reps every day",
-					"result": "Snap, hold, kick. Perfect timing.",
+					"result": "Extra reps every day, snap, hold, kick, until the timing is perfect. By Friday you could do it with your eyes closed, and {holder} is grinning.",
 					"stats": {
 						"life": {
 							"energy": -4
@@ -479,15 +476,18 @@
 							"leadership": 2
 						}
 					},
-					"skill_points": 3,
 					"modifiers": [
 						"dialed_in"
 					],
-					"retention": 2
+					"retention": 2,
+					"skill_points": 3,
+					"rel": {
+						"holder": 3
+					}
 				},
 				{
 					"label": "Take a recovery day instead",
-					"result": "Your leg feels brand new.",
+					"result": "A recovery day instead, and an apology to {holder}. Your leg feels brand new by Sunday, and {holder} understands, mostly.",
 					"stats": {
 						"life": {
 							"health": 5,
@@ -504,7 +504,7 @@
 				},
 				{
 					"label": "Study the opponent's stadium",
-					"result": "You know every gust in that building.",
+					"result": "The opponent's stadium, studied together on film for two nights. You both know every gust in that building before the bus leaves.",
 					"stats": {
 						"football": {
 							"toughness": 1
@@ -514,17 +514,17 @@
 							"intelligence": 3
 						}
 					},
-					"skill_points": 1,
 					"modifiers": [
 						"scouted"
-					]
+					],
+					"skill_points": 1
 				}
 			]
 		},
 		{
 			"id": "pro_cold_snap",
 			"title": "Cold Snap",
-			"text": "Forecast says single digits and wind for Sunday.",
+			"text": "The forecast says single digits and wind for Sunday. The equipment staff is already unpacking heated benches, and the veterans are wearing shorts to make a point.",
 			"category": "health",
 			"stages": [
 				"pro"
@@ -537,7 +537,7 @@
 			"choices": [
 				{
 					"label": "Practice outside all week",
-					"result": "Your leg learns the cold.",
+					"result": "Outside, every day, in the freezing wind. Your leg learns the cold, slowly, and so do your fingers, painfully, by Thursday.",
 					"stats": {
 						"life": {
 							"health": -3
@@ -550,14 +550,14 @@
 							"leadership": -1
 						}
 					},
-					"skill_points": 2,
 					"modifiers": [
 						"scouted"
-					]
+					],
+					"skill_points": 2
 				},
 				{
 					"label": "Practice indoors",
-					"result": "Warm and accurate. Not ready for the wind.",
+					"result": "Indoors, warm and accurate all week. You feel great on Thursday, and not at all ready for the wind on Sunday.",
 					"stats": {
 						"life": {
 							"health": 2
@@ -570,14 +570,14 @@
 							"intelligence": 1
 						}
 					},
-					"skill_points": 1,
 					"modifiers": [
 						"rested"
-					]
+					],
+					"skill_points": 1
 				},
 				{
 					"label": "Ask the equipment staff for help",
-					"result": "Heated capes and the right cleats.",
+					"result": "The equipment staff, asked for help. Heated capes, the right cleats and a trick with hand warmers that you'll use for years.",
 					"stats": {
 						"football": {
 							"toughness": 1
@@ -596,7 +596,7 @@
 		{
 			"id": "pro_trade_rumors",
 			"title": "Trade Rumors",
-			"text": "Sports radio says the team might trade for another kicker.",
+			"text": "Sports radio says the team might trade for another kicker before the deadline. The host has a 'source', and your phone has fourteen messages about it.",
 			"category": "career",
 			"stages": [
 				"pro"
@@ -605,7 +605,7 @@
 			"choices": [
 				{
 					"label": "Tune out the noise",
-					"result": "Kick, sleep, repeat.",
+					"result": "Kick, sleep, repeat, and no radio in the car. The noise fades by the deadline, and nobody gets traded for anybody.",
 					"stats": {
 						"football": {
 							"resilience": 1
@@ -615,14 +615,14 @@
 							"leadership": -1
 						}
 					},
-					"skill_points": 1,
 					"modifiers": [
 						"focused"
-					]
+					],
+					"skill_points": 1
 				},
 				{
 					"label": "Ask the coach directly",
-					"result": "He says you're his guy. For now.",
+					"result": "{coach}, asked directly in the hallway. You're the guy, the coach says, for now. 'For now' stays in your head all week.",
 					"stats": {
 						"personality": {
 							"charisma": 1,
@@ -634,11 +634,14 @@
 					"modifiers": [
 						"confident"
 					],
-					"retention": 2
+					"retention": 2,
+					"rel": {
+						"coach": 2
+					}
 				},
 				{
 					"label": "Read every rumor online",
-					"result": "It's all you think about.",
+					"result": "Every rumor, read online, every single night until two. It's all you think about, and your practices show it clearly by Thursday.",
 					"stats": {
 						"life": {
 							"fun": -4
@@ -720,8 +723,7 @@
 					},
 					"modifiers": [
 						"confident"
-					],
-					"retention": -1
+					]
 				},
 				{
 					"label": "Bring your own copy",
@@ -892,7 +894,7 @@
 				},
 				{
 					"label": "Tell the safe version",
-					"result": "You give the version with the details smoothed over. It goes fine, and nobody waits afterward.",
+					"result": "The version with the details smoothed over. It goes fine, the room claps politely, and nobody waits to talk to you afterward.",
 					"stats": {
 						"life": {
 							"energy": -1,
@@ -909,7 +911,7 @@
 				},
 				{
 					"label": "Say no thanks",
-					"result": "You say you'd rather not relive it in front of a room. The director understands and asks someone else.",
+					"result": "No thanks, you'd rather not relive it in front of a room. The director understands and asks someone else, and you wonder about it later.",
 					"stats": {
 						"life": {
 							"energy": 2,
@@ -985,8 +987,7 @@
 					},
 					"modifiers": [
 						"stressed"
-					],
-					"retention": -1
+					]
 				},
 				{
 					"label": "Push back",
@@ -1003,7 +1004,6 @@
 					"modifiers": [
 						"spotlight"
 					],
-					"retention": -3,
 					"followers": 6,
 					"rel": {
 						"coach": -4
@@ -4523,7 +4523,7 @@
 			"id": "PRO_049",
 			"title": "Firing Your Agent",
 			"category": "career",
-			"text": "Your agent has missed two deadlines this year, including one for a bonus you never saw. Firing an agent means starting over with someone new in the middle of a career.",
+			"text": "Your agent has missed two deadlines this year, including one for a bonus you never saw. Firing an agent means starting over with someone new in the middle of a career, and everyone will hear about it.",
 			"stages": [
 				"pro"
 			],
@@ -4581,7 +4581,7 @@
 				},
 				{
 					"label": "Stay and say nothing",
-					"result": "You decide a bad agent you know beats a new one you don't. The next deadline gets missed too.",
+					"result": "A bad agent you know beats a new one you don't, you decide. The next deadline gets missed too, and you find out from a teammate.",
 					"stats": {
 						"life": {
 							"energy": 1,
@@ -4593,8 +4593,7 @@
 					},
 					"modifiers": [
 						"distracted"
-					],
-					"retention": -1
+					]
 				}
 			]
 		},
@@ -5392,14 +5391,17 @@
 							"energy": -3,
 							"fun": -3
 						},
+						"football": {
+							"resilience": 1
+						},
 						"personality": {
-							"intelligence": 2
+							"intelligence": 2,
+							"leadership": 1
 						}
 					},
 					"modifiers": [
 						"stressed"
 					],
-					"retention": -1,
 					"set_flags": {
 						"advisor_stole": true
 					}
@@ -5419,7 +5421,6 @@
 					"modifiers": [
 						"stressed"
 					],
-					"retention": -2,
 					"set_flags": {
 						"advisor_stole": true
 					},
@@ -5442,7 +5443,6 @@
 					"modifiers": [
 						"distracted"
 					],
-					"retention": -1,
 					"set_flags": {
 						"advisor_stole": true,
 						"hid_the_loss": true
@@ -5473,7 +5473,6 @@
 					"modifiers": [
 						"stressed"
 					],
-					"retention": -1,
 					"set_flags": {
 						"advisor_stole": true
 					},
@@ -5487,7 +5486,7 @@
 			"id": "PRO_060",
 			"title": "The Lawsuit",
 			"category": "money",
-			"text": "Your lawyer says you can sue the advisor who took your money. It'll take three years, and your name will be in every story.",
+			"text": "Your lawyer says you can sue the advisor who took your money. It'll take three years, cost a fortune in fees, and your name will be in every story about it.",
 			"stages": [
 				"pro"
 			],
@@ -5735,7 +5734,7 @@
 				},
 				{
 					"label": "Put more money in",
-					"result": "You write another check to keep it open one more season. The food gets better. The losses don't.",
+					"result": "Another check, to keep it open one more season. The food gets better, the reviews get kinder, and the losses don't change at all.",
 					"stats": {
 						"life": {
 							"fun": 1
@@ -5978,7 +5977,7 @@
 			"id": "PRO_065",
 			"title": "The Start-Up Calls",
 			"category": "money",
-			"text": "{best_friend}'s company is close: one more check and they make it to the next stage, or they fold this month.",
+			"text": "{best_friend}'s company is close: one more check and they make it to the next stage, or they fold this month. They call you late at night, trying hard not to ask.",
 			"stages": [
 				"pro"
 			],
@@ -6044,7 +6043,7 @@
 				},
 				{
 					"label": "Help them find another investor",
-					"result": "You introduce {best_friend} to two people from the owner's gala. One of them writes the check.",
+					"result": "Two people from the owner's gala, introduced to {best_friend} by you over coffee. One of them writes the check within a week.",
 					"stats": {
 						"life": {
 							"energy": -2,
@@ -6152,8 +6151,7 @@
 					},
 					"modifiers": [
 						"distracted"
-					],
-					"retention": -1
+					]
 				},
 				{
 					"label": "Ask the veterans at lunch",
@@ -6845,7 +6843,7 @@
 				},
 				{
 					"label": "Wait until you're sure",
-					"result": "You put the ring back in the bag. You're not ready, and you think {love_interest} can tell something's different.",
+					"result": "The ring goes back in the bag for another month. You're not ready, and you think {love_interest} can tell that something's different.",
 					"stats": {
 						"life": {
 							"energy": 1
@@ -6898,7 +6896,7 @@
 			"choices": [
 				{
 					"label": "Forty people, no cameras",
-					"result": "You keep it to forty people and no cameras. {parent} grumbles for a week and then dances until midnight.",
+					"result": "Forty people and no cameras, in a garden. {parent} grumbles for a week beforehand and then dances until midnight with everyone.",
 					"stats": {
 						"life": {
 							"fun": 3,
@@ -6972,7 +6970,7 @@
 			"id": "PRO_076",
 			"title": "The Due Date",
 			"category": "family",
-			"text": "The baby is due the same week as a road game across the country, and {coach} has already asked what your plan is.",
+			"text": "The baby is due the same week as a road game across the country, and {coach} has already asked, gently, what your plan is. {love_interest} hasn't asked at all.",
 			"stages": [
 				"pro"
 			],
@@ -7012,7 +7010,6 @@
 					"modifiers": [
 						"inspired"
 					],
-					"retention": -1,
 					"set_flags": {
 						"became_parent": true
 					},
@@ -8210,8 +8207,7 @@
 					],
 					"skill_points": 1,
 					"rel": {
-						"holder": 3,
-						"team": 1
+						"holder": 3
 					}
 				}
 			]
@@ -10268,7 +10264,7 @@
 			"id": "PRO_125",
 			"title": "League Discipline",
 			"category": "team",
-			"text": "The league office wants a meeting. It isn't a conversation; it's a hearing, with a lawyer from the players' union at your side.",
+			"text": "The league office wants a meeting about the strike on your record. It isn't a conversation; it's a hearing, in a gray room, with a lawyer from the players' union at your side.",
 			"stages": [
 				"pro"
 			],
@@ -10676,7 +10672,7 @@
 				},
 				{
 					"label": "Do the minimum",
-					"result": "You do the workouts you can't skip. Nothing new goes wrong, nothing changes, and the reputation stays.",
+					"result": "The workouts you can't skip, and nothing more. Nothing new goes wrong, nothing much changes, and the reputation stays exactly where it was.",
 					"stats": {
 						"life": {
 							"energy": -2
@@ -10719,7 +10715,7 @@
 			"id": "PRO_129",
 			"title": "The League's Counselor",
 			"category": "health",
-			"text": "The league assigns you a counselor after the hearing. The first session is Tuesday, in a beige office near the airport.",
+			"text": "The league assigns you a counselor after the hearing. The first session is Tuesday at four, in a beige office near the airport, with a box of tissues on the table.",
 			"stages": [
 				"pro"
 			],
@@ -10798,7 +10794,7 @@
 			"id": "PRO_130",
 			"title": "A Clean Year",
 			"category": "team",
-			"text": "A full year without a fine, a headline or a hearing. The general manager stops by your locker and says nothing, just nods.",
+			"text": "A full year without a fine, a headline or a hearing. The general manager stops by your locker on the last day of the season and says nothing, just nods, twice.",
 			"stages": [
 				"pro"
 			],
@@ -10856,7 +10852,7 @@
 				},
 				{
 					"label": "Help a rookie who's slipping",
-					"result": "There's a rookie making your old mistakes. You take him to breakfast and tell him the whole story.",
+					"result": "A rookie making your old mistakes gets a breakfast invitation from you, and the whole story, start to finish. He listens to every word.",
 					"stats": {
 						"life": {
 							"energy": -2,
@@ -11716,8 +11712,7 @@
 						"inspired"
 					],
 					"rel": {
-						"backup": 3,
-						"team": 1
+						"backup": 3
 					}
 				},
 				{
@@ -12937,7 +12932,7 @@
 			"id": "PRO_160",
 			"title": "Found Out",
 			"category": "romance",
-			"text": "{love_interest} has your phone in one hand and a question in the other, and it isn't really a question.",
+			"text": "{love_interest} has your phone in one hand and a question in the other, and it isn't really a question. The screen is still lit, and neither of you moves.",
 			"stages": [
 				"pro"
 			],
@@ -13013,7 +13008,7 @@
 			"id": "PRO_161",
 			"title": "The Lie Comes Out",
 			"category": "romance",
-			"text": "The story you told {love_interest} has just fallen apart, in a text from someone you've never met, with screenshots.",
+			"text": "The story you told {love_interest} has just fallen apart, in a text from someone you've never met, with screenshots, at eleven o'clock on a Tuesday night.",
 			"stages": [
 				"pro"
 			],
@@ -13123,7 +13118,7 @@
 			"id": "PRO_162",
 			"title": "Starting Over, Together",
 			"category": "romance",
-			"text": "{love_interest} agrees to see a counselor with you. The first session is Thursday, and the counselor asks who wants to go first.",
+			"text": "{love_interest} agrees to see a counselor with you. The first session is Thursday, in a quiet room with two chairs, and the counselor asks who wants to go first.",
 			"stages": [
 				"pro"
 			],
@@ -16960,8 +16955,7 @@
 						"inspired"
 					],
 					"rel": {
-						"backup": 2,
-						"team": 1
+						"backup": 2
 					}
 				},
 				{
@@ -25347,8 +25341,7 @@
 						"loose"
 					],
 					"rel": {
-						"holder": 2,
-						"team": 1
+						"holder": 2
 					}
 				},
 				{
@@ -27089,8 +27082,7 @@
 					],
 					"skill_points": 1,
 					"rel": {
-						"backup": 2,
-						"team": 1
+						"backup": 2
 					}
 				}
 			]
@@ -27972,8 +27964,7 @@
 						"loose"
 					],
 					"rel": {
-						"holder": 2,
-						"team": 1
+						"holder": 2
 					}
 				}
 			]
@@ -28278,8 +28269,7 @@
 					],
 					"skill_points": 1,
 					"rel": {
-						"backup": 2,
-						"team": 1
+						"backup": 2
 					}
 				},
 				{
@@ -38175,8 +38165,7 @@
 					],
 					"skill_points": 1,
 					"rel": {
-						"backup": 3,
-						"team": 1
+						"backup": 3
 					}
 				},
 				{

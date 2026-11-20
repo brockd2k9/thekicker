@@ -1,0 +1,860 @@
+{
+  "_about": "Hand-written pro scenes (pro_*), the source for their text and choices from rewrite pass 14 on. Graph fields (stages, seasons, requires, weight) stay in data/career/scenarios_pro.json.",
+  "scenarios": [
+    {
+      "id": "pro_rookie_dinner",
+      "title": "Rookie Dinner",
+      "category": "team",
+      "text": "The veterans 'invite' the rookies to cover the team dinner at a fancy steakhouse: forty players, a private room, and a menu with no prices on it at all.",
+      "choices": [
+        {
+          "label": "Pay for the whole thing",
+          "result": "The whole bill, on your card, with a straight face. It's painfully expensive, and the veterans love you for it for the rest of the season.",
+          "stats": {
+            "life": {
+              "social": 6,
+              "fun": 3
+            },
+            "personality": {
+              "charisma": 2,
+              "ambition": -1,
+              "leadership": 2,
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ]
+        },
+        {
+          "label": "Split it with the other rookies",
+          "result": "Split evenly with the other rookies, after a quick huddle by the coat check. It's fair and friendly, and the rookie class gets closer for it.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "personality": {
+              "charisma": -1,
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Politely pass",
+          "result": "A polite pass, with an excuse about your budget. A couple of veterans give you the cold shoulder for a month, and one of them respects you for it.",
+          "stats": {
+            "life": {
+              "social": -6
+            },
+            "personality": {
+              "ambition": 2,
+              "leadership": -1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pro_agent_meeting",
+      "title": "Agent Meeting",
+      "category": "career",
+      "text": "Three agencies want to represent you, and each one has a pitch: a famous name with forty clients, a careful agent with six, and your own reflection in the mirror.",
+      "choices": [
+        {
+          "label": "Sign with the big agency",
+          "result": "The big agency, with the famous name and the glossy folder. Big plans, big promises, and you're one of forty clients from the first meeting.",
+          "stats": {
+            "personality": {
+              "charisma": -1,
+              "ambition": 3,
+              "leadership": -1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ]
+        },
+        {
+          "label": "Hire a small, careful agent",
+          "result": "The small, careful agent, who returns every call within an hour. Fewer promises, much more attention, and a plan written on one page.",
+          "stats": {
+            "personality": {
+              "charisma": -2,
+              "ambition": 0,
+              "leadership": 1,
+              "intelligence": 4
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Represent yourself",
+          "result": "Yourself, at the kitchen table, reading contracts at midnight. It saves money, costs a lot of sleep, and teaches you more than any agent would.",
+          "stats": {
+            "life": {
+              "energy": -4
+            },
+            "personality": {
+              "charisma": -1,
+              "ambition": 2,
+              "leadership": -1,
+              "intelligence": 3
+            },
+            "football": {
+              "resilience": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pro_contract_talks",
+      "title": "Contract Talks",
+      "category": "money",
+      "text": "Your agent says the team wants to talk about an extension before the season. The general manager has a number in mind, and so do you, and they're far apart.",
+      "choices": [
+        {
+          "label": "Push for top dollar",
+          "result": "Top dollar, and nothing less. The talks get tense, the general manager stops smiling, and it takes a month to reach a number you can both live with.",
+          "stats": {
+            "personality": {
+              "charisma": 1,
+              "ambition": 4,
+              "leadership": -2,
+              "intelligence": 0
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ]
+        },
+        {
+          "label": "Take a team-friendly deal",
+          "result": "A team-friendly deal, signed in a week. Teammates notice, management notices, and the locker room thinks a little more of you.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "personality": {
+              "ambition": -2,
+              "leadership": 4
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "retention": 6
+        },
+        {
+          "label": "Wait until the season ends",
+          "result": "Wait until the season ends, and bet on yourself. Your agent sighs, the club shrugs, and every practice becomes a negotiation.",
+          "stats": {
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "charisma": -1,
+              "intelligence": 3
+            }
+          },
+          "skill_points": 1,
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Let the fans make your case",
+          "result": "Your public profile does the negotiating for you. Fans ask the club about you on every broadcast, and the offer gets better by Friday.",
+          "stats": {
+            "life": {
+              "fun": 3
+            },
+            "personality": {
+              "charisma": 2,
+              "ambition": 2,
+              "leadership": -1,
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "requires": {
+            "traits": [
+              "media_savvy"
+            ]
+          },
+          "retention": 2
+        }
+      ]
+    },
+    {
+      "id": "pro_media_interview",
+      "title": "Postgame Questions",
+      "category": "media",
+      "text": "After a missed kick last week, the reporters are waiting at your locker, five of them, with their phones out and the same question ready to go.",
+      "choices": [
+        {
+          "label": "Own the miss",
+          "result": "Straight answers about the miss, no excuses, looking at each reporter in turn. It earns respect in the room, and the story dies by Wednesday.",
+          "stats": {
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "charisma": 2,
+              "ambition": -2,
+              "leadership": 4,
+              "intelligence": -1
+            }
+          },
+          "skill_points": 1,
+          "modifiers": [
+            "confident"
+          ],
+          "retention": 4
+        },
+        {
+          "label": "Blame the conditions",
+          "result": "The wind, the hold, the field: you blame the conditions. The quote doesn't land well at all, and {holder} hears about it before practice.",
+          "stats": {
+            "life": {
+              "social": -3,
+              "fun": 2
+            },
+            "personality": {
+              "charisma": -1,
+              "leadership": -3
+            },
+            "football": {
+              "resilience": 1
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ],
+          "rel": {
+            "holder": -3
+          }
+        },
+        {
+          "label": "Decline to talk",
+          "result": "No comment, today. You skip the circus, and the reporters write that you 'declined to talk', which follows you for a few days.",
+          "stats": {
+            "life": {
+              "social": -2
+            },
+            "personality": {
+              "charisma": -1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Turn it into a rallying cry",
+          "result": "Your answer turns into a rallying cry, about the whole unit having each other's backs. The locker room plays your quote all week.",
+          "stats": {
+            "life": {
+              "social": 3
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "ambition": -1,
+              "leadership": 3
+            }
+          },
+          "skill_points": 2,
+          "modifiers": [
+            "inspired"
+          ],
+          "requires": {
+            "any_traits": [
+              "team_captain",
+              "field_general"
+            ]
+          },
+          "retention": 5
+        }
+      ]
+    },
+    {
+      "id": "pro_family_finances",
+      "title": "Family and Finances",
+      "category": "family",
+      "text": "Relatives keep asking for loans now that you're a pro: a cousin's car, an uncle's business, a great-aunt you've never met who has a very specific number in mind.",
+      "choices": [
+        {
+          "label": "Set a budget with an advisor",
+          "result": "A budget, built with an advisor, with one yearly amount for family help. Clear rules mean fewer awkward calls, and {parent} approves.",
+          "stats": {
+            "personality": {
+              "charisma": -2,
+              "intelligence": 5,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Help everyone out",
+          "result": "Help for everyone who asks. It's generous and stressful, and by spring you realize you've stopped saying no to anything at all.",
+          "stats": {
+            "life": {
+              "social": 5,
+              "fun": 2
+            },
+            "personality": {
+              "charisma": 2,
+              "ambition": -1,
+              "leadership": 1,
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ]
+        },
+        {
+          "label": "Say no to everyone",
+          "result": "No, to everyone, every time. It's peace for your wallet and tension at every holiday, and {sibling} stops calling for a while.",
+          "stats": {
+            "life": {
+              "social": -5
+            },
+            "personality": {
+              "charisma": -1,
+              "ambition": 2,
+              "leadership": -1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pro_hospital_visit",
+      "title": "Team Hospital Visit",
+      "category": "community",
+      "text": "The team is visiting the children's hospital this week: an afternoon of games, signed footballs and a ward full of kids who have been looking forward to it for a month.",
+      "choices": [
+        {
+          "label": "Stay all afternoon",
+          "result": "The whole afternoon, ward by ward, until the nurses chase you out. You'll remember one boy's face forever, and so will he remember yours.",
+          "stats": {
+            "life": {
+              "social": 4,
+              "fun": 4,
+              "energy": -4
+            },
+            "football": {},
+            "personality": {
+              "charisma": 3,
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "retention": 2
+        },
+        {
+          "label": "Join for the group photo",
+          "result": "A quick, kind visit and the group photo. You sign a few balls and leave on time, and a mother thanks you in the elevator.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ]
+        },
+        {
+          "label": "Skip it for treatment",
+          "result": "Skipped, for extra treatment on your hip. You get the recovery time, and you see the photos of everyone else the next day.",
+          "stats": {
+            "life": {
+              "health": 4,
+              "social": -3,
+              "energy": 2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pro_holder_chemistry",
+      "title": "Holder Chemistry",
+      "category": "training",
+      "text": "{holder} wants extra time to work on timing this week: an hour after every practice, just the two of you and a bag of balls, in the cold.",
+      "choices": [
+        {
+          "label": "Extra reps every day",
+          "result": "Extra reps every day, snap, hold, kick, until the timing is perfect. By Friday you could do it with your eyes closed, and {holder} is grinning.",
+          "stats": {
+            "life": {
+              "energy": -4
+            },
+            "football": {
+              "accuracy": 3
+            },
+            "personality": {
+              "ambition": -1,
+              "leadership": 2
+            }
+          },
+          "skill_points": 3,
+          "modifiers": [
+            "dialed_in"
+          ],
+          "retention": 2,
+          "rel": {
+            "holder": 3
+          }
+        },
+        {
+          "label": "Take a recovery day instead",
+          "result": "A recovery day instead, and an apology to {holder}. Your leg feels brand new by Sunday, and {holder} understands, mostly.",
+          "stats": {
+            "life": {
+              "health": 5,
+              "energy": 6
+            },
+            "personality": {
+              "charisma": -1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "fresh_legs"
+          ]
+        },
+        {
+          "label": "Study the opponent's stadium",
+          "result": "The opponent's stadium, studied together on film for two nights. You both know every gust in that building before the bus leaves.",
+          "stats": {
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "charisma": -1,
+              "intelligence": 3
+            }
+          },
+          "skill_points": 1,
+          "modifiers": [
+            "scouted"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pro_cold_snap",
+      "title": "Cold Snap",
+      "category": "health",
+      "text": "The forecast says single digits and wind for Sunday. The equipment staff is already unpacking heated benches, and the veterans are wearing shorts to make a point.",
+      "choices": [
+        {
+          "label": "Practice outside all week",
+          "result": "Outside, every day, in the freezing wind. Your leg learns the cold, slowly, and so do your fingers, painfully, by Thursday.",
+          "stats": {
+            "life": {
+              "health": -3
+            },
+            "football": {
+              "toughness": 3
+            },
+            "personality": {
+              "ambition": 2,
+              "leadership": -1
+            }
+          },
+          "skill_points": 2,
+          "modifiers": [
+            "scouted"
+          ]
+        },
+        {
+          "label": "Practice indoors",
+          "result": "Indoors, warm and accurate all week. You feel great on Thursday, and not at all ready for the wind on Sunday.",
+          "stats": {
+            "life": {
+              "health": 2
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "charisma": -1,
+              "intelligence": 1
+            }
+          },
+          "skill_points": 1,
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Ask the equipment staff for help",
+          "result": "The equipment staff, asked for help. Heated capes, the right cleats and a trick with hand warmers that you'll use for years.",
+          "stats": {
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "charisma": -1,
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pro_trade_rumors",
+      "title": "Trade Rumors",
+      "category": "career",
+      "text": "Sports radio says the team might trade for another kicker before the deadline. The host has a 'source', and your phone has fourteen messages about it.",
+      "choices": [
+        {
+          "label": "Tune out the noise",
+          "result": "Kick, sleep, repeat, and no radio in the car. The noise fades by the deadline, and nobody gets traded for anybody.",
+          "stats": {
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "ambition": 2,
+              "leadership": -1
+            }
+          },
+          "skill_points": 1,
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Ask the coach directly",
+          "result": "{coach}, asked directly in the hallway. You're the guy, the coach says, for now. 'For now' stays in your head all week.",
+          "stats": {
+            "personality": {
+              "charisma": 1,
+              "ambition": -1,
+              "leadership": 3,
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "retention": 2,
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Read every rumor online",
+          "result": "Every rumor, read online, every single night until two. It's all you think about, and your practices show it clearly by Thursday.",
+          "stats": {
+            "life": {
+              "fun": -4
+            },
+            "personality": {
+              "charisma": -1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pro_folder_follows",
+      "title": "The Folder Follows You",
+      "category": "team",
+      "text": "Your first month as a pro, the team's player-development director calls you in. Your college record followed you here, and the club wants to know what kind of player it signed.",
+      "choices": [
+        {
+          "label": "Ask for a weekly check-in",
+          "result": "You suggest a weekly check-in yourself and hand over your college coach's number. The director writes it in the file: rookie asked for structure.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "retention": 3,
+          "rel": {
+            "coach": 3
+          }
+        },
+        {
+          "label": "Say college is over",
+          "result": "You say the folder belongs to a different person and you'd rather be judged on what you do here. The director says that's fair. The file stays open.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ]
+        },
+        {
+          "label": "Bring your own copy",
+          "result": "You bring a copy of your college record with your own notes in the margins: what happened and what changed. The director keeps it and tells {coach} to stop worrying.",
+          "requires": {
+            "any_flags": [
+              "rebuilt_reputation",
+              "took_responsibility_scout"
+            ]
+          },
+          "lock_text": "having already faced your record honestly",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "fun": -1
+            },
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "retention": 4,
+          "rel": {
+            "coach": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "pro_old_crowd",
+      "title": "The Old Crowd",
+      "category": "social",
+      "text": "Three guys you used to run with in college show up in your new city on a Friday with a hotel suite booked and a plan for your first paycheck. Your phone has been buzzing since noon.",
+      "choices": [
+        {
+          "label": "Dinner, then home",
+          "result": "You buy them dinner, laugh about the old days and are home by ten. They call you boring. You're at the facility at seven.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "fun": 1,
+              "social": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "retention": 2
+        },
+        {
+          "label": "Don't answer",
+          "result": "You let the phone buzz and stay in. It's lonely, and it's the first weekend in a while you don't regret anything.",
+          "stats": {
+            "life": {
+              "energy": 3,
+              "social": -2,
+              "fun": -2
+            },
+            "football": {
+              "resilience": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "retention": 1
+        },
+        {
+          "label": "Go out with them",
+          "result": "You go out. Saturday's photos end up online, a team official calls on Monday, and {coach} hears about it before you're in the building.",
+          "stats": {
+            "life": {
+              "fun": 5,
+              "social": 4,
+              "energy": -6
+            },
+            "personality": {
+              "leadership": -1
+            }
+          },
+          "modifiers": [
+            "late_night"
+          ],
+          "retention": -4,
+          "conduct": "bad",
+          "rel": {
+            "coach": -4
+          }
+        }
+      ]
+    },
+    {
+      "id": "pro_rookie_symposium",
+      "title": "The Rookie Symposium",
+      "category": "community",
+      "text": "The league's rookie symposium wants a player to speak about a mistake from college and what came after. The team's player-development director thinks your story is the one the rookies need to hear.",
+      "choices": [
+        {
+          "label": "Tell the whole story",
+          "result": "You stand in front of two hundred rookies and tell them about your worst college year without making yourself the hero. Afterward, a line of players waits to talk to you.",
+          "stats": {
+            "life": {
+              "energy": -3
+            },
+            "personality": {
+              "leadership": 3,
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "retention": 2,
+          "followers": 3
+        },
+        {
+          "label": "Tell the safe version",
+          "result": "The version with the details smoothed over. It goes fine, the room claps politely, and nobody waits to talk to you afterward.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "fun": 2
+            },
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "retention": 1
+        },
+        {
+          "label": "Say no thanks",
+          "result": "No thanks, you'd rather not relive it in front of a room. The director understands and asks someone else, and you wonder about it later.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pro_reporters_question",
+      "title": "The Reporter's Question",
+      "category": "media",
+      "text": "At your first open locker room, a beat reporter skips the kicking questions and asks about your college record: 'Do you think the stories about you are fair?'",
+      "choices": [
+        {
+          "label": "Answer it straight",
+          "result": "You say the stories are true, you're not proud of them and you'd rather be judged on what comes next. The quote runs in full, and it's the least dramatic thing in the paper.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "personality": {
+              "charisma": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "retention": 2,
+          "followers": 2
+        },
+        {
+          "label": "Say no comment",
+          "result": "You say you're only taking football questions. The reporter writes that you 'declined to address' your past, which reads worse than anything you could have said.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ]
+        },
+        {
+          "label": "Push back",
+          "result": "You say the stories were overblown and the reporter should do some homework. It's the most-shared clip of the week, and {coach} asks you to stop by the office.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "personality": {
+              "ambition": 2,
+              "leadership": -1
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "followers": 6,
+          "rel": {
+            "coach": -4
+          }
+        }
+      ]
+    }
+  ]
+}
