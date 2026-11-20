@@ -716,6 +716,13 @@ func end_season() -> void:
 		return
 	var poor := Progression.is_poor_season(data, tuning)
 	data.poor_streak = data.poor_streak + 1 if poor else 0
+	# Pros who preserve their attributes (maintenance, from aging_start_age)
+	# keep their standing better: retention_maintained per attribute preserved.
+	var preserved := 0
+	if Aging.active(data, tuning):
+		for st in Aging.STATS:
+			if Aging.maintained(data, st):
+				preserved += 1
 	var aged := Aging.apply_season_end(data, tuning)
 	var bonus := SkillPoints.season_bonus(data, tuning)
 	SkillPoints.earn(data, bonus, "Season bonus")
@@ -773,7 +780,7 @@ func end_season() -> void:
 			else:
 				_begin_offseason()
 		CareerData.STAGE_PRO:
-			data.retention_bonus += float(fans["progress"])
+			data.retention_bonus += float(fans["progress"]) + tuning.retention_maintained * preserved
 			data.retention_score = Progression.retention(data, tuning)
 			h["retention"] = data.retention_score
 			_pro_season_end()

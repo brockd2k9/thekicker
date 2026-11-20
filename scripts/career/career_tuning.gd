@@ -423,13 +423,18 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var draft_range_from: float = 50.0
 
 @export_group("Pro Contracts")
-## Retention (0-100) at the end of each pro season: 50 + fg_pct * (FG% - 80)
+## Retention (0-100) at the end of each pro season: 50 + fg_pct * (FG% - ref)
 ## + long * yards past 45 + clutch * game winners - age * years past 32,
 ## plus this season's choices ("retention" in the data) and trait bonuses.
+## FG% that keeps standing at 50 (neutral); retention_fg_pct points per % above.
+@export_range(0.5, 1.0) var retention_fg_ref: float = 0.66
 @export var retention_fg_pct: float = 1.2
 @export var retention_long: float = 0.6
 @export var retention_clutch: float = 4.0
 @export var retention_age: float = 3.0
+## Standing per attribute preserved (Skills, Maintenance) that season, from
+## aging_start_age: careful veterans stay in the league.
+@export var retention_maintained: float = 3.0
 ## Points per yard of field goal range past retention_range_from.
 @export var retention_range: float = 0.15
 @export var retention_range_from: float = 55.0

@@ -52,3 +52,21 @@ func test_choice_progress_scales() -> void:
 	eq(float(p["recruiting"]), 10.0 * t.scenario_recruiting_scale, "recruiting scaled")
 	eq(float(p["draft"]), 4.0 * t.scenario_draft_scale, "draft scaled")
 	eq(float(p["grades"]), 0.2, "grades untouched")
+
+
+func test_standing_reference_and_preserving() -> void:
+	var m := _pro(31)
+	var c := m.data
+	c.season_stats = {"fg_att": 20, "fg_made": roundi(20 * t.retention_fg_ref), "long": 45}
+	c.retention_bonus = 0.0
+	check(absf(Progression.retention(c, t) - 50.0) < 3.0, "kicking at the reference FG%% keeps standing near 50")
+	# Preserving attributes at 30+ adds standing at season end.
+	c.contract = {"years_left": 3, "team": "x", "team_name": "X", "salary": 900000}
+	c.season_stats = {"fg_att": 20, "fg_made": 14, "long": 45}
+	c.retention_bonus = 0.0
+	c.maintained = {"power": c.season, "accuracy": c.season}
+	c.phase = CareerManager.PHASE_SEASON_END
+	var keep := Progression.retention(c, t)
+	m.end_season()
+	check(c.retention_score >= keep + 2.0 * t.retention_maintained - 0.01 or c.retention_score >= 100.0,
+		"two preserved attributes: +%.0f standing" % (2.0 * t.retention_maintained))
