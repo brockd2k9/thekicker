@@ -73,6 +73,12 @@ try:
                                       encoding="utf-8")).get("strike_flags", []))
 except (OSError, ValueError):
     STRIKE_FLAGS = set()
+# Pro wrong-path strikes (tools/pro_graph/pro_design.json): same two rules (conduct, clear them all).
+try:
+    PRO_STRIKE_FLAGS = set(json.load(open(os.path.join(ROOT, "tools", "pro_graph", "pro_design.json"),
+                                          encoding="utf-8")).get("pro_strike_flags", []))
+except (OSError, ValueError):
+    PRO_STRIKE_FLAGS = set()
 # Optional: skill points a choice awards (negative = practice skipped). Typical
 # +1 to +3, training choices +2 to +4 (WRITING_GUIDE.md).
 SKILL_POINTS_RANGE = (-2, 6)
@@ -82,7 +88,7 @@ TEXT_WARN_CHARS = 320
 WHEN_VALUES = {"season", "bye", "offseason"}
 CHOICE_FIELDS = {"label", "result", "stats", "modifiers", "set_flags", "rel", "requires", "lock_text",
                  "follow_up", "recruiting", "grades", "draft", "retention", "skill_points",
-                 "followers", "followers_exact", "conduct", "deal"}
+                 "followers", "followers_exact", "conduct", "deal", "suspend_weeks"}
 SCENARIO_FIELDS = {"id", "title", "_info", "category", "text", "choices", "weight", "cooldown", "when",
                    "follow_up_only", "stages", "seasons", "weeks", "once", "_note"}
 # Fields a template may set on a scenario that already exists (graph fields stay
@@ -134,7 +140,8 @@ def clean_choice(ch):
             stats[g] = d
     out["stats"] = stats
     out["modifiers"] = list(ch.get("modifiers") or [])
-    for k in ["recruiting", "grades", "draft", "retention", "skill_points", "followers", "followers_exact"]:
+    for k in ["recruiting", "grades", "draft", "retention", "skill_points", "followers", "followers_exact",
+              "suspend_weeks"]:
         if ch.get(k) not in (None, 0, 0.0):
             out[k] = ch[k]
     if ch.get("conduct") not in (None, ""):
@@ -361,6 +368,12 @@ def main(argv=None):
                 if not isinstance(ch["followers_exact"], int) or isinstance(ch["followers_exact"], bool):
                     rep.add(sid, "ERROR", f"{w}: followers_exact must be a whole number (a raw follower count)")
                 n_stats += 1
+            if "suspend_weeks" in ch:
+                v = ch["suspend_weeks"]
+                if not isinstance(v, int) or isinstance(v, bool) or not 1 <= v <= 3:
+                    rep.add(sid, "ERROR", f"{w}: suspend_weeks {v} must be a whole number 1-3 (games sat out)")
+                elif ch.get("conduct") not in ("bad", "scandal"):
+                    rep.add(sid, "warning", f"{w}: suspend_weeks without conduct bad or scandal")
             if "conduct" in ch and ch["conduct"] not in CONDUCTS:
                 rep.add(sid, "ERROR", f"{w}: conduct '{ch['conduct']}' must be good, bad or scandal")
             if "deal" in ch:
@@ -375,7 +388,7 @@ def main(argv=None):
                 rep.add(sid, "ERROR", f"{w}: \"draft\": {str(raw['draft']).lower()} on a choice - on a choice, "
                         "\"draft\" is draft points (a number, e.g. -3); \"draft\": true only marks an "
                         "unwritten scenario in the graph files")
-            strikes = [f for f, v in (ch.get("set_flags") or {}).items() if v is True and f in STRIKE_FLAGS]
+            strikes = [f for f, v in (ch.get("set_flags") or {}).items() if v is True and f in STRIKE_FLAGS | PRO_STRIKE_FLAGS]
             if strikes and ch.get("conduct") not in ("bad", "scandal"):
                 rep.add(sid, "ERROR", f"{w}: sets wrong-path strike '{strikes[0]}' but has no conduct "
                         "bad or scandal")
@@ -384,6 +397,10 @@ def main(argv=None):
                 missing = sorted(STRIKE_FLAGS - cleared)
                 rep.add(sid, "ERROR", f"{w}: a wrong-path step must clear every strike flag; missing "
                         f"{', '.join(missing)} (strike_flags in tools/college_graph/college_design.json)")
+            pro_off = {f for f, v in (ch.get("set_flags") or {}).items() if v is False and f in PRO_STRIKE_FLAGS}
+            if len(pro_off) > 1 and pro_off != PRO_STRIKE_FLAGS:
+                rep.add(sid, "ERROR", f"{w}: a pro discipline step must clear every pro strike flag; missing "
+                        f"{', '.join(sorted(PRO_STRIKE_FLAGS - pro_off))} (pro_strike_flags in tools/pro_graph/pro_design.json)")
             if n_stats == 0:
                 rep.add(sid, "ERROR", f"{w}: changes no stats (every choice needs at least one stat change)")
             elif n_stats > STATS_PER_CHOICE_WARN:

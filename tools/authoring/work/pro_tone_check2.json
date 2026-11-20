@@ -1,0 +1,180 @@
+{
+  "_about": "Pro tone check 2: The Package (banned substances) and The Bookie (betting). Not imported. The follow-ups (The Test Result, The Investigation) carry suspend_weeks.",
+  "scenarios": [
+    {
+      "id": "PRO_164",
+      "title": "The Package",
+      "category": "health",
+      "text": "A trainer from the private gym you used last summer leaves a package in your locker: a banned substance, a note promising it can't be detected, and his phone number. Two veterans saw him walk out.",
+      "choices": [
+        {
+          "label": "Take it to the team doctor",
+          "result": "You carry the package, unopened, to the team doctor's office and set it on the desk. The doctor makes two calls, the league's testing office makes one more, and by Friday the trainer's name is on a list. Two veterans stop you in the hallway to say they'd wondered who would.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "reported_package": true
+          },
+          "rel": {
+            "coach": 3,
+            "team": 2
+          },
+          "retention": 1,
+          "conduct": "good"
+        },
+        {
+          "label": "Call the league's confidential line",
+          "result": "You call the confidential line from your car and drop the package at the testing office the next morning. Nobody on the team knows it was you, and nobody needs to.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {
+            "reported_package": true
+          },
+          "retention": 1,
+          "conduct": "good"
+        },
+        {
+          "label": "Throw it away and block his number",
+          "result": "You drop it in the dumpster behind the facility and block his number. It's gone, and so is any chance of stopping him before he tries the rookie two lockers down.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "team": -1
+          }
+        },
+        {
+          "label": "Keep it and say nothing",
+          "result": "You put the package in your gym bag and tell no one. A week later the league's testers show up unannounced on a Tuesday morning, and they ask for you first.",
+          "stats": {
+            "life": {
+              "fun": 1,
+              "energy": 2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "pro_banned_substance": true
+          },
+          "retention": -2,
+          "conduct": "bad"
+        }
+      ]
+    },
+    {
+      "id": "PRO_171",
+      "title": "The Bookie",
+      "category": "money",
+      "text": "An old friend from home introduces you to a man who takes bets on everything, including football and including your own team's games. He mentions, casually, that he'd pay well for a heads-up on who's really hurt before the injury report comes out.",
+      "choices": [
+        {
+          "label": "Walk away and call the integrity line",
+          "result": "You leave before the food comes and call the league's integrity line from the parking lot. Your friend doesn't speak to you for a month. Three weeks later the man is in the news, for someone else's mistake.",
+          "stats": {
+            "life": {
+              "social": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "reported_bookie": true
+          },
+          "rel": {
+            "coach": 2
+          },
+          "retention": 1,
+          "conduct": "good"
+        },
+        {
+          "label": "Say no and leave it there",
+          "result": "You say you're not interested, keep it polite and never go back. You don't report it, and you think about that more than you expected to.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ]
+        },
+        {
+          "label": "Bet on your own team, once",
+          "result": "You put money on your own team to win, just once, because what could be cleaner than betting on yourself? Two months later a league investigator slides a printout of your account across a conference table.",
+          "stats": {
+            "life": {
+              "fun": 3
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "intelligence": -2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "pro_betting_scandal": true
+          },
+          "rel": {
+            "coach": -6,
+            "team": -3
+          },
+          "followers": -4,
+          "retention": -4,
+          "conduct": "scandal"
+        }
+      ]
+    }
+  ]
+}

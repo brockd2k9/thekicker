@@ -16,7 +16,8 @@ tools/lint_scenarios.py (scenarios already in the game data). Each finding is
                  (stats, skill points, recruiting, grades, rel) and better in one
   near_dominated the same except for a single number: probably too one-sided
   conduct_cost   a choice with conduct bad / scandal must cost something that lasts:
-                 negative draft points, a negative {coach} or Team change, or a flag
+                 negative draft or retention points, suspend_weeks, a negative {coach} or
+                 Team change, or a flag
   bad_choice_best a bad / scandal choice beats another choice on every number but one
                  (or all of them): wrong choices may tempt, never win
   pressure_no    a party or peer-pressure scene (by its words) with no choice free of
@@ -160,7 +161,8 @@ def conduct_findings(entry):
     for i, c in enumerate(chs):
         if c.get("conduct") not in BAD:
             continue
-        costs = (c.get("draft") or 0) < 0 or any(v < 0 for p, v in (c.get("rel") or {}).items()
+        costs = (c.get("draft") or 0) < 0 or (c.get("retention") or 0) < 0 or (c.get("suspend_weeks") or 0) > 0 \
+            or any(v < 0 for p, v in (c.get("rel") or {}).items()
                                                    if p in ("coach", "team")) \
             or any(v for v in (c.get("set_flags") or {}).values())
         if not costs:

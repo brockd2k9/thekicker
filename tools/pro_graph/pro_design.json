@@ -8,7 +8,8 @@
   "R5": "{club} / {town}",
   "R6": "once_per_club",
   "R7": "season-end dismissal",
-  "R8": "re-point {love_interest} to a new person (choice field)"
+  "R8": "re-point {love_interest} to a new person (choice field)",
+  "R9": "longer suspensions for the pros (suspend_weeks is capped at 3)"
  },
  "pro_strike_flags": [
   "stayed_out_pro",
@@ -19,7 +20,13 @@
   "pro_party_house",
   "pro_reckless_driving",
   "pro_online_rant",
-  "pro_gambling_debt"
+  "pro_gambling_debt",
+  "pro_banned_substance",
+  "pro_night_before",
+  "pro_late_meeting",
+  "pro_casual_bet",
+  "pro_betting_scandal",
+  "pro_solicitation"
  ],
  "scenarios": [
   {
@@ -1746,6 +1753,15 @@
    "weeks": null,
    "when": null,
    "requires": {
+    "any_flags": [
+     "made_long_distance_work",
+     "committed_to_relationship",
+     "new_partner"
+    ],
+    "not_flags": [
+     "engaged",
+     "married"
+    ],
     "min": {
      "rel_love_interest": 55
     }
@@ -2841,8 +2857,8 @@
     ]
    },
    "sets": [
-    "pro_owned_it",
-    "pro_warning"
+    "pro_warning",
+    "pro_owned_it"
    ],
    "people": [],
    "kind": "once",
@@ -2853,7 +2869,7 @@
     "character_concerns"
    ],
    "story": true,
-   "note": "College flags set severity (character_concerns: harsher; rebuilt_reputation: benefit of the doubt). Clears every pro strike."
+   "note": "Both choices set pro_warning (the fine is on record); owning it also sets pro_owned_it. College flags set severity through a locked choice. Every choice clears every pro strike."
   },
   {
    "id": "PRO_125",
@@ -2866,21 +2882,23 @@
    "weeks": null,
    "when": null,
    "requires": {
-    "any_flags": [
-     "pro_owned_it",
+    "flags": [
      "pro_warning"
     ],
-    "strike": "new pro strike"
+    "any_flags": [
+     "(every pro strike)"
+    ]
    },
    "sets": [
-    "pro_second_chance"
+    "pro_second_chance",
+    "pro_character_concerns"
    ],
    "people": [],
    "kind": "once",
    "waits_on": [],
    "callbacks": [],
    "story": true,
-   "note": "Clears every pro strike."
+   "note": "Opens on the warning plus a new pro strike. suspend_weeks 2 (longer once R9 lands). Every choice clears every pro strike."
   },
   {
    "id": "PRO_126",
@@ -2896,7 +2914,9 @@
     "flags": [
      "pro_second_chance"
     ],
-    "strike": "new pro strike"
+    "any_flags": [
+     "(every pro strike)"
+    ]
    },
    "sets": [
     "pro_last_chance",
@@ -2909,7 +2929,7 @@
     "last_chance"
    ],
    "story": true,
-   "note": "Clears every pro strike."
+   "note": "Every choice clears every pro strike. College last_chance adds a locked line."
   },
   {
    "id": "PRO_127",
@@ -3852,6 +3872,337 @@
    ],
    "callbacks": [],
    "note": "Divorce clears married and the other partner flags; the money cost lands with savings (R3). People: kids in the text only."
+  },
+  {
+   "id": "PRO_164",
+   "title": "The Package",
+   "group": "Wrong path (pro)",
+   "chain": "Banned substance",
+   "premise": "A trainer from a private gym you used last summer leaves a package in your locker: a banned substance, a note that says it can't be detected, and his number.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [
+    "pro_banned_substance",
+    "reported_package"
+   ],
+   "people": [
+    "coach",
+    "team"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [
+    "took_unapproved_supplement",
+    "refused_improper_help"
+   ],
+   "note": "The player is never shown taking anything: the wrong choice is keeping the package and saying nothing. Clean no: the team doctor or the league's confidential line. Tone-check scene."
+  },
+  {
+   "id": "PRO_165",
+   "title": "The Search",
+   "group": "Wrong path (pro)",
+   "chain": "Banned substance",
+   "premise": "League testers arrive unannounced and ask to see your locker and your gym bag. The package is still in it.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "pro_banned_substance"
+    ]
+   },
+   "sets": [
+    "pro_caught_with_package"
+   ],
+   "people": [
+    "coach",
+    "team",
+    "parent"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Follow-up to The Package: a possession case, not a positive test, so the player is never shown taking anything. Costs: suspend_weeks (3 now; longer once R9 lands), retention, followers, conduct scandal (sponsors drop the player)."
+  },
+  {
+   "id": "PRO_166",
+   "title": "The Night Before",
+   "group": "Wrong path (pro)",
+   "chain": "Night out",
+   "premise": "The night before a game, a teammate's dinner (or your agent's dinner for his clients) moves to a strip club, and the whole table is getting up.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [
+    "pro_night_before"
+   ],
+   "people": [
+    "coach",
+    "team",
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Non-explicit: the scene ends at the choice, and the bad choice cuts to the next morning. Costs: photos online (followers, conduct bad), tired / late_night into the game, {coach}; {love_interest} only through a locked or follow-up line if the player has a partner (partner flags). No game result."
+  },
+  {
+   "id": "PRO_167",
+   "title": "Late for the Meeting",
+   "group": "Wrong path (pro)",
+   "chain": "Late",
+   "premise": "The special teams meeting started at eight. It's 8:06, and you're in the parking lot.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [
+    "pro_late_meeting",
+    "late_fined"
+   ],
+   "people": [
+    "coach"
+   ],
+   "kind": "repeat",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Escalation, step 1: the fine. Repeatable (cooldown 15 weeks); the escalating text lives in 168 and 169."
+  },
+  {
+   "id": "PRO_168",
+   "title": "Late Again",
+   "group": "Wrong path (pro)",
+   "chain": "Late",
+   "premise": "Late again. This time {coach} is waiting outside the meeting room, and the fine isn't the topic.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "late_fined"
+    ]
+   },
+   "sets": [
+    "pro_late_meeting",
+    "late_warned"
+   ],
+   "people": [
+    "coach"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Escalation, step 2: the talking-to."
+  },
+  {
+   "id": "PRO_169",
+   "title": "The Depth Chart Note",
+   "group": "Wrong path (pro)",
+   "chain": "Late",
+   "premise": "A third late arrival. There's a note on your locker: see {coach} before you dress.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "late_warned"
+    ]
+   },
+   "sets": [
+    "pro_late_meeting"
+   ],
+   "people": [
+    "coach",
+    "backup"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Escalation, step 3: inactive for a game (suspend_weeks 1, the club's discipline). Feeds the pro discipline chain through pro_late_meeting."
+  },
+  {
+   "id": "PRO_170",
+   "title": "The Office Pool",
+   "group": "Wrong path (pro)",
+   "chain": "Betting",
+   "premise": "The locker room runs a pool on the college basketball tournament: twenty dollars a sheet and a lot of trash talk.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [
+    "pro_casual_bet"
+   ],
+   "people": [
+    "team"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Small strike: league rules forbid it, even on other sports. Conduct bad, a small fine, {coach}. Clean no with a payoff."
+  },
+  {
+   "id": "PRO_171",
+   "title": "The Bookie",
+   "group": "Wrong path (pro)",
+   "chain": "Betting",
+   "premise": "An old friend from home introduces you to a man who takes bets, including on football, including on your own team's games. He'd also pay well for a heads-up on who's hurt.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [
+    "pro_betting_scandal",
+    "reported_bookie"
+   ],
+   "people": [
+    "coach",
+    "team"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [
+    "refused_improper_help",
+    "reported_runner"
+   ],
+   "note": "The most serious scandal: no how-to, no glamorous win. Clean no: walk away and call the league's integrity line. Tone-check scene."
+  },
+  {
+   "id": "PRO_172",
+   "title": "The Investigation",
+   "group": "Wrong path (pro)",
+   "chain": "Betting",
+   "premise": "Two investigators from the league office are in the general manager's conference room, and they've asked for you by name.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "pro_betting_scandal"
+    ]
+   },
+   "sets": [
+    "pro_character_concerns"
+   ],
+   "people": [
+    "coach",
+    "team",
+    "parent"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Follow-up: suspend_weeks 3 (the cap), retention, followers, scandal; character concerns for the pros (pro_character_concerns). Release follows through the discipline chain (R7)."
+  },
+  {
+   "id": "PRO_173",
+   "title": "The Spa",
+   "group": "Wrong path (pro)",
+   "chain": "Solicitation",
+   "premise": "On a road trip, an agent's client insists you come to a spa he swears by, and makes it clear the 'extras' are the point.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": [
+    "season",
+    "bye",
+    "offseason"
+   ],
+   "requires": null,
+   "sets": [
+    "pro_solicitation"
+   ],
+   "people": [
+    "team",
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Non-explicit: nothing is described, and the scene ends at the choice. Several clean no's, each with a payoff: book the team's therapist instead, tell him it isn't for you, or call the partner from the lobby (locked to partner flags). Paying cuts to later: a police investigation, a client list, a reporter's call. Strike: pro_solicitation (conduct scandal). Tone-check scene."
+  },
+  {
+   "id": "PRO_174",
+   "title": "The Hearing",
+   "group": "Wrong path (pro)",
+   "chain": "Solicitation",
+   "premise": "A police report, a league hearing and a sponsor's lawyer, all in the same week.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "pro_solicitation"
+    ],
+    "not_flags": [
+     "made_long_distance_work",
+     "committed_to_relationship",
+     "new_partner",
+     "engaged",
+     "married"
+    ]
+   },
+   "sets": [
+    "pro_hearing_done"
+   ],
+   "people": [
+    "coach",
+    "team",
+    "parent"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Follow-up for a player without a partner. League discipline: suspend_weeks (longer once R9 lands), sponsors pull out (conduct scandal), retention, followers."
+  },
+  {
+   "id": "PRO_175",
+   "title": "The Hearing, at Home",
+   "group": "Wrong path (pro)",
+   "chain": "Solicitation",
+   "premise": "A police report, a league hearing and a sponsor's lawyer, all in the same week, and {love_interest} has read every word of it.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "pro_solicitation"
+    ],
+    "any_flags": [
+     "made_long_distance_work",
+     "committed_to_relationship",
+     "new_partner",
+     "engaged",
+     "married"
+    ]
+   },
+   "sets": [
+    "pro_hearing_done",
+    "pro_cheated"
+   ],
+   "people": [
+    "coach",
+    "team",
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Follow-up for a player with a partner: the same discipline, plus {love_interest} (-10 to -15). Every choice sets pro_cheated, so the Found Out chain picks it up."
   }
  ],
  "relationship_strike_flags": [
