@@ -88,6 +88,8 @@ func _ready() -> void:
 			CareerTuning.get_default().set(pair[0], float(pair[1]))
 	Followers.effects_off = str(args.get("fans", "1")) == "0"
 	Followers.sim_choice_buzz = float(args.get("tag", 0.0))
+	# rep=0: character reputation and suspensions have no effect.
+	Reputation.off = str(args.get("rep", "1")) == "0"
 	var conv_path := str(args.get("conv", "res://tests/fixtures/kick_challenge_conversions.json"))
 	var cj: Variant = JSON.parse_string(FileAccess.get_file_as_string(conv_path))
 	_conv = cj.get("conversions", []) if cj is Dictionary else []
@@ -174,6 +176,22 @@ func _play_career(strat: String, n: int) -> Dictionary:
 					out["hs_gpa"] = c.gpa
 					out["hs_offers"] = c.offers.duplicate(true)
 				if c.phase == CareerManager.PHASE_DRAFT and c.stage == CareerData.STAGE_COLLEGE:
+					out["rep_draft"] = Reputation.state(c)
+					# The same kicker's draft day with each reputation (a counterfactual).
+					var keep_flags := c.flags.duplicate()
+					var cf := {}
+					for st in ["", "concerns", "rebuilt"]:
+						c.flags.erase(Reputation.CONCERNS)
+						c.flags.erase(Reputation.REBUILT)
+						if st == "concerns":
+							c.flags[Reputation.CONCERNS] = true
+						elif st == "rebuilt":
+							c.flags[Reputation.CONCERNS] = true
+							c.flags[Reputation.REBUILT] = true
+						var rr := RandomNumberGenerator.new()
+						cf[st] = str(Progression.draft(c, rr)["kind"])
+					c.flags = keep_flags
+					out["rep_cf"] = cf
 					out["draft_score"] = c.draft_score
 					out["draft"] = c.draft_result.duplicate()
 			CareerManager.PHASE_RECRUITING:
@@ -223,6 +241,8 @@ func _play_career(strat: String, n: int) -> Dictionary:
 		return [str(h.get("stage", "")), int(h.get("season_in_stage", 1)), int(h.get("followers", 0))])
 	out["fans_peak"] = maxi(int(c.social.get("peak", 0)), c.followers)
 	out["virals"] = int(c.social.get("virals", 0))
+	out["rep_end"] = Reputation.state(c)
+	out["suspensions"] = c.suspensions_total
 	out["fg_pct"] = float(c.career_totals.get("fg_made", 0)) / maxf(float(c.career_totals.get("fg_att", 0)), 1.0)
 	var src := {}
 	var aged := {}
@@ -588,6 +608,7 @@ func _report(results: Dictionary, n: int, problems: PackedStringArray, ms: int) 
 	L.append_array(_skill_sections(all, t))
 	L.append_array(_followers_sections(results, all, t))
 	L.append_array(_challenge_sections())
+	L.append_array(_reputation_section(all))
 	# --- life
 	L.append("## Life stats (average over every week played; share of weeks with any life stat low)")
 	L.append("")
@@ -1019,6 +1040,33 @@ func _chal_cell(i: int, q: float, f: String) -> String:
 	if int(a[1]) == 0:
 		return "-"
 	return "%d%% (n=%d)" % [roundi(100.0 * float(a[0]) / int(a[1])), int(a[1])]
+
+
+## Character reputation on draft day (Reputation): pro and draft rates for
+## careers with and without the flags (compare a rep=0 run).
+func _reputation_section(all: Array) -> PackedStringArray:
+	var L := PackedStringArray()
+	L.append("## Character reputation on draft day (reputation effects %s)" % ("off" if Reputation.off else "on"))
+	L.append("")
+	L.append("| On draft day | Careers | Drafted | Pro | Pro seasons (avg) |")
+	L.append("|---|---|---|---|---|")
+	var reached := all.filter(func(r): return r.has("rep_draft"))
+	for st in [["", "Clean record"], ["concerns", "Character concerns"], ["rebuilt", "Rebuilt reputation"]]:
+		var rs := reached.filter(func(r): return str(r["rep_draft"]) == st[0])
+		L.append("| %s | %d | %s | %s | %.1f |" % [st[1], rs.size(),
+			_pct(rs.filter(func(r): return str(r["draft"].get("kind", "")) == "drafted").size(), rs.size()),
+			_pct(rs.filter(func(r): return r["reached"].has("pro")).size(), rs.size()),
+			_avgf(rs.map(func(r): return int(r["pro_seasons"])))])
+	L.append("")
+	L.append("Same kickers on draft day, by reputation (every career that reached the draft, its draft stock "
+		+ "unchanged): drafted with a clean record %s, with character concerns %s, with a rebuilt reputation %s." % [
+		_pct(reached.filter(func(r): return str(r.get("rep_cf", {}).get("", "")) == "drafted").size(), reached.size()),
+		_pct(reached.filter(func(r): return str(r.get("rep_cf", {}).get("concerns", "")) == "drafted").size(), reached.size()),
+		_pct(reached.filter(func(r): return str(r.get("rep_cf", {}).get("rebuilt", "")) == "drafted").size(), reached.size())])
+	L.append("")
+	L.append("Suspensions per career: %.2f." % _avgf(all.map(func(r): return int(r.get("suspensions", 0)))))
+	L.append("")
+	return L
 
 
 ## Step 4 sections: spending styles, the 70-yard leg, slumps by kicker quality,
