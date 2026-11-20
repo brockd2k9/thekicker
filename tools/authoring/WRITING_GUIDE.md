@@ -359,6 +359,22 @@ only for the worst choices, always with `"conduct": "bad"` or `"scandal"` (the i
 otherwise), and usually in a follow-up scene such as The Search. A new stage clears it.
 Example: `{"label": "...", "suspend_weeks": 2, "conduct": "scandal", "set_flags": {"pro_caught_with_package": true}}`.
 
+### Pro writing standard (checked by the lint)
+
+Every PRO_* / pro_* scene meets the college standard or better:
+- **Premise: 25+ words** with a concrete situation (who, where, what just happened).
+- **Results: 20+ words, aim for 25-35**: a consequence and a beat of feeling.
+- **Choices fit this scene**, not a rest / think it through / people triad. Vary which stats and how
+  much; use football stats where the scene is about the body or the craft.
+- **Spread the cast**: `{best_friend}`, `{tyler}`, `{sibling}`, `{backup}`, `{parent}` and the partner,
+  not only `{coach}` and Team. Only give a person a `rel` change if the scene involves them.
+- **Vary labels and openings**: no label more than 3 times across the pro stage ("Pass", "Decline",
+  "Ignore it"...), no three-word result opening more than 4 times ("You ask the...").
+
+Lint codes: `thin_text`, `thin_result`, `label_repeat`, `opening_repeat`, `stat_pattern` (the same stats,
+modifiers and people moved in more than 3 scenes), `rel_balance` (one target over 25% of the pro
+stage's relationship changes, or over 35% of one import's).
+
 ## Content rules (teen audience)
 
 - No drugs, alcohol, vaping or smoking for the player; no sexual content; no graphic violence; no

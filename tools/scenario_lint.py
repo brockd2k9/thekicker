@@ -24,6 +24,17 @@ tools/lint_scenarios.py (scenarios already in the game data). Each finding is
                  bad conduct: there must always be a clean "no"
   player_use     a result that shows the player drinking or using ("you drink",
                  "you take one"...): show the decision and its cost, never the use
+Pro story writing standard (stage "pro" only; see WRITING_GUIDE.md):
+  thin_text      a premise under 25 words: give it a concrete situation
+  thin_result    a result under 20 words: give it a consequence and a beat of feeling
+Across the pro stage (corpus_findings; the importer checks a batch against the
+game data, lint_scenarios.py --all checks everything):
+  label_repeat   a choice label used more than 3 times
+  opening_repeat a result whose first three words open more than 4 results
+  stat_pattern   the same stat pattern (which stats, modifiers and people each
+                 choice moves, values ignored) in more than 3 scenes
+  rel_balance    one relationship target takes more than 25% of all rel changes
+                 (in an import: more than 35% of the batch's)
 Titles are checked like text (placeholders fill in titles).
 
 The checks are heuristics: read the line before changing it.
@@ -207,4 +218,113 @@ def lint_entry(entry, names):
             found.append(("hardcoded_name", where, f"'{m.group(0)}' looks like a cast name; use its placeholder"))
     found += dominance_findings(entry.get("choices") or [])
     found += conduct_findings(entry)
+    found += writing_findings(entry)
     return found
+
+
+# ---- Pro story writing standard -------------------------------------------------------------
+MIN_TEXT_WORDS = 25
+MIN_RESULT_WORDS = 20
+LABEL_LIMIT = 3
+OPENING_LIMIT = 4
+PATTERN_LIMIT = 3
+REL_SHARE = 0.25
+REL_SHARE_BATCH = 0.35
+
+
+def is_pro_story(entry):
+    """The pro story: PRO_* / pro_* scenes, or any scene that plays only in the pros."""
+    sid = str(entry.get("id", ""))
+    return sid.startswith(("PRO_", "pro_")) or list(entry.get("stages") or []) == ["pro"]
+
+
+def writing_findings(entry):
+    """Word-count floor for pro story scenes (premise and every result)."""
+    if not is_pro_story(entry):
+        return []
+    found = []
+    n = len(str(entry.get("text", "")).split())
+    if n < MIN_TEXT_WORDS:
+        found.append(("thin_text", "text", f"{n} words; a premise needs {MIN_TEXT_WORDS}+ with a concrete situation"))
+    for i, c in enumerate(entry.get("choices") or []):
+        if not isinstance(c, dict):
+            continue
+        n = len(str(c.get("result", "")).split())
+        if n < MIN_RESULT_WORDS:
+            found.append(("thin_result", f"choice {i + 1} result", f"{n} words; a result needs "
+                          f"{MIN_RESULT_WORDS}+ with a consequence and a beat of feeling"))
+    return found
+
+
+def _opening(result):
+    return " ".join(re.findall(r"[a-z{}_']+", str(result).lower())[:3])
+
+
+def stat_pattern(entry):
+    sig = []
+    for c in entry.get("choices") or []:
+        if isinstance(c, dict) and not c.get("requires"):
+            sig.append((tuple(sorted(_numbers(c))), tuple(sorted(c.get("modifiers") or []))))
+    return tuple(sorted(sig))
+
+
+def rel_counts(entries):
+    cnt = {}
+    for e in entries:
+        for c in e.get("choices") or []:
+            if isinstance(c, dict):
+                for p, v in (c.get("rel") or {}).items():
+                    if v:
+                        cnt[p] = cnt.get(p, 0) + 1
+    return cnt
+
+
+def rel_balance_findings(entries, share):
+    cnt = rel_counts(entries)
+    total = sum(cnt.values())
+    if total < 10:
+        return []
+    found = []
+    for p, n in sorted(cnt.items(), key=lambda x: -x[1]):
+        if n / total > share:
+            found.append(("rel_balance", "rel", f"'{p}' takes {n} of {total} relationship changes "
+                          f"({n * 100 // total}%, limit {int(share * 100)}%); spread them across the cast"))
+    return found
+
+
+def corpus_findings(entries, only_ids=None):
+    """Repetition across the pro stage. entries: every written pro story scenario (with any
+    batch being imported already substituted). Returns {id: [(code, where, msg)]} for the
+    scenes in only_ids (all when None)."""
+    pro = [e for e in entries if is_pro_story(e) and not e.get("draft")]
+    labels, openings, patterns = {}, {}, {}
+    for e in pro:
+        for c in e.get("choices") or []:
+            if isinstance(c, dict):
+                labels.setdefault(str(c.get("label", "")).strip().lower(), []).append(e["id"])
+                openings.setdefault(_opening(c.get("result", "")), []).append(e["id"])
+        patterns.setdefault(stat_pattern(e), []).append(e["id"])
+    out = {}
+    for e in pro:
+        if only_ids is not None and e["id"] not in only_ids:
+            continue
+        f = []
+        for i, c in enumerate(e.get("choices") or []):
+            if not isinstance(c, dict):
+                continue
+            lab = str(c.get("label", "")).strip().lower()
+            if len(labels.get(lab, [])) > LABEL_LIMIT:
+                f.append(("label_repeat", f"choice {i + 1} label", f"'{c.get('label')}' is used "
+                          f"{len(labels[lab])} times in the pro stage (limit {LABEL_LIMIT})"))
+            op = _opening(c.get("result", ""))
+            if len(openings.get(op, [])) > OPENING_LIMIT:
+                f.append(("opening_repeat", f"choice {i + 1} result", f"'{op}...' opens "
+                          f"{len(openings[op])} results in the pro stage (limit {OPENING_LIMIT})"))
+        same = patterns.get(stat_pattern(e), [])
+        if len(same) > PATTERN_LIMIT:
+            f.append(("stat_pattern", "choices", f"the same stat pattern is in {len(same)} scenes "
+                      f"(limit {PATTERN_LIMIT}; e.g. {', '.join(x for x in same[:4] if x != e['id'])}): "
+                      "fit the choices to this scene"))
+        if f:
+            out[e["id"]] = f
+    return out

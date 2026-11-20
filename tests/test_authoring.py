@@ -339,3 +339,38 @@ class CollegeLintTests(unittest.TestCase):
     def test_player_use_ignores_take_it_to(self):
         self.assertIsNone(scenario_lint.PLAYER_USE.search("You take it to the compliance office."))
         self.assertIsNotNone(scenario_lint.PLAYER_USE.search("You take it before warmups."))
+
+
+class ProWritingStandardTests(unittest.TestCase):
+    """The pro story writing floor and the repetition checks across the pro stage."""
+
+    def _scene(self, sid, text, results, labels=None, rel=None):
+        labels = labels or [f"Choice {i}" for i in range(len(results))]
+        return {"id": sid, "stages": ["pro"], "text": text, "choices": [
+            {"label": l, "result": r, "stats": {"life": {"energy": i - 1}}, "modifiers": ["focused"],
+             **({"rel": rel} if rel else {})} for i, (l, r) in enumerate(zip(labels, results))]}
+
+    def test_thin_premise_and_result_are_flagged_in_the_pros_only(self):
+        e = self._scene("PRO_900", "Too short.", ["Done.", " ".join(["word"] * 25)])
+        codes = [c for c, _, _ in scenario_lint.writing_findings(e)]
+        self.assertEqual(codes, ["thin_text", "thin_result"])
+        e["id"], e["stages"] = "HS_900", ["high_school"]
+        self.assertEqual(scenario_lint.writing_findings(e), [])
+
+    def test_repeated_labels_openings_and_stat_patterns(self):
+        long = " ".join(["word"] * 25)
+        scenes = [self._scene(f"PRO_9{i:02d}", long, ["You ask the coach " + long, "Fine " + long],
+                              labels=["Pass", f"Other {i}"]) for i in range(5)]
+        found = scenario_lint.corpus_findings(scenes)
+        codes = {c for f in found.values() for c, _, _ in f}
+        self.assertEqual(codes, {"label_repeat", "opening_repeat", "stat_pattern"})
+        self.assertEqual(scenario_lint.corpus_findings(scenes[:3]), {})
+
+    def test_one_relationship_target_taking_most_changes_is_flagged(self):
+        long = " ".join(["word"] * 25)
+        scenes = [self._scene(f"PRO_9{i:02d}", long, [long, long], rel={"coach": 1}) for i in range(6)]
+        self.assertEqual([c for c, _, _ in scenario_lint.rel_balance_findings(scenes, 0.25)], ["rel_balance"])
+        scenes[0]["choices"][0]["rel"] = {"parent": 1}
+        for s, who in zip(scenes[1:], ["sibling", "holder", "backup", "best_friend", "rival"]):
+            s["choices"][1]["rel"] = {who: 1}
+        self.assertNotIn("coach", " ".join(m for _, _, m in scenario_lint.rel_balance_findings(scenes, 0.5)))

@@ -463,11 +463,27 @@ def main(argv=None):
                     rep.add(sid, "warning", f"choice {a + 1} is at least as good as choice {b + 1} in every "
                             f"stat; give choice {b + 1} an upside (no choice should be strictly best)")
         lint_names = scenario_lint.names_from_people(people_doc)
-        for code, where, msg in scenario_lint.lint_entry({"title": (existing or e).get("title", ""),
+        for code, where, msg in scenario_lint.lint_entry({"id": sid, "title": (existing or e).get("title", ""),
+                                                          "stages": (existing or e).get("stages", []),
                                                           "text": text, "choices": cleaned}, lint_names):
             if code != "dominated":  # reported as a warning above
                 rep.add(sid, "lint", f"{code} - {where}: {msg}")
         e["_clean_choices"] = cleaned
+
+    # Repetition across the pro stage: this import checked against the game data.
+    batch = {sid: {"id": sid, "stages": (e.get("stages") or next((s.get("stages") for f in docs.values()
+             for s in f.get("scenarios", []) if s["id"] == sid), [])), "text": e.get("text", ""),
+             "choices": e.get("_clean_choices", [])} for sid, e in written}
+    batch = {k: v for k, v in batch.items() if scenario_lint.is_pro_story(v)}
+    if batch:
+        corpus = [s for d in docs.values() for s in d.get("scenarios", [])
+                  if not s.get("draft") and s["id"] not in batch] + list(batch.values())
+        for sid, finds in scenario_lint.corpus_findings(corpus, set(batch)).items():
+            for code, where, msg in finds:
+                rep.add(sid, "lint", f"{code} - {where}: {msg}")
+        for code, where, msg in scenario_lint.rel_balance_findings(list(batch.values()),
+                                                                   scenario_lint.REL_SHARE_BATCH):
+            rep.add("(this import)", "lint", f"{code} - {where}: {msg}")
 
     # Merge into copies of the data files.
     graph_file = "scenarios_hs_graph.json"

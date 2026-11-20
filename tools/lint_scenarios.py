@@ -30,17 +30,25 @@ def main(argv=None):
     only = {c for c in args.only.split(",") if c}
     names = scenario_lint.names_from_people(json.load(open(os.path.join(args.data_dir, "people.json"))))
     pattern = "scenarios_*.json" if args.all else "scenarios_hs_graph.json"
-    counts, checked = collections.Counter(), 0
+    counts, checked, written = collections.Counter(), 0, []
     for path in sorted(glob.glob(os.path.join(args.data_dir, pattern))):
         for s in json.load(open(path, encoding="utf-8")).get("scenarios", []):
             if s.get("draft"):
                 continue
             checked += 1
-            for code, where, msg in scenario_lint.lint_entry(s, names):
-                if only and code not in only:
-                    continue
-                counts[code] += 1
-                print(f"{s['id']}  {code} - {where}: {msg}")
+            written.append(s)
+    corpus = scenario_lint.corpus_findings(written)
+    for s in written:
+        for code, where, msg in scenario_lint.lint_entry(s, names) + corpus.get(s["id"], []):
+            if only and code not in only:
+                continue
+            counts[code] += 1
+            print(f"{s['id']}  {code} - {where}: {msg}")
+    for code, where, msg in scenario_lint.rel_balance_findings(
+            [s for s in written if scenario_lint.is_pro_story(s)], scenario_lint.REL_SHARE):
+        if not only or code in only:
+            counts[code] += 1
+            print(f"(pro stage)  {code} - {where}: {msg}")
     print(f"\n{checked} written scenario(s) checked, {sum(counts.values())} lint note(s)" +
           ("".join(f"\n  {c}: {n}" for c, n in sorted(counts.items())) if counts else ""))
     return 0
