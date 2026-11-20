@@ -11321,9 +11321,8 @@
 		{
 			"id": "HS_160",
 			"title": "The Next Chapter",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "It's the last week of your high school football career. After the final practice you sit alone in the bleachers with the field lights still on, thinking about everything that got you here and everything that comes next.",
 			"stages": [
 				"high_school"
 			],
@@ -11372,7 +11371,113 @@
 					"HS_100"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Go after the program that fits",
+					"result": "You know what you want: a place to compete, a degree that means something, a coach who'll be straight with you. You say it out loud to the empty field, and it sounds like a plan instead of a wish.",
+					"requires": {
+						"flags": [
+							"recruiting_values_clear"
+						]
+					},
+					"lock_text": "knowing what you want from college",
+					"stats": {
+						"life": {
+							"fun": 2
+						},
+						"personality": {
+							"ambition": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"recruiting": 3,
+					"set_flags": {
+						"ready_for_college_football": true
+					}
+				},
+				{
+					"label": "Call home and talk it through",
+					"result": "You call {parent} from the bleachers. He picks up on the first ring, and you walk through the plan you built together, distance, money and playing time, until it feels like it belongs to all of you.",
+					"requires": {
+						"flags": [
+							"family_college_compromise"
+						]
+					},
+					"lock_text": "a college plan your family agreed on",
+					"stats": {
+						"life": {
+							"social": 3,
+							"energy": -1
+						},
+						"personality": {
+							"charisma": 1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"set_flags": {
+						"ready_for_college_future": true
+					},
+					"rel": {
+						"parent": 8
+					}
+				},
+				{
+					"label": "Kick one just for fun",
+					"result": "Whatever happens with football, school is paid for. You grab a ball from the bag, kick it into the dark for no reason at all, and the weight you've carried for four years finally lets go.",
+					"requires": {
+						"flags": [
+							"secured_academic_path"
+						]
+					},
+					"lock_text": "a secured academic scholarship",
+					"stats": {
+						"life": {
+							"energy": 4,
+							"fun": 4,
+							"health": 2
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"grades": 0.05,
+					"set_flags": {
+						"ready_for_college_future": true
+					}
+				},
+				{
+					"label": "Leave the door open",
+					"result": "You don't have it all figured out, and tonight that feels okay. You've got a leg, four years of film and people who'll pick up when you call. Whatever comes next, you'll walk into it on your own terms.",
+					"stats": {
+						"life": {
+							"fun": 2
+						},
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"ambition": 2,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"skill_points": 2,
+					"set_flags": {
+						"college_decision_pending": true
+					}
+				}
+			]
 		}
 	]
 }
