@@ -651,9 +651,8 @@
 		{
 			"id": "pro_folder_follows",
 			"title": "The Folder Follows You",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "Your first month as a pro, the team's player-development director calls you in. Your college record followed you here, and the club wants to know what kind of player it signed.",
 			"stages": [
 				"pro"
 			],
@@ -681,14 +680,77 @@
 				"premise": "The team's player-development director calls the rookie in: the college record followed you here.",
 				"note": "Reads the college wrong-path flags (planned_pro_reads in tools/college_graph/college_design.json)."
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Ask for a weekly check-in",
+					"result": "You suggest a weekly check-in yourself and hand over your college coach's number. The director writes it in the file: rookie asked for structure.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"retention": 3,
+					"rel": {
+						"coach": 3
+					}
+				},
+				{
+					"label": "Say college is over",
+					"result": "You say the folder belongs to a different person and you'd rather be judged on what you do here. The director says that's fair. The file stays open.",
+					"stats": {
+						"life": {
+							"energy": 1,
+							"fun": 1
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"retention": -1
+				},
+				{
+					"label": "Bring your own copy",
+					"result": "You bring a copy of your college record with your own notes in the margins: what happened and what changed. The director keeps it and tells {coach} to stop worrying.",
+					"requires": {
+						"any_flags": [
+							"rebuilt_reputation",
+							"took_responsibility_scout"
+						]
+					},
+					"lock_text": "having already faced your record honestly",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"fun": -1
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"retention": 4,
+					"rel": {
+						"coach": 4
+					}
+				}
+			]
 		},
 		{
 			"id": "pro_old_crowd",
 			"title": "The Old Crowd",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "Three guys you used to run with in college show up in your new city on a Friday with a hotel suite booked and a plan for your first paycheck. Your phone has been buzzing since noon.",
 			"stages": [
 				"pro"
 			],
@@ -714,14 +776,69 @@
 				"premise": "Old college running buddies show up in your new city with a hotel suite and a plan for your first paycheck.",
 				"note": "Reads the college wrong-path flags (planned_pro_reads in tools/college_graph/college_design.json)."
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Dinner, then home",
+					"result": "You buy them dinner, laugh about the old days and are home by ten. They call you boring. You're at the facility at seven.",
+					"stats": {
+						"life": {
+							"energy": -1,
+							"fun": 1,
+							"social": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"retention": 2
+				},
+				{
+					"label": "Don't answer",
+					"result": "You let the phone buzz and stay in. It's lonely, and it's the first weekend in a while you don't regret anything.",
+					"stats": {
+						"life": {
+							"energy": 3,
+							"social": -2,
+							"fun": -2
+						},
+						"football": {
+							"resilience": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"retention": 1
+				},
+				{
+					"label": "Go out with them",
+					"result": "You go out. Saturday's photos end up online, a team official calls on Monday, and {coach} hears about it before you're in the building.",
+					"stats": {
+						"life": {
+							"fun": 5,
+							"social": 4,
+							"energy": -6
+						},
+						"personality": {
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"late_night"
+					],
+					"retention": -4,
+					"conduct": "bad",
+					"rel": {
+						"coach": -4
+					}
+				}
+			]
 		},
 		{
 			"id": "pro_rookie_symposium",
 			"title": "The Rookie Symposium",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "community",
+			"text": "The league's rookie symposium wants a player to speak about a mistake from college and what came after. The team's player-development director thinks your story is the one the rookies need to hear.",
 			"stages": [
 				"pro"
 			],
@@ -748,14 +865,65 @@
 				"premise": "The league's rookie symposium wants a player to talk about a college mistake and what came after.",
 				"note": "Reads the college wrong-path flags (planned_pro_reads in tools/college_graph/college_design.json)."
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Tell the whole story",
+					"result": "You stand in front of two hundred rookies and tell them about your worst college year without making yourself the hero. Afterward, a line of players waits to talk to you.",
+					"stats": {
+						"life": {
+							"energy": -3
+						},
+						"personality": {
+							"leadership": 3,
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"retention": 2,
+					"followers": 3
+				},
+				{
+					"label": "Tell the safe version",
+					"result": "You give the version with the details smoothed over. It goes fine, and nobody waits afterward.",
+					"stats": {
+						"life": {
+							"energy": -1,
+							"fun": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"retention": 1
+				},
+				{
+					"label": "Say no thanks",
+					"result": "You say you'd rather not relive it in front of a room. The director understands and asks someone else.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "pro_reporters_question",
 			"title": "The Reporter's Question",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "At your first open locker room, a beat reporter skips the kicking questions and asks about your college record: 'Do you think the stories about you are fair?'",
 			"stages": [
 				"pro"
 			],
@@ -781,7 +949,61 @@
 				"premise": "At your first open locker room, a reporter skips the kicking questions and asks about your college record.",
 				"note": "Reads the college wrong-path flags (planned_pro_reads in tools/college_graph/college_design.json)."
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Answer it straight",
+					"result": "You say the stories are true, you're not proud of them and you'd rather be judged on what comes next. The quote runs in full, and it's the least dramatic thing in the paper.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"charisma": 1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"retention": 2,
+					"followers": 2
+				},
+				{
+					"label": "Say no comment",
+					"result": "You say you're only taking football questions. The reporter writes that you 'declined to address' your past, which reads worse than anything you could have said.",
+					"stats": {
+						"life": {
+							"energy": 1,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"stressed"
+					],
+					"retention": -1
+				},
+				{
+					"label": "Push back",
+					"result": "You say the stories were overblown and the reporter should do some homework. It's the most-shared clip of the week, and {coach} asks you to stop by the office.",
+					"stats": {
+						"life": {
+							"fun": 2
+						},
+						"personality": {
+							"ambition": 2,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"spotlight"
+					],
+					"retention": -3,
+					"followers": 6,
+					"rel": {
+						"coach": -4
+					}
+				}
+			]
 		}
 	]
 }
