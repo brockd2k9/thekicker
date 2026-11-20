@@ -23,11 +23,11 @@ R2 changes numbers only; no scene waits on it. Money scenes (R3) are written now
 **Relationship strike flags** (the cheating storyline PRO_155-163; never read by team discipline): `pro_cheated`, `affair_public`.
 College flags set severity through locked choices.
 
-**Totals:** 871 scenes. **703 can be written now**: 619 need nothing new, and 84 are money scenes written with flags and stress costs. **168 are blocked** until R1, R10, R8, R9 lands. Kinds: 796 once, 31 repeat, 29 variant, 3 per_club, 12 epilogue.
+**Totals:** 840 scenes. **703 can be written now**: 619 need nothing new, and 84 are money scenes written with flags and stress costs. **137 are blocked** until R1, R10, R8, R9 lands. Kinds: 765 once, 31 repeat, 29 variant, 3 per_club, 12 epilogue.
 
 | Waits on | Scenes |
 |---|---|
-| R1 | 151: 143, 144, 150, 176, 177, 181, 182, 186, 187, 189, 190, 194, 195, 198, 199, 217, 308, 465, 466, 467, 468, 469, 470, 471, 472, 473, 474, 475, 476, 477, 478, 479, 480, 481, 482, 483, 484, 485, 486, 487, 488, 489, 490, 491, 492, 493, 494, 495, 496, 497, 498, 499, 500, 501, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511, 512, 513, 514, 515, 516, 517, 518, 519, 520, 521, 522, 523, 524, 525, 526, 527, 528, 529, 530, 531, 532, 533, 534, 535, 536, 537, 538, 539, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822, 823, 824, 825, 826, 827, 828, 829, 830, 831, 832, 833, 834, 835, 836, 837, 838, 839, 840, 841, 842, 843, 844, 845, 846, 847, 848, 849, 850, 851, 852, 853, 854, 855, 856, 857, 858, 859 |
+| R1 | 120: 143, 144, 150, 176, 177, 181, 182, 186, 187, 189, 190, 194, 195, 198, 199, 217, 308, 465, 466, 467, 468, 469, 470, 471, 472, 473, 474, 475, 476, 477, 478, 479, 480, 481, 482, 483, 484, 485, 486, 487, 488, 489, 490, 491, 492, 493, 494, 495, 496, 497, 498, 499, 500, 501, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511, 512, 513, 514, 515, 516, 517, 518, 519, 520, 521, 522, 523, 524, 525, 526, 527, 528, 529, 530, 531, 532, 533, 534, 535, 536, 537, 538, 539, 812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822, 823, 824, 825, 826, 827, 828, 829, 830, 831, 832, 833, 834, 835, 836, 837, 838, 839 |
 | R10 | 12: E01, E02, E03, E04, E05, E06, E07, E08, E09, E10, E11, E12 |
 | R3 | 91: 003, 007, 026, 031, 040, 056, 057, 059, 060, 061, 062, 063, 064, 065, 066, 067, 068, 069, 070, 071, 072, 073, 123, 135, 163, 233, 234, 235, 236, 261, 262, 266, 287, 303, 310, 325, 326, 338, 341, 342, 350, 358, 359, 360, 365, 371, 373, 374, 376, 384, 394, 400, 401, 421, 429, 432, 437, 445, 455, 463, 481, 482, 483, 498, 505, 526, 558, 559, 560, 569, 594, 607, 632, 633, 647, 648, 655, 659, 660, 665, 674, 711, 712, 713, 714, 717, 718, 771, 782, 784, 799 |
 | R8 | 3: 151, 219, 220 |
@@ -39,8 +39,8 @@ College flags set severity through locked choices.
 | Era 2: Settled In (26-29) | 150 | 5 | 0 | 26 | 0 | 0 | 0 | 0 |
 | Era 3: Veteran (30-33) | 150 | 1 | 0 | 17 | 2 | 0 | 0 | 2 |
 | Era 4: Aging Veteran (34-37) | 150 | 1 | 0 | 14 | 0 | 2 | 0 | 2 |
-| Era 5: Grizzled Veteran (38-41) | 100 | 0 | 100 | 5 | 0 | 0 | 0 | 0 |
-| Era 6: Hall of Fame Era (42+) | 51 | 0 | 51 | 1 | 0 | 0 | 0 | 51 |
+| Era 5: Grizzled Veteran (38-41) | 80 | 0 | 80 | 5 | 0 | 0 | 0 | 0 |
+| Era 6: Hall of Fame Era (42+) | 40 | 0 | 40 | 1 | 0 | 0 | 0 | 40 |
 | Across eras (state-driven) | 108 | 22 | 0 | 10 | 1 | 0 | 0 | 1 |
 | Epilogue (after retirement) | 12 | 0 | 0 | 0 | 0 | 0 | 12 | 12 |
 
@@ -88,8 +88,8 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 - Veteran wrong path: PRO_259 → PRO_260 → PRO_261 → PRO_262 → PRO_263 → PRO_264 → PRO_265 → PRO_266 → PRO_267 → PRO_268
 - Offseason: PRO_269 → PRO_270 → PRO_271 → PRO_272 → PRO_273 → PRO_274 → PRO_275 → PRO_276 → PRO_277 → PRO_278 → PRO_279 → PRO_280 → PRO_281 → PRO_282 → PRO_283 → PRO_284 → PRO_285 → PRO_286 → PRO_287 → PRO_288
 - Mid-career: PRO_309 → PRO_310 → PRO_311 → PRO_312 → PRO_313 → PRO_314 → PRO_315 → PRO_316 → PRO_317 → PRO_318 → PRO_319 → PRO_320
-- Seed list: PRO_321 → PRO_322 → PRO_323 → PRO_324 → PRO_325 → PRO_326 → PRO_327 → PRO_328 → PRO_329 → PRO_330 → PRO_331 → PRO_332 → PRO_333 → PRO_334 → PRO_335 → PRO_336 → PRO_337 → PRO_338 → PRO_339 → PRO_340 → PRO_341 → PRO_342 → PRO_343 → PRO_344 → PRO_345 → PRO_346 → PRO_347 → PRO_348 → PRO_349 → PRO_350 → PRO_351 → PRO_352 → PRO_353 → PRO_354 → PRO_355 → PRO_356 → PRO_357 → PRO_358 → PRO_359 → PRO_360 → PRO_361 → PRO_362 → PRO_363 → PRO_364 → PRO_365 → PRO_366 → PRO_367 → PRO_368 → PRO_369 → PRO_370 → PRO_371 → PRO_372 → PRO_373 → PRO_374 → PRO_375 → PRO_376 → PRO_377 → PRO_378 → PRO_379 → PRO_380 → PRO_381 → PRO_382 → PRO_383 → PRO_384 → PRO_385 → PRO_386 → PRO_387 → PRO_388 → PRO_389 → PRO_390 → PRO_391 → PRO_392 → PRO_393 → PRO_394 → PRO_395 → PRO_396 → PRO_397 → PRO_398 → PRO_399 → PRO_400 → PRO_401 → PRO_402 → PRO_403 → PRO_404 → PRO_405 → PRO_406 → PRO_407 → PRO_408 → PRO_409 → PRO_410 → PRO_411 → PRO_412 → PRO_413 → PRO_414 → PRO_415 → PRO_416 → PRO_417 → PRO_418 → PRO_419 → PRO_420 → PRO_421 → PRO_422 → PRO_423 → PRO_424 → PRO_425 → PRO_426 → PRO_427 → PRO_428 → PRO_429 → PRO_430 → PRO_431 → PRO_432 → PRO_433 → PRO_434 → PRO_435 → PRO_436 → PRO_437 → PRO_438 → PRO_439 → PRO_440 → PRO_441 → PRO_442 → PRO_443 → PRO_444 → PRO_445 → PRO_446 → PRO_447 → PRO_448 → PRO_449 → PRO_450 → PRO_451 → PRO_452 → PRO_453 → PRO_454 → PRO_455 → PRO_456 → PRO_457 → PRO_458 → PRO_459 → PRO_460 → PRO_461 → PRO_462 → PRO_463 → PRO_464 → PRO_465 → PRO_466 → PRO_467 → PRO_468 → PRO_469 → PRO_470 → PRO_471 → PRO_472 → PRO_473 → PRO_474 → PRO_475 → PRO_476 → PRO_477 → PRO_478 → PRO_479 → PRO_480 → PRO_481 → PRO_482 → PRO_483 → PRO_484 → PRO_485 → PRO_486 → PRO_487 → PRO_488 → PRO_489 → PRO_490 → PRO_491 → PRO_492 → PRO_493 → PRO_494 → PRO_495 → PRO_496 → PRO_497 → PRO_498 → PRO_499 → PRO_500 → PRO_501 → PRO_502 → PRO_503 → PRO_504 → PRO_505 → PRO_506 → PRO_507 → PRO_508 → PRO_509 → PRO_510 → PRO_511 → PRO_512 → PRO_513 → PRO_514 → PRO_515 → PRO_516 → PRO_517 → PRO_518 → PRO_519 → PRO_520 → PRO_521 → PRO_522 → PRO_523 → PRO_524 → PRO_525 → PRO_526 → PRO_527 → PRO_528 → PRO_529 → PRO_530 → PRO_531 → PRO_532 → PRO_533 → PRO_534 → PRO_535 → PRO_536 → PRO_537 → PRO_538 → PRO_539 → PRO_540 → PRO_541 → PRO_542 → PRO_543 → PRO_544 → PRO_545 → PRO_546 → PRO_547 → PRO_548 → PRO_549 → PRO_550
-- New: PRO_551 → PRO_552 → PRO_553 → PRO_554 → PRO_555 → PRO_556 → PRO_557 → PRO_558 → PRO_559 → PRO_560 → PRO_561 → PRO_562 → PRO_563 → PRO_564 → PRO_565 → PRO_566 → PRO_567 → PRO_568 → PRO_569 → PRO_570 → PRO_571 → PRO_572 → PRO_573 → PRO_574 → PRO_575 → PRO_576 → PRO_577 → PRO_578 → PRO_579 → PRO_580 → PRO_581 → PRO_582 → PRO_583 → PRO_584 → PRO_585 → PRO_586 → PRO_587 → PRO_588 → PRO_589 → PRO_590 → PRO_591 → PRO_592 → PRO_593 → PRO_594 → PRO_595 → PRO_596 → PRO_597 → PRO_598 → PRO_599 → PRO_600 → PRO_601 → PRO_602 → PRO_603 → PRO_604 → PRO_605 → PRO_606 → PRO_607 → PRO_608 → PRO_609 → PRO_610 → PRO_611 → PRO_612 → PRO_613 → PRO_614 → PRO_615 → PRO_616 → PRO_617 → PRO_618 → PRO_619 → PRO_620 → PRO_621 → PRO_622 → PRO_623 → PRO_624 → PRO_625 → PRO_626 → PRO_627 → PRO_628 → PRO_629 → PRO_630 → PRO_631 → PRO_632 → PRO_633 → PRO_634 → PRO_635 → PRO_636 → PRO_637 → PRO_638 → PRO_639 → PRO_640 → PRO_641 → PRO_642 → PRO_643 → PRO_644 → PRO_645 → PRO_646 → PRO_647 → PRO_648 → PRO_649 → PRO_650 → PRO_651 → PRO_652 → PRO_653 → PRO_654 → PRO_655 → PRO_656 → PRO_657 → PRO_658 → PRO_659 → PRO_660 → PRO_661 → PRO_662 → PRO_663 → PRO_664 → PRO_665 → PRO_666 → PRO_667 → PRO_668 → PRO_669 → PRO_670 → PRO_671 → PRO_672 → PRO_673 → PRO_674 → PRO_675 → PRO_676 → PRO_677 → PRO_678 → PRO_679 → PRO_680 → PRO_681 → PRO_682 → PRO_683 → PRO_684 → PRO_685 → PRO_686 → PRO_687 → PRO_688 → PRO_689 → PRO_690 → PRO_691 → PRO_692 → PRO_693 → PRO_694 → PRO_695 → PRO_696 → PRO_697 → PRO_698 → PRO_699 → PRO_700 → PRO_701 → PRO_702 → PRO_703 → PRO_704 → PRO_705 → PRO_706 → PRO_707 → PRO_708 → PRO_709 → PRO_710 → PRO_711 → PRO_712 → PRO_713 → PRO_714 → PRO_715 → PRO_716 → PRO_717 → PRO_718 → PRO_719 → PRO_720 → PRO_721 → PRO_722 → PRO_723 → PRO_724 → PRO_725 → PRO_726 → PRO_727 → PRO_728 → PRO_729 → PRO_730 → PRO_731 → PRO_732 → PRO_733 → PRO_734 → PRO_735 → PRO_736 → PRO_737 → PRO_738 → PRO_739 → PRO_740 → PRO_741 → PRO_742 → PRO_743 → PRO_744 → PRO_745 → PRO_746 → PRO_747 → PRO_748 → PRO_749 → PRO_750 → PRO_751 → PRO_752 → PRO_753 → PRO_754 → PRO_755 → PRO_756 → PRO_757 → PRO_758 → PRO_759 → PRO_760 → PRO_761 → PRO_762 → PRO_763 → PRO_764 → PRO_765 → PRO_766 → PRO_767 → PRO_768 → PRO_769 → PRO_770 → PRO_771 → PRO_772 → PRO_773 → PRO_774 → PRO_775 → PRO_776 → PRO_777 → PRO_778 → PRO_779 → PRO_780 → PRO_781 → PRO_782 → PRO_783 → PRO_784 → PRO_785 → PRO_786 → PRO_787 → PRO_788 → PRO_789 → PRO_790 → PRO_791 → PRO_792 → PRO_793 → PRO_794 → PRO_795 → PRO_796 → PRO_797 → PRO_798 → PRO_799 → PRO_800 → PRO_801 → PRO_802 → PRO_803 → PRO_804 → PRO_805 → PRO_806 → PRO_807 → PRO_808 → PRO_809 → PRO_810 → PRO_811 → PRO_812 → PRO_813 → PRO_814 → PRO_815 → PRO_816 → PRO_817 → PRO_818 → PRO_819 → PRO_820 → PRO_821 → PRO_822 → PRO_823 → PRO_824 → PRO_825 → PRO_826 → PRO_827 → PRO_828 → PRO_829 → PRO_830 → PRO_831 → PRO_832 → PRO_833 → PRO_834 → PRO_835 → PRO_836 → PRO_837 → PRO_838 → PRO_839 → PRO_840 → PRO_841 → PRO_842 → PRO_843 → PRO_844 → PRO_845 → PRO_846 → PRO_847 → PRO_848 → PRO_849 → PRO_850 → PRO_851 → PRO_852 → PRO_853 → PRO_854 → PRO_855 → PRO_856 → PRO_857 → PRO_858 → PRO_859
+- Seed list: PRO_321 → PRO_322 → PRO_323 → PRO_324 → PRO_325 → PRO_326 → PRO_327 → PRO_328 → PRO_329 → PRO_330 → PRO_331 → PRO_332 → PRO_333 → PRO_334 → PRO_335 → PRO_336 → PRO_337 → PRO_338 → PRO_339 → PRO_340 → PRO_341 → PRO_342 → PRO_343 → PRO_344 → PRO_345 → PRO_346 → PRO_347 → PRO_348 → PRO_349 → PRO_350 → PRO_351 → PRO_352 → PRO_353 → PRO_354 → PRO_355 → PRO_356 → PRO_357 → PRO_358 → PRO_359 → PRO_360 → PRO_361 → PRO_362 → PRO_363 → PRO_364 → PRO_365 → PRO_366 → PRO_367 → PRO_368 → PRO_369 → PRO_370 → PRO_371 → PRO_372 → PRO_373 → PRO_374 → PRO_375 → PRO_376 → PRO_377 → PRO_378 → PRO_379 → PRO_380 → PRO_381 → PRO_382 → PRO_383 → PRO_384 → PRO_385 → PRO_386 → PRO_387 → PRO_388 → PRO_389 → PRO_390 → PRO_391 → PRO_392 → PRO_393 → PRO_394 → PRO_395 → PRO_396 → PRO_397 → PRO_398 → PRO_399 → PRO_400 → PRO_401 → PRO_402 → PRO_403 → PRO_404 → PRO_405 → PRO_406 → PRO_407 → PRO_408 → PRO_409 → PRO_410 → PRO_411 → PRO_412 → PRO_413 → PRO_414 → PRO_415 → PRO_416 → PRO_417 → PRO_418 → PRO_419 → PRO_420 → PRO_421 → PRO_422 → PRO_423 → PRO_424 → PRO_425 → PRO_426 → PRO_427 → PRO_428 → PRO_429 → PRO_430 → PRO_431 → PRO_432 → PRO_433 → PRO_434 → PRO_435 → PRO_436 → PRO_437 → PRO_438 → PRO_439 → PRO_440 → PRO_441 → PRO_442 → PRO_443 → PRO_444 → PRO_445 → PRO_446 → PRO_447 → PRO_448 → PRO_449 → PRO_450 → PRO_451 → PRO_452 → PRO_453 → PRO_454 → PRO_455 → PRO_456 → PRO_457 → PRO_458 → PRO_459 → PRO_460 → PRO_461 → PRO_462 → PRO_463 → PRO_464 → PRO_465 → PRO_466 → PRO_467 → PRO_468 → PRO_469 → PRO_470 → PRO_471 → PRO_472 → PRO_473 → PRO_474 → PRO_475 → PRO_476 → PRO_477 → PRO_478 → PRO_479 → PRO_480 → PRO_481 → PRO_482 → PRO_483 → PRO_484 → PRO_485 → PRO_486 → PRO_487 → PRO_488 → PRO_489 → PRO_490 → PRO_491 → PRO_492 → PRO_493 → PRO_494 → PRO_495 → PRO_496 → PRO_497 → PRO_498 → PRO_499 → PRO_500 → PRO_501 → PRO_502 → PRO_503 → PRO_504 → PRO_505 → PRO_506 → PRO_507 → PRO_508 → PRO_509 → PRO_510 → PRO_511 → PRO_512 → PRO_513 → PRO_514 → PRO_515 → PRO_516 → PRO_517 → PRO_518 → PRO_519 → PRO_520 → PRO_521 → PRO_522 → PRO_523 → PRO_524 → PRO_525 → PRO_526 → PRO_527 → PRO_528 → PRO_529 → PRO_530 → PRO_531 → PRO_532 → PRO_533 → PRO_534 → PRO_535 → PRO_536 → PRO_537 → PRO_538 → PRO_539
+- New: PRO_551 → PRO_552 → PRO_553 → PRO_554 → PRO_555 → PRO_556 → PRO_557 → PRO_558 → PRO_559 → PRO_560 → PRO_561 → PRO_562 → PRO_563 → PRO_564 → PRO_565 → PRO_566 → PRO_567 → PRO_568 → PRO_569 → PRO_570 → PRO_571 → PRO_572 → PRO_573 → PRO_574 → PRO_575 → PRO_576 → PRO_577 → PRO_578 → PRO_579 → PRO_580 → PRO_581 → PRO_582 → PRO_583 → PRO_584 → PRO_585 → PRO_586 → PRO_587 → PRO_588 → PRO_589 → PRO_590 → PRO_591 → PRO_592 → PRO_593 → PRO_594 → PRO_595 → PRO_596 → PRO_597 → PRO_598 → PRO_599 → PRO_600 → PRO_601 → PRO_602 → PRO_603 → PRO_604 → PRO_605 → PRO_606 → PRO_607 → PRO_608 → PRO_609 → PRO_610 → PRO_611 → PRO_612 → PRO_613 → PRO_614 → PRO_615 → PRO_616 → PRO_617 → PRO_618 → PRO_619 → PRO_620 → PRO_621 → PRO_622 → PRO_623 → PRO_624 → PRO_625 → PRO_626 → PRO_627 → PRO_628 → PRO_629 → PRO_630 → PRO_631 → PRO_632 → PRO_633 → PRO_634 → PRO_635 → PRO_636 → PRO_637 → PRO_638 → PRO_639 → PRO_640 → PRO_641 → PRO_642 → PRO_643 → PRO_644 → PRO_645 → PRO_646 → PRO_647 → PRO_648 → PRO_649 → PRO_650 → PRO_651 → PRO_652 → PRO_653 → PRO_654 → PRO_655 → PRO_656 → PRO_657 → PRO_658 → PRO_659 → PRO_660 → PRO_661 → PRO_662 → PRO_663 → PRO_664 → PRO_665 → PRO_666 → PRO_667 → PRO_668 → PRO_669 → PRO_670 → PRO_671 → PRO_672 → PRO_673 → PRO_674 → PRO_675 → PRO_676 → PRO_677 → PRO_678 → PRO_679 → PRO_680 → PRO_681 → PRO_682 → PRO_683 → PRO_684 → PRO_685 → PRO_686 → PRO_687 → PRO_688 → PRO_689 → PRO_690 → PRO_691 → PRO_692 → PRO_693 → PRO_694 → PRO_695 → PRO_696 → PRO_697 → PRO_698 → PRO_699 → PRO_700 → PRO_701 → PRO_702 → PRO_703 → PRO_704 → PRO_705 → PRO_706 → PRO_707 → PRO_708 → PRO_709 → PRO_710 → PRO_711 → PRO_712 → PRO_713 → PRO_714 → PRO_715 → PRO_716 → PRO_717 → PRO_718 → PRO_719 → PRO_720 → PRO_721 → PRO_722 → PRO_723 → PRO_724 → PRO_725 → PRO_726 → PRO_727 → PRO_728 → PRO_729 → PRO_730 → PRO_731 → PRO_732 → PRO_733 → PRO_734 → PRO_735 → PRO_736 → PRO_737 → PRO_738 → PRO_739 → PRO_740 → PRO_741 → PRO_742 → PRO_743 → PRO_744 → PRO_745 → PRO_746 → PRO_747 → PRO_748 → PRO_749 → PRO_750 → PRO_751 → PRO_752 → PRO_753 → PRO_754 → PRO_755 → PRO_756 → PRO_757 → PRO_758 → PRO_759 → PRO_760 → PRO_761 → PRO_762 → PRO_763 → PRO_764 → PRO_765 → PRO_766 → PRO_767 → PRO_768 → PRO_769 → PRO_770 → PRO_771 → PRO_772 → PRO_773 → PRO_774 → PRO_775 → PRO_776 → PRO_777 → PRO_778 → PRO_779 → PRO_780 → PRO_781 → PRO_782 → PRO_783 → PRO_784 → PRO_785 → PRO_786 → PRO_787 → PRO_788 → PRO_789 → PRO_790 → PRO_791 → PRO_792 → PRO_793 → PRO_794 → PRO_795 → PRO_796 → PRO_797 → PRO_798 → PRO_799 → PRO_800 → PRO_801 → PRO_802 → PRO_803 → PRO_804 → PRO_805 → PRO_806 → PRO_807 → PRO_808 → PRO_809 → PRO_810 → PRO_811 → PRO_812 → PRO_813 → PRO_814 → PRO_815 → PRO_816 → PRO_817 → PRO_818 → PRO_819 → PRO_820 → PRO_821 → PRO_822 → PRO_823 → PRO_824 → PRO_825 → PRO_826 → PRO_827 → PRO_828 → PRO_829 → PRO_830 → PRO_831 → PRO_832 → PRO_833 → PRO_834 → PRO_835 → PRO_836 → PRO_837 → PRO_838 → PRO_839
 - Epilogue: PRO_E01 → PRO_E02 → PRO_E03 → PRO_E04 → PRO_E05 → PRO_E06 → PRO_E07 → PRO_E08 → PRO_E09 → PRO_E10 → PRO_E11 → PRO_E12
 
 ## Era 1: Rookie (22-25) (150)
@@ -1316,7 +1316,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 - **PRO_810 The Ring of Honor Nomination**: You're nominated for the club's ring of honor.
 - **PRO_811 The Last Opening Day**: What might be your last opening day, and you notice everything.
 
-## Era 5: Grizzled Veteran (38-41) (100)
+## Era 5: Grizzled Veteran (38-41) (80)
 
 | ID | Title | Window | Kind | Opens on | Sets | Callbacks (locked choices) | Waits on |
 |---|---|---|---|---|---|---|---|
@@ -1400,26 +1400,6 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_837 | The Media's Last Questions | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
 | PRO_838 | The Fan's Memory | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
 | PRO_839 | The Kicker's Union | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_840 | The Last Hometown Visit | age 38-41, offseason | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_841 | The Final Season's Plan | age 38-41 | once | made_long_distance_work / committed_to_relationship / new_partner / engaged / married |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_842 | The Body's Last Warning | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_843 | The Locker Room Legend | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_844 | The Final Season Ticket | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_845 | The Old Teammates' Visit | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_846 | The Team's Oldest Ever | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_847 | The New Kicker's Thanks | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_848 | The Last Specialists' Dinner | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_849 | The Wrong Path at Forty | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_850 | The Last Big Night Out | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_851 | The Agent Retires | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_852 | The Contract With No Guarantees | age 38-41 | once | contract_year |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_853 | The Kids Who Copy You | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_854 | The Long Way to the Locker Room | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_855 | The Record That Got Away | age 38-41 | once | pro_seasons 15+ |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_856 | The Old Club Calls | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_857 | The Family Vote, Again | age 38-41 | once | made_long_distance_work / committed_to_relationship / new_partner / engaged / married |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_858 | The Last Rookie Class | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_859 | The Body That Still Works | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
 
 - **PRO_143 Forty**: You turn forty in camp. The rookies were in diapers when you kicked in high school.
 - **PRO_150 The Note in the Locker**: A rookie leaves a note in your locker: he grew up watching you. *(Age 38 is reachable now (the cap retires a player after the age-38 season); ages above wait on R1.)*
@@ -1501,28 +1481,8 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 - **PRO_837 The Media's Last Questions**: Every press conference ends with the same question about retirement.
 - **PRO_838 The Fan's Memory**: A fan shows you a ticket stub from your first pro game.
 - **PRO_839 The Kicker's Union**: You help start a group for kickers and punters to talk about health.
-- **PRO_840 The Last Hometown Visit**: You visit your hometown as an active player, maybe for the last time.
-- **PRO_841 The Final Season's Plan**: You and {love_interest} plan the final season like a project.
-- **PRO_842 The Body's Last Warning**: A minor injury takes twice as long to heal.
-- **PRO_843 The Locker Room Legend**: The young players tell stories about you that aren't true.
-- **PRO_844 The Final Season Ticket**: A season-ticket holder who's watched your whole career gives you a gift.
-- **PRO_845 The Old Teammates' Visit**: Old teammates show up at practice to watch you kick.
-- **PRO_846 The Team's Oldest Ever**: You become the oldest player in club history.
-- **PRO_847 The New Kicker's Thanks**: The kicker who'll replace you thanks you for everything you taught him.
-- **PRO_848 The Last Specialists' Dinner**: The specialists' dinner, and you're paying, maybe for the last time.
-- **PRO_849 The Wrong Path at Forty**: A teammate half your age offers you something that would 'make you feel young again'.
-- **PRO_850 The Last Big Night Out**: Teammates want to give you a big night out, and it could go wrong.
-- **PRO_851 The Agent Retires**: Your longtime agent retires before you do.
-- **PRO_852 The Contract With No Guarantees**: The only offer has no guaranteed money.
-- **PRO_853 The Kids Who Copy You**: Every kid at a youth camp kicks with your routine.
-- **PRO_854 The Long Way to the Locker Room**: The walk from the field to the locker room feels longer every year.
-- **PRO_855 The Record That Got Away**: A record you chased for years is just out of reach.
-- **PRO_856 The Old Club Calls**: Your first club asks you to come back for one final season.
-- **PRO_857 The Family Vote, Again**: Another family vote on one more season.
-- **PRO_858 The Last Rookie Class**: You mentor what will probably be your last rookie class.
-- **PRO_859 The Body That Still Works**: A doctor says your body is in better shape than most thirty-year-olds'.
 
-## Era 6: Hall of Fame Era (42+) (51)
+## Era 6: Hall of Fame Era (42+) (40)
 
 | ID | Title | Window | Kind | Opens on | Sets | Callbacks (locked choices) | Waits on |
 |---|---|---|---|---|---|---|---|
@@ -1566,17 +1526,6 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_537 | The Final Season Decision | age 42+, offseason | once |  |  |  | R1 no age cap |
 | PRO_538 | The Former Coach's Recognition | age 42+ | once |  |  |  | R1 no age cap |
 | PRO_539 | The All-Time Greats Dinner | age 42+ | once |  |  |  | R1 no age cap |
-| PRO_540 | The Nomination Conversation | age 42+ | once |  |  |  | R1 no age cap |
-| PRO_541 | The Foundation's Milestone | age 42+ | once |  |  | started_foundation | R1 no age cap |
-| PRO_542 | The Business After Football | age 42+ | once | opened_restaurant / dealership_partner / invested_in_friend / franchise_owner / family_business / business_owner |  |  | R1 no age cap |
-| PRO_543 | The Final Locker Room | age 42+ | once |  |  |  | R1 no age cap |
-| PRO_544 | The Teammate's Farewell | age 42+ | once |  |  |  | R1 no age cap |
-| PRO_545 | The Ambassador Offer | age 42+ | once |  |  |  | R1 no age cap |
-| PRO_546 | The Commemorative Jersey | age 42+ | once |  |  |  | R1 no age cap |
-| PRO_547 | The Career Statistics Interview | age 42+ | once |  |  |  | R1 no age cap |
-| PRO_548 | The Family Documentary | age 42+ | once |  |  |  | R1 no age cap |
-| PRO_549 | The Retirement Announcement | age 42+ | once |  |  |  | R1 no age cap |
-| PRO_550 | The Retirement Celebration | age 42+ | once |  |  |  | R1 no age cap |
 
 - **PRO_144 Still the Oldest**: You've been the oldest player in the league for years now, and a reporter asks how long.
 - **PRO_177 Contract Year: Nobody This Old**: No kicker your age has signed a contract in years. Your agent says the league is curious, and the general manager says 'prove it'.
@@ -1618,17 +1567,6 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 - **PRO_537 The Final Season Decision**: You decide whether to keep going.
 - **PRO_538 The Former Coach's Recognition**: An old coach credits you publicly for your longevity.
 - **PRO_539 The All-Time Greats Dinner**: A private dinner with legends of the game.
-- **PRO_540 The Nomination Conversation**: A journalist asks whether you expect to be nominated someday.
-- **PRO_541 The Foundation's Milestone**: Your foundation reaches a milestone.
-- **PRO_542 The Business After Football**: You decide how much of your time your businesses get.
-- **PRO_543 The Final Locker Room**: You look around a locker room and count the generations you've seen.
-- **PRO_544 The Teammate's Farewell**: A longtime teammate asks if you'd retire together.
-- **PRO_545 The Ambassador Offer**: A former club offers you a permanent ambassador role.
-- **PRO_546 The Commemorative Jersey**: Your club presents you with a commemorative jersey.
-- **PRO_547 The Career Statistics Interview**: A journalist walks you through your career numbers.
-- **PRO_548 The Family Documentary**: Your family is asked to be in a documentary about your life.
-- **PRO_549 The Retirement Announcement**: You finally announce you're stepping away.
-- **PRO_550 The Retirement Celebration**: Former teammates throw a celebration while you're still on the roster.
 
 ## Across eras (state-driven) (108)
 
