@@ -5449,9 +5449,8 @@
 		{
 			"id": "PRO_068",
 			"title": "The Cousin Nobody Remembers",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "money",
+			"text": "Someone from your hometown with your last name and a business idea is waiting by your car after practice.",
 			"stages": [
 				"pro"
 			],
@@ -5475,7 +5474,57 @@
 					"R3 money values"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Hear the pitch, then check it",
+					"result": "You listen, take the paperwork and have your agent look at it. The idea is real; the numbers aren't. You say no with reasons.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Buy him lunch, not the idea",
+					"result": "You buy him lunch and talk about family for an hour. You don't invest, and he leaves happier than he came.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"parent": 3
+					}
+				},
+				{
+					"label": "Say no on the spot",
+					"result": "You say no before he finishes and get in your car. It's quick, and a little cold.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_069",
@@ -16808,9 +16857,8 @@
 		{
 			"id": "PRO_338",
 			"title": "The Equipment Upgrade",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "money",
+			"text": "A sales rep wants you on expensive new training equipment: a sensor suit, a kicking machine, an app that charts everything.",
 			"stages": [
 				"pro"
 			],
@@ -16834,7 +16882,55 @@
 					"R3 money values"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Buy the full setup",
+					"result": "You buy all of it. The data is incredible, and so is the bill.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 3
+				},
+				{
+					"label": "Use the club's equipment",
+					"result": "You ask the club's staff to chart you with what they already have. It's less fancy and nearly as good.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Skip it",
+					"result": "You decide your leg doesn't need an app. Your weeks stay simple.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_339",
@@ -23945,9 +24041,8 @@
 		{
 			"id": "PRO_553",
 			"title": "The Wind Tunnel",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "training",
+			"text": "The stadium's wind swirls in a way no film can show, and the veterans just laugh when you ask about it.",
 			"stages": [
 				"pro"
 			],
@@ -23968,14 +24063,66 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Kick in it every day",
+					"result": "You kick in the swirl every day after practice until you can feel it before it moves the ball.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Ask the grounds crew",
+					"result": "You ask the grounds crew, who have watched that wind for twenty years. They know exactly which flags to watch.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Ask the veterans properly",
+					"result": "You stop asking and start listening at lunch. Three veterans tell you everything, one story at a time.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_554",
 			"title": "The Scout Team",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "training",
+			"text": "You spend practice kicking for the scout team, and nobody watches.",
 			"stages": [
 				"pro"
 			],
@@ -23996,14 +24143,61 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Treat it like the real thing",
+					"result": "You kick every scout-team rep like it's the real thing. Nobody watches, and you get better anyway.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Get to know the scout team",
+					"result": "You learn the names of every scout-team player. They become your favorite people in the building.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				},
+				{
+					"label": "Coast through it",
+					"result": "You coast through the scout-team reps and save your leg. It's easy, and you notice you don't feel like part of it.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_555",
 			"title": "The Weight Room Pecking Order",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "The weight room has a pecking order, and rookies lift last, after the linemen are done with every rack.",
 			"stages": [
 				"pro"
 			],
@@ -24024,14 +24218,61 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Lift at dawn",
+					"result": "You start lifting at six, before the linemen arrive. It's lonely and very effective.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Spot a lineman",
+					"result": "You offer to spot a veteran lineman. By the end of the week he's saving you a rack.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				},
+				{
+					"label": "Take what's left",
+					"result": "You lift whatever's free and don't make a thing of it. Nobody notices you, which is fine for now.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_556",
 			"title": "The Equipment Manager",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "The equipment manager can make your life easy or miserable, and you haven't said hello yet.",
 			"stages": [
 				"pro"
 			],
@@ -24052,14 +24293,64 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Bring coffee",
+					"result": "You bring the equipment staff coffee on Monday and learn their names. Your cleats are perfect all season.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				},
+				{
+					"label": "Ask how the balls are prepared",
+					"result": "You ask how game balls are prepared and listen to all of it. You learn more about kicking than you expected.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2,
+						"team": 1
+					}
+				},
+				{
+					"label": "Keep it professional",
+					"result": "You say hello, say thank you and nothing more. It's fine, and nothing special happens.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_557",
 			"title": "The First Fine",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "You're fined for a dress-code violation you didn't know existed: the wrong socks on a team flight.",
 			"stages": [
 				"pro"
 			],
@@ -24080,14 +24371,66 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Laugh and pay it",
+					"result": "You laugh, pay it and wear the worst socks you own to the next team meal. The room loves it.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				},
+				{
+					"label": "Read the whole rulebook",
+					"result": "You read the whole team rulebook that night and find two more rules you've been breaking.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Grumble and move on",
+					"result": "You pay it, grumble and put the energy into an extra session at the net.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				}
+			]
 		},
 		{
 			"id": "PRO_558",
 			"title": "The Meal Money",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "money",
+			"text": "The per diem envelope on the first road trip is thicker than your college scholarship check.",
 			"stages": [
 				"pro"
 			],
@@ -24111,14 +24454,63 @@
 					"R3 money values"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Save it",
+					"result": "You put the whole envelope in the bank and eat at the team meals. It adds up faster than you'd think.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Take the rookies to dinner",
+					"result": "You take the rookie class to dinner with it. It's gone in one night, and it's a great night.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				},
+				{
+					"label": "Treat yourself",
+					"result": "You buy a good dinner, a good book and a nap. It feels like being a grown-up.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_559",
 			"title": "Rookie Year Taxes",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "money",
+			"text": "Your first tax bill as a pro is a number nobody prepared you for, and it's due in a month.",
 			"stages": [
 				"pro"
 			],
@@ -24142,14 +24534,63 @@
 					"R3 money values"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Hire an accountant",
+					"result": "You hire an accountant who works with athletes. It's done in two weeks, correctly.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Ask a veteran",
+					"result": "You ask a veteran at lunch. He gives you his accountant's number and a story about his first year.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				},
+				{
+					"label": "Figure it out yourself",
+					"result": "You do it yourself over a long weekend. It's stressful, and probably right.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_560",
 			"title": "Free Cleats",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "money",
+			"text": "A shoe company offers free cleats and a small contract, if you wear them on camera.",
 			"stages": [
 				"pro"
 			],
@@ -24173,14 +24614,61 @@
 					"R3 money values"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Take the deal",
+					"result": "You sign. The cleats are fine, and the check pays for your offseason training.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 1
+				},
+				{
+					"label": "Test them first",
+					"result": "You ask to test the cleats for a week before signing. They're good; you sign with a better clause.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Stick with your cleats",
+					"result": "You stay with the cleats you trust. Your feet are happy, and your account is the same.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_561",
 			"title": "The Kicking Ball Room",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "training",
+			"text": "The equipment staff prepares the game balls, and you have opinions about them.",
 			"stages": [
 				"pro"
 			],
@@ -24201,14 +24689,66 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Learn how it's done",
+					"result": "You spend an afternoon with the staff learning how the balls are prepared. Your opinions get better informed.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Thank the staff",
+					"result": "You thank the staff after every practice. They start showing you the balls before game day.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				},
+				{
+					"label": "Kick every ball you can",
+					"result": "You ask to kick the practice balls until you can feel the difference in your sleep.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				}
+			]
 		},
 		{
 			"id": "PRO_562",
 			"title": "The Trainer's Table",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "health",
+			"text": "The athletic trainer says your hip flexor is tight, and you think it's nothing.",
 			"stages": [
 				"pro"
 			],
@@ -24229,14 +24769,61 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Do what the trainer says",
+					"result": "You do the stretches every day. The tightness is gone in a week.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Kick through it",
+					"result": "You kick through it. It holds, and it nags all month.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Take a day",
+					"result": "You take a day off kicking. It helps more than you'd like to admit.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_563",
 			"title": "Your First Locker",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "Your name is on tape above a locker between two veterans who haven't introduced themselves.",
 			"stages": [
 				"pro"
 			],
@@ -24257,14 +24844,65 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Introduce yourself",
+					"result": "You introduce yourself to both. One shakes your hand; the other grunts. By October, the grunt is your friend.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				},
+				{
+					"label": "Wait to be welcomed",
+					"result": "You keep your head down and let your work introduce you. It takes a month, and when it comes it's real.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"social": 1
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"skill_points": 1,
+					"rel": {
+						"team": 2
+					}
+				},
+				{
+					"label": "Decorate your locker",
+					"result": "You put up a photo of your family and a calendar. It makes the place feel like yours.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_564",
 			"title": "The Group Text",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "The specialists have a group text, and you're not in it yet.",
 			"stages": [
 				"pro"
 			],
@@ -24285,14 +24923,61 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Ask to be added",
+					"result": "You ask the punter to add you. You're in by lunch, and the first message is a meme about you.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				},
+				{
+					"label": "Earn your way in",
+					"result": "You don't ask. After a good week of practice, you're added without a word.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 1
+				},
+				{
+					"label": "Don't care",
+					"result": "You decide you don't need a group text. It's quieter. You miss the inside jokes.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_565",
 			"title": "The Ride to Practice",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "You don't have a car yet, and the veteran who offered rides keeps forgetting.",
 			"stages": [
 				"pro"
 			],
@@ -24313,14 +24998,61 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Ride with another rookie",
+					"result": "You ride with another rookie every day. The drives turn into the best part of the week.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				},
+				{
+					"label": "Take a car service",
+					"result": "You take a car service and read on the way. It's expensive, and relaxing.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Bike to practice",
+					"result": "You bike to practice every morning. Your legs are tired, and strong.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				}
+			]
 		},
 		{
 			"id": "PRO_566",
 			"title": "The Rookie Show",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "The rookies have to put on a talent show for the veterans, and you have no talent besides kicking.",
 			"stages": [
 				"pro"
 			],
@@ -24341,14 +25073,64 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Commit to something ridiculous",
+					"result": "You do a dramatic poetry reading about the long snapper. The room cries laughing.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				},
+				{
+					"label": "Organize the whole show",
+					"result": "You organize the rookies' acts and run the show like a coach. It's the best one in years.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2,
+						"team": 1
+					}
+				},
+				{
+					"label": "Do the minimum",
+					"result": "You do a card trick and sit down. Nobody remembers it.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_567",
 			"title": "The Fan Event",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "community",
+			"text": "A season-ticket holders' event, and everyone wants a picture with the new kicker.",
 			"stages": [
 				"pro"
 			],
@@ -24369,14 +25151,65 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Take every picture",
+					"result": "You take every picture and learn a dozen names. Two of them sit behind the bench for years after.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				},
+				{
+					"label": "Bring the specialists",
+					"result": "You bring the punter and snapper along. The fans love the 'kicking unit' photo.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"social": 1
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"skill_points": 1,
+					"rel": {
+						"team": 2
+					}
+				},
+				{
+					"label": "Leave on time",
+					"result": "You stay your hour and leave on time. It's fine.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_568",
 			"title": "The Hometown Paper",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "Your hometown paper runs a story about you with a photo from your senior prom.",
 			"stages": [
 				"pro"
 			],
@@ -24397,14 +25230,63 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Send them a better photo",
+					"result": "You call the paper, laugh and send a better photo. They run both.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"parent": 3
+					}
+				},
+				{
+					"label": "Let it be",
+					"result": "You let it be. The prom photo is now on your locker, courtesy of the veterans.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Thank the reporter",
+					"result": "You call the reporter who wrote it and thank them. They become the first person to tell your story right.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_569",
 			"title": "The Card Signing",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "money",
+			"text": "A trading card company wants your signature on a thousand cards in one afternoon.",
 			"stages": [
 				"pro"
 			],
@@ -24428,14 +25310,61 @@
 					"R3 money values"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Sign them all",
+					"result": "You sign a thousand cards in four hours. Your hand hurts, and the check is nice.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 1
+				},
+				{
+					"label": "Sign a few for charity",
+					"result": "You sign two hundred and donate a set to a children's hospital raffle.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				},
+				{
+					"label": "Pass",
+					"result": "You pass. Your hand is grateful.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_570",
 			"title": "The Holder Who Won't Talk",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "Your new holder is all business and doesn't talk to rookies.",
 			"stages": [
 				"pro"
 			],
@@ -24456,14 +25385,66 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Learn the routine silently",
+					"result": "You learn the holder's routine by watching. By week three, you're in sync without a word.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Win the holder over",
+					"result": "You bring the holder lunch and ask about their family. It takes a month, and then it's easy.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"holder": 3
+					}
+				},
+				{
+					"label": "Out-prepare them",
+					"result": "You show up early every day until the holder starts showing up earlier.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				}
+			]
 		},
 		{
 			"id": "PRO_571",
 			"title": "The First Night Game",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "training",
+			"text": "The first night game under the lights, and you can't sleep the night before.",
 			"stages": [
 				"pro"
 			],
@@ -24484,14 +25465,63 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Do nothing all day",
+					"result": "You read, nap and do nothing all day. You're calm by kickoff.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Talk to the sports psychologist",
+					"result": "You call the team's sports psychologist. Two exercises, and you sleep like a baby.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Call home",
+					"result": "You call {parent}, who tells you about every night game he ever watched you in. You laugh yourself to sleep.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"parent": 3
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_572",
 			"title": "Sleeping on the Plane",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "The team plane at midnight, and you can't sleep on planes.",
 			"stages": [
 				"pro"
 			],
@@ -24512,14 +25542,63 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Bring a sleep kit",
+					"result": "You bring an eye mask, earplugs and a pillow. The veterans mock you; you sleep four hours.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Join the card game",
+					"result": "You join the card game in the back. You lose a few dollars and make three friends.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				},
+				{
+					"label": "Watch film",
+					"result": "You watch film on your tablet the whole flight. You land exhausted and very prepared.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_573",
 			"title": "The Hotel Roommate",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "Your road roommate snores, sleepwalks and talks about his ex all night.",
 			"stages": [
 				"pro"
 			],
@@ -24540,14 +25619,63 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Listen to him",
+					"result": "You listen. He's going through a lot, and you become his person on road trips.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				},
+				{
+					"label": "Ask for a new roommate",
+					"result": "You ask the travel staff for a new roommate. You sleep, and he's a little hurt.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Bring earplugs and set rules",
+					"result": "You bring earplugs and set a lights-out time. It mostly works.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_574",
 			"title": "The Waiver Wire",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "A rookie from your class is cut and claimed by another club within an hour.",
 			"stages": [
 				"pro"
 			],
@@ -24568,14 +25696,61 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Text him",
+					"result": "You text him congratulations on the new club. He calls you every Sunday that season.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				},
+				{
+					"label": "Take the lesson",
+					"result": "You treat it as a lesson about how fast this league moves, and kick extra that afternoon.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Feel it and move on",
+					"result": "You let yourself feel it for an evening. Then you go to sleep.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_575",
 			"title": "The Rookie Contract",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "You finally read your rookie contract all the way through.",
 			"stages": [
 				"pro"
 			],
@@ -24596,14 +25771,61 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Read every clause",
+					"result": "You read every clause and call your agent with six questions. You learn what a guarantee really means.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Focus on the incentives",
+					"result": "You focus on the incentive clauses and tape them inside your locker.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 1
+				},
+				{
+					"label": "Skim it",
+					"result": "You skim it and trust your agent. It's fine.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_576",
 			"title": "The Kicker Down the Hall",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "The punter is your age and acts like he's been here twenty years.",
 			"stages": [
 				"pro"
 			],
@@ -24624,14 +25846,61 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Become friends anyway",
+					"result": "You become friends anyway. It turns out he's as nervous as you are.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				},
+				{
+					"label": "Compete with him",
+					"result": "You turn every specialist drill into a quiet competition with him. You both get better.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Ignore him",
+					"result": "You ignore him. The specialists' room is awkward all season.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_577",
 			"title": "The Film You Hate",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "training",
+			"text": "You watch your own college film with the coaches, and it looks different now.",
 			"stages": [
 				"pro"
 			],
@@ -24652,14 +25921,66 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Take notes on everything",
+					"result": "You take notes on every flaw the coaches point out. It's a long list, and it's useful.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Fix one thing a week",
+					"result": "You pick one flaw a week and fix it. By midseason, the old film looks like someone else.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Ask your college coach",
+					"result": "You call your college coach and talk through the film. He laughs and says he always knew.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_578",
 			"title": "Your Parents in the Stands",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "family",
+			"text": "{parent} drives eleven hours to see you kick in person for the first time.",
 			"stages": [
 				"pro"
 			],
@@ -24680,14 +26001,65 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Spend every minute together",
+					"result": "You spend every free minute with him. He doesn't stop smiling all weekend.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"parent": 5
+					}
+				},
+				{
+					"label": "Give him the full tour",
+					"result": "You give him the full tour: the locker room, the field, the coaches. He shakes {coach}'s hand twice.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"social": 1
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"skill_points": 1,
+					"rel": {
+						"team": 2
+					}
+				},
+				{
+					"label": "Keep your routine",
+					"result": "You keep your routine and see him after. He understands, and you wish you'd done more.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_579",
 			"title": "The Sibling Who Wants to Visit",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "family",
+			"text": "{sibling} wants to spend his spring break at your apartment.",
 			"stages": [
 				"pro"
 			],
@@ -24708,14 +26080,65 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Say yes",
+					"result": "You say yes and take him everywhere. He thinks you're the coolest person alive.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"sibling": 5
+					}
+				},
+				{
+					"label": "Put him to work",
+					"result": "You let him come and help at your youth clinic. He's great with the kids.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"social": 1
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"skill_points": 1,
+					"rel": {
+						"team": 2
+					}
+				},
+				{
+					"label": "Say not this year",
+					"result": "You say this spring is too busy. He's disappointed.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_580",
 			"title": "The College Teammates' Chat",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "Your old college teammates' group chat wants inside stories from the league.",
 			"stages": [
 				"pro"
 			],
@@ -24736,14 +26159,63 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Tell the funny ones",
+					"result": "You tell the funny stories and keep the private ones private. The chat loves you.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				},
+				{
+					"label": "Say nothing about the team",
+					"result": "You say you can't talk about the team. It's a little awkward, and it's right.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Mute the chat",
+					"result": "You mute it for the season. You miss some jokes.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_581",
 			"title": "The Old Girlfriend",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "romance",
+			"text": "Someone from college messages you the week your first big headline runs.",
 			"stages": [
 				"pro"
 			],
@@ -24772,14 +26244,60 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Meet for coffee",
+					"result": "You meet for coffee. It's warm and a little strange, and you're glad you went.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					]
+				},
+				{
+					"label": "Ask yourself why now",
+					"result": "You ask yourself why now, and don't answer. You keep it friendly from a distance.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Leave it on read",
+					"result": "You leave it on read. It's simpler.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_582",
 			"title": "Your First Bad Practice Week",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "training",
+			"text": "Five bad practices in a row, and the coaches have stopped saying 'next one'.",
 			"stages": [
 				"pro"
 			],
@@ -24800,14 +26318,66 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Go back to basics with {coach}",
+					"result": "You ask {coach} to strip your routine back to basics. It's humbling, and it works.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Kick until it's back",
+					"result": "You kick until the field lights come on, every night, until it's back.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 3
+				},
+				{
+					"label": "Talk to the holder",
+					"result": "You talk it through with {holder}, who has seen this before. It helps more than the kicking.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"holder": 3
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_583",
 			"title": "The Veteran's Car",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "A veteran tosses you his keys and asks you to move his car, which costs more than your parents' house.",
 			"stages": [
 				"pro"
 			],
@@ -24828,14 +26398,63 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Move it carefully",
+					"result": "You move it very carefully, and he notices. He starts calling you by your name.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				},
+				{
+					"label": "Ask what it cost",
+					"result": "You ask him what it cost and whether he'd do it again. His answer is long and honest.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Hand the keys back",
+					"result": "You say you're not comfortable driving it. He laughs and moves it himself.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_584",
 			"title": "Learning to Cook",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "health",
+			"text": "Your first apartment, and your diet is cereal and takeout.",
 			"stages": [
 				"pro"
 			],
@@ -24856,14 +26475,63 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Learn to cook",
+					"result": "You learn five meals and cook them on rotation. Your energy in practice is better within a week.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Cook with teammates",
+					"result": "You start a Sunday cooking night with two rookies. Everyone burns something; nobody cares.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				},
+				{
+					"label": "Meal service",
+					"result": "You sign up for a meal service. It's expensive, and you never think about food again.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_585",
 			"title": "The Team Nutritionist",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "health",
+			"text": "The team nutritionist reviews what you eat and doesn't hide her reaction.",
 			"stages": [
 				"pro"
 			],
@@ -24884,14 +26552,61 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Follow her plan",
+					"result": "You follow her plan to the letter. You feel better by week two.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Ask for a performance plan",
+					"result": "You ask for a plan built for kicking power. It's strict and it works.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 1
+				},
+				{
+					"label": "Change one thing",
+					"result": "You change one thing: breakfast. It's a start.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_586",
 			"title": "The Sleep Study",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "health",
+			"text": "The club puts every rookie through a sleep study, and your results are embarrassing.",
 			"stages": [
 				"pro"
 			],
@@ -24912,14 +26627,63 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Fix your sleep",
+					"result": "You follow every recommendation: dark room, no phone, same bedtime. Your practices improve.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Sleep more, simply",
+					"result": "You just go to bed an hour earlier. It helps.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Compare with the rookies",
+					"result": "You compare results with the other rookies. Everyone's are bad, and you laugh about it for a week.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_587",
 			"title": "The Team Psychologist",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "health",
+			"text": "The club's team psychologist offers you a standing Tuesday appointment.",
 			"stages": [
 				"pro"
 			],
@@ -24943,14 +26707,83 @@
 					"saw_sports_psych"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Take the Tuesday slot",
+					"result": "You take the slot. Some weeks you talk about kicking; most weeks you talk about everything else.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Say you're fine",
+					"result": "You say you're fine. You are, mostly.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Use it for routines",
+					"result": "You use the sessions to build a pre-kick routine. It's the best thing you do all year.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 1
+				},
+				{
+					"label": "Pick up where you left off",
+					"result": "You tell the psychologist what worked in college, and you skip the first month of getting to know each other.",
+					"requires": {
+						"flags": [
+							"saw_sports_psych"
+						]
+					},
+					"lock_text": "having worked with a sports psychologist in college",
+					"stats": {
+						"life": {
+							"energy": 1
+						},
+						"personality": {
+							"intelligence": 1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_588",
 			"title": "The Rookie Who Doesn't Make It",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "The rookie you came in with is released after his first season, and his locker is empty by noon.",
 			"stages": [
 				"pro"
 			],
@@ -24971,14 +26804,66 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Help him pack",
+					"result": "You help him carry his things to the car. He thanks you for being the only one who came.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 3
+					}
+				},
+				{
+					"label": "Kick harder",
+					"result": "You kick harder that afternoon than you have all year.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Call your agent",
+					"result": "You call your agent and ask what could have saved him. The answer is a list you take seriously.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_589",
 			"title": "The Practice-Field Fan",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "community",
+			"text": "A kid watches every practice from behind the fence and holds up a sign with your name.",
 			"stages": [
 				"pro"
 			],
@@ -24999,7 +26884,59 @@
 				"people": [],
 				"kind": "once"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Go say hello",
+					"result": "You walk over after practice and sign the sign. He's there every day after that, beaming.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 1
+					}
+				},
+				{
+					"label": "Get him on the field",
+					"result": "You ask the club to bring him onto the field for a practice. He kicks one ball and talks about it for years.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"social": 1
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"skill_points": 1,
+					"rel": {
+						"team": 2
+					}
+				},
+				{
+					"label": "Wave and keep going",
+					"result": "You wave and keep going. He waves back, every day.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_590",

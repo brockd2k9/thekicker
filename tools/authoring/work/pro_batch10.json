@@ -1,0 +1,829 @@
+{
+  "_about": "PRO batch 10: era 1, Rookie (22-25).",
+  "scenarios": [
+    {
+      "id": "PRO_577",
+      "title": "The Film You Hate",
+      "category": "training",
+      "text": "You watch your own college film with the coaches, and it looks different now.",
+      "choices": [
+        {
+          "label": "Take notes on everything",
+          "result": "You take notes on every flaw the coaches point out. It's a long list, and it's useful.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Fix one thing a week",
+          "result": "You pick one flaw a week and fix it. By midseason, the old film looks like someone else.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Ask your college coach",
+          "result": "You call your college coach and talk through the film. He laughs and says he always knew.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_578",
+      "title": "Your Parents in the Stands",
+      "category": "family",
+      "text": "{parent} drives eleven hours to see you kick in person for the first time.",
+      "choices": [
+        {
+          "label": "Spend every minute together",
+          "result": "You spend every free minute with him. He doesn't stop smiling all weekend.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "parent": 5
+          }
+        },
+        {
+          "label": "Give him the full tour",
+          "result": "You give him the full tour: the locker room, the field, the coaches. He shakes {coach}'s hand twice.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Keep your routine",
+          "result": "You keep your routine and see him after. He understands, and you wish you'd done more.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_579",
+      "title": "The Sibling Who Wants to Visit",
+      "category": "family",
+      "text": "{sibling} wants to spend his spring break at your apartment.",
+      "choices": [
+        {
+          "label": "Say yes",
+          "result": "You say yes and take him everywhere. He thinks you're the coolest person alive.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "sibling": 5
+          }
+        },
+        {
+          "label": "Put him to work",
+          "result": "You let him come and help at your youth clinic. He's great with the kids.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Say not this year",
+          "result": "You say this spring is too busy. He's disappointed.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_580",
+      "title": "The College Teammates' Chat",
+      "category": "social",
+      "text": "Your old college teammates' group chat wants inside stories from the league.",
+      "choices": [
+        {
+          "label": "Tell the funny ones",
+          "result": "You tell the funny stories and keep the private ones private. The chat loves you.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Say nothing about the team",
+          "result": "You say you can't talk about the team. It's a little awkward, and it's right.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Mute the chat",
+          "result": "You mute it for the season. You miss some jokes.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_581",
+      "title": "The Old Girlfriend",
+      "category": "romance",
+      "text": "Someone from college messages you the week your first big headline runs.",
+      "choices": [
+        {
+          "label": "Meet for coffee",
+          "result": "You meet for coffee. It's warm and a little strange, and you're glad you went.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "best_friend": 0
+          }
+        },
+        {
+          "label": "Ask yourself why now",
+          "result": "You ask yourself why now, and don't answer. You keep it friendly from a distance.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Leave it on read",
+          "result": "You leave it on read. It's simpler.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_582",
+      "title": "Your First Bad Practice Week",
+      "category": "training",
+      "text": "Five bad practices in a row, and the coaches have stopped saying 'next one'.",
+      "choices": [
+        {
+          "label": "Go back to basics with {coach}",
+          "result": "You ask {coach} to strip your routine back to basics. It's humbling, and it works.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Kick until it's back",
+          "result": "You kick until the field lights come on, every night, until it's back.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 3
+        },
+        {
+          "label": "Talk to the holder",
+          "result": "You talk it through with {holder}, who has seen this before. It helps more than the kicking.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "holder": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_583",
+      "title": "The Veteran's Car",
+      "category": "team",
+      "text": "A veteran tosses you his keys and asks you to move his car, which costs more than your parents' house.",
+      "choices": [
+        {
+          "label": "Move it carefully",
+          "result": "You move it very carefully, and he notices. He starts calling you by your name.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Ask what it cost",
+          "result": "You ask him what it cost and whether he'd do it again. His answer is long and honest.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Hand the keys back",
+          "result": "You say you're not comfortable driving it. He laughs and moves it himself.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_584",
+      "title": "Learning to Cook",
+      "category": "health",
+      "text": "Your first apartment, and your diet is cereal and takeout.",
+      "choices": [
+        {
+          "label": "Learn to cook",
+          "result": "You learn five meals and cook them on rotation. Your energy in practice is better within a week.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Cook with teammates",
+          "result": "You start a Sunday cooking night with two rookies. Everyone burns something; nobody cares.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Meal service",
+          "result": "You sign up for a meal service. It's expensive, and you never think about food again.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_585",
+      "title": "The Team Nutritionist",
+      "category": "health",
+      "text": "The team nutritionist reviews what you eat and doesn't hide her reaction.",
+      "choices": [
+        {
+          "label": "Follow her plan",
+          "result": "You follow her plan to the letter. You feel better by week two.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Ask for a performance plan",
+          "result": "You ask for a plan built for kicking power. It's strict and it works.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Change one thing",
+          "result": "You change one thing: breakfast. It's a start.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_586",
+      "title": "The Sleep Study",
+      "category": "health",
+      "text": "The club puts every rookie through a sleep study, and your results are embarrassing.",
+      "choices": [
+        {
+          "label": "Fix your sleep",
+          "result": "You follow every recommendation: dark room, no phone, same bedtime. Your practices improve.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Sleep more, simply",
+          "result": "You just go to bed an hour earlier. It helps.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Compare with the rookies",
+          "result": "You compare results with the other rookies. Everyone's are bad, and you laugh about it for a week.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_587",
+      "title": "The Team Psychologist",
+      "category": "health",
+      "text": "The club's team psychologist offers you a standing Tuesday appointment.",
+      "choices": [
+        {
+          "label": "Take the Tuesday slot",
+          "result": "You take the slot. Some weeks you talk about kicking; most weeks you talk about everything else.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Say you're fine",
+          "result": "You say you're fine. You are, mostly.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Use it for routines",
+          "result": "You use the sessions to build a pre-kick routine. It's the best thing you do all year.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Pick up where you left off",
+          "result": "You tell the psychologist what worked in college, and you skip the first month of getting to know each other.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "requires": {
+            "flags": [
+              "saw_sports_psych"
+            ]
+          },
+          "lock_text": "having worked with a sports psychologist in college"
+        }
+      ]
+    },
+    {
+      "id": "PRO_588",
+      "title": "The Rookie Who Doesn't Make It",
+      "category": "team",
+      "text": "The rookie you came in with is released after his first season, and his locker is empty by noon.",
+      "choices": [
+        {
+          "label": "Help him pack",
+          "result": "You help him carry his things to the car. He thanks you for being the only one who came.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Kick harder",
+          "result": "You kick harder that afternoon than you have all year.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Call your agent",
+          "result": "You call your agent and ask what could have saved him. The answer is a list you take seriously.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_589",
+      "title": "The Practice-Field Fan",
+      "category": "community",
+      "text": "A kid watches every practice from behind the fence and holds up a sign with your name.",
+      "choices": [
+        {
+          "label": "Go say hello",
+          "result": "You walk over after practice and sign the sign. He's there every day after that, beaming.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 1
+          }
+        },
+        {
+          "label": "Get him on the field",
+          "result": "You ask the club to bring him onto the field for a practice. He kicks one ball and talks about it for years.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Wave and keep going",
+          "result": "You wave and keep going. He waves back, every day.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    }
+  ]
+}
