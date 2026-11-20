@@ -1,0 +1,994 @@
+{
+  "_about": "College batch 8: freshman year (COL_008, 019, 022, 024-033). Opens The Advisor's Warning (hid_the_grade), {parent} Loses His Job (both COL_031 flags), and The Coach's Office (online_incident, academic_shortcut).",
+  "scenarios": [
+    {
+      "id": "COL_008",
+      "title": "Walk-On Reality",
+      "category": "team",
+      "text": "Scholarship players get meal cards, new cleats and a laptop. You get a locker and a parking ticket. In the weight room, a teammate jokes that walk-ons are practice dummies, and a few guys laugh.",
+      "choices": [
+        {
+          "label": "Laugh it off and outwork them",
+          "result": "You laugh with them, then stay forty minutes after every lift for the rest of the week. Nobody says it again, mostly because they're tired of watching you.",
+          "stats": {
+            "life": {
+              "energy": -4
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2,
+          "rel": {
+            "team": 1
+          }
+        },
+        {
+          "label": "Say it back, calmly",
+          "result": "You tell him you're paying to be here, so you're probably the one who wants it most. The room goes quiet, then someone says, 'Fair.'",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "rel": {
+            "team": 2,
+            "coach": 1
+          }
+        },
+        {
+          "label": "Ask {coach} about a scholarship path",
+          "result": "After the lift you ask {coach}, plainly, what a walk-on has to do to earn a scholarship. The answer is long and honest, and you write it down.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "COL_019",
+      "title": "Homecoming Weekend",
+      "category": "community",
+      "text": "Homecoming weekend. Alumni pack the campus, boosters want photos, the band wants the specialists for a halftime skit at Friday's pep rally, and the team wants you in bed by ten.",
+      "choices": [
+        {
+          "label": "Do the skit",
+          "result": "You learn the dance in an hour and do it in front of five thousand people. It's ridiculous, the clip goes around campus, and the band adopts you.",
+          "stats": {
+            "life": {
+              "fun": 4,
+              "social": 3,
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "followers": 3
+        },
+        {
+          "label": "Do the booster photos",
+          "result": "You spend an hour smiling for alumni photos. One of them owns the business you've wanted to intern at, and he gives you his card.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Skip it all and rest",
+          "result": "You eat, stretch and are asleep by nine while the campus loses its mind outside your window.",
+          "stats": {
+            "life": {
+              "energy": 4,
+              "fun": -2,
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "COL_022",
+      "title": "Budget Week",
+      "category": "money",
+      "text": "Midterms, and your account is nearly empty. Rent, books and the phone bill are all due the same week, and you've been eating cereal for dinner since Sunday.",
+      "choices": [
+        {
+          "label": "Call {parent}",
+          "result": "You call {parent} and ask for help. He doesn't hesitate, and you hear how tight things are at home in the way he says 'it's fine.'",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "parent": 2
+          }
+        },
+        {
+          "label": "Pick up a weekend shift",
+          "result": "You find a Saturday-morning shift at the campus bookstore. It eats your one free morning, and it covers the phone bill.",
+          "stats": {
+            "life": {
+              "energy": -3
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "tired"
+          ]
+        },
+        {
+          "label": "Make a real budget",
+          "result": "You sit down with the team's financial-literacy person and build a budget for the rest of the semester. It's not fun. It works.",
+          "stats": {
+            "life": {
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        },
+        {
+          "label": "Use the savings",
+          "result": "You dip into the savings you started with your first paycheck in high school. It covers the week, and you start a new rule: never below a hundred dollars.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "requires": {
+            "flags": [
+              "saved_first_paycheck"
+            ]
+          },
+          "lock_text": "having saved your first paychecks"
+        }
+      ]
+    },
+    {
+      "id": "COL_024",
+      "title": "The New Holder",
+      "category": "team",
+      "text": "Your new holder, {holder}, spins the laces toward the goalposts a different way than you're used to. You've each done it your own way for years, and neither of you wants to be the one to change.",
+      "choices": [
+        {
+          "label": "Change to {holder}'s way",
+          "result": "You adjust your approach to the new laces. The first week is ugly in practice, and by the second, you've stopped noticing.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "holder": 5
+          }
+        },
+        {
+          "label": "Ask {holder} to change",
+          "result": "You explain why the laces matter to your contact and ask {holder} to switch. It's done, a little stiffly.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "holder": -2
+          }
+        },
+        {
+          "label": "Chart both ways",
+          "result": "You suggest fifty reps each way, charted, and let the numbers decide. It costs a week of practice, and nobody has to win the argument.",
+          "stats": {
+            "life": {
+              "energy": -3
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "holder": 3,
+            "coach": 1
+          }
+        },
+        {
+          "label": "Tell {holder} what trust looks like",
+          "result": "You tell {holder} about the high school holder who never let you down and what that trust looked like. Then you ask what {holder} needs from you. You figure out the laces together by Friday.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "holder": 7
+          },
+          "requires": {
+            "flags": [
+              "holder_big_moment_success"
+            ]
+          },
+          "lock_text": "having trusted a holder in a big moment before"
+        }
+      ]
+    },
+    {
+      "id": "COL_025",
+      "title": "Sleepless Before Saturday",
+      "category": "health",
+      "text": "You haven't slept more than four hours before a game all season. You lie awake at 2 a.m. replaying kicks you haven't even tried yet.",
+      "choices": [
+        {
+          "label": "Tell the team trainer",
+          "result": "You tell the trainer, who doesn't laugh. You leave with a sleep routine, a no-screens rule and the number for the team's sports psychologist.",
+          "stats": {
+            "life": {
+              "health": 3,
+              "energy": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        },
+        {
+          "label": "Watch film until you're tired",
+          "result": "You watch special teams film until your eyes close. You sleep a little more and dream about protection schemes.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Just push through",
+          "result": "You decide it's part of the job and stop thinking about it. Some nights that works. Most nights it doesn't, so you fill them with extra film.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "health": -1
+            },
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "tired"
+          ],
+          "skill_points": 2
+        }
+      ]
+    },
+    {
+      "id": "COL_026",
+      "title": "The Class You're Failing",
+      "category": "school",
+      "text": "A D on your chemistry midterm. {teacher} sees every athlete's grades on Friday, whether you mention it or not.",
+      "choices": [
+        {
+          "label": "Hope it gets lost",
+          "result": "You don't mention it and hope it slips through. It doesn't, and when {teacher} brings it up, it's the hiding that makes the conversation hard.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ],
+          "set_flags": {
+            "hid_the_grade": true
+          },
+          "rel": {
+            "teacher": -3
+          }
+        },
+        {
+          "label": "Tell {teacher} first",
+          "result": "You walk into the office Thursday with the test in your hand. By the end of the meeting you have a tutor, a study table time and a plan.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "teacher": 5
+          },
+          "grades": 0.1
+        },
+        {
+          "label": "Fix it yourself",
+          "result": "You go to the professor's office hours twice a week and redo every problem you missed. You don't tell anyone, and the final goes better than anyone expected.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "tired"
+          ],
+          "grades": 0.15
+        }
+      ]
+    },
+    {
+      "id": "COL_027",
+      "title": "Group Project Ghost",
+      "category": "school",
+      "text": "A teammate in your class wants his name on your group project. He hasn't come to a single meeting, and the other two in your group are looking at you to decide.",
+      "choices": [
+        {
+          "label": "Leave his name off",
+          "result": "You tell the group his name stays off unless he does a section. He's cold to you at practice for a week.",
+          "stats": {
+            "life": {
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "rel": {
+            "team": -1
+          },
+          "grades": 0.05
+        },
+        {
+          "label": "Give him one real job",
+          "result": "You give him the slides and a deadline. He does them, badly, at 2 a.m., and he shows up to the next meeting.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "tired"
+          ],
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Put his name on it",
+          "result": "You add his name and do his part yourself. It's easier than the argument, the project gets an A, and the rest of your group notices.",
+          "stats": {
+            "life": {
+              "energy": -3
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "team": 3
+          },
+          "grades": 0.1
+        },
+        {
+          "label": "Remember how covering went last time",
+          "result": "You covered for a teammate once in high school and remember how that went. You tell him plainly: show up Thursday, or his name stays off. He shows up, and you spend Thursday night catching him up.",
+          "stats": {
+            "life": {
+              "social": 1,
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "rel": {
+            "team": 1
+          },
+          "grades": 0.05,
+          "requires": {
+            "flags": [
+              "covered_teammate"
+            ]
+          },
+          "lock_text": "having covered for a teammate before"
+        }
+      ]
+    },
+    {
+      "id": "COL_028",
+      "title": "The Captain's Talk",
+      "category": "team",
+      "text": "The senior captain pulls you aside after practice: some of the guys think you act like you're too good for the team. Specialists eat together, stretch together and leave together.",
+      "choices": [
+        {
+          "label": "Eat with the linemen",
+          "result": "For the next two weeks you sit at a different table every lunch. The linemen adopt you first; they say kickers are 'basically mascots,' affectionately.",
+          "stats": {
+            "life": {
+              "social": 3,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 4
+          }
+        },
+        {
+          "label": "Ask what he means",
+          "result": "You ask the captain for specifics instead of guessing. It turns out to be one thing, leaving lifts early, and you fix it the next day.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "team": 2,
+            "coach": 1
+          }
+        },
+        {
+          "label": "Keep your routine",
+          "result": "You say your routine is what makes you good and keep it. The captain shrugs, and the comments don't stop.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": -2
+          }
+        }
+      ]
+    },
+    {
+      "id": "COL_029",
+      "title": "The Highlight Clip",
+      "category": "media",
+      "text": "A trick-shot clip of you from practice, the ball off the crossbar and into a trash can, goes around campus. Suddenly people you've never met want a picture.",
+      "choices": [
+        {
+          "label": "Make a few more",
+          "result": "You film a series of trick shots with the specialists on Sunday afternoons. The account grows, and so does the time it takes.",
+          "stats": {
+            "life": {
+              "fun": 3,
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "followers": 6
+        },
+        {
+          "label": "Enjoy it and move on",
+          "result": "You take the pictures, thank people and don't film another one. It fades in a week, the way these things do.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "followers": 2
+        },
+        {
+          "label": "Ask {coach} what's okay to post",
+          "result": "You ask {coach} where the line is. The coach likes the question and sends you the team's social media guide.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          },
+          "followers": 1
+        }
+      ]
+    },
+    {
+      "id": "COL_030",
+      "title": "The Online Comment",
+      "category": "media",
+      "text": "A fan account tears into you on Sunday: your form, your scholarship, your family. Your thumb is already on the reply button.",
+      "choices": [
+        {
+          "label": "Reply with exactly what you think",
+          "result": "You write it, send it and feel great for about ten minutes. By morning the screenshot is everywhere, and the athletic department's social media office wants a word.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "online_incident": true
+          },
+          "rel": {
+            "coach": -4
+          },
+          "followers": 4,
+          "draft": -1,
+          "conduct": "bad"
+        },
+        {
+          "label": "Put the phone down",
+          "result": "You put the phone in a drawer and go for a walk. It still stings the next day. It doesn't follow you anywhere.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": -1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Mute the account and tell the staff",
+          "result": "You mute the account and send a screenshot to the team's media staff. They handle the part about your family; you never see it again.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        },
+        {
+          "label": "Do what worked before",
+          "result": "You dealt with something like this in high school, so you don't reply. You write the reply in your notes app, read it twice and delete it.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "requires": {
+            "flags": [
+              "handled_old_post"
+            ]
+          },
+          "lock_text": "having handled an old post the right way before"
+        }
+      ]
+    },
+    {
+      "id": "COL_031",
+      "title": "{parent}'s Phone Call",
+      "category": "family",
+      "text": "{parent} sounds tired on the phone. His hours got cut at work, he says, but it's nothing for you to worry about.",
+      "choices": [
+        {
+          "label": "Offer to help",
+          "result": "You say you could pick up a job, send money, anything. He says no, firmly. He also says it means a lot that you asked.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "offered_to_help_home": true
+          },
+          "rel": {
+            "parent": 4
+          }
+        },
+        {
+          "label": "Take him at his word",
+          "result": "You say okay and turn the conversation to your week. He sounds relieved to talk about something else, and you keep your mind on school and football.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1,
+          "set_flags": {
+            "stayed_focused_away": true
+          },
+          "rel": {
+            "parent": 1
+          }
+        },
+        {
+          "label": "Ask the real numbers",
+          "result": "You've helped at home before, so you ask how short the month is. He tells you, finally. You send what you can and agree to talk every Sunday.",
+          "stats": {
+            "life": {
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "offered_to_help_home": true
+          },
+          "rel": {
+            "parent": 6
+          },
+          "requires": {
+            "flags": [
+              "helped_family_financially"
+            ]
+          },
+          "lock_text": "having helped your family with money before"
+        }
+      ]
+    },
+    {
+      "id": "COL_032",
+      "title": "The Sibling Visit",
+      "category": "family",
+      "text": "{sibling} comes to campus for a weekend and wants to see everything: the locker room, the dorm and the parties he's heard about from his friends.",
+      "choices": [
+        {
+          "label": "Give him the real tour",
+          "result": "You show him the locker room, the film room and the dining hall at midnight, then watch a movie in your dorm. He says it's the best weekend of his year.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "sibling": 6
+          }
+        },
+        {
+          "label": "Take him to the team barbecue",
+          "result": "You bring him to the team's Saturday barbecue, where linemen teach him to throw a spiral. It's loud and safe, and he talks about it for months.",
+          "stats": {
+            "life": {
+              "social": 3,
+              "fun": 2,
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "sibling": 5,
+            "team": 1
+          }
+        },
+        {
+          "label": "Say no to the parties, and why",
+          "result": "You tell him there's no party tour and explain why, without a lecture. He sulks for an hour, then asks if you can play video games instead.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "sibling": 2,
+            "parent": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "COL_033",
+      "title": "The Upperclassman's Notes",
+      "category": "school",
+      "text": "An upperclassman offers you a copy of this semester's chemistry midterm, the real one, before the professor gives it. 'Everybody uses them,' he says.",
+      "choices": [
+        {
+          "label": "Take the folder",
+          "result": "You accept the folder. You score an A on the midterm, and a month later the professor changes the final, catches the pattern in the answers and reports half the class.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": -2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "academic_shortcut": true
+          },
+          "rel": {
+            "coach": -3
+          },
+          "grades": 0.05,
+          "draft": -2,
+          "conduct": "bad"
+        },
+        {
+          "label": "Say no and study",
+          "result": "You say no thanks and spend Thursday night with the practice problems. You get a C-plus, and it's yours.",
+          "stats": {
+            "life": {
+              "energy": -3
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "tired"
+          ],
+          "grades": 0.05
+        },
+        {
+          "label": "Tell {teacher}",
+          "result": "You don't name him, but you tell {teacher} the midterm is out there. The professor writes a new exam, and nobody ever knows it was you.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "teacher": 4
+          },
+          "conduct": "good"
+        }
+      ]
+    }
+  ]
+}
