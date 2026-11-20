@@ -37,7 +37,7 @@ College flags set severity through locked choices.
 |---|---|---|---|---|---|---|---|---|
 | Era 1: Rookie (22-25) | 150 | 150 | 0 | 18 | 0 | 0 | 0 | 0 |
 | Era 2: Settled In (26-29) | 150 | 150 | 0 | 26 | 0 | 0 | 0 | 0 |
-| Era 3: Veteran (30-33) | 150 | 11 | 0 | 17 | 2 | 0 | 0 | 2 |
+| Era 3: Veteran (30-33) | 150 | 50 | 0 | 17 | 2 | 0 | 0 | 2 |
 | Era 4: Aging Veteran (34-37) | 150 | 1 | 0 | 14 | 0 | 2 | 0 | 2 |
 | Era 5: Grizzled Veteran (38-41) | 80 | 0 | 80 | 5 | 0 | 0 | 0 | 0 |
 | Era 6: Hall of Fame Era (42+) | 40 | 0 | 40 | 1 | 0 | 0 | 0 | 40 |

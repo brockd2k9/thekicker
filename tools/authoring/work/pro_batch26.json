@@ -1,0 +1,854 @@
+{
+  "_about": "PRO batch 26: era 3, The Prime (30-33).",
+  "scenarios": [
+    {
+      "id": "PRO_094",
+      "title": "The Letter From a Kid",
+      "category": "community",
+      "text": "A letter from a kid in a hospital you visited years ago: he's walking now.",
+      "choices": [
+        {
+          "label": "Write back",
+          "result": "You write back by hand. He frames it, and his mother sends a picture.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 1
+          }
+        },
+        {
+          "label": "Invite him to a practice",
+          "result": "You invite him and his family to practice. He walks onto the field.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Keep the letter",
+          "result": "You keep the letter in your locker and read it on bad days.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Go back to the hospital",
+          "result": "You go back to the hospital where you met him, and you bring his letter to show the kids there.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "followers": 2,
+          "requires": {
+            "flags": [
+              "community_volunteer"
+            ]
+          },
+          "lock_text": "having volunteered for years"
+        }
+      ]
+    },
+    {
+      "id": "PRO_109",
+      "title": "The Awards Show",
+      "category": "media",
+      "text": "The league's awards show wants you on the red carpet the night before a practice you can't miss.",
+      "choices": [
+        {
+          "label": "Go and leave early",
+          "result": "You walk the carpet, do two interviews and leave before dessert.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 1
+          },
+          "followers": 4
+        },
+        {
+          "label": "Ask {coach}",
+          "result": "You ask {coach}. The coach says go, and be on time. You are.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Skip it",
+          "result": "You skip it and watch at home.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_131",
+      "title": "Thirty",
+      "category": "health",
+      "text": "You turn thirty in camp, and the trainer starts talking about 'maintenance'.",
+      "choices": [
+        {
+          "label": "Listen to the trainer",
+          "result": "You listen and add the new routine. It's dull and it works.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Prove you don't need it",
+          "result": "You decide to prove you don't need it. Your body disagrees by October.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 3
+        },
+        {
+          "label": "Celebrate with the unit",
+          "result": "You let the specialists throw you a birthday in the cafeteria.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_132",
+      "title": "The Maintenance Bill",
+      "category": "health",
+      "text": "Holding on to your leg costs more every year: more treatment, more rest, more of your time.",
+      "choices": [
+        {
+          "label": "Budget your body",
+          "result": "You plan the whole year around recovery. It's a second job.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Work harder instead",
+          "result": "You work harder instead of smarter. It holds, for now.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 3
+        },
+        {
+          "label": "Rest more",
+          "result": "You rest more and train less. Your leg feels fresh, and a little slower.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_221",
+      "title": "The Anniversary",
+      "category": "family",
+      "text": "Ten years married, and you're in a hotel in a city you can't remember the name of.",
+      "choices": [
+        {
+          "label": "Fly {love_interest} in",
+          "result": "You fly {love_interest} in for one night. It's the best anniversary yet.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "love_interest": 6
+          }
+        },
+        {
+          "label": "Plan the real one",
+          "result": "You plan a real celebration for the bye week, down to the restaurant.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Call for an hour",
+          "result": "You call for an hour from the hotel room and talk about the first year.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_225",
+      "title": "{sibling}'s Family",
+      "category": "family",
+      "text": "{sibling} has kids of his own now, and they think you're the most famous person alive.",
+      "choices": [
+        {
+          "label": "Be the fun uncle",
+          "result": "You spend a whole day with them. They tell their school about it for a year.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "sibling": 5
+          }
+        },
+        {
+          "label": "Teach them to kick",
+          "result": "You teach them to kick in the backyard. One of them is actually good.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Send signed gear",
+          "result": "You send signed gear and a video.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_229",
+      "title": "The Radio Show",
+      "category": "media",
+      "text": "A local station offers you a weekly radio show during the season.",
+      "choices": [
+        {
+          "label": "Say yes",
+          "result": "You say yes. The callers love you, and so do some teammates.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {
+            "radio_show": true
+          },
+          "rel": {
+            "team": 1
+          },
+          "followers": 3
+        },
+        {
+          "label": "Do it in the offseason",
+          "result": "You agree to an offseason show only. It works.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "radio_show": true
+          },
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Decline",
+          "result": "You decline. Your Mondays stay quiet.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_235",
+      "title": "A Franchise Offer",
+      "category": "money",
+      "text": "A restaurant chain offers you a franchise with your name on it, this time with professionals running it.",
+      "choices": [
+        {
+          "label": "Do it with professionals",
+          "result": "You sign with professionals running it and lawyers reading everything.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "franchise_owner": true
+          },
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Bring family in",
+          "result": "You bring {sibling} in to keep an eye on it.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {
+            "franchise_owner": true
+          },
+          "rel": {
+            "sibling": 3
+          }
+        },
+        {
+          "label": "Pass",
+          "result": "You pass. You have enough to think about.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_238",
+      "title": "The Comeback Year",
+      "category": "career",
+      "text": "Last year everyone wrote your obituary. This year you're the first one on the field.",
+      "choices": [
+        {
+          "label": "Be first every day",
+          "result": "You're first on the field every day, and last off it.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 3
+        },
+        {
+          "label": "Bring the young players",
+          "result": "You bring the young players with you. The early sessions become a club.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Prove it with numbers",
+          "result": "You track every kick and show the coaches the curve.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_256",
+      "title": "Who Am I Without It",
+      "category": "health",
+      "text": "A sleepless night: if you're not the kicker, who are you?",
+      "choices": [
+        {
+          "label": "Wake {love_interest}",
+          "result": "You wake {love_interest} and talk until dawn.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "love_interest": 4
+          }
+        },
+        {
+          "label": "Write it down",
+          "result": "You write down everything you are besides a kicker. The list is longer than you thought.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Go for a walk",
+          "result": "You go for a walk at three in the morning. The question comes with you.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_270",
+      "title": "The Camp You Teach",
+      "category": "community",
+      "text": "A youth camp asks you to coach for a week. The kids kick terribly and have more fun than you've had in years.",
+      "choices": [
+        {
+          "label": "Coach every station",
+          "result": "You coach every station. By Friday, three of them can kick.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Play with them",
+          "result": "You play with them as much as you coach. You laugh all week.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Do the mornings",
+          "result": "You do the mornings and rest in the afternoons.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_271",
+      "title": "The Family Vacation",
+      "category": "family",
+      "text": "A real vacation, no phones, and a family that's not used to having you around for a whole week.",
+      "choices": [
+        {
+          "label": "Be fully there",
+          "result": "You leave your phone in the drawer all week. Everyone notices.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "love_interest": 6
+          }
+        },
+        {
+          "label": "Plan every day",
+          "result": "You plan every day. It's fun and a little exhausting.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Train in the mornings",
+          "result": "You train every morning before anyone wakes up.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2,
+          "rel": {
+            "love_interest": -1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_276",
+      "title": "Back to Your College",
+      "category": "training",
+      "text": "Your college invites you back for spring practice. The kicking net is in the same place.",
+      "choices": [
+        {
+          "label": "Coach the kickers",
+          "result": "You coach their kickers for a day. They follow you everywhere.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Find the old staff",
+          "result": "You find the old equipment manager and the trainers. They tell stories.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        },
+        {
+          "label": "Walk around",
+          "result": "You walk the facility alone and stand by the net for a while.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    }
+  ]
+}
