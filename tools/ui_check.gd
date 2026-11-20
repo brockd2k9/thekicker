@@ -406,9 +406,19 @@ func _bench_shots() -> void:
 	Relationships.apply(c, {"coach": 24.0 - Relationships.value(c, "coach"),
 		Relationships.TEAM: 30.0 - Relationships.value(c, Relationships.TEAM)})
 	c.bench = {"warned": c.week_index}
+	c.phase = CareerManager.PHASE_WEEK_START
 	await _shot("hub_thin_ice", Screens.CAREER_HUB)
 	c.phase = CareerManager.PHASE_OUTLOOK
 	await _shot("outlook_thin_ice", Screens.CAREER_OUTLOOK)
+	# The same warning in a bad season (one miss is enough).
+	var season := c.season_stats.duplicate()
+	c.season_stats["fg_att"] = maxi(_m.tuning.bench_poor_season_min_att, 8)
+	c.season_stats["fg_made"] = floori(float(c.season_stats["fg_att"]) * _m.tuning.bench_poor_season_pct) - 1
+	c.phase = CareerManager.PHASE_WEEK_START
+	await _shot("hub_thin_ice_bad", Screens.CAREER_HUB)
+	c.phase = CareerManager.PHASE_OUTLOOK
+	await _shot("outlook_thin_ice_bad", Screens.CAREER_OUTLOOK)
+	c.season_stats = season
 	c.bench = {"weeks_left": 1, "weeks": 1, "this_week": true, "backup": Relationships.TYLER, "season": c.season,
 		"season_benches": 1, "reason": "6 of your last 10 field goals missed"}
 	c.people[Relationships.TYLER]["known"] = true
