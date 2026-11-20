@@ -149,7 +149,7 @@ def dominance_findings(choices):
 PRESSURE = re.compile(r"\b(party|parties|drinking|something stronger|prescription|initiation|hazing|"
                       r"dare|everybody does it|everybody uses|sneak(ing)? out|go out tonight)\b", re.I)
 PLAYER_USE = re.compile(r"\byou (drink|chug|smoke|vape|get (drunk|high|wasted)|black out|"
-                        r"take (one|two|it|them|a few|a hit|a sip|a shot|the tablets?|the pills?)|"
+                        r"take (one|two|it|them|a few|a hit|a sip|a shot|the tablets?|the pills?)(?! (to|back|home|off|out)\b)|"
                         r"try (it|one|them|some)|down (it|a|the|your))\b", re.I)
 BAD = ("bad", "scandal")
 

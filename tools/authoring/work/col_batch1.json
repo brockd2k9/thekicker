@@ -1,0 +1,1119 @@
+{
+  "_about": "College batch 1: the six tone-check scenes (COL_010, 038, 012, 036, 071, 018) plus seven freshman scenes (COL_001, 002, 003, 005, 006, 011, 013).",
+  "scenarios": [
+    {
+      "id": "COL_010",
+      "title": "The First Big Party",
+      "category": "social",
+      "text": "Upperclassmen throw the first big party of the year on a Thursday night: loud music, a packed kitchen, plenty of drinking. The 6 a.m. lift is seven hours away, and everyone is watching what the freshmen do.",
+      "choices": [
+        {
+          "label": "Stay an hour, then head out",
+          "result": "You meet half the team, laugh at the stories and slip out before midnight with a bottle of water. At six the next morning you're the only freshman who doesn't look gray.",
+          "stats": {
+            "life": {
+              "fun": 3,
+              "social": 4,
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {
+            "left_party_early": true
+          }
+        },
+        {
+          "label": "Skip it and sleep",
+          "result": "You tell the upperclassmen you've got the lift and go to bed. A couple of them call you soft, but you feel strong under the weights in the morning.",
+          "stats": {
+            "life": {
+              "energy": 5,
+              "social": -3
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Stay until it ends",
+          "result": "You're one of the last ones out at three. You make the lift, barely, and the strength coach writes your name on the whiteboard under LATE. The upperclassmen love you; the staff now knows your name for the wrong reason.",
+          "stats": {
+            "life": {
+              "fun": 6,
+              "social": 5,
+              "energy": -10
+            },
+            "football": {},
+            "personality": {
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "late_night"
+          ],
+          "set_flags": {
+            "missed_curfew": true
+          },
+          "rel": {
+            "coach": -4
+          },
+          "conduct": "bad",
+          "draft": -1
+        }
+      ]
+    },
+    {
+      "id": "COL_038",
+      "title": "The Teammate's Prescription",
+      "category": "health",
+      "text": "Your hip has ached for a week, and every kickoff makes it worse. In the locker room a teammate shakes a few tablets out of his prescription bottle and holds them out. 'Takes the edge off,' he says. 'Everybody does it.'",
+      "choices": [
+        {
+          "label": "Tell the trainer about the hip",
+          "result": "You hand them back and walk to the training room. The trainer finds an inflamed hip flexor, cuts your kicking reps for a week and starts you on rehab. Your teammate rolls his eyes, but your hip feels better by Friday.",
+          "stats": {
+            "life": {
+              "health": 5,
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {
+            "told_trainer_col": true
+          },
+          "rel": {
+            "coach": 2
+          },
+          "conduct": "good"
+        },
+        {
+          "label": "Turn him down and ice it",
+          "result": "You say no thanks, ice the hip every night and keep it to yourself. It doesn't get worse, but it doesn't get better, and every kickoff stings.",
+          "stats": {
+            "life": {
+              "health": -2
+            },
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "sore"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Say nothing and cover for him",
+          "result": "You don't take them, but when the trainer asks the team whether anyone has been sharing medication, you say you haven't seen a thing. Two weeks later a freshman ends up in the training room, and the staff learns who knew.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "health": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": -3,
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ],
+          "set_flags": {
+            "shared_prescription": true
+          },
+          "rel": {
+            "coach": -6,
+            "team": 2
+          },
+          "conduct": "bad",
+          "draft": -2
+        }
+      ]
+    },
+    {
+      "id": "COL_012",
+      "title": "The Hazing Night",
+      "category": "team",
+      "text": "Initiation night. The seniors line the freshmen up in the dark locker room, and it isn't singing anymore: there's a list of 'tests,' and one of them could get somebody hurt. The freshman next to you is shaking.",
+      "choices": [
+        {
+          "label": "Call the hotline",
+          "result": "You step into the hallway and call the compliance number taped inside every locker. Twenty minutes later the lights come on and an assistant coach is standing in the doorway. Some of the seniors won't look at you for months.",
+          "stats": {
+            "life": {
+              "social": -6
+            },
+            "football": {},
+            "personality": {
+              "leadership": 3,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {
+            "reported_hazing": true
+          },
+          "rel": {
+            "coach": 4,
+            "team": -6
+          },
+          "conduct": "good"
+        },
+        {
+          "label": "Walk out and take him with you",
+          "result": "You put a hand on the freshman's shoulder and walk him out. Nobody stops you, nobody follows, and the seniors make sure you hear about it all week.",
+          "stats": {
+            "life": {
+              "social": -3,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "stayed_out_hazing": true
+          },
+          "rel": {
+            "team": -3
+          }
+        },
+        {
+          "label": "Go along with it",
+          "result": "You keep your head down and do what you're told. Nobody gets badly hurt, this time, but the next day the freshman won't sit anywhere near you in the dining hall.",
+          "stats": {
+            "life": {
+              "social": 3
+            },
+            "football": {},
+            "personality": {
+              "leadership": -3,
+              "charisma": -1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "set_flags": {
+            "hazing_participant": true
+          },
+          "rel": {
+            "team": 3
+          },
+          "conduct": "bad"
+        }
+      ]
+    },
+    {
+      "id": "COL_036",
+      "title": "The Coach's Office",
+      "category": "team",
+      "text": "{coach} closes the office door and slides a printed report across the desk. Word of what happened got back to the staff. 'I want to hear it from you,' the coach says, 'before I decide what happens next.'",
+      "choices": [
+        {
+          "label": "Tell the whole truth",
+          "result": "You don't trim anything. {coach} listens without interrupting, then hands you a list: three 6 a.m. workouts with the strength staff and a talk with the team. 'That's the end of it, if it stays the end of it.'",
+          "stats": {
+            "life": {
+              "energy": -4,
+              "social": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "set_flags": {
+            "missed_curfew": false,
+            "hazing_participant": false,
+            "snuck_out_road": false,
+            "took_improper_benefit": false,
+            "online_incident": false,
+            "academic_shortcut": false,
+            "skipped_conditioning": false,
+            "shared_prescription": false,
+            "party_trouble": false,
+            "portal_tampering": false,
+            "took_unapproved_supplement": false,
+            "rivalry_prank": false,
+            "stayed_out_late": false,
+            "secret_agent_deal": false,
+            "hosted_recruit_badly": false,
+            "sabotaged_transfer": false,
+            "rode_along": false,
+            "ran_with_wrong_crowd": false,
+            "cash_camp": false,
+            "partied_before_pro_day": false,
+            "senior_trip_trouble": false,
+            "owned_mistake": true
+          },
+          "rel": {
+            "coach": 6
+          },
+          "draft": -1
+        },
+        {
+          "label": "Shrink your part in it",
+          "result": "You say you were barely involved and that other people pushed it. {coach} nods slowly and writes something down. You walk out without a punishment and with the feeling you just made things worse.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "missed_curfew": false,
+            "hazing_participant": false,
+            "snuck_out_road": false,
+            "took_improper_benefit": false,
+            "online_incident": false,
+            "academic_shortcut": false,
+            "skipped_conditioning": false,
+            "shared_prescription": false,
+            "party_trouble": false,
+            "portal_tampering": false,
+            "took_unapproved_supplement": false,
+            "rivalry_prank": false,
+            "stayed_out_late": false,
+            "secret_agent_deal": false,
+            "hosted_recruit_badly": false,
+            "sabotaged_transfer": false,
+            "rode_along": false,
+            "ran_with_wrong_crowd": false,
+            "cash_camp": false,
+            "partied_before_pro_day": false,
+            "senior_trip_trouble": false,
+            "college_warning": true
+          },
+          "rel": {
+            "coach": -8
+          },
+          "conduct": "bad",
+          "draft": -3
+        }
+      ]
+    },
+    {
+      "id": "COL_071",
+      "title": "The Second Strike",
+      "category": "media",
+      "text": "It happened again, and this time it isn't only the coaches who know. A local reporter has called the athletic department, {coach} says the team will put out a statement tonight, and teammates are already asking what you're going to say.",
+      "choices": [
+        {
+          "label": "Own it in your own words",
+          "result": "You sit down with {coach} and the media staff and write the statement yourself: what you did, that it was wrong, what you'll do now. It runs that night. It's humiliating, and people notice you didn't hide.",
+          "stats": {
+            "life": {
+              "social": -4,
+              "fun": -3
+            },
+            "football": {},
+            "personality": {
+              "leadership": 3,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "set_flags": {
+            "missed_curfew": false,
+            "hazing_participant": false,
+            "snuck_out_road": false,
+            "took_improper_benefit": false,
+            "online_incident": false,
+            "academic_shortcut": false,
+            "skipped_conditioning": false,
+            "shared_prescription": false,
+            "party_trouble": false,
+            "portal_tampering": false,
+            "took_unapproved_supplement": false,
+            "rivalry_prank": false,
+            "stayed_out_late": false,
+            "secret_agent_deal": false,
+            "hosted_recruit_badly": false,
+            "sabotaged_transfer": false,
+            "rode_along": false,
+            "ran_with_wrong_crowd": false,
+            "cash_camp": false,
+            "partied_before_pro_day": false,
+            "senior_trip_trouble": false,
+            "caught_yourself": true,
+            "second_chance_used": true
+          },
+          "rel": {
+            "coach": 4,
+            "team": 2
+          },
+          "draft": -2
+        },
+        {
+          "label": "Let the department answer",
+          "result": "You stay quiet and let a short, vague statement go out. The story fades in a few days, but inside the building people stop trusting what you say.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ],
+          "set_flags": {
+            "missed_curfew": false,
+            "hazing_participant": false,
+            "snuck_out_road": false,
+            "took_improper_benefit": false,
+            "online_incident": false,
+            "academic_shortcut": false,
+            "skipped_conditioning": false,
+            "shared_prescription": false,
+            "party_trouble": false,
+            "portal_tampering": false,
+            "took_unapproved_supplement": false,
+            "rivalry_prank": false,
+            "stayed_out_late": false,
+            "secret_agent_deal": false,
+            "hosted_recruit_badly": false,
+            "sabotaged_transfer": false,
+            "rode_along": false,
+            "ran_with_wrong_crowd": false,
+            "cash_camp": false,
+            "partied_before_pro_day": false,
+            "senior_trip_trouble": false,
+            "character_concerns": true
+          },
+          "rel": {
+            "coach": -6,
+            "team": -4
+          },
+          "conduct": "scandal",
+          "draft": -5
+        },
+        {
+          "label": "Blame the people around you",
+          "result": "Off the record, you tell the reporter your teammates set you up. Your name is in the paper the next morning anyway, next to theirs. {coach} doesn't yell, and that's worse.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "social": -6
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "leadership": -3,
+              "charisma": -2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "missed_curfew": false,
+            "hazing_participant": false,
+            "snuck_out_road": false,
+            "took_improper_benefit": false,
+            "online_incident": false,
+            "academic_shortcut": false,
+            "skipped_conditioning": false,
+            "shared_prescription": false,
+            "party_trouble": false,
+            "portal_tampering": false,
+            "took_unapproved_supplement": false,
+            "rivalry_prank": false,
+            "stayed_out_late": false,
+            "secret_agent_deal": false,
+            "hosted_recruit_badly": false,
+            "sabotaged_transfer": false,
+            "rode_along": false,
+            "ran_with_wrong_crowd": false,
+            "cash_camp": false,
+            "partied_before_pro_day": false,
+            "senior_trip_trouble": false,
+            "character_concerns": true
+          },
+          "rel": {
+            "coach": -12,
+            "team": -10
+          },
+          "conduct": "scandal",
+          "draft": -8
+        }
+      ]
+    },
+    {
+      "id": "COL_018",
+      "title": "The Sports Psychologist",
+      "category": "health",
+      "text": "The athletic department offers every player free sessions with the team's sports psychologist. Most of the locker room jokes about it, and you've been lying awake replaying kicks you haven't even attempted yet.",
+      "choices": [
+        {
+          "label": "Book a session",
+          "result": "You sign up for a Tuesday slot and nearly cancel twice. It's just talking: about sleep, about pressure, about home. You leave with a breathing routine and a second appointment.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": -1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {
+            "saw_sports_psych": true
+          }
+        },
+        {
+          "label": "Ask a senior who goes",
+          "result": "You quietly ask a senior you've heard goes every week. He says it changed how he handles game days and offers to walk over with you next time.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Laugh it off with the guys",
+          "result": "You join the jokes in the locker room and don't sign up. It's easier for now, though the sleepless nights keep coming.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 2,
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "tired"
+          ],
+          "set_flags": {
+            "brushed_off_psych": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "COL_001",
+      "title": "Move-In Day",
+      "category": "family",
+      "text": "{parent} helps you haul boxes up three flights of stairs into a cinderblock dorm room. When everything's inside, he lingers by the door, jingling his keys, not quite ready to leave.",
+      "choices": [
+        {
+          "label": "Promise to call every Sunday",
+          "result": "You hug him in the hallway and promise a call every Sunday night. He nods like it's a signed contract, and walking back to your room, you realize you meant it.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "promised_to_call_home": true
+          },
+          "rel": {
+            "parent": 6
+          }
+        },
+        {
+          "label": "Walk him to the car, quick",
+          "result": "You thank him, walk him to the car and wave before it's out of the lot. It's easier that way, though the room feels very quiet once you're back.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "parent": -2
+          }
+        },
+        {
+          "label": "Go over the plan one more time",
+          "result": "You sit on the bare mattress and walk through the plan you made together: the classes, the budget, the drive home at Thanksgiving. He leaves smiling, and so do you.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "rel": {
+            "parent": 8
+          },
+          "requires": {
+            "flags": [
+              "family_college_compromise"
+            ]
+          },
+          "lock_text": "the college plan you made with your family"
+        }
+      ]
+    },
+    {
+      "id": "COL_002",
+      "title": "The First Team Meeting",
+      "category": "team",
+      "text": "{coach} runs the first special teams meeting like a courtroom: curfew at eleven, study hall signed in and out, phones in a bin by the door, and one strike before the coach calls home.",
+      "choices": [
+        {
+          "label": "Write down every rule",
+          "result": "You write down every rule, including the ones nobody else bothers with. {coach} notices the notebook and nods once.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 4
+          }
+        },
+        {
+          "label": "Ask about the kickers' schedule",
+          "result": "You ask what the specialists' days look like. The answer runs long and a senior groans, but now you know exactly when you can kick on your own.",
+          "stats": {
+            "life": {
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Keep your phone in your pocket",
+          "result": "You keep it on silent in your pocket. It buzzes once during film, every head in the room turns, and the guys can't stop laughing. {coach} doesn't say a word, which is worse.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": -1
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ],
+          "rel": {
+            "coach": -4
+          }
+        },
+        {
+          "label": "Say you came ready to compete",
+          "result": "You tell {coach} you came in ready to compete now, not to wait your turn. The coach almost smiles and says the field will decide that.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "pumped_up"
+          ],
+          "rel": {
+            "coach": 3
+          },
+          "requires": {
+            "flags": [
+              "ready_for_college_football"
+            ]
+          },
+          "lock_text": "being ready for college football"
+        }
+      ]
+    },
+    {
+      "id": "COL_003",
+      "title": "Far From Home",
+      "category": "social",
+      "text": "Three weeks in, the dining hall, the dorm and the practice field all feel like somebody else's life. Nobody here knew you before, and tonight that feels heavy.",
+      "choices": [
+        {
+          "label": "Build one routine that's yours",
+          "result": "You claim a corner table in the library and a bench by the practice field and go to both every day. It's small, but the campus starts to feel like it has a place for you.",
+          "stats": {
+            "life": {
+              "fun": 1,
+              "social": 1,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ]
+        },
+        {
+          "label": "Call home and say it out loud",
+          "result": "You call {parent} and admit it's harder than you thought. He doesn't try to fix it; he just stays on the phone for an hour.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "parent": 4
+          }
+        },
+        {
+          "label": "Keep it to yourself",
+          "result": "You tell everyone you're fine and bury the feeling in extra kicking. The work piles up; the feeling doesn't go anywhere, it just gets quieter.",
+          "stats": {
+            "life": {
+              "social": -3,
+              "fun": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "skill_points": 2,
+          "set_flags": {
+            "homesick_spiral": true
+          }
+        },
+        {
+          "label": "Remember why you chose this place",
+          "result": "You pull up the list you made when you picked this school, far from home on purpose. Every reason is still true. You go to bed tired, but not lost.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "requires": {
+            "flags": [
+              "prioritized_own_college_choice"
+            ]
+          },
+          "lock_text": "having picked this school for your own reasons"
+        }
+      ]
+    },
+    {
+      "id": "COL_005",
+      "title": "The Roommate Draw",
+      "category": "social",
+      "text": "Your assigned roommate games with his headset on until four in the morning, laughing at things you can't see. Your first lift is at six.",
+      "choices": [
+        {
+          "label": "Work out a deal",
+          "result": "You catch him at lunch and offer a trade: headphones and lights out by midnight on weeknights, and the room is his on weekends. He shrugs, then shakes on it.",
+          "stats": {
+            "life": {
+              "energy": 3,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {
+            "roommate_pact": true
+          }
+        },
+        {
+          "label": "Freeze him out",
+          "result": "You stop talking to him and start letting the door slam at 5:30 every morning. It's a little satisfying, and by the second week the room feels like a hallway nobody wants to stand in.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "social": -2,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "roommate_cold_war": true
+          }
+        },
+        {
+          "label": "Sleep at the facility",
+          "result": "On lift nights you take a pillow to the athletes' lounge and get extra film in before bed. It works, mostly, though you never feel like you live anywhere.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "social": -3
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1
+        }
+      ]
+    },
+    {
+      "id": "COL_006",
+      "title": "Mandatory Study Hall",
+      "category": "school",
+      "text": "{teacher}, your academic advisor, hands you the schedule: six hours of study hall a week, signed in and out at the front desk. Miss them and your eligibility is the next conversation.",
+      "choices": [
+        {
+          "label": "Make them your best hours",
+          "result": "You treat study hall like practice: same seat, same time, phone in your bag. By midterms you're ahead in two classes.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "teacher": 4
+          },
+          "grades": 0.1
+        },
+        {
+          "label": "Sign in and do the minimum",
+          "result": "You sign in, put your head down and count the minutes. You get the hours and a few good naps, and not much else.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": -1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Sign in and slip out",
+          "result": "A teammate shows you how to sign in and leave. It works for three weeks, until {teacher} notices the same handwriting on six lines of the sheet.",
+          "stats": {
+            "life": {
+              "fun": 3,
+              "energy": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": -1,
+              "leadership": -1
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ],
+          "set_flags": {
+            "skipped_study_hall": true
+          },
+          "rel": {
+            "teacher": -6
+          },
+          "grades": -0.1,
+          "conduct": "bad"
+        },
+        {
+          "label": "Use what worked in high school",
+          "result": "You set up the same study blocks that saved your grades in high school. {teacher} looks at your plan and says you've clearly done this before. You have.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "fun": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "rel": {
+            "teacher": 6
+          },
+          "grades": 0.1,
+          "requires": {
+            "flags": [
+              "academic_recovery"
+            ]
+          },
+          "lock_text": "having pulled your grades back up before"
+        }
+      ]
+    },
+    {
+      "id": "COL_011",
+      "title": "Freshman Traditions",
+      "category": "team",
+      "text": "After the first practice the seniors gather the freshmen and read out 'freshman duties': carry their bags on road trips, sing the fight song at team dinner, and fetch whatever they ask for, whenever they ask.",
+      "choices": [
+        {
+          "label": "Play along",
+          "result": "You carry the bags and sing badly at dinner. The seniors laugh, slap your back and learn your name a lot faster than anyone else's.",
+          "stats": {
+            "life": {
+              "social": 4,
+              "fun": 2,
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": -1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {
+            "went_along_tradition": true
+          },
+          "rel": {
+            "team": 4
+          }
+        },
+        {
+          "label": "Ask where the line is",
+          "result": "You ask a senior, politely, what happens if a freshman says no. The table goes quiet. He says nothing happens, but he says it like he's making a note.",
+          "stats": {
+            "life": {
+              "social": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {
+            "questioned_tradition": true
+          },
+          "rel": {
+            "team": -3
+          }
+        }
+      ]
+    },
+    {
+      "id": "COL_013",
+      "title": "Long Distance",
+      "category": "romance",
+      "text": "{love_interest} is back home, and the calls keep getting shorter. Between practice, class and film, you've missed each other three nights in a row.",
+      "choices": [
+        {
+          "label": "Make a real schedule",
+          "result": "You set a call every Tuesday and Friday and guard them like practice. It isn't the same as being there, but it's something real to look forward to.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "made_long_distance_work": true
+          },
+          "rel": {
+            "love_interest": 8
+          }
+        },
+        {
+          "label": "Have the honest talk",
+          "result": "You call and say what you've both been avoiding: this isn't working from here. It's a hard, kind conversation, and it ends with both of you a little teary.",
+          "stats": {
+            "life": {
+              "social": -2,
+              "fun": -3
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "set_flags": {
+            "ended_long_distance": true
+          },
+          "rel": {
+            "love_interest": -2
+          }
+        },
+        {
+          "label": "Let it drift",
+          "result": "You keep meaning to call and keep not calling. Nothing ends, exactly. It just fades, and you spend the extra hours at the field.",
+          "stats": {
+            "life": {
+              "energy": 2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "love_interest": -6
+          }
+        }
+      ]
+    }
+  ]
+}

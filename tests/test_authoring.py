@@ -273,3 +273,7 @@ class CollegeLintTests(unittest.TestCase):
         self.assertIn("hardcoded_name", codes)
         e["title"] = "{parent}'s Night"
         self.assertNotIn("hardcoded_name", self.codes(e))
+
+    def test_player_use_ignores_take_it_to(self):
+        self.assertIsNone(scenario_lint.PLAYER_USE.search("You take it to the compliance office."))
+        self.assertIsNotNone(scenario_lint.PLAYER_USE.search("You take it before warmups."))
