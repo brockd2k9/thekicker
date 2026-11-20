@@ -185,6 +185,11 @@ steadies you, as a rival pushes you to improve.
   keep it the same across his three scenes.
 - Use placeholders for cast names; never write a cast member's name by hand (names are different
   in every career). Placeholders work in text, labels, results and lock_text.
+- **Pronouns:** never use he/she (him, her, his, hers) for `{coach}`, `{teacher}`, `{holder}`,
+  `{best_friend}` or `{love_interest}`: their names come from mixed lists (a teacher can be
+  "Ms. Alvarez" or "Mr. Okoye"), so a gendered pronoun is wrong in some careers. Use "they" or
+  rephrase (repeat the placeholder, or write the line from "you"). `{tyler}` (Tyler Brooks),
+  `{sibling}` (your little brother) and `{parent}` (Dad) are always male: "he" is fine for them.
 
 ## Flags (story memory)
 

@@ -548,9 +548,8 @@
 		{
 			"id": "HS_009",
 			"title": "The Little Brother",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "family",
+			"text": "Your little brother {sibling} has been waiting all afternoon to show you a model football field he made. You have practice notes to review before tomorrow, and he keeps asking you to come look.",
 			"stages": [
 				"high_school"
 			],
@@ -561,14 +560,74 @@
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Help him finish the field",
+					"result": "You set your notes aside and help line up the tiny goalposts. He beams when you take his project seriously, though your own evening gets tighter.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"fun": 5,
+							"social": 3
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"sibling": 7
+					}
+				},
+				{
+					"label": "Give him a little time",
+					"result": "You spend a few minutes checking out the field, then explain what you still need to do. He is a little disappointed, but you promise to look again tomorrow.",
+					"stats": {
+						"life": {
+							"fun": 2,
+							"energy": -1,
+							"social": 1
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"sibling": 3
+					}
+				},
+				{
+					"label": "Ask him to wait tonight",
+					"result": "You tell him you need to prepare for practice and head back to your notes. You get your work done, but he quietly puts the field away.",
+					"stats": {
+						"life": {
+							"energy": 3,
+							"fun": -3,
+							"social": -3
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"rel": {
+						"sibling": -3
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_011",
 			"title": "The First School Dance",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "romance",
+			"text": "The first school dance is Friday, and {love_interest} asks if you are going. You want to spend time together, but the crowded gym and the thought of asking someone to dance make you nervous.",
 			"stages": [
 				"high_school"
 			],
@@ -579,14 +638,74 @@
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Ask them to go together",
+					"result": "You ask if they want to arrive together, and they smile before saying yes. You still feel nervous, but having a plan makes the dance feel exciting.",
+					"stats": {
+						"life": {
+							"social": 5,
+							"energy": -2,
+							"fun": 4
+						},
+						"personality": {
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"rel": {
+						"love_interest": 8
+					}
+				},
+				{
+					"label": "Meet up at the dance",
+					"result": "You say you'll see them there and keep the invitation casual. It takes some pressure off, though you both spend part of the night trying to find each other.",
+					"stats": {
+						"life": {
+							"social": 3,
+							"fun": 3,
+							"energy": -1
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"love_interest": 4
+					}
+				},
+				{
+					"label": "Skip the dance this time",
+					"result": "You explain that big crowds aren't really your thing and suggest talking at school instead. They understand, even if you both wish the timing had worked out.",
+					"stats": {
+						"life": {
+							"energy": 4,
+							"fun": -2,
+							"social": -2
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"rel": {
+						"love_interest": 2
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_012",
 			"title": "The Teacher Who Believes in You",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "school",
+			"text": "{teacher} notices your grades slipping once the season gets busy and asks you to stay after class. You have real potential, you're told, and there's still time to build a plan before things get harder.",
 			"stages": [
 				"high_school"
 			],
@@ -597,14 +716,72 @@
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Make a study plan together",
+					"result": "You work out a schedule for assignments around practice. It takes some free time, but you leave knowing exactly what needs to get done.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"fun": -2
+						},
+						"personality": {
+							"intelligence": 3,
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"teacher": 7
+					}
+				},
+				{
+					"label": "Ask for help on one subject",
+					"result": "You admit which class is giving you trouble and go over the next assignment. The smaller commitment feels manageable, and you leave with a better starting point.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"fun": 1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"rel": {
+						"teacher": 5
+					}
+				},
+				{
+					"label": "Say you can handle it",
+					"result": "You say thanks and promise to catch up on your own. You keep your afternoon free, but the missing work is still waiting when you get home.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 2
+						},
+						"personality": {
+							"ambition": -1
+						}
+					},
+					"modifiers": [
+						"distracted"
+					],
+					"rel": {
+						"teacher": -2
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_013",
 			"title": "The New Teammate",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "A new player joins the team and looks lost while everyone else gets ready for practice. He ends up beside you during warmups, unsure where to go or what the coaches expect.",
 			"stages": [
 				"high_school"
 			],
@@ -615,7 +792,58 @@
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Show him the routine",
+					"result": "You walk him through the warmup and explain where the kickers line up. It costs you a few minutes, but he settles in and practice starts smoothly.",
+					"stats": {
+						"life": {
+							"social": 3,
+							"energy": -2
+						},
+						"personality": {
+							"leadership": 2,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Invite him to warm up",
+					"result": "You make room beside you and let him follow your lead. You get your own routine done while giving him a chance to feel included.",
+					"stats": {
+						"life": {
+							"social": 4,
+							"energy": -1,
+							"fun": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					]
+				},
+				{
+					"label": "Focus on your own work",
+					"result": "You give him a quick nod and stick to your usual warmup. You stay on schedule, but he has to figure out the routine by watching everyone else.",
+					"stats": {
+						"life": {
+							"energy": 3,
+							"social": -2
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_014",
@@ -674,9 +902,8 @@
 		{
 			"id": "HS_017",
 			"title": "The Coach's Favorite",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "{coach} asks you to stay after practice for extra attention on your approach and follow-through. A couple of teammates notice and joke that you must be the coach's favorite.",
 			"stages": [
 				"high_school"
 			],
@@ -687,7 +914,67 @@
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Take the extra coaching",
+					"result": "You stay and work through the details with {coach}, getting several focused reps in. You improve your routine, but the extra attention leaves your legs tired.",
+					"stats": {
+						"life": {
+							"energy": -4,
+							"social": -1
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 3,
+					"rel": {
+						"coach": 6
+					}
+				},
+				{
+					"label": "Invite a teammate to join",
+					"result": "You ask if another kicker can stay too, turning the extra time into a shared session. You get useful reps and keep the atmosphere from feeling exclusive.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"social": 3
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"skill_points": 2,
+					"rel": {
+						"coach": 8
+					}
+				},
+				{
+					"label": "Thank coach and head out",
+					"result": "You tell {coach} you appreciate the offer but need to recover tonight. You miss the extra instruction, but arrive home with more energy for tomorrow.",
+					"stats": {
+						"life": {
+							"energy": 4,
+							"fun": 1
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"rel": {
+						"coach": 2
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_018",
@@ -2181,9 +2468,8 @@
 		{
 			"id": "HS_101",
 			"title": "The Wrong Locker",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "You open your locker and find someone else's books inside. An older student steps over, says you took his locker, and starts raising his voice as other students watch.",
 			"stages": [
 				"high_school"
 			],
@@ -2204,7 +2490,46 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Stay calm and sort it out",
+					"result": "You explain which locker number is on your schedule and offer to check with the office together. The mix-up gets cleared up without a scene, and the older student backs off.",
+					"stats": {
+						"life": {
+							"social": 2,
+							"energy": -2
+						},
+						"personality": {
+							"leadership": 3,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"set_flags": {
+						"handled_conflict_well": true
+					}
+				},
+				{
+					"label": "Snap back at him",
+					"result": "You tell him to prove it and raise your voice too. He eventually walks away, but the hallway turns into an audience and the disagreement follows you into class.",
+					"stats": {
+						"life": {
+							"social": -2,
+							"energy": -4,
+							"fun": 1
+						},
+						"personality": {
+							"leadership": -2,
+							"charisma": -1
+						}
+					},
+					"modifiers": [
+						"pumped_up"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_102",
