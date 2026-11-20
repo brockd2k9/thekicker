@@ -82,7 +82,7 @@ TEXT_WARN_CHARS = 320
 WHEN_VALUES = {"season", "bye", "offseason"}
 CHOICE_FIELDS = {"label", "result", "stats", "modifiers", "set_flags", "rel", "requires", "lock_text",
                  "follow_up", "recruiting", "grades", "draft", "retention", "skill_points",
-                 "followers", "followers_exact", "conduct", "deal"}
+                 "followers", "followers_exact", "conduct", "deal", "suspend_weeks"}
 SCENARIO_FIELDS = {"id", "title", "_info", "category", "text", "choices", "weight", "cooldown", "when",
                    "follow_up_only", "stages", "seasons", "weeks", "once", "_note"}
 # Fields a template may set on a scenario that already exists (graph fields stay
@@ -134,7 +134,8 @@ def clean_choice(ch):
             stats[g] = d
     out["stats"] = stats
     out["modifiers"] = list(ch.get("modifiers") or [])
-    for k in ["recruiting", "grades", "draft", "retention", "skill_points", "followers", "followers_exact"]:
+    for k in ["recruiting", "grades", "draft", "retention", "skill_points", "followers", "followers_exact",
+              "suspend_weeks"]:
         if ch.get(k) not in (None, 0, 0.0):
             out[k] = ch[k]
     if ch.get("conduct") not in (None, ""):
@@ -361,6 +362,12 @@ def main(argv=None):
                 if not isinstance(ch["followers_exact"], int) or isinstance(ch["followers_exact"], bool):
                     rep.add(sid, "ERROR", f"{w}: followers_exact must be a whole number (a raw follower count)")
                 n_stats += 1
+            if "suspend_weeks" in ch:
+                v = ch["suspend_weeks"]
+                if not isinstance(v, int) or isinstance(v, bool) or not 1 <= v <= 3:
+                    rep.add(sid, "ERROR", f"{w}: suspend_weeks {v} must be a whole number 1-3 (games sat out)")
+                elif ch.get("conduct") not in ("bad", "scandal"):
+                    rep.add(sid, "warning", f"{w}: suspend_weeks without conduct bad or scandal")
             if "conduct" in ch and ch["conduct"] not in CONDUCTS:
                 rep.add(sid, "ERROR", f"{w}: conduct '{ch['conduct']}' must be good, bad or scandal")
             if "deal" in ch:

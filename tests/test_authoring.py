@@ -180,6 +180,19 @@ class CollegeImportTests(unittest.TestCase):
                     "followers_tier 'nobody'", "sets wrong-path strike 'missed_curfew'"]:
             self.assertIn(msg, out)
 
+    def test_suspend_weeks_is_checked(self):
+        bad = {"scenarios": [{"id": "COL_010", "title": "x", "category": "team", "text": "A meeting.",
+                              "choices": [_choice(suspend_weeks=5, conduct="bad", set_flags={"missed_curfew": True}),
+                                          _choice(suspend_weeks=1)]}]}
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "bad.json")
+            with open(path, "w") as f:
+                json.dump(bad, f)
+            code, out = run(path, "--dry-run")
+        self.assertEqual(code, 1, out)
+        self.assertIn("suspend_weeks 5 must be a whole number 1-3", out)
+        self.assertIn("suspend_weeks without conduct bad or scandal", out)
+
     def test_wrong_path_step_must_clear_every_strike(self):
         bad = {"scenarios": [{"id": "COL_010", "title": "x", "category": "team", "text": "A meeting.",
                               "choices": [_choice(set_flags={"missed_curfew": False, "party_trouble": False}),

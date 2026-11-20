@@ -330,7 +330,7 @@ harsher or more lenient, only through locked choices. Same rules as college: nev
 using anything, a clean "no" in every pressure scene, and wrong choices tempt but cost something
 lasting (retention, `{coach}`, Team, a flag).
 
-**Relationships and temptation (adult, never explicit).** The cheating storyline (PRO_155-163) opens
+**Relationships and temptation (adult, never explicit; confirmed).** The cheating storyline (PRO_155-163) opens
 only for a player with a partner (`made_long_distance_work`, `committed_to_relationship`,
 `new_partner`, `engaged` or `married`). Each temptation scene is a one-off with an unnamed stranger
 (a fan, a sponsor's rep, someone at a hotel bar, a teammate's friend), at one life stage (dating,
@@ -348,8 +348,16 @@ committed, engaged, married, married with kids):
 
 The "Content rules (teen audience)" below still apply in full to high school and college. The pro
 storyline's adult themes (non-explicit infidelity, a player tempted to bet or to share inside
-information) are the one exception. **This exception still needs your confirmation.** The blocked
-words still apply everywhere.
+information, a banned substance offered, a night out at a strip club) are the one exception,
+**confirmed**: adult themes in the pros, never explicit, the player never shown using anything,
+and the scene always ends at the choice. The blocked words still apply everywhere ("bets" is
+fine; "gamble" and "bet on the game" are blocked).
+
+**Suspensions.** `"suspend_weeks": n` (a whole number 1-3; the engine caps stacked suspensions at 3)
+sits the player out the next n games, like academic ineligibility, with a SUSPENDED banner. Use it
+only for the worst choices, always with `"conduct": "bad"` or `"scandal"` (the importer warns
+otherwise), and usually in a follow-up scene such as The Test Result. A new stage clears it.
+Example: `{"label": "...", "suspend_weeks": 2, "conduct": "scandal", "set_flags": {"pro_failed_test": true}}`.
 
 ## Content rules (teen audience)
 
