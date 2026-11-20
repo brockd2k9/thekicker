@@ -76,19 +76,18 @@
           "label": "Tell him what you learned",
           "result": "You tell him everything you learned, including the mistakes that cost you. He takes notes on a napkin and gets a better deal than yours.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "backup": 2
           }
         },
         {
@@ -107,7 +106,7 @@
             "loose"
           ],
           "rel": {
-            "team": 3
+            "team": 1
           }
         },
         {
@@ -115,10 +114,11 @@
           "result": "You tell him to trust his agent and not to read the comments. It's good advice, and he looks like he wanted more.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -131,35 +131,38 @@
       "id": "PRO_423",
       "title": "The Offseason Commitment",
       "category": "family",
-      "text": "Your family wants you home; your training plan doesn't agree.",
+      "text": "Your family wants you home for the offseason; your training plan says otherwise. {parent} has already cleared out your old room, and your strength coach has already booked the gym.",
       "choices": [
         {
-          "label": "Go home",
-          "result": "You go home and train in the park. Everyone's happy.",
+          "label": "Go home and train there",
+          "result": "Home, with a plan: the old high school field in the mornings, family in the afternoons. Everyone's happy, including your leg.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "love_interest": 4
+            "parent": 4
           }
         },
         {
           "label": "Stick to the plan",
-          "result": "You stick to the plan. Home waits.",
+          "result": "The plan, followed exactly, in your training city. Home waits, and the calls are long, and your leg has never felt stronger.",
           "stats": {
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "power": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -167,25 +170,31 @@
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2
+          "skill_points": 2,
+          "rel": {
+            "parent": -1
+          }
         },
         {
           "label": "Bring them to you",
-          "result": "You bring the family to your training city for a month.",
+          "result": "The family, flown in for a month to your training city. It's crowded and loud, and {sibling} learns to hold.",
           "stats": {
             "life": {
-              "energy": -1
+              "social": 1
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 1,
+              "leadership": 1
             }
           },
           "modifiers": [
-            "focused"
-          ]
+            "inspired"
+          ],
+          "rel": {
+            "sibling": 2,
+            "parent": 2
+          }
         }
       ]
     },
@@ -254,19 +263,18 @@
       "id": "PRO_425",
       "title": "The Young Kicker's Arrival",
       "category": "training",
-      "text": "A rookie asks to learn your routine, step by step.",
+      "text": "A rookie kicker asks to learn your routine, step by step: the breath, the count, the spot on the ball. He's brought a notebook and a very serious face.",
       "choices": [
         {
-          "label": "Teach him",
-          "result": "You teach him every step. Then you teach him why.",
+          "label": "Teach him everything",
+          "result": "Every step, and then why each step is there. He fills the notebook, and you realize, explaining it, that you understand it better too.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 3
             }
           },
           "modifiers": [
@@ -274,37 +282,35 @@
           ],
           "skill_points": 1,
           "rel": {
-            "team": 2
+            "backup": 3
           }
         },
         {
           "label": "Let him shadow you",
-          "result": "You let him shadow you for a week.",
+          "result": "Seven days of shadowing: he does everything you do, one step behind. By Friday he's found his own version, which suits him better.",
           "stats": {
             "life": {
               "social": 2
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "intelligence": 1
             }
           },
           "modifiers": [
-            "loose"
+            "focused"
           ],
           "rel": {
-            "team": 3
+            "backup": 2
           }
         },
         {
-          "label": "Keep some secrets",
-          "result": "You teach him most of it. A few things are yours.",
+          "label": "Keep a few things yours",
+          "result": "Most of it, taught generously; a few things, kept. Every kicker needs a secret or two, and he'll find his own.",
           "stats": {
-            "life": {
-              "energy": -2
-            },
+            "life": {},
             "football": {
-              "power": 1
+              "resilience": 1
             },
             "personality": {
               "ambition": 2
@@ -313,7 +319,7 @@
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2
+          "skill_points": 1
         }
       ]
     },
@@ -382,59 +388,58 @@
       "id": "PRO_427",
       "title": "The Team's Community Day",
       "category": "community",
-      "text": "You're asked to organize the club's charity day.",
+      "text": "The club asks you to organize its community day: two thousand fans, a stadium tour, a kicking contest for kids, and a budget that is mostly enthusiasm.",
       "choices": [
         {
-          "label": "Run it",
-          "result": "You run it. It's the best one the club has had.",
+          "label": "Run the whole day",
+          "result": "Every detail, run by you, with a clipboard and a whistle. It's the best community day the club has ever had, and you lose your voice.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -3
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 3,
+              "intelligence": 1,
+              "charisma": 1
             }
           },
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
-          "rel": {
-            "team": 2
-          },
           "followers": 2
         },
         {
-          "label": "Bring the families",
-          "result": "You bring the players' families in. It becomes a tradition.",
+          "label": "Bring the players' families",
+          "result": "The players' families, invited to help run it. It becomes a tradition, and the kids of players teach the kids of fans to kick.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 3
+            "team": 2
           }
         },
         {
-          "label": "Help where needed",
-          "result": "You help where you're needed and let the staff lead.",
+          "label": "Help where you're needed",
+          "result": "Help wherever you're needed, and the staff leads. It runs fine, and you spend the whole afternoon signing autographs, happily.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 1
             },
-            "football": {},
-            "personality": {}
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "charisma": 1
+            }
           },
           "modifiers": [
             "rested"
@@ -446,61 +451,62 @@
       "id": "PRO_428",
       "title": "The Family Milestone",
       "category": "family",
-      "text": "A major family occasion falls on a game weekend.",
+      "text": "A major family occasion falls on a game weekend: {parent}'s seventieth birthday, with the whole family flying in from three states. The party is Saturday night.",
       "choices": [
         {
-          "label": "Make it work",
-          "result": "You fly in Friday night and out Saturday morning.",
+          "label": "Fly in for the night",
+          "result": "A Friday night flight, the party, and a dawn flight back. You're exhausted at the game, and {parent} talks about your toast for years.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "energy": -3
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
             "parent": 5
           }
         },
         {
-          "label": "Stay with the team",
-          "result": "You stay with the team and call during dinner.",
+          "label": "Stay with the team and call",
+          "result": "With the team, and a long video call into the party. They put you on a laptop at the head table, and you watch {parent} blow out the candles.",
           "stats": {
-            "life": {
-              "energy": -2
-            },
-            "football": {},
-            "personality": {
-              "ambition": 2
-            }
-          },
-          "modifiers": [
-            "dialed_in"
-          ],
-          "skill_points": 2
-        },
-        {
-          "label": "Plan a second celebration",
-          "result": "You plan a second celebration for the bye week.",
-          "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
               "resilience": 1
             },
             "personality": {
-              "intelligence": 2
+              "ambition": 1
             }
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "rel": {
+            "parent": 1
+          }
+        },
+        {
+          "label": "Plan a second party",
+          "result": "A second celebration, for the bye week, at your house. {parent} gets two birthdays this year and says it's the best one yet.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "parent": 3
+          }
         }
       ]
     },
@@ -514,14 +520,11 @@
           "label": "Back it with conditions",
           "result": "You back it with conditions, a lawyer and a quarterly meeting. He grumbles about the paperwork and thanks you for it later.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -536,12 +539,11 @@
           "result": "You back him fully, because he's your friend. It's a risk, and he calls after every small win like a kid with a report card.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -558,11 +560,14 @@
           "result": "You say no, kindly. He understands, mostly, and you both pretend at the next reunion that it didn't change anything.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 1
             },
-            "football": {},
-            "personality": {}
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "ambition": 1
+            }
           },
           "modifiers": [
             "rested"
@@ -699,35 +704,30 @@
       "id": "PRO_692",
       "title": "Doubts at Thirty",
       "category": "training",
-      "text": "A slump in your thirties, and the questions are about your age, not your form.",
+      "text": "A slump in your thirties, and the questions are all about your age, not your form. The analysts have started using the word 'decline', and a reporter asks about retirement.",
       "choices": [
         {
-          "label": "Find the real cause",
-          "result": "You find the real cause in the film. It's your plant foot, not your age.",
+          "label": "Find the real cause in the film",
+          "result": "The real cause, found in the film after three nights: your plant foot, not your age. You fix it in a week and say nothing to the reporters.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
-              "accuracy": 1
+              "accuracy": 2
             },
             "personality": {
-              "intelligence": 2
+              "intelligence": 1
             }
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         },
         {
-          "label": "Kick through it",
-          "result": "You kick through it.",
+          "label": "Kick two hundred a day",
+          "result": "Two hundred balls a day, every day, until the slump breaks. It does, on day eleven, and your leg feels every one of them.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -3
             },
             "football": {
               "power": 1
@@ -737,21 +737,21 @@
             }
           },
           "modifiers": [
-            "dialed_in"
+            "heavy_legs"
           ],
           "skill_points": 3
         },
         {
           "label": "Lean on {holder}",
-          "result": "You lean on {holder}. They've seen this before.",
+          "result": "{holder}, who has seen you through everything, says simply that this is just another one. It helps more than any drill.",
           "stats": {
             "life": {
               "social": 2
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -762,7 +762,7 @@
         },
         {
           "label": "Use the tools you learned",
-          "result": "You use the tools you learned the first time. The slump is shorter.",
+          "result": "The tools you learned the first time come right back: the breath, the word, the one thought. The slump is shorter, and the reporters move on.",
           "stats": {
             "life": {
               "energy": 1
@@ -790,20 +790,18 @@
       "id": "PRO_693",
       "title": "The Thirty-Something Streak",
       "category": "media",
-      "text": "A month without a miss, and the stories say you're better than ever.",
+      "text": "A month without a miss, and the stories say you're better than ever at thirty-two. The highlight shows have a graphic, and the specialists have stopped saying the word.",
       "choices": [
         {
           "label": "Stay in your routine",
-          "result": "You stay in your routine and don't read anything.",
+          "result": "Nothing changes: same breakfast, same warmup, same parking spot. You don't read a word of the stories, and the streak goes on.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
-              "resilience": 1
+              "resilience": 2
             },
             "personality": {
-              "intelligence": 2
+              "intelligence": 1
             }
           },
           "modifiers": [
@@ -812,37 +810,41 @@
         },
         {
           "label": "Share it with the unit",
-          "result": "You share it with the unit. They earned it too.",
+          "result": "The streak belongs to the snapper and {holder} too, and you say so in every interview. The specialists' chat is very happy.",
           "stats": {
             "life": {
               "social": 2
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "leadership": 1
             }
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
-            "holder": 3
+            "holder": 3,
+            "team": 1
           }
         },
         {
-          "label": "Enjoy it quietly",
-          "result": "You enjoy it quietly at home.",
+          "label": "Enjoy it quietly at home",
+          "result": "A good dinner at home, the television off. You enjoy it the way you'd want to remember it, and {parent} calls to say he's proud.",
           "stats": {
             "life": {
               "energy": 2,
-              "fun": 1
+              "fun": 2
             },
             "football": {},
             "personality": {}
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "parent": 1
+          }
         }
       ]
     }

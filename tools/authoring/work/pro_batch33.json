@@ -74,12 +74,11 @@
           "result": "You bring the whole family. {parent} stands under the sign for a long time without saying anything, then asks someone to take the picture again.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -93,12 +92,12 @@
           "result": "You kick the first ball with the youth league. It hits the crooked post, the kids scream, and it's the best thing that happens all summer.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 2,
+              "charisma": 1
             }
           },
           "modifiers": [
@@ -111,13 +110,14 @@
         },
         {
           "label": "Keep it quiet",
-          "result": "You ask them to keep it small: no speeches, just the sign. Afterward you walk the field alone and find your old spot by the fence.",
+          "result": "Small, please: no speeches, just the sign. Afterward you walk the field alone and find your old spot by the fence.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 2
+            },
             "personality": {}
           },
           "modifiers": [
@@ -130,40 +130,36 @@
       "id": "PRO_722",
       "title": "The High School Visit",
       "category": "community",
-      "text": "You visit your old high school, and the kicking net is still behind the bleachers.",
+      "text": "You visit your old high school for an assembly. The kicking net is still behind the bleachers, the hole you kicked in the fence was never fixed, and the coach is still there.",
       "choices": [
         {
           "label": "Kick with the team",
-          "result": "You kick with the team. The kicker can't believe it.",
+          "result": "Kicks with the current team on their practice field, for an hour. Their kicker can't believe it, and neither can his coach.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 2,
+              "charisma": 1
             }
           },
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
-          "rel": {
-            "team": 2
-          }
+          "skill_points": 1
         },
         {
           "label": "Find your old coach",
-          "result": "You find your old coach in the weight room.",
+          "result": "Your old coach, found in the weight room, gray now. You talk for an hour, and he shows you the fence.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -174,13 +170,14 @@
         },
         {
           "label": "Stand by the net",
-          "result": "You stand by the net for a while.",
+          "result": "A while by the old net, alone. You think about the kid who kicked there, and how much he wanted this.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 2
+            },
             "personality": {}
           },
           "modifiers": [
@@ -211,7 +208,7 @@
             "loose"
           ],
           "rel": {
-            "team": 3
+            "backup": 3
           }
         },
         {
@@ -222,7 +219,7 @@
               "energy": -2
             },
             "football": {
-              "resilience": 1
+              "power": 1
             },
             "personality": {
               "ambition": 2
@@ -235,7 +232,7 @@
         },
         {
           "label": "Watch him play",
-          "result": "You watch his first game from your couch and smile at every warmup kick that looks like yours.",
+          "result": "His first game for the rival, watched from your couch with a bowl of popcorn. You smile at every warmup kick that looks exactly like yours.",
           "stats": {
             "life": {
               "energy": 2,
@@ -261,12 +258,11 @@
           "result": "You teach the new ones everything you know, from the cadence to the jokes. By October the unit sounds like a unit.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 3
             }
           },
           "modifiers": [
@@ -274,7 +270,7 @@
           ],
           "skill_points": 1,
           "rel": {
-            "team": 2
+            "holder": 2
           }
         },
         {
@@ -282,18 +278,17 @@
           "result": "You take the unit to dinner every Thursday. The timing comes after the trust, which is how it always works.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 4
+            "team": 3
           }
         },
         {
@@ -301,11 +296,13 @@
           "result": "You rep it out after every practice until the timing is right. Your leg is tired, and the operation is clean.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -3
             },
-            "football": {},
+            "football": {
+              "accuracy": 1
+            },
             "personality": {
-              "ambition": 2
+              "ambition": 1
             }
           },
           "modifiers": [
@@ -319,11 +316,11 @@
       "id": "PRO_725",
       "title": "The Coordinator's Trick Plays",
       "category": "training",
-      "text": "The coordinator wants more fakes and more onside kicks, and he wants you to run them.",
+      "text": "The coordinator wants more fakes and more onside kicks this year, with you running half of them. He's drawn eleven new trick plays, and one involves you throwing.",
       "choices": [
         {
           "label": "Master them",
-          "result": "You master every trick play. The coordinator starts calling you his secret weapon.",
+          "result": "Every trick play, mastered over a month of extra sessions. The coordinator starts calling you his secret weapon, which worries you a little.",
           "stats": {
             "life": {
               "energy": -2
@@ -342,7 +339,7 @@
         },
         {
           "label": "Pick the best ones",
-          "result": "You help him pick the best three and talk him out of the rest. He thanks you later.",
+          "result": "The best three, picked with him over coffee, and you talk him out of the rest. He thanks you later, after the fourth one fails in practice.",
           "stats": {
             "life": {
               "energy": -1
@@ -363,21 +360,20 @@
         },
         {
           "label": "Get the unit excited",
-          "result": "You get the unit excited. Practice is fun again.",
+          "result": "The whole unit, fired up about the trick plays. Practice is fun again, and {holder} insists on running the one where you throw.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 3
+            "holder": 2
           }
         }
       ]
@@ -386,15 +382,15 @@
       "id": "PRO_726",
       "title": "The Veteran Day Off",
       "category": "health",
-      "text": "The club gives veterans a day off each week, and you're now one of them.",
+      "text": "The club gives veterans a day off each week, and you're now one of them. The first Wednesday, you show up anyway out of habit, and the security guard laughs.",
       "choices": [
         {
-          "label": "Take it",
-          "result": "You use the day off. Your legs thank you.",
+          "label": "Take the day off",
+          "result": "The day off, taken, every single week. Your legs thank you, and you start learning to cook on Wednesday afternoons.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 3,
+              "health": 1
             },
             "football": {},
             "personality": {}
@@ -404,13 +400,15 @@
           ]
         },
         {
-          "label": "Train anyway",
-          "result": "You come in anyway. Old habits. The young players notice, for better and worse.",
+          "label": "Come in anyway",
+          "result": "In anyway, for light work and film. The young players notice your car in the lot, for better and for worse.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -1
             },
-            "football": {},
+            "football": {
+              "accuracy": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -418,25 +416,24 @@
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2
+          "skill_points": 1
         },
         {
           "label": "Spend it at home",
-          "result": "You spend it at home: school runs, dinner, a nap on the couch.",
+          "result": "Wednesdays at home: school runs, long lunches, a nap on the couch. It quickly becomes the best part of your week.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "love_interest": 3
+            "parent": 1
           }
         }
       ]
@@ -445,11 +442,11 @@
       "id": "PRO_727",
       "title": "The Body Maintenance Plan",
       "category": "health",
-      "text": "A trainer builds you a maintenance plan for the next five years.",
+      "text": "A trainer builds you a maintenance plan for the next five years: a thick binder, color-coded, with your age printed in the header of every single page.",
       "choices": [
         {
           "label": "Follow it",
-          "result": "You follow it to the letter. It's dull, and your leg feels five years younger.",
+          "result": "Followed to the letter, every page. It's dull, and your leg feels five years younger by the end of the season.",
           "stats": {
             "life": {
               "energy": -1
@@ -470,7 +467,7 @@
         },
         {
           "label": "Add to it",
-          "result": "You add your own work on top. You're stronger and more tired.",
+          "result": "The plan, plus your own work on top. You're stronger and more tired, and the trainer adds a page about rest.",
           "stats": {
             "life": {
               "energy": -2
@@ -487,13 +484,15 @@
         },
         {
           "label": "Do half",
-          "result": "You do half and keep the rest of your life.",
+          "result": "Half the binder, and the rest of your life. The trainer sighs, accepts it, and adds a page titled 'compromise'.",
           "stats": {
             "life": {
               "energy": 2,
               "fun": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
