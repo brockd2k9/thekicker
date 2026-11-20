@@ -512,11 +512,9 @@
           "result": "You listen to them about everything: sleep, stretching, the way you sit on the plane. Your legs feel younger by midseason.",
           "stats": {
             "life": {
-              "energy": -1
+              "health": 2
             },
-            "football": {
-              "toughness": 1
-            },
+            "football": {},
             "personality": {
               "intelligence": 2
             }
@@ -544,7 +542,7 @@
             "loose"
           ],
           "rel": {
-            "team": 3
+            "team": 2
           },
           "followers": 1
         },
@@ -553,7 +551,7 @@
           "result": "You book extra sessions and sleep better than you have in years. Your bank account notices, and your legs are worth it.",
           "stats": {
             "life": {
-              "energy": 2,
+              "energy": 3,
               "fun": 1
             },
             "football": {},
@@ -569,52 +567,53 @@
       "id": "PRO_729",
       "title": "The Old Injury Flares",
       "category": "health",
-      "text": "An old injury flares up during a road trip.",
+      "text": "An old hip injury flares up on a road trip, in a hotel bed at two in the morning, two days before a game. You can feel it every time you roll over.",
       "choices": [
         {
-          "label": "Tell the trainers",
-          "result": "You tell the trainers right away. They catch it before it gets worse.",
+          "label": "Tell the trainers right away",
+          "result": "The trainers, told at breakfast, before it gets worse. They catch it early, and you're fine by Sunday, with a new stretch for life.",
           "stats": {
             "life": {
-              "energy": -1
+              "health": 3
             },
-            "football": {
-              "toughness": 1
-            },
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 1
             }
           },
           "modifiers": [
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "coach": 1
           }
         },
         {
-          "label": "Work through it",
-          "result": "You work through it and tell them later.",
+          "label": "Work through it quietly",
+          "result": "Through it, quietly, and the trainers find out later. The hip holds, and it reminds you of itself every morning for a month.",
           "stats": {
             "life": {
-              "energy": -2
+              "health": -2
             },
-            "football": {},
+            "football": {
+              "toughness": 1
+            },
             "personality": {
               "ambition": 2
             }
           },
           "modifiers": [
-            "dialed_in"
+            "sore"
           ],
           "skill_points": 2
         },
         {
-          "label": "Rest it",
-          "result": "You rest it all week and miss the extra work. It calms down.",
+          "label": "Rest it all week",
+          "result": "No extra kicking all week, ice and rest. It calms down by Saturday, and you miss the work more than you expected.",
           "stats": {
             "life": {
-              "energy": 2,
+              "energy": 3,
+              "health": 2,
               "fun": 1
             },
             "football": {},
@@ -630,65 +629,61 @@
       "id": "PRO_730",
       "title": "The Long Practice Week",
       "category": "training",
-      "text": "A long week of practice in the heat, and your legs feel every year.",
+      "text": "A long week of practice in the August heat, three sessions a day, and your legs feel every one of your years. The rookies are bouncing; you're icing between meetings.",
       "choices": [
         {
           "label": "Pace yourself",
-          "result": "You pace yourself and save your legs for Sunday.",
+          "result": "Your legs, saved for the kicks that matter. You skip the extra sprints, and you're fresh on Sunday while the rookies limp.",
           "stats": {
             "life": {
-              "energy": -1
+              "energy": 2,
+              "health": 1
             },
-            "football": {
-              "accuracy": 1
-            },
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 1
             }
           },
           "modifiers": [
-            "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+            "rested"
+          ]
         },
         {
-          "label": "Push through",
-          "result": "You push through every rep. Your legs feel it all weekend.",
+          "label": "Push through every rep",
+          "result": "Every rep, every sprint, every session, in the heat. Your legs feel it all weekend, and the rookies stop calling you old.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -3
             },
             "football": {
-              "power": 1
+              "toughness": 1
             },
             "personality": {
               "ambition": 2
             }
           },
           "modifiers": [
-            "dialed_in"
+            "heavy_legs"
           ],
           "skill_points": 2
         },
         {
           "label": "Keep the unit laughing",
-          "result": "You keep the unit laughing through the heat.",
+          "result": "Jokes, bad songs and a running bit about the heat. The specialists laugh through the whole week, and it feels shorter.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 3
+            "holder": 2,
+            "team": 1
           }
         }
       ]
@@ -697,57 +692,55 @@
       "id": "PRO_731",
       "title": "The Teammate's Retirement Speech",
       "category": "team",
-      "text": "A teammate's retirement speech mentions you by name.",
+      "text": "A teammate's retirement speech, delivered in the locker room with a cracking voice, mentions you by name: 'the kicker who never once let me down'.",
       "choices": [
         {
           "label": "Hug him afterward",
-          "result": "You hug him afterward. Neither of you says much.",
+          "result": "A long hug afterward, by his empty locker. Neither of you says much, and you both have to look at the ceiling.",
           "stats": {
             "life": {
               "social": 2
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
             "team": 4
           }
         },
         {
-          "label": "Say something back",
-          "result": "You say something back at the team dinner.",
+          "label": "Say something back at dinner",
+          "result": "A few words back, at the team dinner that night, about what he meant to the room. He can't look up from his plate.",
           "stats": {
-            "life": {
-              "energy": -2,
-              "social": 1
-            },
+            "life": {},
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 2,
+              "charisma": 1
             }
           },
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
           "rel": {
             "team": 2
           }
         },
         {
           "label": "Keep it with you",
-          "result": "You keep it with you. Some nights you think about it before you sleep.",
+          "result": "The words, kept just for yourself. Some nights before big games you think about them, and they steady your hands every time.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 2
+            },
             "personality": {}
           },
           "modifiers": [
@@ -767,28 +760,27 @@
           "result": "You tell every story you can remember, including some you probably shouldn't. She laughs until she has to stop the recorder.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 3
+            "team": 2
           }
         },
         {
           "label": "Tell the true ones",
           "result": "You tell the true ones, carefully, including the hard years. She says it's the most honest interview in the archive.",
           "stats": {
-            "life": {
-              "energy": -1
+            "life": {},
+            "football": {
+              "resilience": 1
             },
-            "football": {},
             "personality": {
               "intelligence": 2
             }
@@ -802,13 +794,15 @@
         },
         {
           "label": "Keep it short",
-          "result": "You keep it short. The archive gets a few good lines, and you realize later you didn't mention the people who got you there.",
+          "result": "A short interview, and the archive gets a few good lines. Later you realize you didn't mention the people who got you there.",
           "stats": {
             "life": {
               "energy": 2,
               "fun": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [

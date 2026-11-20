@@ -97,14 +97,15 @@
       "id": "PRO_109",
       "title": "The Awards Show",
       "category": "media",
-      "text": "The league's awards show wants you on the red carpet the night before a practice you can't miss.",
+      "text": "The league's awards show wants you on the red carpet the night before a practice you can't miss. There's a tuxedo waiting at your hotel and a car at seven.",
       "choices": [
         {
-          "label": "Go and leave early",
-          "result": "You walk the carpet, do two interviews and leave before dessert.",
+          "label": "Walk the carpet and leave early",
+          "result": "The carpet, two interviews and gone before dessert. You make practice on time the next morning, tired and secretly pleased.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "energy": -1
             },
             "football": {},
             "personality": {
@@ -112,23 +113,20 @@
             }
           },
           "modifiers": [
-            "loose"
+            "spotlight"
           ],
-          "rel": {
-            "team": 1
-          },
           "followers": 4
         },
         {
           "label": "Ask {coach}",
-          "result": "You ask {coach}. The coach says go, and be on time. You are.",
+          "result": "{coach} says go, and be on time. You are, at six in the morning, with makeup still behind your ear.",
           "stats": {
-            "life": {
-              "energy": -1
+            "life": {},
+            "football": {
+              "resilience": 1
             },
-            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 1
             }
           },
           "modifiers": [
@@ -139,11 +137,11 @@
           }
         },
         {
-          "label": "Skip it",
-          "result": "You skip it and watch at home.",
+          "label": "Watch from home",
+          "result": "The awards, watched from home in sweatpants. You cheer loudly for the punter who wins, and you're asleep by ten.",
           "stats": {
             "life": {
-              "energy": 2,
+              "energy": 3,
               "fun": 1
             },
             "football": {},
@@ -280,59 +278,62 @@
       "id": "PRO_221",
       "title": "The Anniversary",
       "category": "family",
-      "text": "Ten years married, and you're in a hotel in a city you can't remember the name of.",
+      "text": "Ten years married, and you're in a hotel room in a city you can't remember the name of, with a road game tomorrow. {love_interest} is home with the dog and a cake.",
       "choices": [
         {
           "label": "Fly {love_interest} in",
-          "result": "You fly {love_interest} in for one night. It's the best anniversary yet.",
+          "result": "A ticket for the last flight in, booked from the team bus. One night together in a strange city, and it's the best anniversary yet.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 3
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
             "love_interest": 6
           }
         },
         {
-          "label": "Plan the real one",
-          "result": "You plan a real celebration for the bye week, down to the restaurant.",
+          "label": "Plan the real celebration",
+          "result": "The real celebration, planned for the bye week, down to the restaurant and the song. You talk about it all night on the phone.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "rel": {
+            "love_interest": 3
+          }
         },
         {
           "label": "Call for an hour",
-          "result": "You call for an hour from the hotel room and talk about the first year.",
+          "result": "An hour on the phone from the hotel, talking about the first year: the tiny apartment, the bad car. It's enough, almost.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "love_interest": 2
+          }
         }
       ]
     },
@@ -539,14 +540,14 @@
       "id": "PRO_238",
       "title": "The Comeback Year",
       "category": "career",
-      "text": "Last year everyone wrote your obituary. This year you're the first one on the field.",
+      "text": "Last year everyone wrote your obituary: released, or benched, and called finished in print. This year you're the first one on the field every single morning.",
       "choices": [
         {
           "label": "Be first every day",
-          "result": "You're first on the field every day, and last off it.",
+          "result": "First on the field and last off it, every day. By September nobody is writing obituaries, and the columnist who wrote the worst one apologizes.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -3
             },
             "football": {
               "resilience": 1
@@ -562,33 +563,32 @@
         },
         {
           "label": "Bring the young players",
-          "result": "You bring the young players with you. The early sessions become a club.",
+          "result": "The young players, invited to your early sessions. It becomes a club, and the club becomes the core of the team.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 3
             }
           },
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
           "rel": {
-            "team": 2
+            "backup": 2,
+            "team": 1
           }
         },
         {
           "label": "Prove it with numbers",
-          "result": "You track every kick and show the coaches the curve.",
+          "result": "Every kick, charted, and the curve left on {coach}'s desk every Friday. The numbers do all the arguing for you, quietly.",
           "stats": {
-            "life": {
-              "energy": -1
+            "life": {},
+            "football": {
+              "accuracy": 1
             },
-            "football": {},
             "personality": {
               "intelligence": 2
             }
@@ -606,61 +606,58 @@
       "id": "PRO_256",
       "title": "Who Am I Without It",
       "category": "health",
-      "text": "A sleepless night: if you're not the kicker, who are you?",
+      "text": "A sleepless night at three in the morning, the question you've been avoiding finally sitting on your chest: if you're not the kicker, who are you?",
       "choices": [
         {
           "label": "Wake {love_interest}",
-          "result": "You wake {love_interest} and talk until dawn.",
+          "result": "{love_interest}, woken gently, and you talk until dawn. By morning you have half an answer and a much fuller heart.",
           "stats": {
             "life": {
               "social": 2
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
             "love_interest": 4
           }
         },
         {
-          "label": "Write it down",
-          "result": "You write down everything you are besides a kicker. The list is longer than you thought.",
+          "label": "Write it all down",
+          "result": "Everything you are besides a kicker, written on a legal pad. The list is longer than you thought, and some of it surprises you.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "toughness": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         },
         {
-          "label": "Go for a walk",
-          "result": "You go for a walk at three in the morning. The question comes with you.",
+          "label": "Walk until it's light",
+          "result": "A walk at three in the morning, through an empty neighborhood. The question comes with you, and so does the sunrise.",
           "stats": {
             "life": {
-              "energy": 2,
+              "energy": -1,
+              "health": 1,
               "fun": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 2
+            },
             "personality": {}
           },
           "modifiers": [
-            "rested"
+            "drained"
           ]
         }
       ]
@@ -726,19 +723,18 @@
       "id": "PRO_271",
       "title": "The Family Vacation",
       "category": "family",
-      "text": "A real vacation, no phones, and a family that's not used to having you around for a whole week.",
+      "text": "A real family vacation, a whole week, no phones, and a family that's not used to having you around for seven straight days. The kids keep asking when you're leaving.",
       "choices": [
         {
-          "label": "Be fully there",
-          "result": "You leave your phone in the drawer all week. Everyone notices.",
+          "label": "Be completely there",
+          "result": "The phone, in a drawer, all week. You build sandcastles, lose at board games and fall asleep on the beach, and everyone notices.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 3
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -749,30 +745,32 @@
         },
         {
           "label": "Plan every day",
-          "result": "You plan every day. It's fun and a little exhausting.",
+          "result": "Every day planned: the boat, the museum, the hike. It's fun and a little exhausting, and the kids love the boat.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "rel": {
+            "love_interest": 2
+          }
         },
         {
-          "label": "Train in the mornings",
-          "result": "You train every morning before anyone wakes up.",
+          "label": "Train every morning",
+          "result": "Every morning, a run and a kicking session before anyone wakes up. You're there for the rest, mostly, and {love_interest} notices the mornings.",
           "stats": {
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "power": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -780,7 +778,7 @@
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2,
+          "skill_points": 1,
           "rel": {
             "love_interest": -1
           }

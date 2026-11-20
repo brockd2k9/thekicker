@@ -192,40 +192,35 @@
       "id": "PRO_022",
       "title": "The National List",
       "category": "media",
-      "text": "Your name is on the national list for the league's best kicker, and the team's PR staff has eleven requests for you.",
+      "text": "Your name is on the national list for the league's best kicker, and the team's PR staff has eleven interview requests on a whiteboard, color-coded by urgency.",
       "choices": [
         {
-          "label": "Do them all",
-          "result": "You do all eleven. Your face is everywhere.",
+          "label": "Do all eleven",
+          "result": "All eleven, in a week. Your face is everywhere, you say the same three things forty times, and you sleep badly.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "charisma": 2
             }
           },
           "modifiers": [
-            "loose"
+            "spotlight"
           ],
-          "rel": {
-            "team": 1
-          },
           "followers": 5
         },
         {
-          "label": "Pick three",
-          "result": "You pick three and do them well.",
+          "label": "Pick three and do them well",
+          "result": "Three interviews, chosen carefully and done well. One of them becomes the definitive piece about you, the one people still quote.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "charisma": 1
             }
           },
           "modifiers": [
@@ -234,14 +229,15 @@
           "followers": 3
         },
         {
-          "label": "Do none",
-          "result": "You do none and keep kicking.",
+          "label": "Do none and keep kicking",
+          "result": "None at all. You keep kicking, the PR staff sighs and erases the whiteboard, and the list says what it says without your help.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 2
+            },
             "personality": {}
           },
           "modifiers": [
@@ -254,20 +250,20 @@
       "id": "PRO_023",
       "title": "The Skills Contest",
       "category": "media",
-      "text": "The league invites you to the long-distance contest at the all-star week.",
+      "text": "The league invites you to the long-distance contest at the all-star week: a stadium, a television audience, and nine of the strongest legs in the league.",
       "choices": [
         {
-          "label": "Go and compete",
-          "result": "You go and compete. You train for it like a playoff game.",
+          "label": "Train for it like a playoff",
+          "result": "Two weeks of training for one contest. You go, compete hard, and come home with a trophy shaped like a goalpost.",
           "stats": {
             "life": {
               "energy": -2
             },
             "football": {
-              "resilience": 1
+              "power": 2
             },
             "personality": {
-              "ambition": 2
+              "ambition": 1
             }
           },
           "modifiers": [
@@ -278,31 +274,30 @@
         },
         {
           "label": "Go for the fun",
-          "result": "You go for the fun and spend the week with kickers from every club.",
+          "result": "The week, spent with kickers from every club: dinners, card games, stories. You finish fourth and have the best time of anyone.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 3
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 3
+            "rival": 1
           },
           "followers": 2
         },
         {
-          "label": "Decline",
-          "result": "You decline and rest your leg.",
+          "label": "Decline and rest your leg",
+          "result": "A polite decline, and your leg gets a week of rest. The contest happens without you, and you watch it from your couch, cheering.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 3,
+              "health": 1
             },
             "football": {},
             "personality": {}
@@ -447,11 +442,11 @@
       "id": "PRO_055",
       "title": "Loyalty or the Paycheck",
       "category": "career",
-      "text": "Another club would pay you double. This one gave you your first chance.",
+      "text": "Another club would pay you double, your agent says, with the offer in writing. This one gave you your first chance when nobody else would. The general manager is waiting for your call.",
       "choices": [
         {
           "label": "Stay",
-          "result": "You stay. The club remembers, and so do you.",
+          "result": "You stay. The club remembers it, the locker room remembers it, and so do you, every time you drive past the old stadium.",
           "stats": {
             "life": {
               "social": 2
@@ -474,7 +469,7 @@
         },
         {
           "label": "Explore it",
-          "result": "You tell your agent to explore it. You kick like a free agent.",
+          "result": "Your agent explores the offer, fully and openly. You kick the season like a free agent, and the club starts calling more often.",
           "stats": {
             "life": {
               "energy": -2
@@ -496,7 +491,7 @@
         },
         {
           "label": "Ask your club to match",
-          "result": "You ask your club to come closer. They meet you partway.",
+          "result": "Your club, asked to come closer to the other offer. They meet you partway, and you sign, a little richer and still at home.",
           "stats": {
             "life": {
               "energy": -1
@@ -587,17 +582,15 @@
       "id": "PRO_072",
       "title": "Broke at Thirty-Three",
       "category": "money",
-      "text": "The money's gone faster than the career. There's a mortgage, a family, and maybe three seasons left in your leg, if you're lucky.",
+      "text": "The money's gone faster than the career. There's a mortgage, a family, a car payment, and maybe three seasons left in your leg, if you're very lucky.",
       "choices": [
         {
           "label": "Make a hard plan",
-          "result": "You sit down with an honest advisor and make a hard plan: a smaller house, no new cars, a budget on the fridge. It hurts, and it works.",
+          "result": "An honest advisor and a hard plan: a smaller house, no new cars, a budget taped to the fridge. It hurts, and it works.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
-              "resilience": 1
+              "resilience": 2
             },
             "personality": {
               "intelligence": 2
@@ -619,14 +612,14 @@
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "leadership": 1
             }
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "love_interest": 4
+            "parent": 3
           }
         },
         {
@@ -636,7 +629,9 @@
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "toughness": 1
+            },
             "personality": {
               "ambition": 2
             }
