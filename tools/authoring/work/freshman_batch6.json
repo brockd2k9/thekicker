@@ -8,43 +8,67 @@
       "_info": {
         "when": "Freshman year (season 1), any week"
       },
-      "category": "",
-      "text": "",
+      "category": "social",
+      "text": "An older teammate invites you to a party Saturday night. Half the team is going, it's across town, and the only ride home leaves whenever the upperclassmen do.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Go and stay till the end",
+          "result": "You laugh with the team until the ride finally heads out after midnight. You drag through the rest of the weekend, but on Monday people talk to you like you've always been around.",
           "stats": {
-            "life": {},
+            "life": {
+              "fun": 8,
+              "social": 6,
+              "energy": -10
+            },
             "football": {},
-            "personality": {}
+            "personality": {
+              "charisma": 1
+            }
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": [
+            "tired"
+          ],
           "set_flags": {}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Go, but line up your own ride",
+          "result": "You hang out for a couple of hours, then text {parent} for a pickup at ten. A few upperclassmen tease you for leaving early, but you still get a full night's sleep.",
           "stats": {
-            "life": {},
+            "life": {
+              "fun": 4,
+              "social": 3,
+              "energy": -3
+            },
             "football": {},
-            "personality": {}
+            "personality": {
+              "intelligence": 1
+            }
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": [
+            "loose"
+          ],
           "set_flags": {}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Pass on it this time",
+          "result": "You say thanks but you're worn out from the week. You wake up rested, then spend Monday hearing inside jokes you weren't there for.",
           "stats": {
-            "life": {},
+            "life": {
+              "energy": 5,
+              "social": -4,
+              "fun": -2
+            },
             "football": {},
-            "personality": {}
+            "personality": {
+              "ambition": 1
+            }
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": [
+            "rested"
+          ],
           "set_flags": {}
         }
       ]
@@ -55,44 +79,70 @@
       "_info": {
         "when": "Freshman year (season 1), any week"
       },
-      "category": "",
-      "text": "",
+      "category": "school",
+      "text": "You're paired with two classmates on a science project due the same week as a road game. One partner hasn't answered a single message, and the other suggests splitting it three ways and hoping for the best.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Take charge of the project",
+          "result": "You set a schedule, hand out the parts and stay up late finishing the slides. The project earns a solid grade, though you're running on fumes by game day.",
           "stats": {
-            "life": {},
+            "life": {
+              "energy": -5,
+              "fun": -2
+            },
             "football": {},
-            "personality": {}
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {}
+          "modifiers": [
+            "tired"
+          ],
+          "set_flags": {},
+          "grades": 0.1
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Split it and do your part",
+          "result": "You finish your third and leave the rest to them. The silent partner turns in something rushed at the last minute, and the grade comes back lower than you hoped.",
           "stats": {
-            "life": {},
+            "life": {
+              "energy": -1,
+              "fun": 1
+            },
             "football": {},
-            "personality": {}
+            "personality": {
+              "charisma": 1
+            }
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {}
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {},
+          "grades": -0.05
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Tell your teacher what's happening",
+          "result": "You quietly let your science teacher know one partner has gone silent. The workload gets adjusted, but the partner figures out who said something and class gets awkward.",
           "stats": {
-            "life": {},
+            "life": {
+              "energy": -2,
+              "social": -2
+            },
             "football": {},
-            "personality": {}
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {}
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {},
+          "grades": 0.05
         }
       ]
     },
@@ -102,43 +152,63 @@
       "_info": {
         "when": "Freshman year (season 1), any week"
       },
-      "category": "",
-      "text": "",
+      "category": "training",
+      "text": "Cold rain rolls in an hour into practice. The coaches move the offense indoors, but say the kickers can stay out on the wet field if they want.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Stay out and kick in the rain",
+          "result": "You kick until your cleats are caked in mud, learning how a wet ball comes off your foot. You go home soaked and shivering, but bad-weather kicks feel a little less scary.",
           "stats": {
-            "life": {},
-            "football": {},
+            "life": {
+              "energy": -6,
+              "health": -2
+            },
+            "football": {
+              "toughness": 1
+            },
             "personality": {}
           },
-          "skill_points": 0,
-          "modifiers": [],
+          "skill_points": 3,
+          "modifiers": [
+            "scouted"
+          ],
           "set_flags": {}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Head inside and study film",
+          "result": "You join the offense indoors and watch your approach on the big screen. You spot a hitch in your plant step, but you don't get a single real rep in.",
           "stats": {
-            "life": {},
+            "life": {
+              "energy": -1
+            },
             "football": {},
-            "personality": {}
+            "personality": {
+              "intelligence": 1
+            }
           },
-          "skill_points": 0,
-          "modifiers": [],
+          "skill_points": 2,
+          "modifiers": [
+            "focused"
+          ],
           "set_flags": {}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Call it a day early",
+          "result": "You dry off, head home early and finish your homework before dinner. You feel rested, though you notice the other kickers stayed out the whole time.",
           "stats": {
-            "life": {},
+            "life": {
+              "energy": 5,
+              "fun": 2
+            },
             "football": {},
-            "personality": {}
+            "personality": {
+              "ambition": -1
+            }
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": [
+            "rested"
+          ],
           "set_flags": {}
         }
       ]
@@ -149,43 +219,66 @@
       "_info": {
         "when": "Freshman year (season 1), any week"
       },
-      "category": "",
-      "text": "",
+      "category": "team",
+      "text": "A rumor goes around the locker room that a starting lineman is about to quit the team. A couple of guys ask you if it's true, since you sat next to him on the bus.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Ask him directly",
+          "result": "You find him after practice and ask how he's doing. The rumor is mostly wrong: he's dealing with something at home, and he's glad someone asked instead of guessing.",
           "stats": {
-            "life": {},
+            "life": {
+              "energy": -2,
+              "social": 2
+            },
             "football": {},
-            "personality": {}
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": [
+            "inspired"
+          ],
           "set_flags": {}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Tell them to drop it",
+          "result": "You say you don't know anything and they should leave it alone. The talk cools off around you, even if it keeps going elsewhere.",
           "stats": {
-            "life": {},
+            "life": {
+              "social": -1
+            },
             "football": {},
-            "personality": {}
+            "personality": {
+              "leadership": 1,
+              "intelligence": 1
+            }
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": [
+            "focused"
+          ],
           "set_flags": {}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Share what you noticed",
+          "result": "You mention he seemed quiet on the bus, and by lunch the story has doubled. You're in on the conversation for a day, but when he hears where it started, he stops saving you a seat.",
           "stats": {
-            "life": {},
+            "life": {
+              "social": 3,
+              "fun": 2
+            },
             "football": {},
-            "personality": {}
+            "personality": {
+              "leadership": -2,
+              "charisma": -1
+            }
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": [
+            "distracted"
+          ],
           "set_flags": {}
         }
       ]
@@ -196,43 +289,65 @@
       "_info": {
         "when": "Freshman year (season 1), any week"
       },
-      "category": "",
-      "text": "",
+      "category": "career",
+      "text": "A flyer on the locker room board advertises a weekend kicking camp where college coaches sometimes stop by. It costs more than you'd like to ask your family for, and it lands on a friend's birthday weekend.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Ask your family to help pay",
+          "result": "Your family agrees, though you can tell it's a stretch, and you miss the birthday to go. You get two days of coached reps and a nod from one of the camp staff.",
           "stats": {
-            "life": {},
+            "life": {
+              "energy": -5,
+              "social": -3
+            },
             "football": {},
-            "personality": {}
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "skill_points": 3,
+          "modifiers": [
+            "dialed_in"
+          ],
+          "set_flags": {},
+          "recruiting": 2
+        },
+        {
+          "label": "Save up for next year's camp",
+          "result": "You decide to earn the money yourself and go next summer. You make the birthday, and the plan feels like your own.",
+          "stats": {
+            "life": {
+              "fun": 4,
+              "social": 3
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "leadership": 1
+            }
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": [
+            "loose"
+          ],
           "set_flags": {}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Study free videos instead",
+          "result": "You spend a few evenings breaking down free kicking videos online. It costs nothing, but there's nobody there to correct your form.",
           "stats": {
-            "life": {},
+            "life": {
+              "energy": -2
+            },
             "football": {},
-            "personality": {}
+            "personality": {
+              "intelligence": 1
+            }
           },
-          "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {}
-        },
-        {
-          "label": "",
-          "result": "",
-          "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
-          },
-          "skill_points": 0,
-          "modifiers": [],
+          "skill_points": 1,
+          "modifiers": [
+            "focused"
+          ],
           "set_flags": {}
         }
       ]
@@ -243,44 +358,68 @@
       "_info": {
         "when": "Freshman year (season 1), any week"
       },
-      "category": "",
-      "text": "",
+      "category": "money",
+      "text": "Your phone slips out of your bag at practice and the screen shatters. A repair costs money you don't have, and the team chat and every assignment reminder run through that phone.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Earn the repair money",
+          "result": "You trade a few weeks of yard work and extra chores for the repair. You're worn out, but the fixed phone feels earned.",
           "stats": {
-            "life": {},
+            "life": {
+              "energy": -5,
+              "fun": -2
+            },
             "football": {},
-            "personality": {}
+            "personality": {
+              "ambition": 1,
+              "leadership": 1
+            }
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": [
+            "tired"
+          ],
           "set_flags": {}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Live with the cracks",
+          "result": "You squint through the broken screen for a few weeks and keep your weekends free. It mostly works, but you miss a couple of messages about practice changes.",
           "stats": {
-            "life": {},
+            "life": {
+              "energy": 1,
+              "fun": 2,
+              "social": -1
+            },
             "football": {},
-            "personality": {}
+            "personality": {
+              "ambition": -1
+            }
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": [
+            "distracted"
+          ],
           "set_flags": {}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Take a break from your phone",
+          "result": "You leave it in a drawer and go without for a couple of weeks. You sleep better and focus in class, though you're out of the loop on weekend plans.",
           "stats": {
-            "life": {},
+            "life": {
+              "energy": 4,
+              "social": -4
+            },
             "football": {},
-            "personality": {}
+            "personality": {
+              "intelligence": 2
+            }
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {}
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {},
+          "grades": 0.05
         }
       ]
     }
