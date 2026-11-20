@@ -1,0 +1,339 @@
+{
+  "_about": "Freshman batch 3: HS_102, 103, 104, 106, 107, 110 (all freshman season, no requirements). Every flag in each entry's _info.must_set_flags must be set by some choice (one per choice is pre-filled). Chain openers: HS_103 defended_teammate_online -> HS_139; HS_104 prioritized_family_trip / balanced_family_commitments -> HS_157; HS_106 trained_backup_holder -> HS_145; HS_107 community_volunteer -> HS_134.",
+  "_how": "Fill in category, text and choices; leave _info alone (it's read-only). See tools/authoring/WRITING_GUIDE.md. Import: python3 tools/import_scenarios.py <this file> --dry-run",
+  "scenarios": [
+    {
+      "id": "HS_102",
+      "title": "The Open Gym",
+      "_info": {
+        "when": "Freshman year (season 1), any week",
+        "must_set_flags": [
+          "joined_open_gym"
+        ]
+      },
+      "category": "",
+      "text": "",
+      "choices": [
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "joined_open_gym": true
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_103",
+      "title": "The First Group Chat",
+      "_info": {
+        "when": "Freshman year (season 1), any week",
+        "must_set_flags": [
+          "defended_teammate_online",
+          "private_support",
+          "joined_group_mockery"
+        ],
+        "leads_to": [
+          "unlocks HS_139 (The Screenshot) when defended_teammate_online"
+        ]
+      },
+      "category": "",
+      "text": "",
+      "choices": [
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "defended_teammate_online": true
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "private_support": true
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "joined_group_mockery": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_104",
+      "title": "The Family Road Trip",
+      "_info": {
+        "when": "Freshman year (season 1), any week",
+        "must_set_flags": [
+          "prioritized_family_trip",
+          "attended_first_clinic",
+          "balanced_family_commitments"
+        ],
+        "people": [
+          "parent"
+        ]
+      },
+      "category": "",
+      "text": "",
+      "choices": [
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "prioritized_family_trip": true
+          },
+          "rel": {
+            "parent": 0
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "attended_first_clinic": true
+          },
+          "rel": {
+            "parent": 0
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "balanced_family_commitments": true
+          },
+          "rel": {
+            "parent": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_106",
+      "title": "The Substitute Holder",
+      "_info": {
+        "when": "Freshman year (season 1), any week",
+        "must_set_flags": [
+          "trained_backup_holder",
+          "refused_holder_help"
+        ],
+        "people": [
+          "holder"
+        ],
+        "leads_to": [
+          "unlocks HS_145 (The Holder's Big Moment) when trained_backup_holder"
+        ],
+        "absorbs": [
+          "HS_038"
+        ]
+      },
+      "category": "",
+      "text": "",
+      "choices": [
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "trained_backup_holder": true
+          },
+          "rel": {
+            "holder": 0
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "refused_holder_help": true
+          },
+          "rel": {
+            "holder": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_107",
+      "title": "The First Volunteer Day",
+      "_info": {
+        "when": "Freshman year (season 1), any week",
+        "must_set_flags": [
+          "community_volunteer",
+          "partial_volunteer"
+        ],
+        "leads_to": [
+          "unlocks HS_134 (The Community Recognition) when community_volunteer"
+        ]
+      },
+      "category": "",
+      "text": "",
+      "choices": [
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "community_volunteer": true
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "partial_volunteer": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_110",
+      "title": "The First Time You're Recognized",
+      "_info": {
+        "when": "Freshman year (season 1), any week",
+        "must_set_flags": [
+          "shared_first_success",
+          "enjoys_spotlight",
+          "downplays_success"
+        ]
+      },
+      "category": "",
+      "text": "",
+      "choices": [
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "shared_first_success": true
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "enjoys_spotlight": true
+          }
+        },
+        {
+          "label": "",
+          "result": "",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {}
+          },
+          "skill_points": 0,
+          "modifiers": [],
+          "set_flags": {
+            "downplays_success": true
+          }
+        }
+      ]
+    }
+  ]
+}
