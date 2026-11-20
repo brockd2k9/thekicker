@@ -298,17 +298,37 @@
       "id": "PRO_091",
       "title": "The Snapper Retires",
       "category": "team",
-      "text": "The long snapper you've trusted for years is done, and he asks you to speak at his farewell.",
+      "text": "The long snapper you've trusted for years is done: his back, his age, his wife's patience. He asks you, of all people, to speak at his farewell dinner.",
       "choices": [
         {
           "label": "Speak from the heart",
-          "result": "You tell the room what it's like to trust someone without ever looking. He cries first.",
+          "result": "What it's like to trust someone without ever looking back: you tell the room. He cries first, and then everyone else does.",
           "stats": {
             "life": {
               "social": 2
             },
             "football": {},
             "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Keep it light and true",
+          "result": "Three funny stories and one true one. The room loves it, and he asks for a copy of the speech to show his kids.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
               "charisma": 1
             }
           },
@@ -316,42 +336,27 @@
             "loose"
           ],
           "rel": {
-            "team": 2
-          }
-        },
-        {
-          "label": "Keep it light",
-          "result": "You tell three funny stories and one true one. The room loves it.",
-          "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {},
-            "personality": {
-              "intelligence": 2
-            }
-          },
-          "modifiers": [
-            "focused"
-          ],
-          "rel": {
-            "coach": 2
+            "team": 1
           }
         },
         {
           "label": "Say a few words",
-          "result": "You say a few words and raise a glass of water. He hugs you anyway.",
+          "result": "A few short words and a raised glass of water. He hugs you anyway, hard, and says it was perfect, and his wife writes you a note.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "team": 1
+          }
         }
       ]
     },
@@ -618,15 +623,13 @@
       "id": "PRO_107",
       "title": "The Podcast",
       "category": "media",
-      "text": "A popular podcast wants you for an hour. The host is known for getting athletes to say too much.",
+      "text": "A popular podcast wants you for a full hour. The host is famous for getting athletes to say too much, and three of your teammates have already regretted going on.",
       "choices": [
         {
           "label": "Prepare and stay disciplined",
-          "result": "You prepare and stay disciplined. It's a good episode with no headlines.",
+          "result": "Prepared, disciplined, and still funny. It's a good episode with no headlines, and the host admits you were a hard interview.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
               "resilience": 1
             },
@@ -640,19 +643,20 @@
           "followers": 2
         },
         {
-          "label": "Be yourself",
-          "result": "You're funny and honest. One joke about a teammate gets clipped everywhere.",
+          "label": "Be yourself on air",
+          "result": "Funny and honest for an hour, until one joke about a teammate gets clipped everywhere. You apologize to him before he hears it.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "charisma": 2
             }
           },
           "modifiers": [
-            "loose"
+            "spotlight"
           ],
           "rel": {
             "team": -1
@@ -660,8 +664,8 @@
           "followers": 5
         },
         {
-          "label": "Decline",
-          "result": "You decline. The host says something snide about kickers on the next episode.",
+          "label": "Turn the podcast down",
+          "result": "No, politely. The host says something snide about kickers on the next episode, and your teammates send it to you, delighted.",
           "stats": {
             "life": {
               "energy": 2,
@@ -680,40 +684,35 @@
       "id": "PRO_110",
       "title": "The National Deal",
       "category": "media",
-      "text": "A national brand wants you for a commercial that would play during every game this year.",
+      "text": "A national brand wants you for a commercial that would air during every game this year: you, a ball, and a talking dog. The shoot is during your bye week.",
       "choices": [
         {
-          "label": "Take it",
-          "result": "You sign on. You're everywhere, and the shoot eats your bye week.",
+          "label": "Sign on for the commercial",
+          "result": "Signed. You're on every broadcast all season, the talking dog becomes famous, and the shoot eats your entire bye week, which you never get back.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -2,
+              "fun": 1
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
-              "ambition": 2
+              "charisma": 2
             }
           },
           "modifiers": [
-            "dialed_in"
+            "spotlight"
           ],
-          "skill_points": 2,
           "followers": 6
         },
         {
-          "label": "Negotiate the schedule",
-          "result": "You agree if they shoot in the offseason. They do.",
+          "label": "Shoot it in the offseason",
+          "result": "The offseason, or nothing, you tell them politely. They agree, the dog waits, and your bye week stays your own, with your family.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -722,14 +721,15 @@
           "followers": 4
         },
         {
-          "label": "Pass",
-          "result": "You pass. You'd rather be known for kicking.",
+          "label": "Pass on it",
+          "result": "No commercial this year. You'd rather be known for kicking than for the dog, and a punter gets the part instead and loves it.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [

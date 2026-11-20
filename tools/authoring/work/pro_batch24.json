@@ -571,53 +571,55 @@
       "id": "PRO_684",
       "title": "The Kicking Net in the Living Room",
       "category": "family",
-      "text": "You set up a net in the living room, and {love_interest} has opinions.",
+      "text": "You set up a kicking net in the living room for winter practice, right in front of the television. {love_interest} has opinions, mostly about the lamp that's already broken.",
       "choices": [
         {
           "label": "Move it to the garage",
-          "result": "You move it to the garage. Peace returns.",
+          "result": "The net, moved to the garage, with a space heater. Peace returns to the house, the lamp is replaced, and the garage becomes your favorite room.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 1
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "rested"
           ],
           "rel": {
             "love_interest": 4
           }
         },
         {
-          "label": "Make a deal",
-          "result": "You make a deal: weekdays only, and you hang the art.",
+          "label": "Negotiate a deal",
+          "result": "A deal: weekdays only, and you hang the paintings that have been leaning on the wall since you moved in. Everyone wins.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "love_interest": 2
+          }
+        },
+        {
+          "label": "Keep the net",
+          "result": "The net stays where it is. Some arguments are worth having, you decide, and you kick very carefully around the brand-new lamp all winter.",
           "stats": {
             "life": {
               "energy": -1
             },
             "football": {
-              "resilience": 1
+              "accuracy": 1
             },
-            "personality": {
-              "intelligence": 2
-            }
-          },
-          "modifiers": [
-            "focused"
-          ]
-        },
-        {
-          "label": "Keep it",
-          "result": "You keep it. Some arguments are worth having.",
-          "stats": {
-            "life": {
-              "energy": -2
-            },
-            "football": {},
             "personality": {
               "ambition": 2
             }
@@ -625,7 +627,7 @@
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2,
+          "skill_points": 1,
           "rel": {
             "love_interest": -2
           }

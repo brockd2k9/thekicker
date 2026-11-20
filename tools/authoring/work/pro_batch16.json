@@ -156,14 +156,14 @@
       "id": "PRO_196",
       "title": "A New City, Mid-Career",
       "category": "team",
-      "text": "A new club, a new town, and a locker room that has already decided whether you're a mercenary.",
+      "text": "A new club, a new town, and a locker room that has already decided whether you're a mercenary. The last kicker was popular, and his photo is still on the wall.",
       "choices": [
         {
           "label": "Win the room",
-          "result": "You learn every name, show up to every team meal and win the room by midseason.",
+          "result": "Every name learned, every team meal attended, every question asked. By midseason the room is yours, and the old photo comes down.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 3
             },
             "football": {},
             "personality": {
@@ -179,12 +179,14 @@
         },
         {
           "label": "Let the work talk",
-          "result": "You say little and kick a lot. The room comes around.",
+          "result": "Few words and a great many kicks. The room comes around by October, slowly and completely, and nobody mentions the old photo again.",
           "stats": {
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "accuracy": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -195,16 +197,15 @@
           "skill_points": 2
         },
         {
-          "label": "Help the young players",
-          "result": "You help the young specialists from day one. They become your biggest supporters.",
+          "label": "Help the young specialists",
+          "result": "The young specialists get your help from day one: rides, film, advice. They become your biggest supporters, and the room follows their lead.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 3
             }
           },
           "modifiers": [
@@ -212,7 +213,8 @@
           ],
           "skill_points": 1,
           "rel": {
-            "team": 2
+            "backup": 2,
+            "holder": 2
           }
         }
       ]
@@ -685,62 +687,62 @@
       "id": "PRO_283",
       "title": "The Hometown Parade",
       "category": "community",
-      "text": "Your hometown throws you a parade after your best season. {parent} rides in the front car.",
+      "text": "Your hometown throws you a parade after your best season: a fire truck, the high school band, and {parent} in the front car, waving like he's the one who kicked.",
       "choices": [
         {
           "label": "Ride with {parent}",
-          "result": "You ride with {parent} and wave until your arm hurts.",
+          "result": "The front car, beside {parent}, waving until your arm hurts. He doesn't stop smiling for the entire route, and neither, in the end, do you.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
             "parent": 5
           }
         },
         {
-          "label": "Give a speech",
-          "result": "You give a short speech thanking the town. The high school team cheers loudest.",
+          "label": "Give a speech at the end",
+          "result": "A short speech on the courthouse steps, thanking the town. The high school team cheers loudest, and the kicker asks for your gloves.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 2,
+              "charisma": 1
             }
           },
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
-          "rel": {
-            "team": 2
-          }
+          "skill_points": 1
         },
         {
-          "label": "Keep it short",
-          "result": "You ride the route and leave early.",
+          "label": "Ride the route and slip away",
+          "result": "The route, a few waves, and then a quiet exit to {parent}'s porch. The town understands; the band plays on without you.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "parent": 1
+          }
         }
       ]
     },

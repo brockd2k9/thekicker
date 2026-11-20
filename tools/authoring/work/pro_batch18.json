@@ -384,22 +384,22 @@
       "id": "PRO_364",
       "title": "The Public Relationship",
       "category": "family",
-      "text": "Your relationship becomes a topic of public interest, and {love_interest} didn't sign up for that.",
+      "text": "Your relationship becomes a topic of public interest after a photo goes around, and {love_interest} didn't sign up for that. There are strangers in the comments of their private account.",
       "choices": [
         {
           "label": "Protect {love_interest}",
-          "result": "You stop posting about home entirely. {love_interest} notices and is grateful.",
+          "result": "Nothing about home, posted ever again, not even a photo of the dog. {love_interest} notices, and is quietly grateful, and the strangers lose interest by spring.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 1
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "focused"
           ],
           "rel": {
             "love_interest": 5
@@ -408,36 +408,39 @@
         },
         {
           "label": "Set boundaries together",
-          "result": "You agree together on what stays private and what doesn't.",
+          "result": "What stays private and what doesn't: decided together, at the kitchen table, with a list. It feels like a team, which it is.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "rel": {
+            "love_interest": 3
+          }
         },
         {
           "label": "Let it blow over",
-          "result": "You let it blow over. It takes longer than you thought.",
+          "result": "It'll blow over, you decide. It takes much longer than you thought, and {love_interest} deletes the account without telling you.",
           "stats": {
             "life": {
-              "energy": 2,
+              "energy": 1,
               "fun": 1
             },
             "football": {},
             "personality": {}
           },
           "modifiers": [
-            "rested"
-          ]
+            "distracted"
+          ],
+          "rel": {
+            "love_interest": -2
+          }
         }
       ]
     },
@@ -626,35 +629,37 @@
       "id": "PRO_368",
       "title": "The Offseason Vacation",
       "category": "family",
-      "text": "{love_interest} wants a real vacation; you want to train.",
+      "text": "{love_interest} wants a real vacation this offseason: two weeks, an island, no phones. You want to train. The brochure has been on the kitchen counter for a month, open to the same page.",
       "choices": [
         {
-          "label": "Go on the vacation",
-          "result": "You go, and you don't bring a ball. It's the best week of the year.",
+          "label": "Go, and leave the ball home",
+          "result": "Two weeks on the island, no ball, no film, no phone. It's the best fortnight of the year, and you come back rested and in love all over again.",
           "stats": {
             "life": {
-              "social": 2
+              "fun": 3,
+              "social": 1,
+              "energy": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "rested"
           ],
           "rel": {
             "love_interest": 5
           }
         },
         {
-          "label": "Train instead",
-          "result": "You train. {love_interest} goes with friends and sends pictures.",
+          "label": "Stay and train",
+          "result": "Training, alone, while {love_interest} goes with friends and sends pictures of the water every day. You're stronger by July and a little lonelier.",
           "stats": {
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "power": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -662,25 +667,31 @@
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2
+          "skill_points": 2,
+          "rel": {
+            "love_interest": -2
+          }
         },
         {
-          "label": "Find a place with a field",
-          "result": "You find a beach town with a high school field. Everyone wins, sort of.",
+          "label": "Find an island with a field",
+          "result": "A beach town with a high school field, found after two hours of searching. Mornings for kicking, afternoons for the beach. Everyone wins, sort of.",
           "stats": {
             "life": {
+              "fun": 1,
               "energy": -1
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "rel": {
+            "love_interest": 2
+          }
         }
       ]
     },

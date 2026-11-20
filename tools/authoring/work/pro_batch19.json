@@ -93,55 +93,57 @@
       "id": "PRO_372",
       "title": "The Family Conversation",
       "category": "family",
-      "text": "You and {love_interest} talk about starting a family, and neither of you knows the right time.",
+      "text": "You and {love_interest} start talking about starting a family, late at night, and neither of you knows the right time. The schedule, the contract, the next city: everything feels uncertain.",
       "choices": [
         {
-          "label": "Say now",
-          "result": "You both say now. It's terrifying and right.",
+          "label": "Decide on now",
+          "result": "Now, you both say, at almost the same moment. It's terrifying and right, and you laugh for ten minutes afterward.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
             "love_interest": 5
           }
         },
         {
-          "label": "Make a plan",
-          "result": "You make a plan around the contract and the seasons.",
+          "label": "Plan around the seasons",
+          "result": "A plan, built around the contract and the seasons: when, where, who helps. It's sensible, and it makes the dream feel real.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "love_interest": 2
+          }
+        },
+        {
+          "label": "Agree to wait",
+          "result": "Waiting, for now, you both agree. The conversation comes back every few months, a little more urgent each time, and a little warmer.",
           "stats": {
             "life": {
-              "energy": -1
+              "energy": 1
             },
             "football": {
               "resilience": 1
             },
             "personality": {
-              "intelligence": 2
+              "ambition": 1
             }
-          },
-          "modifiers": [
-            "focused"
-          ]
-        },
-        {
-          "label": "Wait",
-          "result": "You agree to wait. The conversation comes back every few months.",
-          "stats": {
-            "life": {
-              "energy": 2,
-              "fun": 1
-            },
-            "football": {},
-            "personality": {}
           },
           "modifiers": [
             "rested"
@@ -592,38 +594,33 @@
       "id": "PRO_380",
       "title": "The Sponsored Posts",
       "category": "media",
-      "text": "A company offers to pay for sponsored posts, and the product is fine, mostly.",
+      "text": "A supplement-free sports drink company offers to pay you for sponsored posts. The product is fine, mostly, and the contract has a clause about 'authentic enthusiasm'.",
       "choices": [
         {
           "label": "Take the deal",
-          "result": "You take the deal. The posts do well and feel a little hollow.",
+          "result": "The deal, signed. The posts do well, the money is real, and the 'authentic enthusiasm' feels a little hollow every time.",
           "stats": {
             "life": {
-              "energy": -2
+              "fun": 1
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
               "ambition": 2
             }
           },
           "modifiers": [
-            "dialed_in"
+            "spotlight"
           ],
-          "skill_points": 2,
           "followers": 3
         },
         {
-          "label": "Test it first",
-          "result": "You use the product for a month before you post. It's actually good.",
+          "label": "Test it for a month",
+          "result": "A month of actually drinking it before you post a word. It's genuinely good, and your posts say so honestly.",
           "stats": {
             "life": {
-              "energy": -1
+              "health": 1
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
               "intelligence": 2
             }
@@ -634,14 +631,15 @@
           "followers": 2
         },
         {
-          "label": "Decline",
-          "result": "You decline. Your page stays yours.",
+          "label": "Keep your page yours",
+          "result": "No sponsored posts, ever. Your page stays yours, full of your dog, your family and very bad photos of sunsets.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -654,19 +652,18 @@
       "id": "PRO_381",
       "title": "The Long-Term Commitment",
       "category": "family",
-      "text": "{love_interest} wants to talk about where you'll live after football.",
+      "text": "{love_interest} wants to talk about where you'll live after football. It's a quiet Sunday, and they've made a list of places on the back of an envelope.",
       "choices": [
         {
           "label": "Let {love_interest} choose",
-          "result": "You let {love_interest} choose. It's the right call.",
+          "result": "Their choice, from the envelope: a town near the coast, near their family. It's the right call, and you both know it.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -676,40 +673,42 @@
           }
         },
         {
-          "label": "Make a list together",
-          "result": "You make a list together. Your hometown wins.",
+          "label": "Make the list together",
+          "result": "A list together, with pros and cons in two colors. Your hometown wins by a point, and {parent} cries on the phone when you tell him.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
           ],
           "rel": {
-            "parent": 1
+            "love_interest": 2,
+            "parent": 2
           }
         },
         {
-          "label": "Not yet",
-          "result": "You say there's time. {love_interest} says there isn't always.",
+          "label": "Say there's still time",
+          "result": "There's still time, you say. {love_interest} says there isn't always, and puts the envelope away in a drawer you both pretend not to see.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 1
             },
             "football": {},
-            "personality": {}
+            "personality": {
+              "ambition": 1
+            }
           },
           "modifiers": [
-            "rested"
-          ]
+            "distracted"
+          ],
+          "rel": {
+            "love_interest": -2
+          }
         }
       ]
     },

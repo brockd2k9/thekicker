@@ -5,44 +5,44 @@
       "id": "PRO_636",
       "title": "The Pregnancy",
       "category": "family",
-      "text": "{love_interest} is pregnant, and the due date falls right in the middle of the season. You're thrilled, and already counting weeks on the schedule.",
+      "text": "{love_interest} is pregnant, and the due date falls right in the middle of the season. You're thrilled, terrified, and already counting weeks on the team schedule.",
       "choices": [
         {
           "label": "Plan to be there",
           "result": "You tell {coach} now that you'll miss a game if the baby comes on a Sunday. The coach says it's the right call and means it.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "love_interest": 6
+            "love_interest": 6,
+            "coach": 1
           }
         },
         {
           "label": "Make a plan with everyone",
           "result": "You make a plan with {love_interest}, the coach and both families: who's on call, which flights, which bags. It feels like a playbook, and it helps.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "love_interest": 2,
+            "parent": 1
           }
         },
         {
@@ -50,9 +50,11 @@
           "result": "You hope the baby comes in the bye week. You also keep a bag packed in the car and check your phone at every break.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -68,51 +70,51 @@
       "id": "PRO_637",
       "title": "The Baby's First Year",
       "category": "family",
-      "text": "Sleepless nights with a newborn during the season.",
+      "text": "Sleepless nights with a newborn, in the middle of the season. The baby wakes at two and four, practice starts at eight, and you've started falling asleep in film sessions.",
       "choices": [
         {
           "label": "Take the night shifts",
-          "result": "You take the night shifts on off days. You're tired and close.",
+          "result": "The night shifts on your off days, every one. You're tired and closer to {love_interest} and the baby than you've ever been to anyone.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "energy": -3
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "drained"
           ],
           "rel": {
             "love_interest": 5
           }
         },
         {
-          "label": "Sleep in shifts",
-          "result": "You and {love_interest} sleep in shifts by the schedule. It works, roughly.",
+          "label": "Sleep in shifts by schedule",
+          "result": "A sleep schedule, written on the fridge like a practice plan. It works, roughly, and nobody falls asleep in a meeting again.",
           "stats": {
             "life": {
-              "energy": -1
+              "health": 1
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
               "intelligence": 2
             }
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "rel": {
+            "love_interest": 2
+          }
         },
         {
-          "label": "Ask for help",
-          "result": "You ask the grandparents to come for a month. Everyone sleeps.",
+          "label": "Ask the grandparents for help",
+          "result": "The grandparents, invited for a month. Everyone sleeps, the house is loud and full, and {parent} becomes a diaper expert.",
           "stats": {
             "life": {
-              "energy": 2,
+              "energy": 3,
               "fun": 1
             },
             "football": {},
@@ -120,7 +122,10 @@
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "parent": 3
+          }
         }
       ]
     },
@@ -128,20 +133,19 @@
       "id": "PRO_638",
       "title": "The Daycare",
       "category": "family",
-      "text": "Finding daycare in a city where you might not live next year.",
+      "text": "Finding daycare in a city where you might not live next year. Every good place has a waiting list, and every waiting list asks how long you'll be in town.",
       "choices": [
         {
-          "label": "Do the research",
-          "result": "You visit six places and pick the best one.",
+          "label": "Visit every place",
+          "result": "Six daycares, visited in one week, with a notebook. You pick the best one and get on the list by being honest about the contract.",
           "stats": {
             "life": {
               "energy": -1
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -150,7 +154,7 @@
         },
         {
           "label": "Ask the team families",
-          "result": "You ask the other team families. They have a list and a group chat.",
+          "result": "The other team families, asked at the next game. They have a list, a group chat and a spot opening up in March.",
           "stats": {
             "life": {
               "social": 2
@@ -164,12 +168,12 @@
             "loose"
           ],
           "rel": {
-            "team": 3
+            "team": 2
           }
         },
         {
-          "label": "Hire a nanny for now",
-          "result": "You hire a nanny for the season and decide later.",
+          "label": "Hire a nanny for the season",
+          "result": "A nanny for the season, and a decision later. It's expensive and easy, and the baby adores her within a week.",
           "stats": {
             "life": {
               "energy": 2,
@@ -188,14 +192,15 @@
       "id": "PRO_639",
       "title": "The In-Laws",
       "category": "family",
-      "text": "{love_interest}'s family visits for two weeks during the season.",
+      "text": "{love_interest}'s family visits for two weeks during the season: parents, a grandmother, and a brother-in-law who is certain that kicking is easy and has a lot of advice about it.",
       "choices": [
         {
-          "label": "Be the host",
-          "result": "You make them feel welcome every evening. {love_interest} notices.",
+          "label": "Be the perfect host",
+          "result": "Every evening at home with them: dinners, card games, the grandmother's long stories. {love_interest} notices, and so does the grandmother.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "energy": -1
             },
             "football": {},
             "personality": {
@@ -211,10 +216,10 @@
         },
         {
           "label": "Keep your routine",
-          "result": "You keep your routine and see them at dinner.",
+          "result": "Your routine, unchanged, and you see them at dinner every night. It's polite and a little distant, and {love_interest} doesn't say anything.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": 1
             },
             "football": {},
             "personality": {
@@ -224,25 +229,28 @@
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2
+          "skill_points": 1,
+          "rel": {
+            "love_interest": -1
+          }
         },
         {
           "label": "Plan their days",
-          "result": "You plan their days so everyone has something to do.",
+          "result": "Their days, planned by you: the museum, the stadium tour, a lake. Everyone has something to do, and the brother-in-law gets a practice pass.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "rel": {
+            "love_interest": 2
+          }
         }
       ]
     },
@@ -250,41 +258,36 @@
       "id": "PRO_640",
       "title": "The Kicking Video Series",
       "category": "media",
-      "text": "You start a video series teaching kids how to kick.",
+      "text": "You start a video series teaching kids how to kick, filmed in your backyard on a phone. The first episode has more views than your team's highlight reel.",
       "choices": [
         {
-          "label": "Make it good",
-          "result": "You make it good: real drills, real mistakes, real fixes.",
+          "label": "Make it really good",
+          "result": "Real drills, real mistakes, real fixes, and a lot of editing late at night. Coaches start using it in practice.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 2,
+              "intelligence": 1
             }
           },
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
-          "rel": {
-            "team": 2
-          },
           "followers": 4
         },
         {
-          "label": "Bring in {holder}",
-          "result": "You bring {holder} in for an episode. It's the most popular one.",
+          "label": "Bring {holder} in",
+          "result": "{holder}, invited for an episode on holding. It's the most popular one by far, because {holder} is much funnier on camera than you.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -296,13 +299,15 @@
         },
         {
           "label": "Keep it simple",
-          "result": "You film one video a month on your phone.",
+          "result": "One video a month on your phone, unedited. It's honest and charming, and it never takes more than an hour.",
           "stats": {
             "life": {
               "energy": 2,
               "fun": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [

@@ -373,19 +373,18 @@
       "id": "PRO_390",
       "title": "The Career Milestone",
       "category": "career",
-      "text": "You reach a milestone and have to decide how to celebrate it.",
+      "text": "You reach a career milestone the club makes a big deal about: a graphic on the scoreboard, a ball in a case, and a question about how you want to celebrate.",
       "choices": [
         {
           "label": "Celebrate with the specialists",
-          "result": "You take the specialists to dinner. {holder} gives a speech.",
+          "result": "Dinner with the specialists, on you, at the steakhouse. {holder} gives a speech that is mostly about {holder}, and it's perfect.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -396,30 +395,34 @@
         },
         {
           "label": "Celebrate at home",
-          "result": "You celebrate at home with the people who knew you before.",
+          "result": "The people who knew you before, at home: {parent}, {sibling}, old friends. The ball in the case goes on {parent}'s mantel.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 1,
+              "fun": 2
             },
             "football": {},
             "personality": {}
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "parent": 2,
+            "sibling": 1
+          }
         },
         {
-          "label": "Thank the room",
-          "result": "You thank the whole room, one by one. It takes a while.",
+          "label": "Thank the room one by one",
+          "result": "Every person in the building, thanked one by one: trainers, equipment staff, the snapper, the cafeteria. It takes all day and it's worth it.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 2,
+              "charisma": 1
             }
           },
           "modifiers": [

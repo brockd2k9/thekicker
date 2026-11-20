@@ -421,11 +421,11 @@
       "id": "PRO_037",
       "title": "Contract Year: The Payday",
       "category": "career",
-      "text": "This is the contract that sets up your family for life, if you earn it this season.",
+      "text": "This is the contract that could set up your family for life, if you earn it this season. Your agent has a number in mind, and so does the club, and they're far apart.",
       "choices": [
         {
           "label": "Make the season undeniable",
-          "result": "You make every practice count. Nothing about this season will be an accident.",
+          "result": "Every practice counts, every rep, every film session. Nothing about this season will be an accident, and you're exhausted and proud by December.",
           "stats": {
             "life": {
               "energy": -2
@@ -443,35 +443,31 @@
           "skill_points": 2
         },
         {
-          "label": "Let your agent work",
-          "result": "You let your agent handle every conversation and keep your head on kicking.",
+          "label": "Let your agent do the talking",
+          "result": "Every contract conversation goes to your agent, and you keep your head on kicking. It works, mostly, though you check your phone after every practice.",
           "stats": {
-            "life": {
-              "energy": -1
+            "life": {},
+            "football": {
+              "resilience": 1
             },
-            "football": {},
             "personality": {
               "intelligence": 2
             }
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         },
         {
           "label": "Talk it through at home",
-          "result": "You talk it through with your family. Their calm becomes your calm.",
+          "result": "A long evening at home, talking it through. Their calm becomes your calm, and you sleep better for the rest of the season.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -486,55 +482,55 @@
       "id": "PRO_040",
       "title": "The Hometown Discount",
       "category": "money",
-      "text": "The club offers less than the market and asks you to take it because you're family here.",
+      "text": "The club offers less than the market and asks you to take it because 'you're family here'. The general manager says it twice, and puts his hand on your shoulder the second time.",
       "choices": [
         {
           "label": "Take the discount",
-          "result": "You accept the discount. The club remembers, and so does the locker room.",
+          "result": "The discount, accepted. The club remembers it, and so does the locker room, and you never quite know if it was generous or foolish.",
           "stats": {
             "life": {
               "social": 2
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "charisma": 1,
+              "leadership": 1
             }
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 3
+            "team": 2
           },
           "retention": 2
         },
         {
           "label": "Meet in the middle",
-          "result": "You ask your agent to find the middle. It takes two weeks, and everyone is a little unhappy and fine.",
+          "result": "The middle ground, found by your agent over two weeks of calls. Everyone is a little unhappy and fine, which your agent says is how you know it's fair.",
           "stats": {
-            "life": {
-              "energy": -1
+            "life": {},
+            "football": {
+              "resilience": 1
             },
-            "football": {},
             "personality": {
               "intelligence": 2
             }
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         },
         {
-          "label": "Test the market",
-          "result": "You decide to test the market next spring and kick like it all year.",
+          "label": "Test the market next spring",
+          "result": "Next spring's open market, it is. You kick like it all year, and every practice feels like an audition for twenty-nine other clubs.",
           "stats": {
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "power": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -704,33 +700,32 @@
       "id": "PRO_077",
       "title": "First Day of School",
       "category": "family",
-      "text": "Your kid's first day of school is a Thursday practice.",
+      "text": "Your kid's first day of school falls on a Thursday practice day. The backpack has been packed since Sunday, and there's a photo planned by the front door at seven-thirty.",
       "choices": [
         {
           "label": "Ask to come in late",
-          "result": "You ask {coach} to come in an hour late. You're there for the first wave goodbye.",
+          "result": "An hour's grace from {coach}, granted without a pause. You're there for the photo, the backpack, and the wave at the classroom door.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
             "love_interest": 4
           }
         },
         {
-          "label": "Go to practice",
-          "result": "You go to practice and get a video. You watch it four times at lunch.",
+          "label": "Go to practice and watch the video",
+          "result": "Practice, and a video from home at lunch. You watch it four times in the locker room, and {holder} watches it with you.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -1
             },
             "football": {},
             "personality": {
@@ -740,25 +735,29 @@
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2
+          "skill_points": 1,
+          "rel": {
+            "holder": 1
+          }
         },
         {
-          "label": "Plan around it",
-          "result": "You plan the morning with the coach and your partner. You make the drop-off and the meeting.",
+          "label": "Plan the whole morning",
+          "result": "The morning, planned to the minute with {coach} and the family: drop-off at seven-forty, meeting at eight-fifteen. You make both, barely.",
           "stats": {
             "life": {
               "energy": -1
             },
             "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "coach": 1
           }
         }
       ]

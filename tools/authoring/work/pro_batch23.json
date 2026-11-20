@@ -257,22 +257,21 @@
       "id": "PRO_666",
       "title": "The Wedding Planning",
       "category": "family",
-      "text": "Wedding planning during the season, and every decision is a phone call.",
+      "text": "Wedding planning in the middle of the season, and every decision is a phone call: flowers between meetings, the menu on the team bus, seating charts at midnight.",
       "choices": [
         {
           "label": "Take every call",
-          "result": "You take every call, even between meetings. {love_interest} feels it.",
+          "result": "Every call, even in the minutes between meetings. {love_interest} feels it, and the seating chart is perfect, and you're exhausted.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "energy": -2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "drained"
           ],
           "rel": {
             "love_interest": 5
@@ -280,11 +279,9 @@
         },
         {
           "label": "Hire a planner",
-          "result": "You hire a planner and make the big decisions on Mondays.",
+          "result": "A planner, hired, and the big decisions saved for Mondays. It works beautifully, and it costs more than the cake and the flowers combined.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
               "resilience": 1
             },
@@ -294,24 +291,27 @@
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "rel": {
+            "love_interest": 2
+          }
         },
         {
           "label": "Leave it to {love_interest}",
-          "result": "You leave most of it to {love_interest} until the offseason.",
+          "result": "Most of it, left to {love_interest} until the offseason. They manage it all, and they remember exactly who didn't help.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": 2
             },
             "football": {},
             "personality": {
-              "ambition": 2
+              "ambition": 1
             }
           },
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2,
+          "skill_points": 1,
           "rel": {
             "love_interest": -2
           }
