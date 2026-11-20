@@ -35,6 +35,21 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## The kick's launch speed is set so 100% power clears the crossbar at
 ## range + this (so a kick right at your range doesn't clip the bar).
 @export var range_physics_margin_yd: float = 0.5
+## Range physics, copied into each new career (CareerData.range_physics; the
+## Career Debug screen can flip it for a loaded career, then Save):
+##   ON:  the launch speed comes from the range above, so a full flick reaches
+##        exactly today's field goal range.
+##   OFF: the ball flies as it did before skill points: launch speed from Power
+##        on the old curve below (+ game-day yards / legacy_power_mult_yards).
+## Either way the Hub, the Outlook and the coach use the range above, and a
+## full kickoff carries exactly the kickoff range (CareerGameMode).
+@export var sp_range_physics: bool = false
+## Physics OFF only: launch-speed multiplier at Power 0 / 100 (the pre-skill-
+## points values). Swipe power needed (no wind) for 30 / 40 / 50 / 60 yd:
+##   0.82 -> 47 / 66 / 83 / 99%    1.00 -> 33 / 46 / 58 / 69%    1.08 -> 29 / 41 / 51 / 61%
+@export var power_mult_at_0: float = 0.82
+@export var power_mult_at_100: float = 1.08
+@export_range(0.3, 3.0) var power_curve: float = 1.0
 ## Kickoff range (yards of carry at a full flick): its own Power curve.
 ## Power 30/50/70/100 -> 52/61/67/75 yd. A touchback needs 60 (high school,
 ## tee on the 40) or 65 (college and pro, tee on the 35).
@@ -201,11 +216,10 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var bye_scenarios: int = 2
 @export var offseason_scenarios: int = 2
 ## Applied at the end of every week (through the stat rules). Energy and
-## Health recover. weekly_football_growth is 0: football attributes now grow
-## through skill points (group "Skill Points"); the knob is kept.
+## Health recover. (Football attributes only grow through skill points,
+## group "Skill Points", and scenario choices.)
 @export var weekly_energy_recovery: float = 10.0
 @export var weekly_health_recovery: float = 2.0
-@export var weekly_football_growth: float = 0.0
 ## Every week each life stat also moves this fraction of the way back toward
 ## life_baseline, so streaks of good or bad weeks don't pin them at 0 or 100.
 ## 0 = off.
@@ -216,9 +230,7 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## Extra recovery at the end of a bye week.
 @export var bye_energy_recovery: float = 15.0
 @export var bye_health_recovery: float = 10.0
-## Between seasons: every football stat grows this much (0: skill points do
-## it now), and life stats move this fraction of the way back to start_life.
-@export var offseason_football_growth: float = 0.0
+## Between seasons life stats move this fraction of the way back to start_life.
 @export_range(0.0, 1.0) var offseason_life_reset: float = 0.5
 ## Injury picked up in the weekly roll: weeks out of full health and severity.
 @export var injury_weeks_min: int = 1
@@ -269,6 +281,9 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## game-day range minus this margin (plus the coach relationship and minus
 ## coach doubt, group "Relationships").
 @export var coach_range_margin_yd: float = 2.0
+## Each field goal chance moves the coach's limit up or down this many yards
+## (never past today's range).
+@export var coach_call_random_yd: int = 2
 ## Situation pressure by quarter (Q1..Q4).
 @export var quarter_pressure: PackedFloat32Array = PackedFloat32Array([0.1, 0.2, 0.3, 0.45])
 ## Extra pressure in a one-score game in the 4th quarter.
@@ -291,23 +306,16 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## Every game costs this (before the weekly recovery).
 @export var game_energy_cost: float = -12.0
 @export var game_health_cost: float = -3.0
-## Direct football stat changes from your kicks. All 0 now: kicks earn skill
-## points instead (group "Skill Points"). The knobs are kept.
-@export var make_accuracy_gain: float = 0.0
-## A make from this far or more counts as a long make (skill points, Power gain).
+## Your kicks change life and personality stats only; football attributes
+## grow through skill points (group "Skill Points").
+## A make from this far or more counts as a long make (skill points).
 @export var long_make_yards: int = 45
-@export var long_make_power_gain: float = 0.0
 ## A make under this much pressure is a clutch make (skill points, Charisma).
 @export_range(0.0, 1.0) var clutch_pressure: float = 0.6
-@export var clutch_resilience_gain: float = 0.0
 @export var clutch_charisma_gain: float = 2.0
 @export var miss_fun: float = -2.0
-@export var miss_resilience_gain: float = 0.0
 ## A perfect day (2+ kicks, no misses) adds this Fun.
 @export var perfect_day_fun: float = 2.0
-## Good kickoffs (touchback / pinned deep): direct Power / Toughness gain (0 now).
-@export var good_kickoff_power_gain: float = 0.0
-@export var good_kickoff_toughness_gain: float = 0.0
 
 @export_group("Sideline Kicks")
 ## Kickoffs, onside kicks and the sideline warmup net (all in the 3D kick scene).
@@ -476,6 +484,8 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var rel_teacher_gpa_grace: float = 0.1
 ## Team standing (your teammates' trust): pressure sensitivity change at 100.
 @export var rel_team_pressure: float = -0.08
+## The Team: weekly Social drift at 100 (like the best friend), reversed at 0.
+@export var rel_team_social: float = 1.0
 ## Trust (coach recommendation): rel_trust_coach_weight * Coach + the rest * Team.
 ## Recruiting uses it in the final high school / junior college season (the
 ## rec_high / rec_low thresholds above); the draft gets up to +/- rel_draft_rec
@@ -520,6 +530,18 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## Resilience 100 (0.3 = 30% more), and double while the coach doubts you.
 @export var kick_recovery_resilience: float = 0.3
 @export var kick_doubt_make_mult: float = 2.0
+## --- Bad stretch ---
+## Under stretch_pct over your last stretch_window field goals (at least
+## stretch_min_att): Coach and Team lose trust, this stage's progress score
+## (recruiting / draft / retention) drops, flag coach_lost_faith; then not
+## again for stretch_cooldown_weeks.
+@export var stretch_window: int = 10
+@export var stretch_min_att: int = 8
+@export_range(0.0, 1.0) var stretch_pct: float = 0.5
+@export var stretch_coach: float = -8.0
+@export var stretch_team: float = -3.0
+@export var stretch_progress: float = -2.0
+@export var stretch_cooldown_weeks: int = 5
 
 ## --- Too many misses (coach doubt) ---
 ## Window: your last kick_window field goal attempts (across games).
@@ -561,6 +583,8 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export_range(0.0, 1.0) var sp_great_season_pct: float = 0.9
 ## Offseason training (once between seasons).
 @export var sp_offseason: int = 6
+## Sideline warmups (game_day.json "skill_points"): at most this many a game day.
+@export var sp_warmup_max_per_game: int = 1
 ## Scenario choices' "skill_points" are multiplied by this.
 @export var sp_scenario_scale: float = 1.0
 ## Scenario choices still change football stats directly ("stats": {"football"});

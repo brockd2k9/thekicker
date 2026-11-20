@@ -141,6 +141,9 @@ var notice: String = ""
 ## spent on attribute upgrades in the Skills screen).
 var skill_points: int = 0
 ## Earned this season / whole career (spent ones included).
+## Range physics for this career (CareerTuning.sp_range_physics when created;
+## off for saves from before the switch).
+var range_physics: bool = false
 var sp_season: int = 0
 ## SP earned this week by source, for the Results screen: [{text, sp}].
 var sp_week: Array = []
@@ -154,6 +157,13 @@ var maintained: Dictionary = {}
 ## Your last field goal attempts, oldest first (true = made). KickTrust's
 ## "too many misses" window; kept across games and seasons.
 var recent_fg: Array = []
+## Your last field goals for the bad-stretch check (KickTrust; newest last),
+## and weeks until a bad stretch can cost trust again.
+var fg_history: Array = []
+var stretch_cooldown: int = 0
+## This season's skill points by source ("Field goals made", "Practice", ...),
+## saved into each season's history (balance simulator).
+var sp_sources: Dictionary = {}
 ## Coach doubt after a slump: {weeks_left, reason}. Empty = none.
 var coach_doubt: Dictionary = {}
 ## This week's Coach / Team changes from your kicks: {coach, team, lines: [text]}.
@@ -178,6 +188,7 @@ static func create(player_name: String, tuning: CareerTuning) -> CareerData:
 	d.season_stats = empty_kick_totals()
 	d.career_totals = empty_kick_totals()
 	d.gpa = tuning.start_gpa
+	d.range_physics = tuning.sp_range_physics
 	Relationships.seed_cast(d, tuning)
 	return d
 
@@ -318,6 +329,7 @@ func to_dict() -> Dictionary:
 		"former_people": former_people.duplicate(true),
 		"notice": notice,
 		"skill_points": skill_points,
+		"range_physics": range_physics,
 		"sp_season": sp_season,
 		"sp_career": sp_career,
 		"sp_week": sp_week.duplicate(true),
@@ -325,6 +337,9 @@ func to_dict() -> Dictionary:
 		"perks": perks.duplicate(),
 		"maintained": maintained.duplicate(),
 		"recent_fg": recent_fg.duplicate(),
+		"fg_history": fg_history.duplicate(),
+		"stretch_cooldown": stretch_cooldown,
+		"sp_sources": sp_sources.duplicate(),
 		"coach_doubt": coach_doubt.duplicate(),
 		"trust_week": trust_week.duplicate(true),
 	}
@@ -400,9 +415,10 @@ static func from_dict(d: Dictionary) -> CareerData:
 	c.retirement = _dict(d, "retirement")
 	c.last_week = _dict(d, "last_week")
 	c.notice = str(d.get("notice", ""))
-	c.skill_points = maxi(int(d.get("skill_points", 0)), 0)
-	c.sp_season = maxi(int(d.get("sp_season", 0)), 0)
-	c.sp_career = maxi(int(d.get("sp_career", 0)), 0)
+	c.skill_points = maxi(_num(d, "skill_points"), 0)
+	c.range_physics = d.get("range_physics") is bool and d["range_physics"]
+	c.sp_season = maxi(_num(d, "sp_season"), 0)
+	c.sp_career = maxi(_num(d, "sp_career"), 0)
 	c.sp_week = _array(d, "sp_week")
 	var up := _dict(d, "sp_upgrades")
 	for k in up:
@@ -415,6 +431,12 @@ static func from_dict(d: Dictionary) -> CareerData:
 		c.maintained[str(k)] = int(mt[k])
 	for b in _array(d, "recent_fg"):
 		c.recent_fg.append(bool(b))
+	for b in _array(d, "fg_history"):
+		c.fg_history.append(bool(b))
+	c.stretch_cooldown = maxi(_num(d, "stretch_cooldown"), 0)
+	var src := _dict(d, "sp_sources")
+	for k in src:
+		c.sp_sources[str(k)] = _num(src, k)
 	c.coach_doubt = _dict(d, "coach_doubt")
 	c.trust_week = _dict(d, "trust_week")
 	for id in _dict(d, "people"):
@@ -437,6 +459,12 @@ static func from_dict(d: Dictionary) -> CareerData:
 	if d.has("_team_start") and c.people.has(Relationships.TEAM):
 		c.people[Relationships.TEAM]["value"] = clampf(float(d["_team_start"]), 0.0, 100.0)
 	return c
+
+
+## A whole number from a save field; 0 if it's missing or not a number.
+static func _num(d: Dictionary, key: Variant) -> int:
+	var v: Variant = d.get(key)
+	return int(v) if v is int or v is float else 0
 
 
 static func _dict(d: Dictionary, key: String) -> Dictionary:

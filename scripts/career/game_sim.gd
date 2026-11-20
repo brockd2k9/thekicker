@@ -255,7 +255,13 @@ func _our_drive(start: float, dur: float) -> void:
 			_push_call("pat")
 		else:
 			var yards := _fg_distance()
-			if yards > _max_fg_yards:
+			# The coach's limit moves +/- call_random_yd per chance, never past
+			# your range (call_cap_yd); both optional (career games set them).
+			var limit := _max_fg_yards
+			var r := int(_p.get("call_random_yd", 0))
+			if r > 0:
+				limit = mini(limit + _rng.randi_range(-r, r), int(_p.get("call_cap_yd", limit + r)))
+			if yards > limit:
 				_line("coach_no_trust", {"yards": yards})
 			else:
 				_push_call("fg", yards)

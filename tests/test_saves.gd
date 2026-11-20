@@ -130,3 +130,19 @@ func test_v3_relationships_load_unchanged() -> void:
 	eq(str(Relationships.tyler_team(c).get("stage", "")), "college", "Tyler's college kept")
 	var again := CareerData.from_dict(CareerSave._migrate(c.to_dict()))
 	eq(JSON.stringify(again.to_dict()), JSON.stringify(c.to_dict()), "v3 round trip")
+
+
+func test_wrong_typed_skill_point_fields_fall_back() -> void:
+	# A hand-edited (or foreign-format) save: SP fields that aren't numbers load as 0.
+	var d := fixture("career_v2_college.json")
+	d["career_version"] = 4
+	d["skill_points"] = "lots"
+	d["sp_career"] = {"earned": 234, "spent": 232}
+	d["sp_season"] = [1, 2]
+	d["range_physics"] = "yes"
+	var c := CareerData.from_dict(CareerSave._migrate(d))
+	check(c != null, "loads")
+	eq(c.skill_points, 0, "skill_points")
+	eq(c.sp_career, 0, "sp_career")
+	eq(c.sp_season, 0, "sp_season")
+	check(not c.range_physics, "range_physics")

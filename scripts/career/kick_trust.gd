@@ -193,10 +193,41 @@ static func apply_game(c: CareerData, kicks: Array, range: float, t: CareerTunin
 		start_doubt(c, t)
 	elif not v["doubt"]:
 		c.coach_doubt = {}
+	if _bad_stretch(c, kicks, t):
+		(total["lines"] as Array).append("A rough stretch: the coach and your teammates are losing faith.")
+		total["stretch"] = true
 	if big_line != "":
 		(total["lines"] as Array).append(big_line)
 	c.trust_week = {"coach": total["coach"], "team": total["team"], "lines": total["lines"]}
 	return total
+
+
+## Bad stretch: logs this game's field goals (fg_history) and, under
+## stretch_pct over the last stretch_window (at least stretch_min_att), costs
+## Coach and Team trust and a little of this stage's progress score (recruiting /
+## draft / retention), sets coach_lost_faith, then rests for
+## stretch_cooldown_weeks. Returns true if it hit now.
+static func _bad_stretch(c: CareerData, kicks: Array, t: CareerTuning) -> bool:
+	for k in kicks:
+		if str(k.get("kind", "")) == "fg" and not k.get("backup", false):
+			c.fg_history.append(bool(k.get("made", false)))
+	while c.fg_history.size() > t.stretch_window:
+		c.fg_history.pop_front()
+	if c.stretch_cooldown > 0 or c.fg_history.size() < t.stretch_min_att:
+		return false
+	if float(c.fg_history.count(true)) / c.fg_history.size() >= t.stretch_pct:
+		return false
+	c.stretch_cooldown = t.stretch_cooldown_weeks
+	c.flags["coach_lost_faith"] = true
+	Relationships.apply(c, {"coach": t.stretch_coach, Relationships.TEAM: t.stretch_team})
+	match c.stage:
+		CareerData.STAGE_HIGH_SCHOOL, CareerData.STAGE_JUCO:
+			c.recruiting_score = clampf(c.recruiting_score + t.stretch_progress, 0.0, 100.0)
+		CareerData.STAGE_COLLEGE:
+			c.draft_score = clampf(c.draft_score + t.stretch_progress, 0.0, 100.0)
+		_:
+			c.retention_bonus += t.stretch_progress
+	return true
 
 
 ## A slump: coach doubt for a few weeks, and the story flag.
@@ -210,8 +241,10 @@ static func start_doubt(c: CareerData, t: CareerTuning) -> void:
 	c.flags["kick_slumps"] = int(c.flags.get("kick_slumps", 0)) + 1
 
 
-## End of week: doubt counts down.
+## End of week: doubt (and the bad-stretch rest) counts down.
 static func end_week(c: CareerData) -> void:
+	if c.stretch_cooldown > 0:
+		c.stretch_cooldown -= 1
 	if c.coach_doubt.is_empty():
 		return
 	c.coach_doubt["weeks_left"] = int(c.coach_doubt.get("weeks_left", 0)) - 1

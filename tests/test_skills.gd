@@ -38,6 +38,7 @@ func test_range_curve() -> void:
 func test_full_flick_reaches_range_and_no_further() -> void:
 	var kt := KickRange.kick_tuning()
 	var c := _career()
+	c.range_physics = true
 	for p in [30.0, 50.0, 75.0, 100.0]:
 		c.set_stat("power", p)
 		var prof := KickProfile.build(c, t)
@@ -45,6 +46,40 @@ func test_full_flick_reaches_range_and_no_further() -> void:
 		check(prof.power_needed(r, kt) <= 1.0, "Power %d: %.1f yd is reachable" % [p, r])
 		check(prof.power_needed(r + 1.0, kt) > 1.0, "Power %d: %.1f yd is not" % [p, r + 1.0])
 		eq(prof.max_range_yards(), floori(r + 0.001), "max_range_yards is today's range")
+
+
+func test_range_physics_switch() -> void:
+	var kt := KickRange.kick_tuning()
+	check(not t.sp_range_physics, "off by default for new careers")
+	check(not CareerData.create("Default", t).range_physics, "a new career copies the default")
+	for p in [30.0, 55.0, 100.0]:
+		var c := _career()
+		c.set_stat("power", p)
+		c.range_physics = true
+		var on := KickProfile.build(c, t)
+		check(absi(on.reach_yards(kt) - floori(on.fg_range)) <= 1,
+			"ON, Power %d: the ball carries %d yd, range %.1f (within 1 yd)" % [p, on.reach_yards(kt), on.fg_range])
+		c.range_physics = false
+		var off := KickProfile.build(c, t)
+		eq(off.power_mult, CareerTuning.blend(t.power_mult_at_0, t.power_mult_at_100, p, t.power_curve)
+			+ off.range_yd / t.legacy_power_mult_yards, "OFF, Power %d: the old launch speed" % p)
+		eq(off.fg_range, on.fg_range, "the range (Hub, coach) is the same either way")
+		eq(KickTrust.coach_limit(c, off, t), KickTrust.coach_limit(c, on, t), "so is the coach's limit")
+	var c30 := _career()
+	c30.set_stat("power", 30)
+	check(KickProfile.build(c30, t).reach_yards(kt) > 60, "OFF: today's long ball (Power 30 carries 60+ yd)")
+
+
+func test_kickoff_carries_kickoff_range_in_both_settings() -> void:
+	for physics in [true, false]:
+		var c := _career()
+		c.set_stat("power", 60)
+		c.range_physics = physics
+		var prof := KickProfile.build(c, t)
+		var rules := CareerGameMode.kickoff_rules_for(t, Progression.game_params(c, t), prof)
+		# The kick scene's carry at a full flick: max carry x power_mult.
+		check(absf(rules.max_carry_yards * prof.power_mult - prof.kickoff_range) < 0.01,
+			"physics %s: a full kickoff carries the kickoff range (%.1f)" % [physics, prof.kickoff_range])
 
 
 func test_game_day_range() -> void:
@@ -158,10 +193,30 @@ func test_scenario_skill_points_and_scale() -> void:
 	eq(float(s["life"]["fun"]), 4.0, "other gains untouched")
 
 
-func test_passive_football_growth_is_off() -> void:
-	eq(t.weekly_football_growth, 0.0, "weekly")
-	eq(t.offseason_football_growth, 0.0, "offseason")
-	eq(t.make_accuracy_gain, 0.0, "per make")
+func test_no_automatic_football_growth() -> void:
+	# The settings are gone (not just 0), and a game, a week and an offseason
+	# leave football attributes alone.
+	for knob in ["weekly_football_growth", "offseason_football_growth", "make_accuracy_gain",
+			"long_make_power_gain", "clutch_resilience_gain", "miss_resilience_gain",
+			"good_kickoff_power_gain", "good_kickoff_toughness_gain"]:
+		check(not (knob in t), "%s removed" % knob)
+	var c := CareerData.create("Growth", t)
+	c.team = Progression.team_from(CareerContent.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
+	var m := CareerManager.new(c, t)
+	var ch := m.game_changes({"outcome": "W", "warmups": ["pure", "skipped"], "kicks": [
+		{"kind": "fg", "made": true, "yards": 50, "pressure": 0.9}, {"kind": "fg", "made": false, "yards": 30},
+		{"kind": "kickoff", "quality": 1.0}]})
+	for k in CareerData.GROUP_KEYS[CareerData.FOOTBALL]:
+		check(not ch.has(k), "a game doesn't change " + k)
+	m._start_season(false)
+	var before := {}
+	for k in CareerData.GROUP_KEYS[CareerData.FOOTBALL]:
+		before[k] = c.stat(k)
+	c.phase = CareerManager.PHASE_RESULTS
+	m.end_week()
+	m._start_next_season()
+	for k in CareerData.GROUP_KEYS[CareerData.FOOTBALL]:
+		eq(c.stat(k), float(before[k]), "a week and an offseason don't change " + k)
 
 
 # --- kick trust -----------------------------------------------------------------------
@@ -328,3 +383,81 @@ func test_frozen_v4_save_loads_unchanged() -> void:
 	eq(JSON.stringify(c.to_dict()["sp_upgrades"]), JSON.stringify(raw["sp_upgrades"]), "upgrades kept")
 	var again := CareerData.from_dict(CareerSave._migrate(c.to_dict()))
 	eq(JSON.stringify(again.to_dict()), JSON.stringify(c.to_dict()), "v4 round trip")
+
+
+# --- ported: coach limit in the game sim, bad stretch, Team drift, warmups, SP sources ---
+
+func test_game_sim_respects_the_coach_limit() -> void:
+	var c := _career()
+	var e := {"week": 1, "type": "regular", "home": true, "weather": {"wind": 0},
+		"opponent": Progression.team_from(CareerContent.high_schools()[1], "high_school")}
+	var longest := 0
+	var fgs := 0
+	for seed in 60:
+		var sim := GameSim.new()
+		sim.setup(c, e, t, seed, 35, {"call_random_yd": 2, "call_cap_yd": 36})
+		for i in 2000:
+			var ev := sim.next()
+			if ev.get("type", "") == "end":
+				break
+			if ev.get("type", "") == "call":
+				if ev["kind"] == "fg":
+					fgs += 1
+					longest = maxi(longest, int(ev["yards"]))
+				sim.resolve_call({"made": true, "quality": 0.5, "carry": 50.0, "recovered": false})
+	check(fgs > 20, "field goals were called (%d)" % fgs)
+	check(longest <= 36, "never past the limit + 2, capped at the range (longest %d)" % longest)
+
+
+func _fg(made: bool) -> Dictionary:
+	return {"kind": "fg", "made": made, "yards": 35, "q": 2, "us": 7, "them": 7, "label": "", "pressure": 0.2}
+
+
+func test_bad_stretch() -> void:
+	var c := _career()
+	var kicks: Array = []
+	for made in [true, false, true, false, false, false, true, false, false, true]:  # 4 of 10
+		kicks.append(_fg(made))
+	var before := c.recruiting_score
+	var coach_before := Relationships.value(c, "coach")
+	var team_before := Relationships.value(c, Relationships.TEAM)
+	check(KickTrust._bad_stretch(c, kicks, t), "under 50% over 10")
+	check(c.flags.get("coach_lost_faith", false), "flag")
+	eq(Relationships.value(c, "coach"), coach_before + t.stretch_coach, "Coach -8")
+	eq(Relationships.value(c, Relationships.TEAM), team_before + t.stretch_team, "Team -3")
+	eq(c.recruiting_score, maxf(before + t.stretch_progress, 0.0), "recruiting -2")
+	eq(c.stretch_cooldown, t.stretch_cooldown_weeks, "then a 5-week rest")
+	check(not KickTrust._bad_stretch(c, [_fg(false)], t), "not again during the rest")
+	for i in t.stretch_cooldown_weeks:
+		KickTrust.end_week(c)
+	eq(c.stretch_cooldown, 0, "rest over")
+	var d := _career()
+	check(not KickTrust._bad_stretch(d, [_fg(false), _fg(false), _fg(false)], t), "too few attempts")
+	var col := _career()
+	col.stage = CareerData.STAGE_COLLEGE
+	col.draft_score = 20.0
+	KickTrust._bad_stretch(col, kicks, t)
+	eq(col.draft_score, 20.0 + t.stretch_progress, "college: draft stock -2")
+
+
+func test_team_social_drift() -> void:
+	var c := _career()
+	Relationships.apply(c, {Relationships.TEAM: 50})
+	eq(float(Relationships.weekly_growth(c, t).get("social", 0.0)), t.rel_team_social, "Team at 100: +1 Social a week")
+	Relationships.apply(c, {Relationships.TEAM: -100})
+	eq(float(Relationships.weekly_growth(c, t).get("social", 0.0)), -t.rel_team_social, "Team at 0: -1")
+
+
+func test_warmup_sp_cap_and_sources() -> void:
+	var c := _career()
+	var m := CareerManager.new(c, t)
+	m._start_season(false)
+	m.data.phase = CareerManager.PHASE_GAME
+	var sp0 := c.skill_points
+	m.finish_game({"outcome": "W", "us": 14, "them": 7, "kicks": [], "warmups": ["pure", "pure"]})
+	eq(int(c.sp_sources.get("Sideline warmup", 0)), t.sp_warmup_max_per_game, "two pure warmups: capped at 1")
+	check(c.skill_points > sp0, "SP earned")
+	var total := 0
+	for k in c.sp_sources:
+		total += int(c.sp_sources[k])
+	eq(total, c.sp_season, "every SP this season has a source")

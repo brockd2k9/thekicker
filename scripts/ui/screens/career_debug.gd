@@ -89,6 +89,12 @@ func _fill_list() -> void:
 					scratch.set_stat(key, x)
 					_refresh()))
 
+	_list.add_child(UiKit.section("RANGE PHYSICS"))
+	_list.add_child(CareerUi.toggle_row("Full flick reaches the FG range (Load a slot, flip, Save to keep it)",
+		scratch.range_physics, func(on: bool) -> void:
+			scratch.range_physics = on
+			_refresh()))
+
 	_list.add_child(UiKit.section("GAME CONTEXT"))
 	_list.add_child(CareerUi.slider_row("Misses in a row", miss_streak, func(x: float) -> void:
 		miss_streak = int(x)
