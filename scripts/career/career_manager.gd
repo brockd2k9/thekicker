@@ -545,8 +545,11 @@ func _record_kicks(kicks: Array) -> String:
 	var xp := [0, 0]
 	for k in kicks:
 		var kind := str(k.get("kind", ""))
-		if not (kind in ["fg", "pat"]) or k.get("backup", false):
+		if k.get("backup", false):
 			continue  # the backup's kicks aren't yours
+		_log_kick(k)
+		if not (kind in ["fg", "pat"]):
+			continue
 		var made: bool = k.get("made", false)
 		for totals in [data.season_stats, data.career_totals]:
 			totals[kind + "_att"] = int(totals.get(kind + "_att", 0)) + 1
@@ -569,6 +572,31 @@ func _record_kicks(kicks: Array) -> String:
 	if xp[1] > 0:
 		parts.append("XP %d/%d" % xp)
 	return "  ".join(parts) if not parts.is_empty() else "No kicks"
+
+
+## One kick into CareerData.kick_log (Stats screen: distances, streaks,
+## kickoffs). Same kicks the season totals count.
+func _log_kick(k: Dictionary) -> void:
+	var kind := str(k.get("kind", ""))
+	var e := {"kind": kind, "season": data.season, "stage": data.stage}
+	match kind:
+		"fg", "pat":
+			var lbl := str(k.get("label", ""))
+			var made: bool = k.get("made", false)
+			e["yd"] = int(k.get("yards", 0))
+			e["made"] = 1 if made else 0
+			if "GAME WINNER" in lbl or "TO TIE" in lbl:
+				e["clutch"] = 1
+			if made and "GAME WINNER" in lbl:
+				e["gw"] = 1
+		"kickoff":
+			e["carry"] = roundi(float(k.get("carry", 0.0)))
+			e["tb"] = 1 if float(k.get("quality", 0.0)) >= 0.99 else 0
+		"onside":
+			e["rec"] = 1 if k.get("recovered", false) else 0
+		_:
+			return
+	data.kick_log.append(e)
 
 
 func _finish_bye() -> void:

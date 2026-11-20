@@ -8,7 +8,7 @@ extends RefCounted
 ## Stats are floats 0..100 (gains can be fractional); screens show them rounded.
 ## When the layout changes: bump VERSION and add a step to CareerSave._migrate().
 
-const VERSION := 6
+const VERSION := 7
 
 const STAGE_HIGH_SCHOOL := "high_school"
 const STAGE_JUCO := "juco"
@@ -169,6 +169,17 @@ var coach_doubt: Dictionary = {}
 ## This week's Coach / Team changes from your kicks: {coach, team, lines: [text]}.
 var trust_week: Dictionary = {}
 
+# --- kick log (save version 6) ---
+## Every kick you take in a game, oldest first, for the Stats screen
+## (distance buckets, streaks, kickoffs). Logged from version 6 on; saves from
+## before have an empty log, so their past seasons show "-" for those stats.
+## Field goal / extra point: {kind: "fg"/"pat", yd, made, season, stage,
+##   clutch (game winner / tying kick), gw (made game winner)}.
+## Kickoff: {kind: "kickoff", season, stage, carry (yd), tb (touchback)}.
+## Onside: {kind: "onside", season, stage, rec (recovered)}.
+## Booleans are stored as 0/1 to keep the file small.
+var kick_log: Array = []
+
 # --- benching (save version 5) ---
 ## Bench: {weeks_left, weeks (this bench), reason, backup (person id),
 ## warned (week_index the thin-ice warning was shown), audition_due,
@@ -178,7 +189,7 @@ var trust_week: Dictionary = {}
 ## Empty = never benched. Rules: Bench.
 var bench: Dictionary = {}
 
-# --- followers (save version 6) ---
+# --- followers (save version 7) ---
 ## Social media followers (a real count; Followers). Never below 0.
 var followers: int = 0
 ## Followers bookkeeping: {peak, best_tier, season_gain, season_sources
@@ -362,6 +373,7 @@ func to_dict() -> Dictionary:
 		"coach_doubt": coach_doubt.duplicate(),
 		"trust_week": trust_week.duplicate(true),
 		"bench": bench.duplicate(true),
+		"kick_log": kick_log.duplicate(true),
 		"followers": followers,
 		"social": social.duplicate(true),
 	}
@@ -462,6 +474,9 @@ static func from_dict(d: Dictionary) -> CareerData:
 	c.coach_doubt = _dict(d, "coach_doubt")
 	c.trust_week = _dict(d, "trust_week")
 	c.bench = _dict(d, "bench")
+	for e in _array(d, "kick_log"):
+		if e is Dictionary and str(e.get("kind", "")) != "":
+			c.kick_log.append(e)
 	c.followers = maxi(_num(d, "followers"), 0)
 	c.social = _dict(d, "social")
 	for id in _dict(d, "people"):

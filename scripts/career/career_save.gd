@@ -116,9 +116,14 @@ static func _migrate(d: Dictionary) -> Dictionary:
 	# save starts never benched, and the backup kicker joins the cast hidden.
 	if v < 5:
 		v = 5
-	# Version 5 -> 6: followers. Old saves start with a small following for
-	# their stage and seasons played (CareerTuning followers_migrate_*).
+	# Version 5 -> 6: the per-kick log (CareerData.kick_log). Past kicks were
+	# never logged, so it starts empty; Stats shows "-" where it would need them.
 	if v < 6:
+		d["kick_log"] = []
+		v = 6
+	# Version 6 -> 7: followers. Old saves start with a small following for
+	# their stage and seasons played (CareerTuning followers_migrate_*).
+	if v < 7:
 		var t := CareerTuning.get_default()
 		var stage := str(d.get("stage", CareerData.STAGE_HIGH_SCHOOL))
 		var pro := 0
@@ -132,7 +137,7 @@ static func _migrate(d: Dictionary) -> Dictionary:
 		var n := Followers.migrate_start(stage, int(d.get("season_in_stage", 1)), pro, t)
 		d["followers"] = int(d.get("followers", n))
 		d["social"] = {"peak": n, "best_tier": Followers.tier_of(n, t)}
-		v = 6
+		v = 7
 	if v > CareerData.VERSION:
 		push_warning("CareerSave: career is from a newer version (%d)" % v)
 	d["career_version"] = CareerData.VERSION

@@ -4385,9 +4385,8 @@
 		{
 			"id": "HS_068",
 			"title": "The Final Exam Versus the Final Game",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "school",
+			"text": "Your calculus final lands on the same day as a road game, with a two-hour bus ride in between. You dragged your grades back up last year, and this exam could undo all of it or lock it in.",
 			"stages": [
 				"high_school"
 			],
@@ -4411,14 +4410,65 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Study on the bus",
+					"result": "You claim a seat in the back with your notes and headphones and work through practice problems the whole ride. The guys tease you, but you walk into the exam ready.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"social": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"grades": 0.15
+				},
+				{
+					"label": "Ask to take the exam early",
+					"result": "You ask your teacher if you can take it the morning before. It means a week of late nights, but you finish it before the bus leaves with nothing hanging over you.",
+					"stats": {
+						"life": {
+							"energy": -5
+						},
+						"personality": {
+							"intelligence": 1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"tired"
+					],
+					"grades": 0.1
+				},
+				{
+					"label": "Trust what you already know",
+					"result": "You decide you've done the work and spend the bus ride with the team. You're relaxed, though a couple of questions on the exam catch you off guard.",
+					"stats": {
+						"life": {
+							"fun": 3,
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"grades": -0.05
+				}
+			]
 		},
 		{
 			"id": "HS_069",
 			"title": "The Last-Minute Recruiting Visit",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "A college invites you for a visit this coming weekend. It's short notice, it's four hours away, and it's the weekend before one of your biggest games.",
 			"stages": [
 				"high_school"
 			],
@@ -4429,14 +4479,66 @@
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Go on the visit",
+					"result": "You see the campus, meet the specialists and get home late Sunday night. It's the best visit you've had, and your legs feel the drive all week.",
+					"stats": {
+						"life": {
+							"energy": -6,
+							"fun": 3
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"tired"
+					],
+					"recruiting": 3
+				},
+				{
+					"label": "Ask to come after the season",
+					"result": "You thank them and ask for a date after your last game. They agree, though you can tell the timing matters to them.",
+					"stats": {
+						"life": {
+							"energy": 1
+						},
+						"personality": {
+							"intelligence": 1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"recruiting": 1
+				},
+				{
+					"label": "Do a video call instead",
+					"result": "You set up a video call with the special teams coach and a virtual tour. It's not the same as being there, but you keep your weekend.",
+					"stats": {
+						"life": {
+							"energy": -1,
+							"social": 1
+						},
+						"personality": {
+							"charisma": 1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"recruiting": 2
+				}
+			]
 		},
 		{
 			"id": "HS_070",
 			"title": "The Senior Night Kick",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "It's senior night. Before kickoff the seniors walk out with their families while the crowd cheers, and {coach} tells you warmups will be shorter than usual because of the ceremony.",
 			"stages": [
 				"high_school"
 			],
@@ -4446,15 +4548,71 @@
 			],
 			"once": true,
 			"expected_flags": [],
-			"authoring": {},
-			"choices": []
+			"authoring": {
+				"people": [
+					"holder"
+				]
+			},
+			"choices": [
+				{
+					"label": "Soak in every second",
+					"result": "You walk out slow, hug your family at midfield and let the cheers wash over you. Your warmup is rushed, but you'll remember this walk forever.",
+					"stats": {
+						"life": {
+							"fun": 6,
+							"social": 4
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"spotlight"
+					]
+				},
+				{
+					"label": "Warm up early, then walk",
+					"result": "You get to the field an hour early and run your whole routine before the ceremony. You walk out loose and ready, though you missed the seniors' pregame photos.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"social": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"warmed_up"
+					],
+					"skill_points": 1
+				},
+				{
+					"label": "Bring your holder into it",
+					"result": "You ask {holder} to walk the last few steps with you and your family. It wasn't in the plan, and the crowd loves it.",
+					"stats": {
+						"life": {
+							"social": 3,
+							"fun": 3
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"holder": 6
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_071",
 			"title": "The College Decision",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "Everyone wants to know where you'll play in college. You haven't decided, and every conversation at home, at school and at practice somehow ends up there.",
 			"stages": [
 				"high_school"
 			],
@@ -4465,14 +4623,62 @@
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Make a real decision plan",
+					"result": "You write down what matters most, rank the schools that have talked to you and set a date to decide. The questions keep coming, but now you have an answer.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"intelligence": 2,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Talk it through with family",
+					"result": "You sit down with your family after dinner and talk until midnight. Nothing gets decided, but you go to bed knowing they're with you either way.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Put it off until after the season",
+					"result": "You tell everyone you'll decide after the last game and try to stop thinking about it. It mostly works, except at three in the morning.",
+					"stats": {
+						"life": {
+							"fun": 2,
+							"energy": 1
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"distracted"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_072",
 			"title": "The Social Media Blowup",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "A clip of you from last week's practice goes around online with a caption that makes it look like you were mocking a teammate. You weren't, but the comments are piling up.",
 			"stages": [
 				"high_school"
 			],
@@ -4483,14 +4689,64 @@
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Post the full video",
+					"result": "You find the uncut clip and post it with a short explanation. The comments turn quickly, and a few people apologize.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"intelligence": 2,
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Let your teammate answer",
+					"result": "You ask the teammate in the clip to say what really happened. He posts a funny reply, and suddenly the two of you are the joke of the week, in a good way.",
+					"stats": {
+						"life": {
+							"social": 3,
+							"fun": 2
+						},
+						"personality": {
+							"leadership": 1,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					]
+				},
+				{
+					"label": "Log off and ignore it",
+					"result": "You delete the app for a week and feel lighter than you have in months. It blows over eventually, though a few people at school still bring it up.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 2,
+							"social": -2
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_073",
 			"title": "The Teammate's Injury",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "A teammate goes down hard in practice and doesn't get up. By evening the word is he's done for the season, and his senior year is over.",
 			"stages": [
 				"high_school"
 			],
@@ -4510,14 +4766,63 @@
 				],
 				"ungated": "Open to everyone; the unlock flags are flavor only."
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Visit him that night",
+					"result": "You show up at his house with his favorite takeout and stay for two hours. He doesn't say much, but he walks you to the door.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"social": 2
+						},
+						"personality": {
+							"leadership": 2,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Rally the team around him",
+					"result": "You get the team to sign a jersey and put his number on everyone's wristbands. It takes a lot of organizing, and the whole locker room feels it.",
+					"stats": {
+						"life": {
+							"energy": -4,
+							"social": 4
+						},
+						"personality": {
+							"leadership": 3
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Send a text and focus on practice",
+					"result": "You send him a message and throw yourself into your own work. You get sharp reps in, but you wonder if you should have done more.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				}
+			]
 		},
 		{
 			"id": "HS_074",
 			"title": "The Unexpected Family Emergency",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "family",
+			"text": "{parent} gets a call during dinner: your grandmother is in the hospital three states away. He's flying out tonight, and you could go with him, though you'd miss practice and maybe Friday's game.",
 			"stages": [
 				"high_school"
 			],
@@ -4528,14 +4833,73 @@
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Go with {parent}",
+					"result": "You pack a bag in ten minutes and sit with your grandmother for two days. She's going to be okay, and she squeezes your hand when you tell her about your season.",
+					"stats": {
+						"life": {
+							"energy": -5,
+							"social": -1
+						},
+						"personality": {
+							"leadership": 1,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"drained"
+					],
+					"skill_points": -1,
+					"rel": {
+						"parent": 10
+					}
+				},
+				{
+					"label": "Stay and keep things running",
+					"result": "You stay home to keep things steady for your brother and handle the house. You make every practice, but your phone never leaves your hand.",
+					"stats": {
+						"life": {
+							"energy": -3
+						},
+						"personality": {
+							"leadership": 2,
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"distracted"
+					],
+					"rel": {
+						"parent": 4
+					}
+				},
+				{
+					"label": "Ask {parent} what he needs",
+					"result": "You ask {parent} what would help most. He asks you to stay and play, and he'll call every night. It's what he needs, even if part of you wanted to go.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 1,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"parent": 6
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_075",
 			"title": "The Local Youth Camp",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "community",
+			"text": "A middle school coach asks if you'd run a one-day kicking camp for his players, with the small fee going to your team's equipment fund. You'd have to plan the whole thing.",
 			"stages": [
 				"high_school"
 			],
@@ -4546,7 +4910,57 @@
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Run the full camp",
+					"result": "You plan the stations, recruit two teammates and spend a Saturday teaching thirty kids to kick. The equipment fund gets a boost, and so does your voice from all the shouting.",
+					"stats": {
+						"life": {
+							"energy": -6,
+							"fun": 3,
+							"social": 3
+						},
+						"personality": {
+							"leadership": 3
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Run a short clinic",
+					"result": "You offer two hours instead of a full day. It's simpler, the kids still love it, and you're home by lunch.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"fun": 2
+						},
+						"personality": {
+							"leadership": 1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					]
+				},
+				{
+					"label": "Turn it down",
+					"result": "You tell the coach your schedule is too full this season. He understands, and the equipment fund waits for another idea.",
+					"stats": {
+						"life": {
+							"energy": 3
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_076",
@@ -4620,16 +5034,68 @@
 		{
 			"id": "HS_077",
 			"title": "The Kicking Challenge",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "A teammate bets you he can make more kicks from thirty yards than you in ten tries, loser buys lunch for the special teams unit. A crowd is already gathering after practice.",
 			"stages": [
 				"high_school"
 			],
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Take the bet",
+					"result": "You line up and go kick for kick while the whole unit counts out loud. Win or lose, it's the loudest practice of the week, and lunch is going to be expensive for somebody.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"fun": 4,
+							"social": 3
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"pumped_up"
+					],
+					"skill_points": 1
+				},
+				{
+					"label": "Make it a team contest",
+					"result": "You turn it into a bracket for everyone who wants to try, linemen included. It turns into a circus, and the coaches come out to watch.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"fun": 3,
+							"social": 4
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"loose"
+					]
+				},
+				{
+					"label": "Pass and save your leg",
+					"result": "You laugh and say your leg is done for the day. A few guys boo, and you head in to stretch.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"health": 1,
+							"social": -2
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"fresh_legs"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_078",
@@ -4702,128 +5168,582 @@
 		{
 			"id": "HS_079",
 			"title": "The Bad Advice",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "training",
+			"text": "A popular online kicking coach posts a video saying every kicker should switch to a three-step approach right now. Half your teammates are sending it to you.",
 			"stages": [
 				"high_school"
 			],
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Try it in practice",
+					"result": "You spend a week on the new approach. Some kicks feel great and some feel wrong, and you learn more about your own steps than you expected.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"fun": 2
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Ask your coaches first",
+					"result": "You show the video to your coaches and ask what they think. They explain why it doesn't fit your leg, and you leave with a clearer sense of your own approach.",
+					"stats": {
+						"life": {
+							"energy": -1,
+							"social": 1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 1
+				},
+				{
+					"label": "Ignore it",
+					"result": "You stick with what works and leave the video unwatched. Your routine stays steady, though you never find out if there was anything to it.",
+					"stats": {
+						"life": {
+							"energy": 1
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_080",
 			"title": "The Friend Who Takes Credit",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "At lunch, {best_friend} tells a table full of people about a funny idea for the class fundraiser. It was your idea, from a text you sent them last night, and everyone loves it.",
 			"stages": [
 				"high_school"
 			],
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Let them have it",
+					"result": "You laugh along and let it go. It's a small thing, and {best_friend} seems happy to be the hero for once.",
+					"stats": {
+						"life": {
+							"social": 2,
+							"fun": 1
+						},
+						"personality": {
+							"charisma": -1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"best_friend": 3
+					}
+				},
+				{
+					"label": "Mention it privately",
+					"result": "After lunch you tell {best_friend} it stung a little. They apologize right away and tell the class adviser whose idea it was.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"charisma": 1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"best_friend": 2
+					}
+				},
+				{
+					"label": "Call it out in front of everyone",
+					"result": "You jump in and say it was your idea. Everyone laughs awkwardly, and {best_friend} goes quiet for the rest of lunch.",
+					"stats": {
+						"life": {
+							"social": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"stressed"
+					],
+					"rel": {
+						"best_friend": -6
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_081",
 			"title": "The Questionable Highlight",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "A local fan account posts a clip of you with a caption calling you the best kicker in the state. It's flattering, but the clip is from another kicker's highlight with your name on it.",
 			"stages": [
 				"high_school"
 			],
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Ask them to fix it",
+					"result": "You message the account and point out the mistake. They thank you and post a correction, and the other kicker's coach sends you a thumbs-up.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"leadership": 1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Share it anyway",
+					"result": "You repost it with a fire emoji. It gets more likes than anything you've ever posted, and you hope the other kicker doesn't see it.",
+					"stats": {
+						"life": {
+							"social": 3,
+							"fun": 3
+						},
+						"personality": {
+							"charisma": 1,
+							"intelligence": -2
+						}
+					},
+					"modifiers": [
+						"distracted"
+					]
+				},
+				{
+					"label": "Say nothing",
+					"result": "You leave it alone. It fades in a day, and nobody seems to notice it wasn't you.",
+					"stats": {
+						"life": {
+							"energy": 1
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_082",
 			"title": "The Backup Plan",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "At career day, a counselor asks everyone in your group what they'd do if their first plan didn't work out. When it's your turn, all you can think about is football.",
 			"stages": [
 				"high_school"
 			],
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Explore a real backup plan",
+					"result": "You sign up to shadow someone in a job you're curious about. It's a long afternoon, and you leave with an answer to the question that isn't football.",
+					"stats": {
+						"life": {
+							"energy": -3
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"grades": 0.05
+				},
+				{
+					"label": "Ask your coaches what they'd do",
+					"result": "You ask your coaches how they ended up coaching. Their answers are long and winding, and you realize most people's plans change a lot.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Double down on football",
+					"result": "You tell the counselor football is the plan and there's no backup. It feels bold, and a little reckless when you think about it later.",
+					"stats": {
+						"life": {
+							"fun": 1
+						},
+						"personality": {
+							"ambition": 3
+						}
+					},
+					"modifiers": [
+						"pumped_up"
+					],
+					"skill_points": 1
+				}
+			]
 		},
 		{
 			"id": "HS_083",
 			"title": "The Teammate Who Wants Your Spot",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "A new kicker on the team tells anyone who'll listen that he'll have your job by the end of the season. He has a big leg, and some of the guys are enjoying the drama.",
 			"stages": [
 				"high_school"
 			],
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Let your kicking answer",
+					"result": "You don't say a word and put every practice kick through the middle. After a couple of weeks, the talk dies down on its own.",
+					"stats": {
+						"life": {
+							"energy": -3
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Take him under your wing",
+					"result": "You offer to show him how you warm up and what the coaches look for. He's suspicious at first, then starts asking real questions.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"social": 2
+						},
+						"personality": {
+							"leadership": 2,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Fire back in the locker room",
+					"result": "You tell him to come talk once he's made a kick that matters. The guys howl, and the rivalry gets a lot louder.",
+					"stats": {
+						"life": {
+							"social": 1,
+							"fun": 2
+						},
+						"personality": {
+							"ambition": 1,
+							"leadership": -2
+						}
+					},
+					"modifiers": [
+						"pumped_up"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_084",
 			"title": "The Community Fundraiser",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "community",
+			"text": "The team is running a car wash fundraiser on Saturday to pay for new practice equipment. The coaches want every player there, but it's your only free day all week.",
 			"stages": [
 				"high_school"
 			],
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Run the sign on the corner",
+					"result": "You spend six hours waving a sign and shouting at traffic. You're sunburned and hoarse, and the team raises more than any year before.",
+					"stats": {
+						"life": {
+							"energy": -5,
+							"fun": 3,
+							"social": 3
+						},
+						"personality": {
+							"charisma": 1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Work a short shift",
+					"result": "You wash cars for two hours in the morning and head home. You help, and you still get most of your Saturday back.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"social": 1
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					]
+				},
+				{
+					"label": "Donate instead",
+					"result": "You hand the coach twenty dollars and skip the car wash. The money helps, though you hear about the water fight for a week.",
+					"stats": {
+						"life": {
+							"energy": 3,
+							"social": -2
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_085",
 			"title": "The Surprise Birthday",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "You walk into your friend's house on a Wednesday night and the lights flip on: a surprise birthday party, for you. It's already loud, and it's a school night.",
 			"stages": [
 				"high_school"
 			],
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Party until it's over",
+					"result": "You stay until the last person leaves after midnight. It's the best birthday you've ever had, and Thursday practice is a blur.",
+					"stats": {
+						"life": {
+							"fun": 7,
+							"social": 5,
+							"energy": -8
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"late_night"
+					]
+				},
+				{
+					"label": "Stay a couple of hours",
+					"result": "You celebrate, open the gifts and leave around ten with a plate of cake. Your friends tease you, but they get it.",
+					"stats": {
+						"life": {
+							"fun": 4,
+							"social": 3,
+							"energy": -3
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					]
+				},
+				{
+					"label": "Thank everyone and duck out early",
+					"result": "You thank everyone, eat one slice and head home after half an hour. You're rested Thursday, but you feel a little guilty about it.",
+					"stats": {
+						"life": {
+							"energy": 1,
+							"social": -1
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_086",
 			"title": "The Weather Warning",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "training",
+			"text": "The forecast for Friday calls for heavy wind and rain, the kind that turns kicking into a coin flip. The coaches say to prepare however you think is best.",
 			"stages": [
 				"high_school"
 			],
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Practice in the worst of it",
+					"result": "You find the windiest afternoon of the week and kick until your hands go numb. You learn exactly how much the ball drifts in a crosswind.",
+					"stats": {
+						"life": {
+							"energy": -5,
+							"health": -1
+						},
+						"football": {
+							"toughness": 1
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"scouted"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Study the conditions",
+					"result": "You look up the hourly forecast, watch old film of windy games and make a plan for every hash mark. You go to bed with a strategy.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"scouted"
+					],
+					"skill_points": 1
+				},
+				{
+					"label": "Rest and stay loose",
+					"result": "You decide there's no beating the weather and keep your legs fresh instead. You show up rested and relaxed about whatever happens.",
+					"stats": {
+						"life": {
+							"energy": 3,
+							"fun": 1
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"fresh_legs"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_087",
 			"title": "The Invitation to Fight",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "At a burger place after practice, a few players from a rival school start mouthing off at your table. One of them stands up and says you should settle it outside.",
 			"stages": [
 				"high_school"
 			],
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Get up and walk away",
+					"result": "You tell your friends it's not worth it and head for the door. A few of them call you scared on the way out, but nobody gets hurt and nobody gets suspended.",
+					"stats": {
+						"life": {
+							"social": -2,
+							"fun": -1
+						},
+						"personality": {
+							"leadership": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Defuse it with a joke",
+					"result": "You laugh and say you'll settle it on Friday night, then ask if they want your fries. Both tables crack up, and the tension breaks.",
+					"stats": {
+						"life": {
+							"social": 3,
+							"fun": 2
+						},
+						"personality": {
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"loose"
+					]
+				},
+				{
+					"label": "Stand your ground",
+					"result": "You stand up and stare him down without saying a word. Your friends love it, nothing happens before the manager kicks everyone out, and your heart pounds for an hour.",
+					"stats": {
+						"life": {
+							"social": 4,
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 1,
+							"leadership": -2
+						}
+					},
+					"modifiers": [
+						"pumped_up"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_088",
@@ -4917,37 +5837,143 @@
 		{
 			"id": "HS_089",
 			"title": "The Unfair Call",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "school",
+			"text": "Your history teacher gives you a zero for an assignment you know you turned in. When you ask about it, the answer is short: if it's not in the pile, it doesn't exist.",
 			"stages": [
 				"high_school"
 			],
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Show your proof calmly",
+					"result": "You find the email confirmation and bring it in after class. The teacher checks, apologizes and fixes the grade on the spot.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"grades": 0.1
+				},
+				{
+					"label": "Argue it in front of the class",
+					"result": "You push back right there in class, and things get heated. You're right, but the teacher makes you wait a week before fixing it.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"ambition": 1,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"stressed"
+					],
+					"grades": 0.05
+				},
+				{
+					"label": "Let it go",
+					"result": "You decide it's not worth the fight and take the zero. It costs you a few points, but you don't spend any more energy on it.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"grades": -0.1
+				}
+			]
 		},
 		{
 			"id": "HS_090",
 			"title": "The Unexpected Opportunity to Lead",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "The special teams captain is out sick, and {coach} asks you to run warmups for the whole unit before practice. Everyone is watching to see how you handle it.",
 			"stages": [
 				"high_school"
 			],
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Run it like you own it",
+					"result": "You set a fast pace, call out names and keep everyone moving. A few guys grumble, but warmups have never gone so quickly.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"social": 2
+						},
+						"personality": {
+							"leadership": 3
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"rel": {
+						"coach": 5
+					}
+				},
+				{
+					"label": "Keep it simple",
+					"result": "You run the captain's usual routine exactly as it is. Nothing new, nothing wrong, and {coach} gives you a nod.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Ask someone else to do it",
+					"result": "You say you'd rather focus on your own warmup and suggest the long snapper. {coach} shrugs and hands the job to the snapper instead.",
+					"stats": {
+						"life": {
+							"energy": 2
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 1,
+					"rel": {
+						"coach": -2
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_091",
 			"title": "The Scholarship Decision From Home",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "family",
+			"text": "The financial aid forms are due next week, and the kitchen table is covered in tax papers, deadlines and college websites. Your family is trying to figure out what any of it will actually cost.",
 			"stages": [
 				"high_school"
 			],
@@ -4962,7 +5988,58 @@
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Work through it together",
+					"result": "You sit with your family for three evenings, reading every line out loud. It's tedious, but by Sunday the forms are done and everyone understands the numbers.",
+					"stats": {
+						"life": {
+							"energy": -4,
+							"social": 1
+						},
+						"personality": {
+							"intelligence": 2,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Take charge of it yourself",
+					"result": "You tell your family you'll handle the forms and stay up two nights doing it. They're relieved, and you learn more about money than in any class.",
+					"stats": {
+						"life": {
+							"energy": -6
+						},
+						"personality": {
+							"intelligence": 1,
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"tired"
+					],
+					"grades": 0.05
+				},
+				{
+					"label": "Put it off until after the season",
+					"result": "You tell everyone the forms can wait until football is over. It frees up your week, but the deadline sits in the back of your mind every night.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 2
+						},
+						"personality": {
+							"ambition": -1
+						}
+					},
+					"modifiers": [
+						"distracted"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_092",
@@ -5069,9 +6146,8 @@
 		{
 			"id": "HS_093",
 			"title": "The Final Miss",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "Your team lost a heartbreaker to your biggest rival on Friday, and it stings worse because it's senior year. Saturday morning the film room is silent, and nobody wants to be the first to talk.",
 			"stages": [
 				"high_school"
 			],
@@ -5086,7 +6162,60 @@
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Speak up first",
+					"result": "You stand up and say the loss is on all of you, and you want the last weeks to look different. A few seniors nod, and the room starts breathing again.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"social": 3
+						},
+						"personality": {
+							"leadership": 3
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Watch your own film alone",
+					"result": "You take your clips home and go through every snap of your night, good and bad. It's lonely, but you know exactly what you'd do differently.",
+					"stats": {
+						"life": {
+							"social": -2
+						},
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Step away for the weekend",
+					"result": "You leave your phone in a drawer and spend Saturday with friends who don't care about football. By Monday, the loss feels like something you can carry.",
+					"stats": {
+						"life": {
+							"fun": 4,
+							"energy": 2,
+							"social": 2
+						},
+						"personality": {
+							"ambition": -1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_094",
@@ -5174,9 +6303,8 @@
 		{
 			"id": "HS_095",
 			"title": "The Last School Day",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "It's the last school day before your final home game. The band plays the seniors down the main hallway, the underclassmen line the walls, and a few teachers are tearing up.",
 			"stages": [
 				"high_school"
 			],
@@ -5190,15 +6318,71 @@
 			],
 			"once": true,
 			"expected_flags": [],
-			"authoring": {},
-			"choices": []
+			"authoring": {
+				"people": [
+					"teacher"
+				]
+			},
+			"choices": [
+				{
+					"label": "Take it all in",
+					"result": "You walk slowly, high-five every kid you pass and stop for every photo. You're late to your last class and don't care at all.",
+					"stats": {
+						"life": {
+							"fun": 5,
+							"social": 4
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"spotlight"
+					]
+				},
+				{
+					"label": "Thank the people who got you here",
+					"result": "You stop by the classrooms of the teachers who helped you most, {teacher} first, and thank each of them. It takes your whole lunch, and two of them hug you.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"social": 2
+						},
+						"personality": {
+							"leadership": 1,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"teacher": 5
+					}
+				},
+				{
+					"label": "Keep it low-key",
+					"result": "You walk the hallway with the rest of the seniors, then go to the training room to stretch. It's quieter, and your legs feel good for Friday.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"social": -1
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"fresh_legs"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_097",
 			"title": "The Final Friday Night",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "It's the afternoon of the last home game of your high school career. Hours before kickoff, the locker room is quiet and everyone is handling it differently.",
 			"stages": [
 				"high_school"
 			],
@@ -5213,7 +6397,57 @@
 			"once": true,
 			"expected_flags": [],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Stick to your routine",
+					"result": "You do exactly what you've done before every game for four years: the same stretch, the same music, the same twenty practice swings. It feels like any other Friday, and that's the point.",
+					"stats": {
+						"life": {
+							"energy": 1
+						},
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Walk the empty field",
+					"result": "You walk out alone to the stadium before anyone else and stand at your favorite spot on the forty. You go back in calm and a little sentimental.",
+					"stats": {
+						"life": {
+							"fun": 2
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Fire up the younger guys",
+					"result": "You gather the underclassmen and tell them this field is theirs next year. The noise in the locker room doubles.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"social": 4
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"pumped_up"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_098",
@@ -5288,9 +6522,8 @@
 		{
 			"id": "HS_099",
 			"title": "The Goodbye",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "After practice, {holder} tells you their family is moving across the country when the season ends. Every snap you have left together is one of the last.",
 			"stages": [
 				"high_school"
 			],
@@ -5304,8 +6537,73 @@
 			],
 			"once": true,
 			"expected_flags": [],
-			"authoring": {},
-			"choices": []
+			"authoring": {
+				"people": [
+					"holder"
+				]
+			},
+			"choices": [
+				{
+					"label": "Make the last weeks count",
+					"result": "You stay after practice every day to take extra reps together, mostly talking more than kicking. It's the best part of every day.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"fun": 3,
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"skill_points": 1,
+					"rel": {
+						"holder": 10
+					}
+				},
+				{
+					"label": "Plan a proper send-off",
+					"result": "You organize a surprise dinner with the whole special teams unit for {holder}'s last week. It takes a lot of texts and a little money, and nobody stops laughing all night.",
+					"stats": {
+						"life": {
+							"energy": -4,
+							"social": 4,
+							"fun": 2
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"holder": 8
+					}
+				},
+				{
+					"label": "Keep things normal",
+					"result": "You decide not to make a big deal of it and keep practice the same as always. It's easier, but you catch yourself watching {holder} spin the laces a little longer than usual.",
+					"stats": {
+						"life": {
+							"energy": 1
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"skill_points": 1,
+					"rel": {
+						"holder": 2
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_101",
@@ -9096,9 +10394,8 @@
 		{
 			"id": "HS_149",
 			"title": "The College Visit With Friends",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "{best_friend} is visiting a college this weekend and wants you to come along. It's not a school that's recruiting you, but it's a free weekend and a road trip.",
 			"stages": [
 				"high_school"
 			],
@@ -9115,7 +10412,51 @@
 					"HS_096"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Go on the trip",
+					"result": "You spend the weekend eating in dining halls and wandering campus with {best_friend}. You come home tired and talking about how weird it'll be not to see each other every day.",
+					"stats": {
+						"life": {
+							"energy": -4,
+							"fun": 5,
+							"social": 3
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"set_flags": {
+						"college_visit_with_friends": true
+					},
+					"rel": {
+						"best_friend": 8
+					}
+				},
+				{
+					"label": "Stay home and train",
+					"result": "You tell {best_friend} you need the weekend for kicking and rest. They understand, but the pictures from the trip make you wish you'd gone.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2,
+					"rel": {
+						"best_friend": -3
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_150",
@@ -9980,9 +11321,8 @@
 		{
 			"id": "HS_160",
 			"title": "The Next Chapter",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "It's the last week of your high school football career. After the final practice you sit alone in the bleachers with the field lights still on, thinking about everything that got you here and everything that comes next.",
 			"stages": [
 				"high_school"
 			],
@@ -10024,11 +11364,120 @@
 					"secured_academic_path"
 				],
 				"beat_note": "Always plays. Give one choice per lock flag (requires {flags: [flag]} + lock_text) and one open choice.",
+				"people": [
+					"parent"
+				],
 				"absorbs": [
 					"HS_100"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Go after the program that fits",
+					"result": "You know what you want: a place to compete, a degree that means something, a coach who'll be straight with you. You say it out loud to the empty field, and it sounds like a plan instead of a wish.",
+					"requires": {
+						"flags": [
+							"recruiting_values_clear"
+						]
+					},
+					"lock_text": "knowing what you want from college",
+					"stats": {
+						"life": {
+							"fun": 2
+						},
+						"personality": {
+							"ambition": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"recruiting": 3,
+					"set_flags": {
+						"ready_for_college_football": true
+					}
+				},
+				{
+					"label": "Call home and talk it through",
+					"result": "You call {parent} from the bleachers. He picks up on the first ring, and you walk through the plan you built together, distance, money and playing time, until it feels like it belongs to all of you.",
+					"requires": {
+						"flags": [
+							"family_college_compromise"
+						]
+					},
+					"lock_text": "a college plan your family agreed on",
+					"stats": {
+						"life": {
+							"social": 3,
+							"energy": -1
+						},
+						"personality": {
+							"charisma": 1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"set_flags": {
+						"ready_for_college_future": true
+					},
+					"rel": {
+						"parent": 8
+					}
+				},
+				{
+					"label": "Kick one just for fun",
+					"result": "Whatever happens with football, school is paid for. You grab a ball from the bag, kick it into the dark for no reason at all, and the weight you've carried for four years finally lets go.",
+					"requires": {
+						"flags": [
+							"secured_academic_path"
+						]
+					},
+					"lock_text": "a secured academic scholarship",
+					"stats": {
+						"life": {
+							"energy": 4,
+							"fun": 4,
+							"health": 2
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"grades": 0.05,
+					"set_flags": {
+						"ready_for_college_future": true
+					}
+				},
+				{
+					"label": "Leave the door open",
+					"result": "You don't have it all figured out, and tonight that feels okay. You've got a leg, four years of film and people who'll pick up when you call. Whatever comes next, you'll walk into it on your own terms.",
+					"stats": {
+						"life": {
+							"fun": 2
+						},
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"ambition": 2,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"skill_points": 2,
+					"set_flags": {
+						"college_decision_pending": true
+					}
+				}
+			]
 		}
 	]
 }

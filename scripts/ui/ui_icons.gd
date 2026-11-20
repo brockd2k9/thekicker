@@ -38,6 +38,7 @@ const SHAPES := {
 	"play": '<path fill="C" d="M12 5 L42 24 L12 43 Z"/>',
 	"pause": '<rect x="9" y="6" width="11" height="36" rx="3" fill="C"/><rect x="28" y="6" width="11" height="36" rx="3" fill="C"/>',
 	"back": '<path d="M30 6 L12 24 L30 42" fill="none" stroke="C" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>',
+	"down": '<path d="M6 16 L24 34 L42 16" fill="none" stroke="C" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>',
 	"next": '<path d="M18 6 L36 24 L18 42" fill="none" stroke="C" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>',
 	"fast": '<path fill="C" d="M4 8 L24 24 L4 40 Z M24 8 L44 24 L24 40 Z"/>',
 	"wind": '<path d="M4 16 H30 C35 16 37 12 35 9 C33 6 28 7 28 11 M4 26 H38 C43 26 45 31 42 34 C39 37 35 35 35 32 M4 36 H22" S/>',

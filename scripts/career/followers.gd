@@ -431,7 +431,7 @@ static func fan_pressure(c: CareerData, t: CareerTuning) -> float:
 
 # --- save migration ------------------------------------------------------------------
 
-## Starting followers for a save from before followers (CareerSave, v5 -> 6).
+## Starting followers for a save from before followers (CareerSave, v6 -> 7).
 static func migrate_start(stage: String, season_in_stage: int, pro_seasons: int, t: CareerTuning) -> int:
 	match stage:
 		CareerData.STAGE_JUCO:

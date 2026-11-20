@@ -16,6 +16,10 @@ const CAREER_SEASON := "res://scenes/screens/career_season.tscn"
 const CAREER_STATS := "res://scenes/screens/career_stats.tscn"
 const CAREER_PEOPLE := "res://scenes/screens/career_people.tscn"
 const CAREER_SKILLS := "res://scenes/screens/career_skills.tscn"
+## Hub → Stats: kicking stats by season and level.
+const CAREER_KICKING := "res://scenes/screens/career_kicking.tscn"
+## Hub → Recruiting: recruiting points and interested schools.
+const CAREER_RECRUITING_BOARD := "res://scenes/screens/career_recruiting_board.tscn"
 const CAREER_RECRUITING := "res://scenes/screens/career_recruiting.tscn"
 const CAREER_TRYOUT := "res://scenes/screens/career_tryout.tscn"
 const CAREER_DRAFT := "res://scenes/screens/career_draft.tscn"

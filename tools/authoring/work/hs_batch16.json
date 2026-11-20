@@ -1,0 +1,154 @@
+{
+  "_about": "HS_160 The Next Chapter, the senior finale (season 4, week 10, always plays). Three locked choices, one per earned ending, plus one open choice. ready_for_college_future is set by both the family plan and the academic scholarship; college_decision_pending moved to the open choice, where it fits.",
+  "_how": "Fill in category, text and choices; leave _info alone (it's read-only). See tools/authoring/WRITING_GUIDE.md. Import: python3 tools/import_scenarios.py <this file> --dry-run",
+  "scenarios": [
+    {
+      "id": "HS_160",
+      "title": "The Next Chapter",
+      "_info": {
+        "when": "Senior year, week 10 (always plays)",
+        "must_set_flags": [
+          "ready_for_college_football",
+          "ready_for_college_future",
+          "college_decision_pending"
+        ],
+        "unlocked_by": [
+          {
+            "from": "HS_150",
+            "flag": "recruiting_values_clear",
+            "type": "unlock"
+          },
+          {
+            "from": "HS_152",
+            "flag": "family_college_compromise",
+            "type": "unlock"
+          },
+          {
+            "from": "HS_158",
+            "flag": "secured_academic_path",
+            "type": "unlock"
+          }
+        ],
+        "absorbs": [
+          "HS_100"
+        ],
+        "notes": "Always plays. Give one choice per lock flag (requires {flags: [flag]} + lock_text) and one open choice."
+      },
+      "category": "career",
+      "text": "It's the last week of your high school football career. After the final practice you sit alone in the bleachers with the field lights still on, thinking about everything that got you here and everything that comes next.",
+      "choices": [
+        {
+          "label": "Go after the program that fits",
+          "result": "You know what you want: a place to compete, a degree that means something, a coach who'll be straight with you. You say it out loud to the empty field, and it sounds like a plan instead of a wish.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "intelligence": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {
+            "ready_for_college_football": true
+          },
+          "recruiting": 3,
+          "requires": {
+            "flags": [
+              "recruiting_values_clear"
+            ]
+          },
+          "lock_text": "knowing what you want from college"
+        },
+        {
+          "label": "Call home and talk it through",
+          "result": "You call {parent} from the bleachers. He picks up on the first ring, and you walk through the plan you built together, distance, money and playing time, until it feels like it belongs to all of you.",
+          "stats": {
+            "life": {
+              "social": 3,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "leadership": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "ready_for_college_future": true
+          },
+          "rel": {
+            "parent": 8
+          },
+          "requires": {
+            "flags": [
+              "family_college_compromise"
+            ]
+          },
+          "lock_text": "a college plan your family agreed on"
+        },
+        {
+          "label": "Kick one just for fun",
+          "result": "Whatever happens with football, school is paid for. You grab a ball from the bag, kick it into the dark for no reason at all, and the weight you've carried for four years finally lets go.",
+          "stats": {
+            "life": {
+              "energy": 4,
+              "fun": 4,
+              "health": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {
+            "ready_for_college_future": true
+          },
+          "grades": 0.05,
+          "requires": {
+            "flags": [
+              "secured_academic_path"
+            ]
+          },
+          "lock_text": "a secured academic scholarship"
+        },
+        {
+          "label": "Leave the door open",
+          "result": "You don't have it all figured out, and tonight that feels okay. You've got a leg, four years of film and people who'll pick up when you call. Whatever comes next, you'll walk into it on your own terms.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "ambition": 2,
+              "charisma": 1
+            }
+          },
+          "skill_points": 2,
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {
+            "college_decision_pending": true
+          }
+        }
+      ]
+    }
+  ]
+}

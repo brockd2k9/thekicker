@@ -28,8 +28,9 @@ const MIN_TAP := UiTokens.TAP_MIN
 const ALL := ["main", "career_menu", "tutorial", "new", "new_web", "name_chooser", "hub", "scenario",
 	"scenario_result", "outlook", "game", "warmup", "warmup_result", "kickoff", "kickoff_result", "onside",
 	"hud", "hud_result", "results", "stats", "achievements", "settings", "career_stats", "people", "debug",
-	"challenge", "season", "recruiting", "college_choice", "hub_college", "draft",
-	"hub_pro", "contract", "retired", "pause", "toast"]
+	"challenge", "season", "recruiting", "recruiting_board", "recruiting_board_senior", "college_choice", "hub_college", "draft",
+	"hub_pro", "kicking_season", "kicking_hs", "kicking_total",
+	"kicking_total_sections", "kicking_season_sections", "kicking_season_misc", "contract", "retired", "pause", "toast"]
 
 var _out := ""
 var _tag := ""
@@ -195,7 +196,9 @@ func _capture_all() -> void:
 	await _shot("season", Screens.CAREER_SEASON)
 	_advance(func() -> bool: return c.phase == CareerManager.PHASE_RECRUITING)
 	await _shot("recruiting", Screens.CAREER_RECRUITING)
+	await _shot("recruiting_board", Screens.CAREER_RECRUITING_BOARD)
 	_advance(func() -> bool: return c.phase == CareerManager.PHASE_COLLEGE_CHOICE)
+	await _shot("recruiting_board_senior", Screens.CAREER_RECRUITING_BOARD)
 	await _shot("college_choice", Screens.CAREER_RECRUITING)
 	_advance(func() -> bool: return c.stage == CareerData.STAGE_COLLEGE and c.week >= 3 \
 		and c.phase == CareerManager.PHASE_WEEK_START)
@@ -205,6 +208,31 @@ func _capture_all() -> void:
 	_advance(func() -> bool: return c.stage == CareerData.STAGE_PRO and c.week >= 3 \
 		and c.phase == CareerManager.PHASE_WEEK_START)
 	await _shot("hub_pro", Screens.CAREER_HUB)
+	# Stats: Season view, then Career with the HS and Total tabs.
+	var kicking: GDScript = load("res://scripts/ui/screens/career_kicking.gd")
+	await _shot("kicking_season", Screens.CAREER_KICKING, func() -> void: kicking.view = "season")
+	await _shot("kicking_hs", Screens.CAREER_KICKING, func() -> void:
+		kicking.view = "career"
+		kicking.level = CareerRecords.LEVEL_HS)
+	await _shot("kicking_total", Screens.CAREER_KICKING, func() -> void: kicking.level = "total")
+	# Scrolled down to the sections (distance, extra points, streaks, misc).
+	if _want("kicking_total_sections"):
+		kicking.open_sections["Misc"] = true
+		await _open(Screens.CAREER_KICKING)
+		await _scroll_down(560)
+		await _capture("kicking_total_sections")
+	if _want("kicking_season_sections"):
+		kicking.view = "season"
+		await _open(Screens.CAREER_KICKING)
+		await _scroll_down(380)
+		await _capture("kicking_season_sections")
+	if _want("kicking_season_misc"):
+		await _open(Screens.CAREER_KICKING)
+		await _scroll_down(1500)
+		await _capture("kicking_season_misc")
+	kicking.open_sections["Misc"] = false
+	kicking.view = "season"
+	kicking.level = ""
 	_advance(func() -> bool: return c.phase == CareerManager.PHASE_CONTRACT)
 	await _shot("contract", Screens.CAREER_CONTRACT)
 	if c.phase == CareerManager.PHASE_CONTRACT:
@@ -510,6 +538,14 @@ func _open(path: String, wait := 0.9) -> void:
 		if cur != null and cur.scene_file_path != "" and not ScreenFade._busy:
 			break
 	await _wait(wait)
+
+
+## Scrolls the screen's (first) scroll list down by px.
+func _scroll_down(px: int) -> void:
+	var sc := _find(get_tree().current_scene, "ScrollContainer") as ScrollContainer
+	if sc != null:
+		sc.scroll_vertical = px
+	await _wait(0.4)
 
 
 func _wait(t: float) -> void:

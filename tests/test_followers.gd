@@ -2,7 +2,7 @@ extends "res://tests/test_case.gd"
 ## Followers: real counts from buzz x stage, Charisma, tiers and milestones,
 ## games (viral moments, missed game winners), choices (followers, exact,
 ## conduct, deals), caps, requirements, weekly and season effects, salary,
-## fan pressure, display text and save v6.
+## fan pressure, display text and save v7.
 
 var t := CareerTuning.get_default()
 
@@ -253,7 +253,7 @@ func test_game_and_bench_hooks() -> void:
 	eq(c.followers - before, roundi(t.buzz_benched * t.followers_per_buzz_hs), "being benched costs followers")
 
 
-func test_migration_v5_to_v6() -> void:
+func test_migration_to_v7() -> void:
 	var raw := fixture("career_v5_benched.json")
 	var c := CareerData.from_dict(CareerSave._migrate(raw.duplicate(true)))
 	eq(c.followers, t.followers_migrate_college, "a first-year college save starts at the college base")
@@ -266,12 +266,12 @@ func test_migration_v5_to_v6() -> void:
 		t.followers_migrate_pro + 2 * t.followers_migrate_pro_per_season, "pros: base + pro seasons")
 
 
-func test_frozen_v6_save_loads_unchanged() -> void:
-	var raw := fixture("career_v6_followers.json")
+func test_frozen_v7_save_loads_unchanged() -> void:
+	var raw := fixture("career_v7_followers.json")
 	check(not raw.is_empty(), "fixture exists")
 	var c := CareerData.from_dict(CareerSave._migrate(raw.duplicate(true)))
 	eq(c.followers, int(raw["followers"]), "followers kept")
 	eq(JSON.stringify(c.to_dict()["social"]), JSON.stringify(raw["social"]), "social kept exactly")
 	check(not Followers.deals(c).is_empty(), "deal kept")
 	var again := CareerData.from_dict(CareerSave._migrate(c.to_dict()))
-	eq(JSON.stringify(again.to_dict()), JSON.stringify(c.to_dict()), "v6 round trip")
+	eq(JSON.stringify(again.to_dict()), JSON.stringify(c.to_dict()), "v7 round trip")
