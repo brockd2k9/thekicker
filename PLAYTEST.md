@@ -300,6 +300,48 @@ Values changed while tuning: `bench_week_misses` 2 (new; was 1), `bench_poor_sea
 To playtest: does the thin-ice warning read clearly enough; is two misses the right "bad week";
 does the audition feel fair at your range.
 
+
+## Followers
+
+Rules: `scripts/career/followers.gd`; numbers: `career_tuning.tres` "Followers"; save version 6.
+
+Players only see real follower counts ("+120 followers", "2.4K followers", "Hometown Hero").
+Internally each event is worth some **buzz**, and the stage turns buzz into followers: 10 a buzz in
+high school, 40 at junior college, 120 at college, 600 as a free agent, 1,200 in the pros. Gains get
+up to +20% from Charisma. Followers never go below 0.
+
+| Event | Buzz | Event | Buzz |
+|---|---|---|---|
+| Field goal made | +1 | Missed game-winning kick | -6 |
+| Long make (45+ or near your range) | +2 | Benched (when it starts) | -8 |
+| Clutch make | +2 | Each benched week | -2 |
+| Game winner | +8 | Choice `conduct: "bad"` | -4 |
+| Perfect game (2+ kicks) | +3 | Choice `conduct: "scandal"` (also ends deals) | -15 |
+| Good / great season (FG% 80 / 90) | +10 / +20 | | |
+| Won the job back (audition) | +5 | | |
+| Choice `conduct: "good"` | +3 | | |
+| Choice `followers: n` | n | Choice `followers_exact: n` | n followers (not scaled) |
+
+- **Viral moments:** a made game winner (25%) or a 55+ yard make (20%) can go viral: that kick's
+  buzz x4, with a VIRAL notice on the Hub. A missed game winner becomes a viral blooper 6% of the
+  time (its loss x2). At most one viral moment a game.
+- **Tiers:** Local Name 0, Hometown Hero 500, Rising Star 5K, Campus Celebrity 25K, Verified 100K,
+  Fan Favorite 500K, Household Name 2M. Scenarios: `requires.followers_tier` (this tier or higher),
+  `requires.max_followers_tier` (this tier or lower), `min/max.followers` (a count).
+- **What followers give (small and capped):** the first time at a tier, +2 skill points (gear
+  sponsors) and Team +1; a week with 5+ buzz gained: Fun +1, Social +1 (5+ lost: Fun -2); at the end
+  of a season, recruiting / draft / standing +1 per tier above Hometown Hero (at most +3); new pro
+  contracts +2% salary per tier (at most +10%); "Fans are watching": +0.015 pressure per tier above
+  Rising Star in a close 4th quarter (at most +0.06, shown on the Outlook). Followers' skill points
+  (tiers and deals) are capped at 5 a season.
+- **Brand deals** (a choice's `deal`): +1 skill point a week, +0.5-1 yd range, or +1-2 Fun a week;
+  each costs 1 Energy a week; at most 2; they end at season end (after `seasons`), at a new stage, or
+  with a scandal.
+- **Old saves** start with: high school 100 + 150 per season played, junior college 1,000, college
+  2,500 + 4,000 per season, pros 30,000 + 40,000 per pro season (no milestone rewards for that).
+
+Simulator report and tuning: stage 3 (to come).
+
 ## To playtest (final list)
 Most important first. Simulator numbers are from `tools/career_sim_baseline.md`; the sim's kicks
 are a stand-in for real swipes, so everything involving kicking quality needs a real-phone check.

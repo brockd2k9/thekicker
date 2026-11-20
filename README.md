@@ -443,6 +443,19 @@ kicker); you keep extra points and kickoffs. Win the job back in an audition (3 
 kick scene). Rules: `scripts/career/bench.gd`; numbers: `career_tuning.tres` "Benching"; details and
 tuning: `PLAYTEST.md`, "Benching".
 
+**Followers (save version 6):** a real social media follower count. Field goals, game winners,
+perfect games, good seasons, viral moments, winning the bench audition and scenario choices
+(posting, charity, helping teammates, good conduct) add followers; bad conduct, scandals, a missed
+game winner and being benched cost some. The same moment is worth a few dozen followers in high
+school and thousands in the pros. Tiers (Local Name, Hometown Hero 500, Rising Star 5K, Campus
+Celebrity 25K, Verified 100K, Fan Favorite 500K, Household Name 2M) unlock scenarios
+(`requires.followers_tier`) and give small, capped extras (skill points and Team at each new tier,
+Fun / Social in a big week, a season-end recruiting / draft / standing bonus, up to +10% pro salary,
+brand deals, and a little pressure in close 4th quarters once you're famous: "Fans are watching" on
+the Outlook). Shown on the Hub, Results, Stats, the season summary and scenario cards. Rules:
+`scripts/career/followers.gd`; numbers: `career_tuning.tres` "Followers"; details: `PLAYTEST.md`,
+"Followers".
+
 **Perks, aging and weather:** the Skills screen has two tabs. **Perks** (15, `data/career/perks.json`)
 cost skill points and need prerequisites (attributes, other perks, a personality trait, a stage, an
 age); each is a small edge (Big Leg +2 yd, Laser tighter aim, Clutch less pressure on game winners,

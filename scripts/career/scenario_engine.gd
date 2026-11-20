@@ -33,8 +33,17 @@ const PROGRESS_KEYS := ["recruiting", "draft", "retention", "grades"]
 ## requires: {min: {stat: n}, max: {stat: n}, traits: [all of], any_traits: [one of],
 ## (min/max also take "recruiting", "draft", "retention", "gpa", "age"),
 ## flags: [all set], any_flags: [one set], not_flags: [unset],
+## followers_tier: tier id (this tier or higher), max_followers_tier: tier id
+## (this tier or lower), (min/max also take "followers", a count),
 ## any_of: [requires, ...] (one must pass)}.
 static func requirements_met(c: CareerData, req: Dictionary) -> bool:
+	if req.has("followers_tier") or req.has("max_followers_tier"):
+		var t := CareerTuning.get_default()
+		var tier := Followers.tier(c, t)
+		if req.has("followers_tier") and tier < Followers.tier_index(str(req["followers_tier"])):
+			return false
+		if req.has("max_followers_tier") and tier > Followers.tier_index(str(req["max_followers_tier"])):
+			return false
 	for k in req.get("min", {}):
 		if c.metric(k) < float(req["min"][k]):
 			return false
@@ -65,6 +74,12 @@ static func requirements_met(c: CareerData, req: Dictionary) -> bool:
 ## "Team Captain or Leadership 60+" (empty if no trait/personality gate).
 static func requirement_text(req: Dictionary) -> String:
 	var parts := PackedStringArray()
+	if req.has("followers_tier"):
+		var i := Followers.tier_index(str(req["followers_tier"]))
+		if i > 0:
+			parts.append(Followers.tier_label(i, CareerTuning.get_default()))
+	if req.has("min") and (req["min"] as Dictionary).has("followers"):
+		parts.append("%s followers" % Followers.round_count(int(req["min"]["followers"])))
 	for t in req.get("traits", []):
 		parts.append(_trait_name(t))
 	var any_t: Array = req.get("any_traits", [])
@@ -248,7 +263,7 @@ static func pick(c: CareerData, when: String, count: int, rng: RandomNumberGener
 
 ## Applies choice `index` of scenario `id`. Returns {"applied": stat changes,
 ## "new_traits": [...], "result": text, "modifiers": [...], "follow_up": id,
-## "relationships": {person id: change}}.
+## "relationships": {person id: change}, "skill_points": n, "followers": change}.
 static func apply_choice(c: CareerData, id: String, index: int, tuning: CareerTuning) -> Dictionary:
 	var s := CareerContent.scenario(id)
 	var choices: Array = s.get("choices", [])
@@ -273,6 +288,7 @@ static func apply_choice(c: CareerData, id: String, index: int, tuning: CareerTu
 			c.week_modifiers.append(str(m))
 		mods.append(str(m))
 	var rel := Relationships.apply(c, ch.get("rel", {}))
+	var fans := Followers.from_choice(c, ch, tuning)
 	var set_flags: Dictionary = ch.get("set_flags", {})
 	for f in set_flags:
 		c.flags[f] = set_flags[f]
@@ -295,7 +311,7 @@ static func apply_choice(c: CareerData, id: String, index: int, tuning: CareerTu
 	cats[cat] = int(cats.get(cat, 0)) + 1
 	return {"applied": applied, "new_traits": applied.get("new_traits", []),
 		"result": str(ch.get("result", "")), "modifiers": mods, "follow_up": follow,
-		"progress": progress, "relationships": rel, "skill_points": sp}
+		"progress": progress, "relationships": rel, "skill_points": sp, "followers": fans}
 
 
 ## A choice's stat changes with the football ones scaled by

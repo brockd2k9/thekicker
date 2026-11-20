@@ -653,6 +653,90 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## After this many failed auditions you're reinstated anyway.
 @export var audition_max_fails: int = 2
 
+@export_group("Followers")
+## Social media followers (Followers). Players only ever see real follower
+## counts. Internally every event is worth some "buzz" (also what a scenario
+## choice's "followers" field holds), turned into followers by the stage:
+## followers gained = buzz x followers_per_buzz (stage) x (1 + Charisma bonus).
+@export var followers_per_buzz_hs: float = 10.0
+@export var followers_per_buzz_juco: float = 40.0
+@export var followers_per_buzz_college: float = 120.0
+@export var followers_per_buzz_free_agent: float = 600.0
+@export var followers_per_buzz_pro: float = 1200.0
+## Gains (not losses) x (1 + this x Charisma / 100).
+@export var buzz_charisma_bonus: float = 0.2
+## Field goals of yours in a game: a make, a long make (long_make_yards+ or near
+## your range, like skill points), a clutch make, a game winner, a perfect game,
+## and a missed game-winning kick (a high-profile miss).
+@export var buzz_make: float = 1.0
+@export var buzz_long_make: float = 2.0
+@export var buzz_clutch_make: float = 2.0
+@export var buzz_game_winner: float = 8.0
+@export var buzz_perfect_game: float = 3.0
+@export var buzz_missed_game_winner: float = -6.0
+## End of season: FG% at sp_good_season_pct / sp_great_season_pct.
+@export var buzz_good_season: float = 10.0
+@export var buzz_great_season: float = 20.0
+## Benching: when it starts, each benched week; winning the audition.
+@export var buzz_benched: float = -8.0
+@export var buzz_bench_week: float = -2.0
+@export var buzz_audition_won: float = 5.0
+## A scenario choice's "conduct": good / bad / scandal (a scandal also ends
+## your brand deals).
+@export var buzz_conduct_good: float = 3.0
+@export var buzz_conduct_bad: float = -4.0
+@export var buzz_conduct_scandal: float = -15.0
+## Viral moments: a made game winner, or a make from viral_long_yards+, goes
+## viral with this chance (buzz x viral_mult). A missed game winner turns into a
+## viral blooper with viral_miss_chance (its loss x viral_miss_mult). Rare.
+@export_range(0.0, 1.0) var viral_chance_game_winner: float = 0.25
+@export_range(0.0, 1.0) var viral_chance_long: float = 0.2
+@export var viral_long_yards: int = 55
+@export var viral_mult: float = 4.0
+@export_range(0.0, 1.0) var viral_miss_chance: float = 0.06
+@export var viral_miss_mult: float = 2.0
+## Follower tiers: Local Name, Hometown Hero, Rising Star, Campus Celebrity,
+## Verified, Fan Favorite, Household Name (follower counts).
+@export var follower_tiers: PackedInt32Array = PackedInt32Array([0, 500, 5000, 25000, 100000, 500000, 2000000])
+## A week with at least this much buzz gained: +Fun / +Social ("your phone's
+## buzzing"); this much lost: -Fun.
+@export var buzz_week_good: float = 5.0
+@export var buzz_week_bad: float = -5.0
+@export var followers_week_fun: float = 1.0
+@export var followers_week_social: float = 1.0
+@export var followers_week_bad_fun: float = -2.0
+## First time at a tier: skill points (gear sponsors) and Team standing.
+@export var tier_up_sp: int = 2
+@export var tier_up_team: float = 1.0
+## Skill points from followers (tiers, brand deals): at most this many a season.
+@export var followers_sp_season_cap: int = 5
+## End of season: recruiting / draft / retention + this per tier above
+## Hometown Hero, at most followers_progress_cap.
+@export var followers_progress_per_tier: float = 1.0
+@export var followers_progress_cap: float = 3.0
+## Pro contracts: salary + this per tier, at most followers_salary_cap.
+@export_range(0.0, 0.1) var followers_salary_per_tier: float = 0.02
+@export_range(0.0, 0.5) var followers_salary_cap: float = 0.1
+## Fans are watching: kicks in a close 4th quarter get this much pressure per
+## tier above Rising Star, at most fan_pressure_cap (Resilience softens it).
+## (Game-winning kicks are already at full pressure.)
+@export var fan_pressure_per_tier: float = 0.015
+@export var fan_pressure_cap: float = 0.06
+## Brand deals (a choice's "deal"): at most this many at once; each costs this
+## much Energy a week (photo shoots).
+@export var deals_max: int = 2
+@export var deal_energy_week: float = -1.0
+## Saves from before followers (version < 6) start with: high school base +
+## per season played, junior college, college base + per season, pros base +
+## per pro season.
+@export var followers_migrate_hs: int = 100
+@export var followers_migrate_hs_per_season: int = 150
+@export var followers_migrate_juco: int = 1000
+@export var followers_migrate_college: int = 2500
+@export var followers_migrate_college_per_season: int = 4000
+@export var followers_migrate_pro: int = 30000
+@export var followers_migrate_pro_per_season: int = 40000
+
 @export_group("Career End")
 ## A season is "poor" with an FG% below this (at least poor_min_attempts tries).
 @export_range(0.0, 1.0) var poor_fg_pct: float = 0.6

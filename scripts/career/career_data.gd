@@ -8,7 +8,7 @@ extends RefCounted
 ## Stats are floats 0..100 (gains can be fractional); screens show them rounded.
 ## When the layout changes: bump VERSION and add a step to CareerSave._migrate().
 
-const VERSION := 5
+const VERSION := 6
 
 const STAGE_HIGH_SCHOOL := "high_school"
 const STAGE_JUCO := "juco"
@@ -178,6 +178,14 @@ var trust_week: Dictionary = {}
 ## Empty = never benched. Rules: Bench.
 var bench: Dictionary = {}
 
+# --- followers (save version 6) ---
+## Social media followers (a real count; Followers). Never below 0.
+var followers: int = 0
+## Followers bookkeeping: {peak, best_tier, season_gain, season_sources
+## {text: followers}, week [{text, n, buzz}] (this week's Results lines),
+## deals [{id, name, kind, value, seasons_left}], virals, sp_season}.
+var social: Dictionary = {}
+
 
 ## A fresh career with starting stats from the tuning file.
 static func create(player_name: String, tuning: CareerTuning) -> CareerData:
@@ -240,7 +248,7 @@ func stat(key: String) -> float:
 ## Stats plus the progression numbers scenario requirements can test:
 ## "recruiting", "draft", "retention", "gpa", "age", and "rel_<person id>"
 ## (a relationship value, e.g. "rel_coach"; 50 for someone not in the cast now).
-const METRICS := ["recruiting", "draft", "retention", "gpa", "age"]
+const METRICS := ["recruiting", "draft", "retention", "gpa", "age", "followers"]
 
 
 func metric(key: String) -> float:
@@ -255,6 +263,8 @@ func metric(key: String) -> float:
 			return gpa
 		"age":
 			return float(age)
+		"followers":
+			return float(followers)
 	if key.begins_with("rel_"):
 		return Relationships.value(self, key.substr(4))
 	return stat(key)
@@ -352,6 +362,8 @@ func to_dict() -> Dictionary:
 		"coach_doubt": coach_doubt.duplicate(),
 		"trust_week": trust_week.duplicate(true),
 		"bench": bench.duplicate(true),
+		"followers": followers,
+		"social": social.duplicate(true),
 	}
 
 
@@ -450,6 +462,8 @@ static func from_dict(d: Dictionary) -> CareerData:
 	c.coach_doubt = _dict(d, "coach_doubt")
 	c.trust_week = _dict(d, "trust_week")
 	c.bench = _dict(d, "bench")
+	c.followers = maxi(_num(d, "followers"), 0)
+	c.social = _dict(d, "social")
 	for id in _dict(d, "people"):
 		var p: Variant = d["people"][id]
 		if p is Dictionary and not Relationships.def(str(id)).is_empty():

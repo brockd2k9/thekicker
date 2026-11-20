@@ -364,7 +364,9 @@ func _situation_pressure(kind: String) -> Dictionary:
 		+ float(_p["pressure_bonus"])
 	var tag := ""
 	if q == 4 and absi(diff) <= 8:
-		p += _t.close_game_pressure
+		# Fans are watching (Followers.fan_pressure, via params): close 4th
+		# quarters. (Game winners are already at full pressure.)
+		p += _t.close_game_pressure + float(_p.get("fan_pressure", 0.0))
 	if q == 4 and left <= 120.0 and diff < 0 and diff + pts >= 0:
 		p = _t.game_winner_pressure
 		tag = "GAME WINNER" if diff + pts > 0 else "TO TIE"

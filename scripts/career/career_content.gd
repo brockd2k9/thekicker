@@ -193,8 +193,30 @@ static func _check_requires(problems: PackedStringArray, where: String, req: Dic
 		var v: Variant = req.get(key, [])
 		if not (v is Array) or (v as Array).any(func(f: Variant) -> bool: return not (f is String)):
 			problems.append("%s: requires %s must be a list of flag names" % [where, key])
+	for key in ["followers_tier", "max_followers_tier"]:
+		if req.has(key) and Followers.tier_index(str(req[key])) < 0:
+			problems.append("%s: unknown %s '%s' (one of %s)" % [where, key, req[key], ", ".join(Followers.TIER_IDS)])
+	if req.has("followers_tier") and req.has("max_followers_tier") \
+			and Followers.tier_index(str(req["followers_tier"])) > Followers.tier_index(str(req["max_followers_tier"])):
+		problems.append("%s: followers_tier is above max_followers_tier" % where)
 	for r in req.get("any_of", []):
 		_check_requires(problems, where, r)
+
+
+## A choice's follower fields: followers (buzz, -20..20), followers_exact (a
+## count), conduct (good / bad / scandal) and deal.
+static func _check_followers(problems: PackedStringArray, where: String, ch: Dictionary) -> void:
+	if ch.has("followers") and not ((ch["followers"] is float or ch["followers"] is int)
+			and absf(float(ch["followers"])) <= 20.0):
+		problems.append("%s: followers must be a number -20..20" % where)
+	if ch.has("followers_exact") and not (ch["followers_exact"] is float or ch["followers_exact"] is int):
+		problems.append("%s: followers_exact must be a number" % where)
+	if ch.has("conduct") and not (str(ch["conduct"]) in ["good", "bad", "scandal"]):
+		problems.append("%s: conduct must be good, bad or scandal" % where)
+	if ch.has("deal"):
+		var d: Variant = ch["deal"]
+		if not (d is Dictionary) or str(d.get("id", "")) == "" or not (str(d.get("kind", "")) in Followers.DEAL_KINDS):
+			problems.append("%s: deal needs an id and a kind (%s)" % [where, ", ".join(Followers.DEAL_KINDS)])
 
 
 ## Teen-audience word check (data/career/content_rules.json).
@@ -286,6 +308,9 @@ static func validate() -> PackedStringArray:
 			for g in ch.get("stats", {}):
 				n_stats += (ch["stats"][g] as Dictionary).size() if ch["stats"][g] is Dictionary else 0
 			n_stats += (ch.get("rel", {}) as Dictionary).size() if ch.get("rel") is Dictionary else 0
+			for k in ["followers", "followers_exact", "conduct", "deal"]:
+				n_stats += 1 if ch.has(k) else 0
+			_check_followers(problems, "scenario %s choice '%s'" % [id, ch.get("label", "")], ch)
 			if n_stats == 0:
 				problems.append("scenario %s: choice '%s' changes no stats" % [id, ch.get("label", "")])
 			_check_requires(problems, "scenario %s choice" % id, ch.get("requires", {}))
