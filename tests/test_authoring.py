@@ -386,8 +386,9 @@ class RecastAndProSuspensionTests(unittest.TestCase):
                 json.dump(doc, f)
             return run(path, "--dry-run")
 
+    # Fixture: an unwritten era-6 draft (written last); repoint it if that changes.
     def test_pro_scene_may_suspend_a_season_and_recast(self):
-        ok = {"scenarios": [{"id": "PRO_219", "title": "x", "category": "family", "text": "A dinner party.",
+        ok = {"scenarios": [{"id": "PRO_144", "title": "x", "category": "family", "text": "A dinner party.",
                              "choices": [_choice(recast=["love_interest"]),
                                          _choice(suspend_weeks=11, conduct="scandal"),
                                          _choice(suspend_weeks=6, conduct="bad")]}]}
@@ -397,7 +398,7 @@ class RecastAndProSuspensionTests(unittest.TestCase):
         self.assertIn("a suspension over 3 weeks is for a serious step", out)  # bad conduct, no flag
 
     def test_bad_recast_and_suspension_values_are_errors(self):
-        bad = {"scenarios": [{"id": "PRO_219", "title": "x", "category": "family", "text": "A dinner party.",
+        bad = {"scenarios": [{"id": "PRO_144", "title": "x", "category": "family", "text": "A dinner party.",
                               "choices": [_choice(recast=["team"]), _choice(recast=["nobody"]),
                                           _choice(recast="love_interest"), _choice(recast=["parent", "parent"]),
                                           _choice(suspend_weeks=12, conduct="scandal")]}]}

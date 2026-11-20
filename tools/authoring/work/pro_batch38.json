@@ -1,0 +1,599 @@
+{
+  "_about": "PRO batch 38: the scenes that waited on R8 (recast) and R9 (long pro suspensions), plus PRO_163 The Divorce (the only setter of divorced).",
+  "scenarios": [
+    {
+      "id": "PRO_151",
+      "title": "Love Again",
+      "category": "romance",
+      "text": "You're single in a new city. Then, at a teammate's birthday dinner, the person across the table asks a question about you instead of the league, and you're still talking when the restaurant starts stacking chairs.",
+      "choices": [
+        {
+          "label": "Ask to see them again",
+          "result": "A second dinner turns into a Sunday walk, then into a toothbrush at your place. It's new and easy, and you catch yourself smiling in film sessions.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "new_partner": true,
+            "enjoying_single_life": false,
+            "made_long_distance_work": false,
+            "committed_to_relationship": false
+          },
+          "recast": [
+            "love_interest"
+          ]
+        },
+        {
+          "label": "Enjoy being single",
+          "result": "Single, for now, on purpose. You cook badly for friends, sleep in on off days and answer to nobody, and it's the lightest you've felt since college.",
+          "stats": {
+            "life": {
+              "fun": 3,
+              "energy": 2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {
+            "enjoying_single_life": true
+          },
+          "rel": {
+            "best_friend": 2
+          }
+        },
+        {
+          "label": "Keep the season first",
+          "result": "A friendly goodbye at the door, and nothing more. The season gets all of you, and some nights the apartment is very quiet after film.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Ask the classmate to come",
+          "result": "The classmate from statistics, the standing Thursday nights: you call and ask them to move here. They say yes before you finish the question, and the apartment finally sounds like a home.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "new_partner": true,
+            "enjoying_single_life": false,
+            "made_long_distance_work": false,
+            "committed_to_relationship": false
+          },
+          "requires": {
+            "flags": [
+              "dating_classmate"
+            ]
+          },
+          "lock_text": "having dated your college classmate",
+          "recast": [
+            "love_interest"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_163",
+      "title": "The Divorce",
+      "category": "family",
+      "text": "The lawyers have the paperwork ready on the kitchen table. {love_interest} wants to talk before anyone signs anything, and for the first time in months, neither of you is angry.",
+      "choices": [
+        {
+          "label": "Sign it, and be kind",
+          "result": "You sign it together and make the hard parts fair: the house, the holidays, the friends. It hurts for a long time, {parent} calls every night that month, and you're proud of how you did it.",
+          "stats": {
+            "life": {
+              "fun": -3,
+              "social": -1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "set_flags": {
+            "divorced": true,
+            "married": false,
+            "engaged": false,
+            "new_partner": false,
+            "made_long_distance_work": false,
+            "committed_to_relationship": false
+          },
+          "rel": {
+            "love_interest": 3,
+            "parent": 2
+          }
+        },
+        {
+          "label": "Fight over everything",
+          "result": "Every chair, every account, every weekend becomes a fight through lawyers. It takes a year, costs a fortune and leaves you both strangers who used to be married.",
+          "stats": {
+            "life": {
+              "fun": -4,
+              "energy": -3
+            },
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "divorced": true,
+            "married": false,
+            "engaged": false,
+            "new_partner": false,
+            "made_long_distance_work": false,
+            "committed_to_relationship": false
+          },
+          "rel": {
+            "love_interest": -6,
+            "parent": -2
+          }
+        },
+        {
+          "label": "Ask for one more try",
+          "result": "One more try, you ask, with a counselor and no secrets. {love_interest} takes a long breath and agrees to six months. The papers go back in the drawer.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "love_interest": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_219",
+      "title": "Someone New, Later",
+      "category": "romance",
+      "text": "Years after it ended, a friend's dinner party seats you next to someone who doesn't care about football at all, has never heard of you and wants to talk about birds, of all things.",
+      "choices": [
+        {
+          "label": "Ask for their number",
+          "result": "Their number arrives before dessert, written on a napkin with a drawing of a heron. By spring you know more about birds than kicking, almost.",
+          "stats": {
+            "life": {
+              "fun": 3,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "new_partner": true,
+            "enjoying_single_life": false,
+            "made_long_distance_work": false,
+            "committed_to_relationship": false
+          },
+          "recast": [
+            "love_interest"
+          ]
+        },
+        {
+          "label": "Call {best_friend} first",
+          "result": "{best_friend} listens to the whole story on the drive home and says only, 'Call them.' You don't, yet, but you keep the napkin on your fridge.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "best_friend": 4
+          }
+        },
+        {
+          "label": "Not ready yet",
+          "result": "A lovely evening, and a polite goodbye at the door. You're not ready yet, and you're honest enough with yourself to know it, which feels like progress.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {
+            "enjoying_single_life": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_220",
+      "title": "The Second Wedding",
+      "category": "family",
+      "text": "Married before, both of you. Somewhere between the dishes and the dog, you start talking about doing it again with {love_interest}: smaller, quieter, and somehow harder to plan than the first time.",
+      "choices": [
+        {
+          "label": "The courthouse and a long dinner",
+          "result": "A Tuesday at the courthouse, two witnesses, and a long dinner after. Nobody posts anything. It's the happiest day you've had in years, and it belongs only to you.",
+          "stats": {
+            "life": {
+              "fun": 3,
+              "energy": 1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "married": true,
+            "engaged": false
+          },
+          "rel": {
+            "love_interest": 6
+          }
+        },
+        {
+          "label": "Invite the people who stayed",
+          "result": "Only the people who stayed through everything: {parent}, {sibling}, {best_friend}. Forty chairs in a backyard, and {sibling} gives a toast that makes everyone cry.",
+          "stats": {
+            "life": {
+              "social": 3,
+              "fun": 2,
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "married": true,
+            "engaged": false
+          },
+          "rel": {
+            "love_interest": 4,
+            "sibling": 3,
+            "parent": 2
+          }
+        },
+        {
+          "label": "Wait one more season",
+          "result": "One more season, you agree, until you're both sure. {love_interest} understands, mostly, and the conversation comes back every few weeks, a little shorter each time.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "love_interest": -2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_262",
+      "title": "Betting to Cover It",
+      "category": "money",
+      "text": "Your savings are thinner than anyone knows: an investment gone wrong, a house you can't sell, a payment due in March. An old acquaintance from home calls with an answer: one good week of bets, through him, and the hole closes.",
+      "choices": [
+        {
+          "label": "Hang up and call your advisor",
+          "result": "You hang up and call your advisor the same hour. The plan is slow and humbling, the house goes on the market at a loss, and you sleep for the first time in weeks.",
+          "stats": {
+            "life": {
+              "fun": -2
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "honest_advisor": true
+          }
+        },
+        {
+          "label": "Tell {parent} how bad it is",
+          "result": "{parent} drives four hours that night and sits at your kitchen table with a calculator and a pot of coffee. By morning there's a plan, and you're not alone with it.",
+          "stats": {
+            "life": {
+              "fun": -1,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "parent": 5
+          }
+        },
+        {
+          "label": "Sell the thing you love",
+          "result": "The car you bought with your first big check goes to a dealer for less than it's worth. It stings every time you pass one like it, and the March payment is covered.",
+          "stats": {
+            "life": {
+              "fun": -3,
+              "energy": 1
+            },
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Give him the money and the games",
+          "result": "The money and the names of three games go to him, none of them yours. For a month it works. Then the league's investigators find the account, and the commissioner's letter says a full season.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "energy": 3
+            },
+            "football": {},
+            "personality": {
+              "leadership": -3,
+              "intelligence": -2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "pro_betting_scandal": true
+          },
+          "conduct": "scandal",
+          "suspend_weeks": 11,
+          "retention": -6,
+          "followers": -6,
+          "rel": {
+            "coach": -6,
+            "team": -4
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_268",
+      "title": "The Veteran Hearing",
+      "category": "team",
+      "text": "Another hearing, years after the first one, and the union lawyer is younger than your snapper. The league's letter says it plainly: a veteran with your experience should have known better.",
+      "choices": [
+        {
+          "label": "Accept it without appeal",
+          "result": "Four games, no appeal. You practice with the scout team every day of it, early, and the young players notice how a veteran takes his punishment.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "set_flags": {
+            "stayed_out_pro": false,
+            "pro_night_out": false,
+            "pro_unapproved_supplement": false,
+            "pro_bar_fight": false,
+            "pro_shared_inside_info": false,
+            "pro_party_house": false,
+            "pro_reckless_driving": false,
+            "pro_online_rant": false,
+            "pro_gambling_debt": false,
+            "pro_banned_substance": false,
+            "pro_night_before": false,
+            "pro_late_meeting": false,
+            "pro_casual_bet": false,
+            "pro_betting_scandal": false,
+            "pro_solicitation": false,
+            "pro_business_fraud": false,
+            "pro_phantom_injury": false,
+            "pro_bad_mentor": false,
+            "pro_insurance_fraud": false,
+            "pro_second_chance": true
+          },
+          "conduct": "bad",
+          "suspend_weeks": 4,
+          "retention": -3,
+          "rel": {
+            "coach": 1
+          }
+        },
+        {
+          "label": "Fight it",
+          "result": "You appeal and say the league is making an example of an old player. The appeal fails, the suspension doubles to eight games, and the story follows you to every road city.",
+          "stats": {
+            "life": {
+              "fun": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "stayed_out_pro": false,
+            "pro_night_out": false,
+            "pro_unapproved_supplement": false,
+            "pro_bar_fight": false,
+            "pro_shared_inside_info": false,
+            "pro_party_house": false,
+            "pro_reckless_driving": false,
+            "pro_online_rant": false,
+            "pro_gambling_debt": false,
+            "pro_banned_substance": false,
+            "pro_night_before": false,
+            "pro_late_meeting": false,
+            "pro_casual_bet": false,
+            "pro_betting_scandal": false,
+            "pro_solicitation": false,
+            "pro_business_fraud": false,
+            "pro_phantom_injury": false,
+            "pro_bad_mentor": false,
+            "pro_insurance_fraud": false,
+            "pro_second_chance": true,
+            "pro_character_concerns": true
+          },
+          "conduct": "scandal",
+          "suspend_weeks": 8,
+          "retention": -5,
+          "followers": -4,
+          "rel": {
+            "coach": -3
+          }
+        },
+        {
+          "label": "Accept it, and talk to the rookies",
+          "result": "Four games, accepted, and you ask the club to let you speak to the rookies about what it cost. The room is very quiet, and two of them thank you privately.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 3
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "stayed_out_pro": false,
+            "pro_night_out": false,
+            "pro_unapproved_supplement": false,
+            "pro_bar_fight": false,
+            "pro_shared_inside_info": false,
+            "pro_party_house": false,
+            "pro_reckless_driving": false,
+            "pro_online_rant": false,
+            "pro_gambling_debt": false,
+            "pro_banned_substance": false,
+            "pro_night_before": false,
+            "pro_late_meeting": false,
+            "pro_casual_bet": false,
+            "pro_betting_scandal": false,
+            "pro_solicitation": false,
+            "pro_business_fraud": false,
+            "pro_phantom_injury": false,
+            "pro_bad_mentor": false,
+            "pro_insurance_fraud": false,
+            "pro_second_chance": true
+          },
+          "conduct": "bad",
+          "suspend_weeks": 4,
+          "retention": -3,
+          "rel": {
+            "team": 3
+          }
+        }
+      ]
+    }
+  ]
+}
