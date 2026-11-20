@@ -58,6 +58,10 @@ var _net_res: Dictionary = {}
 var _net_hit := false
 var _first_net := true
 var _default_rules := KickoffRules.new()
+## Field goals: where the ball ended up relative to the posts (GoalMarker) and
+## the margin line under the result banner ("Cleared the bar by 4 ft").
+var _goal_marker: GoalMarker
+var _margin := ""
 
 @onready var field: FieldBuilder = $Field
 @onready var ball: Ball = $Ball
@@ -115,6 +119,8 @@ func _ready() -> void:
 	swipe_input.released.connect(_on_swipe_released)
 	ball.reached_goal_plane.connect(_on_ball_reached_goal_plane)
 	ball.landed.connect(_on_ball_landed)
+	_goal_marker = GoalMarker.new()
+	add_child(_goal_marker)
 	_start_attempt()
 
 
@@ -190,6 +196,8 @@ func _start_attempt() -> void:
 	phase = Phase.SETUP
 	_can_continue = false
 	Engine.time_scale = 1.0
+	_goal_marker.clear()
+	_margin = ""
 
 	situation = mode.next_situation(_rng, tuning, wind) if mode != null else null
 	if situation == null:
@@ -310,6 +318,8 @@ func _resolve(outcome: KickResult.Outcome, note: String = "") -> void:
 	var detail := "%d yards" % situation.distance_yards
 	if GameState.streak > 1:
 		detail += "  -  %d in a row" % GameState.streak
+	if _margin != "":
+		detail = _margin + "\n" + detail
 	if note != "":
 		detail = note + "\n" + detail
 	hud.set_hint("")
@@ -359,7 +369,12 @@ func _on_swipe_released(swipe: Swipe) -> void:
 
 func _on_ball_reached_goal_plane(crossing: Vector3) -> void:
 	if phase == Phase.FLIGHT:
-		_resolve(KickResult.judge_at_goal_plane(crossing, field.goal_posts.inner_width * 0.5))
+		var half := field.goal_posts.inner_width * 0.5
+		var outcome := KickResult.judge_at_goal_plane(crossing, half)
+		_goal_marker.show_crossing(crossing, KickResult.is_good(outcome), -situation.distance_m(), half,
+			GoalPosts.CROSSBAR_HEIGHT)
+		_margin = _crossing_margin(outcome, crossing, half)
+		_resolve(outcome)
 
 
 func _on_ball_landed(at: Vector3) -> void:
@@ -368,7 +383,24 @@ func _on_ball_landed(at: Vector3) -> void:
 			_resolve_tee(KickoffJudge.kickoff(at, _flight_t, _rules(), _rng))
 		return
 	if phase == Phase.FLIGHT:
+		var goal_z := -situation.distance_m()
+		_goal_marker.show_short(at, goal_z, field.goal_posts.inner_width * 0.5, GoalPosts.CROSSBAR_HEIGHT)
+		var yd := (at.z - goal_z) / KickSituation.YARD_TO_M
+		_margin = "Less than a yard short" if yd < 1.0 else "%d yard%s short" % [roundi(yd), "" if roundi(yd) == 1 else "s"]
 		_resolve(KickResult.Outcome.SHORT)
+
+
+## "Cleared the bar by 4 ft" / "Under the bar by 1 ft" / "Wide by 2 ft".
+static func _crossing_margin(outcome: KickResult.Outcome, crossing: Vector3, half_width: float) -> String:
+	const FOOT := 0.3048
+	match outcome:
+		KickResult.Outcome.GOOD:
+			return "Cleared the bar by %d ft" % maxi(roundi((crossing.y - GoalPosts.CROSSBAR_HEIGHT) / FOOT), 1)
+		KickResult.Outcome.SHORT:
+			return "Under the bar by %d ft" % maxi(roundi((GoalPosts.CROSSBAR_HEIGHT - crossing.y) / FOOT), 1)
+		KickResult.Outcome.WIDE_LEFT, KickResult.Outcome.WIDE_RIGHT:
+			return "Wide by %d ft" % maxi(roundi((absf(crossing.x) - half_width) / FOOT), 1)
+	return ""
 
 
 # --- sideline warmup net -----------------------------------------------------------
