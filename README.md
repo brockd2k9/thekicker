@@ -474,6 +474,9 @@ a few at a time. Fill in `category`, `text` and `choices` (each choice setting t
   `python3 tools/make_authoring_templates.py`), and three finished examples in `examples.json`.
   Import with `python3 tools/import_scenarios.py <file> --dry-run` (check only), then without
   `--dry-run` (writes into the data files; nothing is written if there's any error).
+  The dry run also prints lint notes (advice): pronouns on gender-neutral placeholders, hand-written
+  cast names, curly quotes, game-kick language, one-sided choices; `python3 tools/lint_scenarios.py`
+  (`--all` for every scenario file) runs them on what's already imported.
   Tool tests: `python3 -m unittest discover -s tests -p 'test_*.py'`.
 - Story scenarios (`"story": true`) have a season/week window: boosted while it's open, forced
   in its last week if not seen (`story_weight_mult`, `max_forced_per_week` in `career_tuning.tres`,

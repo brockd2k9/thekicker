@@ -14,7 +14,10 @@ file plus the template entries you want written to whoever is writing.
 2. Fill in `category`, `text` and `choices`. Leave `id`, `title` and `_info` alone.
    Unwritten entries can stay blank; they're skipped.
 3. Check: `python3 tools/import_scenarios.py tools/authoring/work/freshman.json --dry-run`
-4. Fix every ERROR it prints (warnings are advice), then run it again without `--dry-run`.
+4. Fix every ERROR it prints (warnings and lint notes are advice), then run it again without `--dry-run`.
+   Lint notes catch style slips: he/she on a gender-neutral placeholder, a cast name written by hand,
+   curly quotes, a game kick or its result, and a choice that beats another on every number (or all
+   but one). `python3 tools/lint_scenarios.py` runs the same checks on scenarios already imported.
 5. Run the game's tests: `godot --headless --path . res://tests/run_tests.tscn`, then play it.
 
 `tools/authoring/examples.json` has three finished scenarios to copy from.
