@@ -120,6 +120,7 @@ PEOPLE = {
     "HS_118": ["teacher"],  # the title no longer says "Teacher" (TITLE_OVERRIDES)
     "HS_150": ["parent"],   # the recruiting talk happens with Dad at the table
     "HS_070": ["holder"], "HS_099": ["holder"], "HS_095": ["teacher"],  # written scenes move them
+    "HS_160": ["parent"],   # the family-plan ending calls home
 }
 
 # Renames applied to the skeleton before converting (the New Kicker is a quarterback).
