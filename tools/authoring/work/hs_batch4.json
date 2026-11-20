@@ -7,62 +7,38 @@
       "title": "The Rival's Bad Day",
       "_info": {
         "when": "Sophomore year (season 2), any week",
-        "requires": {
-          "any_flags": [
-            "befriended_tyler"
-          ]
-        },
-        "must_set_flags": [
-          "tyler_mutual_respect"
-        ],
-        "people": [
-          "rival"
-        ],
-        "unlocked_by": [
-          {
-            "from": "HS_005",
-            "flag": "befriended_tyler",
-            "type": "unlock"
-          }
-        ],
-        "leads_to": [
-          "unlocks HS_046 (The Rival's Offer) when tyler_mutual_respect"
-        ]
+        "requires": {"any_flags": ["befriended_tyler"]},
+        "must_set_flags": ["tyler_mutual_respect"],
+        "people": ["rival"],
+        "unlocked_by": [{"from": "HS_005", "flag": "befriended_tyler", "type": "unlock"}],
+        "leads_to": ["unlocks HS_046 (The Rival's Offer) when tyler_mutual_respect"]
       },
-      "category": "",
-      "text": "",
+      "category": "team",
+      "text": "You and {tyler} have trained together since freshman year, so you know how much the competition matters to both of you. After a rough practice, {tyler} misses several kicks and starts packing up in frustration.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Offer to work through it",
+          "result": "You stay and help {tyler} break down the approach and reset the routine. It takes extra time, but the session turns into the kind of honest competition that makes both of you better.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": -3, "social": 2},
+            "personality": {"leadership": 2, "intelligence": 1}
           },
-          "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "tyler_mutual_respect": true
-          },
-          "rel": {
-            "rival": 0
-          }
+          "skill_points": 2,
+          "modifiers": ["focused"],
+          "set_flags": {"tyler_mutual_respect": true},
+          "rel": {"rival": 7}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Give him room today",
+          "result": "You tell {tyler} everyone has rough practices and let him head out on his own. You keep your own evening free, but the two of you miss a chance to turn the bad day around together.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": 2, "social": -2, "fun": 1},
+            "personality": {"ambition": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": ["rested"],
           "set_flags": {},
-          "rel": {
-            "rival": 0
-          }
+          "rel": {"rival": -1}
         }
       ]
     },
@@ -71,77 +47,51 @@
       "title": "The Friend Who Needs Help",
       "_info": {
         "when": "Sophomore year (season 2), any week",
-        "requires": {
-          "any_flags": [
-            "helped_freshman"
-          ],
-          "not_flags": [
-            "bullied_freshman"
-          ]
-        },
-        "people": [
-          "best_friend"
-        ],
+        "requires": {"any_flags": ["helped_freshman"], "not_flags": ["bullied_freshman"]},
+        "people": ["best_friend"],
         "unlocked_by": [
-          {
-            "from": "HS_003",
-            "flag": "helped_freshman",
-            "type": "unlock"
-          },
-          {
-            "from": "HS_003",
-            "flag": "bullied_freshman",
-            "type": "exclude"
-          }
+          {"from": "HS_003", "flag": "helped_freshman", "type": "unlock"},
+          {"from": "HS_003", "flag": "bullied_freshman", "type": "exclude"}
         ]
       },
-      "category": "",
-      "text": "",
+      "category": "social",
+      "text": "A younger student you once helped after practice comes to you again, this time because your best friend {best_friend} seems overwhelmed by a problem at school. You can tell the situation is weighing on {best_friend}, but you don't know the whole story.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Listen before giving advice",
+          "result": "You make time to hear what has been going on and help {best_friend} sort out the next step. The conversation takes energy, but they leave feeling less alone.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": -3, "social": 3},
+            "personality": {"charisma": 2, "leadership": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": ["inspired"],
           "set_flags": {},
-          "rel": {
-            "best_friend": 0
-          }
+          "rel": {"best_friend": 7}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Help solve one problem",
+          "result": "You help {best_friend} tackle the most urgent part instead of trying to fix everything at once. It feels practical and gives you both a little breathing room, though some of the bigger worries remain.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": -2, "fun": 1},
+            "personality": {"intelligence": 2}
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": ["focused"],
           "set_flags": {},
-          "rel": {
-            "best_friend": 0
-          }
+          "rel": {"best_friend": 5}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Keep your distance for now",
+          "result": "You say you have a lot going on and suggest talking to a trusted adult at school. You protect your own time, but {best_friend} seems disappointed that you aren't more available.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": 3, "social": -3},
+            "personality": {"ambition": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": ["distracted"],
           "set_flags": {},
-          "rel": {
-            "best_friend": 0
-          }
+          "rel": {"best_friend": -3}
         }
       ]
     },
@@ -150,49 +100,33 @@
       "title": "The Hallway Favor",
       "_info": {
         "when": "Junior year (season 3), any week",
-        "requires": {
-          "any_flags": [
-            "handled_conflict_well"
-          ]
-        },
-        "must_set_flags": [
-          "mentored_younger_student"
-        ],
-        "unlocked_by": [
-          {
-            "from": "HS_101",
-            "flag": "handled_conflict_well",
-            "type": "unlock"
-          }
-        ]
+        "requires": {"any_flags": ["handled_conflict_well"]},
+        "must_set_flags": ["mentored_younger_student"],
+        "unlocked_by": [{"from": "HS_101", "flag": "handled_conflict_well", "type": "unlock"}]
       },
-      "category": "",
-      "text": "",
+      "category": "community",
+      "text": "After you calmly settled that locker mix-up as a freshman, a younger student approaches you in the hallway with a similar problem: an older student keeps telling them they don't belong in a certain part of the team area. They ask what you would do.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Walk them through it",
+          "result": "You help the student explain the situation clearly and offer to go with them to the office or coach. It costs part of your break, but they leave with a plan and more confidence.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": -3, "social": 2},
+            "personality": {"leadership": 3, "charisma": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "mentored_younger_student": true
-          }
+          "modifiers": ["inspired"],
+          "set_flags": {"mentored_younger_student": true}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Point them to an adult",
+          "result": "You encourage them to speak with a coach or school staff member who can sort out the issue properly. You keep your own schedule on track, though the student has to take the next step without you beside them.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": 2, "social": -1},
+            "personality": {"intelligence": 2}
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": ["focused"],
           "set_flags": {}
         }
       ]
@@ -202,52 +136,34 @@
       "title": "The Community Recognition",
       "_info": {
         "when": "Junior year (season 3), any week",
-        "requires": {
-          "any_flags": [
-            "community_volunteer"
-          ]
-        },
-        "must_set_flags": [
-          "community_recognition"
-        ],
-        "unlocked_by": [
-          {
-            "from": "HS_107",
-            "flag": "community_volunteer",
-            "type": "unlock"
-          }
-        ],
-        "leads_to": [
-          "unlocks HS_153 (The Unexpected Reference) when community_recognition"
-        ]
+        "requires": {"any_flags": ["community_volunteer"]},
+        "must_set_flags": ["community_recognition"],
+        "unlocked_by": [{"from": "HS_107", "flag": "community_volunteer", "type": "unlock"}],
+        "leads_to": ["unlocks HS_153 (The Unexpected Reference) when community_recognition"]
       },
-      "category": "",
-      "text": "",
+      "category": "community",
+      "text": "The organizers of the youth sports field project remember that you stayed for the full setup morning a couple of years ago. They invite you back to help at a community event, and a few people mention how much that earlier effort meant.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Accept the recognition",
+          "result": "You thank the organizers and share how good it feels to see the field full of young players. You spend more time talking with families than you planned, but the community connection grows.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"social": 4, "energy": -2, "fun": 2},
+            "personality": {"charisma": 2, "leadership": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "community_recognition": true
-          }
+          "modifiers": ["inspired"],
+          "set_flags": {"community_recognition": true}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Get back to helping",
+          "result": "You thank them briefly and return to setting up equipment, keeping the focus on the kids and the event. You avoid the attention and get useful work done, though you miss a chance to build those community connections.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": -3, "social": -1, "fun": 1},
+            "personality": {"ambition": 1, "intelligence": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": ["focused"],
           "set_flags": {}
         }
       ]
@@ -257,52 +173,34 @@
       "title": "The Screenshot",
       "_info": {
         "when": "Junior year (season 3), any week",
-        "requires": {
-          "any_flags": [
-            "defended_teammate_online"
-          ]
-        },
-        "must_set_flags": [
-          "owned_old_group_chat"
-        ],
-        "unlocked_by": [
-          {
-            "from": "HS_103",
-            "flag": "defended_teammate_online",
-            "type": "unlock"
-          }
-        ],
-        "leads_to": [
-          "unlocks HS_156 (The Younger Athlete Looks Up to You) when owned_old_group_chat"
-        ]
+        "requires": {"any_flags": ["defended_teammate_online"]},
+        "must_set_flags": ["owned_old_group_chat"],
+        "unlocked_by": [{"from": "HS_103", "flag": "defended_teammate_online", "type": "unlock"}],
+        "leads_to": ["unlocks HS_156 (The Younger Athlete Looks Up to You) when owned_old_group_chat"]
       },
-      "category": "",
-      "text": "",
+      "category": "social",
+      "text": "The group chat you once challenged for mocking a teammate comes up again when someone shares an old screenshot. A few people start arguing about what happened, and you realize your earlier message is part of the conversation.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Own what you said",
+          "result": "You explain why you spoke up and make it clear you still think the jokes crossed a line. The discussion gets uncomfortable, but your teammates know you haven't changed your position.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": -3, "social": -2},
+            "personality": {"leadership": 2, "charisma": 2}
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "owned_old_group_chat": true
-          }
+          "modifiers": ["confident"],
+          "set_flags": {"owned_old_group_chat": true}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Let the chat move on",
+          "result": "You don't respond and mute the conversation for the evening. You avoid another round of arguments, but people are left to guess whether you still stand by what you said.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": 2, "fun": 1, "social": -1},
+            "personality": {"intelligence": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": ["rested"],
           "set_flags": {}
         }
       ]
@@ -312,71 +210,41 @@
       "title": "The Holder's Big Moment",
       "_info": {
         "when": "Senior year (season 4), weeks 1-8",
-        "requires": {
-          "any_flags": [
-            "trained_backup_holder",
-            "trusted_holder_under_pressure"
-          ]
-        },
-        "must_set_flags": [
-          "holder_big_moment_success",
-          "holder_confidence_damaged"
-        ],
-        "people": [
-          "holder"
-        ],
+        "requires": {"any_flags": ["trained_backup_holder", "trusted_holder_under_pressure"]},
+        "must_set_flags": ["holder_big_moment_success", "holder_confidence_damaged"],
+        "people": ["holder"],
         "unlocked_by": [
-          {
-            "from": "HS_106",
-            "flag": "trained_backup_holder",
-            "type": "unlock"
-          },
-          {
-            "from": "HS_140",
-            "flag": "trusted_holder_under_pressure",
-            "type": "unlock"
-          }
+          {"from": "HS_106", "flag": "trained_backup_holder", "type": "unlock"},
+          {"from": "HS_140", "flag": "trusted_holder_under_pressure", "type": "unlock"}
         ],
-        "leads_to": [
-          "unlocks HS_159 (The Last Practice Together) when holder_big_moment_success"
-        ]
+        "leads_to": ["unlocks HS_159 (The Last Practice Together) when holder_big_moment_success"]
       },
-      "category": "",
-      "text": "",
+      "category": "team",
+      "text": "Late in a close game, {holder} has a chance to make a difficult hold under pressure, and the whole sideline is watching. The moment tests the trust you've built together, whatever first brought the two of you onto the same page.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Settle in and trust them",
+          "result": "You give {holder} a calm signal, focus on your steps, and commit to the kick. The hold is clean and the kick goes through; you make sure {holder} knows the moment belonged to both of you.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": -2, "fun": 3},
+            "personality": {"leadership": 2, "charisma": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "holder_big_moment_success": true
-          },
-          "rel": {
-            "holder": 0
-          }
+          "modifiers": ["confident"],
+          "set_flags": {"holder_big_moment_success": true},
+          "rel": {"holder": 8}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Show your frustration",
+          "result": "The timing feels off, and you point out the mistake in front of the sideline. A few teammates agree with your frustration, but {holder} goes quiet afterward, unsure whether you still trust them.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": -3, "social": 2},
+            "personality": {"leadership": -2, "charisma": -1, "ambition": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "holder_confidence_damaged": true
-          },
-          "rel": {
-            "holder": 0
-          }
+          "modifiers": ["stressed"],
+          "set_flags": {"holder_confidence_damaged": true},
+          "rel": {"holder": -8}
         }
       ]
     },
@@ -385,61 +253,37 @@
       "title": "A Family Thank-You",
       "_info": {
         "when": "Senior year (season 4), any week",
-        "requires": {
-          "any_flags": [
-            "helped_family_financially",
-            "prioritized_family_trip",
-            "balanced_family_commitments"
-          ]
-        },
-        "must_set_flags": [
-          "opened_family_conversation"
-        ],
-        "people": [
-          "parent"
-        ],
-        "unlocked_by": [
-          {
-            "from": "HS_129",
-            "flag": "helped_family_financially",
-            "type": "unlock"
-          }
-        ]
+        "requires": {"any_flags": ["helped_family_financially", "prioritized_family_trip", "balanced_family_commitments"]},
+        "must_set_flags": ["opened_family_conversation"],
+        "people": ["parent"],
+        "unlocked_by": [{"from": "HS_129", "flag": "helped_family_financially", "type": "unlock"}]
       },
-      "category": "",
-      "text": "",
+      "category": "family",
+      "text": "As senior year gets busier, {parent} tells you how much your support has meant to the family over the years. The conversation turns to everything you've balanced together, and you realize there are things you haven't really said out loud.",
       "choices": [
         {
-          "label": "",
-          "result": "",
+          "label": "Talk openly with them",
+          "result": "You tell {parent} what the family's support has meant to you, and listen as they share what they've been carrying too. The conversation takes time and brings up some difficult feelings, but you understand each other better.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": -3, "social": 3, "fun": 1},
+            "personality": {"charisma": 2, "intelligence": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
-          "set_flags": {
-            "opened_family_conversation": true
-          },
-          "rel": {
-            "parent": 0
-          }
+          "modifiers": ["inspired"],
+          "set_flags": {"opened_family_conversation": true},
+          "rel": {"parent": 8}
         },
         {
-          "label": "",
-          "result": "",
+          "label": "Keep things light tonight",
+          "result": "You thank {parent} and steer the conversation toward lighter topics. The evening stays comfortable and you get a chance to relax, though some important feelings remain unspoken.",
           "stats": {
-            "life": {},
-            "football": {},
-            "personality": {}
+            "life": {"energy": 2, "fun": 3, "social": -1},
+            "personality": {"intelligence": 1}
           },
           "skill_points": 0,
-          "modifiers": [],
+          "modifiers": ["loose"],
           "set_flags": {},
-          "rel": {
-            "parent": 0
-          }
+          "rel": {"parent": 2}
         }
       ]
     }
