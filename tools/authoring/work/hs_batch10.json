@@ -1,0 +1,895 @@
+{
+  "_about": "Batch 10, written in-session: sophomore year (season 2) HS_021-029, 031, 032, 033. The three romance scenes (HS_023, HS_032, plus HS_036 in batch 11) can come in any order and don't assume earlier dates.",
+  "_how": "Fill in category, text and choices; leave _info alone (it's read-only). See tools/authoring/WRITING_GUIDE.md. Import: python3 tools/import_scenarios.py <this file> --dry-run",
+  "scenarios": [
+    {
+      "id": "HS_021",
+      "title": "The Big Exam",
+      "_info": {
+        "when": "Sophomore year (season 2), any week",
+        "unlocked_by": [
+          {
+            "from": "HS_002",
+            "flag": "academic_effort",
+            "type": "unlock"
+          }
+        ],
+        "notes": "Open to everyone; the unlock flags are flavor only."
+      },
+      "category": "school",
+      "text": "Your biology final is Monday, and you're behind on two units. A classmate texts that he has a photo of last year's answer key and offers to send it.",
+      "choices": [
+        {
+          "label": "Join a study group",
+          "result": "You spend Saturday at the library with three classmates, quizzing each other until closing. You walk into the exam tired but ready, and every answer you write is yours.",
+          "stats": {
+            "life": {
+              "energy": -4,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {},
+          "grades": 0.15
+        },
+        {
+          "label": "Cram alone all night",
+          "result": "You turn down the photo, keep Saturday for your friends and study alone until two in the morning Sunday. You remember most of it, though you're yawning through the first page.",
+          "stats": {
+            "life": {
+              "energy": -8,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "ambition": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "tired"
+          ],
+          "set_flags": {},
+          "grades": 0.1
+        },
+        {
+          "label": "Take the answer key",
+          "result": "You open the photo and skim it before the exam. Half the questions match and you ace it, but the grade feels hollow, and you spend the week hoping nobody finds out.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": -2,
+              "leadership": -2
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {},
+          "grades": 0.2
+        }
+      ]
+    },
+    {
+      "id": "HS_022",
+      "title": "The Teammate Who Cuts Corners",
+      "_info": {
+        "when": "Sophomore year (season 2), any week"
+      },
+      "category": "team",
+      "text": "A teammate on your lifting crew has been skipping sets and writing bigger numbers on the log. Now he wants you to initial his sheet as his spotter.",
+      "choices": [
+        {
+          "label": "Refuse to sign",
+          "result": "You tell him you'll spot him for real, but you won't sign numbers you didn't see. He grumbles and skips the lift, and the weight room is chilly for a week.",
+          "stats": {
+            "life": {
+              "social": -2,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Spot him for real, right now",
+          "result": "You offer to stay and spot him through the whole workout. It eats your own lifting time, but his log is honest and he's sore the next day.",
+          "stats": {
+            "life": {
+              "energy": -4,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "charisma": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Just sign it",
+          "result": "You initial the sheet without looking. It takes two seconds and he owes you one, but you know the numbers are fake.",
+          "stats": {
+            "life": {
+              "social": 3,
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": -2
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "distracted"
+          ],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_023",
+      "title": "The Almost-Date",
+      "_info": {
+        "when": "Sophomore year (season 2), any week",
+        "people": [
+          "love_interest"
+        ]
+      },
+      "category": "romance",
+      "text": "{love_interest} suggests getting food after Friday's game, just the two of you. Then your friends invite you to the team's usual postgame spot, and everyone's going.",
+      "choices": [
+        {
+          "label": "Go with {love_interest}",
+          "result": "You grab tacos and talk until the place closes. It isn't officially a date, but it feels like one, and you miss every inside joke from the team's night.",
+          "stats": {
+            "life": {
+              "fun": 5,
+              "social": 2,
+              "energy": -3
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {},
+          "rel": {
+            "love_interest": 8
+          }
+        },
+        {
+          "label": "Bring them along with the team",
+          "result": "You bring {love_interest} to the team spot. It's loud and fun, though the two of you barely get a word in alone.",
+          "stats": {
+            "life": {
+              "fun": 4,
+              "social": 4,
+              "energy": -3
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {},
+          "rel": {
+            "love_interest": 3
+          }
+        },
+        {
+          "label": "Head home and rest",
+          "result": "You say you're beat and head home. You sleep great, but {love_interest} sounds a little disappointed over text.",
+          "stats": {
+            "life": {
+              "energy": 5,
+              "social": -2,
+              "fun": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {},
+          "rel": {
+            "love_interest": -2
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_024",
+      "title": "The Scholarship Visit",
+      "_info": {
+        "when": "Sophomore year (season 2), any week"
+      },
+      "category": "career",
+      "text": "An older teammate is taking his scholarship visit to a state university this weekend and asks if you want to tag along and see what it's like.",
+      "choices": [
+        {
+          "label": "Go along and take it all in",
+          "result": "You walk the stadium, sit in on a team meeting and eat in the athletes' dining hall. Seeing it up close makes college football feel real, though it costs you the whole weekend.",
+          "stats": {
+            "life": {
+              "energy": -4,
+              "fun": 3
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {},
+          "recruiting": 2
+        },
+        {
+          "label": "Introduce yourself to the kicking coach",
+          "result": "You ask for five minutes with the special teams coach and tell him who you are. It's awkward and bold, and he remembers your name.",
+          "stats": {
+            "life": {
+              "energy": -4,
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "ambition": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {},
+          "recruiting": 3
+        },
+        {
+          "label": "Stay home and train",
+          "result": "You spend the weekend kicking and catching up on rest. Your teammate comes back buzzing, and you wonder what you missed.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "skill_points": 2,
+          "modifiers": [
+            "dialed_in"
+          ],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_025",
+      "title": "The Group Chat Explosion",
+      "_info": {
+        "when": "Sophomore year (season 2), any week"
+      },
+      "category": "social",
+      "text": "Two starters get into it in the team group chat after a bad practice, and it lands on everyone's phones. By midnight people are picking sides, and somebody tags you.",
+      "choices": [
+        {
+          "label": "Call for a cool-down",
+          "result": "You write that the chat isn't the place and suggest they talk in person tomorrow. A few people roll their eyes, but the thread dies down.",
+          "stats": {
+            "life": {
+              "social": -1,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Mute it and go to sleep",
+          "result": "You mute the chat and put your phone across the room. You sleep fine and wake up to two hundred messages you don't read.",
+          "stats": {
+            "life": {
+              "energy": 3,
+              "social": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Pick a side",
+          "result": "You back the starter you're closer to. It feels good to stand with a friend, but the other guy stops talking to you at practice.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 1,
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": -2
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "distracted"
+          ],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_026",
+      "title": "The Family Budget",
+      "_info": {
+        "when": "Sophomore year (season 2), any week",
+        "people": [
+          "parent"
+        ]
+      },
+      "category": "family",
+      "text": "{parent} sits you down: money's tight this year, and he can cover either your summer kicking camp or new cleats and travel fees for the season, not both.",
+      "choices": [
+        {
+          "label": "Pick the camp",
+          "result": "You choose the camp and patch your old cleats with tape. The coaching is worth it, even if your feet aren't thrilled.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "health": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "skill_points": 3,
+          "modifiers": [
+            "dialed_in"
+          ],
+          "set_flags": {},
+          "rel": {
+            "parent": 2
+          },
+          "recruiting": 1
+        },
+        {
+          "label": "Pick the gear and travel",
+          "result": "You take the cleats and travel money so you don't miss any road trips. It's the safer choice, and {parent} looks relieved.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "skill_points": 1,
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {},
+          "rel": {
+            "parent": 4
+          }
+        },
+        {
+          "label": "Offer to pay for one yourself",
+          "result": "You tell {parent} you'll cover the cleats with savings and odd jobs. It means a tight few months, but he squeezes your shoulder and says thanks.",
+          "stats": {
+            "life": {
+              "energy": -4,
+              "fun": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "ambition": 1
+            }
+          },
+          "skill_points": 2,
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {},
+          "rel": {
+            "parent": 8
+          },
+          "recruiting": 1
+        }
+      ]
+    },
+    {
+      "id": "HS_027",
+      "title": "The Angry Coach",
+      "_info": {
+        "when": "Sophomore year (season 2), any week",
+        "people": [
+          "coach"
+        ]
+      },
+      "category": "team",
+      "text": "{coach} blows up at the whole special teams unit after a sloppy practice and singles you out for a shanked kick in front of everyone.",
+      "choices": [
+        {
+          "label": "Take it and fix it",
+          "result": "You nod, line up again and stay after to clean up your plant foot. The next day {coach} doesn't say a word about it, which feels like a compliment.",
+          "stats": {
+            "life": {
+              "energy": -3
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "skill_points": 2,
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {},
+          "rel": {
+            "coach": 4
+          }
+        },
+        {
+          "label": "Talk to {coach} after practice",
+          "result": "You ask {coach} for a minute and say you'd rather hear it one-on-one. The coach listens, then tells you exactly what went wrong.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "leadership": 1
+            }
+          },
+          "skill_points": 1,
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {},
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Shrug it off",
+          "result": "You laugh it off with the other specialists afterward. It helps you forget the yelling, but {coach} notices you didn't stay late.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": -1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {},
+          "rel": {
+            "coach": -4
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_028",
+      "title": "The Party Prank",
+      "_info": {
+        "when": "Sophomore year (season 2), any week"
+      },
+      "category": "social",
+      "text": "At a weekend party, a few teammates plan to fill a senior lineman's car with packing peanuts while he's inside. They want you to keep him busy in the kitchen.",
+      "choices": [
+        {
+          "label": "Keep him talking",
+          "result": "You keep him busy with a long story while the car fills up. Everyone howls when he opens the door, and even he laughs, mostly.",
+          "stats": {
+            "life": {
+              "fun": 6,
+              "social": 4,
+              "energy": -3
+            },
+            "football": {},
+            "personality": {
+              "leadership": -1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Tip him off",
+          "result": "You quietly warn him, and he turns the prank around on the guys who planned it. The planners are annoyed with you for a week.",
+          "stats": {
+            "life": {
+              "social": -2,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "leadership": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Head home early",
+          "result": "You skip the whole thing and leave before it happens. You hear about it Monday and miss the laugh, but you got a full night's sleep.",
+          "stats": {
+            "life": {
+              "energy": 4,
+              "fun": -2,
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_029",
+      "title": "The Sore Kicking Leg",
+      "_info": {
+        "when": "Sophomore year (season 2), any week"
+      },
+      "category": "health",
+      "text": "After a week of extra kicking, your quad is tight and sore, the kind of ache that's worst in the morning. Practice is in two hours.",
+      "choices": [
+        {
+          "label": "Take a light day",
+          "result": "You tell the trainer and do mobility work instead of kicking. It's boring, but your quad feels loose again by Thursday.",
+          "stats": {
+            "life": {
+              "health": 4,
+              "energy": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "fresh_legs"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Ice it and kick anyway",
+          "result": "You ice before and after and kick a normal practice. You get your reps, though the soreness hangs around all week.",
+          "stats": {
+            "life": {
+              "health": -2
+            },
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "skill_points": 2,
+          "modifiers": [
+            "heavy_legs"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Try a stretching class",
+          "result": "You find a free stretching class at the rec center and drag yourself there after school. It helps a little, and you meet a couple of runners who swear by it.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "health": 2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "skill_points": 1,
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_031",
+      "title": "The Weekend Tournament",
+      "_info": {
+        "when": "Sophomore year (season 2), any week"
+      },
+      "category": "training",
+      "text": "A travel team needs a kicker for its weekend tournament two towns over. It's a chance to kick in front of new eyes, but it means two long days on top of your school week.",
+      "choices": [
+        {
+          "label": "Kick in the tournament",
+          "result": "You kick extra points and kickoffs all weekend for a team of strangers. Your leg is dead by Sunday night, but a coach from another school asks for your number.",
+          "stats": {
+            "life": {
+              "energy": -7
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "skill_points": 2,
+          "modifiers": [
+            "heavy_legs"
+          ],
+          "set_flags": {},
+          "recruiting": 1
+        },
+        {
+          "label": "Go watch and learn",
+          "result": "You go as a spectator and study how the older kickers warm up. You pick up a new stretch routine and keep your legs fresh.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "skill_points": 1,
+          "modifiers": [
+            "scouted"
+          ],
+          "set_flags": {}
+        },
+        {
+          "label": "Rest up instead",
+          "result": "You spend the weekend sleeping in and catching up with friends. You feel great on Monday, though you hear college coaches were at the tournament.",
+          "stats": {
+            "life": {
+              "energy": 4,
+              "social": 3
+            },
+            "football": {},
+            "personality": {
+              "ambition": -1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {}
+        }
+      ]
+    },
+    {
+      "id": "HS_032",
+      "title": "The Breakup",
+      "_info": {
+        "when": "Sophomore year (season 2), any week",
+        "people": [
+          "love_interest"
+        ]
+      },
+      "category": "romance",
+      "text": "{love_interest} catches you after school. Between practice, homework and games you've barely seen each other, and they say maybe it's time to stop pretending this is working.",
+      "choices": [
+        {
+          "label": "Agree and part as friends",
+          "result": "You admit they're right and say you'd like to stay friends. It hurts, but the conversation ends with a hug instead of a slammed door.",
+          "stats": {
+            "life": {
+              "social": -2,
+              "fun": -3
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "drained"
+          ],
+          "set_flags": {},
+          "rel": {
+            "love_interest": 2
+          }
+        },
+        {
+          "label": "Ask for one more try",
+          "result": "You promise to make real time and plan a Saturday just for the two of you. They agree to try, and you start guarding your weekends.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {},
+          "rel": {
+            "love_interest": 6
+          }
+        },
+        {
+          "label": "Shut the conversation down",
+          "result": "You say you can't deal with this right now and walk away. Practice is the one place you don't have to think about it, and you kick angry all week.",
+          "stats": {
+            "life": {
+              "social": -3
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "skill_points": 1,
+          "modifiers": [
+            "pumped_up"
+          ],
+          "set_flags": {},
+          "rel": {
+            "love_interest": -8
+          }
+        }
+      ]
+    },
+    {
+      "id": "HS_033",
+      "title": "The Highlight Reel",
+      "_info": {
+        "when": "Sophomore year (season 2), any week",
+        "must_set_flags": [
+          "questionable_recruiting_clip"
+        ],
+        "leads_to": [
+          "unlocks HS_155 (The Recruiter Checks the Film) when questionable_recruiting_clip"
+        ]
+      },
+      "category": "media",
+      "text": "A friend who's good with video offers to cut your highlight reel. His draft looks great, but one clip is a practice kick from fifty-five with the net and the empty stands cropped out, made to look like a game.",
+      "choices": [
+        {
+          "label": "Keep the clip in",
+          "result": "You leave it in. The reel gets more views than you expected and two college accounts share it, though you hope nobody asks which game that was.",
+          "stats": {
+            "life": {
+              "social": 3,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": -1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "spotlight"
+          ],
+          "set_flags": {
+            "questionable_recruiting_clip": true
+          },
+          "recruiting": 3
+        },
+        {
+          "label": "Use only real game kicks",
+          "result": "You ask him to cut the practice clip. The reel is shorter and less flashy, but every kick on it really happened on a Friday night.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "intelligence": 1
+            }
+          },
+          "skill_points": 0,
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {},
+          "recruiting": 1
+        }
+      ]
+    }
+  ]
+}
