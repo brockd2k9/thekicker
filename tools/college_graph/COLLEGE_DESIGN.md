@@ -215,7 +215,7 @@ Strike flags (any one opens the wrong-path chain; every wrong-path step clears t
 - **COL_104 Senior Year Starts** (Y4 wk 1, story; {coach}): The first practice of your last college season. Everyone keeps saying it goes fast.
 - **COL_112 Senior Night** (Y4 wk 8-10; {parent}, {sibling}): Senior night, and your family is driving in. Before kickoff, the seniors walk out one at a time. · HS: `family_college_compromise`
 - **COL_113 The Last Rivalry Week** (Y4 wk 8-10; {team}): One last rivalry week. The younger players look to the seniors to set the tone.
-- **COL_131 Conference Awards Night** (Y4 offseason; {holder}, {coach}): You win an all-conference award. You have one minute at the podium.
+- **COL_131 The Leadership Award** (Y4 wk 5-9; {holder}, {coach}): The conference names you its senior leadership honoree for your school. You have one minute at the podium at Monday's banquet.
 - **COL_133 The Last Practice** (Y4 wk 9-10; {coach}, {holder}): The last practice of your college career. The field is the same one you walked onto four years ago.
 
 ### Body and mind
@@ -249,17 +249,17 @@ Strike flags (any one opens the wrong-path chain; every wrong-path step clears t
 - **COL_127 Giving Back** (Y4): Your hometown asks if you'd run a free kicking camp for kids this summer. It would cost you a week and some of your NIL money. · HS: `community_volunteer`, `earned_community_reference`
 
 ### Party
-- **COL_125 The Senior Trip** (Y4 offseason): Teammates book a senior trip in the middle of draft prep. It's the last time you'll all be together. · Sets: `senior_trip_trouble`
+- **COL_125 The Senior Trip** (Y4 wk 4-9): The seniors book a trip for the bye weekend, in the middle of draft prep. It's the last time you'll all be together. · Sets: `senior_trip_trouble`
 
 ### Pro dream
 - **COL_107 Choosing an Agent** (Y4 wk 6-10; {parent}): Three agents want to represent you: a big firm, a former player, and a smooth talker promising a first-round grade. · HS: `recruiting_values_clear`, `recruiting_said_what_they_wanted`
-- **COL_108 Combine Prep** (Y4 offseason): A training facility offers to prepare you for the combine. Their 'recovery program' includes things you've never heard of. · Sets: `combine_ready`, `took_unapproved_supplement`
-- **COL_109 Pro Day** (Y4 offseason): Your school's pro day is Thursday. The team's seniors are throwing a send-off party Wednesday night. · Sets: `pro_day_ready`, `partied_before_pro_day`
-- **COL_110 Draft Weekend** (Y4 offseason; {parent}, {sibling}): Draft weekend is coming. Do you watch with family, with teammates, or with your phone off? · HS: `family_college_compromise`, `prioritized_own_college_choice`
+- **COL_108 Combine Prep** (Y4 wk 5-9): A training facility wants you for combine prep the day the season ends, and wants an answer now. Their 'recovery program' includes things you've never heard of. · Sets: `combine_ready`, `took_unapproved_supplement`
+- **COL_109 The Scouts' Workout** (Y4 wk 6-9): Scouts from a dozen pro teams are coming Thursday morning to work out your school's seniors. The seniors are throwing a send-off party Wednesday night. · Sets: `pro_day_ready`, `partied_before_pro_day`
+- **COL_110 Draft Weekend** (Y4 wk 8-10; {parent}, {sibling}): Draft weekend is months away, and everyone already wants to know where you'll watch it: with family, with teammates, or with your phone off. · HS: `family_college_compromise`, `prioritized_own_college_choice`
 - **COL_129 The Scout's Dinner** (Y4): A scout takes you to dinner and spends more time watching how you treat the waiter than asking about kicking.
 
 ### Rival
-- **COL_118 Old Rival, New Stage** (Y4 offseason; {rival}): {tyler} is entering the draft too, and his agent suggests you two train together for the combine. · Opens on: any of tyler_college_bond / tyler_college_feud / congratulated_tyler / trash_talked_tyler · HS: `tyler_mutual_respect`
+- **COL_118 Old Rival, New Stage** (Y4 wk 5-9; {rival}): {tyler} is a draft prospect too, and his agent suggests you two spend your Sunday off-days training together until the season ends. · Opens on: any of tyler_college_bond / tyler_college_feud / congratulated_tyler / trash_talked_tyler · HS: `tyler_mutual_respect`
 
 ### Wrong path
 - **COL_105 The Background Check** (Y4 wk 3-9, story): Pro scouts are interviewing everyone with a chance at the draft, and they've talked to people you haven't spoken to in years. · Sets: `scouts_red_flag` · HS: `corrected_recruiting_video`, `doubled_down_recruiting_lie` · Lock: `rebuilt_reputation` · Note: Open to every senior; a locked choice for rebuilt_reputation ('the long way back') joins the high school callbacks.
@@ -304,3 +304,4 @@ Strike flags (any one opens the wrong-path chain; every wrong-path step clears t
 ### Finale
 - **COL_150 The Next Level** (Y4 wk 10, finale beat; {parent}, {coach}): The last week of your college career. Whatever happens on draft day, this is where the kicker you became walks off the field. · Sets: `ready_for_pros`, `life_after_football`, `still_proving_it` · Lock: `combine_ready`, `pro_day_ready`, `finished_degree_track`, `rebuilt_reputation` · Note: Locked choices: ready_for_pros needs combine_ready or pro_day_ready; life_after_football needs finished_degree_track; a rebuilt_reputation lock adds 'the long way back'; still_proving_it is open.
 
+**Season 4 has no offseason.** The college stage goes straight from the last game to the draft, so draft-season scenes (combine prep, the scouts' workout, draft weekend plans, the senior trip, the leadership award, Old Rival, New Stage) happen in weeks 4-10 of the senior season. `validate_scenario_graph.py` reports an offseason scene in a stage's last season as an error.

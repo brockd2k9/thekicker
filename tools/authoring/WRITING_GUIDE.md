@@ -45,7 +45,9 @@ file plus the template entries you want written to whoever is writing.
   set (see below), with that flag filled in.
 - Optional: `"weight": 2` (more likely to come up; default 1), `"cooldown": 4` (weeks before it
   can repeat; scenarios are one-time by default anyway), `"when": ["bye"]` / `["offseason"]` (default:
-  game weeks and byes; not for story events).
+  game weeks and byes; not for story events). An offseason comes *after* a season, and the last
+  season of high school and of college has none (recruiting or the draft follows the last game), so
+  an offseason scene in that season never comes up: use late weeks instead.
 
 ## `_info` (read-only, it tells you what the scenario has to do)
 
