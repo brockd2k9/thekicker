@@ -1,0 +1,882 @@
+{
+  "_about": "PRO batch 15: era 2, Settled In (26-29).",
+  "scenarios": [
+    {
+      "id": "PRO_086",
+      "title": "{tyler} Gets Cut",
+      "category": "social",
+      "text": "{tyler} is released on a Monday. He calls you before his agent.",
+      "choices": [
+        {
+          "label": "Listen",
+          "result": "You listen for an hour. He doesn't want advice, and you don't give any.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "rival": 3
+          }
+        },
+        {
+          "label": "Make a call for him",
+          "result": "You call a special teams coach you know and say his name.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2,
+            "rival": 3
+          }
+        },
+        {
+          "label": "Send a message",
+          "result": "You send a message and a promise to talk soon.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_090",
+      "title": "The Holder's Last Season",
+      "category": "team",
+      "text": "{holder} is retiring after this season and wants every hold to count.",
+      "choices": [
+        {
+          "label": "Make it a season to remember",
+          "result": "You make every practice a little celebration with {holder}.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "holder": 5
+          }
+        },
+        {
+          "label": "Make it count on the field",
+          "result": "You make every kick count for {holder}, practicing like it's the playoffs.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Help pick the next holder",
+          "result": "You help {holder} train the next holder, so the job is in good hands.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_093",
+      "title": "The Concussion",
+      "category": "team",
+      "text": "A teammate who has had too many concussions is hiding another one, and you saw it happen.",
+      "choices": [
+        {
+          "label": "Tell the trainers",
+          "result": "You tell the trainers. He's angry for a week, then he thanks you.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 1
+          }
+        },
+        {
+          "label": "Talk to him first",
+          "result": "You talk to him first and convince him to tell the trainers himself.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Stay out of it",
+          "result": "You stay out of it. He plays the next game, and you watch him the whole time.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_098",
+      "title": "A College Teammate's Wedding",
+      "category": "social",
+      "text": "Your old college roommate is getting married, and he wants you to give a toast.",
+      "choices": [
+        {
+          "label": "Write a great toast",
+          "result": "You write a great toast and deliver it from memory. The bride's grandmother hugs you.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "best_friend": 2
+          }
+        },
+        {
+          "label": "Tell one true story",
+          "result": "You tell one true story from freshman year. It's the one people repeat at breakfast.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Remember the pact",
+          "result": "You raise a glass to the pact you made freshman year. He laughs so hard he can't finish his drink.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "requires": {
+            "flags": [
+              "roommate_pact"
+            ]
+          },
+          "lock_text": "having made a pact with your college roommate"
+        },
+        {
+          "label": "Make peace in the toast",
+          "result": "You haven't really talked since college. You say so in the toast, and you say sorry. He finds you on the patio afterward.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "best_friend": 3
+          },
+          "requires": {
+            "flags": [
+              "roommate_cold_war"
+            ]
+          },
+          "lock_text": "having fallen out with your college roommate"
+        }
+      ]
+    },
+    {
+      "id": "PRO_091",
+      "title": "The Snapper Retires",
+      "category": "team",
+      "text": "The long snapper you've trusted for years is done, and he asks you to speak at his farewell.",
+      "choices": [
+        {
+          "label": "Speak from the heart",
+          "result": "You tell the room what it's like to trust someone without ever looking. He cries first.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Keep it light",
+          "result": "You tell three funny stories and one true one. The room loves it.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Say a few words",
+          "result": "You say a few words and raise a glass of water. He hugs you anyway.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_101",
+      "title": "The Veteran Who Can't Let Go",
+      "category": "team",
+      "text": "A thirty-six-year-old linebacker is getting cut, and he hasn't figured it out yet.",
+      "choices": [
+        {
+          "label": "Sit with him",
+          "result": "You sit with him at lunch on his last day. He talks about his first season.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Tell the young players",
+          "result": "You tell the young players to say goodbye before he's gone.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 1
+          }
+        },
+        {
+          "label": "Let it happen",
+          "result": "You let it happen. It's not your place, and it stays with you.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_102",
+      "title": "The Players-Only Meeting",
+      "category": "team",
+      "text": "The team captains call a players-only meeting about the coach, and they want your vote.",
+      "choices": [
+        {
+          "label": "Speak honestly",
+          "result": "You speak honestly: the coach is tough and fair. Some agree, some don't.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Ask for facts",
+          "result": "You ask what exactly the problem is before voting. The meeting gets calmer.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Abstain",
+          "result": "You abstain. Kickers rarely get asked anyway.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_103",
+      "title": "The Player Rep",
+      "category": "team",
+      "text": "The team needs a union representative, and nobody wants to be the one management remembers.",
+      "choices": [
+        {
+          "label": "Volunteer",
+          "result": "You volunteer. It's meetings and calls, and the young players start coming to you.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "set_flags": {
+            "player_rep": true
+          },
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Nominate the right person",
+          "result": "You nominate the veteran who should do it. He accepts, grumbling.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Stay out of it",
+          "result": "You stay out of it. Someone else does it.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_105",
+      "title": "The Injured Teammate",
+      "category": "team",
+      "text": "A teammate who tore his knee for the team is cut the day he's cleared to practice.",
+      "choices": [
+        {
+          "label": "Help him clean out",
+          "result": "You help him clean out his locker. He doesn't say much.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Say something to the room",
+          "result": "You say something to the room about how this business works. The young players listen.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Keep quiet",
+          "result": "You keep quiet. You're one bad season from the same thing.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_107",
+      "title": "The Podcast",
+      "category": "media",
+      "text": "A popular podcast wants you for an hour. The host is known for getting athletes to say too much.",
+      "choices": [
+        {
+          "label": "Prepare and stay disciplined",
+          "result": "You prepare and stay disciplined. It's a good episode with no headlines.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          },
+          "followers": 2
+        },
+        {
+          "label": "Be yourself",
+          "result": "You're funny and honest. One joke about a teammate gets clipped everywhere.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": -1
+          },
+          "followers": 5
+        },
+        {
+          "label": "Decline",
+          "result": "You decline. The host says something snide about kickers on the next episode.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_110",
+      "title": "The National Deal",
+      "category": "media",
+      "text": "A national brand wants you for a commercial that would play during every game this year.",
+      "choices": [
+        {
+          "label": "Take it",
+          "result": "You sign on. You're everywhere, and the shoot eats your bye week.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2,
+          "followers": 6
+        },
+        {
+          "label": "Negotiate the schedule",
+          "result": "You agree if they shoot in the offseason. They do.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          },
+          "followers": 4
+        },
+        {
+          "label": "Pass",
+          "result": "You pass. You'd rather be known for kicking.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_111",
+      "title": "The Leak",
+      "category": "team",
+      "text": "Someone is leaking locker-room conversations to a reporter, and the coaches think it's a specialist.",
+      "choices": [
+        {
+          "label": "Help find the leak",
+          "result": "You notice which details leak and tell {coach} what they have in common. It's a rookie lineman.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Talk to the specialists",
+          "result": "You talk to the specialists and make sure everyone knows what's at stake.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2,
+            "coach": 1
+          }
+        },
+        {
+          "label": "Stay out of it",
+          "result": "You stay out of it and let the coaches sort it out.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_179",
+      "title": "The Prime Slump",
+      "category": "training",
+      "text": "You're supposed to be at your best, and the misses in practice have started making headlines.",
+      "choices": [
+        {
+          "label": "Go back to the film",
+          "result": "You go back to film of your best season and find the one thing that changed.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Kick through it",
+          "result": "You kick through it until the misses stop.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 3
+        },
+        {
+          "label": "Lean on the holder",
+          "result": "You and {holder} go back to basics together. It helps more than you expected.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "holder": 3
+          }
+        },
+        {
+          "label": "Use the tools you learned",
+          "result": "You use the tools you learned the last time this happened. It's shorter this time.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1,
+          "requires": {
+            "any_flags": [
+              "saw_sports_psych",
+              "leaned_on_support"
+            ]
+          },
+          "lock_text": "having gotten help before"
+        }
+      ]
+    }
+  ]
+}
