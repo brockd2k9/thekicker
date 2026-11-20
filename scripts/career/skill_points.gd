@@ -126,7 +126,7 @@ static func from_game(kicks: Array, range: float, t: CareerTuning) -> Array:
 	var att := 0
 	for k in kicks:
 		var kind := str(k.get("kind", ""))
-		if not (kind in ["fg", "pat"]):
+		if not (kind in ["fg", "pat"]) or k.get("backup", false):
 			continue
 		att += 1
 		if not k.get("made", false):
@@ -152,7 +152,7 @@ static func from_game(kicks: Array, range: float, t: CareerTuning) -> Array:
 		out.append(["Game winner", winners * t.sp_game_winner])
 	var all_made := att >= 2
 	for k in kicks:
-		if str(k.get("kind", "")) in ["fg", "pat"] and not k.get("made", false):
+		if str(k.get("kind", "")) in ["fg", "pat"] and not k.get("made", false) and not k.get("backup", false):
 			all_made = false
 	if all_made:
 		out.append(["Perfect game", t.sp_perfect_game])

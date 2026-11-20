@@ -8,7 +8,7 @@ extends RefCounted
 ## Stats are floats 0..100 (gains can be fractional); screens show them rounded.
 ## When the layout changes: bump VERSION and add a step to CareerSave._migrate().
 
-const VERSION := 4
+const VERSION := 5
 
 const STAGE_HIGH_SCHOOL := "high_school"
 const STAGE_JUCO := "juco"
@@ -168,6 +168,15 @@ var sp_sources: Dictionary = {}
 var coach_doubt: Dictionary = {}
 ## This week's Coach / Team changes from your kicks: {coach, team, lines: [text]}.
 var trust_week: Dictionary = {}
+
+# --- benching (save version 5) ---
+## Bench: {weeks_left, weeks (this bench), reason, backup (person id),
+## warned (week_index the thin-ice warning was shown), audition_due,
+## auditions_failed, season (last season benched), benches (career count),
+## weeks_total (career benched weeks), progress_lost (this bench, for the
+## audition refund), this_week (true while this week's game is benched)}.
+## Empty = never benched. Rules: Bench.
+var bench: Dictionary = {}
 
 
 ## A fresh career with starting stats from the tuning file.
@@ -342,6 +351,7 @@ func to_dict() -> Dictionary:
 		"sp_sources": sp_sources.duplicate(),
 		"coach_doubt": coach_doubt.duplicate(),
 		"trust_week": trust_week.duplicate(true),
+		"bench": bench.duplicate(true),
 	}
 
 
@@ -439,6 +449,7 @@ static func from_dict(d: Dictionary) -> CareerData:
 		c.sp_sources[str(k)] = _num(src, k)
 	c.coach_doubt = _dict(d, "coach_doubt")
 	c.trust_week = _dict(d, "trust_week")
+	c.bench = _dict(d, "bench")
 	for id in _dict(d, "people"):
 		var p: Variant = d["people"][id]
 		if p is Dictionary and not Relationships.def(str(id)).is_empty():

@@ -444,6 +444,13 @@ season FG%) start **coach doubt**: shorter and fewer field goal calls for a few 
 the Outlook, and the `kicking_slump` flag (HS_142 can follow). Recruiting, the draft and pro
 retention count range; the coach's recommendation uses Coach and Team.
 
+**Benching (save version 5):** when the coach doubts you and trust is low, the Hub and the Game Day
+Outlook warn you (ON THIN ICE). A bad game that week (two missed field goals) and the backup takes your
+field goals for a week or two (Tyler Brooks when he's your teammate, otherwise the stage's backup
+kicker); you keep extra points and kickoffs. Win the job back in an audition (3 of 5, a tryout in the
+kick scene). Rules: `scripts/career/bench.gd`; numbers: `career_tuning.tres` "Benching"; details and
+tuning: `PLAYTEST.md`, "Benching".
+
 **Perks, aging and weather:** the Skills screen has two tabs. **Perks** (15, `data/career/perks.json`)
 cost skill points and need prerequisites (attributes, other perks, a personality trait, a stage, an
 age); each is a small edge (Big Leg +2 yd, Laser tighter aim, Clutch less pressure on game winners,
@@ -482,6 +489,9 @@ a few at a time. Fill in `category`, `text` and `choices` (each choice setting t
   `python3 tools/make_authoring_templates.py`), and three finished examples in `examples.json`.
   Import with `python3 tools/import_scenarios.py <file> --dry-run` (check only), then without
   `--dry-run` (writes into the data files; nothing is written if there's any error).
+  The dry run also prints lint notes (advice): pronouns on gender-neutral placeholders, hand-written
+  cast names, curly quotes, game-kick language, one-sided choices; `python3 tools/lint_scenarios.py`
+  (`--all` for every scenario file) runs them on what's already imported.
   Tool tests: `python3 -m unittest discover -s tests -p 'test_*.py'`.
 - Story scenarios (`"story": true`) have a season/week window: boosted while it's open, forced
   in its last week if not seen (`story_weight_mult`, `max_forced_per_week` in `career_tuning.tres`,

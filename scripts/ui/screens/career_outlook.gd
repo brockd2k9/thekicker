@@ -30,6 +30,9 @@ func _build(col: VBoxContainer) -> void:
 		false, "home" if home else "next", 24))
 	col.add_child(chips)
 
+	var bb := CareerUi.bench_banner(c, career.tuning, false)
+	if bb != null:
+		col.add_child(bb)
 	var list := UiKit.scroll_list(col)
 	list.add_child(UiKit.section("How you're feeling"))
 	if p.outlook.is_empty():
@@ -48,9 +51,12 @@ func _build(col: VBoxContainer) -> void:
 	list.add_child(UiKit.stat_row("Kickoff range", "%d yd%s" % [floori(p.kickoff_range + 0.001),
 		"  (touchback)" if KickRange.touchback_possible(p.kickoff_range, params, career.tuning) else ""],
 		Color(0, 0, 0, 0), "power"))
-	var lim := mini(KickTrust.coach_limit(c, p, career.tuning), int(params.get("fg_max", 60)))
-	list.add_child(UiKit.stat_row("Coach calls field goals up to", "%d yd" % lim,
-		UiKit.BAD if not c.coach_doubt.is_empty() else Color(0, 0, 0, 0), "whistle"))
+	if Bench.this_week(c):
+		list.add_child(UiKit.stat_row("Field goals", "%s kicks them" % Bench.backup_name(c), UiKit.BAD, "whistle"))
+	else:
+		var lim := mini(KickTrust.coach_limit(c, p, career.tuning), int(params.get("fg_max", 60)))
+		list.add_child(UiKit.stat_row("Coach calls field goals up to", "%d yd" % lim,
+			UiKit.BAD if not c.coach_doubt.is_empty() else Color(0, 0, 0, 0), "whistle"))
 	var words: Dictionary = CareerContent.game_day().get("outlook", {})
 	for key in [["aim", "Aim", "accuracy"], ["pressure", "Under pressure", "resilience"], ["wind", "In the wind", "wind"]]:
 		var w: Dictionary = words.get(key[0], {})

@@ -172,6 +172,7 @@ func _capture_all() -> void:
 		Relationships.apply(c, {"coach": 18, "holder": -12, "rival": -20, "love_interest": 6, "best_friend": 4})
 		c.former_people.append({"id": "coach", "name": "Coach Castellano", "value": 72.0,
 			"stage": "high_school", "role": "Head Coach"}))
+	await _bench_shots()
 	await _shot("debug", Screens.CAREER_DEBUG)
 	await _shot("challenge", Screens.CHALLENGE, Callable(), Callable(), 2.0)
 	if _want("pause"):
@@ -406,6 +407,54 @@ func _hud_shots() -> void:
 # --- capture + checks -----------------------------------------------------------------
 
 ## before/after: run around the capture (e.g. to show a phase, then restore it).
+## Benching: the thin-ice warning (Hub, Outlook), benched (Hub, Results,
+## People), and the audition (Hub, the tryout scene). State restored after.
+func _bench_shots() -> void:
+	var c := _m.data
+	var keep := {"bench": c.bench.duplicate(true), "doubt": c.coach_doubt.duplicate(), "phase": c.phase,
+		"people": c.people.duplicate(true), "last_week": c.last_week.duplicate(true), "tryout": c.tryout.duplicate(true)}
+	c.coach_doubt = {"weeks_left": 2, "reason": "6 of your last 10 field goals missed"}
+	Relationships.apply(c, {"coach": 24.0 - Relationships.value(c, "coach"),
+		Relationships.TEAM: 30.0 - Relationships.value(c, Relationships.TEAM)})
+	c.bench = {"warned": c.week_index}
+	c.phase = CareerManager.PHASE_WEEK_START
+	await _shot("hub_thin_ice", Screens.CAREER_HUB)
+	c.phase = CareerManager.PHASE_OUTLOOK
+	await _shot("outlook_thin_ice", Screens.CAREER_OUTLOOK)
+	# The same warning in a bad season (one miss is enough).
+	var season := c.season_stats.duplicate()
+	c.season_stats["fg_att"] = maxi(_m.tuning.bench_poor_season_min_att, 8)
+	c.season_stats["fg_made"] = floori(float(c.season_stats["fg_att"]) * _m.tuning.bench_poor_season_pct) - 1
+	c.phase = CareerManager.PHASE_WEEK_START
+	await _shot("hub_thin_ice_bad", Screens.CAREER_HUB)
+	c.phase = CareerManager.PHASE_OUTLOOK
+	await _shot("outlook_thin_ice_bad", Screens.CAREER_OUTLOOK)
+	c.season_stats = season
+	c.bench = {"weeks_left": 1, "weeks": 1, "this_week": true, "backup": Relationships.TYLER, "season": c.season,
+		"season_benches": 1, "reason": "6 of your last 10 field goals missed"}
+	c.people[Relationships.TYLER]["known"] = true
+	c.phase = CareerManager.PHASE_WEEK_START
+	await _shot("hub_benched", Screens.CAREER_HUB)
+	c.phase = CareerManager.PHASE_OUTLOOK
+	await _shot("outlook_benched", Screens.CAREER_OUTLOOK)
+	c.phase = CareerManager.PHASE_RESULTS
+	c.last_week["bench"] = {"sat": true, "backup": Bench.backup_name(c), "made": 2, "att": 3, "weeks_left": 1}
+	await _shot("results_benched", Screens.CAREER_RESULTS)
+	await _shot("people_bench", Screens.CAREER_PEOPLE)
+	c.bench = {"weeks_left": 0, "audition_due": true, "backup": Relationships.TYLER}
+	c.phase = CareerManager.PHASE_WEEK_START
+	await _shot("hub_audition", Screens.CAREER_HUB)
+	if _want("audition"):
+		_m.start_audition()
+		await _shot("audition", Screens.CAREER_TRYOUT, Callable(), Callable(), 2.5)
+	c.bench = keep["bench"]
+	c.coach_doubt = keep["doubt"]
+	c.phase = keep["phase"]
+	c.people = keep["people"]
+	c.last_week = keep["last_week"]
+	c.tryout = keep["tryout"]
+
+
 func _shot(id: String, path: String, before := Callable(), after := Callable(), wait := 0.9) -> void:
 	if not _want(id):
 		return

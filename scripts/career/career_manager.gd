@@ -200,6 +200,7 @@ func stage_name() -> String:
 ## continuing: a following season (team strength drifts, the offseason's
 ## game-day modifiers carry into week 1). false for a brand-new career.
 func _start_season(continuing: bool) -> void:
+	Bench.new_season(data)
 	if continuing:
 		data.team["strength"] = clampf(float(data.team.get("strength", 50)) +
 			rng.randf_range(-tuning.team_strength_drift, tuning.team_strength_drift), 20.0, 90.0)
@@ -255,6 +256,11 @@ static func build_schedule(c: CareerData, t: CareerTuning, r: RandomNumberGenera
 func begin_week() -> void:
 	if data.phase != PHASE_WEEK_START:
 		return
+	# Benched and the time is up: the audition comes first (a tryout), then the week.
+	if Bench.audition_due(data):
+		start_audition()
+		return
+	Bench.begin_week(data, tuning, is_bye())
 	var when := "bye" if is_bye() else "season"
 	var count := tuning.bye_scenarios if is_bye() else \
 		(2 if rng.randf() < tuning.second_scenario_chance else 1)
@@ -357,6 +363,10 @@ func new_game_sim(kt: KickTuning) -> GameSim:
 	params["call_random_yd"] = tuning.coach_call_random_yd
 	params["call_cap_yd"] = floori(p.fg_range + 0.001)
 	sim.setup(data, entry(), tuning, start_game(), max_fg, params)
+	if Bench.this_week(data):  # benched: the backup kicks the field goals
+		sim.backup_fg = true
+		sim.backup_name = Bench.backup_name(data)
+		sim.backup_make = Bench.backup_make(data, tuning)
 	return sim
 
 
@@ -421,7 +431,9 @@ func finish_game(summary: Dictionary) -> void:
 	# then skill points. Both read today's range and the pre-game window.
 	var range := profile().fg_range
 	var trust := KickTrust.apply_game(data, summary.get("kicks", []), range, tuning)
-	for pair in SkillPoints.from_game(summary.get("kicks", []), range, tuning):
+	var sat := Bench.this_week(data)
+	# Benched weeks earn no game skill points (practice and choices still do).
+	for pair in ([] if sat else SkillPoints.from_game(summary.get("kicks", []), range, tuning)):
 		SkillPoints.earn(data, int(pair[1]), str(pair[0]))
 	# Sideline warmups: at most sp_warmup_max_per_game skill points a game day.
 	var warm_res: Dictionary = CareerContent.game_day().get("warmup", {}).get("results", {})
@@ -429,8 +441,20 @@ func finish_game(summary: Dictionary) -> void:
 	for w in summary.get("warmups", []):
 		warm_sp += int(warm_res.get(str(w), {}).get("skill_points", 0))
 	var warm_left := maxi(tuning.sp_warmup_max_per_season - int(data.sp_sources.get("Sideline warmup", 0)), 0)
-	SkillPoints.earn(data, mini(mini(warm_sp, tuning.sp_warmup_max_per_game), warm_left), "Sideline warmup")
+	if not sat:
+		SkillPoints.earn(data, mini(mini(warm_sp, tuning.sp_warmup_max_per_game), warm_left), "Sideline warmup")
 	_week_practice()
+	# Benching: the backup's line this week, or a new bench after this game.
+	var bench_info := {}
+	if sat:
+		var bk: Array = summary.get("kicks", []).filter(func(k: Dictionary) -> bool:
+			return str(k.get("kind", "")) == "fg" and k.get("backup", false))
+		bench_info = {"sat": true, "backup": Bench.backup_name(data),
+			"made": bk.filter(func(k: Dictionary) -> bool: return k.get("made", false)).size(), "att": bk.size(),
+			"weeks_left": int(data.bench.get("weeks_left", 0))}
+	elif Bench.check_after_game(data, tuning, summary.get("kicks", [])):
+		bench_info = {"started": true, "backup": Bench.backup_name(data), "weeks": int(data.bench["weeks"]),
+			"reason": str(data.bench.get("reason", ""))}
 	var line := _record_kicks(summary.get("kicks", []))
 	var e := entry()
 	e["result"] = {"us": summary.get("us", 0), "them": summary.get("them", 0), "outcome": outcome}
@@ -443,12 +467,12 @@ func finish_game(summary: Dictionary) -> void:
 		"mascot": opp.get("mascot", ""), "home": e.get("home", true),
 		"us": summary.get("us", 0), "them": summary.get("them", 0),
 		"outcome": outcome, "kicks": summary.get("kicks", []), "warmups": summary.get("warmups", []),
-		"line": line, "changes": applied, "trust": trust}
+		"line": line, "changes": applied, "trust": trust, "bench": bench_info}
 	data.game_checkpoint = {}
 	data.phase = PHASE_RESULTS
 	save()
 	for k in summary.get("kicks", []):
-		if k.get("made", false) and "GAME WINNER" in str(k.get("label", "")):
+		if k.get("made", false) and not k.get("backup", false) and "GAME WINNER" in str(k.get("label", "")):
 			_event({"event": "game_winner", "yards": int(k.get("yards", 0))})
 	if data.slot != 0:
 		GameState.report_run({"mode": "career", "outcome": outcome,
@@ -472,6 +496,8 @@ func game_changes(summary: Dictionary) -> Dictionary:
 	var att := 0
 	var made := 0
 	for k in summary.get("kicks", []):
+		if k.get("backup", false):
+			continue  # the backup's kicks don't change your stats
 		match str(k.get("kind", "")):
 			"fg", "pat":
 				att += 1
@@ -499,6 +525,8 @@ static func _add(ch: Dictionary, key: String, v: float) -> void:
 static func _count(kicks: Array, made_only: bool) -> int:
 	var n := 0
 	for k in kicks:
+		if k.get("backup", false):
+			continue
 		if str(k.get("kind", "")) in ["fg", "pat"] and (not made_only or k.get("made", false)):
 			n += 1
 	return n
@@ -510,8 +538,8 @@ func _record_kicks(kicks: Array) -> String:
 	var xp := [0, 0]
 	for k in kicks:
 		var kind := str(k.get("kind", ""))
-		if not (kind in ["fg", "pat"]):
-			continue
+		if not (kind in ["fg", "pat"]) or k.get("backup", false):
+			continue  # the backup's kicks aren't yours
 		var made: bool = k.get("made", false)
 		for totals in [data.season_stats, data.career_totals]:
 			totals[kind + "_att"] = int(totals.get(kind + "_att", 0)) + 1
@@ -570,6 +598,7 @@ func end_week() -> void:
 	CareerStats.apply(data, growth, tuning)
 	Relationships.end_week(data, tuning)
 	KickTrust.end_week(data)
+	Bench.end_week(data, tuning)
 	data.sp_week.clear()
 	data.trust_week = {}
 	if data.is_injured():
@@ -761,6 +790,15 @@ func start_tryout(purpose: String, team_id: String) -> void:
 	save()
 
 
+## Benched long enough: the audition to win the job back (a tryout in the
+## kick scene; Bench.audition sets the kicks).
+func start_audition() -> void:
+	data.tryout = Bench.audition(data, tuning, profile().fg_range)
+	data.tryout.merge({"made": 0, "taken": 0, "seed": rng.randi()}, true)
+	data.phase = PHASE_TRYOUT
+	save()
+
+
 func tryout_passed() -> bool:
 	return int(data.tryout.get("made", 0)) >= int(data.tryout.get("need", 99))
 
@@ -771,6 +809,15 @@ func finish_tryout(made: int) -> void:
 		return
 	data.tryout["made"] = made
 	var purpose := str(data.tryout.get("purpose", ""))
+	if purpose == "job":  # the bench audition: back to the week either way
+		data.tryout["result"] = Bench.finish_audition(data, tuning, made)
+		data.bench["last_audition"] = {"made": made, "need": int(data.tryout.get("need", 3)),
+			"kicks": (data.tryout.get("distances", []) as Array).size(), "result": data.tryout["result"],
+			"week_index": data.week_index}
+		data.tryout = {}
+		data.phase = PHASE_WEEK_START
+		save()
+		return
 	var team_id := str(data.tryout.get("team", ""))
 	var team := CareerContent.team_by_id(team_id)
 	var passed := tryout_passed()

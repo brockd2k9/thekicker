@@ -25,13 +25,15 @@ func _ready() -> void:
 	var team := CareerContent.team_by_id(str(t.get("team", "")))
 	var stage := str(t.get("stage", "pro"))
 	var width := career.tuning.goal_width_pro if stage == "pro" else career.tuning.goal_width_college
+	if stage == "high_school":  # a high school audition (benching) on high school posts
+		width = career.tuning.goal_width_high_school
 	_game = FIELD_GOAL.instantiate()
 	_game.mode = _mode
 	_game.modifiers = career.profile().to_kick_modifiers()
 	_game.set_look(Progression.look(stage, width, team, {}))
 	add_child(_game)
 	_overlay = PlayOverlay.new()
-	_overlay.quit_text = "Leave Tryout"
+	_overlay.quit_text = "Leave Audition" if _audition() else "Leave Tryout"
 	_overlay.quit_path = Screens.CAREER_HUB
 	add_child(_overlay)
 	GameState.kick_resolved.connect(_on_kick_resolved)
@@ -42,6 +44,10 @@ func _ready() -> void:
 func _exit_tree() -> void:
 	if GameState.kick_resolved.is_connected(_on_kick_resolved):
 		GameState.kick_resolved.disconnect(_on_kick_resolved)
+
+
+func _audition() -> bool:
+	return str(career.data.tryout.get("purpose", "")) == "job"
 
 
 func _on_kick_resolved(r: KickReport) -> void:
@@ -64,11 +70,18 @@ func _on_attempt_finished(_o: KickResult.Outcome) -> void:
 	var need := int(career.data.tryout.get("need", 3))
 	var passed := _mode.makes >= need
 	Sfx.play(&"run_over")
-	var v := UiKit.modal(_overlay.root, "YOU MADE IT!" if passed else "CUT")
+	var aud := _audition()
+	var v := UiKit.modal(_overlay.root, ("JOB WON BACK" if passed else "NOT ENOUGH") if aud else ("YOU MADE IT!" if passed else "CUT"))
 	v.add_child(CareerUi.centered("%d of %d made (needed %d)" % [_mode.makes, _mode.kicks, need], 34,
 		UiKit.GOOD if passed else UiKit.BAD))
-	v.add_child(CareerUi.centered(("Welcome to the %s." if passed else "The %s went another way.")
-		% career.data.tryout.get("team_name", ""), 28))
+	if aud:
+		var fails := int(career.data.bench.get("auditions_failed", 0)) + (0 if passed else 1)
+		v.add_child(CareerUi.centered("The field goals are yours again." if passed else
+			("The coach gives you the job back anyway. Make it count." if fails >= career.tuning.audition_max_fails
+			else "%s keeps the field goals one more week." % Bench.backup_name(career.data)), 28))
+	else:
+		v.add_child(CareerUi.centered(("Welcome to the %s." if passed else "The %s went another way.")
+			% career.data.tryout.get("team_name", ""), 28))
 	var b := UiKit.button("Continue", func() -> void:
 		career.finish_tryout(_mode.makes)
 		Screens.go(career.screen_path()), UiKit.PRIMARY)

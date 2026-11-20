@@ -33,6 +33,8 @@ import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+import scenario_lint  # noqa: E402  (style lint: pronouns, names, quotes, game kicks, one-sided choices)
 
 GROUP_KEYS = {
     "life": ["health", "energy", "fun", "social"],
@@ -82,6 +84,9 @@ class Report:
 
     def warnings(self):
         return sum(1 for v in self.lines.values() for k, _ in v if k == "warning")
+
+    def lints(self):
+        return sum(1 for v in self.lines.values() for k, _ in v if k == "lint")
 
 
 def is_blank(e):
@@ -158,18 +163,10 @@ def check_text(rep, sid, where, text, blocked, placeholders):
 
 
 def dominates(a, b):
-    """True if choice a is at least as good as b in every stat and better in one."""
-    va, vb = {}, {}
-    for ch, v in ((a, va), (b, vb)):
-        for g, d in ch.get("stats", {}).items():
-            for k, x in d.items():
-                v[k] = x
-        for k in ("recruiting", "grades"):
-            if k in ch:
-                v[k] = ch[k]
-    keys = set(va) | set(vb)
-    return bool(keys) and all(va.get(k, 0) >= vb.get(k, 0) for k in keys) and \
-        any(va.get(k, 0) > vb.get(k, 0) for k in keys)
+    """True if choice a is at least as good as b in every number (stats, skill points,
+    recruiting, grades, rel) and better in one."""
+    better, worse = scenario_lint.compare(a, b)
+    return bool(better) and not worse
 
 
 def main(argv=None):
@@ -373,6 +370,10 @@ def main(argv=None):
                 if a != b and not cleaned[b].get("requires") and dominates(cleaned[a], cleaned[b]):
                     rep.add(sid, "warning", f"choice {a + 1} is at least as good as choice {b + 1} in every "
                             f"stat; give choice {b + 1} an upside (no choice should be strictly best)")
+        lint_names = scenario_lint.names_from_people(people_doc)
+        for code, where, msg in scenario_lint.lint_entry({"text": text, "choices": cleaned}, lint_names):
+            if code != "dominated":  # reported as a warning above
+                rep.add(sid, "lint", f"{code} - {where}: {msg}")
         e["_clean_choices"] = cleaned
 
     # Merge into copies of the data files.
@@ -411,7 +412,7 @@ def main(argv=None):
 
     # Report.
     print(f"Import {'(dry run) ' if args.dry_run else ''}- {len(written)} written, {len(skipped)} not written yet "
-          f"(skipped), {rep.errors()} error(s), {rep.warnings()} warning(s)\n")
+          f"(skipped), {rep.errors()} error(s), {rep.warnings()} warning(s), {rep.lints()} lint note(s)\n")
     for sid in sorted(rep.lines):
         print(sid)
         for kind, msg in rep.lines[sid]:

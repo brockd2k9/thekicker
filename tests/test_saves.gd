@@ -124,6 +124,8 @@ func test_v3_relationships_load_unchanged() -> void:
 	var people: Dictionary = c.to_dict()["people"]
 	check(people.has(Relationships.TEAM), "v4 adds Team standing")
 	people.erase(Relationships.TEAM)
+	check(people.has(Bench.BACKUP) and not bool(people[Bench.BACKUP]["known"]), "v5 adds the backup kicker, hidden")
+	people.erase(Bench.BACKUP)
 	eq(JSON.stringify(people), JSON.stringify(raw["people"]), "people kept exactly")
 	eq(JSON.stringify(c.to_dict()["former_people"]), JSON.stringify(raw["former_people"]), "former people kept")
 	check(Relationships.known(c, "rival") and Relationships.value(c, "rival") < 50.0, "Tyler met, a rival")

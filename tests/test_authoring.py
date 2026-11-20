@@ -99,3 +99,47 @@ class ImportTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+import scenario_lint  # noqa: E402
+
+
+class LintTests(unittest.TestCase):
+    NAMES = scenario_lint.names_from_people(json.load(open(os.path.join(ROOT, "data", "career", "people.json"))))
+
+    def codes(self, entry):
+        return [c for c, _, _ in scenario_lint.lint_entry(entry, self.NAMES)]
+
+    def choice(self, **kw):
+        c = {"label": "Do it", "result": "Done.", "stats": {"life": {"energy": -2}}, "modifiers": ["focused"]}
+        c.update(kw)
+        return c
+
+    def test_flags_each_problem(self):
+        e = {"text": "{teacher} asks you to stay. She says you have potential.",
+             "choices": [self.choice(result="You thank her. Dad nods. Late in a close game the kick is good."),
+                         self.choice(label="It’s fine", result="Coach Rourke shrugs.")]}
+        codes = self.codes(e)
+        for c in ("pronoun", "hardcoded_name", "curly_quote", "game_kick"):
+            self.assertIn(c, codes)
+        self.assertEqual(codes.count("pronoun"), 2)  # "She" in the text, "her" in the result
+
+    def test_male_cast_and_npcs_are_fine(self):
+        e = {"text": "{tyler} misses three kicks in practice. He sits alone. A freshman says his gear is gone.",
+             "choices": [self.choice(result="You help him reset; {holder} says they'll stay too."),
+                         self.choice(stats={"life": {"energy": 2, "social": -3}}, result="The ball sails wide in practice.")]}
+        self.assertEqual(self.codes(e), [])
+
+    def test_dominance_counts_skill_points_and_rel(self):
+        a = self.choice(stats={"life": {"energy": -2}}, skill_points=2)
+        b = self.choice(stats={"life": {"energy": -2}}, rel={"coach": 3})
+        self.assertEqual(self.codes({"text": "x", "choices": [a, b]}), [])
+        c = self.choice(stats={"life": {"energy": -1, "social": 2}}, skill_points=2)
+        self.assertIn("dominated", self.codes({"text": "x", "choices": [a, c]}))
+
+    def test_pronoun_for_an_npc_is_not_flagged(self):
+        e = {"text": "A trainer at the park says he coached college kickers. {coach} has never heard of him.",
+             "choices": [self.choice(label="Ask {coach} about him", result="You ask, and he shrugs."),
+                         self.choice(stats={"life": {"energy": 2, "social": -3}})]}
+        self.assertNotIn("pronoun", self.codes(e))

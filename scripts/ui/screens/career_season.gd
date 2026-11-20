@@ -52,6 +52,9 @@ func _aging_rows(list: VBoxContainer) -> void:
 	var t := career.tuning
 	list.add_child(UiKit.stat_row("Skill points this season", "%d earned  ·  %d to spend" % [c.sp_season, c.skill_points],
 		UiKit.ACCENT, "skill"))
+	var bw := Bench.season_weeks(c)
+	if bw > 0:
+		list.add_child(UiKit.stat_row("Benched", "%d week%s" % [bw, "" if bw == 1 else "s"], UiKit.BAD, "whistle"))
 	if not Aging.active(c, t):
 		return
 	list.add_child(UiKit.section("AGING (AGE %d)" % c.age, UiKit.WARN))

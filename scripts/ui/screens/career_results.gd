@@ -78,6 +78,20 @@ func _build(col: VBoxContainer) -> void:
 		n.get_child(0).get_child(1).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		n.get_child(0).get_child(1).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		list.add_child(n)
+	# Benching: the backup's line, or the bench that starts now.
+	var bi: Dictionary = w.get("bench", {})
+	if bi.get("sat", false):
+		list.add_child(UiKit.stat_row("%s on field goals" % bi.get("backup", "The backup"),
+			"%d / %d" % [int(bi.get("made", 0)), int(bi.get("att", 0))], UiKit.WARN, "whistle"))
+		list.add_child(UiKit.label("You were benched: no game skill points this week (practice still counts). "
+			+ ("Your audition is next week." if int(bi.get("weeks_left", 0)) <= 1 else "One more week on the bench."), 22, UiKit.MUTED))
+	elif bi.get("started", false):
+		var n := UiKit.chip("BENCHED: %s takes your field goals for %d week%s (%s). Then an audition to win the job back."
+			% [bi.get("backup", ""), int(bi.get("weeks", 1)), "" if int(bi.get("weeks", 1)) == 1 else "s", bi.get("reason", "")],
+			UiKit.BAD, false, "whistle", 24)
+		n.get_child(0).get_child(1).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		n.get_child(0).get_child(1).size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		list.add_child(n)
 	# Skill points earned this week and what's left to spend.
 	var sp := CareerUi.sp_lines(c)
 	if not sp.is_empty():
