@@ -17,6 +17,7 @@ extends Node
 
 const FIELD_GOAL := preload("res://scenes/field_goal.tscn")
 const SCOREBOARD := preload("res://scenes/ui/scoreboard.tscn")
+const FIELD_TRACKER := preload("res://scenes/ui/field_tracker.tscn")
 ## Room the HUD keeps clear at the top of the kick scene for the score bug.
 const SCORE_BUG_ROOM := 150.0
 const KICK_TUNING := "res://tuning/kick_tuning.tres"
@@ -33,6 +34,8 @@ var _layer: CanvasLayer
 var _root: Control
 ## The live score bug's numbers (both Scoreboards bind to it).
 var bug := ScoreBugState.new()
+## The field tracker's picture of the game (FieldModel.state), from the same events.
+var field := FieldModel.new()
 var _status: Label
 var _feed: VBoxContainer
 var _scroll: ScrollContainer
@@ -68,6 +71,10 @@ func _ready() -> void:
 	_fg_range = career.profile().fg_range
 	bug.setup(career.data.team, career.entry().get("opponent", {}), sim.home,
 		int(career.data.player.get("number", 0)))
+	var gp := Progression.game_params(career.data, career.tuning)
+	field.setup(career.data.team, career.entry().get("opponent", {}), sim.home, sim.quarter_seconds(),
+		_fg_range, float(gp.get("fg_max", 50)), int(gp.get("kickoff_spot", career.tuning.kickoff_spot_yards)),
+		int(gp.get("pat", career.tuning.hs_pat_yards)))
 	_build_ui()
 	_set_score(0, 0, 0.0)
 	_timer = 0.6
@@ -98,6 +105,7 @@ func _step() -> void:
 	var e := sim.next()
 	if e.has("poss"):
 		bug.set_possession(str(e["poss"]))
+	field.apply(e)
 	match str(e.get("type", "")):
 		"play":
 			_add_line(str(e["text"]))
@@ -134,6 +142,10 @@ func _build_ui() -> void:
 	col.add_child(board)
 	col.add_child(UiKit.label("%s %s %s" % [CareerScreen.team_name(c.team), "vs" if sim.home else "at",
 		CareerScreen.team_name(opp)], 24, UiKit.TEXT, UiTokens.FONT_DISPLAY))
+	# The field tracker: ball, drive, down & distance, last play.
+	var tracker: FieldTracker = FIELD_TRACKER.instantiate()
+	tracker.bind(field.state)
+	col.add_child(tracker)
 
 	_status = UiKit.label("", 24, UiKit.MUTED, UiTokens.FONT_CONDENSED)
 	col.add_child(_status)

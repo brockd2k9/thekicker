@@ -27,7 +27,7 @@ const MIN_TAP := UiTokens.TAP_MIN
 ## Every screen this tool knows, in the order it captures them.
 const ALL := ["main", "career_menu", "tutorial", "new", "new_web", "name_chooser", "hub", "scenario",
 	"scenario_result", "outlook", "game", "warmup", "warmup_result", "kickoff", "kickoff_result", "onside",
-	"kick_fg", "kick_fg_result",
+	"kick_fg", "kick_fg_result", "game_field", "game_field_kick",
 	"hud", "hud_result", "results", "stats", "achievements", "settings", "career_stats", "people", "debug",
 	"challenge", "season", "recruiting", "recruiting_board", "recruiting_board_senior", "college_choice", "hub_college", "draft",
 	"hub_pro", "kicking_season", "kicking_hs", "kicking_total",
@@ -146,6 +146,7 @@ func _capture_all() -> void:
 	await _warmup_shots()
 	await _kickoff_shots()
 	await _fg_kick_shots()
+	await _field_shots()
 	await _hud_shots()
 	_m.finish_game(_sim._play_game(_m))
 	await _shot("results", Screens.CAREER_RESULTS)
@@ -531,6 +532,47 @@ func _fg_kick_shots() -> void:
 		await _wait(0.2)
 		t += 0.2
 	scr._busy = true
+
+
+## The sim screen's field tracker: mid-drive, then when your field goal comes
+## up (gold frame + distance). Plays the real sim through the screen's own
+## field model and score bug, without the coach's pop-ups.
+func _field_shots() -> void:
+	if not (_want("game_field") or _want("game_field_kick")):
+		return
+	await _open(Screens.CAREER_GAME, 1.0)
+	var scr := get_tree().current_scene
+	if scr == null or not ("field" in scr):
+		_problems.append("[%s] game_field: career game screen not open" % _tag)
+		return
+	scr._busy = true
+	var shot_drive := not _want("game_field")
+	for i in 600:
+		var e: Dictionary = scr.sim.next()
+		scr.field.apply(e)
+		scr.bug.set_possession(str(e.get("poss", "")))
+		scr._set_score(int(e.get("us", scr.sim.score_us)), int(e.get("them", scr.sim.score_them)),
+			float(e.get("elapsed", scr.sim.elapsed)))
+		if e.has("text"):
+			scr._add_line(str(e["text"]))
+		var st: FieldState = scr.field.state
+		if not shot_drive and i > 8 and st.possession != "" and st.down >= 2 and st.kick.is_empty():
+			await _wait(0.8)
+			await _capture("game_field")
+			shot_drive = true
+			if not _want("game_field_kick"):
+				return
+		match str(e.get("type", "")):
+			"end":
+				break
+			"warmup":
+				scr.sim.set_warmup("pure")
+			"call":
+				if str(e.get("kind", "")) == "fg" and shot_drive and _want("game_field_kick"):
+					await _wait(0.9)
+					await _capture("game_field_kick")
+					return
+				scr.sim.resolve_call({"made": true, "quality": 0.7, "carry": 60.0, "recovered": false})
 
 
 func _soft_swipe() -> Swipe:
