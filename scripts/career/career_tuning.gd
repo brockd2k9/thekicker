@@ -446,6 +446,8 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## flips sign below 50 (at 0 it's the full amount the other way). So a fresh
 ## career (everyone at 50) plays exactly as without relationships.
 @export var rel_start: float = 50.0
+## Someone new in a role (a choice's "recast") starts here.
+@export var rel_recast_start: float = 55.0
 ## Each week every value moves this fraction of the way back toward 50.
 @export_range(0.0, 0.5) var rel_weekly_drift: float = 0.02
 ## Head coach: change in pressure sensitivity (negative = calmer kicks).
@@ -779,6 +781,8 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## A choice's suspend_weeks: games sat out (at most this many at once), and
 ## what a suspended game costs (like sitting out for grades, plus Team).
 @export var suspend_max_weeks: int = 3
+## In the pros (and free agency) a suspension can be longer: up to a season.
+@export var suspend_max_weeks_pro: int = 11
 @export var suspend_fun: float = -4.0
 @export var suspend_social: float = -2.0
 @export var suspend_team: float = -2.0

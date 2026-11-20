@@ -146,6 +146,39 @@ static func enter_stage(c: CareerData, t: CareerTuning) -> void:
 	seed_cast(c, t)
 
 
+## A choice's "recast": [ids]: someone new takes this role (the pro story's
+## "Someone New" for love_interest). The current person moves to former_people
+## (if you knew them); the new one is known, a little above neutral
+## (rel_recast_start), and {id} names them from then on.
+static func recast(c: CareerData, ids: Array, t: CareerTuning) -> Array:
+	var out: Array = []
+	for raw in ids:
+		var id := str(raw)
+		var d := def(id)
+		if d.is_empty():
+			push_warning("Relationships: can't recast unknown person '%s'" % id)
+			continue
+		var old_name := ""
+		if c.people.has(id):
+			var p: Dictionary = c.people[id]
+			old_name = str(p.get("name", ""))
+			if bool(p.get("known", false)):
+				c.former_people.append({"id": id, "name": old_name,
+					"value": float(p.get("value", NEUTRAL)), "stage": str(p.get("stage", "")),
+					"role": str(d.get("roles", {}).get(str(p.get("stage", "")), d.get("role", id)))})
+		var n := int(c.flags.get("recast_" + id, 0)) + 1
+		c.flags["recast_" + id] = n
+		var name := old_name
+		for attempt in 8:  # a different name than the person before
+			name = _make_name(d, _rng(c, "recast:%s:%d:%d" % [id, n, attempt]))
+			if name != old_name:
+				break
+		c.people[id] = {"name": name, "value": t.rel_recast_start, "known": true, "week_change": 0.0,
+			"stage": _cast_stage(c.stage)}
+		out.append(id)
+	return out
+
+
 ## Applies a choice's "rel" {id: change}. Returns what actually moved {id: change}.
 ## Someone not in the cast right now (a teacher in the pros) is skipped.
 static func apply(c: CareerData, rel: Dictionary) -> Dictionary:

@@ -332,6 +332,8 @@ static func apply_effects(c: CareerData, ch: Dictionary, tuning: CareerTuning, r
 	Reputation.on_flags(c, set_flags, tuning)
 	if ch.has("suspend_weeks"):
 		Reputation.suspend(c, int(ch["suspend_weeks"]), reason, tuning)
+	if ch.get("recast") is Array:
+		Relationships.recast(c, ch["recast"], tuning)
 	var follow := ""
 	var fu: Variant = ch.get("follow_up")
 	if fu is String:
