@@ -428,7 +428,8 @@ func finish_game(summary: Dictionary) -> void:
 	var warm_sp := 0
 	for w in summary.get("warmups", []):
 		warm_sp += int(warm_res.get(str(w), {}).get("skill_points", 0))
-	SkillPoints.earn(data, mini(warm_sp, tuning.sp_warmup_max_per_game), "Sideline warmup")
+	var warm_left := maxi(tuning.sp_warmup_max_per_season - int(data.sp_sources.get("Sideline warmup", 0)), 0)
+	SkillPoints.earn(data, mini(mini(warm_sp, tuning.sp_warmup_max_per_game), warm_left), "Sideline warmup")
 	_week_practice()
 	var line := _record_kicks(summary.get("kicks", []))
 	var e := entry()

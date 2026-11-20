@@ -40,10 +40,15 @@ func test_prerequisites_and_buying() -> void:
 	eq(c.skill_points, 100 - int(Perks.def("big_leg")["cost"]), "paid")
 	eq(KickRange.fg_range(c, t) - before, 2.0, "+2 yd range")
 	check(not Perks.buy(c, "big_leg"), "can't buy twice")
-	c.set_stat("power", 90.0)
+	c.set_stat("power", 94.0)
+	c.stage = CareerData.STAGE_COLLEGE
+	check(not Perks.can_buy(c, "cannon"), "Cannon needs Power 95")
+	c.stage = CareerData.STAGE_HIGH_SCHOOL
+	c.set_stat("power", 95.0)
 	check(not Perks.can_buy(c, "cannon"), "Cannon: not in high school")
 	c.stage = CareerData.STAGE_COLLEGE
-	check(Perks.can_buy(c, "cannon"), "Cannon in college with Big Leg and Power 90")
+	check(Perks.can_buy(c, "cannon"), "Cannon in college with Big Leg and Power 95")
+	eq(int(Perks.def("cannon")["cost"]), 60, "Cannon costs 60")
 	c.perks.erase("big_leg")
 	check(not Perks.can_buy(c, "cannon"), "Cannon needs Big Leg")
 	c.skill_points = 5

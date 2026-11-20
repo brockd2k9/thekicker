@@ -270,10 +270,10 @@ func test_resilience_and_leadership_soften_misses() -> void:
 func test_slump_window_and_coach_doubt() -> void:
 	var c := _career()
 	var kicks := []
-	for made in [true, false, true, false, false]:
+	for made in [true, false, true, false, false, false]:
 		kicks.append(_kick("fg", made))
 	var res := KickTrust.apply_game(c, kicks, 50.0, t)
-	check(res["slump"], "3 misses in the last 5: slump")
+	check(res["slump"], "4 misses in the last 6: slump")
 	check(not c.coach_doubt.is_empty(), "coach doubt starts")
 	check(c.flags.get("kicking_slump", false), "story flag for HS_142")
 	check(Relationships.value(c, "coach") < 50.0, "coach trust lost")
@@ -292,10 +292,14 @@ func test_slump_window_and_coach_doubt() -> void:
 
 func test_slump_window_clears_early() -> void:
 	var c := _career()
-	KickTrust.apply_game(c, [_kick("fg", false), _kick("fg", false), _kick("fg", false)], 50.0, t)
-	check(c.coach_doubt.is_empty(), "3 misses: window not full, too few tries for the season rule")
+	KickTrust.apply_game(c, [_kick("fg", false), _kick("fg", false), _kick("fg", false), _kick("fg", false)], 50.0, t)
+	check(c.coach_doubt.is_empty(), "4 misses: window not full, too few tries (8) for the season rule")
 	KickTrust.apply_game(c, [_kick("fg", true), _kick("fg", true)], 50.0, t)
-	check(not c.coach_doubt.is_empty(), "window full with 3 misses: slump")
+	check(not c.coach_doubt.is_empty(), "window full with 4 misses in 6: slump")
+	var d := _career()
+	KickTrust.apply_game(d, [_kick("fg", false), _kick("fg", true), _kick("fg", false), _kick("fg", true),
+		_kick("fg", false), _kick("fg", true)], 50.0, t)
+	check(d.coach_doubt.is_empty(), "3 misses in 6: no slump any more")
 	KickTrust.apply_game(c, [_kick("fg", true), _kick("fg", true), _kick("fg", true),
 		_kick("fg", true), _kick("fg", true)], 50.0, t)
 	check(c.coach_doubt.is_empty(), "5 straight makes clear the doubt early")
@@ -465,3 +469,14 @@ func test_70_yard_cap_needs_big_leg_and_cannon() -> void:
 	c.perks = ["big_leg", "cannon"]
 	eq(KickProfile.build(c, t).fg_range, t.range_cap, "Big Leg + Cannon: the 70 yd hard cap")
 	eq(KickRange.fg_cap(c, t), 70.0, "never past 70")
+
+
+
+func test_warmup_sp_season_cap() -> void:
+	var c := _career()
+	var m := CareerManager.new(c, t)
+	m._start_season(false)
+	for i in 8:
+		m.data.phase = CareerManager.PHASE_GAME
+		m.finish_game({"outcome": "W", "us": 14, "them": 7, "kicks": [], "warmups": ["pure", "pure"]})
+	eq(int(c.sp_sources.get("Sideline warmup", 0)), t.sp_warmup_max_per_season, "at most 5 a season from warmups")
