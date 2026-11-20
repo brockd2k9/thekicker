@@ -1,0 +1,809 @@
+{
+  "_about": "PRO batch 20: era 2, Settled In (26-29).",
+  "scenarios": [
+    {
+      "id": "PRO_384",
+      "title": "The Personal Trainer",
+      "category": "training",
+      "text": "A private trainer could change your offseason, for a price.",
+      "choices": [
+        {
+          "label": "Hire the trainer",
+          "result": "You hire the trainer. The summer is brutal, and you come back faster.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 3
+        },
+        {
+          "label": "Ask for a trial week",
+          "result": "You ask for a trial week first. It's good, and you hire them for half the summer.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Train on your own",
+          "result": "You train on your own, the way you always have.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_385",
+      "title": "Dinner With Influential People",
+      "category": "career",
+      "text": "Your agent invites you to dinner with influential people in the league.",
+      "choices": [
+        {
+          "label": "Go and be yourself",
+          "result": "You go and tell good stories. Two of them remember your name.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 1
+          },
+          "followers": 1
+        },
+        {
+          "label": "Go and listen",
+          "result": "You go and mostly listen. You learn how the league actually works.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Stay home",
+          "result": "You stay home. Your agent sighs and goes alone.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_386",
+      "title": "The Homecoming Event",
+      "category": "community",
+      "text": "Your high school invites you back for its homecoming.",
+      "choices": [
+        {
+          "label": "Go back",
+          "result": "You go back and walk the halls with {parent}. A teacher still has your old essay.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "parent": 4
+          }
+        },
+        {
+          "label": "Talk to the team",
+          "result": "You talk to the football team before the game. The kicker can't stop grinning.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Send a video",
+          "result": "You send a video. It plays at halftime, and they cheer anyway.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_387",
+      "title": "The Team's Future",
+      "category": "career",
+      "text": "The franchise is talking about a full rebuild, and your name is on a list.",
+      "choices": [
+        {
+          "label": "Make yourself essential",
+          "result": "You make yourself the one veteran they can't rebuild without.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Ask your agent to find out",
+          "result": "You ask your agent to find out which list it is. It's the good one, for now.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Help the young players",
+          "result": "You help the young players, because they're the future and so, maybe, are you.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_388",
+      "title": "The New Family Responsibility",
+      "category": "family",
+      "text": "A family member needs more of your time than the season has.",
+      "choices": [
+        {
+          "label": "Make the time",
+          "result": "You make the time: flights on off days, calls every night. You're exhausted and present.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "parent": 5
+          }
+        },
+        {
+          "label": "Build a plan with family",
+          "result": "You build a plan with the rest of the family so nobody carries it alone.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Wait for the offseason",
+          "result": "You promise the offseason and keep the promise. It's a long wait for both of you.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        }
+      ]
+    },
+    {
+      "id": "PRO_389",
+      "title": "The Offseason Media Tour",
+      "category": "media",
+      "text": "Your growing reputation comes with an offseason full of interviews.",
+      "choices": [
+        {
+          "label": "Say yes to most",
+          "result": "You say yes to most of them. Your name is everywhere by June.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 1
+          },
+          "followers": 4
+        },
+        {
+          "label": "Pick the good ones",
+          "result": "You pick the three best and do them well.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          },
+          "followers": 2
+        },
+        {
+          "label": "Keep the summer quiet",
+          "result": "You keep the summer quiet and train.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_390",
+      "title": "The Career Milestone",
+      "category": "career",
+      "text": "You reach a milestone and have to decide how to celebrate it.",
+      "choices": [
+        {
+          "label": "Celebrate with the specialists",
+          "result": "You take the specialists to dinner. {holder} gives a speech.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "holder": 3
+          }
+        },
+        {
+          "label": "Celebrate at home",
+          "result": "You celebrate at home with the people who knew you before.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Thank the room",
+          "result": "You thank the whole room, one by one. It takes a while.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_630",
+      "title": "The Fourth Season",
+      "category": "career",
+      "text": "Your fourth pro season, and nobody calls you a rookie anymore.",
+      "choices": [
+        {
+          "label": "Look out for the rookies",
+          "result": "You look out for the rookies the way someone once looked out for you.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Raise your own bar",
+          "result": "You raise your own bar. Nobody else will now.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Enjoy it",
+          "result": "You enjoy it. You've earned some ease.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_631",
+      "title": "The Comfortable Routine",
+      "category": "training",
+      "text": "Your routine works so well it's starting to feel like a rut.",
+      "choices": [
+        {
+          "label": "Change one small thing",
+          "result": "You change one small thing. It's enough to wake you up.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Push harder",
+          "result": "You push harder inside the routine. It's tiring and it works.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Trust the rut",
+          "result": "You trust the rut. A rut that works is a groove.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_632",
+      "title": "The Raise",
+      "category": "money",
+      "text": "Your second contract is real money, and everyone you know has noticed.",
+      "choices": [
+        {
+          "label": "Set a rule for everyone",
+          "result": "You set one rule for everyone and stick to it. It's fair and a little lonely.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Help a few people",
+          "result": "You help a few people who really need it.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "parent": 3
+          }
+        },
+        {
+          "label": "Change your number",
+          "result": "You change your phone number. Things get quieter.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_633",
+      "title": "The House With a Yard",
+      "category": "family",
+      "text": "You buy a house with a yard big enough for a kicking net.",
+      "choices": [
+        {
+          "label": "Put up the net",
+          "result": "You put up the net the first weekend. The neighbors watch.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Have everyone over",
+          "result": "You have everyone over for a housewarming. {parent} gives the tour.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "parent": 3
+          }
+        },
+        {
+          "label": "Enjoy the quiet",
+          "result": "You sit in the yard and do nothing for the first time in years.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_634",
+      "title": "The Specialist Who Retires",
+      "category": "team",
+      "text": "The punter you've worked beside for years retires suddenly.",
+      "choices": [
+        {
+          "label": "Throw him a send-off",
+          "result": "You throw him a send-off with the specialists. It's loud and long.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Help the new punter",
+          "result": "You help the new punter settle in. The unit stays steady.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 1,
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Say goodbye quietly",
+          "result": "You say goodbye quietly and keep in touch.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_635",
+      "title": "A Different Snap",
+      "category": "training",
+      "text": "A new long snapper, and your timing is off for the first time in years.",
+      "choices": [
+        {
+          "label": "Rep it out",
+          "result": "You rep it out after every practice until the timing is back.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 3
+        },
+        {
+          "label": "Get to know him",
+          "result": "You get to know him off the field first. The timing follows.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Film every snap",
+          "result": "You film every snap and find the tenth of a second.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        }
+      ]
+    }
+  ]
+}
