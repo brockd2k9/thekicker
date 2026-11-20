@@ -26,6 +26,9 @@ const CATEGORIES := ["social", "school", "training", "health", "work", "media", 
 ## Choice fields that move progression numbers instead of stats:
 ## recruiting / draft / retention points, and grades (GPA points, 0-4 scale).
 const PROGRESS_KEYS := ["recruiting", "draft", "retention", "grades"]
+## Dev hook for the balance simulator: when a Dictionary, every choice's
+## progress changes add up here by key. null in the game.
+static var progress_tally: Variant = null
 
 
 # --- requirements -------------------------------------------------------------------
@@ -314,7 +317,10 @@ static func apply_effects(c: CareerData, ch: Dictionary, tuning: CareerTuning, r
 	var applied := CareerStats.apply(c, scaled_stats(ch.get("stats", {}), tuning), tuning)
 	var sp := SkillPoints.from_choice(c, float(ch.get("skill_points", 0)), tuning) \
 		if ch.has("skill_points") else 0
-	var progress := progress_changes(ch)
+	var progress := progress_changes(ch, tuning)
+	if progress_tally is Dictionary:
+		for k in progress:
+			progress_tally[k] = float(progress_tally.get(k, 0.0)) + float(progress[k])
 	c.recruiting_score = clampf(c.recruiting_score + float(progress.get("recruiting", 0.0)), 0.0, 100.0)
 	c.draft_score = clampf(c.draft_score + float(progress.get("draft", 0.0)), 0.0, 100.0)
 	c.retention_bonus += float(progress.get("retention", 0.0))
@@ -332,6 +338,8 @@ static func apply_effects(c: CareerData, ch: Dictionary, tuning: CareerTuning, r
 	Reputation.on_flags(c, set_flags, tuning)
 	if ch.has("suspend_weeks"):
 		Reputation.suspend(c, int(ch["suspend_weeks"]), reason, tuning)
+	if ch.get("recast") is Array:
+		Relationships.recast(c, ch["recast"], tuning)
 	var follow := ""
 	var fu: Variant = ch.get("follow_up")
 	if fu is String:
@@ -356,10 +364,20 @@ static func scaled_stats(stats: Dictionary, tuning: CareerTuning) -> Dictionary:
 	return out
 
 
-## A choice's progression changes: {"recruiting": 4, "grades": 0.2, ...}.
-static func progress_changes(ch: Dictionary) -> Dictionary:
+## A choice's progression changes: {"recruiting": 4, "grades": 0.2, ...},
+## recruiting and draft points scaled by scenario_recruiting_scale /
+## scenario_draft_scale (CareerTuning: the story's many recruiting and draft
+## choices add up over a career).
+static func progress_changes(ch: Dictionary, t: CareerTuning = null) -> Dictionary:
+	if t == null:
+		t = CareerTuning.get_default()
 	var out := {}
 	for k in PROGRESS_KEYS:
 		if ch.has(k) and float(ch[k]) != 0.0:
-			out[k] = float(ch[k])
+			var v := float(ch[k])
+			if k == "recruiting":
+				v *= t.scenario_recruiting_scale
+			elif k == "draft":
+				v *= t.scenario_draft_scale
+			out[k] = v
 	return out

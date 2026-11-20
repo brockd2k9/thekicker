@@ -131,8 +131,8 @@ const ALL: Array[Dictionary] = [
 	{
 		"id": "career_ironman",
 		"name": "Ironman",
-		"description": "Career: keep kicking until the age cap of 38.",
-		"condition": {"on": "career", "event": "retired", "match": {"reason": "age_cap"}},
+		"description": "Career: play until you're 40.",
+		"condition": {"on": "career", "event": "retired", "min_value": {"age": 40}},
 	},
 ]
 

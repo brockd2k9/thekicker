@@ -12,7 +12,8 @@ extends RefCounted
 ## standing (rep_rebuilt_retention): the way back is clearly worth taking.
 ## Rebuilt wins when both flags are set.
 ##
-## suspend_weeks: n (1-3, capped at suspend_max_weeks) on a choice: you sit out
+## suspend_weeks: n (capped at suspend_max_weeks, 3; in the pros
+## suspend_max_weeks_pro, a season; carried across seasons) on a choice: you sit out
 ## your next n games the way academic ineligibility does (CareerManager
 ## _bench_game): no kicks, no game skill points, no followers from kicks, and
 ## the weeks don't count toward benching or slumps. Practice still counts.
@@ -123,15 +124,23 @@ static func suspended(c: CareerData) -> bool:
 ## A choice's suspend_weeks: sit out the next n games (capped). reason: shown
 ## in the notice ("The Balcony Dare").
 static func suspend(c: CareerData, n: int, reason: String, t: CareerTuning) -> void:
-	n = clampi(n, 0, t.suspend_max_weeks)
+	var cap := max_weeks(c, t)
+	n = clampi(n, 0, cap)
 	if n <= 0 or off:
 		return
-	var left := mini(int(c.suspension.get("weeks_left", 0)) + n, t.suspend_max_weeks)
+	var left := mini(int(c.suspension.get("weeks_left", 0)) + n, cap)
 	c.suspension = {"weeks_left": left, "weeks": left, "reason": reason}
 	c.suspensions_total += 1
 	var text := "SUSPENDED for %d game%s%s. You sit out: no kicks, no game skill points (practice still counts)." \
 		% [left, "" if left == 1 else "s", (" (%s)" % reason) if reason != "" else ""]
 	c.notice = text if c.notice == "" else c.notice + " " + text
+
+
+## The longest suspension at this stage: suspend_max_weeks (3), or
+## suspend_max_weeks_pro (a season) in the pros.
+static func max_weeks(c: CareerData, t: CareerTuning) -> int:
+	return t.suspend_max_weeks_pro if c.stage in [CareerData.STAGE_PRO, CareerData.STAGE_FREE_AGENT] \
+		else t.suspend_max_weeks
 
 
 ## One suspended game has been sat out. Returns the games left.

@@ -139,7 +139,7 @@ Career achievements (condition `"on": "career"`, sent by Career Mode through
 `GameState.report_career_event()` with `event` + `match` / `min_value` filters):
 Scholarship Offer, Big Time (top program), Draft Day, Welcome to the League (first pro season),
 Walk-Off (game-winning kick), Complete Package (all 8 traits), Against the Odds (pro after the
-walk-on or junior college route), Full Career (retire after a pro season), Ironman (age 38).
+walk-on or junior college route), Full Career (retire after a pro season), Ironman (play until 40).
 
 ## Tuning (one file)
 
@@ -348,7 +348,7 @@ distances and speeds are measured in *screen heights*, so feel is resolution-ind
 ### Career Mode
 Playable from freshman year to retirement: high school -> recruiting (offers by tier,
 GPA-gated) -> college (or walk-on tryout / junior college) -> draft (or training camp /
-open free-agent tryouts) -> pro contracts (re-sign, release, Retire, age cap 38) ->
+open free-agent tryouts) -> pro contracts (re-sign, release, Retire; no age cap: older free agents get fewer tryouts) ->
 career summary. A long run of poor seasons and failed tryouts ends a career early.
 A short tutorial runs the first time Career Mode opens (text: `data/career/tutorial.json`;
 "seen" flag: `career_tutorial_seen` in Settings; replay: "How Career Mode Works").

@@ -110,7 +110,7 @@ func test_choice_effects_first_then_the_kicks() -> void:
 		m.finish_tryout(0)
 		eq(c.phase, CareerManager.PHASE_SCENARIO, "the next scenario this week")
 		eq(c.pending_scenarios, ["hs_kicker_battle"], "still pending")
-		eq(c.recruiting_score, rec + 6.0, "on_pass recruiting"))
+		eq(c.recruiting_score, rec + 6.0 * t.scenario_recruiting_scale, "on_pass recruiting (scaled)"))
 
 
 func test_distances_clamp_to_range() -> void:

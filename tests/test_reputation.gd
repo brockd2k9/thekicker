@@ -133,10 +133,42 @@ func test_suspension_cap_and_stage_change() -> void:
 	check(not Reputation.suspended(c), "a new stage starts clean")
 
 
+func test_pro_suspensions_run_longer() -> void:
+	var m := _career(CareerData.STAGE_PRO)
+	var c := m.data
+	Reputation.suspend(c, 6, "The Search", t)
+	eq(int(c.suspension["weeks_left"]), 6, "4-6 games are fine in the pros")
+	Reputation.suspend(c, 20, "The Investigation", t)
+	eq(int(c.suspension["weeks_left"]), t.suspend_max_weeks_pro, "at most a season")
+	m._start_season(true)
+	eq(int(c.suspension["weeks_left"]), t.suspend_max_weeks_pro, "carried across the season boundary")
+	var col := _career(CareerData.STAGE_COLLEGE).data
+	Reputation.suspend(col, 6, "x", t)
+	eq(int(col.suspension["weeks_left"]), t.suspend_max_weeks, "college keeps the cap of 3")
+
+
+func test_recast() -> void:
+	var c := _career(CareerData.STAGE_PRO).data
+	var id := "love_interest"
+	if not c.people.has(id):
+		Relationships.seed_cast(c, t)
+	var had := c.people.has(id)
+	var old := Relationships.name_of(c, id) if had else ""
+	if had:
+		c.people[id]["known"] = true
+	Relationships.recast(c, [id], t)
+	check(c.people[id]["known"], "the new person is known")
+	eq(float(c.people[id]["value"]), t.rel_recast_start, "a little above neutral")
+	if had:
+		check(Relationships.name_of(c, id) != old, "a different person")
+		check(c.former_people.any(func(f: Dictionary) -> bool: return str(f["name"]) == old), "the old one is a former person")
+	eq(str(Relationships.text_vars(c)[id]), Relationships.name_of(c, id), "{love_interest} names the new one")
+
+
 func test_validation() -> void:
 	var p := PackedStringArray()
-	CareerContent._check_followers(p, "x", {"suspend_weeks": 5})
-	check(", ".join(p).contains("suspend_weeks"), "5 is too many")
+	CareerContent._check_followers(p, "x", {"suspend_weeks": 12})
+	check(", ".join(p).contains("suspend_weeks"), "12 is too many")
 	p = PackedStringArray()
 	CareerContent._check_followers(p, "x", {"suspend_weeks": 2})
 	eq(p.size(), 0, "2 is fine")

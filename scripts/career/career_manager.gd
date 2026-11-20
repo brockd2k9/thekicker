@@ -1074,8 +1074,19 @@ func take_tryout() -> void:
 ## No team: a year in free agency, then another open tryout (or the end).
 func _free_agency(why: String) -> void:
 	data.stage = CareerData.STAGE_FREE_AGENT
-	if data.poor_streak >= tuning.career_end_poor_streak or data.age >= tuning.pro_age_cap:
+	if data.poor_streak >= tuning.career_end_poor_streak:
 		retire("out_of_football")
+		return
+	# Older free agents get fewer calls (no age cap: this is how it ends).
+	if rng.randf() >= fa_call_chance():
+		data.flags["fa_attempts"] = int(data.flags.get("fa_attempts", 0)) + 1
+		if int(data.flags["fa_attempts"]) >= tuning.free_agent_attempts:
+			retire("out_of_football")
+			return
+		data.age += 1
+		data.season += 1
+		data.notice = "No team called this year: clubs look hard at a %d-year-old kicker." % (data.age - 1)
+		_free_agency(why)
 		return
 	var clubs := CareerContent.pro_clubs().filter(func(s: Dictionary) -> bool:
 		return not (str(s["id"]) in data.flags.get("failed_tryouts", [])))
@@ -1094,9 +1105,6 @@ func _pro_season_end() -> void:
 	var pro_seasons := data.history.filter(func(h: Dictionary) -> bool:
 		return h.get("stage", "") == CareerData.STAGE_PRO).size()
 	_event({"event": "pro_season", "pro_seasons": pro_seasons})
-	if data.age >= tuning.pro_age_cap:
-		retire("age_cap")
-		return
 	var status := "continue"
 	if bool(data.flags.get("dismissed", false)):
 		# Dismissed (story flag): released at season end, whatever the standing.
@@ -1151,7 +1159,14 @@ func contract_continue() -> void:
 	save()
 
 
-## Ends the career: reason age_cap / chose / out_of_football / no_options.
+## The chance a club gives this free agent a tryout this year (1 until
+## fa_age_from, then fa_age_drop less a year).
+func fa_call_chance() -> float:
+	return clampf(1.0 - tuning.fa_age_drop * maxf(float(data.age - tuning.fa_age_from), 0.0), 0.0, 1.0)
+
+
+## Ends the career: reason chose / out_of_football / no_options (age_cap: old
+## saves, from before there was no age cap).
 func retire(reason: String) -> void:
 	var text: String = {"age_cap": "Retired at %d, the end of the road." % data.age,
 		"chose": "Retired on your own terms at %d." % data.age,

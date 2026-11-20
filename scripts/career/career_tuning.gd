@@ -202,8 +202,6 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## Regular-season games and bye weeks per season (all stages for now).
 @export var games_per_season: int = 10
 @export var byes_per_season: int = 1
-## Pro careers end at this age at the latest (you can retire after any pro season).
-@export var pro_age_cap: int = 38
 ## The bye falls in a random week between these (inclusive).
 @export var bye_week_earliest: int = 4
 @export var bye_week_latest: int = 8
@@ -431,7 +429,7 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var retention_fg_pct: float = 1.2
 @export var retention_long: float = 0.6
 @export var retention_clutch: float = 4.0
-@export var retention_age: float = 5.0
+@export var retention_age: float = 3.0
 ## Points per yard of field goal range past retention_range_from.
 @export var retention_range: float = 0.15
 @export var retention_range_from: float = 55.0
@@ -446,6 +444,8 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## flips sign below 50 (at 0 it's the full amount the other way). So a fresh
 ## career (everyone at 50) plays exactly as without relationships.
 @export var rel_start: float = 50.0
+## Someone new in a role (a choice's "recast") starts here.
+@export var rel_recast_start: float = 55.0
 ## Each week every value moves this fraction of the way back toward 50.
 @export_range(0.0, 0.5) var rel_weekly_drift: float = 0.02
 ## Head coach: change in pressure sensitivity (negative = calmer kicks).
@@ -593,6 +593,10 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## Scenario choices still change football stats directly ("stats": {"football"});
 ## those changes are multiplied by this (the simulator checks total growth).
 @export_range(0.0, 2.0) var scenario_football_scale: float = 0.5
+## Scenario choices' "recruiting" and "draft" points are multiplied by these
+## (the story graphs give many of them; the simulator checks pro / draft rates).
+@export_range(0.0, 2.0) var scenario_recruiting_scale: float = 0.75
+@export_range(0.0, 2.0) var scenario_draft_scale: float = 1.0
 ## Upgrade cost: raising an attribute from level L to L+1 costs
 ## ceil(upgrade_cost_base + upgrade_cost_scale * (L/100)^upgrade_cost_exp).
 ## 30 -> 2 SP, 50 -> 3, 70 -> 6, 90 -> 12, 99 -> 15.
@@ -779,6 +783,8 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## A choice's suspend_weeks: games sat out (at most this many at once), and
 ## what a suspended game costs (like sitting out for grades, plus Team).
 @export var suspend_max_weeks: int = 3
+## In the pros (and free agency) a suspension can be longer: up to a season.
+@export var suspend_max_weeks_pro: int = 11
 @export var suspend_fun: float = -4.0
 @export var suspend_social: float = -2.0
 @export var suspend_team: float = -2.0
@@ -793,6 +799,12 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## Open free-agent tryouts you get in one spell of free agency before your
 ## playing days are over.
 @export var free_agent_attempts: int = 2
+## No age cap: careers end through decline, release or retiring. Older free
+## agents get fewer tryouts: the chance a club calls is 1 at fa_age_from and
+## drops fa_age_drop a year after (a year with no call uses up one of the
+## free_agent_attempts).
+@export var fa_age_from: int = 36
+@export var fa_age_drop: float = 0.1
 
 @export_group("Goalposts")
 ## Inner width between the uprights, meters, per stage (used from Stage 5).

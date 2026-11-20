@@ -131,6 +131,7 @@ func _play_career(strat: String, n: int) -> Dictionary:
 	var m := CareerManager.new(c)
 	m.rng.seed = _rng.randi()
 	m._start_season(false)
+	ScenarioEngine.progress_tally = {}
 	var out := {"hs_traits": [], "col_traits": [], "weeks": 0, "low_weeks": 0, "life_sum": {},
 		"life_hist": {}, "seen": {}, "reached": {"high_school": true}, "events": [],
 		"college_tier": "", "college_type": "", "draft": {},
@@ -235,6 +236,15 @@ func _play_career(strat: String, n: int) -> Dictionary:
 	out["end_season"] = c.season
 	out["auditions_passed"] = (out["events"] as Array).count("tryout_job_pass")
 	out["auditions_failed"] = (out["events"] as Array).count("tryout_job_fail")
+	out["choice_progress"] = (ScenarioEngine.progress_tally as Dictionary).duplicate()
+	var dg := 0.0
+	var rg := 0.0
+	for h in c.history:
+		dg += float(h.get("draft_gain", 0.0))
+		if str(h.get("stage", "")) == CareerData.STAGE_HIGH_SCHOOL:
+			rg += float(h.get("recruiting", 0.0)) - rg if false else 0.0
+	out["draft_season_gain"] = dg
+	ScenarioEngine.progress_tally = null
 	out["seasons"] = c.history.size()
 	# Followers at the end of every season: [stage, season_in_stage, followers].
 	out["fans"] = c.history.map(func(h: Dictionary) -> Array:
@@ -609,6 +619,8 @@ func _report(results: Dictionary, n: int, problems: PackedStringArray, ms: int) 
 	L.append_array(_followers_sections(results, all, t))
 	L.append_array(_challenge_sections())
 	L.append_array(_reputation_section(all))
+	L.append_array(_age_section(all))
+	L.append_array(_progress_sources(all))
 	# --- life
 	L.append("## Life stats (average over every week played; share of weeks with any life stat low)")
 	L.append("")
@@ -1042,6 +1054,51 @@ func _chal_cell(i: int, q: float, f: String) -> String:
 	return "%d%% (n=%d)" % [roundi(100.0 * float(a[0]) / int(a[1])), int(a[1])]
 
 
+## Where draft stock comes from (careers that reached draft day): the
+## season-end formula vs scenario choices, and recruiting / grades from choices.
+func _progress_sources(all: Array) -> PackedStringArray:
+	var L := PackedStringArray()
+	var rs := all.filter(func(r): return r.has("draft_score"))
+	L.append("## Progress from scenario choices vs the season formula (per career)")
+	L.append("")
+	L.append("| | Careers | Draft stock at draft day | from season formula | from choices | Recruiting from choices | GPA from choices |")
+	L.append("|---|---|---|---|---|---|---|")
+	L.append("| Reached draft day | %d | %.1f | %.1f | %.1f | %.1f | %.2f |" % [rs.size(),
+		_avgf(rs.map(func(r): return float(r["draft_score"]))),
+		_avgf(rs.map(func(r): return float(r.get("draft_season_gain", 0.0)))),
+		_avgf(rs.map(func(r): return float(r.get("choice_progress", {}).get("draft", 0.0)))),
+		_avgf(all.map(func(r): return float(r.get("choice_progress", {}).get("recruiting", 0.0)))),
+		_avgf(all.map(func(r): return float(r.get("choice_progress", {}).get("grades", 0.0))))])
+	L.append("")
+	return L
+
+
+## How old careers end (no age cap): share of all careers and of pro careers
+## still playing at 38 / 40 / 42 / 45, and how they end.
+func _age_section(all: Array) -> PackedStringArray:
+	var L := PackedStringArray()
+	var pros := all.filter(func(r): return r["reached"].has("pro"))
+	L.append("## Career end age (no age cap)")
+	L.append("")
+	L.append("| Played to at least | 36 | 38 | 40 | 42 | 45 | Oldest |")
+	L.append("|---|---|---|---|---|---|---|")
+	for g in [["All careers", all], ["Pro careers", pros]]:
+		var rs: Array = g[1]
+		var row := "| %s (%d) |" % [g[0], rs.size()]
+		for a in [36, 38, 40, 42, 45]:
+			row += " %s |" % _pct(rs.filter(func(r): return int(r["retire_age"]) >= a).size(), rs.size())
+		row += " %d |" % (rs.map(func(r): return int(r["retire_age"])).max() if not rs.is_empty() else 0)
+		L.append(row)
+	L.append("")
+	var why := {}
+	for r in pros.filter(func(r): return int(r["retire_age"]) >= 36):
+		why[r["retire_reason"]] = int(why.get(r["retire_reason"], 0)) + 1
+	L.append("Pro careers ending at 36+: %s." % ", ".join(PackedStringArray(why.keys().map(
+		func(k): return "%s %d" % [k, why[k]]))))
+	L.append("")
+	return L
+
+
 ## Character reputation on draft day (Reputation): pro and draft rates for
 ## careers with and without the flags (compare a rep=0 run).
 func _reputation_section(all: Array) -> PackedStringArray:
@@ -1264,4 +1321,4 @@ func _aging_probe(income: float) -> String:
 
 ## A benched career that ended within a season of its last bench (not at the age cap).
 static func _ended_soon(r: Dictionary) -> bool:
-	return int(r["end_season"]) - int(r["bench_last_season"]) <= 1 and str(r["retire_reason"]) != "age_cap"
+	return int(r["end_season"]) - int(r["bench_last_season"]) <= 1
