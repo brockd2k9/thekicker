@@ -320,15 +320,23 @@ func _spend(c: CareerData, t: CareerTuning, out: Dictionary) -> void:
 	out["max_range"] = maxf(float(out["max_range"]), KickRange.fg_range(c, t))
 
 
-func _make_chance(c: CareerData, yards: int, pressure: float, stage: String) -> float:
+## Stand-in make chance. prof (optional): this game's KickProfile, so the
+## game-day range (life stats, weather, perks) and the wind effect (Toughness,
+## Wind Reader...) count; wind_mph: the kick's crosswind.
+const WIND_MAKE_COST := 0.003  # make chance lost per mph of crosswind at wind_mult 1.0
+
+
+func _make_chance(c: CareerData, yards: int, pressure: float, stage: String, prof: KickProfile = null,
+		wind_mph := 0.0) -> float:
 	var acc := c.stat("accuracy") / 100.0
 	var res := c.stat("resilience") / 100.0
-	var range := KickRange.fg_range(c, CareerTuning.get_default())
+	var range := prof.fg_range if prof != null else KickRange.fg_range(c, CareerTuning.get_default())
 	if yards > range:
 		return 0.02  # past your range: a full flick falls short
 	var narrow: float = {"college": 0.03, "juco": 0.03, "pro": 0.06, "free_agent": 0.06}.get(stage, 0.0)
 	var long_pen := maxf(float(yards) - (range - 6.0), 0.0) * 0.03
-	var p := 0.97 - (yards - 20) * 0.011 * (1.6 - acc) - pressure * 0.12 * (1.3 - res) - narrow - long_pen
+	var wind := absf(wind_mph) * WIND_MAKE_COST * (prof.wind_mult if prof != null else 1.0)
+	var p := 0.97 - (yards - 20) * 0.011 * (1.6 - acc) - pressure * 0.12 * (1.3 - res) - narrow - long_pen - wind
 	return clampf(p, 0.15, 0.98)
 
 
@@ -347,6 +355,7 @@ func _tryout(c: CareerData) -> int:
 func _play_game(m: CareerManager) -> Dictionary:
 	var c := m.data
 	var sim := m.new_game_sim(_kt)
+	var prof := m.profile()
 	var guard := 0
 	while guard < 1000:
 		guard += 1
@@ -361,7 +370,7 @@ func _play_game(m: CareerManager) -> Dictionary:
 				match str(e["kind"]):
 					"fg", "pat":
 						sim.resolve_call({"made": _rng.randf() < _make_chance(c, int(e["yards"]),
-							float(e.get("pressure", 0.0)), c.stage)})
+							float(e.get("pressure", 0.0)), c.stage, prof, float(e.get("wind", 0.0)))})
 					"kickoff":
 						var q := clampf(_rng.randf() * 0.6 + c.stat("power") / 100.0 * 0.4, 0.0, 1.0)
 						sim.resolve_call({"quality": q, "carry": 40.0 + q * 25.0, "text": "Kickoff."})
@@ -679,7 +688,8 @@ func _skill_sections(all: Array, t: CareerTuning) -> PackedStringArray:
 	L.append("")
 	L.append("| Career FG% | Careers | Slumps per 10 seasons | Careers with a slump |")
 	L.append("|---|---|---|---|")
-	for tier in [[0.0, 0.7, "under 70%"], [0.7, 0.8, "70-80%"], [0.8, 0.9, "80-90%"], [0.9, 1.01, "90%+"]]:
+	for tier in [[0.0, 0.65, "under 65%"], [0.65, 0.7, "65-70%"], [0.7, 0.8, "70-80%"], [0.8, 0.85, "80-85%"],
+			[0.85, 1.01, "85%+"]]:
 		var rs := all.filter(func(r): return float(r["fg_pct"]) >= tier[0] and float(r["fg_pct"]) < tier[1])
 		var seasons := 0.0
 		var slumps := 0.0
