@@ -114,7 +114,7 @@ Rerun `tools/career_sim.tscn` after changing any of them and compare with
   traits) and GPA decide college offers (top / mid-major / small; full, partial or preferred
   walk-on). No offers: walk-on tryout or junior college. College builds a draft score (times the
   school's exposure); undrafted -> camp invite or open tryouts. Pro: standing (retention) each
-  season decides re-sign / release; Retire after any pro season; age cap 38. Three poor marks in a
+  season decides re-sign / release; Retire after any pro season; no age cap (since stage 5B). Three poor marks in a
   row (poor seasons, releases, failed tryouts) with nothing on the table end the career.
 - **Life stats** drift toward `life_baseline` (60), Fun/Social gains are scaled by
   `fun_social_gain_mult` (0.7), and the low-stat penalties start at 40.
@@ -462,6 +462,67 @@ slump, bad stretch or bench is still on (engine state wins).
 
 To playtest: a dismissal in college before senior year goes straight to draft day; is that clear?
 
+## Stage 5B: no age cap, economy drift
+
+**What moved the pro / draft rates.** With followers off the game reached the pros about 75% and the
+draft about 44% (targets 60-70% / 25-35%). The simulator now counts progress from scenario choices
+(`ScenarioEngine.progress_tally`): a career gets **about 44 recruiting points** (on a 0-100 scale),
+8 draft points and +1.6 GPA from choices. The story graphs imported since the benching stage are the
+source (high school recruiting above all): more top offers, more exposure, more drafts. Not code:
+the run at the commit before PR #11 already showed 72% / 42%.
+
+Tried first, as asked (360 careers, seed 11):
+
+| Change | Pro | Drafted | FG range HS / college |
+|---|---|---|---|
+| Before | 73% | 40% | 48.7 / 54.0 |
+| `sp_scenario_scale` 0.5 | 74% | 41% | 48.3 / 53.5 |
+| `scenario_football_scale` 0.25 | 73% | 40% | 48.6 / 53.5 |
+| both | 74% | 37% | 48.0 / 52.9 |
+| `sp_scenario_scale` 0 | 64% | 35% | 47.3 / 52.3 (range under target) |
+| **`scenario_recruiting_scale` 0.5** (new) | 66% | 20% | 48.8 / 54.0 |
+| `scenario_recruiting_scale` 0.6 / 0.65 / 0.7 / 0.75 | 66 / 71 / 67 / 70% | 22 / 25 / 28 / 32% | 48.7-48.8 / 54.0-54.1 |
+
+Skill points and football gains from choices barely move the rates (and cut range below target
+before they do), so the fix is a new knob on what moved: choices' recruiting points x 0.7
+(`scenario_recruiting_scale`; `scenario_draft_scale` stays 1.0).
+
+**No age cap.** `pro_age_cap` (38) is gone; careers end through aging, standing and release.
+Older free agents get fewer tryouts: the chance a club calls is 1 until `fa_age_from`, then
+`fa_age_drop` less a year (a year with no call uses one of the `free_agent_attempts`). Ironman is
+now "play until 40". The contract screen no longer names a hard limit.
+
+| Pro careers that played to at least | 36 | 38 | 40 | 42 | 45 |
+|---|---|---|---|---|---|
+| Age cap removed, nothing else (seed 11/12) | 12-16% | 5-7% | 0-1% | 0% | 0% |
+| `retention_age` 5 -> 3 alone | 11% | 6% | 1% | 0% | 0% |
+| **Final** (`fa_age_from` 35, `fa_age_drop` 0.1, `retention_age` 3; 4 seeds) | 10% | 6% | 2.8% | 0.8% | 0% |
+
+Targets: 40 uncommon (about 3% of pro careers), 42 rare (under 1%), 45+ under 1% (none). The
+oldest kickers in 1,440 careers were 43-44.
+
+**Final, 4 seeds x 360 careers (followers on):** pros 69 / 69 / 68 / 69%, drafted 30 / 26 / 26 / 31%
+(mean 68.8% / 28.3%); FG range end of HS 48.7-48.8, end of college 54.0-54.1; 70 yd 0%; challenges
+unchanged (average kicker 81-98%); followers end of HS 1.9-2.0K, end of college 28-30K, pro season 6
+350-410K.
+
+**Benching** (fixed kicker quality, 180 careers each over 2 seeds): 60% kicker 74% benched at least
+once (target over 60%), 70% 36% (target 15-35%), 75% 21% (15-35%), 80% 6.5% (under 5%), 85% 0%.
+The 70% and 80% kickers sit just above their targets because careers are longer now (no age cap):
+the per-season rate is unchanged, and lowering `bench_trust` 35 -> 32 or 33 made no measurable
+difference (35-46%, 3-7%: noise). Left as is.
+
+| Value | Before | After |
+|---|---|---|
+| `pro_age_cap` | 38 | removed |
+| `fa_age_from` (new) | - | 35 |
+| `fa_age_drop` (new) | - | 0.1 |
+| `retention_age` | 5.0 | 3.0 |
+| `scenario_recruiting_scale` (new) | (1.0) | 0.7 |
+| `scenario_draft_scale` (new) | - | 1.0 |
+| `rel_recast_start` (new, recast) | - | 55 |
+| `suspend_max_weeks_pro` (new) | - | 11 |
+
 ## Kick challenge tuning
 
 The simulator plays each proposed conversion (`tests/fixtures/kick_challenge_conversions.json`) for
@@ -533,7 +594,7 @@ are a stand-in for real swipes, so everything involving kicking quality needs a 
    4 of 5 at 40-55. With real swipes these decide how often the fallback routes succeed.
 6. Draft: rounds at 90 / 84 / 78 / 72 / 66, camp invite from 52. Sim: 20% drafted, 62% reach pro.
 7. Pro standing: release below 35, re-sign from 50, -5 per year past 32; 4.9 pro seasons on
-   average, 8% reach the age cap of 38. `free_agent_attempts` 2.
+   average, 8% reached the old age cap of 38 (removed in stage 5B). `free_agent_attempts` 2.
 8. Career end: `career_end_poor_streak` 3, `poor_fg_pct` 60%.
 
 **Stats over a career**
