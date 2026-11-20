@@ -23,7 +23,7 @@ R2 changes numbers only; no scene waits on it. Money scenes (R3) are written now
 **Relationship strike flags** (the cheating storyline PRO_155-163; never read by team discipline): `pro_cheated`, `affair_public`.
 College flags set severity through locked choices.
 
-**Totals:** 175 scenes. **172 can be written now**: 147 need nothing new, and 25 are money scenes written with flags and stress costs. **3 are blocked** until R1, R4, R5, R6, R7 or R8 lands. Kinds: 150 once, 17 repeat, 5 variant, 3 per_club.
+**Totals:** 175 scenes. **172 can be written now**: 147 need nothing new, and 25 are money scenes written with flags and stress costs. **3 are blocked** until R1, R8 lands. Kinds: 150 once, 17 repeat, 5 variant, 3 per_club.
 
 | Waits on | Scenes |
 |---|---|

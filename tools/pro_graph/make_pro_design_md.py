@@ -59,7 +59,7 @@ L += ["", "R2 changes numbers only; no scene waits on it. Money scenes (R3) are 
       "**Pro strike flags** (the team-discipline steps PRO_124-128 read and clear only these): " + ", ".join(f"`{f}`" for f in d["pro_strike_flags"]) + ".",
       "**Relationship strike flags** (the cheating storyline PRO_155-163; never read by team discipline): " + ", ".join(f"`{f}`" for f in d["relationship_strike_flags"]) + ".",
       "College flags set severity through locked choices.", "",
-      f"**Totals:** {len(S)} scenes. **{len(free) + len(r3)} can be written now**: {len(free)} need nothing new, and {len(r3)} are money scenes written with flags and stress costs. **{len(blocked)} are blocked** until R1, R4, R5, R6, R7 or R8 lands. Kinds: " + ", ".join(f"{v} {k}" for k, v in Counter(x["kind"] for x in S).items()) + ".", "",
+      f"**Totals:** {len(S)} scenes. **{len(free) + len(r3)} can be written now**: {len(free)} need nothing new, and {len(r3)} are money scenes written with flags and stress costs. **{len(blocked)} are blocked** until " + ", ".join(sorted({w.split()[0] for x in blocked for w in x["waits_on"] if not w.startswith("R3")})) + " lands. Kinds: " + ", ".join(f"{v} {k}" for k, v in Counter(x["kind"] for x in S).items()) + ".", "",
       "| Waits on | Scenes |", "|---|---|"]
 wc = defaultdict(list)
 for x in S:
