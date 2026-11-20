@@ -435,11 +435,11 @@ standing and the backup kicker move only through play; these need real-play chec
 
 ## College story runs (verify in the game)
 The college story graph is `data/career/scenarios_college.json` (COL_*, all 154 written).
-**Guaranteed** scenes are story events (x4 weight while their window is open, forced in its last week) and
-beats. Everything else is a weighted random pick (1-2 a week, 2 in byes and offseasons) once its
-requirements are met, so a follow-up can take several weeks to show, or miss its window. A
-missing random scene is not a bug by itself. A scene that shows up when its requirements are
-*not* met is. Note each choice you make, because the next steps depend on it.
+**Guaranteed** scenes are story events (x4 weight while their window is open, forced in the window's
+last week if the player qualifies and hasn't seen it) and beats. Everything else is a weighted random
+pick (1-2 a week, 2 in byes and offseasons) once its requirements are met. A missing random scene is
+not a bug by itself. A scene that shows up when its requirements are *not* met is. Note each choice
+you make, because the next steps depend on it.
 
 **Run 1: clean player** (never pick a choice with bad conduct; say no at every party)
 - Year 1: COL_001 Move-In Day (week 1), COL_011 Freshman Traditions (weeks 1-3). Walk-ons also get
@@ -449,36 +449,59 @@ missing random scene is not a bug by itself. A scene that shows up when its requ
 - Year 4: COL_104 Senior Year Starts (week 1), col_pro_scouts Scouts at Practice (week 4),
   COL_105 The Background Check (weeks 3-9), col_combine_invite Combine Invite (week 9, only with
   draft score 40+), COL_150 The Next Level (week 10).
-- **Should never appear:** COL_036 The Coach's Office, COL_071 The Second Strike, COL_017 The Pattern,
+- **Should never appear** (the wrong-path steps are story events but only open on a strike):
+  COL_036 The Coach's Office, COL_071 The Second Strike, COL_017 The Pattern,
   COL_086 The Final Warning, COL_078 The Long Way Back, COL_106 The Red Flag Interview, and in the
   pros The Folder Follows You, The Old Crowd, The Rookie Symposium and The Reporter's Question.
 - **Finale check:** "Say you're ready for the pros" is open only if you took a good choice in COL_108
   Combine Prep or COL_109 The Scouts' Workout. "Say you'll be okay either way" is open only after
   "Finish the degree" in COL_111 The Degree Question. The other two choices are always open.
 
-**Run 2: wrong path, ending on The Long Way Back.** Take the strikes in this order. Each
-wrong-path step clears every strike, so the next step needs a new one.
+**Run 2: wrong path, ending on The Long Way Back.** Take the strikes in this order. The four
+wrong-path steps are **story events**: x4 weight while their window is open, and **forced** in the
+last week of the window if you qualify and haven't seen them. Every step except The Long Way Back
+clears every strike (all 24, including `balcony_jump`, `street_race` and `gave_keys_back`), so the
+next step needs a new one. The strike scenes themselves (steps 1, 3 and 5) are random picks. If one
+doesn't come up, take any other choice with bad or scandal conduct: the steps read every strike.
+
+| Step | Window (eligible in weeks...) | Forced in |
+|---|---|---|
+| COL_036 The Coach's Office | years 1-3, weeks 1-11 | year 3, week 11 |
+| COL_017 The Pattern (COL_071 The Second Strike on the other branch) | years 2-4, weeks 1-6 | year 4, week 6 |
+| COL_086 The Final Warning | years 2-4, weeks 1-7 | year 4, week 7 |
+| COL_078 The Long Way Back | years 2-4, weeks 1-8 | year 4, week 8 |
+
 1. Year 1, COL_030 The Online Comment: "Reply with exactly what you think" (strike `online_incident`).
-2. **COL_036 The Coach's Office** (random, years 1-3): "Tell the whole truth" (`owned_mistake`).
+2. **COL_036 The Coach's Office**: "Tell the whole truth" (`owned_mistake`). Usually within a few
+   weeks; at the latest year 3 week 11.
 3. Year 2, COL_039 The Big House Party (weeks 2-8): "Stay for the chaos" (strike `party_trouble`).
-4. **COL_017 The Pattern** (random, years 2-4): "Own it again, and change something" (`second_chance_used`).
+4. **COL_017 The Pattern**: "Own it again, and change something" (`second_chance_used`). Year 2 or 3
+   weeks 1-6 (x4 weight); at the latest year 4 week 6.
 5. Year 3, COL_087 The Twenty-First Birthday: "Stay out until close" (strike `stayed_out_late`).
-6. **COL_086 The Final Warning** (random, years 2-4): "Push back on the conditions" (`character_concerns`;
-   scandal conduct, which ends brand deals).
-7. **COL_078 The Long Way Back** (random, years 2-4): "Take every hour of it" (`rebuilt_reputation`,
-   clears `character_concerns`).
-8. Year 4: COL_104, col_pro_scouts and COL_105 The Background Check as in run 1. In COL_105 the locked
-   choice "Point them to the people who saw you change" should be **open**. If they come up,
-   COL_113 The Last Rivalry Week and COL_127 Giving Back should also have their
-   `rebuilt_reputation` choice open. Then COL_150.
+6. **COL_086 The Final Warning**: "Push back on the conditions" (`character_concerns`; scandal
+   conduct, which ends brand deals). At the latest year 4 week 7.
+7. **COL_078 The Long Way Back**: "Take every hour of it" (`rebuilt_reputation`, clears
+   `character_concerns`). At the latest year 4 week 8.
+8. Year 4: COL_104 Senior Year Starts (week 1), col_pro_scouts (week 4) and COL_105 The Background Check
+   (weeks 3-9) as in run 1. In COL_105 the locked choice "Point them to the people who saw you change"
+   should be **open**. If they come up, COL_113 The Last Rivalry Week and COL_127 Giving Back should
+   also have their `rebuilt_reputation` choice open. Then COL_150 (week 10).
 9. Pro season 1-2: The Rookie Symposium can appear (reads `rebuilt_reputation` / `owned_mistake`).
 
 **Run 2 checks:**
+- Each step appears no later than its forced week once you qualify. A step that appears **without** its
+  flags (The Pattern without `owned_mistake` plus a new strike, The Final Warning without
+  `second_chance_used` plus a new strike, The Long Way Back without `character_concerns`) is a bug.
+- A step's window can close before you qualify. For example, a strike in year 4 after week 6 can't
+  open The Pattern, and The Final Warning can't open after year 4 week 7. That's by design.
 - COL_071 The Second Strike never appears (this path never sets `college_warning`).
 - COL_106 The Red Flag Interview and the pro scenes The Folder Follows You and The Reporter's
   Question don't appear after step 7, because `character_concerns` is cleared.
-- Any strike scene picked by mistake before step 2 opens The Coach's Office the same way.
 - Draft score drops at every strike and at steps 2, 4 and 6 (-1 to -8), then rises at step 7 (+3).
+- At most 2 scenes are forced in one week. Year 4 forced weeks: 1 Senior Year Starts, 4 Scouts at
+  Practice, 6 The Pattern / The Second Strike, 7 The Final Warning, 8 The Long Way Back, 9 The
+  Background Check and Combine Invite, 10 The Next Level. The graph check warns if a week ever holds
+  more than 2.
 
 ## Known gaps
 - No full signed Android build yet: a pack-only export was verified (all data included, boots and

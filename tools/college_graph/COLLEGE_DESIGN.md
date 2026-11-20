@@ -313,3 +313,5 @@ Strike flags (any one opens the wrong-path chain; every wrong-path step clears t
 - **COL_154 The Fast Lane** (Y2-4; {coach}): A teammate pulls up next to you on the highway at night and dares you to race him to the next exit. · Sets: `street_race` (new strike)
 
 `balcony_jump`, `street_race` and `gave_keys_back` are new strike flags: The Coach's Office, The Second Strike, The Pattern and The Final Warning read them and clear them.
+
+**Wrong-path steps are story events** (x4 weight while open, forced in the window's last week if the player qualifies and hasn't seen them): COL_036 The Coach's Office (years 1-3, weeks 1-11, forced year 3 week 11), COL_071 The Second Strike and COL_017 The Pattern (years 2-4, weeks 1-6, forced year 4 week 6; one branch each, never both), COL_086 The Final Warning (years 2-4, weeks 1-7, forced year 4 week 7), COL_078 The Long Way Back (years 2-4, weeks 1-8, forced year 4 week 8). These weeks avoid the other forced weeks (year 3 week 4, year 4 weeks 1, 4, 9 and 10); the graph check warns if a week holds more than max_forced_per_week (2).

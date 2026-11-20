@@ -251,6 +251,17 @@ class CollegeGraphTests(unittest.TestCase):
                         errs += [sc["id"] for st in sc.get("stages", []) if st in last and se[0] >= last[st]]
         self.assertEqual(errs, [])
 
+    def test_wrong_path_steps_are_story_events_in_free_weeks(self):
+        doc = json.load(open(os.path.join(ROOT, "data", "career", "scenarios_college.json")))
+        s = {x["id"]: x for x in doc["scenarios"]}
+        forced = {i: (s[i]["seasons"][1], s[i]["weeks"][1]) for i in ["COL_036", "COL_071", "COL_017", "COL_086", "COL_078"]}
+        self.assertTrue(all(s[i].get("story") for i in forced))
+        self.assertEqual(forced, {"COL_036": (3, 11), "COL_071": (4, 6), "COL_017": (4, 6), "COL_086": (4, 7),
+                                  "COL_078": (4, 8)})
+        p = subprocess.run([sys.executable, os.path.join(ROOT, "tools", "validate_scenario_graph.py")],
+                           capture_output=True, text=True, cwd=ROOT)
+        self.assertNotIn("forced week", p.stdout)
+
     def test_college_template_shapes(self):
         t = json.load(open(os.path.join(ROOT, "tools", "authoring", "college_template_all.json")))["scenarios"]
         self.assertEqual(len(t), 154)

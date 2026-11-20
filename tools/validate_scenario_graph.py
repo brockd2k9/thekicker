@@ -356,6 +356,17 @@ def _strike_flags():
 STRIKES = _strike_flags()
 
 
+def forced_cap():
+    """CareerTuning.max_forced_per_week."""
+    path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                        "scripts", "career", "career_tuning.gd")
+    try:
+        m = re.search(r"var max_forced_per_week\s*:\s*int\s*=\s*(\d+)", open(path, encoding="utf-8").read())
+        return int(m.group(1)) if m else 2
+    except OSError:
+        return 2
+
+
 def stage_seasons():
     """Seasons per stage, from CareerTuning (high_school_seasons, juco_seasons, college_seasons)."""
     path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
@@ -441,6 +452,28 @@ def audit_data(data_dir):
                 errors.append(f"{sid}: story needs seasons")
             if sc.get("when") != ["offseason"] and not (isinstance(sc.get("weeks"), list) and len(sc["weeks"]) == 2):
                 errors.append(f"{sid}: story needs weeks (or when [offseason])")
+
+    # Forced weeks: story events in the last week of their window and story beats. More than
+    # max_forced_per_week in one stage / season / week and the extra story event is lost.
+    cap = forced_cap()
+    forced = defaultdict(list)
+    for sc in scen:
+        if sc.get("draft") or sc.get("follow_up_only"):
+            continue
+        for st in sc.get("stages", []):
+            if isinstance(sc.get("beat"), dict):
+                b = sc["beat"]
+                key = (st, int(b.get("season_in_stage", 1)), "offseason" if sc.get("when") == ["offseason"] else int(b.get("week", 1)))
+            elif sc.get("story") and isinstance(sc.get("seasons"), list):
+                wk = "offseason" if sc.get("when") == ["offseason"] else (sc.get("weeks") or [0, 0])[1]
+                key = (st, int(sc["seasons"][1]), wk)
+            else:
+                continue
+            forced[key].append(sc["id"])
+    for key, ids in sorted(forced.items(), key=str):
+        if len(ids) > cap:
+            warns.append(f"forced week {key[0]} season {key[1]} week {key[2]}: {len(ids)} story events / beats "
+                         f"({', '.join(ids)}), more than max_forced_per_week {cap}")
 
     dead = sorted(f for f in setters if f not in readers)
     # Titles (live + drafts, all files).
