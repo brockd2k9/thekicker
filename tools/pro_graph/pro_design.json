@@ -1752,6 +1752,15 @@
    "weeks": null,
    "when": null,
    "requires": {
+    "any_flags": [
+     "made_long_distance_work",
+     "committed_to_relationship",
+     "new_partner"
+    ],
+    "not_flags": [
+     "engaged",
+     "married"
+    ],
     "min": {
      "rel_love_interest": 55
     }
@@ -2847,8 +2856,8 @@
     ]
    },
    "sets": [
-    "pro_owned_it",
-    "pro_warning"
+    "pro_warning",
+    "pro_owned_it"
    ],
    "people": [],
    "kind": "once",
@@ -2859,7 +2868,7 @@
     "character_concerns"
    ],
    "story": true,
-   "note": "College flags set severity (character_concerns: harsher; rebuilt_reputation: benefit of the doubt). Clears every pro strike."
+   "note": "Both choices set pro_warning (the fine is on record); owning it also sets pro_owned_it. College flags set severity through a locked choice. Every choice clears every pro strike."
   },
   {
    "id": "PRO_125",
@@ -2872,21 +2881,23 @@
    "weeks": null,
    "when": null,
    "requires": {
-    "any_flags": [
-     "pro_owned_it",
+    "flags": [
      "pro_warning"
     ],
-    "strike": "new pro strike"
+    "any_flags": [
+     "(every pro strike)"
+    ]
    },
    "sets": [
-    "pro_second_chance"
+    "pro_second_chance",
+    "pro_character_concerns"
    ],
    "people": [],
    "kind": "once",
    "waits_on": [],
    "callbacks": [],
    "story": true,
-   "note": "Clears every pro strike."
+   "note": "Opens on the warning plus a new pro strike. suspend_weeks 2 (longer once R9 lands). Every choice clears every pro strike."
   },
   {
    "id": "PRO_126",
@@ -2902,7 +2913,9 @@
     "flags": [
      "pro_second_chance"
     ],
-    "strike": "new pro strike"
+    "any_flags": [
+     "(every pro strike)"
+    ]
    },
    "sets": [
     "pro_last_chance",
@@ -2915,7 +2928,7 @@
     "last_chance"
    ],
    "story": true,
-   "note": "Clears every pro strike."
+   "note": "Every choice clears every pro strike. College last_chance adds a locked line."
   },
   {
    "id": "PRO_127",
@@ -3888,10 +3901,10 @@
   },
   {
    "id": "PRO_165",
-   "title": "The Test Result",
+   "title": "The Search",
    "group": "Wrong path (pro)",
    "chain": "Banned substance",
-   "premise": "The league's testing officer asks you to sit down. The sample from last month's random test came back.",
+   "premise": "League testers arrive unannounced and ask to see your locker and your gym bag. The package is still in it.",
    "ages": null,
    "seasons_with_club": null,
    "weeks": null,
@@ -3902,7 +3915,7 @@
     ]
    },
    "sets": [
-    "pro_failed_test"
+    "pro_caught_with_package"
    ],
    "people": [
     "coach",
@@ -3912,7 +3925,7 @@
    "kind": "once",
    "waits_on": [],
    "callbacks": [],
-   "note": "Follow-up to The Package. Costs: suspend_weeks 3, retention, followers, conduct scandal (sponsors drop the player)."
+   "note": "Follow-up to The Package: a possession case, not a positive test, so the player is never shown taking anything. Costs: suspend_weeks (3 now; longer once R9 lands), retention, followers, conduct scandal (sponsors drop the player)."
   },
   {
    "id": "PRO_166",

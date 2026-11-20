@@ -356,8 +356,8 @@ fine; "gamble" and "bet on the game" are blocked).
 **Suspensions.** `"suspend_weeks": n` (a whole number 1-3; the engine caps stacked suspensions at 3)
 sits the player out the next n games, like academic ineligibility, with a SUSPENDED banner. Use it
 only for the worst choices, always with `"conduct": "bad"` or `"scandal"` (the importer warns
-otherwise), and usually in a follow-up scene such as The Test Result. A new stage clears it.
-Example: `{"label": "...", "suspend_weeks": 2, "conduct": "scandal", "set_flags": {"pro_failed_test": true}}`.
+otherwise), and usually in a follow-up scene such as The Search. A new stage clears it.
+Example: `{"label": "...", "suspend_weeks": 2, "conduct": "scandal", "set_flags": {"pro_caught_with_package": true}}`.
 
 ## Content rules (teen audience)
 

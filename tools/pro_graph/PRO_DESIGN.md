@@ -241,7 +241,7 @@ College flags set severity through locked choices.
 
 | ID | Title | Window | Kind | Opens on | Sets | Callbacks (locked choices) | Waits on |
 |---|---|---|---|---|---|---|---|
-| PRO_074 | The Proposal | any | once | rel_love_interest 55+ | engaged |  |  |
+| PRO_074 | The Proposal | any | once | made_long_distance_work / committed_to_relationship / new_partner; not engaged / married; rel_love_interest 55+ | engaged |  |  |
 | PRO_075 | The Wedding | offseason | once | engaged | married |  |  |
 | PRO_076 | The Due Date | any | once | married / engaged | became_parent |  |  |
 | PRO_077 | First Day of School | age 27+ | once | became_parent |  |  |  |
@@ -345,21 +345,21 @@ College flags set severity through locked choices.
 | PRO_121 | The New Car | any | once |  | pro_reckless_driving | street_race |  |
 | PRO_122 | The Rant | any | once |  | pro_online_rant | online_incident, handled_old_post |  |
 | PRO_123 | The Card Game | any | once |  | pro_gambling_debt |  | R3 money values |
-| PRO_124 | The Team Fine | story | once | (every pro strike) | pro_owned_it, pro_warning | owned_mistake, rebuilt_reputation, character_concerns |  |
-| PRO_125 | League Discipline | story | once | pro_owned_it / pro_warning; new pro strike | pro_second_chance |  |  |
-| PRO_126 | The Last Warning, Pro | story | once | pro_second_chance; new pro strike | pro_last_chance, pro_character_concerns | last_chance |  |
+| PRO_124 | The Team Fine | story | once | (every pro strike) | pro_warning, pro_owned_it | owned_mistake, rebuilt_reputation, character_concerns |  |
+| PRO_125 | League Discipline | story | once | pro_warning; (every pro strike) | pro_second_chance, pro_character_concerns |  |  |
+| PRO_126 | The Last Warning, Pro | story | once | pro_second_chance; (every pro strike) | pro_last_chance, pro_character_concerns | last_chance |  |
 | PRO_127 | Released for Conduct | any | once | pro_last_chance; new pro strike | dismissed |  | R7 dismissal |
 | PRO_128 | The Long Way Back, Pro | story | once | pro_character_concerns | pro_rebuilt_reputation |  |  |
 | PRO_129 | The League's Counselor | any | once | pro_second_chance / pro_last_chance |  |  |  |
 | PRO_130 | A Clean Year | any | once | pro_owned_it / pro_rebuilt_reputation |  |  |  |
 | PRO_164 | The Package | any | once |  | pro_banned_substance, reported_package | took_unapproved_supplement, refused_improper_help |  |
-| PRO_165 | The Test Result | any | once | pro_banned_substance | pro_failed_test |  |  |
+| PRO_165 | The Search | any | once | pro_banned_substance | pro_caught_with_package |  |  |
 | PRO_166 | The Night Before | any | once |  | pro_night_before |  |  |
 | PRO_167 | Late for the Meeting | any | repeat |  | pro_late_meeting, late_fined |  |  |
 | PRO_168 | Late Again | any | once | late_fined | pro_late_meeting, late_warned |  |  |
 | PRO_169 | The Depth Chart Note | any | once | late_warned | pro_late_meeting |  |  |
 | PRO_170 | The Office Pool | any | once |  | pro_casual_bet |  |  |
-| PRO_171 | The Bookie | any | once |  | pro_betting_scandal | refused_improper_help, reported_runner |  |
+| PRO_171 | The Bookie | any | once |  | pro_betting_scandal, reported_bookie | refused_improper_help, reported_runner |  |
 | PRO_172 | The Investigation | any | once | pro_betting_scandal | pro_character_concerns |  |  |
 
 - **PRO_116 After the Game**: A teammate's night out after a home game starts at a club and ends somewhere you don't want to be. *(Strike. Clean no.)*
@@ -370,15 +370,15 @@ College flags set severity through locked choices.
 - **PRO_121 The New Car**: Your new car does zero to sixty in three seconds, and the highway is empty at midnight.
 - **PRO_122 The Rant**: It's two in the morning and you've written four paragraphs about the general manager.
 - **PRO_123 The Card Game**: The card game in the back of the team plane has a buy-in bigger than your first car.
-- **PRO_124 The Team Fine**: The club fines you and calls you in. The special teams coach is there, and so is the general manager. *(College flags set severity (character_concerns: harsher; rebuilt_reputation: benefit of the doubt). Clears every pro strike.)*
-- **PRO_125 League Discipline**: The league office wants a meeting. It's not a conversation; it's a hearing. *(Clears every pro strike.)*
-- **PRO_126 The Last Warning, Pro**: The general manager says it plainly: one more and you're done here. *(Clears every pro strike.)*
+- **PRO_124 The Team Fine**: The club fines you and calls you in. The special teams coach is there, and so is the general manager. *(Both choices set pro_warning (the fine is on record); owning it also sets pro_owned_it. College flags set severity through a locked choice. Every choice clears every pro strike.)*
+- **PRO_125 League Discipline**: The league office wants a meeting. It's not a conversation; it's a hearing. *(Opens on the warning plus a new pro strike. suspend_weeks 2 (longer once R9 lands). Every choice clears every pro strike.)*
+- **PRO_126 The Last Warning, Pro**: The general manager says it plainly: one more and you're done here. *(Every choice clears every pro strike. College last_chance adds a locked line.)*
 - **PRO_127 Released for Conduct**: After a last chance, another strike: the club is done with you. *(Sets the dismissal flag; the release happens at season end once R7 lands.)*
 - **PRO_128 The Long Way Back, Pro**: A new club, a short contract, and a list of conditions longer than the playbook.
 - **PRO_129 The League's Counselor**: The league assigns you a counselor after the hearing, and the first session is Tuesday.
 - **PRO_130 A Clean Year**: A full year without a fine, a headline or a hearing. The general manager notices.
 - **PRO_164 The Package**: A trainer from a private gym you used last summer leaves a package in your locker: a banned substance, a note that says it can't be detected, and his number. *(The player is never shown taking anything: the wrong choice is keeping the package and saying nothing. Clean no: the team doctor or the league's confidential line. Tone-check scene.)*
-- **PRO_165 The Test Result**: The league's testing officer asks you to sit down. The sample from last month's random test came back. *(Follow-up to The Package. Costs: suspend_weeks 3, retention, followers, conduct scandal (sponsors drop the player).)*
+- **PRO_165 The Search**: League testers arrive unannounced and ask to see your locker and your gym bag. The package is still in it. *(Follow-up to The Package: a possession case, not a positive test, so the player is never shown taking anything. Costs: suspend_weeks (3 now; longer once R9 lands), retention, followers, conduct scandal (sponsors drop the player).)*
 - **PRO_166 The Night Before**: The night before a game, a teammate's dinner (or your agent's dinner for his clients) moves to a strip club, and the whole table is getting up. *(Non-explicit: the scene ends at the choice, and the bad choice cuts to the next morning. Costs: photos online (followers, conduct bad), tired / late_night into the game, {coach}; {love_interest} only through a locked or follow-up line if the player has a partner (partner flags). No game result.)*
 - **PRO_167 Late for the Meeting**: The special teams meeting started at eight. It's 8:06, and you're in the parking lot. *(Escalation, step 1: the fine. Repeatable (cooldown 15 weeks); the escalating text lives in 168 and 169.)*
 - **PRO_168 Late Again**: Late again. This time {coach} is waiting outside the meeting room, and the fine isn't the topic. *(Escalation, step 2: the talking-to.)*

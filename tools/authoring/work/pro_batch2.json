@@ -1,0 +1,966 @@
+{
+  "_about": "PRO batch 2: the first money and contract scenes (agents, advisors, the big check, ventures, taxes). PRO_059 and PRO_061 are already written in pro_tone_check.json. Money values come with the savings stat.",
+  "scenarios": [
+    {
+      "id": "PRO_048",
+      "title": "The Agent's Bigger Client",
+      "category": "career",
+      "text": "Your agent just signed a star quarterback. Your last three calls went to voicemail, and the fourth went to an assistant who asked how to spell your name.",
+      "choices": [
+        {
+          "label": "Say something now",
+          "result": "You email your agent a short list: what you need this year and by when. The reply comes from your agent personally, a day late and apologetic.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Let it slide",
+          "result": "You tell yourself the agent's busy and it'll even out. It doesn't. You stop expecting calls back.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": -1
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ],
+          "set_flags": {
+            "agent_neglect": true
+          }
+        },
+        {
+          "label": "Vent to the locker room",
+          "result": "You complain about your agent to anyone who'll listen. Two teammates say theirs is worse. A reporter hears about it by Friday.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": -1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "agent_neglect": true
+          },
+          "followers": -1
+        }
+      ]
+    },
+    {
+      "id": "PRO_049",
+      "title": "Firing Your Agent",
+      "category": "career",
+      "text": "Your agent has missed two deadlines this year, including one for a bonus you never saw. Firing an agent means starting over with someone new in the middle of a career.",
+      "choices": [
+        {
+          "label": "Fire your agent",
+          "result": "You send a short letter and make three calls to find someone new. It's awkward for a month and a relief after that.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "fired_agent": true
+          }
+        },
+        {
+          "label": "Give one last chance",
+          "result": "You sit down with your agent and lay out exactly what has to change. Things get better for a season, mostly.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Stay and say nothing",
+          "result": "You decide a bad agent you know beats a new one you don't. The next deadline gets missed too.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": -1
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ],
+          "retention": -1
+        }
+      ]
+    },
+    {
+      "id": "PRO_050",
+      "title": "The Good Agent",
+      "category": "career",
+      "text": "An agent with six clients asks for an hour. The pitch has no private jets and no promises, just a plan so plain it's almost funny.",
+      "choices": [
+        {
+          "label": "Sign with the plain plan",
+          "result": "You sign. The calls get answered, the deadlines get met, and nothing about it will ever make a highlight reel.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "good_agent": true
+          }
+        },
+        {
+          "label": "Stay with the big agency",
+          "result": "You stay with the big agency because the name opens doors. Some do. Some just have a receptionist behind them.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "followers": 1
+        },
+        {
+          "label": "Ask what they'd fix first",
+          "result": "You ask what they'd change about your career tomorrow. The answer is specific and a little uncomfortable, and you hire them on the spot.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "good_agent": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_056",
+      "title": "The Big Check",
+      "category": "money",
+      "text": "The signing bonus clears. Within an hour your phone lights up with cousins, a car dealer and someone from high school who wants to 'catch up'.",
+      "choices": [
+        {
+          "label": "Put it somewhere boring",
+          "result": "You put almost all of it somewhere boring and tell everyone it's tied up. Nobody believes you, and nobody can get to it.",
+          "stats": {
+            "life": {
+              "fun": -1,
+              "energy": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "saved_big_check": true
+          }
+        },
+        {
+          "label": "Celebrate properly",
+          "result": "You take the whole family on a trip and buy the house with the pool. It's the best summer anyone in your family has had.",
+          "stats": {
+            "life": {
+              "fun": 4,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {
+            "spent_big_check": true
+          },
+          "rel": {
+            "parent": 4
+          }
+        },
+        {
+          "label": "Set aside a family share",
+          "result": "You set aside one share for family and tell them it's the only one. The cousins grumble. {parent} quietly approves.",
+          "stats": {
+            "life": {
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "saved_big_check": true
+          },
+          "rel": {
+            "parent": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_057",
+      "title": "The Honest Advisor",
+      "category": "money",
+      "text": "A financial advisor recommended by your long snapper walks you through a plan so boring it's almost funny: index funds, a budget, a rule about cars.",
+      "choices": [
+        {
+          "label": "Hire the boring advisor",
+          "result": "You hire the advisor and follow the rule about cars, mostly. Nothing exciting happens to your money, which is the point.",
+          "stats": {
+            "life": {
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "honest_advisor": true
+          }
+        },
+        {
+          "label": "Ask for something with more upside",
+          "result": "You ask for something with more upside. The advisor says no, explains why, and you hire them anyway.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "honest_advisor": true
+          }
+        },
+        {
+          "label": "Pass for now",
+          "result": "You say you'll think about it and never call back. The money sits in a checking account doing nothing at all.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_058",
+      "title": "The Advisor With the Yacht",
+      "category": "money",
+      "text": "A financial advisor who manages three of your teammates invites you onto his boat and talks about 'real returns', the kind 'the boring guys' can't get you.",
+      "choices": [
+        {
+          "label": "Hand over your money",
+          "result": "You sign the papers on the boat. The first statements look incredible, and he's always available when you call.",
+          "stats": {
+            "life": {
+              "fun": 3,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "intelligence": -2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {
+            "trusted_flashy_advisor": true
+          }
+        },
+        {
+          "label": "Ask for audited statements",
+          "result": "You ask for audited statements and a reference outside football. He laughs and changes the subject, and you never sign.",
+          "stats": {
+            "life": {
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Enjoy the boat, sign nothing",
+          "result": "You enjoy the afternoon, eat his food and sign nothing. Your teammates think you're paranoid.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": -1
+          }
+        },
+        {
+          "label": "Send it to the people you trust",
+          "result": "You send his paperwork to the people who already handle your money. Their reply is one word: 'No.' Then a second message: 'Warn your teammates.'",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "team": 2
+          },
+          "requires": {
+            "any_flags": [
+              "good_agent",
+              "honest_advisor"
+            ]
+          },
+          "lock_text": "having an agent or advisor you trust"
+        }
+      ]
+    },
+    {
+      "id": "PRO_060",
+      "title": "The Lawsuit",
+      "category": "money",
+      "text": "Your lawyer says you can sue the advisor who took your money. It'll take three years, and your name will be in every story.",
+      "choices": [
+        {
+          "label": "Sue him",
+          "result": "You file. The case drags on for years, you testify twice, and some of the money comes back long after you've stopped counting on it.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "fun": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "ambition": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "sued_advisor": true
+          },
+          "followers": -1
+        },
+        {
+          "label": "Report him and move on",
+          "result": "You file the report with the regulators and let them handle it. He's barred from the business a year later. You never see a dime.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Join with the other players",
+          "result": "You call the three teammates he also handled. Together you hire one lawyer and split the bill. It's slower, and nobody faces it alone.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "sued_advisor": true
+          },
+          "rel": {
+            "team": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_062",
+      "title": "The Restaurant Is Failing",
+      "category": "money",
+      "text": "The steakhouse is losing money every week. The chef quit, your old teammate isn't answering, and your name is still lit up over the door.",
+      "choices": [
+        {
+          "label": "Close it now",
+          "result": "You close it, pay the staff two weeks' wages from your own pocket and take your name down yourself. It hurts, and it's over.",
+          "stats": {
+            "life": {
+              "fun": -2,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "set_flags": {
+            "bad_venture": true
+          }
+        },
+        {
+          "label": "Put more money in",
+          "result": "You write another check to keep it open one more season. The food gets better. The losses don't.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "bad_venture": true
+          }
+        },
+        {
+          "label": "Sell your share to your partner",
+          "result": "You sell your share to your old teammate for whatever he can pay. You lose most of it and keep the friendship, barely.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "bad_venture": true
+          }
+        },
+        {
+          "label": "Let your advisor run the exit",
+          "result": "Your advisor finds a buyer for the lease and the equipment within a month. You lose money, but a lot less than you would have.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "bad_venture": true
+          },
+          "requires": {
+            "flags": [
+              "honest_advisor"
+            ]
+          },
+          "lock_text": "having an advisor you trust"
+        }
+      ]
+    },
+    {
+      "id": "PRO_063",
+      "title": "The Car Dealership",
+      "category": "money",
+      "text": "A car dealership wants you as a partner: your face on the billboards, your money in the lot, and a guaranteed parking space with your name on it.",
+      "choices": [
+        {
+          "label": "Become a partner",
+          "result": "You sign. Your face goes up on the highway, and every teammate calls you about a deal. The dealership's books are the dealer's business, until they aren't.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "set_flags": {
+            "dealership_partner": true
+          },
+          "followers": 3
+        },
+        {
+          "label": "Do the ads, skip the ownership",
+          "result": "You agree to the billboards for a flat fee and keep your money out of the lot. It's less exciting and a lot safer.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "followers": 2
+        },
+        {
+          "label": "Pass",
+          "result": "You pass. Your face stays off the highway, and somebody else's goes up three months later.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_064",
+      "title": "The Friend's Start-Up",
+      "category": "money",
+      "text": "{best_friend} is starting a company, a real one with a plan and two hires, and asks you to be the first investor.",
+      "choices": [
+        {
+          "label": "Invest",
+          "result": "You write the check because it's {best_friend}, and because the plan is actually good. You get a seat at their first board meeting and don't understand half of it.",
+          "stats": {
+            "life": {
+              "fun": 1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "invested_in_friend": true
+          },
+          "rel": {
+            "best_friend": 6
+          }
+        },
+        {
+          "label": "Invest a little, and say why",
+          "result": "You invest a small piece and tell {best_friend} why it's small. It stings for a day, and they respect it after that.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "invested_in_friend": true
+          },
+          "rel": {
+            "best_friend": 3
+          }
+        },
+        {
+          "label": "Say no as a friend",
+          "result": "You say you don't mix friendship and money, and you mean it kindly. {best_friend} says they understand, and calls a little less often.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "best_friend": -3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_065",
+      "title": "The Start-Up Calls",
+      "category": "money",
+      "text": "{best_friend}'s company is close: one more check and they make it to the next stage, or they fold this month.",
+      "choices": [
+        {
+          "label": "Write the last check",
+          "result": "You write it. Six months later the company is bought, and your share turns into the best investment of your life. {best_friend} cries on the phone.",
+          "stats": {
+            "life": {
+              "fun": 3
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "best_friend": 8
+          }
+        },
+        {
+          "label": "Hold the line",
+          "result": "You don't put in more. The company makes it anyway with someone else's money, and your share is smaller than it could have been. You're still glad for them.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "best_friend": 2
+          }
+        },
+        {
+          "label": "Help them find another investor",
+          "result": "You introduce {best_friend} to two people from the owner's gala. One of them writes the check.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "best_friend": 6
+          }
+        },
+        {
+          "label": "Ask your advisor to look first",
+          "result": "Your advisor reads the numbers and says this one is real. You write the check with your eyes open, and it pays.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "rel": {
+            "best_friend": 6
+          },
+          "requires": {
+            "flags": [
+              "honest_advisor"
+            ]
+          },
+          "lock_text": "having an advisor you trust"
+        }
+      ]
+    },
+    {
+      "id": "PRO_066",
+      "title": "The Tax Letter, Pro",
+      "category": "money",
+      "text": "You owe taxes in every state where you played a road game, and your old accountant didn't file most of them. The letters have started to arrive.",
+      "choices": [
+        {
+          "label": "Hire a sports accountant",
+          "result": "You hire an accountant who does nothing but athletes. It takes a month of paperwork and a painful check, and it's done.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ]
+        },
+        {
+          "label": "Ignore the letters",
+          "result": "You put the letters in a drawer. They come back with penalties, and then with a lawyer's name on them.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": -2
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ],
+          "retention": -1
+        },
+        {
+          "label": "Ask the veterans what they did",
+          "result": "You ask the veterans at lunch. Every one of them has a horror story and a phone number. You call the one who sounds least scary.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "team": 1
+          }
+        },
+        {
+          "label": "Pay it from the account you never touch",
+          "result": "You pay it from the account you've never touched since your first paycheck. It's a big number, and it doesn't keep you up at night.",
+          "stats": {
+            "life": {
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "requires": {
+            "flags": [
+              "saved_first_paycheck"
+            ]
+          },
+          "lock_text": "having handled money carefully since your first paycheck"
+        }
+      ]
+    },
+    {
+      "id": "PRO_071",
+      "title": "The Watch, the Car, the Chain",
+      "category": "money",
+      "text": "The locker room has a dress code nobody wrote down: the watch, the car, the chain. It costs about what you made as a rookie.",
+      "choices": [
+        {
+          "label": "Keep up",
+          "result": "You buy the watch and the car. You look the part, and every month the statement looks a little worse.",
+          "stats": {
+            "life": {
+              "fun": 3,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "followers": 2
+        },
+        {
+          "label": "Opt out with a joke",
+          "result": "You show up in the same old truck and call it 'retro'. It becomes a running joke, and nobody actually minds.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ]
+        },
+        {
+          "label": "Ask a veteran who went broke",
+          "result": "You ask the oldest player on the roster about the watch. He takes his off and tells you what it cost him in the end.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "team": 1
+          }
+        }
+      ]
+    }
+  ]
+}
