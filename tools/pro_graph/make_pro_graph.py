@@ -12,7 +12,8 @@ keeps written content (category, text, choices, weight, cooldown) and regenerate
 Design -> scenario:
   ages [min, max]        requires.min.age / requires.max.age (max 50 means no upper limit)
   seasons_with_club      seasons (the count restarts at every new club)
-  kind once / variant    "once": true;  kind repeat: not once, "cooldown": 15
+  kind once / variant    "once": true;  kind repeat: not once, "cooldown": 15;
+                         kind per_club: "once_per_club": true (once at each club)
   requires               copied; "(every pro strike)" expands to pro_strike_flags; "strike" is a
                          writer note ("a new pro strike") and goes to authoring
   waits_on, callbacks, note, chain, premise, people  -> authoring (the game ignores it)
@@ -52,6 +53,8 @@ def build(design, existing_doc):
             d["story"] = True
         if e.get("kind") == "repeat":
             d["cooldown"] = REPEAT_COOLDOWN
+        elif e.get("kind") == "per_club":
+            d["once_per_club"] = True  # plays once at each club (engine: once_per_club)
         else:
             d["once"] = True
         src = dict(e.get("requires") or {})

@@ -1,15 +1,15 @@
 {
  "_doc": "PRO story graph design (skeleton for review, not generated). ages = requires min/max age; seasons_with_club = seasons with the current club (the count restarts at every new club); kind: once / variant (age-banded) / repeat (re-fires with cooldown); waits_on = gameplay requests R1-R7 (consolidated code request to the gameplay session); callbacks = HS/college flags read only by locked choices. Pro strike flags: pro_night_out, pro_unapproved_supplement, pro_bar_fight, pro_shared_inside_info, pro_party_house, pro_reckless_driving, pro_online_rant, pro_gambling_debt, stayed_out_pro. relationship_strike_flags: the relationship wrong path (cheating); separate from the pro strikes, never read by the team-discipline steps. Partner flags: made_long_distance_work / committed_to_relationship (the high school love interest), new_partner (after Someone New), engaged, married; breakups clear them and set broke_up_pro or divorced.",
  "requests": {
-  "R1": "no age cap",
-  "R2": "draft/retention read character_concerns / rebuilt_reputation",
-  "R3": "savings + money field",
-  "R4": "transition flags + right-now state metrics",
-  "R5": "{club} / {town}",
-  "R6": "once_per_club",
-  "R7": "season-end dismissal",
-  "R8": "re-point {love_interest} to a new person (choice field)",
-  "R9": "longer suspensions for the pros (suspend_weeks is capped at 3)"
+  "R1": "no age cap (open)",
+  "R2": "draft/retention read character_concerns / rebuilt_reputation (landed)",
+  "R3": "savings + money field (open)",
+  "R4": "transition flags + right-now metrics (landed: slump_now, benched_now, injured_now, fg_streak, season_fg_pct, pro_seasons, contract_years_left, clubs; flags contract_year, re_signed, released, signed_new_club)",
+  "R5": "{club} / {town} (landed)",
+  "R6": "once_per_club (landed)",
+  "R7": "season-end dismissal: set dismissed (landed)",
+  "R8": "recast {love_interest} (open)",
+  "R9": "longer pro suspensions (open)"
  },
  "pro_strike_flags": [
   "stayed_out_pro",
@@ -235,10 +235,12 @@
    "people": [],
    "kind": "once",
    "waits_on": [
-    "R3 money values",
-    "R5 {town}"
+    "R3 money values"
    ],
-   "callbacks": []
+   "callbacks": [],
+   "uses": [
+    "R5 {town}"
+   ]
   },
   {
    "id": "PRO_008",
@@ -263,11 +265,12 @@
     "best_friend"
    ],
    "kind": "once",
-   "waits_on": [
-    "R5 {town}"
-   ],
+   "waits_on": [],
    "callbacks": [
     "promised_to_call_home"
+   ],
+   "uses": [
+    "R5 {town}"
    ]
   },
   {
@@ -467,14 +470,15 @@
     "coach"
    ],
    "kind": "repeat",
-   "waits_on": [
-    "R4 slump_now"
-   ],
+   "waits_on": [],
    "callbacks": [
     "saw_sports_psych",
     "leaned_on_support"
    ],
-   "note": "Repeatable (cooldown 15 weeks). Locks open with experience (kick_slumps, age)."
+   "note": "Repeatable (cooldown 15 weeks). Locks open with experience (kick_slumps, age).",
+   "uses": [
+    "R4 slump_now"
+   ]
   },
   {
    "id": "PRO_017",
@@ -492,10 +496,11 @@
     "coach"
    ],
    "kind": "repeat",
-   "waits_on": [
+   "waits_on": [],
+   "callbacks": [],
+   "uses": [
     "R4 coach doubt now"
-   ],
-   "callbacks": []
+   ]
   },
   {
    "id": "PRO_018",
@@ -514,11 +519,12 @@
     "backup"
    ],
    "kind": "repeat",
-   "waits_on": [
-    "R4 benched_now"
-   ],
+   "waits_on": [],
    "callbacks": [],
-   "note": "Every engine flag is sticky from high school, so the present-state check is needed."
+   "note": "Every engine flag is sticky from high school, so the present-state check is needed.",
+   "uses": [
+    "R4 benched_now"
+   ]
   },
   {
    "id": "PRO_019",
@@ -537,10 +543,11 @@
     "team"
    ],
    "kind": "repeat",
-   "waits_on": [
+   "waits_on": [],
+   "callbacks": [],
+   "uses": [
     "R4 benched_now / won_job_back event"
-   ],
-   "callbacks": []
+   ]
   },
   {
    "id": "PRO_020",
@@ -558,10 +565,11 @@
     "team"
    ],
    "kind": "repeat",
-   "waits_on": [
+   "waits_on": [],
+   "callbacks": [],
+   "uses": [
     "R4 fg_streak"
-   ],
-   "callbacks": []
+   ]
   },
   {
    "id": "PRO_021",
@@ -580,10 +588,11 @@
     "holder"
    ],
    "kind": "once",
-   "waits_on": [
+   "waits_on": [],
+   "callbacks": [],
+   "uses": [
     "R4 fg_streak"
-   ],
-   "callbacks": []
+   ]
   },
   {
    "id": "PRO_022",
@@ -643,10 +652,11 @@
     "parent"
    ],
    "kind": "once",
-   "waits_on": [
+   "waits_on": [],
+   "callbacks": [],
+   "uses": [
     "R4 slump_now"
-   ],
-   "callbacks": []
+   ]
   },
   {
    "id": "PRO_025",
@@ -662,12 +672,13 @@
    "sets": [],
    "people": [],
    "kind": "once",
-   "waits_on": [
-    "R4 slump_now"
-   ],
+   "waits_on": [],
    "callbacks": [
     "saw_sports_psych",
     "got_help_panic"
+   ],
+   "uses": [
+    "R4 slump_now"
    ]
   },
   {
@@ -712,10 +723,11 @@
     "coach"
    ],
    "kind": "once",
-   "waits_on": [
+   "waits_on": [],
+   "callbacks": [],
+   "uses": [
     "R4 slump_now"
-   ],
-   "callbacks": []
+   ]
   },
   {
    "id": "PRO_028",
@@ -731,12 +743,13 @@
    "sets": [],
    "people": [],
    "kind": "repeat",
-   "waits_on": [
-    "R4 injured_now"
-   ],
+   "waits_on": [],
    "callbacks": [
     "committed_to_recovery",
     "hid_injury"
+   ],
+   "uses": [
+    "R4 injured_now"
    ]
   },
   {
@@ -839,10 +852,11 @@
    "sets": [],
    "people": [],
    "kind": "once",
-   "waits_on": [
+   "waits_on": [],
+   "callbacks": [],
+   "uses": [
     "R4 contract_year"
-   ],
-   "callbacks": []
+   ]
   },
   {
    "id": "PRO_034",
@@ -899,10 +913,11 @@
    "sets": [],
    "people": [],
    "kind": "variant",
-   "waits_on": [
+   "waits_on": [],
+   "callbacks": [],
+   "uses": [
     "R4 contract_year"
-   ],
-   "callbacks": []
+   ]
   },
   {
    "id": "PRO_037",
@@ -921,10 +936,11 @@
    "sets": [],
    "people": [],
    "kind": "variant",
-   "waits_on": [
+   "waits_on": [],
+   "callbacks": [],
+   "uses": [
     "R4 contract_year"
-   ],
-   "callbacks": []
+   ]
   },
   {
    "id": "PRO_038",
@@ -943,10 +959,11 @@
    "sets": [],
    "people": [],
    "kind": "variant",
-   "waits_on": [
+   "waits_on": [],
+   "callbacks": [],
+   "uses": [
     "R4 contract_year"
-   ],
-   "callbacks": []
+   ]
   },
   {
    "id": "PRO_039",
@@ -962,10 +979,11 @@
    "sets": [],
    "people": [],
    "kind": "repeat",
-   "waits_on": [
+   "waits_on": [],
+   "callbacks": [],
+   "uses": [
     "R4 re_signed"
-   ],
-   "callbacks": []
+   ]
   },
   {
    "id": "PRO_040",
@@ -982,10 +1000,12 @@
    "people": [],
    "kind": "once",
    "waits_on": [
-    "R4 contract_year",
     "R3 money values"
    ],
-   "callbacks": []
+   "callbacks": [],
+   "uses": [
+    "R4 contract_year"
+   ]
   },
   {
    "id": "PRO_041",
@@ -1001,11 +1021,12 @@
    "sets": [],
    "people": [],
    "kind": "once",
-   "waits_on": [
-    "R4 contract_year"
-   ],
+   "waits_on": [],
    "callbacks": [],
-   "note": "A temptation, not a mechanic: the game has no holdouts. Holding firm costs retention and the coach."
+   "note": "A temptation, not a mechanic: the game has no holdouts. Holding firm costs retention and the coach.",
+   "uses": [
+    "R4 contract_year"
+   ]
   },
   {
    "id": "PRO_042",
@@ -1031,11 +1052,12 @@
    "sets": [],
    "people": [],
    "kind": "once",
-   "waits_on": [
-    "R4 released (failed_tryouts is also set by a failed college walk-on tryout)"
-   ],
+   "waits_on": [],
    "callbacks": [],
-   "note": "Opens after any release or cut (the engine's failed_tryouts list), in the first weeks at the next club. Tone-check scene (being cut at the end of camp)."
+   "note": "Opens after any release or cut (the engine's failed_tryouts list), in the first weeks at the next club. Tone-check scene (being cut at the end of camp).",
+   "uses": [
+    "R4 released (failed_tryouts is also set by a failed college walk-on tryout)"
+   ]
   },
   {
    "id": "PRO_043",
@@ -1056,13 +1078,14 @@
    "requires": null,
    "sets": [],
    "people": [],
-   "kind": "repeat",
-   "waits_on": [
+   "kind": "per_club",
+   "waits_on": [],
+   "callbacks": [],
+   "uses": [
     "R4 signed_new_club",
     "R5 {club}",
     "R6 once_per_club"
-   ],
-   "callbacks": []
+   ]
   },
   {
    "id": "PRO_044",
@@ -1085,11 +1108,12 @@
    "people": [
     "holder"
    ],
-   "kind": "repeat",
-   "waits_on": [
+   "kind": "per_club",
+   "waits_on": [],
+   "callbacks": [],
+   "uses": [
     "R6 once_per_club"
-   ],
-   "callbacks": []
+   ]
   },
   {
    "id": "PRO_045",
@@ -1111,13 +1135,14 @@
    "people": [
     "love_interest"
    ],
-   "kind": "repeat",
-   "waits_on": [
+   "kind": "per_club",
+   "waits_on": [],
+   "callbacks": [],
+   "uses": [
     "R4 signed_new_club",
     "R5 {town}",
     "R6 once_per_club"
-   ],
-   "callbacks": []
+   ]
   },
   {
    "id": "PRO_046",
@@ -1139,11 +1164,12 @@
     "parent"
    ],
    "kind": "once",
-   "waits_on": [
+   "waits_on": [],
+   "callbacks": [],
+   "uses": [
     "R4 signed_new_club",
     "R5 {town}"
-   ],
-   "callbacks": []
+   ]
   },
   {
    "id": "PRO_047",
@@ -1159,10 +1185,11 @@
    "sets": [],
    "people": [],
    "kind": "once",
-   "waits_on": [
+   "waits_on": [],
+   "callbacks": [],
+   "uses": [
     "R4 clubs count"
-   ],
-   "callbacks": []
+   ]
   },
   {
    "id": "PRO_048",
@@ -1242,10 +1269,11 @@
    "sets": [],
    "people": [],
    "kind": "once",
-   "waits_on": [
+   "waits_on": [],
+   "callbacks": [],
+   "uses": [
     "R4 signed_new_club"
-   ],
-   "callbacks": []
+   ]
   },
   {
    "id": "PRO_052",
@@ -1318,12 +1346,13 @@
    "sets": [],
    "people": [],
    "kind": "once",
-   "waits_on": [
-    "R4 contract_year"
-   ],
+   "waits_on": [],
    "callbacks": [
     "stayed_loyal",
     "explored_options"
+   ],
+   "uses": [
+    "R4 contract_year"
    ]
   },
   {
@@ -2952,11 +2981,12 @@
    ],
    "people": [],
    "kind": "once",
-   "waits_on": [
-    "R7 dismissal"
-   ],
+   "waits_on": [],
    "callbacks": [],
-   "note": "Sets the dismissal flag; the release happens at season end once R7 lands."
+   "note": "Sets the dismissal flag; the release happens at season end once R7 lands.",
+   "uses": [
+    "R7 dismissal"
+   ]
   },
   {
    "id": "PRO_128",
@@ -3109,10 +3139,11 @@
    "sets": [],
    "people": [],
    "kind": "once",
-   "waits_on": [
+   "waits_on": [],
+   "callbacks": [],
+   "uses": [
     "R4 re_signed / contract_year"
-   ],
-   "callbacks": []
+   ]
   },
   {
    "id": "PRO_135",
@@ -3256,10 +3287,11 @@
    "sets": [],
    "people": [],
    "kind": "once",
-   "waits_on": [
+   "waits_on": [],
+   "callbacks": [],
+   "uses": [
     "R4 released + signed_new_club"
-   ],
-   "callbacks": []
+   ]
   },
   {
    "id": "PRO_141",
@@ -3369,10 +3401,11 @@
    "sets": [],
    "people": [],
    "kind": "once",
-   "waits_on": [
+   "waits_on": [],
+   "callbacks": [],
+   "uses": [
     "R4 re_signed"
-   ],
-   "callbacks": []
+   ]
   },
   {
    "id": "PRO_146",
@@ -3438,11 +3471,12 @@
    "sets": [],
    "people": [],
    "kind": "once",
-   "waits_on": [
-    "R4 released"
-   ],
+   "waits_on": [],
    "callbacks": [],
-   "note": "At the new club, about the old one."
+   "note": "At the new club, about the old one.",
+   "uses": [
+    "R4 released"
+   ]
   },
   {
    "id": "PRO_149",

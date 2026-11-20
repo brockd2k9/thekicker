@@ -180,6 +180,18 @@ class CollegeImportTests(unittest.TestCase):
                     "followers_tier 'nobody'", "sets wrong-path strike 'missed_curfew'"]:
             self.assertIn(msg, out)
 
+    def test_career_state_requirements_and_placeholders_accepted(self):
+        ok = {"scenarios": [{"id": "COL_018", "title": "x", "category": "health", "text": "Back at {club} in {town}.",
+                             "choices": [_choice(requires={"min": {"slump_now": 1, "clubs": 2}, "max": {"fg_streak": -3}},
+                                                 lock_text="in a slump"), _choice(), _choice()]}]}
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "ok.json")
+            with open(path, "w") as f:
+                json.dump(ok, f)
+            code, out = run(path, "--dry-run")
+        self.assertNotIn("unknown requirement", out)
+        self.assertNotIn("unknown placeholder", out)
+
     def test_suspend_weeks_is_checked(self):
         bad = {"scenarios": [{"id": "COL_010", "title": "x", "category": "team", "text": "A meeting.",
                               "choices": [_choice(suspend_weeks=5, conduct="bad", set_flags={"missed_curfew": True}),

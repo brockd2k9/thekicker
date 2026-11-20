@@ -8,14 +8,14 @@ Skeleton for review: only the six tone-check scenes are written (`tools/authorin
 - **repeat**: re-fires on its trigger, with a 15-week cooldown.
 
 **Waits on** the consolidated gameplay request:
-- R1: no age cap
-- R3: savings + money field
-- R4: transition flags + right-now state metrics
-- R5: {club} / {town}
-- R6: once_per_club
-- R7: season-end dismissal
-- R8: re-point {love_interest} to a new person (choice field)
-- R9: longer suspensions for the pros (suspend_weeks is capped at 3)
+- R1: no age cap (open)
+- R3: savings + money field (open)
+- R4: transition flags + right-now metrics (landed: slump_now, benched_now, injured_now, fg_streak, season_fg_pct, pro_seasons, contract_years_left, clubs; flags contract_year, re_signed, released, signed_new_club)
+- R5: {club} / {town} (landed)
+- R6: once_per_club (landed)
+- R7: season-end dismissal: set dismissed (landed)
+- R8: recast {love_interest} (open)
+- R9: longer pro suspensions (open)
 
 R2 changes numbers only; no scene waits on it. Money scenes (R3) are written now with flags and stress costs and get `money` values later.
 
@@ -23,16 +23,12 @@ R2 changes numbers only; no scene waits on it. Money scenes (R3) are written now
 **Relationship strike flags** (the cheating storyline PRO_155-163; never read by team discipline): `pro_cheated`, `affair_public`.
 College flags set severity through locked choices.
 
-**Totals:** 175 scenes. **140 can be written now**: 117 need nothing new, and 23 are money scenes written with flags and stress costs. **35 are blocked** until R1, R4, R5, R6, R7 or R8 lands. Kinds: 150 once, 20 repeat, 5 variant.
+**Totals:** 175 scenes. **172 can be written now**: 147 need nothing new, and 25 are money scenes written with flags and stress costs. **3 are blocked** until R1, R4, R5, R6, R7 or R8 lands. Kinds: 150 once, 17 repeat, 5 variant, 3 per_club.
 
 | Waits on | Scenes |
 |---|---|
 | R1 | 2: 143, 144 |
 | R3 | 25: 003, 007, 026, 031, 040, 056, 057, 059, 060, 061, 062, 063, 064, 065, 066, 067, 068, 069, 070, 071, 072, 073, 123, 135, 163 |
-| R4 | 28: 016, 017, 018, 019, 020, 021, 024, 025, 027, 028, 033, 036, 037, 038, 039, 040, 041, 042, 043, 045, 046, 047, 051, 055, 134, 140, 145, 148 |
-| R5 | 5: 007, 008, 043, 045, 046 |
-| R6 | 3: 043, 044, 045 |
-| R7 | 1: 127 |
 | R8 | 1: 151 |
 
 **Chains:**
@@ -78,8 +74,8 @@ College flags set severity through locked choices.
 | PRO_004 | Rookie Duties | age 21-25, club season 1 | once |  |  | ended_tradition, kept_tradition_alive |  |
 | PRO_005 | The Long Snapper | age 21-27, club seasons 1-2 | once |  | trusted_snapper |  |  |
 | PRO_006 | The First Road Trip | age 21-25, club season 1 | once |  | stayed_out_pro |  |  |
-| PRO_007 | Where You Live | age 21-26, club season 1 | once |  | lived_modestly, lived_large |  | R3 money values; R5 {town} |
-| PRO_008 | Homesick in {town} | age 21-25, club season 1 | once |  |  | promised_to_call_home | R5 {town} |
+| PRO_007 | Where You Live | age 21-26, club season 1 | once |  | lived_modestly, lived_large |  | R3 money values |
+| PRO_008 | Homesick in {town} | age 21-25, club season 1 | once |  |  | promised_to_call_home |  |
 | PRO_009 | The Practice Squad Friend | age 21-27, club seasons 1-2 | once |  |  |  |  |
 | PRO_010 | Meeting the Owner | age 21-26, club season 1 | once |  |  |  |  |
 | PRO_011 | The Quote | age 21-26, club seasons 1-2 | once |  |  | handled_old_post, online_incident |  |
@@ -108,24 +104,24 @@ College flags set severity through locked choices.
 
 | ID | Title | Window | Kind | Opens on | Sets | Callbacks (locked choices) | Waits on |
 |---|---|---|---|---|---|---|---|
-| PRO_016 | The Slump | any | repeat |  |  | saw_sports_psych, leaned_on_support | R4 slump_now |
-| PRO_017 | The Coach Loses Faith | any | repeat |  |  |  | R4 coach doubt now |
-| PRO_018 | Benched | any | repeat |  |  |  | R4 benched_now |
-| PRO_019 | The Job Back | any | repeat |  |  |  | R4 benched_now / won_job_back event |
-| PRO_020 | The Hot Streak | any | repeat |  |  |  | R4 fg_streak |
-| PRO_021 | Don't Talk About It | any | once |  |  |  | R4 fg_streak |
+| PRO_016 | The Slump | any | repeat |  |  | saw_sports_psych, leaned_on_support |  |
+| PRO_017 | The Coach Loses Faith | any | repeat |  |  |  |  |
+| PRO_018 | Benched | any | repeat |  |  |  |  |
+| PRO_019 | The Job Back | any | repeat |  |  |  |  |
+| PRO_020 | The Hot Streak | any | repeat |  |  |  |  |
+| PRO_021 | Don't Talk About It | any | once |  |  |  |  |
 | PRO_022 | The Watch List | age 23-40 | once | tier fan_favorite |  |  |  |
 | PRO_023 | The Skills Contest | any | once | tier fan_favorite |  |  |  |
-| PRO_024 | Talk Radio | any | once |  |  |  | R4 slump_now |
-| PRO_025 | The Yips | any | once |  |  | saw_sports_psych, got_help_panic | R4 slump_now |
+| PRO_024 | Talk Radio | any | once |  |  |  |  |
+| PRO_025 | The Yips | any | once |  |  | saw_sports_psych, got_help_panic |  |
 | PRO_026 | The Private Kicking Coach | offseason | once |  | hired_private_coach | vetted_trainer, trained_with_alum | R3 money values |
-| PRO_027 | The Film That Hurts | any | once |  |  |  | R4 slump_now |
-| PRO_028 | Kicking Hurt | any | repeat |  |  | committed_to_recovery, hid_injury | R4 injured_now |
+| PRO_027 | The Film That Hurts | any | once |  |  |  |  |
+| PRO_028 | Kicking Hurt | any | repeat |  |  | committed_to_recovery, hid_injury |  |
 | PRO_029 | The Backup Wants Your Job | any | once |  |  |  |  |
 | PRO_030 | The New Holder Midseason | any | once |  |  |  |  |
 | PRO_031 | The Incentive Clause | any | once |  |  |  | R3 money values |
 | PRO_032 | The Kicker Brought In | age 27-32, weeks 1-3 | variant |  |  |  |  |
-| PRO_033 | Playing for a Contract | any | once |  |  |  | R4 contract_year |
+| PRO_033 | Playing for a Contract | any | once |  |  |  |  |
 | PRO_034 | The Kick Everyone Saw | any | once |  |  |  |  |
 | PRO_035 | The Bad Week | any | once |  |  |  |  |
 
@@ -154,26 +150,26 @@ College flags set severity through locked choices.
 
 | ID | Title | Window | Kind | Opens on | Sets | Callbacks (locked choices) | Waits on |
 |---|---|---|---|---|---|---|---|
-| PRO_036 | Contract Year: Prove It | age 22-26 | variant |  |  |  | R4 contract_year |
-| PRO_037 | Contract Year: The Payday | age 27-31 | variant |  |  |  | R4 contract_year |
-| PRO_038 | Contract Year: One More | age 32+ | variant |  |  |  | R4 contract_year |
-| PRO_039 | The Re-Sign Call | any | repeat |  |  |  | R4 re_signed |
-| PRO_040 | The Hometown Discount | any | once |  |  |  | R4 contract_year; R3 money values |
-| PRO_041 | The Holdout Talk | any | once |  |  |  | R4 contract_year |
-| PRO_042 | Starting Over | club season 1, weeks 1-3 | once | failed_tryouts |  |  | R4 released (failed_tryouts is also set by a failed college walk-on tryout) |
-| PRO_043 | New Club, New Locker Room | club season 1, weeks 1-2 | repeat |  |  |  | R4 signed_new_club; R5 {club}; R6 once_per_club |
-| PRO_044 | The New Holder | club season 1, weeks 1-4 | repeat |  |  |  | R6 once_per_club |
-| PRO_045 | Moving the Family | club season 1, offseason | repeat |  |  |  | R4 signed_new_club; R5 {town}; R6 once_per_club |
-| PRO_046 | The Family Stays Behind | club season 1 | once |  |  |  | R4 signed_new_club; R5 {town} |
-| PRO_047 | Your Old Team Comes to Town | any | once |  |  |  | R4 clubs count |
+| PRO_036 | Contract Year: Prove It | age 22-26 | variant |  |  |  |  |
+| PRO_037 | Contract Year: The Payday | age 27-31 | variant |  |  |  |  |
+| PRO_038 | Contract Year: One More | age 32+ | variant |  |  |  |  |
+| PRO_039 | The Re-Sign Call | any | repeat |  |  |  |  |
+| PRO_040 | The Hometown Discount | any | once |  |  |  | R3 money values |
+| PRO_041 | The Holdout Talk | any | once |  |  |  |  |
+| PRO_042 | Starting Over | club season 1, weeks 1-3 | once | failed_tryouts |  |  |  |
+| PRO_043 | New Club, New Locker Room | club season 1, weeks 1-2 | per_club |  |  |  |  |
+| PRO_044 | The New Holder | club season 1, weeks 1-4 | per_club |  |  |  |  |
+| PRO_045 | Moving the Family | club season 1, offseason | per_club |  |  |  |  |
+| PRO_046 | The Family Stays Behind | club season 1 | once |  |  |  |  |
+| PRO_047 | Your Old Team Comes to Town | any | once |  |  |  |  |
 | PRO_048 | The Agent's Bigger Client | any | once |  | agent_neglect |  |  |
 | PRO_049 | Firing Your Agent | any | once | agent_neglect | fired_agent |  |  |
 | PRO_050 | The Good Agent | any | once |  | good_agent |  |  |
-| PRO_051 | The Tryout Hotel | club season 1 | once |  |  |  | R4 signed_new_club |
+| PRO_051 | The Tryout Hotel | club season 1 | once |  |  |  |  |
 | PRO_052 | The Teammate Traded Away | any | once |  |  |  |  |
 | PRO_053 | The Head Coach Is Fired | any | once |  |  |  |  |
 | PRO_054 | The General Manager's Nephew | any | once |  |  |  |  |
-| PRO_055 | Loyalty or the Paycheck | any | once |  |  | stayed_loyal, explored_options | R4 contract_year |
+| PRO_055 | Loyalty or the Paycheck | any | once |  |  | stayed_loyal, explored_options |  |
 
 - **PRO_036 Contract Year: Prove It**: It's the last year of your rookie deal, and the front office wants to see one more season before they talk.
 - **PRO_037 Contract Year: The Payday**: This is the contract that sets up your family for life, if you earn it this season.
@@ -349,7 +345,7 @@ College flags set severity through locked choices.
 | PRO_124 | The Team Fine | story | once | (every pro strike) | pro_warning, pro_owned_it | owned_mistake, rebuilt_reputation, character_concerns |  |
 | PRO_125 | League Discipline | story | once | pro_warning; (every pro strike) | pro_second_chance, pro_character_concerns |  |  |
 | PRO_126 | The Last Warning, Pro | story | once | pro_second_chance; (every pro strike) | pro_last_chance, pro_character_concerns | last_chance |  |
-| PRO_127 | Released for Conduct | any | once | pro_last_chance; new pro strike | dismissed |  | R7 dismissal |
+| PRO_127 | Released for Conduct | any | once | pro_last_chance; new pro strike | dismissed |  |  |
 | PRO_128 | The Long Way Back, Pro | story | once | pro_character_concerns | pro_rebuilt_reputation |  |  |
 | PRO_129 | The League's Counselor | any | once | pro_second_chance / pro_last_chance |  |  |  |
 | PRO_130 | A Clean Year | any | once | pro_owned_it / pro_rebuilt_reputation |  |  |  |
@@ -401,21 +397,21 @@ College flags set severity through locked choices.
 | PRO_131 | Thirty | age 30 | once |  |  |  |  |
 | PRO_132 | The Maintenance Bill | age 31+ | once |  |  |  |  |
 | PRO_133 | The Younger Kicker in Camp | age 33+, weeks 1-3 | variant |  |  |  |  |
-| PRO_134 | The One-Year Deal | age 34+ | once |  |  |  | R4 re_signed / contract_year |
+| PRO_134 | The One-Year Deal | age 34+ | once |  |  |  |  |
 | PRO_135 | The Veteran Minimum | age 35+ | once |  |  |  | R3 money values |
 | PRO_136 | The Body Says No | age 35+ | once |  |  |  |  |
 | PRO_137 | The Retirement Talk | age 34+ | once | made_long_distance_work / committed_to_relationship / new_partner / engaged / married | planning_retirement |  |  |
 | PRO_138 | The Farewell Season | age 34+ | once | planning_retirement |  |  |  |
 | PRO_139 | The General Manager's Office | age 34+ | once | retention under 45 |  |  |  |
-| PRO_140 | The Comeback Workout | age 33+ | once |  |  |  | R4 released + signed_new_club |
+| PRO_140 | The Comeback Workout | age 33+ | once |  |  |  |  |
 | PRO_141 | The Broadcast Booth | age 34+ | once |  | broadcast_offer |  |  |
 | PRO_142 | The Coaching Offer | age 35+ | once |  | coaching_offer | mentored_rookie_kicker, mentored_backup |  |
 | PRO_143 | Forty | age 40 | once |  |  |  | R1 no age cap |
 | PRO_144 | The Oldest Player in the League | age 42+ | once |  |  |  | R1 no age cap |
-| PRO_145 | The Last Contract | age 36+ | once |  |  |  | R4 re_signed |
+| PRO_145 | The Last Contract | age 36+ | once |  |  |  |  |
 | PRO_146 | Your Kid Wants to Kick | age 35+ | once | became_parent |  |  |  |
 | PRO_147 | The Ring of Honor | age 33+, club season 7+ | once |  |  |  |  |
-| PRO_148 | Cleaning Out the Locker | age 33+ | once |  |  |  | R4 released |
+| PRO_148 | Cleaning Out the Locker | age 33+ | once |  |  |  |  |
 | PRO_149 | What's Next | age 36+ | once |  |  | finished_degree_track, life_after_football |  |
 | PRO_150 | The Note in the Locker | age 38+ | once |  |  |  |  |
 

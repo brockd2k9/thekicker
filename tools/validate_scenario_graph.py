@@ -299,7 +299,10 @@ def audit_skeleton(argv):
 # --- our data format ----------------------------------------------------------------
 
 ENGINE_FLAGS = {"walk_on", "juco", "failed_tryouts", "fa_attempts", "recruiting_update",
-                "traits_reported", "kicking_slump", "kick_slumps"}
+                "traits_reported", "kicking_slump", "kick_slumps", "coach_lost_faith", "benched",
+                "benched_for_tyler", "won_job_back", "lost_audition", "contract_year", "re_signed",
+                "released", "signed_new_club", "pro_clubs", "was_dismissed", "reputation_week",
+                "reputation_text", "dismissed"}
 STAGE_ORDER = {"high_school": 0, "juco": 1, "college": 2, "pro": 3, "free_agent": 3}
 
 
