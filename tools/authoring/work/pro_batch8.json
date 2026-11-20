@@ -70,11 +70,11 @@
       "id": "PRO_338",
       "title": "The Equipment Upgrade",
       "category": "money",
-      "text": "A sales rep wants you on expensive new training equipment: a sensor suit, a kicking machine, an app that charts everything.",
+      "text": "A sales rep corners you after practice with expensive training equipment: a sensor suit, a kicking machine, and an app that charts every kick you've ever taken. He has a tablet and a very good smile.",
       "choices": [
         {
           "label": "Buy the full setup",
-          "result": "You buy all of it. The data is incredible, and so is the bill.",
+          "result": "All of it, delivered Thursday. The data is incredible, your living room is full of machines, and the bill is the kind you read twice.",
           "stats": {
             "life": {
               "energy": -2
@@ -90,13 +90,15 @@
           "skill_points": 3
         },
         {
-          "label": "Use the club's equipment",
-          "result": "You ask the club's staff to chart you with what they already have. It's less fancy and nearly as good.",
+          "label": "Use what the club has",
+          "result": "The club's staff charts you with what they already have. It's less fancy and nearly as good, and the trainer likes being asked.",
           "stats": {
             "life": {
               "energy": -1
             },
-            "football": {},
+            "football": {
+              "accuracy": 1
+            },
             "personality": {
               "intelligence": 2
             }
@@ -105,18 +107,19 @@
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "coach": 1
           }
         },
         {
-          "label": "Skip it",
-          "result": "You decide your leg doesn't need an app. Your weeks stay simple.",
+          "label": "Keep it simple",
+          "result": "Your leg doesn't need an app, you decide. The rep leaves his card, your weeks stay simple, and you never think about sensor suits again.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -129,11 +132,11 @@
       "id": "PRO_553",
       "title": "The Wind Tunnel",
       "category": "training",
-      "text": "The stadium's wind swirls in a way no film can show, and the veterans just laugh when you ask about it.",
+      "text": "The stadium's wind swirls in a way no film can show: in from the left at the bottom, out to the right at the top. The veterans just laugh when you ask about it.",
       "choices": [
         {
           "label": "Kick in it every day",
-          "result": "You kick in the swirl every day after practice until you can feel it before it moves the ball.",
+          "result": "Every day after practice, you kick into the swirl until you can feel it before it moves the ball. Your leg is sore, and the swirl stops surprising you.",
           "stats": {
             "life": {
               "energy": -2
@@ -152,7 +155,7 @@
         },
         {
           "label": "Ask the grounds crew",
-          "result": "You ask the grounds crew, who have watched that wind for twenty years. They know exactly which flags to watch.",
+          "result": "The grounds crew have watched that wind for twenty years. They show you exactly which flags to watch, and one of them draws you a map on a napkin.",
           "stats": {
             "life": {
               "energy": -1
@@ -166,14 +169,11 @@
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         },
         {
-          "label": "Ask the veterans properly",
-          "result": "You stop asking and start listening at lunch. Three veterans tell you everything, one story at a time.",
+          "label": "Listen at lunch instead",
+          "result": "Instead of asking, you listen at lunch. Three veterans tell you everything about the wind, one story at a time, over a week.",
           "stats": {
             "life": {
               "social": 2
@@ -196,11 +196,11 @@
       "id": "PRO_554",
       "title": "The Scout Team",
       "category": "training",
-      "text": "You spend practice kicking for the scout team, and nobody watches.",
+      "text": "You spend practice kicking for the scout team, against the starters, and nobody important watches. The coaches are at the other end of the field.",
       "choices": [
         {
           "label": "Treat it like the real thing",
-          "result": "You kick every scout-team rep like it's the real thing. Nobody watches, and you get better anyway.",
+          "result": "Every scout-team rep, like it's the real thing. Nobody watches, and you get better anyway, and the scout-team players start cheering your makes.",
           "stats": {
             "life": {
               "energy": -2
@@ -219,7 +219,7 @@
         },
         {
           "label": "Get to know the scout team",
-          "result": "You learn the names of every scout-team player. They become your favorite people in the building.",
+          "result": "Every name on the scout team, learned by Friday. They become your favorite people in the building, and they save you a seat on the bus.",
           "stats": {
             "life": {
               "social": 2
@@ -237,8 +237,8 @@
           }
         },
         {
-          "label": "Coast through it",
-          "result": "You coast through the scout-team reps and save your leg. It's easy, and you notice you don't feel like part of it.",
+          "label": "Save your leg",
+          "result": "Easy reps, and your leg stays fresh. It's sensible, and you notice by Thursday that you don't feel like part of anything.",
           "stats": {
             "life": {
               "energy": 2,
@@ -257,18 +257,20 @@
       "id": "PRO_555",
       "title": "The Weight Room Pecking Order",
       "category": "team",
-      "text": "The weight room has a pecking order, and rookies lift last, after the linemen are done with every rack.",
+      "text": "The weight room has a pecking order, and rookies lift last, after the linemen are done with every rack. By the time you get a bench, it's lunch.",
       "choices": [
         {
           "label": "Lift at dawn",
-          "result": "You start lifting at six, before the linemen arrive. It's lonely and very effective.",
+          "result": "Six in the morning, before the linemen arrive. It's lonely and very effective, and the strength coach starts unlocking the door for you.",
           "stats": {
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "power": 1
+            },
             "personality": {
-              "ambition": 2
+              "ambition": 1
             }
           },
           "modifiers": [
@@ -278,12 +280,14 @@
         },
         {
           "label": "Spot a lineman",
-          "result": "You offer to spot a veteran lineman. By the end of the week he's saving you a rack.",
+          "result": "An offer to spot a veteran lineman, and he accepts with suspicion. By the end of the week, he's saving you a rack and calling you 'kicker' fondly.",
           "stats": {
             "life": {
               "social": 2
             },
-            "football": {},
+            "football": {
+              "toughness": 1
+            },
             "personality": {
               "charisma": 1
             }
@@ -297,11 +301,11 @@
         },
         {
           "label": "Take what's left",
-          "result": "You lift whatever's free and don't make a thing of it. Nobody notices you, which is fine for now.",
+          "result": "Whatever's free, without making a thing of it. Nobody notices you, which is fine for now, and you finish your lifts on the stretching mats.",
           "stats": {
             "life": {
               "energy": 2,
-              "fun": 1
+              "health": 1
             },
             "football": {},
             "personality": {}
@@ -316,11 +320,11 @@
       "id": "PRO_556",
       "title": "The Equipment Manager",
       "category": "team",
-      "text": "The equipment manager can make your life easy or miserable, and you haven't said hello yet.",
+      "text": "The equipment manager can make your life easy or miserable: cleats, balls, the locker by the heater or the one by the door. You've been here a week and haven't said hello.",
       "choices": [
         {
           "label": "Bring coffee",
-          "result": "You bring the equipment staff coffee on Monday and learn their names. Your cleats are perfect all season.",
+          "result": "Coffee for the equipment staff on Monday, and you learn every name. Your cleats are perfect all season, and you end up in the locker by the heater.",
           "stats": {
             "life": {
               "social": 2
@@ -339,27 +343,25 @@
         },
         {
           "label": "Ask how the balls are prepared",
-          "result": "You ask how game balls are prepared and listen to all of it. You learn more about kicking than you expected.",
+          "result": "How are game balls prepared? He tells you all of it, for an hour, with visible joy. You learn more about kicking than you expected.",
           "stats": {
             "life": {
               "energy": -1
             },
-            "football": {},
+            "football": {
+              "accuracy": 1
+            },
             "personality": {
               "intelligence": 2
             }
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2,
-            "team": 1
-          }
+          ]
         },
         {
           "label": "Keep it professional",
-          "result": "You say hello, say thank you and nothing more. It's fine, and nothing special happens.",
+          "result": "Hello, thank you and nothing more. It's fine, nothing special happens, and your locker stays the one by the door.",
           "stats": {
             "life": {
               "energy": 2,

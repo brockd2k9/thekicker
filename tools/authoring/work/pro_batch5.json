@@ -292,16 +292,18 @@
       "id": "PRO_323",
       "title": "The Missed Opportunity",
       "category": "training",
-      "text": "A bad practice in front of the whole staff, and by lunch someone in the building is asking about your roster spot.",
+      "text": "A bad practice in front of the whole staff: three misses in a row from your favorite spot, the general manager watching from the sideline. By lunch someone in the building is asking about your roster spot.",
       "choices": [
         {
-          "label": "Ask {coach} what happened",
-          "result": "You go to {coach} after lunch and ask what the staff saw. It's a timing issue, and it's fixable.",
+          "label": "Find out what the staff saw",
+          "result": "{coach} pulls up the practice film after lunch and freezes it on your plant foot. It's a timing issue, and fixable, and you breathe properly for the first time all day.",
           "stats": {
             "life": {
               "energy": -1
             },
-            "football": {},
+            "football": {
+              "accuracy": 1
+            },
             "personality": {
               "intelligence": 1
             }
@@ -315,13 +317,15 @@
           }
         },
         {
-          "label": "Stay late and fix it",
-          "result": "You stay until the field lights come on, kicking until it feels right again.",
+          "label": "Kick until the lights come on",
+          "result": "Long after everyone leaves, you're still out there, kicking until it feels right again. The groundskeeper finally turns the lights on for you and doesn't say a word.",
           "stats": {
             "life": {
               "energy": -3
             },
-            "football": {},
+            "football": {
+              "power": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -332,14 +336,15 @@
           "skill_points": 2
         },
         {
-          "label": "Let it go",
-          "result": "You tell yourself one practice doesn't matter and go home. Tomorrow is better, mostly.",
+          "label": "Leave it at the facility",
+          "result": "One practice doesn't define a season, you decide, and you leave it at the facility. Tomorrow is better, mostly, though the general manager's face stays with you on the drive home.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -352,11 +357,11 @@
       "id": "PRO_324",
       "title": "The Agent Calls",
       "category": "career",
-      "text": "Your agent calls to talk about your contract, your future and a few things you'd rather not hear: what rookies get cut for.",
+      "text": "Your agent calls on a Tuesday night to talk about your contract, your future and a few things you'd rather not hear, starting with the list of reasons rookies get cut before October.",
       "choices": [
         {
           "label": "Listen to all of it",
-          "result": "You listen to the whole list without interrupting. It's sobering, and you know exactly what to avoid.",
+          "result": "The whole list, start to finish, without interrupting once. It's sobering to hear out loud, and by the end you know exactly which mistakes you're never going to make.",
           "stats": {
             "life": {
               "fun": -1
@@ -372,8 +377,8 @@
           "retention": 1
         },
         {
-          "label": "Ask for a plan",
-          "result": "You ask your agent for a real plan for the next two years. You get one, in writing.",
+          "label": "Ask for a two-year plan",
+          "result": "A real plan for the next two years arrives in your inbox by Friday, in writing, with dates. It's the first time your career has looked like something you can steer.",
           "stats": {
             "life": {
               "energy": -1
@@ -390,7 +395,7 @@
         },
         {
           "label": "Cut the call short",
-          "result": "You say you're focused on kicking and cut the call short. Your agent sends the list by email anyway.",
+          "result": "Kicking is all you want to think about, so the call ends early. Your agent sends the list by email anyway, and you read it at two in the morning.",
           "stats": {
             "life": {
               "energy": 1
@@ -410,11 +415,11 @@
       "id": "PRO_325",
       "title": "The First Endorsement",
       "category": "money",
-      "text": "A local car wash offers you your first sponsorship: a billboard, a few appearances and a small check.",
+      "text": "A local car wash offers you your first sponsorship: a billboard by the highway, four appearances in a giant foam sponge costume and a check that's small, but yours.",
       "choices": [
         {
-          "label": "Take it",
-          "result": "You sign. The billboard goes up by the highway, and every teammate sends you a photo of it.",
+          "label": "Sign with the car wash",
+          "result": "The billboard goes up by the highway a week later, a little blurry, and every teammate sends you a photo of it. The holder sets it as his phone background.",
           "stats": {
             "life": {
               "fun": 2
@@ -431,7 +436,7 @@
         },
         {
           "label": "Ask your agent first",
-          "result": "You send it to your agent, who negotiates the appearances down and the check up.",
+          "result": "Your agent negotiates the appearances down to two and the check up by half. The owner still makes you wear the sponge costume once, and you secretly love it.",
           "stats": {
             "life": {
               "energy": 1
@@ -448,8 +453,8 @@
           "followers": 2
         },
         {
-          "label": "Turn it down",
-          "result": "You turn it down to keep your weeks clear. Your weeks stay clear, and your account stays the same.",
+          "label": "Keep your weeks clear",
+          "result": "No billboard, no sponge suit, no appearances. Your weeks stay clear for kicking, your account stays the same, and the car wash signs a local weatherman instead.",
           "stats": {
             "life": {
               "energy": 1
@@ -470,11 +475,11 @@
       "id": "PRO_326",
       "title": "The Old Friend's Request",
       "category": "money",
-      "text": "An old friend from home asks you for money, and you can tell it took a lot to ask.",
+      "text": "{best_friend} calls from home on a Sunday night and asks you for money. It's quiet for a long time before they ask, and you can hear how much it costs them to say it.",
       "choices": [
         {
-          "label": "Give it, no questions",
-          "result": "You send it the same day and don't ask what it's for. Your friend cries on the phone.",
+          "label": "Send it that night",
+          "result": "The money is in {best_friend}'s account before you hang up, and you never ask what it's for. They cry on the phone, and so, after the call, do you.",
           "stats": {
             "life": {
               "fun": -1,
@@ -494,7 +499,7 @@
         },
         {
           "label": "Ask what it's for",
-          "result": "You ask what it's for. It's rent, and you pay the landlord directly, which makes both of you feel better.",
+          "result": "It's rent, three months behind. Paying the landlord directly makes both of you feel better, and {best_friend} sends you a photo of the receipt with a heart on it.",
           "stats": {
             "life": {
               "energy": -1
@@ -514,7 +519,7 @@
         },
         {
           "label": "Say no kindly",
-          "result": "You say you can't, kindly. It's true and it isn't, and the next phone call is shorter.",
+          "result": "No, as kindly as you can manage. It's true and it isn't, and the next phone call with {best_friend} is shorter, and the one after that doesn't come.",
           "stats": {
             "life": {
               "energy": 1
@@ -600,11 +605,11 @@
       "id": "PRO_328",
       "title": "The Coach's Criticism",
       "category": "team",
-      "text": "{coach} tells you, in front of the specialists, that your preparation isn't professional yet.",
+      "text": "{coach} tells you, in front of the specialists, that your preparation isn't professional yet. The punter suddenly studies the floor, and {holder} won't look at you.",
       "choices": [
         {
           "label": "Ask for specifics",
-          "result": "You ask {coach} for the three things that would make it professional. You get them, and you do them.",
+          "result": "Three specific things, you ask for, and {coach} lists them on a whiteboard: film, sleep, and the way you warm up. By November you've done all three, and the coach notices.",
           "stats": {
             "life": {
               "energy": -1
@@ -623,8 +628,8 @@
           }
         },
         {
-          "label": "Prove it with work",
-          "result": "You say nothing and show up an hour earlier every day for a month.",
+          "label": "Show up an hour earlier",
+          "result": "An hour earlier every day for a month, and you never mention why. {coach} never mentions it either, but your name moves to the top of the practice sheet.",
           "stats": {
             "life": {
               "energy": -3
@@ -644,7 +649,7 @@
         },
         {
           "label": "Push back",
-          "result": "You tell {coach} your preparation got you here. The specialists go very quiet.",
+          "result": "Your preparation got you here, you point out. The specialists go very quiet, {holder} gives you a look that says 'not now', and {coach} walks away mid-sentence.",
           "stats": {
             "life": {
               "fun": 1
@@ -668,11 +673,11 @@
       "id": "PRO_329",
       "title": "The Rookie Mistake",
       "category": "team",
-      "text": "You trip over a cable at the team's charity event and take down a whole table of desserts, on camera.",
+      "text": "At the team's charity gala, you trip over a cable in front of a dessert table, take the whole thing down with you, and come up wearing a cheesecake. Three cameras catch every second.",
       "choices": [
         {
           "label": "Laugh at yourself",
-          "result": "You laugh first, help clean up and post the clip yourself. It's the most popular thing you've ever posted.",
+          "result": "Laughing first saves you. You help clean up, then post the clip yourself with a caption about your leg strength. It's the most popular thing you've ever posted.",
           "stats": {
             "life": {
               "fun": 3,
@@ -689,8 +694,8 @@
           "followers": 4
         },
         {
-          "label": "Apologize to the organizers",
-          "result": "You apologize to the organizers and offer to pay for the desserts. They're touched, and invite you back next year.",
+          "label": "Pay for the desserts",
+          "result": "The organizers get an apology and a check for the desserts before the night is over. They're touched, and the event coordinator invites you back to run the dessert table next year.",
           "stats": {
             "life": {
               "energy": -1
@@ -710,7 +715,7 @@
         },
         {
           "label": "Hope nobody saw",
-          "result": "You slip out early and hope nobody saw. The veterans saw, and they won't let it go all season. You spend the rest of the night at the kicking net instead.",
+          "result": "Slipping out early doesn't help: the veterans saw, and they leave a slice of cheesecake in your locker every week for the rest of the season. You spend the night at the kicking net.",
           "stats": {
             "life": {
               "energy": 1
@@ -732,11 +737,11 @@
       "id": "PRO_330",
       "title": "The First Charity Event",
       "category": "community",
-      "text": "The club sends you to represent it at a community center's reading day, and nobody tells you what to say.",
+      "text": "The club sends you to a community center's reading day, alone, with a box of picture books and no instructions. Twenty kids sit on a rug, waiting to see what a kicker is for.",
       "choices": [
         {
           "label": "Read to the kids",
-          "result": "You sit on the floor and read three books in funny voices. The kids want a fourth.",
+          "result": "Sitting on the floor, you read three books in terrible voices, including a very dramatic dragon. The kids demand a fourth, and one of them asks for your autograph on her shoe.",
           "stats": {
             "life": {
               "fun": 3,
@@ -754,7 +759,7 @@
         },
         {
           "label": "Talk about school",
-          "result": "You talk about how hard school was for you and why you kept going. A teacher thanks you afterward.",
+          "result": "How hard school was, and why you kept going: you tell them all of it, simply. A teacher finds you afterward and says one boy in the back needed exactly that.",
           "stats": {
             "life": {
               "energy": -1
@@ -770,8 +775,8 @@
           ]
         },
         {
-          "label": "Keep it short",
-          "result": "You smile, sign autographs and leave on time. It's fine. Nobody remembers it.",
+          "label": "Sign and leave on time",
+          "result": "Autographs, a smile, a group photo, and you're out on time. It's perfectly fine and nobody remembers it, including you, by the following week.",
           "stats": {
             "life": {
               "energy": 1
@@ -790,11 +795,11 @@
       "id": "PRO_331",
       "title": "The Social Media Post",
       "category": "media",
-      "text": "An old post from college resurfaces the week your name starts showing up in the papers. It's not terrible, but it's not who you want to be.",
+      "text": "An old post from college resurfaces the week your name starts showing up in the papers. It's not terrible, but it's not who you are now, and a fan account has just shared it to fifty thousand people.",
       "choices": [
         {
           "label": "Delete it and apologize",
-          "result": "You delete it and post a short apology in your own words. It fades in a day.",
+          "result": "Deleted, then a short apology in your own words, no statement from a publicist. It fades in a day, and two teammates text that they respected how you handled it.",
           "stats": {
             "life": {
               "energy": -1
@@ -813,7 +818,7 @@
         },
         {
           "label": "Leave it up",
-          "result": "You leave it up and say nothing. It keeps resurfacing for a month.",
+          "result": "Silence, and the post stays up. It keeps resurfacing every time your name trends, for a month, and the club's media staff starts sighing when you walk past.",
           "stats": {
             "life": {
               "energy": 1
@@ -829,8 +834,8 @@
           "followers": -2
         },
         {
-          "label": "Ask the club's media staff",
-          "result": "You ask the club's media staff what to do. They walk you through it, and nobody remembers it by Friday.",
+          "label": "Get the media staff's help",
+          "result": "The club's media staff walks you through it in ten minutes, calmly, like they've done it a hundred times. Nobody remembers the post by Friday.",
           "stats": {
             "life": {},
             "football": {},
@@ -847,7 +852,7 @@
         },
         {
           "label": "Do what worked before",
-          "result": "You've been through this before, so you delete it, apologize in two sentences and go to practice. It's over by lunch.",
+          "result": "This has happened before, so you know the steps: delete, two honest sentences, practice. It's over by lunch, and the media staff asks if you want a job.",
           "stats": {
             "life": {
               "energy": -1,
