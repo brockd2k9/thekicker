@@ -1,0 +1,107 @@
+{
+  "_about": "Pro tone check 3: The Spa (the solicitation pair's first scene). Not imported. The follow-up comes in two versions: The Hearing (no partner) and The Hearing, at Home (with a partner, which sets pro_cheated).",
+  "scenarios": [
+    {
+      "id": "PRO_173",
+      "title": "The Spa",
+      "category": "social",
+      "text": "On a road trip, a client of your agent's insists you come with him to a spa he swears by. In the waiting room he makes it clear that the 'extras' are the point, and two other players are already at the front desk.",
+      "choices": [
+        {
+          "label": "Leave and book the team's therapist",
+          "result": "You say you're good, walk out and text the team's massage therapist for a real session in the morning. Your hamstring feels better by Thursday, and there's nothing to remember about the night.",
+          "stats": {
+            "life": {
+              "health": 3,
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Tell him it isn't for you",
+          "result": "You tell him plainly it isn't for you, and that he might want to think twice too. He laughs it off. On the bus home he sits somewhere else, and one of the other players nods at you.",
+          "stats": {
+            "life": {
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "rel": {
+            "team": 1
+          }
+        },
+        {
+          "label": "Pay at the front desk",
+          "result": "You pay at the front desk. Two weeks later a detective calls your agent: the spa was part of a police investigation, your name is on a client list, and a reporter has already asked the club for comment.",
+          "stats": {
+            "life": {
+              "fun": 1,
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": -2,
+              "intelligence": -2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "pro_solicitation": true
+          },
+          "rel": {
+            "coach": -5,
+            "team": -2
+          },
+          "followers": -3,
+          "retention": -3,
+          "conduct": "scandal"
+        },
+        {
+          "label": "Call {love_interest} from the lobby",
+          "result": "You step out into the lobby and call {love_interest}, and tell them exactly where you were invited. There's a long pause, then a laugh, then a quiet thank you.",
+          "stats": {
+            "life": {
+              "social": 1,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "love_interest": 5
+          },
+          "requires": {
+            "any_flags": [
+              "made_long_distance_work",
+              "committed_to_relationship",
+              "new_partner",
+              "engaged",
+              "married"
+            ]
+          },
+          "lock_text": "having a partner at home"
+        }
+      ]
+    }
+  ]
+}

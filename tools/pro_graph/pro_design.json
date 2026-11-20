@@ -25,7 +25,8 @@
   "pro_night_before",
   "pro_late_meeting",
   "pro_casual_bet",
-  "pro_betting_scandal"
+  "pro_betting_scandal",
+  "pro_solicitation"
  ],
  "scenarios": [
   {
@@ -4104,6 +4105,104 @@
    "waits_on": [],
    "callbacks": [],
    "note": "Follow-up: suspend_weeks 3 (the cap), retention, followers, scandal; character concerns for the pros (pro_character_concerns). Release follows through the discipline chain (R7)."
+  },
+  {
+   "id": "PRO_173",
+   "title": "The Spa",
+   "group": "Wrong path (pro)",
+   "chain": "Solicitation",
+   "premise": "On a road trip, an agent's client insists you come to a spa he swears by, and makes it clear the 'extras' are the point.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": [
+    "season",
+    "bye",
+    "offseason"
+   ],
+   "requires": null,
+   "sets": [
+    "pro_solicitation"
+   ],
+   "people": [
+    "team",
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Non-explicit: nothing is described, and the scene ends at the choice. Several clean no's, each with a payoff: book the team's therapist instead, tell him it isn't for you, or call the partner from the lobby (locked to partner flags). Paying cuts to later: a police investigation, a client list, a reporter's call. Strike: pro_solicitation (conduct scandal). Tone-check scene."
+  },
+  {
+   "id": "PRO_174",
+   "title": "The Hearing",
+   "group": "Wrong path (pro)",
+   "chain": "Solicitation",
+   "premise": "A police report, a league hearing and a sponsor's lawyer, all in the same week.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "pro_solicitation"
+    ],
+    "not_flags": [
+     "made_long_distance_work",
+     "committed_to_relationship",
+     "new_partner",
+     "engaged",
+     "married"
+    ]
+   },
+   "sets": [
+    "pro_hearing_done"
+   ],
+   "people": [
+    "coach",
+    "team",
+    "parent"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Follow-up for a player without a partner. League discipline: suspend_weeks (longer once R9 lands), sponsors pull out (conduct scandal), retention, followers."
+  },
+  {
+   "id": "PRO_175",
+   "title": "The Hearing, at Home",
+   "group": "Wrong path (pro)",
+   "chain": "Solicitation",
+   "premise": "A police report, a league hearing and a sponsor's lawyer, all in the same week, and {love_interest} has read every word of it.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "pro_solicitation"
+    ],
+    "any_flags": [
+     "made_long_distance_work",
+     "committed_to_relationship",
+     "new_partner",
+     "engaged",
+     "married"
+    ]
+   },
+   "sets": [
+    "pro_hearing_done",
+    "pro_cheated"
+   ],
+   "people": [
+    "coach",
+    "team",
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Follow-up for a player with a partner: the same discipline, plus {love_interest} (-10 to -15). Every choice sets pro_cheated, so the Found Out chain picks it up."
   }
  ],
  "relationship_strike_flags": [

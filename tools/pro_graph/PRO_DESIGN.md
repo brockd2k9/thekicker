@@ -19,11 +19,11 @@ Skeleton for review: only the six tone-check scenes are written (`tools/authorin
 
 R2 changes numbers only; no scene waits on it. Money scenes (R3) are written now with flags and stress costs and get `money` values later.
 
-**Pro strike flags** (the team-discipline steps PRO_124-128 read and clear only these): `stayed_out_pro`, `pro_night_out`, `pro_unapproved_supplement`, `pro_bar_fight`, `pro_shared_inside_info`, `pro_party_house`, `pro_reckless_driving`, `pro_online_rant`, `pro_gambling_debt`, `pro_banned_substance`, `pro_night_before`, `pro_late_meeting`, `pro_casual_bet`, `pro_betting_scandal`.
+**Pro strike flags** (the team-discipline steps PRO_124-128 read and clear only these): `stayed_out_pro`, `pro_night_out`, `pro_unapproved_supplement`, `pro_bar_fight`, `pro_shared_inside_info`, `pro_party_house`, `pro_reckless_driving`, `pro_online_rant`, `pro_gambling_debt`, `pro_banned_substance`, `pro_night_before`, `pro_late_meeting`, `pro_casual_bet`, `pro_betting_scandal`, `pro_solicitation`.
 **Relationship strike flags** (the cheating storyline PRO_155-163; never read by team discipline): `pro_cheated`, `affair_public`.
 College flags set severity through locked choices.
 
-**Totals:** 172 scenes. **137 can be written now**: 114 need nothing new, and 23 are money scenes written with flags and stress costs. **35 are blocked** until R1, R4, R5, R6, R7 or R8 lands. Kinds: 147 once, 20 repeat, 5 variant.
+**Totals:** 175 scenes. **140 can be written now**: 117 need nothing new, and 23 are money scenes written with flags and stress costs. **35 are blocked** until R1, R4, R5, R6, R7 or R8 lands. Kinds: 150 once, 20 repeat, 5 variant.
 
 | Waits on | Scenes |
 |---|---|
@@ -66,6 +66,7 @@ College flags set severity through locked choices.
 - Banned substance: PRO_164 → PRO_165
 - Late: PRO_167 → PRO_168 → PRO_169
 - Betting: PRO_170 → PRO_171 → PRO_172
+- Solicitation: PRO_173 → PRO_174 → PRO_175
 
 ## Arrival and rookie years (15)
 
@@ -333,7 +334,7 @@ College flags set severity through locked choices.
 - **PRO_114 A Season Going Nowhere**: The season's slipping away, and the locker room has started counting days until the offseason. *(Repeatable (cooldown 15-20 weeks).)*
 - **PRO_115 The Trick Play**: The new coordinator wants a fake field goal with you throwing the pass, and you haven't thrown a ball since high school.
 
-## Wrong path (pro) (24)
+## Wrong path (pro) (27)
 
 | ID | Title | Window | Kind | Opens on | Sets | Callbacks (locked choices) | Waits on |
 |---|---|---|---|---|---|---|---|
@@ -361,6 +362,9 @@ College flags set severity through locked choices.
 | PRO_170 | The Office Pool | any | once |  | pro_casual_bet |  |  |
 | PRO_171 | The Bookie | any | once |  | pro_betting_scandal, reported_bookie | refused_improper_help, reported_runner |  |
 | PRO_172 | The Investigation | any | once | pro_betting_scandal | pro_character_concerns |  |  |
+| PRO_173 | The Spa | any | once |  | pro_solicitation |  |  |
+| PRO_174 | The Hearing | any | once | pro_solicitation; not made_long_distance_work / committed_to_relationship / new_partner / engaged / married | pro_hearing_done |  |  |
+| PRO_175 | The Hearing, at Home | any | once | pro_solicitation; made_long_distance_work / committed_to_relationship / new_partner / engaged / married | pro_hearing_done, pro_cheated |  |  |
 
 - **PRO_116 After the Game**: A teammate's night out after a home game starts at a club and ends somewhere you don't want to be. *(Strike. Clean no.)*
 - **PRO_117 The Supplement Sponsor**: A supplement company offers you a deal for a product the league hasn't approved.
@@ -386,6 +390,9 @@ College flags set severity through locked choices.
 - **PRO_170 The Office Pool**: The locker room runs a pool on the college basketball tournament: twenty dollars a sheet and a lot of trash talk. *(Small strike: league rules forbid it, even on other sports. Conduct bad, a small fine, {coach}. Clean no with a payoff.)*
 - **PRO_171 The Bookie**: An old friend from home introduces you to a man who takes bets, including on football, including on your own team's games. He'd also pay well for a heads-up on who's hurt. *(The most serious scandal: no how-to, no glamorous win. Clean no: walk away and call the league's integrity line. Tone-check scene.)*
 - **PRO_172 The Investigation**: Two investigators from the league office are in the general manager's conference room, and they've asked for you by name. *(Follow-up: suspend_weeks 3 (the cap), retention, followers, scandal; character concerns for the pros (pro_character_concerns). Release follows through the discipline chain (R7).)*
+- **PRO_173 The Spa**: On a road trip, an agent's client insists you come to a spa he swears by, and makes it clear the 'extras' are the point. *(Non-explicit: nothing is described, and the scene ends at the choice. Several clean no's, each with a payoff: book the team's therapist instead, tell him it isn't for you, or call the partner from the lobby (locked to partner flags). Paying cuts to later: a police investigation, a client list, a reporter's call. Strike: pro_solicitation (conduct scandal). Tone-check scene.)*
+- **PRO_174 The Hearing**: A police report, a league hearing and a sponsor's lawyer, all in the same week. *(Follow-up for a player without a partner. League discipline: suspend_weeks (longer once R9 lands), sponsors pull out (conduct scandal), retention, followers.)*
+- **PRO_175 The Hearing, at Home**: A police report, a league hearing and a sponsor's lawyer, all in the same week, and {love_interest} has read every word of it. *(Follow-up for a player with a partner: the same discipline, plus {love_interest} (-10 to -15). Every choice sets pro_cheated, so the Found Out chain picks it up.)*
 
 ## Veteran and the end (20)
 

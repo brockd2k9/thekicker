@@ -658,9 +658,9 @@ A full year without a fine, a headline or a hearing. The general manager stops b
 - `became_parent` (from PRO_076) → PRO_077 First Day of School; PRO_078 The Recital; PRO_146 Your Kid Wants to Kick; PRO_159 The Long Week on the Road
 - `broke_up_pro` (from PRO_161, PRO_162) → PRO_151 Someone New
 - `confessed_affair` (from PRO_160) → PRO_162 Starting Over, Together; PRO_163 The Divorce
-- `engaged` (from PRO_074) → PRO_075 The Wedding; PRO_076 The Due Date; PRO_079 Your Partner's Career; PRO_137 The Retirement Talk; PRO_157 The Sponsor's Rep
+- `engaged` (from PRO_074) → PRO_075 The Wedding; PRO_076 The Due Date; PRO_079 Your Partner's Career; PRO_137 The Retirement Talk; PRO_157 The Sponsor's Rep; PRO_175 The Hearing, at Home
 - `lied_about_affair` (from PRO_160) → PRO_161 The Lie Comes Out; PRO_163 The Divorce
-- `married` (from PRO_075) → PRO_076 The Due Date; PRO_079 Your Partner's Career; PRO_095 The Tabloid; PRO_096 The Marriage on the Road; PRO_137 The Retirement Talk; PRO_158 The Teammate's Friend; PRO_159 The Long Week on the Road; PRO_163 The Divorce
+- `married` (from PRO_075) → PRO_076 The Due Date; PRO_079 Your Partner's Career; PRO_095 The Tabloid; PRO_096 The Marriage on the Road; PRO_137 The Retirement Talk; PRO_158 The Teammate's Friend; PRO_159 The Long Week on the Road; PRO_163 The Divorce; PRO_175 The Hearing, at Home
 - `pro_character_concerns` (from PRO_125, PRO_126) → PRO_128 The Long Way Back, Pro
 - `pro_last_chance` (from PRO_126) → PRO_127 Released for Conduct; PRO_129 The League's Counselor
 - `pro_owned_it` (from PRO_124) → PRO_130 A Clean Year
