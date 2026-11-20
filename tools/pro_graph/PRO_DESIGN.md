@@ -37,7 +37,7 @@ College flags set severity through locked choices.
 |---|---|---|---|---|---|---|---|---|
 | Era 1: Rookie (22-25) | 150 | 150 | 0 | 18 | 0 | 0 | 0 | 0 |
 | Era 2: Settled In (26-29) | 150 | 150 | 0 | 26 | 0 | 0 | 0 | 0 |
-| Era 3: Veteran (30-33) | 150 | 89 | 0 | 17 | 2 | 0 | 0 | 2 |
+| Era 3: Veteran (30-33) | 150 | 128 | 0 | 17 | 2 | 0 | 0 | 2 |
 | Era 4: Aging Veteran (34-37) | 150 | 1 | 0 | 14 | 0 | 2 | 0 | 2 |
 | Era 5: Grizzled Veteran (38-41) | 80 | 0 | 80 | 5 | 0 | 0 | 0 | 0 |
 | Era 6: Hall of Fame Era (42+) | 40 | 0 | 40 | 1 | 0 | 0 | 0 | 40 |
@@ -817,7 +817,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_722 | The High School Visit | age 30-33, offseason | once |  |  |  |  |
 | PRO_723 | The Kicker You Mentored | age 30-33 | once |  |  |  |  |
 | PRO_724 | The New Special Teams Unit | age 30-33 | once |  |  |  |  |
-| PRO_725 | The Coordinator's Gamble | age 30-33 | once |  |  |  |  |
+| PRO_725 | The Coordinator's Trick Plays | age 30-33 | once |  |  |  |  |
 | PRO_726 | The Veteran Day Off | age 30-33 | once |  |  |  |  |
 | PRO_727 | The Body Maintenance Plan | age 30-33 | once |  |  |  |  |
 | PRO_728 | The Massage Therapist | age 30-33 | once |  |  |  |  |
@@ -968,7 +968,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 - **PRO_722 The High School Visit**: You visit your old high school, and the kicking net is still behind the bleachers.
 - **PRO_723 The Kicker You Mentored**: A kicker you mentored signs with a rival club.
 - **PRO_724 The New Special Teams Unit**: Half your special teams unit is new this season.
-- **PRO_725 The Coordinator's Gamble**: The coordinator wants more fakes and more onside kicks, and he wants you to run them.
+- **PRO_725 The Coordinator's Trick Plays**: The coordinator wants more fakes and more onside kicks, and he wants you to run them.
 - **PRO_726 The Veteran Day Off**: The club gives veterans a day off each week, and you're now one of them.
 - **PRO_727 The Body Maintenance Plan**: A trainer builds you a maintenance plan for the next five years.
 - **PRO_728 The Massage Therapist**: The team's massage therapist knows your body better than you do.
