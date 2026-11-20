@@ -225,6 +225,20 @@ class CollegeGraphTests(unittest.TestCase):
         self.assertIn("missed_curfew", office["requires"]["any_flags"])
         self.assertNotIn("senior_trip_trouble", office["requires"]["any_flags"])
 
+    def test_no_offseason_scene_in_a_stage_last_season(self):
+        sys.path.insert(0, os.path.join(ROOT, "tools"))
+        import validate_scenario_graph as vsg
+        last = vsg.stage_seasons()
+        self.assertEqual(last["college"], 4)
+        errs = []
+        for f in os.listdir(os.path.join(ROOT, "data", "career")):
+            if f.startswith("scenarios_") and f.endswith(".json"):
+                for sc in json.load(open(os.path.join(ROOT, "data", "career", f)))["scenarios"]:
+                    se = sc.get("seasons")
+                    if sc.get("when") == ["offseason"] and se:
+                        errs += [sc["id"] for st in sc.get("stages", []) if st in last and se[0] >= last[st]]
+        self.assertEqual(errs, [])
+
     def test_college_template_shapes(self):
         t = json.load(open(os.path.join(ROOT, "tools", "authoring", "college_template_all.json")))["scenarios"]
         self.assertEqual(len(t), 150)

@@ -1,0 +1,1195 @@
+{
+  "_about": "College batch 7: draft season (COL_107, 108, 109, 110, finale COL_150), pro-bound scenes reading the wrong-path flags (COL_105, 106, 129, 132), four pro scenes reading college flags (pro_folder_follows, pro_old_crowd, pro_rookie_symposium, pro_reporters_question), and a timing rewrite of COL_118 (now in-season).",
+  "scenarios": [
+    {
+      "id": "COL_107",
+      "title": "Choosing an Agent",
+      "category": "career",
+      "text": "Three agents want to represent you: a big firm with a glossy binder, a former pro kicker who works out of his garage, and a smooth talker who promises a first-round grade. {parent} has read every contract twice.",
+      "choices": [
+        {
+          "label": "Sign with the big firm",
+          "result": "You sign with the big firm. The binder is thick, the staff is huge, and your calls go to an assistant most of the time.",
+          "stats": {
+            "life": {
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "rel": {
+            "parent": 1
+          },
+          "followers": 3,
+          "draft": 2
+        },
+        {
+          "label": "Sign with the former kicker",
+          "result": "You sign with the former kicker. He has three clients and answers every call himself, and the first thing he does is fix your warmup.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 2,
+          "rel": {
+            "parent": 3
+          },
+          "draft": 1
+        },
+        {
+          "label": "Sign with the smooth talker",
+          "result": "You sign with the one who promised the most. The promises keep coming; the details don't. {parent} stops asking about it after a while.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "distracted"
+          ],
+          "rel": {
+            "parent": -3
+          },
+          "draft": -1
+        },
+        {
+          "label": "Interview them with your own list",
+          "result": "You hand each agent the same list of questions about what you want from a career. Only one reads it before answering, and you sign with that one.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "parent": 4
+          },
+          "draft": 2,
+          "requires": {
+            "flags": [
+              "recruiting_values_clear"
+            ]
+          },
+          "lock_text": "having known what you wanted in recruiting"
+        }
+      ]
+    },
+    {
+      "id": "COL_108",
+      "title": "Combine Prep",
+      "category": "training",
+      "text": "A training facility wants to sign you for combine prep the day your season ends, and they want an answer this week. Their brochure promises 'cutting-edge recovery,' and the list of what that includes has names you've never heard of.",
+      "choices": [
+        {
+          "label": "Sign for the approved program only",
+          "result": "You ask for the program without the recovery menu and send the list to the team doctor. The facility grumbles and agrees, and your schedule starts the Monday after your last game.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "combine_ready": true
+          },
+          "draft": 2,
+          "conduct": "good"
+        },
+        {
+          "label": "Build it with your own staff",
+          "result": "You turn the facility down and plan combine prep with your school's strength staff. It's less glamorous, and it's free.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2,
+          "set_flags": {
+            "combine_ready": true
+          },
+          "draft": 1
+        },
+        {
+          "label": "Sign for everything",
+          "result": "You sign for all of it, recovery menu included. The team doctor sees the list in your file a week later, and the meeting that follows, with {coach} in the room, ends in compliance.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "took_unapproved_supplement": true
+          },
+          "rel": {
+            "coach": -5
+          },
+          "draft": -4,
+          "conduct": "bad"
+        }
+      ]
+    },
+    {
+      "id": "COL_109",
+      "title": "The Scouts' Workout",
+      "category": "career",
+      "text": "Scouts from a dozen pro teams are coming to campus Thursday morning to work out the seniors. On Wednesday night, the seniors are throwing a send-off party at the house across from the stadium.",
+      "choices": [
+        {
+          "label": "Skip the party and get ready",
+          "result": "You stretch, eat, watch your own tape and are asleep by ten. On Thursday you're the first one on the field, and you look like it.",
+          "stats": {
+            "life": {
+              "energy": 4,
+              "social": -2,
+              "fun": -2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "fresh_legs"
+          ],
+          "set_flags": {
+            "pro_day_ready": true
+          },
+          "draft": 3
+        },
+        {
+          "label": "Stop by for an hour",
+          "result": "You stop by, say your goodbyes and leave before ten. Half the room calls you boring, and you're asleep by eleven.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "social": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {
+            "pro_day_ready": true
+          },
+          "draft": 2
+        },
+        {
+          "label": "Stay until the end",
+          "result": "You stay until the end and show up Thursday on two hours of sleep. The scouts write down everything, including the time you arrived.",
+          "stats": {
+            "life": {
+              "fun": 5,
+              "social": 4,
+              "energy": -7
+            },
+            "football": {},
+            "personality": {
+              "leadership": -1
+            }
+          },
+          "modifiers": [
+            "late_night"
+          ],
+          "set_flags": {
+            "partied_before_pro_day": true
+          },
+          "draft": -4,
+          "conduct": "bad"
+        }
+      ]
+    },
+    {
+      "id": "COL_110",
+      "title": "Draft Weekend",
+      "category": "family",
+      "text": "Draft weekend is months away, and everyone already wants to know where you'll watch it. {parent} has been looking at rental halls, {sibling} wants a party, and the team is planning a watch night at the facility.",
+      "choices": [
+        {
+          "label": "Watch at home with family",
+          "result": "You tell {parent} to book the hall. Whatever happens, you want to be in a room full of people who were there at the start.",
+          "stats": {
+            "life": {
+              "fun": 1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "parent": 6,
+            "sibling": 3
+          }
+        },
+        {
+          "label": "Watch with the team",
+          "result": "You pick the team watch night. These are the people who were in the weight room at six with you.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "pumped_up"
+          ],
+          "rel": {
+            "team": 4,
+            "parent": -2
+          }
+        },
+        {
+          "label": "Phone off, small room",
+          "result": "You say you'll watch with your phone off and only {parent} and {sibling} in the room. {parent} is relieved, and {sibling} is disappointed about the party.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": -1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "parent": 4,
+            "sibling": -2
+          }
+        },
+        {
+          "label": "Plan both",
+          "result": "You plan the first night at home with family and the second at the facility with the team. {parent} draws up the schedule himself.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "parent": 5,
+            "team": 3,
+            "sibling": 2
+          },
+          "requires": {
+            "flags": [
+              "family_college_compromise"
+            ]
+          },
+          "lock_text": "having found a middle ground with your family before"
+        }
+      ]
+    },
+    {
+      "id": "COL_105",
+      "title": "The Background Check",
+      "category": "career",
+      "text": "Pro scouts are interviewing everyone with a chance at the draft. This week you hear they've called your high school coach, your old teammates and a roommate you haven't spoken to since freshman year.",
+      "choices": [
+        {
+          "label": "Hand them every number",
+          "result": "You tell the scouts to call anyone they want and send a list with phone numbers. Some of what they hear won't be flattering, and none of it will be a surprise.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "draft": 2
+        },
+        {
+          "label": "Call the people they called",
+          "result": "You call your old teammates to ask what they told the scouts, and what they should say next time. One of them tells the scout about the call.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "scouts_red_flag": true
+          },
+          "draft": -4,
+          "conduct": "bad"
+        },
+        {
+          "label": "Come clean about the old video",
+          "result": "Before the scouts find it, you tell them the recruiting video you defended in high school was padded. It's humiliating for five minutes. The scout writes 'honest' in the margin.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": -1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "draft": 2,
+          "requires": {
+            "flags": [
+              "doubled_down_recruiting_lie"
+            ]
+          },
+          "lock_text": "having stood by a padded recruiting video in high school"
+        },
+        {
+          "label": "Point them to the people who saw you change",
+          "result": "You give the scouts the names of the people who watched you fix it: the coach who gave you the chance, the teammates who held you to it. They call every one.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "draft": 3,
+          "requires": {
+            "any_flags": [
+              "corrected_recruiting_video",
+              "rebuilt_reputation"
+            ]
+          },
+          "lock_text": "having owned a mistake and fixed it before"
+        }
+      ]
+    },
+    {
+      "id": "COL_106",
+      "title": "The Red Flag Interview",
+      "category": "career",
+      "text": "A scout sits across the table from you with a folder: every incident from your college career, typed up and dated. He slides it over and says, 'Walk me through it.'",
+      "choices": [
+        {
+          "label": "Walk through all of it",
+          "result": "You go line by line and don't blame anyone else for any of it. You tell him what changed and who can confirm it. He closes the folder before you're done.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "set_flags": {
+            "took_responsibility_scout": true
+          },
+          "draft": 3
+        },
+        {
+          "label": "Explain the context",
+          "result": "You explain each incident: the bad influences, the unfair calls, the wrong place at the wrong time. Every explanation is a little bit true. He writes 'deflects' at the top of the page.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "scouts_red_flag": true
+          },
+          "draft": -3
+        },
+        {
+          "label": "Keep the answers short",
+          "result": "You give one-sentence answers and wait for the next question. He doesn't learn anything bad, and he doesn't learn anything good.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "draft": -1
+        },
+        {
+          "label": "Show him the long way back",
+          "result": "You tell him about the six a.m. workouts and the community hours, then give him {coach}'s number. He calls the coach from the parking lot.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "fun": -2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {
+            "took_responsibility_scout": true
+          },
+          "draft": 4,
+          "requires": {
+            "flags": [
+              "rebuilt_reputation"
+            ]
+          },
+          "lock_text": "having taken the long way back"
+        }
+      ]
+    },
+    {
+      "id": "COL_129",
+      "title": "The Scout's Dinner",
+      "category": "career",
+      "text": "A scout takes you to dinner and asks almost nothing about kicking. He spends most of the meal watching how you treat the waiter, the busboy and the kid at the next table who recognizes you.",
+      "choices": [
+        {
+          "label": "Just be yourself",
+          "result": "You thank the waiter by name, sign the kid's napkin and talk about your family more than your leg. The scout pays and says he's seen what he came to see.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "draft": 2
+        },
+        {
+          "label": "Turn it into a pitch",
+          "result": "You steer every topic back to your numbers, your charts and your work ethic. The scout listens politely and checks his phone twice, and you leave with a sharper pitch for every interview after.",
+          "stats": {
+            "life": {
+              "social": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Ask what scouts really watch for",
+          "result": "You ask him straight out what he's watching for tonight. He laughs and tells you about a first-round pick who was rude to a valet.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "draft": 1
+        },
+        {
+          "label": "Tell him your worst moment first",
+          "result": "Before he can ask, you tell him about the mistake you owned and what it taught you. He puts his fork down and asks follow-up questions for an hour.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "draft": 3,
+          "requires": {
+            "flags": [
+              "owned_mistake"
+            ]
+          },
+          "lock_text": "having owned a mistake to your coach"
+        }
+      ]
+    },
+    {
+      "id": "COL_132",
+      "title": "The Coach's Letter",
+      "category": "team",
+      "text": "{coach} is writing a letter to pro scouts about you and asks what you'd like included, and what you'd rather leave out.",
+      "choices": [
+        {
+          "label": "Ask for the honest version",
+          "result": "You tell {coach} to write what's true, the good and the rest. The letter goes out a week later, and the coach sends you a copy without being asked.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {
+            "asked_for_honesty": true
+          },
+          "rel": {
+            "coach": 5
+          },
+          "draft": 2
+        },
+        {
+          "label": "Ask to leave out the low points",
+          "result": "You give {coach} a list of things you'd rather not see in writing. The coach takes it without a word, and you can't tell what that means.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "coach": -3
+          },
+          "draft": 1
+        },
+        {
+          "label": "Let {coach} decide",
+          "result": "You say you trust the coach to get it right and leave it there. It's a relief not to think about it.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Ask {coach} to include the hard part",
+          "result": "You ask {coach} to write about your worst week here and what you did after it. 'That's the part they need,' you say. The coach agrees.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {
+            "asked_for_honesty": true
+          },
+          "rel": {
+            "coach": 6
+          },
+          "draft": 2,
+          "requires": {
+            "flags": [
+              "repaired_coach_trust"
+            ]
+          },
+          "lock_text": "having rebuilt a coach's trust in high school"
+        }
+      ]
+    },
+    {
+      "id": "COL_150",
+      "title": "The Next Level",
+      "category": "career",
+      "text": "The last week of your college career. Whatever happens on draft day, this is where the kicker you became walks off the field. {parent} is waiting by the tunnel, and {coach} has one question for you: 'What's next?'",
+      "choices": [
+        {
+          "label": "Say you're ready for the pros",
+          "result": "You tell {coach} you've done everything you can and you're ready for whoever calls. {parent} hears it and nods like he's known for years.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {
+            "ready_for_pros": true
+          },
+          "rel": {
+            "coach": 3,
+            "parent": 3
+          },
+          "draft": 3,
+          "requires": {
+            "any_flags": [
+              "combine_ready",
+              "pro_day_ready"
+            ]
+          },
+          "lock_text": "having prepared for the scouts"
+        },
+        {
+          "label": "Say you'll be okay either way",
+          "result": "You tell them football is the plan and the degree is the backup, and you mean both. Whatever the phone does on draft day, you'll be okay.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {
+            "life_after_football": true
+          },
+          "rel": {
+            "parent": 5
+          },
+          "draft": 1,
+          "requires": {
+            "flags": [
+              "finished_degree_track"
+            ]
+          },
+          "lock_text": "having stayed on track for your degree"
+        },
+        {
+          "label": "Say you're still proving it",
+          "result": "You tell {coach} you're not done proving anything, to the scouts or to yourself. The coach smiles: 'Good. Keep that.'",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "ambition": 3
+            }
+          },
+          "modifiers": [
+            "pumped_up"
+          ],
+          "skill_points": 2,
+          "set_flags": {
+            "still_proving_it": true
+          },
+          "rel": {
+            "coach": 3
+          },
+          "draft": 1
+        },
+        {
+          "label": "Say thank you first",
+          "result": "You don't answer the question yet. You thank {coach}, then walk over and hug {parent} for a long time. 'What's next' can wait a week.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "parent": 6,
+            "coach": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "pro_folder_follows",
+      "title": "The Folder Follows You",
+      "category": "team",
+      "text": "Your first month as a pro, the team's player-development director calls you in. Your college record followed you here, and the club wants to know what kind of player it signed.",
+      "choices": [
+        {
+          "label": "Ask for a weekly check-in",
+          "result": "You suggest a weekly check-in yourself and hand over your college coach's number. The director writes it in the file: rookie asked for structure.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 3
+          },
+          "retention": 3
+        },
+        {
+          "label": "Say college is over",
+          "result": "You say the folder belongs to a different person and you'd rather be judged on what you do here. The director says that's fair. The file stays open.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "retention": -1
+        },
+        {
+          "label": "Bring your own copy",
+          "result": "You bring a copy of your college record with your own notes in the margins: what happened and what changed. The director keeps it and tells {coach} to stop worrying.",
+          "stats": {
+            "life": {
+              "energy": -3,
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "rel": {
+            "coach": 4
+          },
+          "retention": 4,
+          "requires": {
+            "any_flags": [
+              "rebuilt_reputation",
+              "took_responsibility_scout"
+            ]
+          },
+          "lock_text": "having already faced your record honestly"
+        }
+      ]
+    },
+    {
+      "id": "pro_old_crowd",
+      "title": "The Old Crowd",
+      "category": "social",
+      "text": "Three guys you used to run with in college show up in your new city on a Friday with a hotel suite booked and a plan for your first paycheck. Your phone has been buzzing since noon.",
+      "choices": [
+        {
+          "label": "Dinner, then home",
+          "result": "You buy them dinner, laugh about the old days and are home by ten. They call you boring. You're at the facility at seven.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "fun": 1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "retention": 2
+        },
+        {
+          "label": "Don't answer",
+          "result": "You let the phone buzz and stay in. It's lonely, and it's the first weekend in a while you don't regret anything.",
+          "stats": {
+            "life": {
+              "energy": 3,
+              "social": -2,
+              "fun": -2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "retention": 1
+        },
+        {
+          "label": "Go out with them",
+          "result": "You go out. Saturday's photos end up online, a team official calls on Monday, and {coach} hears about it before you're in the building.",
+          "stats": {
+            "life": {
+              "fun": 5,
+              "social": 4,
+              "energy": -6
+            },
+            "football": {},
+            "personality": {
+              "leadership": -1
+            }
+          },
+          "modifiers": [
+            "late_night"
+          ],
+          "rel": {
+            "coach": -4
+          },
+          "retention": -4,
+          "conduct": "bad"
+        }
+      ]
+    },
+    {
+      "id": "pro_rookie_symposium",
+      "title": "The Rookie Symposium",
+      "category": "community",
+      "text": "The league's rookie symposium wants a player to speak about a mistake from college and what came after. The team's player-development director thinks your story is the one the rookies need to hear.",
+      "choices": [
+        {
+          "label": "Tell the whole story",
+          "result": "You stand in front of two hundred rookies and tell them about your worst college year without making yourself the hero. Afterward, a line of players waits to talk to you.",
+          "stats": {
+            "life": {
+              "energy": -3
+            },
+            "football": {},
+            "personality": {
+              "leadership": 3,
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "followers": 3,
+          "retention": 2
+        },
+        {
+          "label": "Tell the safe version",
+          "result": "You give the version with the details smoothed over. It goes fine, and nobody waits afterward.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "retention": 1
+        },
+        {
+          "label": "Say no thanks",
+          "result": "You say you'd rather not relive it in front of a room. The director understands and asks someone else.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pro_reporters_question",
+      "title": "The Reporter's Question",
+      "category": "media",
+      "text": "At your first open locker room, a beat reporter skips the kicking questions and asks about your college record: 'Do you think the stories about you are fair?'",
+      "choices": [
+        {
+          "label": "Answer it straight",
+          "result": "You say the stories are true, you're not proud of them and you'd rather be judged on what comes next. The quote runs in full, and it's the least dramatic thing in the paper.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "followers": 2,
+          "retention": 2
+        },
+        {
+          "label": "Say no comment",
+          "result": "You say you're only taking football questions. The reporter writes that you 'declined to address' your past, which reads worse than anything you could have said.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "retention": -1
+        },
+        {
+          "label": "Push back",
+          "result": "You say the stories were overblown and the reporter should do some homework. It's the most-shared clip of the week, and {coach} asks you to stop by the office.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "leadership": -1
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "rel": {
+            "coach": -4
+          },
+          "followers": 6,
+          "retention": -3
+        }
+      ]
+    },
+    {
+      "id": "COL_118",
+      "title": "Old Rival, New Stage",
+      "category": "training",
+      "text": "{tyler} is a draft prospect too, and his agent suggests the two of you spend your Sunday off-days training together at a pro facility halfway between your schools until the season ends.",
+      "choices": [
+        {
+          "label": "Train together",
+          "result": "You split the facility, the film and the drive. You push each other harder than any coach could, and some Sundays it's still a rivalry.",
+          "stats": {
+            "life": {
+              "energy": -4,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 4,
+          "rel": {
+            "rival": 6
+          }
+        },
+        {
+          "label": "Train apart, stay in touch",
+          "result": "You keep your Sundays at your own facility and trade film with {tyler} every week. It's friendly, focused and on your terms.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 3,
+          "rel": {
+            "rival": 2
+          }
+        },
+        {
+          "label": "Turn it down",
+          "result": "You say no without saying why. You train alone and hear later that {tyler} told his agent he wasn't surprised.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "pumped_up"
+          ],
+          "skill_points": 2,
+          "rel": {
+            "rival": -4
+          }
+        },
+        {
+          "label": "Say yes, like old times",
+          "result": "You say yes before his agent finishes the pitch. It's the old net sessions again, with better equipment and higher stakes, and you both get better.",
+          "stats": {
+            "life": {
+              "energy": -4,
+              "fun": 2,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "skill_points": 4,
+          "rel": {
+            "rival": 10
+          },
+          "requires": {
+            "flags": [
+              "tyler_mutual_respect"
+            ]
+          },
+          "lock_text": "having earned {tyler}'s respect in high school"
+        }
+      ]
+    }
+  ]
+}
