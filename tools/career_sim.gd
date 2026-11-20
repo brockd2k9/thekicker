@@ -56,6 +56,7 @@ var _kt: KickTuning
 var _rng := RandomNumberGenerator.new()
 ## make=0.85: every field goal and tryout kick is made with this chance (to test
 ## systems by kicker quality, e.g. benching); 0 = the normal make-chance model.
+## bench=0 turns benching off (before/after comparisons).
 var _fixed_make := 0.0
 var _scen_count := {}  # id -> appearances
 var _scen_careers := {}  # id -> careers that saw it
@@ -70,6 +71,9 @@ func _ready() -> void:
 	var careers := int(args.get("careers", 40))
 	_rng.seed = int(args.get("seed", 1))
 	_fixed_make = float(args.get("make", 0.0))
+	# bench=0: benching off (for before/after comparisons).
+	if str(args.get("bench", "1")) == "0":
+		CareerTuning.get_default().bench_max_per_season = 0
 	_kt = load("res://tuning/kick_tuning.tres")
 	var problems := CareerContent.validate()
 	var t0 := Time.get_ticks_msec()
