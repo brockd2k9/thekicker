@@ -27,6 +27,7 @@ const MIN_TAP := UiTokens.TAP_MIN
 ## Every screen this tool knows, in the order it captures them.
 const ALL := ["main", "career_menu", "tutorial", "new", "new_web", "name_chooser", "hub", "scenario",
 	"scenario_result", "outlook", "game", "warmup", "warmup_result", "kickoff", "kickoff_result", "onside",
+	"kick_fg", "kick_fg_result",
 	"hud", "hud_result", "results", "stats", "achievements", "settings", "career_stats", "people", "debug",
 	"challenge", "season", "recruiting", "recruiting_board", "recruiting_board_senior", "college_choice", "hub_college", "draft",
 	"hub_pro", "kicking_season", "kicking_hs", "kicking_total",
@@ -144,6 +145,7 @@ func _capture_all() -> void:
 	await _trust_feed_shot()
 	await _warmup_shots()
 	await _kickoff_shots()
+	await _fg_kick_shots()
 	await _hud_shots()
 	_m.finish_game(_sim._play_game(_m))
 	await _shot("results", Screens.CAREER_RESULTS)
@@ -490,6 +492,47 @@ func _kickoff_shots() -> void:
 		scr._busy = true
 
 
+## A career field goal in the kick scene, with the score bug over the field:
+## before the kick and right after it (score and stats strip updated).
+func _fg_kick_shots() -> void:
+	if not (_want("kick_fg") or _want("kick_fg_result")):
+		return
+	await _open(Screens.CAREER_GAME, 1.0)
+	var scr := get_tree().current_scene
+	if scr == null or not scr.has_method("_launch_kick"):
+		_problems.append("[%s] kick_fg: career game screen not open" % _tag)
+		return
+	scr._busy = true
+	scr._set_score(7, 3, 1500.0)
+	scr._launch_kick({"type": "call", "kind": "fg", "yards": 32, "pressure": 0.3, "label": "",
+		"wind": 3.0, "gust": 0.0, "elapsed": 1500.0, "us": 7, "them": 3, "q": 2, "left": 1500.0})
+	var ks: Node = scr._kick_scene
+	var t := 0.0
+	while ks.phase != 2 and t < 10.0:
+		await _wait(0.1)
+		t += 0.1
+	await _capture("kick_fg")
+	var sw := Swipe.new()
+	sw.screen_height = 1280.0
+	sw.start = Vector2(360, 1100)
+	sw.end = Vector2(362, 600)
+	sw.duration = 0.18
+	sw.flick_speed_px = 3.0 * 1280.0
+	ks._try_kick(sw)
+	t = 0.0
+	while scr._kick_scene != null and scr.bug.stats["fg_att"] == 0 and t < 15.0:
+		await _wait(0.1)
+		t += 0.1
+	await _wait(0.5)
+	if _want("kick_fg_result"):
+		await _capture("kick_fg_result")
+	t = 0.0
+	while scr._kick_scene != null and t < 20.0:
+		await _wait(0.2)
+		t += 0.2
+	scr._busy = true
+
+
 func _soft_swipe() -> Swipe:
 	var sw := Swipe.new()
 	sw.screen_height = 1280.0
@@ -635,6 +678,7 @@ func _capture(id: String) -> void:
 		_problems.append("[%s] %s: no screen open" % [_tag, id])
 		return
 	_check(id, scene)
+	_check_score_bug(id, scene)
 	var toast_root := Toast.get_child(0) if Toast.get_child_count() > 0 else null
 	if id == "toast" and toast_root != null:
 		_check(id, toast_root)
@@ -668,6 +712,26 @@ func _check(id: String, root: Node) -> void:
 			_check_label(id, c as Label, where)
 		elif c is Button:
 			_check_button(id, c as Button, where)
+
+
+## The score bug (Scoreboard) must not cover the HUD's text and bars or any
+## button (pause, controls) on the same screen.
+func _check_score_bug(id: String, root: Node) -> void:
+	for bug in _all(root):
+		if not (bug is Scoreboard) or not (bug as Control).is_visible_in_tree():
+			continue
+		var br := (bug as Control).get_global_rect().grow(-1.0)
+		for n in _all(root):
+			if not (n is Control) or n == bug or (bug as Node).is_ancestor_of(n) or n.is_ancestor_of(bug):
+				continue
+			var c := n as Control
+			if not c.is_visible_in_tree() or c.modulate.a < 0.05 or _in_scroll(c):
+				continue
+			var hud_bit := (c is Label and (c as Label).text.strip_edges() != "") or c is ProgressBar
+			if not (hud_bit or c is BaseButton):
+				continue
+			if br.intersects(c.get_global_rect()):
+				_add(id, "score bug overlaps %s %s %s" % [c.get_class(), _short_path(c), _text_of(c)])
 
 
 func _check_label(id: String, l: Label, where: String) -> void:

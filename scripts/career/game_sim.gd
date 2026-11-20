@@ -2,7 +2,8 @@ class_name GameSim
 extends RefCounted
 ## One career game, simulated drive by drive while you watch from the bench.
 ## The screen pulls events with next():
-##   {"type": "play", "text", "elapsed"}       play-by-play line
+##   {"type": "play", "text", "elapsed", "poss"}  play-by-play line ("poss":
+##                                             who has the ball, see possession)
 ##   {"type": "warmup", "spot", "elapsed"}     offense in range: warm up on the net?
 ##   {"type": "call", "kind": "fg"/"pat"/"kickoff"/"onside", "yards",
 ##    "pressure", "label", "wind", "gust", "elapsed"}  coach sends you in
@@ -22,6 +23,9 @@ var score_them: int = 0
 var finished: bool = false
 ## Seconds since kickoff.
 var elapsed: float = 0.0
+## Who has the ball: "us" / "them" / "" (halftime, game over). Display only
+## (score bug); every event carries it as "poss".
+var possession: String = ""
 ## Field goals / extra points missed in a row this game (feeds the profile).
 var miss_streak: int = 0
 ## Game-day modifier from this half's sideline warmup (or "cold_leg" if you
@@ -95,6 +99,11 @@ func setup(c: CareerData, week_entry: Dictionary, tuning: CareerTuning, seed: in
 	_line("kickoff_start")
 	if _we_kick_first:
 		_push_call("kickoff")
+
+
+## Length of a quarter in game seconds (score bug clock).
+func quarter_seconds() -> float:
+	return _quarter_sec()
 
 
 func quarter() -> int:
@@ -200,6 +209,7 @@ func summary() -> Dictionary:
 func _simulate_drive() -> void:
 	if _drive_i >= _drives.size():
 		finished = true
+		possession = ""
 		_line("final")
 		return
 	var team: String = _drives[_drive_i]
@@ -208,12 +218,14 @@ func _simulate_drive() -> void:
 		elapsed = maxf(elapsed, _quarter_sec() * 2.0)
 		warm_modifier = ""
 		_warmup_offered_this_half = false
+		possession = ""
 		_line("half")
 		if not _we_kick_first:
 			_push_call("kickoff")
 		return
 	var dur := _drive_duration()
 	_drive_i += 1
+	possession = team
 	var start := elapsed
 	if team == "us":
 		_our_drive(start, dur)
@@ -251,7 +263,7 @@ func _our_drive(start: float, dur: float) -> void:
 		if not _warmup_offered_this_half and not backup_fg:
 			_warmup_offered_this_half = true
 			_queue.append({"type": "warmup", "spot": "opponent %d" % _rng.randi_range(25, 40),
-				"elapsed": elapsed, "us": score_us, "them": score_them})
+				"elapsed": elapsed, "us": score_us, "them": score_them, "poss": possession})
 		elapsed = start + dur * 0.85
 		if roll < td:
 			_line("gain_us", {"yards": _rng.randi_range(4, 15)})
@@ -331,7 +343,8 @@ func _push_kickoff_after_score() -> void:
 
 
 func _push_call(kind: String, yards: int = 0) -> void:
-	var e := {"type": "call", "kind": kind, "elapsed": elapsed, "us": score_us, "them": score_them,
+	# Your kick: your team is on the field.
+	var e := {"type": "call", "kind": kind, "elapsed": elapsed, "us": score_us, "them": score_them, "poss": "us",
 		"q": quarter(), "left": maxf(_quarter_sec() * 4.0 - elapsed, 0.0)}
 	if kind == "pat":
 		yards = int(_p["pat"])
@@ -403,7 +416,8 @@ func _line(key: String, extra: Dictionary = {}) -> void:
 
 
 func _text(t: String) -> void:
-	_queue.append({"type": "play", "text": t, "elapsed": elapsed, "us": score_us, "them": score_them})
+	_queue.append({"type": "play", "text": t, "elapsed": elapsed, "us": score_us, "them": score_them,
+		"poss": possession})
 
 
 func _name() -> String:

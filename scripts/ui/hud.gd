@@ -58,6 +58,23 @@ func set_scoreboard(left: String, right: String) -> void:
 	_makes.text = right
 
 
+## A score bug (Scoreboard) sits in the top-left corner: hide the top row and
+## keep `height` px clear at the top so the distance, situation and wind /
+## pressure lines start below it.
+func make_room_for_score_bug(height: float) -> void:
+	_scoreboard_override = true
+	var top := get_node("Root/SafeArea/Column/TopRow") as Control
+	top.visible = false
+	var col := top.get_parent()
+	if col.get_node_or_null("ScoreBugRoom") == null:
+		var room := Control.new()
+		room.name = "ScoreBugRoom"
+		room.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		col.add_child(room)
+		col.move_child(room, 0)
+	(col.get_node("ScoreBugRoom") as Control).custom_minimum_size.y = height
+
+
 ## Replace the big distance line and the situation line (kickoffs:
 ## "KICKOFF" / "From the 35").
 func set_headline(big: String, small: String) -> void:
