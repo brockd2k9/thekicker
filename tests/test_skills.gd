@@ -19,15 +19,14 @@ func _career() -> CareerData:
 func test_range_curve() -> void:
 	eq(KickRange.fg_from_power(30.0, t), 40.0, "a new freshman kicks 40")
 	eq(KickRange.fg_from_power(100.0, t), 66.0, "Power 100: 66 before perks")
-	var x50 := pow((50.0 - t.range_power_start) / (100.0 - t.range_power_start), t.range_curve)
-	eq(KickRange.fg_from_power(50.0, t), t.range_at_start + (t.range_at_100 - t.range_at_start) * x50, "Power 50 on the curve")
+	check(absf(KickRange.fg_from_power(50.0, t) - 50.2) < 0.2, "Power 50 is about 50")
 	var prev := 0.0
 	var prev_step := 99.0
 	for p in range(30, 101, 10):
 		var r := KickRange.fg_from_power(p, t)
 		check(r > prev, "range grows with Power (%d)" % p)
 		if p > 30:
-			check(r - prev <= prev_step + 0.001, "no more yards per Power as it climbs (%d)" % p)
+			check(r - prev <= prev_step + 0.001, "diminishing yards per Power (%d)" % p)
 			prev_step = r - prev
 		prev = r
 	eq(KickRange.kickoff_from_power(30.0, t), 52.0, "kickoff range at the start")
@@ -130,18 +129,16 @@ func test_touchback_check() -> void:
 # --- skill points ---------------------------------------------------------------------
 
 func test_upgrade_costs_and_purchase() -> void:
-	for lvl in [30, 50, 70, 90]:
-		eq(SkillPoints.cost_at(lvl, t), int(ceilf(t.upgrade_cost_base + t.upgrade_cost_scale
-			* pow(lvl / 100.0, t.upgrade_cost_exp))), "cost at %d" % lvl)
-	check(SkillPoints.cost_at(90, t) > SkillPoints.cost_at(70, t) and SkillPoints.cost_at(70, t) > SkillPoints.cost_at(30, t),
-		"cost rises with the level")
+	eq(SkillPoints.cost_at(30, t), 2, "cost at 30")
+	eq(SkillPoints.cost_at(50, t), 4, "cost at 50")
+	eq(SkillPoints.cost_at(70, t), 6, "cost at 70")
+	eq(SkillPoints.cost_at(90, t), 9, "cost at 90")
 	var c := _career()
-	var cost := SkillPoints.cost_at(c.stat("power"), t)
-	c.skill_points = cost + 1
+	c.skill_points = 3
 	var before := c.stat("power")
 	check(SkillPoints.upgrade(c, "power", t), "affordable upgrade")
 	eq(c.stat("power"), before + 1.0, "one point")
-	eq(c.skill_points, 1, "paid the cost")
+	eq(c.skill_points, 1, "paid 2")
 	check(not SkillPoints.upgrade(c, "power", t), "can't afford the next")
 	eq(float(c.sp_upgrades.get("power", 0.0)), 1.0, "upgrade logged")
 	check(not SkillPoints.upgrade(c, "energy", t), "life stats can't be bought")
@@ -273,12 +270,10 @@ func test_resilience_and_leadership_soften_misses() -> void:
 func test_slump_window_and_coach_doubt() -> void:
 	var c := _career()
 	var kicks := []
-	for i in t.kick_window - t.kick_window_misses:
-		kicks.append(_kick("fg", true))
-	for i in t.kick_window_misses:
-		kicks.append(_kick("fg", false))
+	for made in [true, false, true, false, false, false]:
+		kicks.append(_kick("fg", made))
 	var res := KickTrust.apply_game(c, kicks, 50.0, t)
-	check(res["slump"], "%d misses in the last %d: slump" % [t.kick_window_misses, t.kick_window])
+	check(res["slump"], "4 misses in the last 6: slump")
 	check(not c.coach_doubt.is_empty(), "coach doubt starts")
 	check(c.flags.get("kicking_slump", false), "story flag for HS_142")
 	check(Relationships.value(c, "coach") < 50.0, "coach trust lost")
@@ -297,21 +292,17 @@ func test_slump_window_and_coach_doubt() -> void:
 
 func test_slump_window_clears_early() -> void:
 	var c := _career()
-	var misses: Array = []
-	for i in t.kick_window_misses:
-		misses.append(_kick("fg", false))
-	KickTrust.apply_game(c, misses, 50.0, t)
-	check(c.coach_doubt.is_empty(), "window not full yet, too few tries for the season rule")
-	var makes: Array = []
-	for i in t.kick_window - t.kick_window_misses:
-		makes.append(_kick("fg", true))
-	KickTrust.apply_game(c, makes, 50.0, t)
-	check(not c.coach_doubt.is_empty(), "window full with too many misses: slump")
-	var streak: Array = []
-	for i in t.kick_window:
-		streak.append(_kick("fg", true))
-	KickTrust.apply_game(c, streak, 50.0, t)
-	check(c.coach_doubt.is_empty(), "a full window of makes clears the doubt early")
+	KickTrust.apply_game(c, [_kick("fg", false), _kick("fg", false), _kick("fg", false), _kick("fg", false)], 50.0, t)
+	check(c.coach_doubt.is_empty(), "4 misses: window not full, too few tries (8) for the season rule")
+	KickTrust.apply_game(c, [_kick("fg", true), _kick("fg", true)], 50.0, t)
+	check(not c.coach_doubt.is_empty(), "window full with 4 misses in 6: slump")
+	var d := _career()
+	KickTrust.apply_game(d, [_kick("fg", false), _kick("fg", true), _kick("fg", false), _kick("fg", true),
+		_kick("fg", false), _kick("fg", true)], 50.0, t)
+	check(d.coach_doubt.is_empty(), "3 misses in 6: no slump any more")
+	KickTrust.apply_game(c, [_kick("fg", true), _kick("fg", true), _kick("fg", true),
+		_kick("fg", true), _kick("fg", true)], 50.0, t)
+	check(c.coach_doubt.is_empty(), "5 straight makes clear the doubt early")
 
 
 func test_live_view_matches_saved_result() -> void:
@@ -461,3 +452,31 @@ func test_warmup_sp_cap_and_sources() -> void:
 	for k in c.sp_sources:
 		total += int(c.sp_sources[k])
 	eq(total, c.sp_season, "every SP this season has a source")
+
+
+
+func test_70_yard_cap_needs_big_leg_and_cannon() -> void:
+	var c := _career()
+	c.set_stat("power", 100)
+	c.set_stat("energy", 100)
+	c.set_stat("health", 100)
+	check(KickProfile.build(c, t).range_yd > 0.0, "rested and healthy: game-day yards on top")
+	eq(KickProfile.build(c, t).fg_range, t.range_at_100, "no perks: 66 at most, even on a great day")
+	var ko0 := KickProfile.build(c, t).kickoff_range
+	c.perks = ["big_leg"]
+	eq(KickProfile.build(c, t).fg_range, t.range_at_100 + 2.0, "Big Leg: 68")
+	eq(KickProfile.build(c, t).kickoff_range, ko0 + 2.0, "Big Leg: +2 kickoff yards")
+	c.perks = ["big_leg", "cannon"]
+	eq(KickProfile.build(c, t).fg_range, t.range_cap, "Big Leg + Cannon: the 70 yd hard cap")
+	eq(KickRange.fg_cap(c, t), 70.0, "never past 70")
+
+
+
+func test_warmup_sp_season_cap() -> void:
+	var c := _career()
+	var m := CareerManager.new(c, t)
+	m._start_season(false)
+	for i in 8:
+		m.data.phase = CareerManager.PHASE_GAME
+		m.finish_game({"outcome": "W", "us": 14, "them": 7, "kicks": [], "warmups": ["pure", "pure"]})
+	eq(int(c.sp_sources.get("Sideline warmup", 0)), t.sp_warmup_max_per_season, "at most 5 a season from warmups")

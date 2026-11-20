@@ -274,7 +274,7 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export_range(0.0, 1.0) var opponent_fg_chance: float = 0.65
 ## Field goal attempt distances (yards) at this stage.
 @export var hs_fg_min_yards: int = 20
-@export var hs_fg_max_yards: int = 50
+@export var hs_fg_max_yards: int = 48
 ## Extra point distance (yards) at this stage.
 @export var hs_pat_yards: int = 20
 ## The coach knows your range: the longest field goal he calls is your
@@ -367,10 +367,10 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## Field goal attempt distances and extra point distance (yards) per stage.
 ## A college's tier can lower the college max (progression.json fg_max_yards).
 @export var college_fg_min_yards: int = 22
-@export var college_fg_max_yards: int = 58
+@export var college_fg_max_yards: int = 55
 @export var college_pat_yards: int = 20
 @export var pro_fg_min_yards: int = 25
-@export var pro_fg_max_yards: int = 62
+@export var pro_fg_max_yards: int = 58
 @export var pro_pat_yards: int = 33
 ## Extra situation pressure on every kick (bigger crowds, bigger stakes).
 ## College tiers add their own pressure_bonus on top.
@@ -401,7 +401,7 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var recruiting_record: float = 0.5
 @export var recruiting_leg: float = 0.15
 ## Points per yard of field goal range past recruiting_range_from.
-@export var recruiting_range: float = 0.6
+@export var recruiting_range: float = 0.3
 @export var recruiting_range_from: float = 45.0
 ## A junior college season counts this much (then offers come again).
 @export var juco_recruiting_weight: float = 1.4
@@ -420,7 +420,7 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## The leg term counts from this (Power + Accuracy) / 2.
 @export var draft_leg_from: float = 50.0
 ## Points per yard of field goal range past draft_range_from.
-@export var draft_range: float = 0.6
+@export var draft_range: float = 0.3
 @export var draft_range_from: float = 50.0
 
 @export_group("Pro Contracts")
@@ -432,7 +432,7 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var retention_clutch: float = 4.0
 @export var retention_age: float = 5.0
 ## Points per yard of field goal range past retention_range_from.
-@export var retention_range: float = 0.3
+@export var retention_range: float = 0.15
 @export var retention_range_from: float = 55.0
 ## Below this you're released (even mid-contract).
 @export var release_below: float = 35.0
@@ -583,8 +583,10 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export_range(0.0, 1.0) var sp_great_season_pct: float = 0.9
 ## Offseason training (once between seasons).
 @export var sp_offseason: int = 6
-## Sideline warmups (game_day.json "skill_points"): at most this many a game day.
+## Sideline warmups (game_day.json "skill_points"): at most this many a game
+## day, and this many a season.
 @export var sp_warmup_max_per_game: int = 1
+@export var sp_warmup_max_per_season: int = 5
 ## Scenario choices' "skill_points" are multiplied by this.
 @export var sp_scenario_scale: float = 1.0
 ## Scenario choices still change football stats directly ("stats": {"football"});
