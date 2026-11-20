@@ -26,7 +26,11 @@
   "pro_late_meeting",
   "pro_casual_bet",
   "pro_betting_scandal",
-  "pro_solicitation"
+  "pro_solicitation",
+  "pro_business_fraud",
+  "pro_phantom_injury",
+  "pro_bad_mentor",
+  "pro_insurance_fraud"
  ],
  "scenarios": [
   {
@@ -819,7 +823,7 @@
    "premise": "The club signs a kicker with a bigger leg and a lower salary, and puts him at the locker next to yours.",
    "ages": [
     27,
-    32
+    34
    ],
    "seasons_with_club": null,
    "weeks": [
@@ -927,7 +931,7 @@
    "premise": "This is the contract that sets up your family for life, if you earn it this season.",
    "ages": [
     27,
-    31
+    34
    ],
    "seasons_with_club": null,
    "weeks": null,
@@ -949,8 +953,8 @@
    "chain": "Contract",
    "premise": "At your age, the next contract is one year at a time, and everyone in the building knows it.",
    "ages": [
-    32,
-    50
+    35,
+    37
    ],
    "seasons_with_club": null,
    "weeks": null,
@@ -3103,8 +3107,8 @@
    "chain": "Veteran",
    "premise": "The club drafts a kicker in the fourth round, and he's sitting in your seat in the meeting room.",
    "ages": [
-    33,
-    50
+    35,
+    37
    ],
    "seasons_with_club": null,
    "weeks": [
@@ -4237,6 +4241,2430 @@
    "waits_on": [],
    "callbacks": [],
    "note": "Follow-up for a player with a partner: the same discipline, plus {love_interest} (-10 to -15). Every choice sets pro_cheated, so the Found Out chain picks it up."
+  },
+  {
+   "id": "PRO_176",
+   "title": "Contract Year: The Phone Call Every Spring",
+   "group": "Long career: age-banded situations",
+   "chain": "Contract",
+   "premise": "At your age the club offers one year at a time, and every spring you wait by the phone to hear if there's another.",
+   "ages": [
+    38,
+    40
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "contract_year"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "coach",
+    "love_interest"
+   ],
+   "kind": "variant",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_177",
+   "title": "Contract Year: Nobody This Old",
+   "group": "Long career: age-banded situations",
+   "chain": "Contract",
+   "premise": "No kicker your age has signed a contract in years. Your agent says the league is curious, and the general manager says 'prove it'.",
+   "ages": [
+    41,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "contract_year"
+    ]
+   },
+   "sets": [],
+   "people": [],
+   "kind": "variant",
+   "waits_on": [
+    "R1 no age cap (ages 39+)"
+   ],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_178",
+   "title": "The Rookie Slump",
+   "group": "Long career: age-banded situations",
+   "chain": "Slump",
+   "premise": "Your first real slump, and every veteran in the room has a theory about your plant foot.",
+   "ages": [
+    21,
+    26
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "min": {
+     "slump_now": 1
+    }
+   },
+   "sets": [],
+   "people": [
+    "coach",
+    "holder"
+   ],
+   "kind": "variant",
+   "waits_on": [],
+   "callbacks": [
+    "saw_sports_psych",
+    "leaned_on_support"
+   ]
+  },
+  {
+   "id": "PRO_179",
+   "title": "The Prime Slump",
+   "group": "Long career: age-banded situations",
+   "chain": "Slump",
+   "premise": "You're supposed to be at your best, and the misses in practice have started making headlines.",
+   "ages": [
+    27,
+    34
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "min": {
+     "slump_now": 1
+    }
+   },
+   "sets": [],
+   "people": [
+    "coach",
+    "holder"
+   ],
+   "kind": "variant",
+   "waits_on": [],
+   "callbacks": [
+    "saw_sports_psych",
+    "leaned_on_support"
+   ]
+  },
+  {
+   "id": "PRO_180",
+   "title": "The Veteran Slump",
+   "group": "Long career: age-banded situations",
+   "chain": "Slump",
+   "premise": "At your age a slump doesn't look like a slump. It looks like the end, and talk radio says so.",
+   "ages": [
+    35,
+    37
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "min": {
+     "slump_now": 1
+    }
+   },
+   "sets": [],
+   "people": [
+    "coach",
+    "holder"
+   ],
+   "kind": "variant",
+   "waits_on": [],
+   "callbacks": [
+    "saw_sports_psych",
+    "leaned_on_support"
+   ]
+  },
+  {
+   "id": "PRO_181",
+   "title": "The Slump Nobody Waits Out",
+   "group": "Long career: age-banded situations",
+   "chain": "Slump",
+   "premise": "At this age, a club doesn't wait for you to work it out. The backup is already kicking where the coaches can see.",
+   "ages": [
+    38,
+    40
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "min": {
+     "slump_now": 1
+    }
+   },
+   "sets": [],
+   "people": [
+    "coach",
+    "holder"
+   ],
+   "kind": "variant",
+   "waits_on": [],
+   "callbacks": [
+    "saw_sports_psych",
+    "leaned_on_support"
+   ]
+  },
+  {
+   "id": "PRO_182",
+   "title": "The Last Slump",
+   "group": "Long career: age-banded situations",
+   "chain": "Slump",
+   "premise": "You've survived a dozen slumps. This one feels different, and you know exactly why.",
+   "ages": [
+    41,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "min": {
+     "slump_now": 1
+    }
+   },
+   "sets": [],
+   "people": [
+    "coach",
+    "holder"
+   ],
+   "kind": "variant",
+   "waits_on": [
+    "R1 no age cap (ages 39+)"
+   ],
+   "callbacks": [
+    "saw_sports_psych",
+    "leaned_on_support"
+   ]
+  },
+  {
+   "id": "PRO_183",
+   "title": "The Rookie on a Run",
+   "group": "Long career: age-banded situations",
+   "chain": "Streak",
+   "premise": "A month without a miss, and the rookie card companies are calling your agent.",
+   "ages": [
+    21,
+    26
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "min": {
+     "fg_streak": 8
+    }
+   },
+   "sets": [],
+   "people": [
+    "team"
+   ],
+   "kind": "variant",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_184",
+   "title": "Untouchable",
+   "group": "Long career: age-banded situations",
+   "chain": "Streak",
+   "premise": "The streak is the longest in the league, and the other team's kicker is asking you for tips.",
+   "ages": [
+    27,
+    34
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "min": {
+     "fg_streak": 8
+    }
+   },
+   "sets": [],
+   "people": [
+    "team"
+   ],
+   "kind": "variant",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_185",
+   "title": "Still Got It",
+   "group": "Long career: age-banded situations",
+   "chain": "Streak",
+   "premise": "A run of makes at your age, and every story calls it a 'renaissance'. You'd call it work.",
+   "ages": [
+    35,
+    37
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "min": {
+     "fg_streak": 8
+    }
+   },
+   "sets": [],
+   "people": [
+    "team"
+   ],
+   "kind": "variant",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_186",
+   "title": "The Oldest Streak",
+   "group": "Long career: age-banded situations",
+   "chain": "Streak",
+   "premise": "A perfect month at your age. The league office sends a statistician to make sure it's real.",
+   "ages": [
+    38,
+    40
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "min": {
+     "fg_streak": 8
+    }
+   },
+   "sets": [],
+   "people": [
+    "team"
+   ],
+   "kind": "variant",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_187",
+   "title": "A Legend's Month",
+   "group": "Long career: age-banded situations",
+   "chain": "Streak",
+   "premise": "Kids who weren't born when you started are wearing your jersey to practice.",
+   "ages": [
+    41,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "min": {
+     "fg_streak": 8
+    }
+   },
+   "sets": [],
+   "people": [
+    "team"
+   ],
+   "kind": "variant",
+   "waits_on": [
+    "R1 no age cap (ages 39+)"
+   ],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_188",
+   "title": "The Veteran They Signed to Push You",
+   "group": "Long career: age-banded situations",
+   "chain": "Competition",
+   "premise": "The club signs a thirty-four-year-old kicker 'for depth'. Everybody knows what that means for a rookie.",
+   "ages": [
+    21,
+    26
+   ],
+   "seasons_with_club": null,
+   "weeks": [
+    1,
+    3
+   ],
+   "when": null,
+   "requires": null,
+   "sets": [],
+   "people": [
+    "coach",
+    "backup"
+   ],
+   "kind": "variant",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_189",
+   "title": "The Kid in Your Seat",
+   "group": "Long career: age-banded situations",
+   "chain": "Competition",
+   "premise": "The club drafts a kicker who was in grade school when you signed your first contract.",
+   "ages": [
+    38,
+    40
+   ],
+   "seasons_with_club": null,
+   "weeks": [
+    1,
+    3
+   ],
+   "when": null,
+   "requires": null,
+   "sets": [],
+   "people": [
+    "coach",
+    "backup"
+   ],
+   "kind": "variant",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_190",
+   "title": "Your Replacement Was Born the Year You Turned Pro",
+   "group": "Long career: age-banded situations",
+   "chain": "Competition",
+   "premise": "The new kicker's mother asks for your autograph at camp. For herself.",
+   "ages": [
+    41,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": [
+    1,
+    3
+   ],
+   "when": null,
+   "requires": null,
+   "sets": [],
+   "people": [
+    "coach",
+    "backup"
+   ],
+   "kind": "variant",
+   "waits_on": [
+    "R1 no age cap (ages 39+)"
+   ],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_191",
+   "title": "The Rookie Injury",
+   "group": "Long career: age-banded situations",
+   "chain": "Injury",
+   "premise": "Your first pro injury, and the trainers are talking about you like a part that might not fit back in.",
+   "ages": [
+    21,
+    26
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "min": {
+     "injured_now": 1
+    }
+   },
+   "sets": [],
+   "people": [
+    "coach",
+    "love_interest"
+   ],
+   "kind": "variant",
+   "waits_on": [],
+   "callbacks": [
+    "committed_to_recovery",
+    "hid_injury"
+   ]
+  },
+  {
+   "id": "PRO_192",
+   "title": "Hurt in Your Prime",
+   "group": "Long career: age-banded situations",
+   "chain": "Injury",
+   "premise": "A hip flexor in the best season of your career, and the club wants to know how long.",
+   "ages": [
+    27,
+    34
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "min": {
+     "injured_now": 1
+    }
+   },
+   "sets": [],
+   "people": [
+    "coach",
+    "love_interest"
+   ],
+   "kind": "variant",
+   "waits_on": [],
+   "callbacks": [
+    "committed_to_recovery",
+    "hid_injury"
+   ]
+  },
+  {
+   "id": "PRO_193",
+   "title": "The Body Keeps Score",
+   "group": "Long career: age-banded situations",
+   "chain": "Injury",
+   "premise": "The trainers say this one will heal. They also say the next one might not.",
+   "ages": [
+    35,
+    37
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "min": {
+     "injured_now": 1
+    }
+   },
+   "sets": [],
+   "people": [
+    "coach",
+    "love_interest"
+   ],
+   "kind": "variant",
+   "waits_on": [],
+   "callbacks": [
+    "committed_to_recovery",
+    "hid_injury"
+   ]
+  },
+  {
+   "id": "PRO_194",
+   "title": "Six Weeks at Your Age",
+   "group": "Long career: age-banded situations",
+   "chain": "Injury",
+   "premise": "Six weeks on the shelf at your age is a season. The club starts working out kickers on Tuesdays.",
+   "ages": [
+    38,
+    40
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "min": {
+     "injured_now": 1
+    }
+   },
+   "sets": [],
+   "people": [
+    "coach",
+    "love_interest"
+   ],
+   "kind": "variant",
+   "waits_on": [],
+   "callbacks": [
+    "committed_to_recovery",
+    "hid_injury"
+   ]
+  },
+  {
+   "id": "PRO_195",
+   "title": "One More Comeback",
+   "group": "Long career: age-banded situations",
+   "chain": "Injury",
+   "premise": "The doctors are polite about it, which is how you know.",
+   "ages": [
+    41,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "min": {
+     "injured_now": 1
+    }
+   },
+   "sets": [],
+   "people": [
+    "coach",
+    "love_interest"
+   ],
+   "kind": "variant",
+   "waits_on": [
+    "R1 no age cap (ages 39+)"
+   ],
+   "callbacks": [
+    "committed_to_recovery",
+    "hid_injury"
+   ]
+  },
+  {
+   "id": "PRO_196",
+   "title": "A New City at Thirty",
+   "group": "Long career: age-banded situations",
+   "chain": "New club",
+   "premise": "A new club, a new town, and a locker room that has already decided whether you're a mercenary.",
+   "ages": [
+    27,
+    34
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "signed_new_club"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "team",
+    "love_interest"
+   ],
+   "kind": "variant",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_197",
+   "title": "The Veteran Signing",
+   "group": "Long career: age-banded situations",
+   "chain": "New club",
+   "premise": "They signed you for your experience. The young players want to know what that means.",
+   "ages": [
+    35,
+    37
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "signed_new_club"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "team",
+    "love_interest"
+   ],
+   "kind": "variant",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_198",
+   "title": "The Last Stop?",
+   "group": "Long career: age-banded situations",
+   "chain": "New club",
+   "premise": "Your fourth club. Everyone in the building assumes it's the last one, including you.",
+   "ages": [
+    38,
+    40
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "signed_new_club"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "team",
+    "love_interest"
+   ],
+   "kind": "variant",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_199",
+   "title": "Signed at Your Age",
+   "group": "Long career: age-banded situations",
+   "chain": "New club",
+   "premise": "The press conference is bigger than the contract. Everybody wants to see the oldest kicker in the league sign the papers.",
+   "ages": [
+    41,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "signed_new_club"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "team",
+    "love_interest"
+   ],
+   "kind": "variant",
+   "waits_on": [
+    "R1 no age cap (ages 39+)"
+   ],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_200",
+   "title": "Media Day",
+   "group": "Long career: repeatables with experience",
+   "chain": "Repeat",
+   "premise": "Media day, and the questions are the same every year. Your answers don't have to be.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": [
+    1,
+    1
+   ],
+   "when": null,
+   "requires": null,
+   "sets": [],
+   "people": [
+    "team"
+   ],
+   "kind": "repeat",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Repeatable (15-week cooldown). Locked choices open with experience: min pro_seasons 3 / 6 / 10, age, earlier flags."
+  },
+  {
+   "id": "PRO_201",
+   "title": "Camp Opens",
+   "group": "Long career: repeatables with experience",
+   "chain": "Repeat",
+   "premise": "The first day of camp. The rookies are terrified, the veterans are bored, and you're somewhere in between.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": [
+    1,
+    1
+   ],
+   "when": null,
+   "requires": null,
+   "sets": [],
+   "people": [
+    "team"
+   ],
+   "kind": "repeat",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Repeatable (15-week cooldown). Locked choices open with experience: min pro_seasons 3 / 6 / 10, age, earlier flags."
+  },
+  {
+   "id": "PRO_202",
+   "title": "The Rookie Asks",
+   "group": "Long career: repeatables with experience",
+   "chain": "Repeat",
+   "premise": "A rookie specialist corners you after practice with a question you used to ask.",
+   "ages": [
+    28,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [],
+   "people": [
+    "team"
+   ],
+   "kind": "repeat",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Repeatable (15-week cooldown). Locked choices open with experience: min pro_seasons 3 / 6 / 10, age, earlier flags."
+  },
+  {
+   "id": "PRO_203",
+   "title": "The Charity Kick",
+   "group": "Long career: repeatables with experience",
+   "chain": "Repeat",
+   "premise": "The club's charity day: kids, cameras and a field goal for every dollar raised.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [],
+   "people": [
+    "team"
+   ],
+   "kind": "repeat",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Repeatable (15-week cooldown). Locked choices open with experience: min pro_seasons 3 / 6 / 10, age, earlier flags."
+  },
+  {
+   "id": "PRO_204",
+   "title": "Bye Week at Home",
+   "group": "Long career: repeatables with experience",
+   "chain": "Repeat",
+   "premise": "The bye week. Home for six days, and everyone wants a piece of them.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": [
+    "bye"
+   ],
+   "requires": null,
+   "sets": [],
+   "people": [
+    "team"
+   ],
+   "kind": "repeat",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Repeatable (15-week cooldown). Locked choices open with experience: min pro_seasons 3 / 6 / 10, age, earlier flags."
+  },
+  {
+   "id": "PRO_205",
+   "title": "The Offseason Plan",
+   "group": "Long career: repeatables with experience",
+   "chain": "Repeat",
+   "premise": "The offseason starts. You can rest, rebuild or chase something new.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": [
+    "offseason"
+   ],
+   "requires": null,
+   "sets": [],
+   "people": [
+    "team"
+   ],
+   "kind": "repeat",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Repeatable (15-week cooldown). Locked choices open with experience: min pro_seasons 3 / 6 / 10, age, earlier flags."
+  },
+  {
+   "id": "PRO_206",
+   "title": "The Film Room",
+   "group": "Long career: repeatables with experience",
+   "chain": "Repeat",
+   "premise": "{coach} wants an extra film session with the specialists every Wednesday this month.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [],
+   "people": [
+    "team"
+   ],
+   "kind": "repeat",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Repeatable (15-week cooldown). Locked choices open with experience: min pro_seasons 3 / 6 / 10, age, earlier flags."
+  },
+  {
+   "id": "PRO_207",
+   "title": "The Fan Letter",
+   "group": "Long career: repeatables with experience",
+   "chain": "Repeat",
+   "premise": "A letter from a fan who has watched every kick of your career, good and bad.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [],
+   "people": [
+    "team"
+   ],
+   "kind": "repeat",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Repeatable (15-week cooldown). Locked choices open with experience: min pro_seasons 3 / 6 / 10, age, earlier flags."
+  },
+  {
+   "id": "PRO_208",
+   "title": "The Locker Room Prank",
+   "group": "Long career: repeatables with experience",
+   "chain": "Repeat",
+   "premise": "The locker room's annual prank war, and this year someone has made you the target.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [],
+   "people": [
+    "team"
+   ],
+   "kind": "repeat",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Repeatable (15-week cooldown). Locked choices open with experience: min pro_seasons 3 / 6 / 10, age, earlier flags."
+  },
+  {
+   "id": "PRO_209",
+   "title": "The Holder's Birthday",
+   "group": "Long career: repeatables with experience",
+   "chain": "Repeat",
+   "premise": "{holder}'s birthday, and the specialists have a tradition.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [],
+   "people": [
+    "team"
+   ],
+   "kind": "repeat",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Repeatable (15-week cooldown). Locked choices open with experience: min pro_seasons 3 / 6 / 10, age, earlier flags."
+  },
+  {
+   "id": "PRO_210",
+   "title": "Road Trip Routine",
+   "group": "Long career: repeatables with experience",
+   "chain": "Repeat",
+   "premise": "Another road trip, another hotel. Your routine is either a superpower or a rut.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [],
+   "people": [
+    "team"
+   ],
+   "kind": "repeat",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Repeatable (15-week cooldown). Locked choices open with experience: min pro_seasons 3 / 6 / 10, age, earlier flags."
+  },
+  {
+   "id": "PRO_211",
+   "title": "The Contract Talk at Home",
+   "group": "Long career: repeatables with experience",
+   "chain": "Repeat",
+   "premise": "Contract season again, and the conversation at the kitchen table sounds familiar.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "any_flags": [
+     "made_long_distance_work",
+     "committed_to_relationship",
+     "new_partner",
+     "engaged",
+     "married"
+    ],
+    "min": {
+     "contract_years_left": 1
+    }
+   },
+   "sets": [],
+   "people": [
+    "team"
+   ],
+   "kind": "repeat",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Repeatable (15-week cooldown). Locked choices open with experience: min pro_seasons 3 / 6 / 10, age, earlier flags."
+  },
+  {
+   "id": "PRO_212",
+   "title": "The Young Coach",
+   "group": "Long career: repeatables with experience",
+   "chain": "Repeat",
+   "premise": "The new special teams coach is younger than you, and wants to change your warmup.",
+   "ages": [
+    33,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [],
+   "people": [
+    "team"
+   ],
+   "kind": "repeat",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Repeatable (15-week cooldown). Locked choices open with experience: min pro_seasons 3 / 6 / 10, age, earlier flags."
+  },
+  {
+   "id": "PRO_213",
+   "title": "Playoff Atmosphere",
+   "group": "Long career: repeatables with experience",
+   "chain": "Repeat",
+   "premise": "The city has noticed the team again. Everyone wants a piece of the players.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": [
+    8,
+    11
+   ],
+   "when": null,
+   "requires": null,
+   "sets": [],
+   "people": [
+    "team"
+   ],
+   "kind": "repeat",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Repeatable (15-week cooldown). Locked choices open with experience: min pro_seasons 3 / 6 / 10, age, earlier flags."
+  },
+  {
+   "id": "PRO_214",
+   "title": "Your Kid's First Game",
+   "group": "Long career: life chapters",
+   "chain": "Kids",
+   "premise": "Your kid is in the stands for the first time, holding a sign with your name spelled wrong.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "became_parent"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_215",
+   "title": "The Kid Wants to Quit",
+   "group": "Long career: life chapters",
+   "chain": "Kids",
+   "premise": "Your kid wants to quit their own team, and asks you not to be mad.",
+   "ages": [
+    32,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "became_parent"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_216",
+   "title": "Teenagers",
+   "group": "Long career: life chapters",
+   "chain": "Kids",
+   "premise": "Your teenager says they're tired of being 'the kicker's kid' at school.",
+   "ages": [
+    36,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "became_parent"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_217",
+   "title": "Graduation Day",
+   "group": "Long career: life chapters",
+   "chain": "Kids",
+   "premise": "Your kid's graduation lands on a road trip.",
+   "ages": [
+    40,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "became_parent"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [
+    "R1 no age cap (ages 39+)"
+   ],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_218",
+   "title": "A Second Child",
+   "group": "Long career: life chapters",
+   "chain": "Kids",
+   "premise": "Another baby is coming, and the house already feels small.",
+   "ages": [
+    27,
+    42
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "became_parent",
+     "married"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_219",
+   "title": "Someone New, Later",
+   "group": "Long career: life chapters",
+   "chain": "Partner",
+   "premise": "Years after it ended, a friend's dinner party seats you next to someone who doesn't care about football at all.",
+   "ages": [
+    30,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "any_flags": [
+     "divorced",
+     "broke_up_pro"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [
+    "R8 re-point {love_interest}"
+   ],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_220",
+   "title": "The Second Wedding",
+   "group": "Long career: life chapters",
+   "chain": "Partner",
+   "premise": "A second wedding is smaller, quieter and somehow harder to plan.",
+   "ages": [
+    30,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "engaged",
+     "divorced"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [
+    "R8 re-point {love_interest}"
+   ],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_221",
+   "title": "The Anniversary",
+   "group": "Long career: life chapters",
+   "chain": "Partner",
+   "premise": "Ten years married, and you're in a hotel in a city you can't remember the name of.",
+   "ages": [
+    30,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "married"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_222",
+   "title": "{parent} Moves In",
+   "group": "Long career: life chapters",
+   "chain": "Parent",
+   "premise": "{parent} can't live alone anymore, and your house has a spare room.",
+   "ages": [
+    33,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [],
+   "people": [
+    "parent",
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_223",
+   "title": "{parent} in the Hospital Again",
+   "group": "Long career: life chapters",
+   "chain": "Parent",
+   "premise": "Another call from home. This time the doctor uses the word 'months'.",
+   "ages": [
+    35,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [],
+   "people": [
+    "parent",
+    "sibling"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_224",
+   "title": "The Funeral",
+   "group": "Long career: life chapters",
+   "chain": "Parent",
+   "premise": "{parent}'s funeral is on a Thursday. The club says take all the time you need, and means a week.",
+   "ages": [
+    37,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [],
+   "people": [
+    "parent",
+    "sibling",
+    "coach"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_225",
+   "title": "{sibling}'s Family",
+   "group": "Long career: life chapters",
+   "chain": "Family",
+   "premise": "{sibling} has kids of his own now, and they think you're the most famous person alive.",
+   "ages": [
+    30,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [],
+   "people": [
+    "sibling"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_226",
+   "title": "{best_friend} Is Sick",
+   "group": "Long career: life chapters",
+   "chain": "Friends",
+   "premise": "{best_friend} calls with news that makes the season feel very small.",
+   "ages": [
+    32,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [],
+   "people": [
+    "best_friend"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_227",
+   "title": "{tyler} Retires",
+   "group": "Long career: life chapters",
+   "chain": "Friends",
+   "premise": "{tyler} retires and asks you to speak at the press conference.",
+   "ages": [
+    33,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [],
+   "people": [
+    "rival"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_228",
+   "title": "The Mentor's Funeral",
+   "group": "Long career: life chapters",
+   "chain": "Friends",
+   "premise": "The veteran who taught you the most in your rookie year has died.",
+   "ages": [
+    34,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "learned_from_veteran"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_229",
+   "title": "The Radio Show",
+   "group": "Long career: life chapters",
+   "chain": "After",
+   "premise": "A local station offers you a weekly radio show during the season.",
+   "ages": [
+    30,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [
+    "radio_show"
+   ],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_230",
+   "title": "The Coaching Clinic",
+   "group": "Long career: life chapters",
+   "chain": "After",
+   "premise": "You run your first coaching clinic for high school kickers and find out you might be good at this.",
+   "ages": [
+    32,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": [
+    "offseason"
+   ],
+   "requires": null,
+   "sets": [
+    "coached_clinic"
+   ],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_231",
+   "title": "The Broadcast Audition",
+   "group": "Long career: life chapters",
+   "chain": "After",
+   "premise": "The network wants an audition tape. Your agent wants you to keep kicking.",
+   "ages": [
+    34,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "broadcast_offer"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_232",
+   "title": "The Coaching Job, Part-Time",
+   "group": "Long career: life chapters",
+   "chain": "After",
+   "premise": "A college asks you to coach its kickers in the offseason, while you're still playing.",
+   "ages": [
+    35,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "any_flags": [
+     "coaching_offer",
+     "coached_clinic"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_233",
+   "title": "The Business Grows",
+   "group": "Long career: life chapters",
+   "chain": "Business",
+   "premise": "The start-up you backed is opening offices in three cities and wants your face on the launch.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "invested_in_friend"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [
+    "R3 money values"
+   ],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_234",
+   "title": "The Partner Who Cheats You",
+   "group": "Long career: life chapters",
+   "chain": "Business",
+   "premise": "Your dealership partner has been cooking the books.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "dealership_partner"
+    ]
+   },
+   "sets": [
+    "business_fraud_victim"
+   ],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [
+    "R3 money values"
+   ],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_235",
+   "title": "A Franchise Offer",
+   "group": "Long career: life chapters",
+   "chain": "Business",
+   "premise": "A restaurant chain offers you a franchise with your name on it, this time with professionals running it.",
+   "ages": [
+    30,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [
+    "franchise_owner"
+   ],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [
+    "R3 money values"
+   ],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_236",
+   "title": "Selling the Business",
+   "group": "Long career: life chapters",
+   "chain": "Business",
+   "premise": "Someone wants to buy what you built, for more than you ever made kicking.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "any_flags": [
+     "franchise_owner",
+     "started_foundation"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [
+    "R3 money values"
+   ],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_237",
+   "title": "The Foundation at Ten",
+   "group": "Long career: life chapters",
+   "chain": "Business",
+   "premise": "Your foundation turns ten, and the kids from its first year are in college.",
+   "ages": [
+    32,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "started_foundation"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_238",
+   "title": "The Comeback Year",
+   "group": "Long career: life chapters",
+   "chain": "Comeback",
+   "premise": "Last year everyone wrote your obituary. This year you're the first one on the field.",
+   "ages": [
+    30,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "any_flags": [
+     "released",
+     "benched"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_239",
+   "title": "The Record Book",
+   "group": "Long career: life chapters",
+   "chain": "Legacy",
+   "premise": "You're close to a club record nobody thought a kicker would hold.",
+   "ages": [
+    32,
+    50
+   ],
+   "seasons_with_club": [
+    5,
+    99
+   ],
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_240",
+   "title": "Hall of Fame Talk",
+   "group": "Long career: life chapters",
+   "chain": "Legacy",
+   "premise": "A columnist writes that you belong in the Hall of Fame. Another writes that kickers don't.",
+   "ages": [
+    36,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "min": {
+     "pro_seasons": 12
+    }
+   },
+   "sets": [],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_241",
+   "title": "Your Number at the High School",
+   "group": "Long career: life chapters",
+   "chain": "Legacy",
+   "premise": "Your high school wants to retire your number.",
+   "ages": [
+    33,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": [
+    "offseason"
+   ],
+   "requires": null,
+   "sets": [],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [
+    "earned_coach_confidence"
+   ]
+  },
+  {
+   "id": "PRO_242",
+   "title": "The Documentary",
+   "group": "Long career: life chapters",
+   "chain": "Legacy",
+   "premise": "A filmmaker wants to follow you for a season.",
+   "ages": [
+    34,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "followers_tier": "verified"
+   },
+   "sets": [],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_243",
+   "title": "The All-Decade Team",
+   "group": "Long career: life chapters",
+   "chain": "Legacy",
+   "premise": "The league names its all-decade team, and the vote for kicker is close.",
+   "ages": [
+    33,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "min": {
+     "pro_seasons": 10
+    }
+   },
+   "sets": [],
+   "people": [
+    "love_interest"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_244",
+   "title": "One More Year?",
+   "group": "Long career: wind-down (any age)",
+   "chain": "Wind-down",
+   "premise": "The season's over. Your body says stop, your agent says one more, and nobody at home has said anything yet.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": [
+    "offseason"
+   ],
+   "requires": {
+    "flags": [
+     "planning_retirement"
+    ]
+   },
+   "sets": [
+    "chose_one_more_year"
+   ],
+   "people": [
+    "love_interest",
+    "coach"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_245",
+   "title": "Choosing One More Year",
+   "group": "Long career: wind-down (any age)",
+   "chain": "Wind-down",
+   "premise": "You chose one more year. Every practice now has a little countdown in it.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "chose_one_more_year"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest",
+    "coach"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_246",
+   "title": "The General Manager's Call",
+   "group": "Long career: wind-down (any age)",
+   "chain": "Wind-down",
+   "premise": "The general manager calls in March. It's a short call.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "max": {
+     "retention": 40
+    },
+    "min": {
+     "pro_seasons": 4
+    }
+   },
+   "sets": [],
+   "people": [
+    "love_interest",
+    "coach"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_247",
+   "title": "Forced Out",
+   "group": "Long career: wind-down (any age)",
+   "chain": "Wind-down",
+   "premise": "They didn't say retire. They just stopped saying anything at all.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "released"
+    ],
+    "min": {
+     "pro_seasons": 5
+    }
+   },
+   "sets": [],
+   "people": [
+    "love_interest",
+    "coach"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_248",
+   "title": "The Announcement",
+   "group": "Long career: wind-down (any age)",
+   "chain": "Wind-down",
+   "premise": "How do you tell the world you're done?",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "planning_retirement"
+    ]
+   },
+   "sets": [
+    "announced_retirement"
+   ],
+   "people": [
+    "love_interest",
+    "coach"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_249",
+   "title": "The Last Road Trip",
+   "group": "Long career: wind-down (any age)",
+   "chain": "Wind-down",
+   "premise": "The last road trip. The flight attendants have heard, and so has the hotel.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": [
+    6,
+    11
+   ],
+   "when": null,
+   "requires": {
+    "flags": [
+     "announced_retirement"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest",
+    "coach"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_250",
+   "title": "The Last Home Week",
+   "group": "Long career: wind-down (any age)",
+   "chain": "Wind-down",
+   "premise": "The last home week of your career. The city knows, and so does every kid at practice.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": [
+    8,
+    11
+   ],
+   "when": null,
+   "requires": {
+    "flags": [
+     "announced_retirement"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest",
+    "coach"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_251",
+   "title": "Thank You, {holder}",
+   "group": "Long career: wind-down (any age)",
+   "chain": "Wind-down",
+   "premise": "One last week of holds. {holder} has been counting them.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "planning_retirement"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "holder"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_252",
+   "title": "The Family Vote",
+   "group": "Long career: wind-down (any age)",
+   "chain": "Wind-down",
+   "premise": "You put it to a family vote: one more season, or done.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "any_flags": [
+     "made_long_distance_work",
+     "committed_to_relationship",
+     "new_partner",
+     "engaged",
+     "married"
+    ],
+    "min": {
+     "pro_seasons": 5
+    }
+   },
+   "sets": [],
+   "people": [
+    "love_interest",
+    "coach"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_253",
+   "title": "The Body Decides",
+   "group": "Long career: wind-down (any age)",
+   "chain": "Wind-down",
+   "premise": "A doctor shows you an X-ray and says the choice may not be yours much longer.",
+   "ages": [
+    33,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "min": {
+     "injured_now": 1
+    }
+   },
+   "sets": [],
+   "people": [
+    "love_interest",
+    "coach"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_254",
+   "title": "The Exit Interview",
+   "group": "Long career: wind-down (any age)",
+   "chain": "Wind-down",
+   "premise": "The club holds exit interviews after every season. This year the general manager is in yours.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": [
+    "offseason"
+   ],
+   "requires": {
+    "min": {
+     "pro_seasons": 6
+    }
+   },
+   "sets": [],
+   "people": [
+    "love_interest",
+    "coach"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_255",
+   "title": "The Retirement Party",
+   "group": "Long career: wind-down (any age)",
+   "chain": "Wind-down",
+   "premise": "Your teammates throw a retirement party before you've even decided.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "planning_retirement"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest",
+    "coach"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_256",
+   "title": "Who Am I Without It",
+   "group": "Long career: wind-down (any age)",
+   "chain": "Wind-down",
+   "premise": "A sleepless night: if you're not the kicker, who are you?",
+   "ages": [
+    30,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "planning_retirement"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest",
+    "coach"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_257",
+   "title": "Changing Your Mind",
+   "group": "Long career: wind-down (any age)",
+   "chain": "Wind-down",
+   "premise": "You announced it. Now you want to take it back.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "announced_retirement"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest",
+    "coach"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_258",
+   "title": "The Last Kick in Practice",
+   "group": "Long career: wind-down (any age)",
+   "chain": "Wind-down",
+   "premise": "The last kick of your last practice. Nobody leaves the field.",
+   "ages": null,
+   "seasons_with_club": null,
+   "weeks": [
+    9,
+    11
+   ],
+   "when": null,
+   "requires": {
+    "flags": [
+     "announced_retirement"
+    ]
+   },
+   "sets": [],
+   "people": [
+    "love_interest",
+    "coach"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": []
+  },
+  {
+   "id": "PRO_259",
+   "title": "The Recovery Clinic",
+   "group": "Long career: veteran wrong path (35+)",
+   "chain": "Veteran wrong path",
+   "premise": "A clinic promises to make your thirty-eight-year-old leg feel twenty-eight. Its menu includes a banned substance.",
+   "ages": [
+    35,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [
+    "pro_banned_substance"
+   ],
+   "people": [
+    "coach",
+    "team"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps."
+  },
+  {
+   "id": "PRO_260",
+   "title": "Young Again",
+   "group": "Long career: veteran wrong path (35+)",
+   "chain": "Veteran wrong path",
+   "premise": "The young players go out every night after games, and they keep inviting you, like you're one of them.",
+   "ages": [
+    35,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [
+    "pro_night_out"
+   ],
+   "people": [
+    "coach",
+    "team"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps."
+  },
+  {
+   "id": "PRO_261",
+   "title": "The Business Shortcut",
+   "group": "Long career: veteran wrong path (35+)",
+   "chain": "Veteran wrong path",
+   "premise": "Your business is losing money, and your partner has a way to make the books look better.",
+   "ages": [
+    35,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [
+    "pro_business_fraud"
+   ],
+   "people": [
+    "coach",
+    "team"
+   ],
+   "kind": "once",
+   "waits_on": [
+    "R3 money values"
+   ],
+   "callbacks": [],
+   "note": "Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps."
+  },
+  {
+   "id": "PRO_262",
+   "title": "Betting to Cover It",
+   "group": "Long career: veteran wrong path (35+)",
+   "chain": "Veteran wrong path",
+   "premise": "You're short on money, and an old acquaintance says one good week of bets would fix everything.",
+   "ages": [
+    35,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [
+    "pro_betting_scandal"
+   ],
+   "people": [
+    "coach",
+    "team"
+   ],
+   "kind": "once",
+   "waits_on": [
+    "R3 money values",
+    "R9 longer suspensions"
+   ],
+   "callbacks": [],
+   "note": "Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps."
+  },
+  {
+   "id": "PRO_263",
+   "title": "The Phantom Injury",
+   "group": "Long career: veteran wrong path (35+)",
+   "chain": "Veteran wrong path",
+   "premise": "A teammate says a phantom injury would keep you on the roster and paid for the rest of the year.",
+   "ages": [
+    35,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [
+    "pro_phantom_injury"
+   ],
+   "people": [
+    "coach",
+    "team"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps."
+  },
+  {
+   "id": "PRO_264",
+   "title": "Teaching the Wrong Thing",
+   "group": "Long career: veteran wrong path (35+)",
+   "chain": "Veteran wrong path",
+   "premise": "A rookie asks how you've lasted this long, and the honest answer includes a few things you shouldn't teach.",
+   "ages": [
+    35,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [
+    "pro_bad_mentor"
+   ],
+   "people": [
+    "coach",
+    "team"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps."
+  },
+  {
+   "id": "PRO_265",
+   "title": "The Grudge",
+   "group": "Long career: veteran wrong path (35+)",
+   "chain": "Veteran wrong path",
+   "premise": "The general manager who released you two years ago is at the same restaurant, and he's laughing.",
+   "ages": [
+    35,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [
+    "pro_bar_fight"
+   ],
+   "people": [
+    "coach",
+    "team"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps."
+  },
+  {
+   "id": "PRO_266",
+   "title": "The Insurance Claim",
+   "group": "Long career: veteran wrong path (35+)",
+   "chain": "Veteran wrong path",
+   "premise": "Your agent suggests an insurance claim on an injury that's mostly healed.",
+   "ages": [
+    35,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": null,
+   "sets": [
+    "pro_insurance_fraud"
+   ],
+   "people": [
+    "coach",
+    "team"
+   ],
+   "kind": "once",
+   "waits_on": [
+    "R3 money values"
+   ],
+   "callbacks": [],
+   "note": "Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps."
+  },
+  {
+   "id": "PRO_267",
+   "title": "The Last Big Night",
+   "group": "Long career: veteran wrong path (35+)",
+   "chain": "Veteran wrong path",
+   "premise": "Your farewell season, a city that loves you, and a night out that could end it badly.",
+   "ages": [
+    35,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "announced_retirement"
+    ]
+   },
+   "sets": [
+    "pro_night_before"
+   ],
+   "people": [
+    "coach",
+    "team"
+   ],
+   "kind": "once",
+   "waits_on": [],
+   "callbacks": [],
+   "note": "Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps."
+  },
+  {
+   "id": "PRO_268",
+   "title": "The Veteran Hearing",
+   "group": "Long career: veteran wrong path (35+)",
+   "chain": "Veteran wrong path",
+   "premise": "Another hearing at your age. The league says experience should have known better.",
+   "ages": [
+    35,
+    50
+   ],
+   "seasons_with_club": null,
+   "weeks": null,
+   "when": null,
+   "requires": {
+    "flags": [
+     "pro_warning"
+    ]
+   },
+   "sets": [
+    "pro_second_chance"
+   ],
+   "people": [
+    "coach",
+    "team"
+   ],
+   "kind": "once",
+   "waits_on": [
+    "R9 longer suspensions"
+   ],
+   "callbacks": [],
+   "note": "Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps."
   }
  ],
  "relationship_strike_flags": [
