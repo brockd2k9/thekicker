@@ -137,7 +137,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_324 | The Agent's Phone Call | age 21-25 | once |  |  |  |  |
 | PRO_325 | The First Endorsement | age 21-25 | once |  |  |  | R3 money values |
 | PRO_326 | The Old Friend's Request | age 21-25 | once |  |  |  | R3 money values |
-| PRO_327 | The Long-Distance Relationship | age 21-25 | once | made_long_distance_work / committed_to_relationship / new_partner / engaged / married |  |  |  |
+| PRO_327 | The Long-Distance Relationship | age 21-25 | once | made_long_distance_work / committed_to_relationship; not engaged / married |  |  |  |
 | PRO_328 | The Coach's Criticism | age 21-25 | once |  |  |  |  |
 | PRO_329 | The Rookie Mistake | age 21-25 | once |  |  |  |  |
 | PRO_330 | The First Charity Event | age 21-25 | once |  |  |  |  |
