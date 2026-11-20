@@ -487,3 +487,60 @@ static func sp_lines(c: CareerData) -> Array:
 	elif c.skill_points > 0:
 		out.append("%d skill points to spend" % c.skill_points)
 	return out
+
+
+# --- benching ----------------------------------------------------------------------------
+
+## The bench banner for the Hub and the Outlook (null when there's nothing to
+## say): BENCHED (red), AUDITION THIS WEEK, or ON THIN ICE (the warning that
+## always comes before a bench). Big and plain on purpose.
+static func bench_banner(c: CareerData, t: CareerTuning, week_start: bool) -> Control:
+	var title := ""
+	var body := ""
+	var col: Color = UiKit.BAD
+	var backup := Bench.backup_name(c)
+	if Bench.audition_due(c):
+		var dist: Array = Bench.audition_distances(c, t, KickRange.fg_range(c, t))
+		title = "AUDITION THIS WEEK"
+		body = "Make %d of %d from %d-%d yards to win your job back from %s." % [t.audition_need, dist.size(),
+			int(dist.min()), int(dist.max()), backup]
+		col = UiKit.WARN
+	elif Bench.benched(c):
+		var left := int(c.bench.get("weeks_left", 0))
+		title = "BENCHED"
+		body = "%s kicks your field goals%s. You still kick extra points and kickoffs. Then an audition to win the job back." \
+			% [backup, " this week" if left <= 1 else " for %d more weeks" % left]
+	elif Bench.warned_this_week(c) or (week_start and Bench.on_thin_ice(c, t)):
+		title = "ON THIN ICE"
+		var n := Bench.misses_needed(c, t)
+		var miss := "a field goal" if n <= 1 else "%s field goals" % (["two", "three", "four"][mini(n, 4) - 2] if n <= 4 else str(n))
+		body = "%s is losing patience (%s). Miss %s in this week's game and %s takes over your field goals. Make your kicks, or win the coach back." \
+			% [Relationships.name_of(c, "coach"), Bench.warn_reason(c), miss, backup]
+		col = UiKit.WARN
+	else:
+		return null
+	var p := PanelContainer.new()
+	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	p.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var box := UiKit.panel_box(col, Color(col.darkened(0.7), 0.95))
+	box.border_color = col
+	box.set_border_width_all(3)
+	p.add_theme_stylebox_override("panel", box)
+	var v := VBoxContainer.new()
+	v.add_theme_constant_override("separation", 4)
+	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	p.add_child(v)
+	var h := HBoxContainer.new()
+	h.add_theme_constant_override("separation", 10)
+	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	h.add_child(UiIcons.rect("whistle", col, 40))
+	var tl := UiKit.label(title, 40, col, UiTokens.FONT_DISPLAY)
+	tl.autowrap_mode = TextServer.AUTOWRAP_OFF
+	tl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	h.add_child(tl)
+	v.add_child(h)
+	var b := UiKit.label(body, 24, UiKit.TEXT)
+	b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	v.add_child(b)
+	return p

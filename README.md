@@ -436,6 +436,13 @@ season FG%) start **coach doubt**: shorter and fewer field goal calls for a few 
 the Outlook, and the `kicking_slump` flag (HS_142 can follow). Recruiting, the draft and pro
 retention count range; the coach's recommendation uses Coach and Team.
 
+**Benching (save version 5):** when the coach doubts you and trust is low, the Hub and the Game Day
+Outlook warn you (ON THIN ICE). A bad game that week (two missed field goals) and the backup takes your
+field goals for a week or two (Tyler Brooks when he's your teammate, otherwise the stage's backup
+kicker); you keep extra points and kickoffs. Win the job back in an audition (3 of 5, a tryout in the
+kick scene). Rules: `scripts/career/bench.gd`; numbers: `career_tuning.tres` "Benching"; details and
+tuning: `PLAYTEST.md`, "Benching".
+
 **Perks, aging and weather:** the Skills screen has two tabs. **Perks** (15, `data/career/perks.json`)
 cost skill points and need prerequisites (attributes, other perks, a personality trait, a stage, an
 age); each is a small edge (Big Leg +2 yd, Laser tighter aim, Clutch less pressure on game winners,

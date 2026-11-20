@@ -607,6 +607,52 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var sp_migrate_college: int = 30
 @export var sp_migrate_pro: int = 50
 
+@export_group("Benching")
+## On thin ice (the warning, shown on the Hub and the Game Day Outlook) at the
+## start of a week when the coach doubts you or a bad stretch is still fresh,
+## AND trust (Relationships.trust: Coach and Team) is at or below bench_warn_trust.
+@export var bench_warn_trust: float = 40.0
+## Benched at the end of a game week that STARTED on thin ice (so the warning
+## always comes first), if you missed bench_week_misses field goals that week and trust is at
+## or below bench_trust afterwards. Never before bench_min_week, and at most
+## bench_max_per_season times a season.
+@export var bench_trust: float = 35.0
+## Field goals you must miss in that game to be benched (a genuinely bad week).
+@export var bench_week_misses: int = 2
+## ...or just one, when this season's field goal % is below bench_poor_season_pct
+## (after at least bench_poor_season_min_att attempts).
+@export_range(0.0, 1.0) var bench_poor_season_pct: float = 0.5
+@export var bench_poor_season_min_att: int = 8
+@export var bench_min_week: int = 3
+@export var bench_max_per_season: int = 1
+## 1 week on the bench, 2 when trust is at or below bench_long_trust.
+@export var bench_long_trust: float = 25.0
+## The backup's make chance on field goals, per stage.
+@export_range(0.0, 1.0) var backup_make_hs: float = 0.65
+@export_range(0.0, 1.0) var backup_make_college: float = 0.72
+@export_range(0.0, 1.0) var backup_make_pro: float = 0.8
+## When benched: Team standing (less when the backup is Tyler and you're
+## friends), Fun (more when he's your rival).
+@export var bench_team: float = -2.0
+@export var bench_team_friend: float = -1.0
+@export var bench_fun: float = -4.0
+@export var bench_rival_fun: float = -2.0
+## Each benched week: this stage's progress score (recruiting / draft /
+## retention); passing the audition refunds this share of it.
+@export var bench_progress_per_week: float = -1.5
+@export_range(0.0, 1.0) var bench_audition_refund: float = 0.5
+## The audition: make audition_need of these (yards; clamped to your range - 1).
+@export var audition_distances_hs: PackedInt32Array = PackedInt32Array([30, 33, 35, 37, 40])
+@export var audition_distances: PackedInt32Array = PackedInt32Array([35, 38, 40, 42, 45])
+@export var audition_need: int = 3
+@export_range(0.0, 1.0) var audition_pressure: float = 0.4
+@export var audition_wind_max: float = 8.0
+## Passing: the job back, plus this much Coach and Team.
+@export var audition_coach: float = 5.0
+@export var audition_team: float = 3.0
+## After this many failed auditions you're reinstated anyway.
+@export var audition_max_fails: int = 2
+
 @export_group("Career End")
 ## A season is "poor" with an FG% below this (at least poor_min_attempts tries).
 @export_range(0.0, 1.0) var poor_fg_pct: float = 0.6

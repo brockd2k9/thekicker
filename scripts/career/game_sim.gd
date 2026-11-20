@@ -33,6 +33,12 @@ var _warmup_offered_this_half := false
 var kicks: Array = []
 ## True when the backup kicks for you (you sat out): KickTrust skips these.
 var backup: bool = false
+## Benched (Bench): the backup kicks the field goals (resolved here, never
+## called to the player) with this make chance; extra points and kickoffs are
+## still yours. No warmup offers (you aren't kicking field goals).
+var backup_fg: bool = false
+var backup_name: String = "The backup"
+var backup_make: float = 0.7
 ## "pure" / "loose" / "skipped", one per warmup offer.
 var warmups: Array = []
 
@@ -130,7 +136,7 @@ func resolve_call(result: Dictionary) -> void:
 		"pressure": float(call.get("pressure", 0.0)), "label": str(call.get("label", "")),
 		"us": int(call.get("us", 0)), "them": int(call.get("them", 0)), "q": int(call.get("q", 1)),
 		"left": float(call.get("left", 0.0))}
-	if backup:
+	if backup or (kind == "fg" and backup_fg):
 		entry["backup"] = true
 	match kind:
 		"fg", "pat":
@@ -242,7 +248,7 @@ func _our_drive(start: float, dur: float) -> void:
 	if roll < td + fg:
 		# Driving into range: the coach tells you to get loose.
 		elapsed = start + dur * 0.55
-		if not _warmup_offered_this_half:
+		if not _warmup_offered_this_half and not backup_fg:
 			_warmup_offered_this_half = true
 			_queue.append({"type": "warmup", "spot": "opponent %d" % _rng.randi_range(25, 40),
 				"elapsed": elapsed, "us": score_us, "them": score_them})
@@ -341,6 +347,11 @@ func _push_call(kind: String, yards: int = 0) -> void:
 		e["label"] = kind.to_upper()
 		e["wind"] = _kick_wind()
 		e["gust"] = 0.0
+	if kind == "fg" and backup_fg:
+		_text("%s jogs on for the field goal." % backup_name)
+		_waiting = e
+		resolve_call({"made": _rng.randf() < backup_make})
+		return
 	_queue.append(e)
 
 

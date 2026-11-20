@@ -54,6 +54,10 @@ const PROGRESS_WEIGHT := {"recruiting": 0.3, "draft": 0.3, "retention": 0.3, "gr
 
 var _kt: KickTuning
 var _rng := RandomNumberGenerator.new()
+## make=0.85: every field goal and tryout kick is made with this chance (to test
+## systems by kicker quality, e.g. benching); 0 = the normal make-chance model.
+## bench=0 turns benching off (before/after comparisons).
+var _fixed_make := 0.0
 var _scen_count := {}  # id -> appearances
 var _scen_careers := {}  # id -> careers that saw it
 
@@ -66,6 +70,10 @@ func _ready() -> void:
 			args[kv[0]] = kv[1]
 	var careers := int(args.get("careers", 40))
 	_rng.seed = int(args.get("seed", 1))
+	_fixed_make = float(args.get("make", 0.0))
+	# bench=0: benching off (for before/after comparisons).
+	if str(args.get("bench", "1")) == "0":
+		CareerTuning.get_default().bench_max_per_season = 0
 	_kt = load("res://tuning/kick_tuning.tres")
 	var problems := CareerContent.validate()
 	var t0 := Time.get_ticks_msec()
@@ -182,6 +190,13 @@ func _play_career(strat: String, n: int) -> Dictionary:
 	out["end_traits"] = c.traits.duplicate()
 	out["perks"] = c.perks.duplicate()
 	out["slumps"] = int(c.flags.get("kick_slumps", 0))
+	# Benching: how often, how long, auditions, and whether the career ended soon after.
+	out["benches"] = int(c.bench.get("benches", 0))
+	out["bench_weeks"] = int(c.bench.get("weeks_total", 0))
+	out["bench_last_season"] = int(c.bench.get("season", -1))
+	out["end_season"] = c.season
+	out["auditions_passed"] = (out["events"] as Array).count("tryout_job_pass")
+	out["auditions_failed"] = (out["events"] as Array).count("tryout_job_fail")
 	out["seasons"] = c.history.size()
 	out["fg_pct"] = float(c.career_totals.get("fg_made", 0)) / maxf(float(c.career_totals.get("fg_att", 0)), 1.0)
 	var src := {}
@@ -339,6 +354,8 @@ const WIND_MAKE_COST := 0.003  # make chance lost per mph of crosswind at wind_m
 
 func _make_chance(c: CareerData, yards: int, pressure: float, stage: String, prof: KickProfile = null,
 		wind_mph := 0.0) -> float:
+	if _fixed_make > 0.0:
+		return _fixed_make
 	var acc := c.stat("accuracy") / 100.0
 	var res := c.stat("resilience") / 100.0
 	var range := prof.fg_range if prof != null else KickRange.fg_range(c, CareerTuning.get_default())
@@ -710,6 +727,33 @@ func _skill_sections(all: Array, t: CareerTuning) -> PackedStringArray:
 		L.append("| %s | %d | %.1f | %s |" % [tier[2], rs.size(), 10.0 * slumps / maxf(seasons, 1.0),
 			_pct(rs.filter(func(r): return int(r["slumps"]) > 0).size(), rs.size())])
 	L.append("")
+	L.append("## Benching by kicker quality (career FG%)")
+	L.append("")
+	L.append("Targets: 80%+ under 5% of careers benched at least once, 70-80% 15-35%, under 65% over 60%.")
+	L.append("")
+	L.append("| Career FG% | Careers | Benched at least once | Benches per 10 seasons | Bench weeks per bench | Career over within 1 season of a bench |")
+	L.append("|---|---|---|---|---|---|")
+	for tier in [[0.0, 0.65, "under 65%"], [0.65, 0.7, "65-70%"], [0.7, 0.8, "70-80%"], [0.8, 1.01, "80%+"]]:
+		var rs := all.filter(func(r): return float(r["fg_pct"]) >= tier[0] and float(r["fg_pct"]) < tier[1])
+		var seasons := 0.0
+		var benches := 0.0
+		var weeks := 0.0
+		for r in rs:
+			seasons += float(r["seasons"])
+			benches += float(r["benches"])
+			weeks += float(r["bench_weeks"])
+		var benched := rs.filter(func(r): return int(r["benches"]) > 0)
+		var soon := benched.filter(func(r): return _ended_soon(r))
+		L.append("| %s | %d | %s | %.1f | %.1f | %s |" % [tier[2], rs.size(), _pct(benched.size(), rs.size()),
+			10.0 * benches / maxf(seasons, 1.0), weeks / maxf(benches, 1.0), _pct(soon.size(), benched.size())])
+	var ap := 0
+	var af := 0
+	for r in all:
+		ap += int(r["auditions_passed"])
+		af += int(r["auditions_failed"])
+	L.append("")
+	L.append("Auditions: %d passed, %d failed (%s passed)." % [ap, af, _pct(ap, ap + af)])
+	L.append("")
 	var seasons_all := 0.0
 	var src := {}
 	var spent := {"attributes": 0.0, "perks": 0.0, "maintenance": 0.0}
@@ -830,3 +874,8 @@ func _aging_probe(income: float) -> String:
 		L.append("| %d | %.0f / %.0f / %.1f | %.0f / %.0f / %.1f | %+.1f yd |" % [a[0], a[1], a[3], a[2], b[1], b[3], b[2], a[2] - b[2]])
 	L.append("")
 	return "\n".join(L) + "\n"
+
+
+## A benched career that ended within a season of its last bench (not at the age cap).
+static func _ended_soon(r: Dictionary) -> bool:
+	return int(r["end_season"]) - int(r["bench_last_season"]) <= 1 and str(r["retire_reason"]) != "age_cap"

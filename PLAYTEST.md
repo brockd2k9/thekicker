@@ -257,6 +257,49 @@ The preserving pro holds 61.5 yd through 37 but starts losing Accuracy at 36 (88
 careful play holds the mid-30s, not forever. In simulated careers past 30, players who preserve
 lose 1.8 Power a season, those who don't lose 4.1.
 
+## Benching
+
+Rules: `scripts/career/bench.gd`; numbers: `career_tuning.tres` "Benching"; save version 5.
+
+- **On thin ice (the warning):** at the start of a week, the coach doubts you (a slump) or a bad
+  stretch is still fresh, and trust (0.7 x Coach + 0.3 x Team) is 40 or less. The Hub and the Game
+  Day Outlook show a big ON THIN ICE banner with the reason and exactly what gets you benched.
+- **Benched:** only at the end of a week that started on thin ice, if you missed 2 field goals in
+  that game (1 when this season is under 50% after 8+ attempts) and trust is 35 or less. Never in
+  weeks 1-2, one bench a season, 1 week (2 at trust 25 or less).
+- **While benched:** the backup (Tyler Brooks when he's your teammate, otherwise the stage's backup
+  kicker, `people.json` "backup") kicks your field goals; you keep extra points and kickoffs. No game
+  skill points (practice and choices still count). -1.5 progress score per benched week, Team -2
+  (-1 if Tyler is the backup and a friend), Fun -4 (-6 if Tyler is a rival).
+- **Audition:** 3 of 5 from 30-40 yd (high school) or 35-45 yd, clamped to range - 1. Pass: the job
+  back, Coach +5, Team +3, coach doubt cleared, half the progress back. Fail: one more week, then
+  another audition; a second fail reinstates you anyway.
+- **Flags for scenario writers:** `benched`, `benched_for_tyler`, `won_job_back`, `lost_audition`.
+
+**Tuning (fixed kicker quality, simulator `make=P`, 90 careers each):**
+
+| Kicker quality | Target | First try (1 miss, trust 40/35) | Final |
+|---|---|---|---|
+| 60% | over 60% benched at least once | 86% | 63% |
+| 70% | 15-35% | 78% | 36% |
+| 75% | 15-35% | 31% | 24% |
+| 80% | under 5% | 18% | 4% |
+| 85% | under 5% | 2% | 1% |
+
+Values changed while tuning: `bench_week_misses` 2 (new; was 1), `bench_poor_season_pct` 0.5 and
+`bench_poor_season_min_att` 8 (new: the one-miss route in a bad season); `bench_warn_trust` /
+`bench_trust` stay 40 / 35.
+
+**A bench doesn't end careers** (same qualities, benching off -> on): reaching the pros 42 -> 36%
+(60%), 70 -> 81% (70%), 92 -> 96% (75%), 98 -> 100% (80%); pro seasons 1.1 -> 1.1, 5.2 -> 6.5,
+11.1 -> 11.3, 14.3 -> 15.1 (differences within run-to-run noise). Auditions pass about 85-90%.
+
+**Targets still hold** (normal kick model, 20 careers per choice strategy): pros 67% -> 69%, drafted
+33% -> 32%, FG range end of HS 48.7 -> 48.9, end of college 54.2 -> 54.1, 70 yd 0% -> 0%.
+
+To playtest: does the thin-ice warning read clearly enough; is two misses the right "bad week";
+does the audition feel fair at your range.
+
 ## To playtest (final list)
 Most important first. Simulator numbers are from `tools/career_sim_baseline.md`; the sim's kicks
 are a stand-in for real swipes, so everything involving kicking quality needs a real-phone check.

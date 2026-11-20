@@ -11,6 +11,10 @@ func _build(col: VBoxContainer) -> void:
 	col.add_theme_constant_override("separation", 14)
 	col.add_child(_header())
 
+	# Benched / thin ice: the first thing you see (never a surprise).
+	var bb := CareerUi.bench_banner(c, career.tuning, c.phase == CareerManager.PHASE_WEEK_START)
+	if bb != null:
+		col.add_child(bb)
 	# Next up, and where the career is heading.
 	col.add_child(_next_card())
 	if c.notice != "":
@@ -315,6 +319,8 @@ func _next_trait() -> Dictionary:
 func _main_text() -> String:
 	match career.data.phase:
 		CareerManager.PHASE_WEEK_START:
+			if Bench.audition_due(career.data):
+				return "Audition"
 			return "Play Bye Week" if career.is_bye() else "Play Week"
 		CareerManager.PHASE_SCENARIO:
 			return "Continue Week"
@@ -333,7 +339,7 @@ func _main_text() -> String:
 		CareerManager.PHASE_COLLEGE_CHOICE:
 			return "Choose a College"
 		CareerManager.PHASE_TRYOUT:
-			return "Tryout"
+			return "Audition" if str(career.data.tryout.get("purpose", "")) == "job" else "Tryout"
 		CareerManager.PHASE_DRAFT:
 			return "Draft Day" if career.data.stage == CareerData.STAGE_COLLEGE else "Free Agency"
 		CareerManager.PHASE_CONTRACT:
