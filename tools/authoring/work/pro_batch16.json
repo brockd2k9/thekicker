@@ -561,19 +561,18 @@
       "id": "PRO_277",
       "title": "Moving House",
       "category": "family",
-      "text": "You're buying a house, and every room is an argument about how long you'll stay in this city.",
+      "text": "You and {love_interest} are buying a house, and every room becomes an argument about how long you'll stay in this city: a nursery, an office, a guest room for {parent}.",
       "choices": [
         {
-          "label": "Buy what your partner wants",
-          "result": "You buy the house {love_interest} loves. It's the right call.",
+          "label": "Buy the house they love",
+          "result": "The house {love_interest} loves, with the big kitchen and the bad plumbing. It's the right call, and you know it by the first dinner.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -583,32 +582,36 @@
           }
         },
         {
-          "label": "Buy something you can sell",
-          "result": "You buy something easy to sell. It's practical and a little sad.",
+          "label": "Buy something easy to sell",
+          "result": "Something practical, easy to sell if you're traded. It's sensible and a little sad, and {love_interest} agrees without much enthusiasm.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
               "resilience": 1
             },
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "rel": {
+            "love_interest": -1
+          }
         },
         {
-          "label": "Keep renting",
-          "result": "You keep renting another year. The argument waits.",
+          "label": "Keep renting a year",
+          "result": "Another year of renting, and the argument waits in the corner. It's easier for now, and it will come back every time you pass an open house.",
           "stats": {
             "life": {
               "energy": 2,
               "fun": 1
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [

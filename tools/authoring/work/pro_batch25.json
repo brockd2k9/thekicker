@@ -5,37 +5,35 @@
       "id": "PRO_688",
       "title": "The Big Market Rumor",
       "category": "career",
-      "text": "A big-market club is rumored to want you next season.",
+      "text": "A big-market club is rumored to want you next season. Your agent mentions it 'just so you know', and every reporter at your locker mentions it too.",
       "choices": [
         {
-          "label": "Say nothing",
-          "result": "You say nothing and let the rumor be a rumor.",
+          "label": "Let the rumor be a rumor",
+          "result": "Silence, and no comment to anyone. The rumor stays a rumor, and you stay focused on this season, mostly, and the reporters move on.",
           "stats": {
-            "life": {
-              "energy": -1
+            "life": {},
+            "football": {
+              "resilience": 2
             },
-            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 1
             }
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         },
         {
           "label": "Reassure your club",
-          "result": "You tell your club you're happy here.",
+          "result": "Your own club hears it from you directly: you're happy here. The general manager thanks you, and the front office remembers.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 1
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "charisma": 1,
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -47,14 +45,14 @@
           "retention": 2
         },
         {
-          "label": "Use it",
-          "result": "You use it as fuel. You kick like you're auditioning.",
+          "label": "Kick like it's an audition",
+          "result": "Fuel, every single week: you kick like the big-market club is watching every practice, because it probably is, and your leg has never felt better.",
           "stats": {
             "life": {
               "energy": -2
             },
             "football": {
-              "resilience": 1
+              "power": 1
             },
             "personality": {
               "ambition": 2
@@ -71,18 +69,16 @@
       "id": "PRO_689",
       "title": "The Weather Delay",
       "category": "training",
-      "text": "A long weather delay, and you have to stay warm for three hours.",
+      "text": "A lightning delay in the second quarter, and the teams go to the locker rooms for three hours. Your leg is cold by the first hour and stiff by the second.",
       "choices": [
         {
-          "label": "Plan the warmup",
-          "result": "You plan a warmup schedule with the trainers and stick to it.",
+          "label": "Plan the warmup with the trainers",
+          "result": "A warmup plan, built with the trainers: bike, bands, a heat pack every thirty minutes. You walk out loose and ready when the lights come back on.",
           "stats": {
             "life": {
-              "energy": -1
+              "health": 1
             },
-            "football": {
-              "accuracy": 1
-            },
+            "football": {},
             "personality": {
               "intelligence": 2
             }
@@ -91,37 +87,37 @@
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "coach": 1
           }
         },
         {
-          "label": "Keep the unit loose",
-          "result": "You keep the specialists laughing. Time passes.",
+          "label": "Keep the unit laughing",
+          "result": "Card tricks, bad jokes and an impression of {coach}. The specialists laugh through the whole delay, and three hours pass like one.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 3
+            "holder": 2
           }
         },
         {
-          "label": "Rest and wait",
-          "result": "You rest in the locker room and wait.",
+          "label": "Rest in the locker room",
+          "result": "A towel over your eyes, a bench, and rest. You nap for an hour, and you're fresh, if a little stiff, when they call you back.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 3
             },
-            "football": {},
+            "football": {
+              "toughness": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -134,19 +130,18 @@
       "id": "PRO_690",
       "title": "The Players' Council",
       "category": "team",
-      "text": "The players form a leadership council, and you're on it.",
+      "text": "The players form a leadership council after a rough season, eight players, and they vote you on. The first meeting is Monday, and there's already a list of problems.",
       "choices": [
         {
-          "label": "Take it seriously",
-          "result": "You commit to it. The council fixes three real problems.",
+          "label": "Commit to the council",
+          "result": "Every meeting, every follow-up, every hard conversation with management. The council fixes three real problems, and you lose a lot of sleep doing it.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 3
             }
           },
           "modifiers": [
@@ -158,33 +153,33 @@
           }
         },
         {
-          "label": "Bring data",
-          "result": "You bring data to every meeting. The coaches listen.",
+          "label": "Bring data to every meeting",
+          "result": "Numbers, charts and dates to every single meeting. The coaches start listening to the council because of the data, and say so.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "coach": 1
           }
         },
         {
-          "label": "Stay quiet",
-          "result": "You stay quiet and let the others lead.",
+          "label": "Stay quiet on the council",
+          "result": "On the council, quietly, letting the others lead. You vote, you listen, and you're glad when the season ends and the meetings stop.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [

@@ -5,11 +5,11 @@
       "id": "PRO_649",
       "title": "The Contract Rumors",
       "category": "career",
-      "text": "Rumors say the club might not re-sign you next spring.",
+      "text": "Rumors say the club might not re-sign you next spring. A radio host says it, then a blog, then the guy who makes your sandwich at the deli near the facility.",
       "choices": [
         {
-          "label": "Kick through it",
-          "result": "You kick through it. The rumors get quieter.",
+          "label": "Answer with your leg",
+          "result": "No interviews, no reading, just kicking every day. The rumors get quieter by November, and the deli guy apologizes with a free sandwich.",
           "stats": {
             "life": {
               "energy": -2
@@ -28,40 +28,39 @@
         },
         {
           "label": "Ask the club directly",
-          "result": "You ask the club directly. The answer is honest and incomplete.",
+          "result": "A direct question to the general manager, in his office. The answer is honest and incomplete: they love you, and they're keeping options open.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "coach": 1
           }
         },
         {
           "label": "Talk it over at home",
-          "result": "You talk it over at home and agree not to look at houses yet.",
+          "result": "A long evening at home, talking it through, agreeing not to look at houses in other cities yet. It helps more than any answer would.",
           "stats": {
             "life": {
               "social": 2
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "love_interest": 3
+            "parent": 2
           }
         }
       ]
@@ -70,25 +69,23 @@
       "id": "PRO_650",
       "title": "The Locker Room Elections",
       "category": "team",
-      "text": "The players' union asks you to run for team representative.",
+      "text": "The players' union asks you to run for team representative. The last rep was traded the week after a tense meeting with management, and everybody remembers.",
       "choices": [
         {
-          "label": "Run",
-          "result": "You run and win. Now the young players call you about everything.",
+          "label": "Run for the job",
+          "result": "Elected, by a lot. Now the young players call you about everything, from pensions to parking, and management knows your name in a new way.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 3
             }
           },
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
           "set_flags": {
             "player_rep": true
           },
@@ -97,27 +94,26 @@
           }
         },
         {
-          "label": "Nominate someone else",
-          "result": "You nominate someone better suited. They win.",
+          "label": "Nominate someone better",
+          "result": "A teammate better suited to the job gets your nomination and your vote. He wins, does it well, and thanks you at the end-of-season dinner.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "charisma": 1
             }
           },
           "modifiers": [
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "team": 1
           }
         },
         {
-          "label": "Decline",
-          "result": "You decline. You have enough meetings.",
+          "label": "Stay off the ballot",
+          "result": "Off the ballot. You have enough meetings already, and you'd rather spend the time on the field and with family.",
           "stats": {
             "life": {
               "energy": 2,
@@ -136,20 +132,19 @@
       "id": "PRO_651",
       "title": "The Mid-Career Injury",
       "category": "health",
-      "text": "A torn muscle in practice: the first serious injury of your career, in your prime.",
+      "text": "A torn muscle in practice, on a routine kick, with a sound you've only heard other people make. It's the first serious injury of your career, right in your prime.",
       "choices": [
         {
           "label": "Follow the rehab exactly",
-          "result": "You follow every step of the rehab. It's slow and it works.",
+          "result": "Every step of the rehab, exactly as written, for ten weeks. It's slow and dull, and you come back whole, which the trainers call rare.",
           "stats": {
             "life": {
+              "health": 4,
               "energy": -1
             },
-            "football": {
-              "toughness": 1
-            },
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 1
             }
           },
           "modifiers": [
@@ -159,43 +154,46 @@
             "committed_to_recovery": true
           },
           "rel": {
-            "coach": 2
+            "coach": 1
           }
         },
         {
           "label": "Push the timeline",
-          "result": "You push the timeline. You're back early and not quite right.",
+          "result": "Early, by three weeks. You're back on the field and not quite right, and you kick carefully all season, favoring the leg.",
           "stats": {
             "life": {
-              "energy": -2
+              "health": -2
             },
-            "football": {},
+            "football": {
+              "toughness": 1
+            },
             "personality": {
               "ambition": 2
             }
           },
           "modifiers": [
-            "dialed_in"
+            "sore"
           ],
           "skill_points": 2
         },
         {
-          "label": "Lean on home",
-          "result": "You lean on {love_interest} through the worst weeks.",
+          "label": "Lean on the people at home",
+          "result": "The worst weeks, spent leaning on home: {parent} on the phone every night, {sibling} visiting with bad movies. It gets you through.",
           "stats": {
             "life": {
               "social": 2
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "love_interest": 3
+            "parent": 2,
+            "sibling": 2
           }
         }
       ]
@@ -204,25 +202,26 @@
       "id": "PRO_652",
       "title": "The Rehab Partner",
       "category": "health",
-      "text": "You're rehabbing beside a teammate with the same injury, on the same table, at the same hours. Whoever's back first will notice.",
+      "text": "You're rehabbing beside a teammate with the same injury, on the same table, at the same hours, with the same trainer. Whoever's back first will notice, and so will the coaches.",
       "choices": [
         {
           "label": "Make it a team",
           "result": "You push each other every day and swap the bad days. You both come back, and you've got a friend for life.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "health": 1
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 4
+            "team": 3
           }
         },
         {
@@ -232,7 +231,9 @@
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "toughness": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -244,14 +245,12 @@
         },
         {
           "label": "Compare notes",
-          "result": "You compare notes every afternoon: what hurts, what helps, what the trainers said. You both come back smarter.",
+          "result": "Notes compared every afternoon: what hurts, what helps, what the trainers said. You both come back smarter, and a little closer.",
           "stats": {
             "life": {
-              "energy": -1
+              "health": 2
             },
-            "football": {
-              "toughness": 1
-            },
+            "football": {},
             "personality": {
               "intelligence": 2
             }
@@ -393,20 +392,19 @@
       "id": "PRO_655",
       "title": "The Mortgage",
       "category": "money",
-      "text": "Your first mortgage, and the papers are thicker than your playbook.",
+      "text": "Your first mortgage, and the papers are thicker than your playbook: forty pages of terms, a stack of signature tabs, and a loan officer who keeps calling you 'the athlete'.",
       "choices": [
         {
           "label": "Read every page",
-          "result": "You read every page and ask about the parts that matter.",
+          "result": "Every page, read, with questions about the three that matter. The loan officer is surprised and fixes one clause in your favor.",
           "stats": {
             "life": {
               "energy": -1
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -414,16 +412,17 @@
           ]
         },
         {
-          "label": "Bring {parent}",
-          "result": "You bring {parent} to the signing. They've done this before.",
+          "label": "Bring {parent} to the signing",
+          "result": "{parent} at the signing, with reading glasses and opinions. He's done this before and asks the questions you didn't know to ask.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 1,
+              "fun": 1
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -434,14 +433,16 @@
         },
         {
           "label": "Sign where they point",
-          "result": "You sign where they point and hope for the best.",
+          "result": "Signed where they point, every tab, in twenty minutes. You hope for the best, and for a year you're never quite sure what you agreed to.",
           "stats": {
             "life": {
               "energy": 2,
               "fun": 1
             },
             "football": {},
-            "personality": {}
+            "personality": {
+              "ambition": 1
+            }
           },
           "modifiers": [
             "rested"
@@ -453,33 +454,32 @@
       "id": "PRO_656",
       "title": "The Family Health Scare",
       "category": "family",
-      "text": "A family member gets scary news while you're on a road trip.",
+      "text": "A family member gets scary news from a doctor while you're on a road trip two thousand miles away. {parent} calls at midnight, trying very hard to sound calm.",
       "choices": [
         {
-          "label": "Fly home",
-          "result": "You fly home overnight and fly back for the game.",
+          "label": "Fly home overnight",
+          "result": "A red-eye home, a day at the hospital, a red-eye back for the game. You're exhausted and glad, and the news turns out better than feared.",
           "stats": {
             "life": {
+              "energy": -3,
               "social": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "drained"
           ],
           "rel": {
             "parent": 6
           }
         },
         {
-          "label": "Stay on the phone",
-          "result": "You stay on the phone with the doctors all night.",
+          "label": "Stay on the phone all night",
+          "result": "All night, on the phone with {parent} and the doctors, asking every question. By morning there's a plan, and you're part of it.",
           "stats": {
             "life": {
-              "energy": -1
+              "energy": -2
             },
             "football": {
               "resilience": 1
@@ -490,24 +490,29 @@
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "rel": {
+            "parent": 3
+          }
         },
         {
-          "label": "Stay with the team",
-          "result": "You stay with the team and call every hour.",
+          "label": "Stay with the team and call",
+          "result": "With the team, calling every hour between meetings. It's the hardest week of your season, and {parent} says it helped to hear your voice.",
           "stats": {
-            "life": {
-              "energy": -2
+            "life": {},
+            "football": {
+              "resilience": 2
             },
-            "football": {},
             "personality": {
-              "ambition": 2
+              "ambition": 1
             }
           },
           "modifiers": [
-            "dialed_in"
+            "stressed"
           ],
-          "skill_points": 2
+          "rel": {
+            "parent": 1
+          }
         }
       ]
     },
@@ -515,58 +520,58 @@
       "id": "PRO_657",
       "title": "The Teammate's Divorce",
       "category": "team",
-      "text": "A teammate's divorce plays out in the locker room.",
+      "text": "A teammate's divorce is playing out in the locker room: phone calls in the hallway, a lawyer at the facility, and jokes from people who should know better.",
       "choices": [
         {
-          "label": "Be there for him",
-          "result": "You're there for him without making it a thing.",
+          "label": "Be there quietly",
+          "result": "Quietly there for him: rides, lunches, no questions. He says later you were the only one who never made it a thing.",
           "stats": {
             "life": {
               "social": 2
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 4
+            "team": 3
           }
         },
         {
           "label": "Keep the room kind",
-          "result": "You keep the room from turning it into jokes.",
+          "result": "The jokes stop when you're around, because you calmly make them stop. The room follows your lead, and he notices who did it.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -1
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 2,
+              "charisma": 1
             }
           },
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
           "rel": {
             "team": 2
           }
         },
         {
-          "label": "Stay out of it",
-          "result": "You stay out of it. It's his business.",
+          "label": "Keep out of his business",
+          "result": "His business, not yours. You keep out of it entirely, and he's fine with that, and you wonder sometimes if he needed more.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
             "football": {},
-            "personality": {}
+            "personality": {
+              "intelligence": 1
+            }
           },
           "modifiers": [
             "rested"
@@ -578,40 +583,39 @@
       "id": "PRO_658",
       "title": "The Charity Auction",
       "category": "community",
-      "text": "You donate an experience to a charity auction, and the winner is very excited.",
+      "text": "You donate an experience to a charity auction, a day at practice with you, and it sells for a fortune to a retired schoolteacher who has been saving for it for a year.",
       "choices": [
         {
-          "label": "Make it special",
-          "result": "You make it a full day: practice, lunch, the field. They cry.",
+          "label": "Make it a full day",
+          "result": "A whole day: practice, lunch with the specialists, kicks on the stadium field. She cries twice, and so does {holder}.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2,
+              "energy": -1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
-            "team": 1
+            "holder": 2
           },
           "followers": 2
         },
         {
-          "label": "Keep it to the plan",
-          "result": "You do exactly what was promised, and do it well.",
+          "label": "Do exactly what was promised",
+          "result": "Exactly what was promised, done well and warmly. She's thrilled, and writes the club a thank-you letter they print in the program.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
               "resilience": 1
             },
             "personality": {
-              "intelligence": 2
+              "intelligence": 1,
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -619,16 +623,16 @@
           ]
         },
         {
-          "label": "Bring the specialists",
-          "result": "You bring the whole specialist unit. The winner gets four for one.",
+          "label": "Bring the whole unit",
+          "result": "The whole specialist unit, recruited by you. She gets four for the price of one, and the punter teaches her to hold.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -2
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 2,
+              "charisma": 1
             }
           },
           "modifiers": [
@@ -645,35 +649,31 @@
       "id": "PRO_659",
       "title": "The Brand Ambassador",
       "category": "media",
-      "text": "A brand wants you as its regional ambassador for three years.",
+      "text": "A sporting-goods brand wants you as its regional ambassador for three years: commercials, store openings, a signature cleat. The contract arrives with a pen taped to it.",
       "choices": [
         {
-          "label": "Sign for three",
-          "result": "You sign for three years. It's steady, and it's a lot.",
+          "label": "Sign for three years",
+          "result": "Three years, signed. It's steady money and a lot of store openings, and your signature cleat is ugly in a way you grow to love.",
           "stats": {
             "life": {
               "energy": -2
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
-              "ambition": 2
+              "ambition": 2,
+              "charisma": 1
             }
           },
           "modifiers": [
-            "dialed_in"
+            "spotlight"
           ],
-          "skill_points": 2,
           "followers": 3
         },
         {
-          "label": "Sign for one",
-          "result": "You sign for one year and see.",
+          "label": "Sign for one year",
+          "result": "One year, with an option for more. They agree, a little surprised, and you keep your freedom for the next negotiation and the one after.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
               "resilience": 1
             },
@@ -687,8 +687,8 @@
           "followers": 2
         },
         {
-          "label": "Pass",
-          "result": "You pass. Three years is a long time.",
+          "label": "Pass on the cleat",
+          "result": "No contract. Three years is a long time, and the cleat really is ugly. A rival kicker signs instead, and you see his face at the mall.",
           "stats": {
             "life": {
               "energy": 2,
@@ -707,56 +707,55 @@
       "id": "PRO_660",
       "title": "The Kicker Clinic Tour",
       "category": "training",
-      "text": "A kicking company wants you on a weekend clinic tour.",
+      "text": "A kicking company wants you on a weekend clinic tour: eight cities, eight Saturdays, a thousand young kickers who all want to know what your secret is.",
       "choices": [
         {
-          "label": "Do the tour",
-          "result": "You do the tour. You see a hundred young kickers and remember being one.",
+          "label": "Do the whole tour",
+          "result": "All eight cities. You see a thousand young kickers and remember being one, and you lose your voice in the sixth city.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -3
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 2,
+              "charisma": 1
             }
           },
           "modifiers": [
             "inspired"
           ],
-          "skill_points": 1,
-          "rel": {
-            "team": 2
-          },
           "followers": 2
         },
         {
-          "label": "Do some dates",
-          "result": "You do the dates near home and train the rest.",
+          "label": "Do the dates near home",
+          "result": "The three dates near home, and your own training the rest of the time. It's a good balance, and the kids in your hometown are thrilled.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -1
             },
             "football": {
-              "power": 1
+              "accuracy": 1
             },
             "personality": {
-              "ambition": 2
+              "ambition": 1
             }
           },
           "modifiers": [
-            "dialed_in"
+            "focused"
           ],
-          "skill_points": 2
+          "skill_points": 1,
+          "rel": {
+            "parent": 1
+          }
         },
         {
-          "label": "Pass",
-          "result": "You pass and keep your weekends.",
+          "label": "Keep your weekends",
+          "result": "No tour. Your weekends stay yours, and you spend them doing nothing much with the people you love most, which is the point.",
           "stats": {
             "life": {
               "energy": 2,
-              "fun": 1
+              "fun": 2
             },
             "football": {},
             "personality": {}
@@ -771,16 +770,18 @@
       "id": "PRO_661",
       "title": "A New Boss on the Sideline",
       "category": "team",
-      "text": "A new head coach arrives and doesn't seem to think kickers matter.",
+      "text": "A new head coach arrives and doesn't seem to think kickers matter. In his first team meeting he forgets the special teams entirely, and the punter writes it down.",
       "choices": [
         {
           "label": "Make him notice",
-          "result": "You make him notice, one practice at a time.",
+          "result": "One practice at a time, you make him notice: the extra kicks, the clean operation, the timing. By October he knows your name and uses it.",
           "stats": {
             "life": {
               "energy": -2
             },
-            "football": {},
+            "football": {
+              "accuracy": 1
+            },
             "personality": {
               "ambition": 2
             }
@@ -791,41 +792,41 @@
           "skill_points": 2
         },
         {
-          "label": "Ask for a meeting",
-          "result": "You ask for ten minutes and explain what you do. He listens, surprised.",
+          "label": "Ask for ten minutes",
+          "result": "Ten minutes in his office to explain what you actually do. He listens, genuinely surprised, and asks a good question at the end.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "charisma": 1
             }
           },
           "modifiers": [
             "focused"
           ],
           "rel": {
-            "coach": 1
+            "coach": 2
           }
         },
         {
-          "label": "Win the staff",
-          "result": "You win over the assistants first. The head coach follows.",
+          "label": "Win the assistants first",
+          "result": "The assistants first, then the head coach follows. It takes a month, and it's the quieter way, and it works.",
           "stats": {
             "life": {
               "social": 2
             },
             "football": {},
             "personality": {
-              "charisma": 1
+              "leadership": 1
             }
           },
           "modifiers": [
             "loose"
           ],
           "rel": {
-            "team": 3
+            "coach": 1,
+            "team": 1
           }
         }
       ]
