@@ -307,9 +307,9 @@ Strike flags (any one opens the wrong-path chain; every wrong-path step clears t
 **Season 4 has no offseason.** The college stage goes straight from the last game to the draft, so draft-season scenes (combine prep, the scouts' workout, draft weekend plans, the senior trip, the leadership award, Old Rival, New Stage) happen in weeks 4-10 of the senior season. `validate_scenario_graph.py` reports an offseason scene in a stage's last season as an error.
 
 ### Wrong path (added)
-- **COL_151 The Ride Home** (Y2-3; Team): A teammate who has had too much insists on driving everyone home from a party. You're one of his passengers. · Sets: `rode_along` (strike), `found_another_ride`
+- **COL_151 Who's Driving?** (Y2-3; Team): A teammate who has had too much insists on driving everyone home from a party. You're one of his passengers. · Sets: `rode_along` (strike), `found_another_ride`
 - **COL_152 The Balcony Dare** (Y1-3 offseason): On a spring trip, a friend dares you to jump from the hotel balcony into the pool three floors down. · Sets: `balcony_jump` (new strike)
-- **COL_153 The Keys** (Y2-4; Team): After a party, a teammate who is in no shape to drive demands his keys back. You're sober, and you're holding them. · Sets: `rode_along` (strike), `drove_teammates_home`
+- **COL_153 The Keys** (Y2-4; Team): After a party, a teammate who is in no shape to drive demands his keys back. You're sober, and you're holding them. · Sets: `gave_keys_back` (new strike), `drove_teammates_home`
 - **COL_154 The Fast Lane** (Y2-4; {coach}): A teammate pulls up next to you on the highway at night and dares you to race him to the next exit. · Sets: `street_race` (new strike)
 
-`balcony_jump` and `street_race` are new strike flags: The Coach's Office, The Second Strike, The Pattern and The Final Warning read them and clear them.
+`balcony_jump`, `street_race` and `gave_keys_back` are new strike flags: The Coach's Office, The Second Strike, The Pattern and The Final Warning read them and clear them.

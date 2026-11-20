@@ -2714,7 +2714,8 @@
 					"partied_before_pro_day",
 					"senior_trip_trouble",
 					"balcony_jump",
-					"street_race"
+					"street_race",
+					"gave_keys_back"
 				]
 			},
 			"expected_flags": [
@@ -2792,7 +2793,10 @@
 						"partied_before_pro_day": false,
 						"senior_trip_trouble": false,
 						"owned_it_again": true,
-						"second_chance_used": true
+						"second_chance_used": true,
+						"balcony_jump": false,
+						"street_race": false,
+						"gave_keys_back": false
 					},
 					"rel": {
 						"coach": 3
@@ -2837,7 +2841,10 @@
 						"cash_camp": false,
 						"partied_before_pro_day": false,
 						"senior_trip_trouble": false,
-						"character_concerns": true
+						"character_concerns": true,
+						"balcony_jump": false,
+						"street_race": false,
+						"gave_keys_back": false
 					},
 					"rel": {
 						"coach": -10
@@ -4733,7 +4740,8 @@
 					"ran_with_wrong_crowd",
 					"cash_camp",
 					"balcony_jump",
-					"street_race"
+					"street_race",
+					"gave_keys_back"
 				]
 			},
 			"expected_flags": [
@@ -4814,7 +4822,10 @@
 						"cash_camp": false,
 						"partied_before_pro_day": false,
 						"senior_trip_trouble": false,
-						"owned_mistake": true
+						"owned_mistake": true,
+						"balcony_jump": false,
+						"street_race": false,
+						"gave_keys_back": false
 					},
 					"rel": {
 						"coach": 6
@@ -4860,7 +4871,10 @@
 						"cash_camp": false,
 						"partied_before_pro_day": false,
 						"senior_trip_trouble": false,
-						"college_warning": true
+						"college_warning": true,
+						"balcony_jump": false,
+						"street_race": false,
+						"gave_keys_back": false
 					},
 					"rel": {
 						"coach": -8
@@ -8445,7 +8459,8 @@
 					"partied_before_pro_day",
 					"senior_trip_trouble",
 					"balcony_jump",
-					"street_race"
+					"street_race",
+					"gave_keys_back"
 				]
 			},
 			"expected_flags": [
@@ -8524,7 +8539,10 @@
 						"partied_before_pro_day": false,
 						"senior_trip_trouble": false,
 						"caught_yourself": true,
-						"second_chance_used": true
+						"second_chance_used": true,
+						"balcony_jump": false,
+						"street_race": false,
+						"gave_keys_back": false
 					},
 					"rel": {
 						"coach": 4,
@@ -8571,7 +8589,10 @@
 						"cash_camp": false,
 						"partied_before_pro_day": false,
 						"senior_trip_trouble": false,
-						"character_concerns": true
+						"character_concerns": true,
+						"balcony_jump": false,
+						"street_race": false,
+						"gave_keys_back": false
 					},
 					"rel": {
 						"coach": -6,
@@ -8619,7 +8640,10 @@
 						"cash_camp": false,
 						"partied_before_pro_day": false,
 						"senior_trip_trouble": false,
-						"character_concerns": true
+						"character_concerns": true,
+						"balcony_jump": false,
+						"street_race": false,
+						"gave_keys_back": false
 					},
 					"rel": {
 						"coach": -12,
@@ -10229,7 +10253,8 @@
 					"partied_before_pro_day",
 					"senior_trip_trouble",
 					"balcony_jump",
-					"street_race"
+					"street_race",
+					"gave_keys_back"
 				]
 			},
 			"expected_flags": [
@@ -10302,7 +10327,10 @@
 						"cash_camp": false,
 						"partied_before_pro_day": false,
 						"senior_trip_trouble": false,
-						"last_chance": true
+						"last_chance": true,
+						"balcony_jump": false,
+						"street_race": false,
+						"gave_keys_back": false
 					},
 					"rel": {
 						"coach": 4
@@ -10348,7 +10376,10 @@
 						"cash_camp": false,
 						"partied_before_pro_day": false,
 						"senior_trip_trouble": false,
-						"character_concerns": true
+						"character_concerns": true,
+						"balcony_jump": false,
+						"street_race": false,
+						"gave_keys_back": false
 					},
 					"rel": {
 						"coach": -12,
@@ -16940,10 +16971,9 @@
 		},
 		{
 			"id": "COL_151",
-			"title": "The Ride Home",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"title": "Who's Driving?",
+			"category": "social",
+			"text": "The party is breaking up, and the teammate who drove you here has had too much. He's jingling his keys at the door and telling everyone to pile in.",
 			"stages": [
 				"college"
 			],
@@ -16969,14 +16999,83 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Find another way home",
+					"result": "You say you'll find your own ride, then call a car for yourself and two freshmen who were about to get in. It costs you twenty dollars and some teasing. On Monday, one freshman's mother emails {coach} to say thank you.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"social": -1
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"tired"
+					],
+					"conduct": "good",
+					"set_flags": {
+						"found_another_ride": true
+					},
+					"rel": {
+						"coach": 3
+					}
+				},
+				{
+					"label": "Ride along",
+					"result": "You get in the back seat because everyone else does. Four blocks later, police lights fill the car. Nobody's hurt, and every name in that car is in the paper by Tuesday, yours included.",
+					"stats": {
+						"life": {
+							"fun": 2,
+							"social": 2,
+							"energy": -3
+						},
+						"personality": {
+							"leadership": -3
+						}
+					},
+					"modifiers": [
+						"stressed"
+					],
+					"draft": -5,
+					"conduct": "scandal",
+					"set_flags": {
+						"rode_along": true
+					},
+					"rel": {
+						"coach": -8,
+						"team": -2
+					}
+				},
+				{
+					"label": "Take the keys and drive",
+					"result": "You haven't had anything all night, so you take his keys and drive everyone home yourself. He calls you a narc in front of the whole party and doesn't speak to you for a week.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"social": -2
+						},
+						"personality": {
+							"leadership": 3,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"tired"
+					],
+					"rel": {
+						"team": -3
+					}
+				}
+			]
 		},
 		{
 			"id": "COL_152",
 			"title": "The Balcony Dare",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "Spring trip, a hotel by the beach. A friend leans over the third-floor balcony rail, points at the pool below and offers you a hundred dollars to jump. Somebody already has a phone out.",
 			"stages": [
 				"college"
 			],
@@ -17003,14 +17102,72 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Say no and take the stairs",
+					"result": "You laugh, say you like your legs where they are and take the stairs down to the pool. You swim, you sleep, and you fly home with nothing to explain.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Stop him from trying it",
+					"result": "When you say no, he starts climbing the rail himself. You pull him back by the shirt and walk him inside. He's angry for ten minutes and grateful for the rest of the trip.",
+					"stats": {
+						"life": {
+							"energy": -1,
+							"social": 2
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				},
+				{
+					"label": "Jump",
+					"result": "You climb the rail and jump. You're a foot short of where you thought you'd land, clip the pool's edge and spend the night in an emergency room. The video is online before your X-ray comes back, and {coach} sees both.",
+					"stats": {
+						"life": {
+							"health": -8,
+							"fun": 2,
+							"social": 1
+						},
+						"personality": {
+							"intelligence": -2
+						}
+					},
+					"modifiers": [
+						"sore"
+					],
+					"draft": -3,
+					"followers": 3,
+					"conduct": "scandal",
+					"set_flags": {
+						"balcony_jump": true
+					},
+					"rel": {
+						"coach": -6
+					}
+				}
+			]
 		},
 		{
 			"id": "COL_153",
 			"title": "The Keys",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "You're the one who stayed sober tonight, so the host gave you a teammate's car keys at midnight for safekeeping. Now he's in no shape to drive, he's standing in front of you, and he wants them back.",
 			"stages": [
 				"college"
 			],
@@ -17020,7 +17177,7 @@
 			],
 			"once": true,
 			"expected_flags": [
-				"rode_along",
+				"gave_keys_back",
 				"drove_teammates_home"
 			],
 			"authoring": {
@@ -17032,18 +17189,86 @@
 				"leads_to": [
 					{
 						"to": "COL_036",
-						"flag": "rode_along"
+						"flag": "gave_keys_back"
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Keep the keys and call a ride",
+					"result": "You put the keys in your pocket and call him a car. He argues in the driveway for ten minutes, then falls asleep in the back seat. You hand the keys back at breakfast.",
+					"stats": {
+						"life": {
+							"energy": -1,
+							"social": -1
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"conduct": "good",
+					"rel": {
+						"team": 1
+					}
+				},
+				{
+					"label": "Hand them back and let him go",
+					"result": "You give him the keys because it's easier than the fight, and he drives off alone. He wrecks the car against a light pole a mile away with nobody else in it and walks away bruised. By morning, everyone knows who gave him the keys back, and so does {coach}.",
+					"stats": {
+						"life": {
+							"fun": 1,
+							"social": 2
+						},
+						"personality": {
+							"leadership": -3
+						}
+					},
+					"modifiers": [
+						"stressed"
+					],
+					"draft": -5,
+					"conduct": "scandal",
+					"set_flags": {
+						"gave_keys_back": true
+					},
+					"rel": {
+						"coach": -8,
+						"team": -2
+					}
+				},
+				{
+					"label": "Drive him home yourself",
+					"result": "You drive him home in his own car, walk him to his door and walk two miles back at 2 a.m. You get four hours of sleep, and some teammates think you overstepped. He gets home safe.",
+					"stats": {
+						"life": {
+							"energy": -5
+						},
+						"personality": {
+							"leadership": 3,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"tired"
+					],
+					"conduct": "good",
+					"set_flags": {
+						"drove_teammates_home": true
+					},
+					"rel": {
+						"team": -2
+					}
+				}
+			]
 		},
 		{
 			"id": "COL_154",
 			"title": "The Fast Lane",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "Driving back to campus late on a Sunday, a teammate pulls up next to you on the empty highway, revs his engine and points at the next exit sign. He wants a race.",
 			"stages": [
 				"college"
 			],
@@ -17068,7 +17293,66 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Let him go",
+					"result": "You ease off the gas and watch his taillights disappear. He texts you a chicken emoji. You get home in one piece, with a clean record.",
+					"stats": {
+						"life": {
+							"energy": 1,
+							"fun": -1
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Call him when you're both home",
+					"result": "You let him go, then call him once you're both home and tell him he scared you. He laughs it off, but he drives the speed limit to practice all week.",
+					"stats": {
+						"life": {
+							"energy": -1,
+							"social": 1
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Race him",
+					"result": "You floor it. A state trooper clocks you both at 102, the tickets come with a court date, and the local news runs the story with your team photo. {coach} reads it before you're out of bed.",
+					"stats": {
+						"life": {
+							"fun": 4,
+							"energy": -1
+						},
+						"personality": {
+							"ambition": 1,
+							"leadership": -2
+						}
+					},
+					"modifiers": [
+						"distracted"
+					],
+					"draft": -5,
+					"conduct": "scandal",
+					"set_flags": {
+						"street_race": true
+					},
+					"rel": {
+						"coach": -8,
+						"team": -2
+					}
+				}
+			]
 		}
 	]
 }

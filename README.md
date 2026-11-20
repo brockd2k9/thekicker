@@ -383,7 +383,7 @@ dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career
 | What | Where |
 |---|---|
 | Balance numbers (stat -> kick curves, caps, gains, seasons, game sim, scenario picks) | `tuning/career_tuning.tres` (defaults + docs in `scripts/career/career_tuning.gd`) |
-| Scenarios (61 written: HS, college, pro, bye/offseason, trait-gated; plus the 150-scenario high school and 150-scenario college story graphs, all written) | `data/career/scenarios_*.json` (field reference: `_doc` in `scenarios_hs.json`; graphs: `scenarios_hs_graph.json`, COL_* in `scenarios_college.json`) |
+| Scenarios (61 written: HS, college, pro, bye/offseason, trait-gated; plus the 150-scenario high school and 154-scenario college story graphs, all written) | `data/career/scenarios_*.json` (field reference: `_doc` in `scenarios_hs.json`; graphs: `scenarios_hs_graph.json`, COL_* in `scenarios_college.json`) |
 | Relationships: the cast (8 people + Team standing), roles, tiers, name lists | `data/career/people.json` (rules: `scripts/career/relationships.gd`; numbers: `career_tuning.tres` "Relationships") |
 | Skill points, attribute upgrades (Skills screen) | `scripts/career/skill_points.gd` (numbers: `career_tuning.tres` "Skill Points") |
 | Field goal / kickoff range, game-day range, range -> launch speed | `scripts/career/kick_range.gd`, `kick_profile.gd` (numbers: "Power -> Range", "Game Day Range") |

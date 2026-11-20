@@ -1099,7 +1099,8 @@
 						"partied_before_pro_day",
 						"senior_trip_trouble",
 						"balcony_jump",
-						"street_race"
+						"street_race",
+						"gave_keys_back"
 					]
 				},
 				"must_set_flags": [
@@ -1161,6 +1162,7 @@
 						"senior_trip_trouble": false,
 						"balcony_jump": false,
 						"street_race": false,
+						"gave_keys_back": false,
 						"owned_it_again": true,
 						"second_chance_used": true
 					},
@@ -1202,6 +1204,7 @@
 						"senior_trip_trouble": false,
 						"balcony_jump": false,
 						"street_race": false,
+						"gave_keys_back": false,
 						"character_concerns": true
 					},
 					"rel": {
@@ -2353,7 +2356,8 @@
 						"ran_with_wrong_crowd",
 						"cash_camp",
 						"balcony_jump",
-						"street_race"
+						"street_race",
+						"gave_keys_back"
 					]
 				},
 				"must_set_flags": [
@@ -2414,6 +2418,7 @@
 						"senior_trip_trouble": false,
 						"balcony_jump": false,
 						"street_race": false,
+						"gave_keys_back": false,
 						"owned_mistake": true
 					},
 					"rel": {
@@ -2454,6 +2459,7 @@
 						"senior_trip_trouble": false,
 						"balcony_jump": false,
 						"street_race": false,
+						"gave_keys_back": false,
 						"college_warning": true
 					},
 					"rel": {
@@ -4701,7 +4707,8 @@
 						"partied_before_pro_day",
 						"senior_trip_trouble",
 						"balcony_jump",
-						"street_race"
+						"street_race",
+						"gave_keys_back"
 					]
 				},
 				"must_set_flags": [
@@ -4764,6 +4771,7 @@
 						"senior_trip_trouble": false,
 						"balcony_jump": false,
 						"street_race": false,
+						"gave_keys_back": false,
 						"caught_yourself": true,
 						"second_chance_used": true
 					},
@@ -4806,6 +4814,7 @@
 						"senior_trip_trouble": false,
 						"balcony_jump": false,
 						"street_race": false,
+						"gave_keys_back": false,
 						"character_concerns": true
 					},
 					"rel": {
@@ -5292,6 +5301,7 @@
 						"senior_trip_trouble": false,
 						"balcony_jump": false,
 						"street_race": false,
+						"gave_keys_back": false,
 						"rebuilt_reputation": true
 					},
 					"rel": {
@@ -5331,7 +5341,8 @@
 						"partied_before_pro_day": false,
 						"senior_trip_trouble": false,
 						"balcony_jump": false,
-						"street_race": false
+						"street_race": false,
+						"gave_keys_back": false
 					},
 					"rel": {
 						"coach": 0
@@ -5867,7 +5878,8 @@
 						"partied_before_pro_day",
 						"senior_trip_trouble",
 						"balcony_jump",
-						"street_race"
+						"street_race",
+						"gave_keys_back"
 					]
 				},
 				"must_set_flags": [
@@ -5927,6 +5939,7 @@
 						"senior_trip_trouble": false,
 						"balcony_jump": false,
 						"street_race": false,
+						"gave_keys_back": false,
 						"last_chance": true
 					},
 					"rel": {
@@ -5967,6 +5980,7 @@
 						"senior_trip_trouble": false,
 						"balcony_jump": false,
 						"street_race": false,
+						"gave_keys_back": false,
 						"character_concerns": true
 					},
 					"rel": {
@@ -10224,7 +10238,7 @@
 		},
 		{
 			"id": "COL_151",
-			"title": "The Ride Home",
+			"title": "Who's Driving?",
 			"_info": {
 				"when": "college seasons 2-3 (Sophomore to Junior), any week",
 				"premise": "A teammate who has had too much insists on driving everyone home from a party. You're one of his passengers.",
@@ -10335,14 +10349,14 @@
 				"premise": "After a party, a teammate who is in no shape to drive demands his keys back. You're sober, and you're holding them.",
 				"chain": "Wrong path",
 				"must_set_flags": [
-					"rode_along",
+					"gave_keys_back",
 					"drove_teammates_home"
 				],
 				"people": [
 					"team"
 				],
 				"leads_to": [
-					"COL_036 (The Coach's Office) when rode_along"
+					"COL_036 (The Coach's Office) when gave_keys_back"
 				]
 			},
 			"category": "",
@@ -10359,7 +10373,7 @@
 					"skill_points": 0,
 					"modifiers": [],
 					"set_flags": {
-						"rode_along": true
+						"gave_keys_back": true
 					},
 					"rel": {
 						"team": 0
