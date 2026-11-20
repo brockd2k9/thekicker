@@ -140,11 +140,18 @@ static func build(data: CareerData, tuning: CareerTuning, ctx: Dictionary = {}) 
 	return p
 
 
-## Today's ranges from the paper range + range_yd, then the launch speed.
+## Today's ranges from the paper range + range_yd, then the launch speed:
+## range physics on = a full flick reaches fg_range; off = the old Power curve
+## (game-day yards back in old power units). Kickoffs carry kickoff_range
+## either way (CareerGameMode.kickoff_rules_for divides by power_mult).
 func _finish_range(data: CareerData, t: CareerTuning) -> void:
 	fg_range = clampf(fg_range_base + range_yd, t.range_min, t.range_cap)
 	kickoff_range = clampf(KickRange.kickoff_range(data, t) + range_yd, t.range_min, t.kickoff_range_cap)
-	power_mult = KickRange.speed_mult_for(fg_range, KickRange.kick_tuning(), t.range_physics_margin_yd)
+	if data.range_physics:
+		power_mult = KickRange.speed_mult_for(fg_range, KickRange.kick_tuning(), t.range_physics_margin_yd)
+	else:
+		power_mult = clampf(CareerTuning.blend(t.power_mult_at_0, t.power_mult_at_100, data.stat("power"),
+			t.power_curve) + range_yd / maxf(t.legacy_power_mult_yards, 1.0), 0.3, 2.0)
 
 
 ## What the kick scene reads (field_goal_game.gd `modifiers`).
@@ -189,9 +196,20 @@ func power_needed(yards: float, kt: KickTuning) -> float:
 	return maxf((v - kt.min_launch_speed) / (top - kt.min_launch_speed), 0.0)
 
 
-## Longest field goal (yards) at full swipe power, no wind: today's range.
+## Today's field goal range (yards): what the Hub, the Outlook and the coach use.
+## With range physics off the ball itself can carry further (reach_yards()).
 func max_range_yards(_kt: KickTuning = null) -> int:
 	return floori(fg_range + 0.001)
+
+
+## How far a full flick actually carries over the bar (no wind), from the
+## kick's own ballistics: = max_range_yards() with range physics on.
+func reach_yards(kt: KickTuning = null) -> int:
+	var k := kt if kt != null else KickRange.kick_tuning()
+	var yd := 15
+	while yd < 120 and power_needed(yd + 1, k) <= 1.0:
+		yd += 1
+	return yd
 
 
 # --- internals ---------------------------------------------------------------------

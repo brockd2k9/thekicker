@@ -34,6 +34,21 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## The kick's launch speed is set so 100% power clears the crossbar at
 ## range + this (so a kick right at your range doesn't clip the bar).
 @export var range_physics_margin_yd: float = 0.5
+## Range physics, copied into each new career (CareerData.range_physics; the
+## Career Debug screen can flip it for a loaded career, then Save):
+##   ON:  the launch speed comes from the range above, so a full flick reaches
+##        exactly today's field goal range.
+##   OFF: the ball flies as it did before skill points: launch speed from Power
+##        on the old curve below (+ game-day yards / legacy_power_mult_yards).
+## Either way the Hub, the Outlook and the coach use the range above, and a
+## full kickoff carries exactly the kickoff range (CareerGameMode).
+@export var sp_range_physics: bool = false
+## Physics OFF only: launch-speed multiplier at Power 0 / 100 (the pre-skill-
+## points values). Swipe power needed (no wind) for 30 / 40 / 50 / 60 yd:
+##   0.82 -> 47 / 66 / 83 / 99%    1.00 -> 33 / 46 / 58 / 69%    1.08 -> 29 / 41 / 51 / 61%
+@export var power_mult_at_0: float = 0.82
+@export var power_mult_at_100: float = 1.08
+@export_range(0.3, 3.0) var power_curve: float = 1.0
 ## Kickoff range (yards of carry at a full flick): its own Power curve.
 ## Power 30/50/70/100 -> 52/61/67/75 yd. A touchback needs 60 (high school,
 ## tee on the 40) or 65 (college and pro, tee on the 35).

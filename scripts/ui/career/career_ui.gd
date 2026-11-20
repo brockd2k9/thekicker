@@ -88,7 +88,7 @@ static func profile_text(p: KickProfile, kt: KickTuning) -> String:
 		var n := p.power_needed(yd, kt)
 		need.append("%d:%s" % [yd, ("%d%%" % roundi(n * 100.0)) if n <= 1.0 else "--"])
 	return "\n".join([
-		"Power x%.2f   Range %d yd   Needs %s" % [p.power_mult, p.max_range_yards(kt),
+		"Power x%.2f   Range %d yd   Ball carries %d yd   Needs %s" % [p.power_mult, p.max_range_yards(kt), p.reach_yards(kt),
 			"  ".join(need)],
 		"Aim error %.2f deg   Wobble x%.2f   Window x%.2f" % [
 			p.accuracy_spread_deg, p.wobble_mult, p.window_mult],

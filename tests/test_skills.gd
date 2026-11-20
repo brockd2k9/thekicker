@@ -37,6 +37,7 @@ func test_range_curve() -> void:
 func test_full_flick_reaches_range_and_no_further() -> void:
 	var kt := KickRange.kick_tuning()
 	var c := _career()
+	c.range_physics = true
 	for p in [30.0, 50.0, 75.0, 100.0]:
 		c.set_stat("power", p)
 		var prof := KickProfile.build(c, t)
@@ -44,6 +45,40 @@ func test_full_flick_reaches_range_and_no_further() -> void:
 		check(prof.power_needed(r, kt) <= 1.0, "Power %d: %.1f yd is reachable" % [p, r])
 		check(prof.power_needed(r + 1.0, kt) > 1.0, "Power %d: %.1f yd is not" % [p, r + 1.0])
 		eq(prof.max_range_yards(), floori(r + 0.001), "max_range_yards is today's range")
+
+
+func test_range_physics_switch() -> void:
+	var kt := KickRange.kick_tuning()
+	check(not t.sp_range_physics, "off by default for new careers")
+	check(not CareerData.create("Default", t).range_physics, "a new career copies the default")
+	for p in [30.0, 55.0, 100.0]:
+		var c := _career()
+		c.set_stat("power", p)
+		c.range_physics = true
+		var on := KickProfile.build(c, t)
+		check(absi(on.reach_yards(kt) - floori(on.fg_range)) <= 1,
+			"ON, Power %d: the ball carries %d yd, range %.1f (within 1 yd)" % [p, on.reach_yards(kt), on.fg_range])
+		c.range_physics = false
+		var off := KickProfile.build(c, t)
+		eq(off.power_mult, CareerTuning.blend(t.power_mult_at_0, t.power_mult_at_100, p, t.power_curve)
+			+ off.range_yd / t.legacy_power_mult_yards, "OFF, Power %d: the old launch speed" % p)
+		eq(off.fg_range, on.fg_range, "the range (Hub, coach) is the same either way")
+		eq(KickTrust.coach_limit(c, off, t), KickTrust.coach_limit(c, on, t), "so is the coach's limit")
+	var c30 := _career()
+	c30.set_stat("power", 30)
+	check(KickProfile.build(c30, t).reach_yards(kt) > 60, "OFF: today's long ball (Power 30 carries 60+ yd)")
+
+
+func test_kickoff_carries_kickoff_range_in_both_settings() -> void:
+	for physics in [true, false]:
+		var c := _career()
+		c.set_stat("power", 60)
+		c.range_physics = physics
+		var prof := KickProfile.build(c, t)
+		var rules := CareerGameMode.kickoff_rules_for(t, Progression.game_params(c, t), prof)
+		# The kick scene's carry at a full flick: max carry x power_mult.
+		check(absf(rules.max_carry_yards * prof.power_mult - prof.kickoff_range) < 0.01,
+			"physics %s: a full kickoff carries the kickoff range (%.1f)" % [physics, prof.kickoff_range])
 
 
 func test_game_day_range() -> void:

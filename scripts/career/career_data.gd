@@ -141,6 +141,9 @@ var notice: String = ""
 ## spent on attribute upgrades in the Skills screen).
 var skill_points: int = 0
 ## Earned this season / whole career (spent ones included).
+## Range physics for this career (CareerTuning.sp_range_physics when created;
+## off for saves from before the switch).
+var range_physics: bool = false
 var sp_season: int = 0
 ## SP earned this week by source, for the Results screen: [{text, sp}].
 var sp_week: Array = []
@@ -178,6 +181,7 @@ static func create(player_name: String, tuning: CareerTuning) -> CareerData:
 	d.season_stats = empty_kick_totals()
 	d.career_totals = empty_kick_totals()
 	d.gpa = tuning.start_gpa
+	d.range_physics = tuning.sp_range_physics
 	Relationships.seed_cast(d, tuning)
 	return d
 
@@ -318,6 +322,7 @@ func to_dict() -> Dictionary:
 		"former_people": former_people.duplicate(true),
 		"notice": notice,
 		"skill_points": skill_points,
+		"range_physics": range_physics,
 		"sp_season": sp_season,
 		"sp_career": sp_career,
 		"sp_week": sp_week.duplicate(true),
@@ -400,9 +405,10 @@ static func from_dict(d: Dictionary) -> CareerData:
 	c.retirement = _dict(d, "retirement")
 	c.last_week = _dict(d, "last_week")
 	c.notice = str(d.get("notice", ""))
-	c.skill_points = maxi(int(d.get("skill_points", 0)), 0)
-	c.sp_season = maxi(int(d.get("sp_season", 0)), 0)
-	c.sp_career = maxi(int(d.get("sp_career", 0)), 0)
+	c.skill_points = maxi(_num(d, "skill_points"), 0)
+	c.range_physics = d.get("range_physics") is bool and d["range_physics"]
+	c.sp_season = maxi(_num(d, "sp_season"), 0)
+	c.sp_career = maxi(_num(d, "sp_career"), 0)
 	c.sp_week = _array(d, "sp_week")
 	var up := _dict(d, "sp_upgrades")
 	for k in up:
@@ -437,6 +443,12 @@ static func from_dict(d: Dictionary) -> CareerData:
 	if d.has("_team_start") and c.people.has(Relationships.TEAM):
 		c.people[Relationships.TEAM]["value"] = clampf(float(d["_team_start"]), 0.0, 100.0)
 	return c
+
+
+## A whole number from a save field; 0 if it's missing or not a number.
+static func _num(d: Dictionary, key: Variant) -> int:
+	var v: Variant = d.get(key)
+	return int(v) if v is int or v is float else 0
 
 
 static func _dict(d: Dictionary, key: String) -> Dictionary:
