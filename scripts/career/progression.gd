@@ -94,7 +94,7 @@ static func retention(c: CareerData, t: CareerTuning) -> float:
 		+ t.retention_clutch * int(s.get("game_winners", 0)) \
 		- t.retention_age * maxf(float(c.age) - 32.0, 0.0) \
 		+ t.retention_range * maxf(KickRange.fg_range(c, t) - t.retention_range_from, 0.0) \
-		+ c.retention_bonus + trait_bonus(c, "retention")
+		+ c.retention_bonus + trait_bonus(c, "retention") + Reputation.retention_adjust(c, t)
 	return clampf(r, 0.0, 100.0)
 
 
@@ -250,12 +250,19 @@ static func draft(c: CareerData, rng: RandomNumberGenerator) -> Dictionary:
 	var d: Dictionary = rules().get("draft", {})
 	var clubs := CareerContent.pro_clubs()
 	var club: Dictionary = clubs[rng.randi_range(0, clubs.size() - 1)]
+	# Character on draft day (Reputation): concerns cost stock; rebuilt clears it.
+	var adj := Reputation.draft_adjust(c, CareerTuning.get_default())
+	var score := c.draft_score + adj
+	var out := {"round": 0, "kind": "open", "team": str(club["id"]), "team_name": str(club["name"]),
+		"character": adj, "character_state": Reputation.state(c)}
 	for r in d.get("rounds", []):
-		if c.draft_score >= float(r["min"]):
-			return {"round": int(r["round"]), "kind": "drafted", "team": str(club["id"]), "team_name": str(club["name"])}
-	if c.draft_score >= float(d.get("udfa_min", 45)):
-		return {"round": 0, "kind": "camp", "team": str(club["id"]), "team_name": str(club["name"])}
-	return {"round": 0, "kind": "open", "team": str(club["id"]), "team_name": str(club["name"])}
+		if score >= float(r["min"]):
+			out["round"] = int(r["round"])
+			out["kind"] = "drafted"
+			return out
+	if score >= float(d.get("udfa_min", 45)):
+		out["kind"] = "camp"
+	return out
 
 
 ## A contract dict: {team, team_name, years_left, salary, how}.

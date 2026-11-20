@@ -274,7 +274,7 @@ static func apply_choice(c: CareerData, id: String, index: int, tuning: CareerTu
 	if choice_lock(c, ch) != "":
 		push_warning("ScenarioEngine: choice %d of '%s' is locked" % [index, id])
 		return {}
-	var out := apply_effects(c, ch, tuning)
+	var out := apply_effects(c, ch, tuning, CareerContent.fill(str(s.get("title", "")), Relationships.text_vars(c)))
 	var log: Dictionary = c.scenario_log.get(id, {"times": 0})
 	log["times"] = int(log.get("times", 0)) + 1
 	log["last_week_index"] = c.week_index
@@ -295,7 +295,8 @@ static func apply_choice(c: CareerData, id: String, index: int, tuning: CareerTu
 ## Applies one block of effects (a choice, or a kick challenge's on_pass /
 ## on_fail): stats, skill points, progress, game-day modifiers, relationships,
 ## followers, flags and a follow-up. Returns what happened (apply_choice's keys).
-static func apply_effects(c: CareerData, ch: Dictionary, tuning: CareerTuning) -> Dictionary:
+## reason: what a suspension notice names (the scenario's title).
+static func apply_effects(c: CareerData, ch: Dictionary, tuning: CareerTuning, reason := "") -> Dictionary:
 	var applied := CareerStats.apply(c, scaled_stats(ch.get("stats", {}), tuning), tuning)
 	var sp := SkillPoints.from_choice(c, float(ch.get("skill_points", 0)), tuning) \
 		if ch.has("skill_points") else 0
@@ -314,6 +315,9 @@ static func apply_effects(c: CareerData, ch: Dictionary, tuning: CareerTuning) -
 	var set_flags: Dictionary = ch.get("set_flags", {})
 	for f in set_flags:
 		c.flags[f] = set_flags[f]
+	Reputation.on_flags(c, set_flags, tuning)
+	if ch.has("suspend_weeks"):
+		Reputation.suspend(c, int(ch["suspend_weeks"]), reason, tuning)
 	var follow := ""
 	var fu: Variant = ch.get("follow_up")
 	if fu is String:

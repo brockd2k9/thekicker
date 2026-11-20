@@ -261,7 +261,8 @@ func begin_week() -> void:
 	if Bench.audition_due(data):
 		start_audition()
 		return
-	Bench.begin_week(data, tuning, is_bye())
+	# A suspended game isn't a benched game (Reputation): pass it as a bye.
+	Bench.begin_week(data, tuning, is_bye() or Reputation.suspended(data))
 	var when := "bye" if is_bye() else "season"
 	var count := tuning.bye_scenarios if is_bye() else \
 		(2 if rng.randf() < tuning.second_scenario_chance else 1)
@@ -273,7 +274,11 @@ func begin_week() -> void:
 		e["weather"] = {"wind": roundf(wind), "gusty": rng.randf() < tuning.game_gust_chance}
 		_roll_cold(e["weather"])
 		_injury_roll()
-		if is_ineligible():
+		if Reputation.suspended(data):
+			data.notice = "SUSPENDED: you sit out this week's game%s. %d game%s left." % [
+				(" (%s)" % data.suspension.get("reason", "")) if str(data.suspension.get("reason", "")) != "" else "",
+				int(data.suspension["weeks_left"]), "" if int(data.suspension["weeks_left"]) == 1 else "s"]
+		elif is_ineligible():
 			data.notice = "Academically ineligible (GPA %.2f, need %.1f): you'll sit out this week's game." \
 				% [data.gpa, tuning.college_min_gpa]
 	data.phase = PHASE_SCENARIO
@@ -323,7 +328,7 @@ func _after_scenarios() -> void:
 		_start_next_season()
 	elif is_bye():
 		_finish_bye()
-	elif is_ineligible():
+	elif is_ineligible() or Reputation.suspended(data):
 		_bench_game()
 	else:
 		data.phase = PHASE_OUTLOOK
@@ -387,7 +392,13 @@ func is_ineligible() -> bool:
 
 
 ## An academically ineligible week: the game is played without you.
+## Also a suspended game (Reputation): no kicks, no game skill points or
+## followers, not a benched week, no slump (only practice counts).
 func _bench_game() -> void:
+	var suspended := Reputation.suspended(data)
+	var why := "Sat out (suspended)" if suspended else "Sat out (grades)"
+	if suspended:
+		data.bench["this_week"] = false  # a suspension never counts as a benched week
 	var sim := GameSim.new()
 	sim.backup = true
 	sim.setup(data, entry(), tuning, rng.randi(), 0, Progression.game_params(data, tuning))
@@ -410,17 +421,24 @@ func _bench_game() -> void:
 						sim.resolve_call({"recovered": false, "text": "Onside kick."})
 	var outcome := sim.outcome()
 	data.record[{"W": "w", "L": "l", "T": "t"}[outcome]] += 1
-	var applied := CareerStats.apply(data, {"fun": -4.0, "social": -2.0}, tuning)
+	var applied := CareerStats.apply(data, {"fun": tuning.suspend_fun, "social": tuning.suspend_social}
+		if suspended else {"fun": -4.0, "social": -2.0}, tuning)
+	var team := {}
+	if suspended and data.people.has(Relationships.TEAM):
+		team = Relationships.apply(data, {Relationships.TEAM: tuning.suspend_team})
 	var opp: Dictionary = entry().get("opponent", {})
 	entry()["result"] = {"us": sim.score_us, "them": sim.score_them, "outcome": outcome}
 	data.recent_results.append({"week": data.week, "opponent": opp.get("name", ""), "us": sim.score_us,
-		"them": sim.score_them, "outcome": outcome, "line": "Sat out (grades)"})
+		"them": sim.score_them, "outcome": outcome, "line": why})
 	while data.recent_results.size() > 5:
 		data.recent_results.pop_front()
 	data.last_week = {"type": "benched", "week": data.week, "opponent": opp.get("name", ""),
 		"mascot": opp.get("mascot", ""), "home": entry().get("home", true), "us": sim.score_us,
-		"them": sim.score_them, "outcome": outcome, "kicks": [], "line": "Sat out (grades)",
+		"them": sim.score_them, "outcome": outcome, "kicks": [], "line": why,
 		"changes": applied}
+	if suspended:
+		data.last_week["suspended"] = {"reason": str(data.suspension.get("reason", "")),
+			"left": Reputation.served(data), "team": team}
 	_week_practice()
 	data.phase = PHASE_RESULTS
 
@@ -767,6 +785,7 @@ func _enter_stage(stage: String, team: Dictionary, route_text: String) -> void:
 	data.season_in_stage = 0
 	Relationships.enter_stage(data, tuning)
 	Followers.end_deals(data)  # brand deals don't follow you to a new stage
+	data.suspension = {}  # a new stage starts clean
 	data.offers.clear()
 	data.tryout = {}
 	data.add_route(route_text)

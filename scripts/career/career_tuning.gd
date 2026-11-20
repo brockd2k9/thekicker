@@ -766,6 +766,23 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var sp_perfect_challenge: int = 1
 @export var buzz_perfect_challenge: float = 2.0
 
+@export_group("Reputation")
+## Story flags from the college "wrong path" (Reputation). character_concerns:
+## draft stock added on draft day, and pro standing (retention) in the first
+## rep_pro_seasons pro seasons. rebuilt_reputation replaces both (it wins
+## when both are set): no draft penalty, a little early standing.
+@export var rep_concerns_draft: float = -8.0
+@export var rep_rebuilt_draft: float = 0.0
+@export var rep_concerns_retention: float = -6.0
+@export var rep_rebuilt_retention: float = 2.0
+@export var rep_pro_seasons: int = 2
+## A choice's suspend_weeks: games sat out (at most this many at once), and
+## what a suspended game costs (like sitting out for grades, plus Team).
+@export var suspend_max_weeks: int = 3
+@export var suspend_fun: float = -4.0
+@export var suspend_social: float = -2.0
+@export var suspend_team: float = -2.0
+
 @export_group("Career End")
 ## A season is "poor" with an FG% below this (at least poor_min_attempts tries).
 @export_range(0.0, 1.0) var poor_fg_pct: float = 0.6

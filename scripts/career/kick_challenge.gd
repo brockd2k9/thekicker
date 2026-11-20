@@ -27,7 +27,7 @@ const PRESSURES := ["low", "medium", "high"]
 const WINDS := ["calm", "breezy", "windy"]
 ## Fields a block (on_pass / on_fail) may hold: the choice effect fields.
 const BLOCK_FIELDS := ["result", "stats", "skill_points", "recruiting", "draft", "retention", "grades", "rel",
-	"modifiers", "set_flags", "follow_up", "followers", "followers_exact", "conduct", "deal"]
+	"modifiers", "set_flags", "follow_up", "followers", "followers_exact", "conduct", "deal", "suspend_weeks"]
 const SP_SOURCE := "Challenge"
 
 
@@ -109,7 +109,7 @@ static func finish(c: CareerData, tr: Dictionary, t: CareerTuning) -> Dictionary
 	var block: Dictionary = (kc.get("on_pass" if passed else "on_fail", {}) as Dictionary).duplicate(true)
 	if passed and not block.has("followers") and not block.has("followers_exact"):
 		block["followers"] = default_buzz(str(tr.get("kind", "")), t)
-	var out := ScenarioEngine.apply_effects(c, block, t)
+	var out := ScenarioEngine.apply_effects(c, block, t, str(CareerContent.scenario(str(tr.get("scenario", ""))).get("title", "")))
 	var perfect := kicks > 0 and n == kicks and kicks >= TryoutMode.total_kicks(tr)
 	if perfect:
 		SkillPoints.earn(c, t.sp_perfect_challenge, SP_SOURCE)
