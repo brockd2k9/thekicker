@@ -196,6 +196,9 @@ var followers: int = 0
 ## {text: followers}, week [{text, n, buzz}] (this week's Results lines),
 ## deals [{id, name, kind, value, seasons_left}], virals, sp_season}.
 var social: Dictionary = {}
+## The last kick challenge's outcome, for the tryout screen's result:
+## {passed, made, kicks, need, perfect, title, scenario, out}.
+var last_challenge: Dictionary = {}
 
 
 ## A fresh career with starting stats from the tuning file.
@@ -376,6 +379,7 @@ func to_dict() -> Dictionary:
 		"kick_log": kick_log.duplicate(true),
 		"followers": followers,
 		"social": social.duplicate(true),
+		"last_challenge": last_challenge.duplicate(true),
 	}
 
 
@@ -479,6 +483,7 @@ static func from_dict(d: Dictionary) -> CareerData:
 			c.kick_log.append(e)
 	c.followers = maxi(_num(d, "followers"), 0)
 	c.social = _dict(d, "social")
+	c.last_challenge = _dict(d, "last_challenge")
 	for id in _dict(d, "people"):
 		var p: Variant = d["people"][id]
 		if p is Dictionary and not Relationships.def(str(id)).is_empty():

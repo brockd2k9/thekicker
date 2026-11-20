@@ -274,6 +274,28 @@ static func apply_choice(c: CareerData, id: String, index: int, tuning: CareerTu
 	if choice_lock(c, ch) != "":
 		push_warning("ScenarioEngine: choice %d of '%s' is locked" % [index, id])
 		return {}
+	var out := apply_effects(c, ch, tuning)
+	var log: Dictionary = c.scenario_log.get(id, {"times": 0})
+	log["times"] = int(log.get("times", 0)) + 1
+	log["last_week_index"] = c.week_index
+	log["last_choice"] = index
+	c.scenario_log[id] = log
+	var ids: Dictionary = c.season_log["ids"]
+	ids[id] = int(ids.get(id, 0)) + 1
+	var cats: Dictionary = c.season_log["cats"]
+	var cat := str(s.get("category", ""))
+	cats[cat] = int(cats.get(cat, 0)) + 1
+	# A kick challenge: the top-level effects apply now; on_pass / on_fail after
+	# the kicks (KickChallenge, CareerManager.start_challenge).
+	if ch.get("kick_challenge") is Dictionary:
+		out["challenge"] = true
+	return out
+
+
+## Applies one block of effects (a choice, or a kick challenge's on_pass /
+## on_fail): stats, skill points, progress, game-day modifiers, relationships,
+## followers, flags and a follow-up. Returns what happened (apply_choice's keys).
+static func apply_effects(c: CareerData, ch: Dictionary, tuning: CareerTuning) -> Dictionary:
 	var applied := CareerStats.apply(c, scaled_stats(ch.get("stats", {}), tuning), tuning)
 	var sp := SkillPoints.from_choice(c, float(ch.get("skill_points", 0)), tuning) \
 		if ch.has("skill_points") else 0
@@ -299,16 +321,6 @@ static func apply_choice(c: CareerData, id: String, index: int, tuning: CareerTu
 	if fu is Dictionary and fu.has("id"):
 		follow = str(fu["id"])
 		c.queued_scenarios.append({"id": follow, "due": c.week_index + maxi(int(fu.get("weeks", 1)), 1)})
-	var log: Dictionary = c.scenario_log.get(id, {"times": 0})
-	log["times"] = int(log.get("times", 0)) + 1
-	log["last_week_index"] = c.week_index
-	log["last_choice"] = index
-	c.scenario_log[id] = log
-	var ids: Dictionary = c.season_log["ids"]
-	ids[id] = int(ids.get(id, 0)) + 1
-	var cats: Dictionary = c.season_log["cats"]
-	var cat := str(s.get("category", ""))
-	cats[cat] = int(cats.get(cat, 0)) + 1
 	return {"applied": applied, "new_traits": applied.get("new_traits", []),
 		"result": str(ch.get("result", "")), "modifiers": mods, "follow_up": follow,
 		"progress": progress, "relationships": rel, "skill_points": sp, "followers": fans}

@@ -203,6 +203,31 @@ static func _check_requires(problems: PackedStringArray, where: String, req: Dic
 		_check_requires(problems, where, r)
 
 
+## A kick challenge's on_pass / on_fail: the same effect fields as a choice.
+static func _check_block(problems: PackedStringArray, where: String, blk: Dictionary) -> void:
+	for g in blk.get("stats", {}):
+		if not (g in CareerData.GROUP_KEYS):
+			problems.append("%s: unknown stat group '%s'" % [where, g])
+			continue
+		for k in blk["stats"][g]:
+			if CareerData.group_of(k) != g:
+				problems.append("%s: '%s' is not a %s stat" % [where, k, g])
+	for m in blk.get("modifiers", []):
+		if modifier(str(m)).is_empty():
+			problems.append("%s: unknown modifier '%s'" % [where, m])
+	for pid in (blk.get("rel", {}) as Dictionary):
+		if not (str(pid) in Relationships.ids()):
+			problems.append("%s: unknown person '%s' in rel" % [where, pid])
+	var fu: Variant = blk.get("follow_up")
+	if fu != null:
+		var fid := str(fu.get("id", "")) if fu is Dictionary else str(fu)
+		if scenario(fid).is_empty():
+			problems.append("%s: follow_up '%s' doesn't exist" % [where, fid])
+	if blk.has("skill_points") and absf(float(blk["skill_points"])) > 6.0:
+		problems.append("%s: skill_points must be -2..6" % where)
+	_check_followers(problems, where, blk)
+
+
 ## A choice's follower fields: followers (buzz, -20..20), followers_exact (a
 ## count), conduct (good / bad / scandal) and deal.
 static func _check_followers(problems: PackedStringArray, where: String, ch: Dictionary) -> void:
@@ -297,8 +322,16 @@ static func validate() -> PackedStringArray:
 			problems.append("scenario %s: needs 2-4 choices" % id)
 		for ch in choices:
 			_check_words(problems, id, [ch.get("label", ""), ch.get("result", "")])
-			if (ch.get("modifiers", []) as Array).is_empty():
+			var kc := KickChallenge.of(ch)
+			var block_mods := not kc.is_empty() and not (kc.get("on_pass", {}).get("modifiers", []) as Array).is_empty() \
+				and not (kc.get("on_fail", {}).get("modifiers", []) as Array).is_empty()
+			if (ch.get("modifiers", []) as Array).is_empty() and not block_mods:
 				problems.append("scenario %s: choice '%s' has no game-day modifier" % [id, ch.get("label", "")])
+			if ch.has("kick_challenge"):
+				problems.append_array(KickChallenge.problems("scenario %s choice '%s'" % [id, ch.get("label", "")], ch))
+				for b in ["on_pass", "on_fail"]:
+					if kc.get(b) is Dictionary:
+						_check_block(problems, "scenario %s choice '%s' %s" % [id, ch.get("label", ""), b], kc[b])
 			var n_stats := ScenarioEngine.progress_changes(ch).size()
 			if ch.has("skill_points"):
 				var sp: Variant = ch["skill_points"]
@@ -310,6 +343,7 @@ static func validate() -> PackedStringArray:
 			n_stats += (ch.get("rel", {}) as Dictionary).size() if ch.get("rel") is Dictionary else 0
 			for k in ["followers", "followers_exact", "conduct", "deal"]:
 				n_stats += 1 if ch.has(k) else 0
+			n_stats += 1 if ch.has("kick_challenge") else 0
 			_check_followers(problems, "scenario %s choice '%s'" % [id, ch.get("label", "")], ch)
 			if n_stats == 0:
 				problems.append("scenario %s: choice '%s' changes no stats" % [id, ch.get("label", "")])
@@ -398,17 +432,21 @@ static func graph_problems(list: Array) -> PackedStringArray:
 	return problems
 
 
-## Flags a scenario's choices set to true (a draft: its expected_flags).
+## Flags a scenario's choices set to true, kick challenge blocks included (a
+## draft: its expected_flags).
 static func _flags_set(sc: Dictionary) -> Array:
 	var out: Array = []
 	if sc.get("draft", false):
 		out.append_array(sc.get("expected_flags", []))
 	for ch in sc.get("choices", []):
-		var sf: Variant = ch.get("set_flags", {})
-		if sf is Dictionary:
-			for f in sf:
-				if sf[f] and not (f in out):
-					out.append(str(f))
+		# A kick challenge's flags count too (on_pass / on_fail may set them).
+		var kc := KickChallenge.of(ch)
+		for blk in [ch, kc.get("on_pass", {}), kc.get("on_fail", {})]:
+			var sf: Variant = blk.get("set_flags", {}) if blk is Dictionary else {}
+			if sf is Dictionary:
+				for f in sf:
+					if sf[f] and not (f in out):
+						out.append(str(f))
 	return out
 
 

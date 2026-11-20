@@ -342,6 +342,29 @@ up to +20% from Charisma. Followers never go below 0.
 
 Simulator report and tuning: stage 3 (to come).
 
+## Kick challenges
+
+Rules: `scripts/career/kick_challenge.gd`, `scripts/career/tryout_mode.gd`; numbers:
+`career_tuning.tres` "Kick Challenges". Format for writers:
+`docs/story_handoff_followers_challenges.md`.
+
+- A scenario choice with a `kick_challenge` block is played as real kicks: picking it applies the
+  choice's own fields (costs, story flags, modifiers that affect the kicks), then the kick scene runs
+  the field goals (clamped to range - 1) and, for combines, kickoffs. `need` counts both.
+- Pass: `on_pass` (plus the kind's default followers if it has none). Fail: `on_fail` (milder).
+  Every kick made: +1 skill point (source "Challenge") and a few followers. No game skill points,
+  no season stats, no Coach / Team change unless the block says so.
+- Afterwards the week (or offseason) continues where it was.
+- **Resume after a reload** (challenges, the bench audition and stage tryouts): every kick is saved
+  as it resolves; reopening continues at the next kick with the same seeded wind; a kick that was
+  struck but not resolved when the game quit counts as a miss. (Before, the audition and tryouts
+  restarted from kick 1, so quitting could retry a bad run.)
+- Proposed conversions (for the story session to apply):
+  `tests/fixtures/kick_challenge_conversions.json`. The engine tests play each one's pass and fail.
+
+To playtest: does picking a challenge feel like a real choice (risk vs. the safe option); are the
+distances fair at each stage; is the result screen clear about what you got.
+
 ## To playtest (final list)
 Most important first. Simulator numbers are from `tools/career_sim_baseline.md`; the sim's kicks
 are a stand-in for real swipes, so everything involving kicking quality needs a real-phone check.

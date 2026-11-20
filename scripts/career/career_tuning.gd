@@ -737,6 +737,30 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var followers_migrate_pro: int = 30000
 @export var followers_migrate_pro_per_season: int = 40000
 
+@export_group("Kick Challenges")
+## A scenario choice's "kick_challenge" (showcases, camps, combines, kicker
+## battles): real kicks in the kick scene (KickChallenge). Distances are
+## clamped to your field goal range - 1 (never under challenge_min_yards).
+@export var challenge_min_yards: int = 20
+## "pressure": low / medium / high (pressure also builds 0.08 a kick).
+@export_range(0.0, 1.0) var challenge_pressure_low: float = 0.2
+@export_range(0.0, 1.0) var challenge_pressure_medium: float = 0.35
+@export_range(0.0, 1.0) var challenge_pressure_high: float = 0.5
+## "wind": calm / breezy / windy (max mph; each kick's wind is seeded).
+@export var challenge_wind_calm: float = 3.0
+@export var challenge_wind_breezy: float = 8.0
+@export var challenge_wind_windy: float = 14.0
+## Followers (buzz) for a pass when on_pass has no "followers", by kind.
+@export var buzz_challenge_showcase: float = 4.0
+@export var buzz_challenge_camp: float = 3.0
+@export var buzz_challenge_combine: float = 6.0
+@export var buzz_challenge_competition: float = 5.0
+@export var buzz_challenge_battle: float = 1.0
+@export var buzz_challenge_tryout: float = 2.0
+## Every kick made: skill points (source "Challenge") and followers (buzz).
+@export var sp_perfect_challenge: int = 1
+@export var buzz_perfect_challenge: float = 2.0
+
 @export_group("Career End")
 ## A season is "poor" with an FG% below this (at least poor_min_attempts tries).
 @export_range(0.0, 1.0) var poor_fg_pct: float = 0.6

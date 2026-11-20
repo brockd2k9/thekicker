@@ -480,6 +480,13 @@ the Outlook). Shown on the Hub, Results, Stats, the season summary and scenario 
 `scripts/career/followers.gd`; numbers: `career_tuning.tres` "Followers"; details: `PLAYTEST.md`,
 "Followers".
 
+**Kick challenges:** a scenario choice can be a real kick challenge (showcase, camp, combine,
+kicker battle): picking it opens the kick scene (field goals clamped to your range - 1, and kickoffs
+for combines); pass for the full reward, miss for a milder outcome. Tryouts, the bench audition and
+challenges save every kick and resume after a reload (a kick struck mid-flight counts as a miss).
+Rules: `scripts/career/kick_challenge.gd`; details: `PLAYTEST.md`, "Kick challenges"; the data
+format for scenario writers: `docs/story_handoff_followers_challenges.md`.
+
 **Perks, aging and weather:** the Skills screen has two tabs. **Perks** (15, `data/career/perks.json`)
 cost skill points and need prerequisites (attributes, other perks, a personality trait, a stage, an
 age); each is a small edge (Big Leg +2 yd, Laser tighter aim, Clutch less pressure on game winners,

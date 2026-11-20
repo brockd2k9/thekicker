@@ -53,6 +53,8 @@ func _build(col: VBoxContainer) -> void:
 		var sp := roundi(float(ch.get("skill_points", 0)) * career.tuning.sp_scenario_scale)
 		if sp != 0:
 			v.add_child(UiKit.chip("%+d Skill Points" % sp, UiKit.ACCENT if sp > 0 else UiKit.BAD, false, "skill", 22))
+		if ch.get("kick_challenge") is Dictionary:
+			v.add_child(_challenge_preview(c, ch))
 		var fans := Followers.choice_preview(c, ch, career.tuning)
 		if fans != 0:
 			v.add_child(_followers_chip(fans))
@@ -79,6 +81,9 @@ func _pick(index: int) -> void:
 	var choice: Dictionary = s.get("choices", [])[index]
 	var vars := Relationships.text_vars(c)
 	var out := career.choose(index)
+	if out.get("challenge", false):
+		_challenge_intro(choice, out)
+		return
 	var v := UiKit.modal(self, CareerContent.fill(str(choice.get("label", "")), vars))
 	var r := UiKit.label(CareerContent.fill(str(out.get("result", "")), vars), 30)
 	r.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -117,6 +122,51 @@ func _pick(index: int) -> void:
 
 
 ## "NEW TRAIT" card that pops in with a glow (also used by Results).
+## A kick challenge on a choice card: what you'll kick, and pass / miss.
+func _challenge_preview(c: CareerData, ch: Dictionary) -> Control:
+	var t := career.tuning
+	var kc := KickChallenge.of(ch)
+	var v := VBoxContainer.new()
+	v.add_theme_constant_override("separation", 4)
+	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	v.add_child(UiKit.chip(KickChallenge.summary(kc, career.profile().fg_range, t), UiKit.ACCENT, true, "range", 22))
+	var pass_text := KickChallenge.block_text(c, kc.get("on_pass", {}), t,
+		KickChallenge.default_buzz(str(kc.get("kind", "")), t))
+	v.add_child(UiKit.label("Pass: " + pass_text, 22, UiKit.GOOD))
+	v.add_child(UiKit.label("Miss: " + KickChallenge.block_text(c, kc.get("on_fail", {}), t), 22, UiKit.MUTED))
+	return v
+
+
+## Picked a kick challenge: what happens now, then the kick scene.
+func _challenge_intro(choice: Dictionary, out: Dictionary) -> void:
+	var c := career.data
+	var vars := Relationships.text_vars(c)
+	var kc := KickChallenge.of(choice)
+	var v := UiKit.modal(self, str(kc.get("title", "KICK CHALLENGE")))
+	if str(out.get("result", "")) != "":
+		var r := UiKit.label(CareerContent.fill(str(out["result"]), vars), 30)
+		r.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		v.add_child(r)
+	var tr := c.tryout
+	var d: Array = tr.get("distances", [])
+	var text := "Make %d of %d" % [int(tr.get("need", 3)), TryoutMode.total_kicks(tr)]
+	if not d.is_empty():
+		text += ": field goals from %s yards" % ", ".join(PackedStringArray(d.map(func(x: Variant) -> String: return str(int(x)))))
+	var ko: Dictionary = tr.get("kickoffs", {})
+	if not ko.is_empty():
+		text += ", then %d kickoff%s (%d+ yards)" % [int(ko["count"]), "" if int(ko["count"]) == 1 else "s",
+			roundi(float(ko["min_yards"]))]
+	v.add_child(CareerUi.centered(text + ".", 28))
+	if not (out.get("applied", {}) as Dictionary).is_empty():
+		v.add_child(CareerUi.change_chips(out["applied"]))
+	if not (out.get("modifiers", []) as Array).is_empty():
+		v.add_child(CareerUi.modifier_chips(out["modifiers"]))
+	var b := UiKit.primary("Kick", go_to_current, "next")
+	v.add_child(b)
+	if not OS.has_feature("mobile"):
+		b.grab_focus.call_deferred()
+
+
 static func _followers_chip(n: int) -> PanelContainer:
 	return UiKit.chip(Followers.change_text(n), UiKit.group_color("personality") if n > 0 else UiKit.BAD, false,
 		"social", 22)

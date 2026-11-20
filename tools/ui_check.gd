@@ -175,6 +175,7 @@ func _capture_all() -> void:
 			"stage": "high_school", "role": "Head Coach"}))
 	await _bench_shots()
 	await _followers_shots()
+	await _challenge_shots()
 	await _shot("debug", Screens.CAREER_DEBUG)
 	await _shot("challenge", Screens.CHALLENGE, Callable(), Callable(), 2.0)
 	if _want("pause"):
@@ -280,6 +281,37 @@ func _followers_shots() -> void:
 	c.phase = keep["phase"]
 	c.notice = keep["notice"]
 	c.pending_scenarios = keep["pending"]
+
+
+## Kick challenges (the proposed hs_showcase conversion, in memory): the
+## choice card, the kick scene, the result.
+func _challenge_shots() -> void:
+	if not (_want("challenge_card") or _want("challenge_kick") or _want("challenge_result")):
+		return
+	var c := _m.data
+	var keep := {"phase": c.phase, "pending": c.pending_scenarios.duplicate(), "tryout": c.tryout.duplicate(true),
+		"last": c.last_challenge.duplicate(true)}
+	var conv: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(
+		"res://tests/fixtures/kick_challenge_conversions.json"))["conversions"][0]
+	var s := CareerContent.scenario(str(conv["scenario"]))
+	var orig: Dictionary = (s["choices"][0] as Dictionary).duplicate(true)
+	s["choices"][0] = conv["replace"]
+	c.pending_scenarios = [str(conv["scenario"])]
+	c.phase = CareerManager.PHASE_SCENARIO
+	await _shot("challenge_card", Screens.CAREER_SCENARIO)
+	_m.choose(0)
+	_m.tryout_kick(true)
+	await _shot("challenge_kick", Screens.CAREER_TRYOUT, Callable(), Callable(), 2.5)
+	if _want("challenge_result"):
+		for k in 4:
+			_m.tryout_kick(k < 2)
+		await _open(Screens.CAREER_TRYOUT, 2.5)
+		await _capture("challenge_result")
+	s["choices"][0] = orig
+	c.phase = keep["phase"]
+	c.pending_scenarios = keep["pending"]
+	c.tryout = keep["tryout"]
+	c.last_challenge = keep["last"]
 
 
 ## Plays the career forward with the real rules until `done` (or it retires).
