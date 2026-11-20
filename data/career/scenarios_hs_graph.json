@@ -2534,9 +2534,8 @@
 		{
 			"id": "HS_102",
 			"title": "The Open Gym",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "training",
+			"text": "The school opens the gym after classes, and a few players are setting up a kicking station. You have time to join them, but you also have homework and a chance to take the afternoon easy.",
 			"stages": [
 				"high_school"
 			],
@@ -2549,14 +2548,51 @@
 				"joined_open_gym"
 			],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Join the kicking session",
+					"result": "You take turns kicking into the practice net and get pointers on your approach. The extra reps sharpen your routine, though you get home later than planned.",
+					"stats": {
+						"life": {
+							"energy": -4,
+							"fun": 2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 3,
+					"set_flags": {
+						"joined_open_gym": true
+					}
+				},
+				{
+					"label": "Save the afternoon",
+					"result": "You head home instead and get your assignments finished before relaxing. Your legs feel fresh the next day, but you miss a chance to get extra work in.",
+					"stats": {
+						"life": {
+							"energy": 4,
+							"fun": 2,
+							"social": -2
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_103",
 			"title": "The First Group Chat",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "A group chat starts making fun of a teammate after an awkward moment at practice, and the jokes keep piling up. You know the teammate will probably see the messages, and everyone in the chat can see what you do next.",
 			"stages": [
 				"high_school"
 			],
@@ -2579,14 +2615,74 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Tell them to knock it off",
+					"result": "You say the jokes have gone too far and ask the group to leave the teammate alone. A few people go quiet, but you feel better knowing you didn't let it slide.",
+					"stats": {
+						"life": {
+							"social": -1,
+							"energy": -2
+						},
+						"personality": {
+							"leadership": 3,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"set_flags": {
+						"defended_teammate_online": true
+					}
+				},
+				{
+					"label": "Check in privately",
+					"result": "You message the teammate directly and let them know you saw the chat and don't agree with it. They appreciate hearing from you, even though the group chat carries on without you stepping in publicly.",
+					"stats": {
+						"life": {
+							"social": 1,
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 1,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"set_flags": {
+						"private_support": true
+					}
+				},
+				{
+					"label": "Join in with the jokes",
+					"result": "You add a joke of your own, and the chat fills with laughing reactions. It feels easy to fit in for the moment, but the teammate stops talking when you see them at practice.",
+					"stats": {
+						"life": {
+							"social": 2,
+							"fun": 3
+						},
+						"personality": {
+							"leadership": -2,
+							"charisma": -1
+						}
+					},
+					"modifiers": [
+						"distracted"
+					],
+					"set_flags": {
+						"joined_group_mockery": true
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_104",
 			"title": "The Family Road Trip",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "family",
+			"text": "Your family has planned a road trip for the same weekend as your first kicking clinic. {parent} says the trip matters to everyone, while the clinic could give you a chance to learn from experienced kickers.",
 			"stages": [
 				"high_school"
 			],
@@ -2601,7 +2697,79 @@
 				"balanced_family_commitments"
 			],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Take the family trip",
+					"result": "You go on the trip and enjoy having everyone together without thinking about practice for a couple of days. You miss the clinic, but {parent} appreciates that you made the family plans a priority.",
+					"stats": {
+						"life": {
+							"fun": 5,
+							"social": 3,
+							"energy": 2
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"set_flags": {
+						"prioritized_family_trip": true
+					},
+					"rel": {
+						"parent": 8
+					}
+				},
+				{
+					"label": "Attend the kicking clinic",
+					"result": "You explain why the clinic matters and travel there while your family heads out. You get valuable instruction and several focused reps, though you miss the shared trip and {parent} is disappointed.",
+					"stats": {
+						"life": {
+							"energy": -4,
+							"fun": -3,
+							"social": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 3,
+					"set_flags": {
+						"attended_first_clinic": true
+					},
+					"rel": {
+						"parent": -3
+					}
+				},
+				{
+					"label": "Work out a split weekend",
+					"result": "You attend part of the clinic, then meet your family for the rest of the trip. You don't get the full clinic experience, but you still learn a few things and make time for everyone.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"fun": 2,
+							"social": 2
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"skill_points": 2,
+					"set_flags": {
+						"balanced_family_commitments": true
+					},
+					"rel": {
+						"parent": 5
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_105",
@@ -2627,9 +2795,8 @@
 		{
 			"id": "HS_106",
 			"title": "The Substitute Holder",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "Your usual holder, {holder}, is unavailable for part of practice, and a backup is filling in. The backup is still learning how to place the ball and time the snap, so you can either help them get comfortable or stick to your own routine.",
 			"stages": [
 				"high_school"
 			],
@@ -2654,14 +2821,61 @@
 					"HS_038"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Help train the backup holder",
+					"result": "You slow things down and work through the snap, spot, and timing together. It takes time away from your own kicks, but the backup starts getting the ball down more consistently.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"social": 2
+						},
+						"personality": {
+							"leadership": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"skill_points": 2,
+					"set_flags": {
+						"trained_backup_holder": true
+					},
+					"rel": {
+						"holder": 7
+					}
+				},
+				{
+					"label": "Stick with your own routine",
+					"result": "You ask to keep your reps moving and let the coaches handle the backup's instruction. You get more kicks in, but the backup is still unsure about the timing when practice ends.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"social": -2
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 3,
+					"set_flags": {
+						"refused_holder_help": true
+					},
+					"rel": {
+						"holder": -4
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_107",
 			"title": "The First Volunteer Day",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "community",
+			"text": "A community volunteer day is coming up, and organizers need help setting up a youth sports field before the weekend games. You can commit to the full morning or stop by for a shorter shift around your other plans.",
 			"stages": [
 				"high_school"
 			],
@@ -2683,7 +2897,50 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Commit to the full morning",
+					"result": "You spend the morning moving equipment, setting up cones, and getting the field ready. You're worn out by the end, but the organizers are grateful you stayed until the work was done.",
+					"stats": {
+						"life": {
+							"energy": -5,
+							"fun": 2,
+							"social": 3
+						},
+						"personality": {
+							"leadership": 3,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"set_flags": {
+						"community_volunteer": true
+					}
+				},
+				{
+					"label": "Help for a shorter shift",
+					"result": "You arrive early, help unload supplies, and stay until the main setup is finished. You have time for the rest of your day, though you leave before the final cleanup.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"fun": 1,
+							"social": 2
+						},
+						"personality": {
+							"leadership": 1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"set_flags": {
+						"partial_volunteer": true
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_108",
@@ -2729,9 +2986,8 @@
 		{
 			"id": "HS_110",
 			"title": "The First Time You're Recognized",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "After a kick that gets the sideline cheering, a school photographer asks for a quick picture and a few words about it. Teammates nearby are still celebrating, and you have to decide how to handle the attention.",
 			"stages": [
 				"high_school"
 			],
@@ -2746,7 +3002,70 @@
 				"downplays_success"
 			],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Give the team the credit",
+					"result": "You mention the snap, the hold, and the teammates who helped you prepare. The photographer gets a good quote, and your teammates appreciate that you included them in the moment.",
+					"stats": {
+						"life": {
+							"social": 3,
+							"fun": 2
+						},
+						"personality": {
+							"leadership": 2,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"set_flags": {
+						"shared_first_success": true
+					}
+				},
+				{
+					"label": "Enjoy the attention",
+					"result": "You smile for the camera and talk about how much the kick means to you. The attention feels great, though a couple of teammates think you could have mentioned the work everyone put in.",
+					"stats": {
+						"life": {
+							"fun": 4,
+							"social": 3,
+							"energy": -1
+						},
+						"personality": {
+							"charisma": 2,
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"spotlight"
+					],
+					"set_flags": {
+						"enjoys_spotlight": true
+					}
+				},
+				{
+					"label": "Keep it low-key",
+					"result": "You tell the photographer it was just one kick and that there's plenty of work left to do. You avoid the spotlight, but some classmates read your answer as brushing off a moment they were excited to celebrate.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": -2,
+							"social": -1
+						},
+						"personality": {
+							"intelligence": 1,
+							"charisma": -1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"set_flags": {
+						"downplays_success": true
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_111",
