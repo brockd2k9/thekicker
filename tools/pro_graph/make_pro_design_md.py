@@ -71,7 +71,7 @@ ERA_ORDER = ["Era 1: Rookie (22-25)", "Era 2: Settled In (26-29)", "Era 3: Veter
              "Era 5: Grizzled Veteran (38-41)", "Era 6: Hall of Fame Era (42+)", "Across eras (state-driven)", "Epilogue (after retirement)"]
 L += ["", "| Era | Scenes | Written | Waits on R1 | R3 (money values) | R8 | R9 | R10 | Blocked (cannot be written yet) |", "|---|---|---|---|---|---|---|---|---|"]
 WRITTEN = set()
-for wf in ("pro_batch1", "pro_batch2", "pro_batch3", "pro_tone_check", "pro_tone_check2", "pro_tone_check3"):
+for wf in sorted(f[:-5] for f in os.listdir(os.path.join(HERE, "..", "authoring", "work")) if f.startswith(("pro_batch", "pro_tone_check")) and f.endswith(".json")):
     try:
         WRITTEN |= {s["id"] for s in json.load(open(os.path.join(HERE, "..", "authoring", "work", wf + ".json")))["scenarios"]}
     except OSError:

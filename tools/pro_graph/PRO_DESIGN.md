@@ -35,7 +35,7 @@ College flags set severity through locked choices.
 
 | Era | Scenes | Written | Waits on R1 | R3 (money values) | R8 | R9 | R10 | Blocked (cannot be written yet) |
 |---|---|---|---|---|---|---|---|---|
-| Era 1: Rookie (22-25) | 150 | 19 | 0 | 18 | 0 | 0 | 0 | 0 |
+| Era 1: Rookie (22-25) | 150 | 71 | 0 | 18 | 0 | 0 | 0 | 0 |
 | Era 2: Settled In (26-29) | 150 | 5 | 0 | 26 | 0 | 0 | 0 | 0 |
 | Era 3: Veteran (30-33) | 150 | 1 | 0 | 17 | 2 | 0 | 0 | 2 |
 | Era 4: Aging Veteran (34-37) | 150 | 1 | 0 | 14 | 0 | 2 | 0 | 2 |
