@@ -4587,9 +4587,8 @@
 		{
 			"id": "HS_125",
 			"title": "The Injury You Don't Mention",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "health",
+			"text": "A sharp pain has been catching in your kicking hip for two weeks, worst on the follow-through. You haven't told anyone, and Friday's game is the one everyone has circled.",
 			"stages": [
 				"high_school"
 			],
@@ -4629,7 +4628,73 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Tell the athletic trainer",
+					"result": "You walk into the training room and describe exactly where it hurts. The trainer cuts your kicking reps in half for a week and gives you a stretching routine, and the coaches start asking how you feel every day.",
+					"stats": {
+						"life": {
+							"health": 5,
+							"social": -1
+						},
+						"personality": {
+							"intelligence": 1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"skill_points": 1,
+					"set_flags": {
+						"reported_kicking_pain": true
+					}
+				},
+				{
+					"label": "Quietly cut back your reps",
+					"result": "You skip your extra kicks after practice and ice at home without saying why. The pain eases a little, but you're behind on your work and hoping nobody notices.",
+					"stats": {
+						"life": {
+							"health": 2,
+							"energy": 2,
+							"fun": 1
+						},
+						"personality": {
+							"ambition": -1
+						}
+					},
+					"modifiers": [
+						"distracted"
+					],
+					"skill_points": -1,
+					"set_flags": {
+						"secretly_reduced_training": true
+					}
+				},
+				{
+					"label": "Push through it",
+					"result": "You keep your full routine and wince through the follow-through when nobody's looking. Your leg still feels strong, but every kick ends with a flash of pain you can't ignore.",
+					"stats": {
+						"life": {
+							"health": -5,
+							"energy": -2
+						},
+						"football": {
+							"toughness": 1
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"sore"
+					],
+					"skill_points": 2,
+					"set_flags": {
+						"hid_injury": true
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_126",
@@ -4703,9 +4768,8 @@
 		{
 			"id": "HS_127",
 			"title": "The College Coach's Criticism",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "At a college camp, a special teams coach watches you kick and doesn't sugarcoat it: your get-off is slow, your misses all drift left, and you look nervous. He says he'll check back in a year.",
 			"stages": [
 				"high_school"
 			],
@@ -4719,7 +4783,53 @@
 				"motivated_by_criticism"
 			],
 			"authoring": {},
-			"choices": []
+			"choices": [
+				{
+					"label": "Ask him to show you",
+					"result": "You ask him to walk you through the film right there. It stings to watch your misses in slow motion, but you leave with two drills and a clear idea of what he wants to see.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"fun": -2
+						},
+						"personality": {
+							"intelligence": 2,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"recruiting": 2,
+					"skill_points": 3,
+					"set_flags": {
+						"accepted_recruiting_feedback": true
+					}
+				},
+				{
+					"label": "Use it as fuel",
+					"result": "You nod, say thanks and replay every word on the drive home. For weeks you kick with a chip on your shoulder, faster and angrier, though your aim gets streaky.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"fun": 1
+						},
+						"football": {
+							"power": 1
+						},
+						"personality": {
+							"ambition": 3
+						}
+					},
+					"modifiers": [
+						"pumped_up"
+					],
+					"skill_points": 2,
+					"set_flags": {
+						"motivated_by_criticism": true
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_128",
@@ -4745,9 +4855,8 @@
 		{
 			"id": "HS_129",
 			"title": "The First Paycheck",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "money",
+			"text": "Your first paycheck from your weekend job is more money than you've ever held. The same week, you hear {parent} on the phone about a car repair the family can't really afford.",
 			"stages": [
 				"high_school"
 			],
@@ -4774,7 +4883,54 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Save it for training",
+					"result": "You open a savings account and set the money aside for a kicking camp next summer. It feels grown-up, though you can't stop thinking about the phone call.",
+					"stats": {
+						"life": {
+							"energy": 1,
+							"fun": 1
+						},
+						"personality": {
+							"ambition": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"set_flags": {
+						"saved_first_paycheck": true
+					},
+					"rel": {
+						"parent": -2
+					}
+				},
+				{
+					"label": "Give it to {parent}",
+					"result": "You hand him the envelope at dinner. He tries to refuse, then hugs you a little too long, and the car gets fixed by the weekend.",
+					"stats": {
+						"life": {
+							"fun": -2,
+							"social": 2
+						},
+						"personality": {
+							"leadership": 2,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"set_flags": {
+						"helped_family_financially": true
+					},
+					"rel": {
+						"parent": 10
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_130",
@@ -4823,9 +4979,8 @@
 		{
 			"id": "HS_132",
 			"title": "The Unexpected Teammate",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "Jonah Pike, the quarterback you welcomed last year, shows up at your summer kicking session with a ball bag. He says he's been learning to hold, just in case, and asks if you want to try a few together.",
 			"stages": [
 				"high_school"
 			],
@@ -4866,14 +5021,57 @@
 					"new_qb"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Work with him all summer",
+					"result": "You spend three mornings a week on snaps and spots. By August Jonah's holds are clean, you're trading jokes on every rep, and you have a real friend on the offense.",
+					"stats": {
+						"life": {
+							"energy": -4,
+							"fun": 3,
+							"social": 3
+						},
+						"personality": {
+							"charisma": 1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"skill_points": 2,
+					"set_flags": {
+						"new_qb_friendship": true
+					}
+				},
+				{
+					"label": "Keep your routine solo",
+					"result": "You tell him thanks, but you work best alone and already have a holder. He shrugs it off, and the two of you stay friendly without getting much closer.",
+					"stats": {
+						"life": {
+							"energy": 1,
+							"social": -1
+						},
+						"personality": {
+							"ambition": 1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"skill_points": 1,
+					"set_flags": {
+						"new_qb_relationship_cool": true
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_133",
 			"title": "The Academic Scholarship",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "school",
+			"text": "Your guidance counselor pulls you aside: your grades put you in range for a state academic scholarship, but only if you keep them up and take the harder math class next semester. It would cover college no matter what happens with football.",
 			"stages": [
 				"high_school"
 			],
@@ -4894,7 +5092,46 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Sign up for the harder class",
+					"result": "You switch into the advanced class and start a study plan around practice. Some nights are long, but the counselor puts your name on the scholarship list.",
+					"stats": {
+						"life": {
+							"energy": -4,
+							"fun": -2
+						},
+						"personality": {
+							"intelligence": 3,
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"grades": 0.15,
+					"set_flags": {
+						"academic_scholarship_path": true
+					}
+				},
+				{
+					"label": "Keep your focus on football",
+					"result": "You thank the counselor and stay in your current classes. Your schedule stays manageable, and you keep betting on your leg.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"skill_points": 1
+				}
+			]
 		},
 		{
 			"id": "HS_134",
@@ -4978,9 +5215,8 @@
 		{
 			"id": "HS_135",
 			"title": "The Former College Kicker",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "training",
+			"text": "A guy who kicked at a college a few years back is home for the summer and offers to work with a few local kickers. After one session he says you have a good leg but no real plan.",
 			"stages": [
 				"high_school"
 			],
@@ -5002,14 +5238,57 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Fix the one thing he saw",
+					"result": "You spend every session on the hitch he spotted in your plant step. By the end of the summer it's gone, and your kicks fly straighter than they ever have.",
+					"stats": {
+						"life": {
+							"energy": -3
+						},
+						"football": {
+							"accuracy": 1
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 3,
+					"set_flags": {
+						"learned_technical_adjustment": true
+					}
+				},
+				{
+					"label": "Build a full program with him",
+					"result": "You sketch out a season-long plan together: lifting, flexibility, kicking volume and rest days. It's a lot to keep up with, but for the first time your training has a shape.",
+					"stats": {
+						"life": {
+							"energy": -4,
+							"health": 2
+						},
+						"personality": {
+							"ambition": 2,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"skill_points": 2,
+					"set_flags": {
+						"built_training_plan": true
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_136",
 			"title": "The Student Leader",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "school",
+			"text": "The student leadership program gives your group a real project: organize the spring food drive for the whole district. Everyone looks at you to run it, since you handled the committee last year.",
 			"stages": [
 				"high_school"
 			],
@@ -5042,14 +5321,52 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Take the lead",
+					"result": "You set deadlines, split the team into routes and spend two weekends sorting cans in the gym. The drive breaks the school record, and the principal reads your name at the assembly.",
+					"stats": {
+						"life": {
+							"energy": -6,
+							"social": 4
+						},
+						"personality": {
+							"leadership": 3,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"grades": 0.05,
+					"set_flags": {
+						"led_school_project": true
+					}
+				},
+				{
+					"label": "Help, but let someone else run it",
+					"result": "You volunteer for a route and leave the planning to another student. The drive goes fine, and you keep your weekends for kicking.",
+					"stats": {
+						"life": {
+							"energy": -1,
+							"social": 1
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"skill_points": 2
+				}
+			]
 		},
 		{
 			"id": "HS_137",
 			"title": "The Rival's Private Message",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "Late on a school night, Jonah Pike sends you a private message. College recruiters have started calling him, his dad keeps asking about offers, and he admits he can't sleep. Whatever's been between you two, he says you're the only one who'd get it.",
 			"stages": [
 				"high_school"
 			],
@@ -5084,7 +5401,49 @@
 					"new_qb"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Tell him how you handle it",
+					"result": "You write back for an hour about your own routine: one call a night, no checking offers before a game, and what you tell your family. He says it's the first time he's felt normal in weeks.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"social": 2
+						},
+						"personality": {
+							"leadership": 2,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"set_flags": {
+						"helped_rival_with_pressure": true
+					}
+				},
+				{
+					"label": "Use it to get in his head",
+					"result": "You reply that big-time recruiters watch everything and one bad game can end it. He goes quiet, and the next day at practice he looks rattled. You feel sharp for a day, then mostly guilty.",
+					"stats": {
+						"life": {
+							"energy": 1,
+							"fun": 1
+						},
+						"personality": {
+							"ambition": 2,
+							"leadership": -2,
+							"charisma": -1
+						}
+					},
+					"modifiers": [
+						"distracted"
+					],
+					"set_flags": {
+						"played_mind_games": true
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_138",
@@ -5310,9 +5669,8 @@
 		{
 			"id": "HS_143",
 			"title": "The Training Setback",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "health",
+			"text": "The first week of senior practice, your kicking hip flares up again, worse than before. The athletic trainer says it needs two weeks of real rest and rehab before you kick at full speed.",
 			"stages": [
 				"high_school"
 			],
@@ -5358,14 +5716,77 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Follow the rehab plan",
+					"result": "You do every stretch and band exercise and sit out full-speed kicking for two weeks. It's torture watching from the sideline, but you come back without the pain.",
+					"stats": {
+						"life": {
+							"health": 8,
+							"fun": -3,
+							"social": -1
+						},
+						"personality": {
+							"intelligence": 1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"skill_points": 1,
+					"set_flags": {
+						"committed_to_recovery": true
+					}
+				},
+				{
+					"label": "Ease back in early",
+					"result": "You do most of the rehab but start kicking again after one week because you can't stand waiting. The hip mostly holds up, though it aches after every practice.",
+					"stats": {
+						"life": {
+							"health": 2,
+							"energy": -1
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"sore"
+					],
+					"skill_points": 2,
+					"set_flags": {
+						"delayed_recovery": true
+					}
+				},
+				{
+					"label": "Ignore the trainer",
+					"result": "You tape it, take the field the next day and kick through it. Your leg still has its pop, but the pain is back by the weekend and worse than ever.",
+					"stats": {
+						"life": {
+							"health": -8,
+							"energy": -2
+						},
+						"personality": {
+							"ambition": 2,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"sore"
+					],
+					"skill_points": 3,
+					"set_flags": {
+						"ignored_recovery_advice": true
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_144",
 			"title": "The Captain's Responsibility",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "{coach} names you a special teams captain for your senior season. It comes with a say in the specialists' practice schedule, a spot at the coin toss, and the job of keeping the younger kickers on track.",
 			"stages": [
 				"high_school"
 			],
@@ -5403,7 +5824,55 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Lead by example",
+					"result": "You show up first, run the specialists' warmups and stay late with the freshmen. It costs you some of your own reps, but the unit starts to feel like yours.",
+					"stats": {
+						"life": {
+							"energy": -4,
+							"social": 3
+						},
+						"personality": {
+							"leadership": 3,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"set_flags": {
+						"accepted_team_leadership": true
+					},
+					"rel": {
+						"coach": 6
+					}
+				},
+				{
+					"label": "Make the role work for you",
+					"result": "You set the specialists' schedule around your own routine and hand the younger kickers the ball-shagging. Your practices get easier, but the freshmen stop asking you anything.",
+					"stats": {
+						"life": {
+							"energy": 3,
+							"social": -2
+						},
+						"personality": {
+							"ambition": 2,
+							"leadership": -3
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"skill_points": 2,
+					"set_flags": {
+						"abused_leadership_role": true
+					},
+					"rel": {
+						"coach": -4
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_145",
@@ -5711,9 +6180,8 @@
 		{
 			"id": "HS_150",
 			"title": "The First Serious Recruiting Conversation",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "A college coach sits down with you and {parent} after practice for the first real recruiting talk of your life. Before talking about a roster spot, the coach asks what you actually want from the next four years.",
 			"stages": [
 				"high_school"
 			],
@@ -5758,9 +6226,60 @@
 						"flag": "recruiting_values_clear",
 						"type": "unlock"
 					}
+				],
+				"people": [
+					"parent"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Say what matters to you",
+					"result": "You talk about wanting to play, wanting a degree that means something, and wanting to stay close enough for {parent} to make games. The coach takes notes and says it helps to know who they're recruiting.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"social": 2
+						},
+						"personality": {
+							"intelligence": 2,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"recruiting": 2,
+					"set_flags": {
+						"recruiting_values_clear": true
+					},
+					"rel": {
+						"parent": 5
+					}
+				},
+				{
+					"label": "Say what they want to hear",
+					"result": "You tell the coach you'd go anywhere, play any role and live in the weight room. The coach smiles and promises to stay in touch, though driving home you're not sure what you agreed to.",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"personality": {
+							"charisma": 2,
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"stressed"
+					],
+					"recruiting": 4,
+					"set_flags": {
+						"recruiting_said_what_they_wanted": true
+					},
+					"rel": {
+						"parent": -2
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_151",
@@ -5943,9 +6462,8 @@
 		{
 			"id": "HS_155",
 			"title": "The Recruiter Checks the Film",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "A college recruiter who has been following you calls with a question. What they've heard about you doesn't match the film they've seen, and they'd like you to explain the difference before their staff meeting.",
 			"stages": [
 				"high_school"
 			],
@@ -5992,7 +6510,69 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Send your real, full film",
+					"result": "You send every kick from the last season, misses included, with a short note. The recruiter thanks you for the honesty and says now they know what they're working with.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"personality": {
+							"leadership": 1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"recruiting": 1,
+					"set_flags": {
+						"corrected_recruiting_video": true
+					}
+				},
+				{
+					"label": "Explain the context",
+					"result": "You walk through what happened: a windy night, a new holder, a stretch where your timing was off. The recruiter listens and says they'll keep watching.",
+					"stats": {
+						"life": {
+							"energy": -1,
+							"social": 1
+						},
+						"personality": {
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"recruiting": 2,
+					"set_flags": {
+						"explained_recruiting_context": true
+					}
+				},
+				{
+					"label": "Stick to your story",
+					"result": "You insist the numbers are right and the film just doesn't show your best kicks. The call ends politely, but the recruiter stops returning your messages.",
+					"stats": {
+						"life": {
+							"energy": 1
+						},
+						"personality": {
+							"ambition": 1,
+							"intelligence": -1,
+							"leadership": -1
+						}
+					},
+					"modifiers": [
+						"stressed"
+					],
+					"recruiting": -3,
+					"set_flags": {
+						"doubled_down_recruiting_lie": true
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_156",
