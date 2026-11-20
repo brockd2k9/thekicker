@@ -85,13 +85,18 @@ except (OSError, ValueError):
 # Optional: skill points a choice awards (negative = practice skipped). Typical
 # +1 to +3, training choices +2 to +4 (WRITING_GUIDE.md).
 SKILL_POINTS_RANGE = (-2, 6)
+# Suspensions (games sat out): 1-3 everywhere; up to a full season (11) in the pros
+# (engine: suspend_max_weeks / suspend_max_weeks_pro). Over 3 is for a serious step.
+SUSPEND_MAX = 3
+SUSPEND_MAX_PRO = 11
+PRO_STAGES = {"pro", "free_agent"}
 REL_RANGE = (-15, 15)
 STATS_PER_CHOICE_WARN = 7
 TEXT_WARN_CHARS = 320
 WHEN_VALUES = {"season", "bye", "offseason"}
 CHOICE_FIELDS = {"label", "result", "stats", "modifiers", "set_flags", "rel", "requires", "lock_text",
                  "follow_up", "recruiting", "grades", "draft", "retention", "skill_points",
-                 "followers", "followers_exact", "conduct", "deal", "suspend_weeks"}
+                 "followers", "followers_exact", "conduct", "deal", "suspend_weeks", "recast"}
 SCENARIO_FIELDS = {"id", "title", "_info", "category", "text", "choices", "weight", "cooldown", "when",
                    "follow_up_only", "stages", "seasons", "weeks", "once", "once_per_club", "_note"}
 # Fields a template may set on a scenario that already exists (graph fields stay
@@ -151,6 +156,8 @@ def clean_choice(ch):
         out["conduct"] = ch["conduct"]
     if ch.get("deal") not in (None, {}, ""):
         out["deal"] = ch["deal"]
+    if ch.get("recast") not in (None, [], ""):
+        out["recast"] = ch["recast"]
     sf = {k: v for k, v in (ch.get("set_flags") or {}).items()}
     if sf:
         out["set_flags"] = sf
@@ -232,6 +239,7 @@ def main(argv=None):
     modifiers = {m["id"] for m in load(data_path("modifiers.json", data_dir))["modifiers"]}
     people_doc = load(data_path("people.json", data_dir))
     people = [p["id"] for p in people_doc["people"]]
+    cast_ids = set(people)
     blocked = load(data_path("content_rules.json", data_dir)).get("blocked_words", [])
     placeholders = set(people) | {"tyler", "club", "town"}
 
@@ -371,12 +379,41 @@ def main(argv=None):
                 if not isinstance(ch["followers_exact"], int) or isinstance(ch["followers_exact"], bool):
                     rep.add(sid, "ERROR", f"{w}: followers_exact must be a whole number (a raw follower count)")
                 n_stats += 1
+            stages = set((existing or e).get("stages") or [])
+            pro_only = bool(stages) and stages <= PRO_STAGES
             if "suspend_weeks" in ch:
                 v = ch["suspend_weeks"]
-                if not isinstance(v, int) or isinstance(v, bool) or not 1 <= v <= 3:
-                    rep.add(sid, "ERROR", f"{w}: suspend_weeks {v} must be a whole number 1-3 (games sat out)")
+                cap = SUSPEND_MAX_PRO if pro_only else SUSPEND_MAX
+                if not isinstance(v, int) or isinstance(v, bool) or not 1 <= v <= SUSPEND_MAX_PRO:
+                    rep.add(sid, "ERROR", f"{w}: suspend_weeks {v} must be a whole number 1-{SUSPEND_MAX_PRO} "
+                            f"(games sat out; over {SUSPEND_MAX} only in the pros)")
+                elif v > cap:
+                    rep.add(sid, "ERROR", f"{w}: suspend_weeks {v} is over {SUSPEND_MAX}, which only a scene that "
+                            f"plays only in the pros may use (stages {sorted(stages) or 'not set'})")
                 elif ch.get("conduct") not in ("bad", "scandal"):
                     rep.add(sid, "warning", f"{w}: suspend_weeks without conduct bad or scandal")
+                elif v > SUSPEND_MAX and ch.get("conduct") != "scandal" and not any(
+                        val for val in (ch.get("set_flags") or {}).values()):
+                    rep.add(sid, "warning", f"{w}: a suspension over {SUSPEND_MAX} weeks is for a serious step: "
+                            "give it conduct scandal or a flag later scenes read")
+            if "recast" in ch:
+                rc = ch["recast"]
+                if not isinstance(rc, list) or not rc or not all(isinstance(x, str) for x in rc):
+                    rep.add(sid, "ERROR", f"{w}: recast must be a list of cast ids, e.g. [\"love_interest\"]")
+                else:
+                    if len(set(rc)) != len(rc):
+                        rep.add(sid, "ERROR", f"{w}: recast lists the same person twice")
+                    for x in rc:
+                        if x == "team":
+                            rep.add(sid, "ERROR", f"{w}: recast can't replace 'team' (a group, not a person)")
+                        elif x not in cast_ids:
+                            rep.add(sid, "ERROR", f"{w}: recast '{x}' is not a cast id ({', '.join(sorted(cast_ids - {'team'}))})")
+                        elif x in (ch.get("rel") or {}):
+                            rep.add(sid, "warning", f"{w}: rel {x} and recast {x} in one choice: the rel change "
+                                    "goes to the person being replaced; give the new person their own scene")
+                    if not pro_only:
+                        rep.add(sid, "warning", f"{w}: recast is meant for the pros (Someone New); this scene "
+                                f"plays in {sorted(stages) or 'every stage'}")
             if "conduct" in ch and ch["conduct"] not in CONDUCTS:
                 rep.add(sid, "ERROR", f"{w}: conduct '{ch['conduct']}' must be good, bad or scandal")
             if "deal" in ch:

@@ -303,6 +303,9 @@ ENGINE_FLAGS = {"walk_on", "juco", "failed_tryouts", "fa_attempts", "recruiting_
                 "benched_for_tyler", "won_job_back", "lost_audition", "contract_year", "re_signed",
                 "released", "signed_new_club", "pro_clubs", "was_dismissed", "reputation_week",
                 "reputation_text", "dismissed"}
+# A choice's "recast": [id] sets recast_<id> (how many times that role was recast).
+ENGINE_FLAGS |= {"recast_" + p for p in ("coach", "holder", "backup", "teacher", "best_friend", "rival",
+                                          "parent", "sibling", "love_interest")}
 STAGE_ORDER = {"high_school": 0, "juco": 1, "college": 2, "pro": 3, "free_agent": 3}
 
 
