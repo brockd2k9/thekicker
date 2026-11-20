@@ -249,34 +249,29 @@
       "id": "PRO_292",
       "title": "The Kicker You Grew Up Watching",
       "category": "social",
-      "text": "The kicker whose poster hung in your bedroom is at your game, and asks to meet you.",
+      "text": "The kicker whose poster hung above your bed when you were ten is at your game, in a suite, and he sends word that he'd like to meet you after.",
       "choices": [
         {
           "label": "Meet him",
-          "result": "You meet him and tell him about the poster. He laughs and signs your shoe.",
+          "result": "A meeting in the tunnel after the game. You tell him about the poster, he laughs, and he signs your shoe like you're the fan.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
-          "rel": {
-            "team": 1
-          }
+          "followers": 1
         },
         {
           "label": "Ask him everything",
-          "result": "You ask him everything about how he lasted.",
+          "result": "How did he last so long, through all of it? You ask him everything, for an hour in the tunnel, and he answers every question honestly.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
               "resilience": 1
             },
@@ -290,18 +285,22 @@
         },
         {
           "label": "Shake his hand",
-          "result": "You shake his hand and say thank you.",
+          "result": "A handshake and a simple thank-you, nothing more. It's brief, and it's enough, and you call {parent} from the car on the way home.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 1
             },
             "football": {},
-            "personality": {}
+            "personality": {
+              "charisma": 1
+            }
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "parent": 1
+          }
         }
       ]
     },
@@ -309,11 +308,11 @@
       "id": "PRO_293",
       "title": "The Rule Change",
       "category": "training",
-      "text": "The league moves the extra-point line again, and the young kickers are thrilled.",
+      "text": "The league moves the extra-point line back again, the second time in your career. The young kickers in camp are thrilled about it; you've lived through this once already.",
       "choices": [
         {
           "label": "Adjust your training",
-          "result": "You adjust your training the next morning.",
+          "result": "New distances, added to every practice the next morning. By camp the new line feels normal, and the young kickers are surprised.",
           "stats": {
             "life": {
               "energy": -2
@@ -322,21 +321,22 @@
               "power": 1
             },
             "personality": {
-              "ambition": 2
+              "ambition": 1
             }
           },
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2
+          "skill_points": 2,
+          "rel": {
+            "holder": 1
+          }
         },
         {
           "label": "Study the change",
-          "result": "You study the change and find the edge.",
+          "result": "The change, studied properly: the angles, the wind off each end zone, the hash marks. You find the edge before anyone else in the league does.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {
               "accuracy": 1
             },
@@ -346,20 +346,18 @@
           },
           "modifiers": [
             "focused"
-          ],
-          "rel": {
-            "coach": 2
-          }
+          ]
         },
         {
           "label": "Wait and see",
-          "result": "You wait to see how it feels in camp.",
+          "result": "Wait until camp, you decide, and see how it feels with real snaps. It feels fine, and you're glad you didn't spend the summer worrying.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -372,11 +370,11 @@
       "id": "PRO_297",
       "title": "The Rookie Who Wears Your Number",
       "category": "media",
-      "text": "A rookie at another club wears your number and says you're the reason.",
+      "text": "A rookie at another club wears your number and tells a reporter you're the reason he started kicking. The clip is everywhere by morning, and your phone won't stop.",
       "choices": [
         {
           "label": "Call him",
-          "result": "You call him and wish him luck. He's speechless.",
+          "result": "Your call reaches him on his cell, and he's speechless for ten full seconds. You wish him luck, and he calls you every season after.",
           "stats": {
             "life": {
               "social": 2
@@ -390,40 +388,35 @@
             "loose"
           ],
           "rel": {
-            "team": 1
+            "rival": 1
           },
           "followers": 2
         },
         {
           "label": "Send him a note",
-          "result": "You send him a note with the best advice you ever got.",
+          "result": "The best advice you ever got, written on a card and mailed to his locker. He tapes it inside, he says, forever.",
           "stats": {
-            "life": {
-              "energy": -2,
-              "social": 1
-            },
+            "life": {},
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 2,
+              "intelligence": 1
             }
           },
           "modifiers": [
             "inspired"
-          ],
-          "skill_points": 1,
-          "rel": {
-            "team": 2
-          }
+          ]
         },
         {
-          "label": "Smile",
-          "result": "You smile and keep it to yourself.",
+          "label": "Smile and keep it",
+          "result": "A smile, kept to yourself, and the clip watched twice. You don't reach out, and it stays with you all week.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -436,7 +429,7 @@
       "id": "PRO_299",
       "title": "The Coach You Outlasted",
       "category": "team",
-      "text": "The head coach who drafted you is fired after a bad season. You've outlasted him. It doesn't feel like a win.",
+      "text": "The head coach who drafted you is fired after a bad season, in a short statement on a Monday. You've outlasted him. It doesn't feel like a win at all.",
       "choices": [
         {
           "label": "Call him",
@@ -445,10 +438,10 @@
             "life": {
               "social": 2
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -462,12 +455,11 @@
           "result": "You steady the room the next morning, before the rumors start. The new coach hears about it before you meet him.",
           "stats": {
             "life": {
-              "energy": -2,
-              "social": 1
+              "energy": -1
             },
             "football": {},
             "personality": {
-              "leadership": 2
+              "leadership": 3
             }
           },
           "modifiers": [
@@ -480,14 +472,15 @@
         },
         {
           "label": "Keep going",
-          "result": "You keep going, because that's the business. You keep his old playbook on a shelf at home.",
+          "result": "You keep going, because that's the business, and you've seen it before. You keep his old playbook on a shelf at home, though.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 2
             },
             "football": {},
-            "personality": {}
+            "personality": {
+              "intelligence": 1
+            }
           },
           "modifiers": [
             "rested"
@@ -499,11 +492,11 @@
       "id": "PRO_319",
       "title": "Ten Years",
       "category": "career",
-      "text": "Ten years in the league. The pension kicks in, and so does the question of how many more.",
+      "text": "Ten years in the league. The pension kicks in, the club gives you a watch, and the question arrives with it, uninvited: how many more?",
       "choices": [
         {
           "label": "Go for more",
-          "result": "You decide you're not done. Not even close.",
+          "result": "Not done, not close. You tell {coach} and your agent the same thing, and you start the eleventh year angrier than the first.",
           "stats": {
             "life": {
               "energy": -2
@@ -521,41 +514,40 @@
           "skill_points": 2
         },
         {
-          "label": "Plan the next five",
-          "result": "You plan the next five years with your agent and your family.",
+          "label": "Plan the next five years",
+          "result": "The next five years, planned with your agent and your family at the kitchen table. Everyone breathes easier, including you.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
+            "life": {},
             "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
           ],
           "rel": {
-            "coach": 2
+            "parent": 1
           }
         },
         {
           "label": "Celebrate with the people who got you here",
-          "result": "You celebrate with everyone who got you here.",
+          "result": "A party for everyone who got you here: coaches, holders, {parent}, {best_friend}. The watch goes around the room twice, and {parent} cries.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
-            "parent": 4
+            "parent": 3,
+            "best_friend": 2
           }
         }
       ]
@@ -694,53 +686,53 @@
       "id": "PRO_393",
       "title": "The Family Schedule",
       "category": "family",
-      "text": "Your kids' games and your schedule are in a war you keep losing.",
+      "text": "Your kids' games and your schedule are in a war you keep losing: soccer on Saturdays, recitals on Thursdays, and a road trip every other weekend of the fall.",
       "choices": [
         {
           "label": "Make every game you can",
-          "result": "You make every game you can, even if it means a red-eye.",
+          "result": "Every game you can make, even if it means a red-eye and a nap in the car. The kids look for you in the stands, and find you more often than not.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "energy": -3
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
-            "love_interest": 5
+            "love_interest": 3,
+            "parent": 1
           }
         },
         {
-          "label": "Plan the season together",
-          "result": "You plan the season together on a big calendar.",
+          "label": "Plan the season on one calendar",
+          "result": "One big calendar on the kitchen wall, with every game, recital and road trip in different colors. It's chaos made visible, and it helps.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "rel": {
+            "parent": 1
+          }
         },
         {
-          "label": "Watch the videos",
-          "result": "You watch the videos after practice. It's not the same.",
+          "label": "Watch the videos after practice",
+          "result": "The videos, watched in the locker room after practice, every one. It's not the same, and the kids know it, and they send them anyway.",
           "stats": {
-            "life": {
-              "energy": -2
+            "life": {},
+            "football": {
+              "resilience": 1
             },
-            "football": {},
             "personality": {
               "ambition": 2
             }
@@ -748,7 +740,10 @@
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2
+          "skill_points": 1,
+          "rel": {
+            "love_interest": -1
+          }
         }
       ]
     },

@@ -626,37 +626,37 @@
       "id": "PRO_406",
       "title": "The Family Business Dispute",
       "category": "money",
-      "text": "A business with relatives in it is turning into a family fight.",
+      "text": "A business with relatives in it is turning into a family fight: a cousin wants to expand, an uncle wants out, and everyone wants you to decide at Thanksgiving.",
       "choices": [
         {
           "label": "Bring in a mediator",
-          "result": "You bring in a mediator. It's expensive and it works.",
+          "result": "A professional mediator, hired before the holiday. It's expensive and it works, and Thanksgiving is merely awkward instead of explosive.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "rel": {
+            "parent": 1
+          }
         },
         {
-          "label": "Step back",
-          "result": "You step back from the business and keep the family.",
+          "label": "Step back from the business",
+          "result": "Out of the business, and into the family. You sell your share to the cousin, and dinner that year is the warmest in years.",
           "stats": {
             "life": {
               "social": 2
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -666,21 +666,26 @@
           }
         },
         {
-          "label": "Take charge",
-          "result": "You take charge. It's a lot of work, and a few people are mad.",
+          "label": "Take charge of it",
+          "result": "In charge, for a season, making the hard calls yourself. It's a lot of work, the business steadies, and a few people stay mad.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -3
             },
-            "football": {},
+            "football": {
+              "toughness": 1
+            },
             "personality": {
-              "ambition": 2
+              "ambition": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
-            "dialed_in"
+            "stressed"
           ],
-          "skill_points": 2
+          "rel": {
+            "parent": -1
+          }
         }
       ]
     },

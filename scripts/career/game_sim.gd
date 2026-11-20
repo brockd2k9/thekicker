@@ -2,8 +2,9 @@ class_name GameSim
 extends RefCounted
 ## One career game, simulated drive by drive while you watch from the bench.
 ## The screen pulls events with next():
-##   {"type": "play", "text", "elapsed", "poss"}  play-by-play line ("poss":
-##                                             who has the ball, see possession)
+##   {"type": "play", "text", "elapsed", "poss", "key", "vars"}  play-by-play
+##       line ("poss": who has the ball; "key"/"vars": the play line's key and
+##       numbers, e.g. "gain_us" {"yards": 12}, for the field tracker)
 ##   {"type": "warmup", "spot", "elapsed"}     offense in range: warm up on the net?
 ##   {"type": "call", "kind": "fg"/"pat"/"kickoff"/"onside", "yards",
 ##    "pressure", "label", "wind", "gust", "elapsed"}  coach sends you in
@@ -170,7 +171,7 @@ func resolve_call(result: Dictionary) -> void:
 			_their_next_start = int(result.get("start_spot", 0))
 			if result.has("result"):
 				entry["outcome"] = str(result["result"])
-			_text(entry["result"])
+			_text(entry["result"], "kickoff_result", {"spot": _their_next_start})
 		"onside":
 			var rec := bool(result.get("recovered", false))
 			entry["recovered"] = rec
@@ -361,7 +362,7 @@ func _push_call(kind: String, yards: int = 0) -> void:
 		e["wind"] = _kick_wind()
 		e["gust"] = 0.0
 	if kind == "fg" and backup_fg:
-		_text("%s jogs on for the field goal." % backup_name)
+		_text("%s jogs on for the field goal." % backup_name, "fg_backup", {"yards": yards})
 		_waiting = e
 		resolve_call({"made": _rng.randf() < backup_make})
 		return
@@ -412,12 +413,18 @@ func _line(key: String, extra: Dictionary = {}) -> void:
 	vars.merge(extra, true)
 	var t := CareerContent.play_line(key, vars, _rng)
 	if t != "":
-		_text(t)
+		_text(t, key, extra)
 
 
-func _text(t: String) -> void:
-	_queue.append({"type": "play", "text": t, "elapsed": elapsed, "us": score_us, "them": score_them,
-		"poss": possession})
+## A play-by-play line. key / vars (the play line's key and its numbers, e.g.
+## "gain_us" {"yards": 12}) are for the field tracker (FieldModel); display only.
+func _text(t: String, key := "", vars: Dictionary = {}) -> void:
+	var e := {"type": "play", "text": t, "elapsed": elapsed, "us": score_us, "them": score_them,
+		"poss": possession}
+	if key != "":
+		e["key"] = key
+		e["vars"] = vars.duplicate()
+	_queue.append(e)
 
 
 func _name() -> String:

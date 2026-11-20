@@ -5,36 +5,35 @@
       "id": "PRO_733",
       "title": "The Kicking Records Board",
       "category": "career",
-      "text": "Your name goes up on the club's kicking records board.",
+      "text": "Your name goes up on the club's kicking records board in the hallway, above two legends. The equipment manager screws in the plaque while you watch.",
       "choices": [
         {
-          "label": "Bring {holder}",
-          "result": "You bring {holder} to see it. Their name should be there too.",
+          "label": "Bring {holder} to see it",
+          "result": "{holder}, brought to see it, because their name should be there too. {holder} pretends not to care and takes a photo.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
             "holder": 4
           }
         },
         {
-          "label": "Aim for more",
-          "result": "You look at the next name on the list.",
+          "label": "Aim for the next name",
+          "result": "The next name on the list, noted carefully. It's three good kicks away, and you start counting them in practice.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -1
             },
             "football": {
-              "resilience": 1
+              "accuracy": 1
             },
             "personality": {
               "ambition": 2
@@ -43,14 +42,17 @@
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2
+          "skill_points": 1,
+          "rel": {
+            "coach": 1
+          }
         },
         {
-          "label": "Take a picture",
-          "result": "You take a picture for {parent}.",
+          "label": "Take a picture for {parent}",
+          "result": "A photo of the plaque, sent to {parent}, who prints it out and puts it next to your peewee trophy on the mantel.",
           "stats": {
             "life": {
-              "energy": 2,
+              "energy": 1,
               "fun": 1
             },
             "football": {},
@@ -58,7 +60,10 @@
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "parent": 3
+          }
         }
       ]
     },
@@ -313,19 +318,18 @@
       "id": "PRO_738",
       "title": "Baby Number Two",
       "category": "family",
-      "text": "A second child, and the house feels half its size. Everyone is tired, nobody is sleeping, and the season starts in three weeks.",
+      "text": "A second child, and the house feels half its size. Everyone is tired, nobody is sleeping, the dog is confused, and the season starts in three weeks.",
       "choices": [
         {
           "label": "Take the night shift",
           "result": "You take the night shifts on your off days. You're exhausted at practice and closer to {love_interest} than you've been in years.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "energy": -3
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -338,26 +342,26 @@
           "label": "Make a plan",
           "result": "You make a plan for the season, down to who sleeps when. It works about half the time, which is better than nothing.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "rel": {
+            "parent": 1
+          }
         },
         {
           "label": "Ask the grandparents",
           "result": "You ask the grandparents to come for a month. Everyone sleeps, and the house is loud and full in the best way.",
           "stats": {
             "life": {
-              "energy": 2,
+              "energy": 3,
               "fun": 1
             },
             "football": {},
@@ -365,7 +369,10 @@
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "rel": {
+            "parent": 3
+          }
         }
       ]
     },
@@ -373,22 +380,21 @@
       "id": "PRO_739",
       "title": "The School Play",
       "category": "family",
-      "text": "Your kid's school play is the night before a road game.",
+      "text": "Your kid's school play is the night before a road game. They're playing a tree, with two lines, and they've practiced them on you every night for a month.",
       "choices": [
         {
           "label": "Go to the play",
-          "result": "You go to the play and catch a late flight.",
+          "result": "The play, front row, and a late flight to join the team. You know both lines by heart, and you mouth them along.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "energy": -2
             },
             "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
             "love_interest": 5
@@ -396,16 +402,14 @@
         },
         {
           "label": "Watch the dress rehearsal",
-          "result": "You watch the dress rehearsal instead.",
+          "result": "The dress rehearsal, the afternoon before, front row of an empty gym. Your kid performs the tree just for you.",
           "stats": {
             "life": {
-              "energy": -1
+              "fun": 2
             },
-            "football": {
-              "resilience": 1
-            },
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 1
             }
           },
           "modifiers": [
@@ -413,13 +417,13 @@
           ]
         },
         {
-          "label": "Watch the video",
-          "result": "You watch the video on the plane, twice. Your kid forgives you faster than you forgive yourself.",
+          "label": "Watch the video on the plane",
+          "result": "The video, on the plane, twice. Your kid forgives you faster than you forgive yourself, and you never miss the next play.",
           "stats": {
-            "life": {
-              "energy": -2
+            "life": {},
+            "football": {
+              "resilience": 1
             },
-            "football": {},
             "personality": {
               "ambition": 2
             }
@@ -427,7 +431,7 @@
           "modifiers": [
             "dialed_in"
           ],
-          "skill_points": 2
+          "skill_points": 1
         }
       ]
     },
@@ -435,39 +439,35 @@
       "id": "PRO_740",
       "title": "The Parent-Teacher Conference",
       "category": "family",
-      "text": "You go to your first parent-teacher conference and get recognized by the teacher.",
+      "text": "You go to your first parent-teacher conference, in a tiny chair, and the teacher recognizes you immediately and asks for an autograph for her nephew.",
       "choices": [
         {
-          "label": "Laugh about it",
-          "result": "You laugh about it and focus on your kid.",
+          "label": "Laugh and focus on your kid",
+          "result": "An autograph, a laugh, and then forty minutes about your kid's reading. You learn things about your own kid you never knew.",
           "stats": {
             "life": {
-              "social": 2
+              "social": 2,
+              "fun": 1
             },
             "football": {},
             "personality": {
+              "intelligence": 1,
               "charisma": 1
             }
           },
           "modifiers": [
             "loose"
-          ],
-          "rel": {
-            "love_interest": 3
-          }
+          ]
         },
         {
           "label": "Ask good questions",
-          "result": "You ask good questions. The teacher forgets you kick.",
+          "result": "Good questions, carefully asked, all of them about your kid and none about you. The teacher forgets you kick by the third question.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -476,13 +476,15 @@
         },
         {
           "label": "Keep it short",
-          "result": "You keep it short and leave with a list of spelling words.",
+          "result": "A short meeting, and you leave with a list of spelling words to practice. Your kid is thrilled you came at all.",
           "stats": {
             "life": {
               "energy": 2,
-              "fun": 1
+              "fun": 2
             },
-            "football": {},
+            "football": {
+              "resilience": 1
+            },
             "personality": {}
           },
           "modifiers": [
@@ -495,39 +497,36 @@
       "id": "PRO_741",
       "title": "The Family Dog",
       "category": "family",
-      "text": "The family dog is getting old, and the kids are asking questions.",
+      "text": "The family dog is getting old: slow on walks, gray in the face, sleeping by the door. The kids have started asking questions you don't know how to answer.",
       "choices": [
         {
           "label": "Answer honestly",
-          "result": "You answer honestly. It's a hard and good talk.",
+          "result": "Honest answers, at the kitchen table, about getting old and saying goodbye. It's a hard talk and a good one.",
           "stats": {
             "life": {
               "social": 2
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
           },
           "modifiers": [
-            "loose"
+            "inspired"
           ],
           "rel": {
-            "love_interest": 4
+            "sibling": 1
           }
         },
         {
           "label": "Find a good book",
-          "result": "You find a good book about it and read it together.",
+          "result": "A good book about it, found by you and read together at bedtime, twice. The kids ask better questions after.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
@@ -535,12 +534,12 @@
           ]
         },
         {
-          "label": "Spend the time",
-          "result": "You spend more time with the dog. The kids join you on the slow walks.",
+          "label": "Spend time with the dog",
+          "result": "More time with the old dog: slow walks, long naps, the good treats. The kids join you on every walk.",
           "stats": {
             "life": {
-              "energy": 2,
-              "fun": 1
+              "energy": 1,
+              "fun": 2
             },
             "football": {},
             "personality": {}
@@ -564,10 +563,10 @@
             "life": {
               "social": 2
             },
-            "football": {},
-            "personality": {
-              "charisma": 1
-            }
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
           },
           "modifiers": [
             "loose"
@@ -580,26 +579,26 @@
           "label": "Make it work together",
           "result": "You sit down with a calendar and make a plan that works for both careers. It's complicated and fair, and it holds.",
           "stats": {
-            "life": {
-              "energy": -1
-            },
-            "football": {
-              "resilience": 1
-            },
+            "life": {},
+            "football": {},
             "personality": {
-              "intelligence": 2
+              "intelligence": 2,
+              "leadership": 1
             }
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "rel": {
+            "love_interest": 2
+          }
         },
         {
           "label": "Ask them to wait",
           "result": "You ask them to wait a year, until your contract is settled. They agree, and something goes quiet between you.",
           "stats": {
             "life": {
-              "energy": -2
+              "energy": -1
             },
             "football": {},
             "personality": {
