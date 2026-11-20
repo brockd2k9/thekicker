@@ -253,6 +253,23 @@ bug and the one over the kick scene bind to it. A kick updates the score and str
 judged; changes flash. In the kick scene the HUD keeps the top clear for it
 (`Hud.make_room_for_score_bug`). Abbreviations: each team's `short` field, or one made from its name.
 
+**Field tracker (career game screen):** `scenes/ui/field_tracker.tscn` (`FieldTracker`) is a compact
+top-down strip of the field under the score bug, sized to the screen width (height about 30% of the
+width, at most 16% of the screen). End zones in team colors with the names written vertically (away
+left, home right, all game; the offense attacks the other end, so direction flips with possession),
+striped turf with faint yard numbers, the ball (tweened between plays), the line of scrimmage (red)
+and first-down line (yellow), a drive bar in the offense's color with an arrow, field goal range
+shaded when the offense is in it, and a gold frame with the distance when it's your kick. Under it:
+an info bar ("1st & 10 ball on OAK 37", timeouts at the edges) and the last play with a type tag
+(RUSH, PASS, PUNT, FG, XP, KICKOFF, TURNOVER, TD, TIMEOUT). It reads a `FieldState`
+(`scripts/ui/field_state.gd`, signals only, no polling) that `FieldModel`
+(`scripts/career/field_model.gd`) fills from `GameSim`'s events. The sim plays drives, not single
+plays, so the model builds the field picture from the sim's own numbers (drive start spots, gains,
+the warmup's "opponent 32", your kick's distance, kickoff start spots, TDs / punts / turnovers);
+timeouts are 3 per team per half, used to ice your clutch kicks and by a trailing offense late in a
+half. Display only: it never changes the sim (a test plays the same seeded game with and without it).
+Play events carry their play line's key and numbers (`"key"`, `"vars"`) for it. Nothing is saved.
+
 **Layout checker:** `tools/ui_check.tscn` opens every screen in a real state (it plays a
 career forward with the real rules) and checks tap targets (>= 88 px), cut-off text and
 anything off screen. Run it at the four window shapes (needs a window, not `--headless`;
