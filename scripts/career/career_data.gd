@@ -157,6 +157,13 @@ var maintained: Dictionary = {}
 ## Your last field goal attempts, oldest first (true = made). KickTrust's
 ## "too many misses" window; kept across games and seasons.
 var recent_fg: Array = []
+## Your last field goals for the bad-stretch check (KickTrust; newest last),
+## and weeks until a bad stretch can cost trust again.
+var fg_history: Array = []
+var stretch_cooldown: int = 0
+## This season's skill points by source ("Field goals made", "Practice", ...),
+## saved into each season's history (balance simulator).
+var sp_sources: Dictionary = {}
 ## Coach doubt after a slump: {weeks_left, reason}. Empty = none.
 var coach_doubt: Dictionary = {}
 ## This week's Coach / Team changes from your kicks: {coach, team, lines: [text]}.
@@ -330,6 +337,9 @@ func to_dict() -> Dictionary:
 		"perks": perks.duplicate(),
 		"maintained": maintained.duplicate(),
 		"recent_fg": recent_fg.duplicate(),
+		"fg_history": fg_history.duplicate(),
+		"stretch_cooldown": stretch_cooldown,
+		"sp_sources": sp_sources.duplicate(),
 		"coach_doubt": coach_doubt.duplicate(),
 		"trust_week": trust_week.duplicate(true),
 	}
@@ -421,6 +431,12 @@ static func from_dict(d: Dictionary) -> CareerData:
 		c.maintained[str(k)] = int(mt[k])
 	for b in _array(d, "recent_fg"):
 		c.recent_fg.append(bool(b))
+	for b in _array(d, "fg_history"):
+		c.fg_history.append(bool(b))
+	c.stretch_cooldown = maxi(_num(d, "stretch_cooldown"), 0)
+	var src := _dict(d, "sp_sources")
+	for k in src:
+		c.sp_sources[str(k)] = _num(src, k)
 	c.coach_doubt = _dict(d, "coach_doubt")
 	c.trust_week = _dict(d, "trust_week")
 	for id in _dict(d, "people"):

@@ -250,6 +250,9 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## game-day range minus this margin (plus the coach relationship and minus
 ## coach doubt, group "Relationships").
 @export var coach_range_margin_yd: float = 2.0
+## Each field goal chance moves the coach's limit up or down this many yards
+## (never past today's range).
+@export var coach_call_random_yd: int = 2
 ## Situation pressure by quarter (Q1..Q4).
 @export var quarter_pressure: PackedFloat32Array = PackedFloat32Array([0.1, 0.2, 0.3, 0.45])
 ## Extra pressure in a one-score game in the 4th quarter.
@@ -448,6 +451,8 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var rel_teacher_gpa_grace: float = 0.1
 ## Team standing (your teammates' trust): pressure sensitivity change at 100.
 @export var rel_team_pressure: float = -0.08
+## The Team: weekly Social drift at 100 (like the best friend), reversed at 0.
+@export var rel_team_social: float = 1.0
 ## Trust (coach recommendation): rel_trust_coach_weight * Coach + the rest * Team.
 ## Recruiting uses it in the final high school / junior college season (the
 ## rec_high / rec_low thresholds above); the draft gets up to +/- rel_draft_rec
@@ -492,6 +497,18 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## Resilience 100 (0.3 = 30% more), and double while the coach doubts you.
 @export var kick_recovery_resilience: float = 0.3
 @export var kick_doubt_make_mult: float = 2.0
+## --- Bad stretch ---
+## Under stretch_pct over your last stretch_window field goals (at least
+## stretch_min_att): Coach and Team lose trust, this stage's progress score
+## (recruiting / draft / retention) drops, flag coach_lost_faith; then not
+## again for stretch_cooldown_weeks.
+@export var stretch_window: int = 10
+@export var stretch_min_att: int = 8
+@export_range(0.0, 1.0) var stretch_pct: float = 0.5
+@export var stretch_coach: float = -8.0
+@export var stretch_team: float = -3.0
+@export var stretch_progress: float = -2.0
+@export var stretch_cooldown_weeks: int = 5
 
 ## --- Too many misses (coach doubt) ---
 ## Window: your last kick_window field goal attempts (across games).
@@ -533,6 +550,8 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export_range(0.0, 1.0) var sp_great_season_pct: float = 0.9
 ## Offseason training (once between seasons).
 @export var sp_offseason: int = 10
+## Sideline warmups (game_day.json "skill_points"): at most this many a game day.
+@export var sp_warmup_max_per_game: int = 1
 ## Scenario choices' "skill_points" are multiplied by this.
 @export var sp_scenario_scale: float = 1.0
 ## Scenario choices still change football stats directly ("stats": {"football"});

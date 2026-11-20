@@ -209,6 +209,7 @@ static func weekly_growth(c: CareerData, t: CareerTuning) -> Dictionary:
 		if known(c, id):
 			_add(g, "fun", t.rel_friend_fun * lean(c, id))
 			_add(g, "social", t.rel_friend_social * lean(c, id))
+	_add(g, "social", t.rel_team_social * lean(c, TEAM))
 	if known(c, TYLER) and lean(c, TYLER) < 0.0:
 		for s in CareerData.GROUP_KEYS[CareerData.FOOTBALL]:
 			_add(g, s, t.rel_tyler_rival_growth * -lean(c, TYLER))

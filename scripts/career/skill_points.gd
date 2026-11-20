@@ -20,6 +20,7 @@ static func earn(c: CareerData, n: int, text: String) -> void:
 	c.skill_points += n
 	c.sp_season += n
 	c.sp_career += n
+	c.sp_sources[text] = int(c.sp_sources.get(text, 0)) + n
 	for e in c.sp_week:
 		if str(e.get("text", "")) == text:
 			e["sp"] = int(e.get("sp", 0)) + n
@@ -36,6 +37,7 @@ static func from_choice(c: CareerData, n: float, t: CareerTuning) -> int:
 	elif v < 0:
 		v = -mini(-v, c.skill_points)
 		c.skill_points += v
+		c.sp_sources["Choices"] = int(c.sp_sources.get("Choices", 0)) + v
 	return v
 
 

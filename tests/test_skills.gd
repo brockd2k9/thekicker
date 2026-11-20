@@ -370,3 +370,81 @@ func test_frozen_v4_save_loads_unchanged() -> void:
 	eq(JSON.stringify(c.to_dict()["sp_upgrades"]), JSON.stringify(raw["sp_upgrades"]), "upgrades kept")
 	var again := CareerData.from_dict(CareerSave._migrate(c.to_dict()))
 	eq(JSON.stringify(again.to_dict()), JSON.stringify(c.to_dict()), "v4 round trip")
+
+
+# --- ported: coach limit in the game sim, bad stretch, Team drift, warmups, SP sources ---
+
+func test_game_sim_respects_the_coach_limit() -> void:
+	var c := _career()
+	var e := {"week": 1, "type": "regular", "home": true, "weather": {"wind": 0},
+		"opponent": Progression.team_from(CareerContent.high_schools()[1], "high_school")}
+	var longest := 0
+	var fgs := 0
+	for seed in 60:
+		var sim := GameSim.new()
+		sim.setup(c, e, t, seed, 35, {"call_random_yd": 2, "call_cap_yd": 36})
+		for i in 2000:
+			var ev := sim.next()
+			if ev.get("type", "") == "end":
+				break
+			if ev.get("type", "") == "call":
+				if ev["kind"] == "fg":
+					fgs += 1
+					longest = maxi(longest, int(ev["yards"]))
+				sim.resolve_call({"made": true, "quality": 0.5, "carry": 50.0, "recovered": false})
+	check(fgs > 20, "field goals were called (%d)" % fgs)
+	check(longest <= 36, "never past the limit + 2, capped at the range (longest %d)" % longest)
+
+
+func _fg(made: bool) -> Dictionary:
+	return {"kind": "fg", "made": made, "yards": 35, "q": 2, "us": 7, "them": 7, "label": "", "pressure": 0.2}
+
+
+func test_bad_stretch() -> void:
+	var c := _career()
+	var kicks: Array = []
+	for made in [true, false, true, false, false, false, true, false, false, true]:  # 4 of 10
+		kicks.append(_fg(made))
+	var before := c.recruiting_score
+	var coach_before := Relationships.value(c, "coach")
+	var team_before := Relationships.value(c, Relationships.TEAM)
+	check(KickTrust._bad_stretch(c, kicks, t), "under 50% over 10")
+	check(c.flags.get("coach_lost_faith", false), "flag")
+	eq(Relationships.value(c, "coach"), coach_before + t.stretch_coach, "Coach -8")
+	eq(Relationships.value(c, Relationships.TEAM), team_before + t.stretch_team, "Team -3")
+	eq(c.recruiting_score, maxf(before + t.stretch_progress, 0.0), "recruiting -2")
+	eq(c.stretch_cooldown, t.stretch_cooldown_weeks, "then a 5-week rest")
+	check(not KickTrust._bad_stretch(c, [_fg(false)], t), "not again during the rest")
+	for i in t.stretch_cooldown_weeks:
+		KickTrust.end_week(c)
+	eq(c.stretch_cooldown, 0, "rest over")
+	var d := _career()
+	check(not KickTrust._bad_stretch(d, [_fg(false), _fg(false), _fg(false)], t), "too few attempts")
+	var col := _career()
+	col.stage = CareerData.STAGE_COLLEGE
+	col.draft_score = 20.0
+	KickTrust._bad_stretch(col, kicks, t)
+	eq(col.draft_score, 20.0 + t.stretch_progress, "college: draft stock -2")
+
+
+func test_team_social_drift() -> void:
+	var c := _career()
+	Relationships.apply(c, {Relationships.TEAM: 50})
+	eq(float(Relationships.weekly_growth(c, t).get("social", 0.0)), t.rel_team_social, "Team at 100: +1 Social a week")
+	Relationships.apply(c, {Relationships.TEAM: -100})
+	eq(float(Relationships.weekly_growth(c, t).get("social", 0.0)), -t.rel_team_social, "Team at 0: -1")
+
+
+func test_warmup_sp_cap_and_sources() -> void:
+	var c := _career()
+	var m := CareerManager.new(c, t)
+	m._start_season(false)
+	m.data.phase = CareerManager.PHASE_GAME
+	var sp0 := c.skill_points
+	m.finish_game({"outcome": "W", "us": 14, "them": 7, "kicks": [], "warmups": ["pure", "pure"]})
+	eq(int(c.sp_sources.get("Sideline warmup", 0)), t.sp_warmup_max_per_game, "two pure warmups: capped at 1")
+	check(c.skill_points > sp0, "SP earned")
+	var total := 0
+	for k in c.sp_sources:
+		total += int(c.sp_sources[k])
+	eq(total, c.sp_season, "every SP this season has a source")

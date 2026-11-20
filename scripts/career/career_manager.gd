@@ -336,8 +336,12 @@ func start_game() -> int:
 ## A GameSim for this week's game (fresh, from the checkpoint seed).
 func new_game_sim(kt: KickTuning) -> GameSim:
 	var sim := GameSim.new()
-	var max_fg := KickTrust.coach_limit(data, profile(), tuning)
-	sim.setup(data, entry(), tuning, start_game(), max_fg, Progression.game_params(data, tuning))
+	var p := profile()
+	var max_fg := KickTrust.coach_limit(data, p, tuning)
+	var params := Progression.game_params(data, tuning)
+	params["call_random_yd"] = tuning.coach_call_random_yd
+	params["call_cap_yd"] = floori(p.fg_range + 0.001)
+	sim.setup(data, entry(), tuning, start_game(), max_fg, params)
 	return sim
 
 
@@ -404,9 +408,12 @@ func finish_game(summary: Dictionary) -> void:
 	var trust := KickTrust.apply_game(data, summary.get("kicks", []), range, tuning)
 	for pair in SkillPoints.from_game(summary.get("kicks", []), range, tuning):
 		SkillPoints.earn(data, int(pair[1]), str(pair[0]))
+	# Sideline warmups: at most sp_warmup_max_per_game skill points a game day.
 	var warm_res: Dictionary = CareerContent.game_day().get("warmup", {}).get("results", {})
+	var warm_sp := 0
 	for w in summary.get("warmups", []):
-		SkillPoints.earn(data, int(warm_res.get(str(w), {}).get("skill_points", 0)), "Sideline warmup")
+		warm_sp += int(warm_res.get(str(w), {}).get("skill_points", 0))
+	SkillPoints.earn(data, mini(warm_sp, tuning.sp_warmup_max_per_game), "Sideline warmup")
 	_week_practice()
 	var line := _record_kicks(summary.get("kicks", []))
 	var e := entry()
@@ -576,7 +583,7 @@ func end_season() -> void:
 	var h := {"stage": data.stage, "season": data.season, "season_in_stage": data.season_in_stage,
 		"year": class_year(), "team": data.team.get("name", ""), "age": data.age,
 		"record": data.record.duplicate(), "stats": data.season_stats.duplicate(),
-		"sp": data.sp_season, "sp_bonus": bonus,
+		"sp": data.sp_season, "sp_bonus": bonus, "sp_sources": data.sp_sources.duplicate(),
 		"fg_range": snappedf(KickRange.fg_range(data, tuning), 0.1),
 		"kickoff_range": snappedf(KickRange.kickoff_range(data, tuning), 0.1)}
 	# Recorded first, so a retirement at the age cap includes this season.
@@ -646,6 +653,7 @@ func _start_next_season() -> void:
 	CareerStats.apply(data, growth, tuning)
 	data.injury = {"weeks_left": 0, "severity": 0.0}
 	data.sp_season = 0
+	data.sp_sources = {}
 	SkillPoints.earn(data, tuning.sp_offseason, "Offseason training")
 	data.sp_week.clear()
 	data.notice = "Offseason training: +%d skill points. You have %d to spend in Skills." \
