@@ -353,6 +353,29 @@ career summary. A long run of poor seasons and failed tryouts ends a career earl
 A short tutorial runs the first time Career Mode opens (text: `data/career/tutorial.json`;
 "seen" flag: `career_tutorial_seen` in Settings; replay: "How Career Mode Works").
 Career milestones feed My Stats (CAREER section) and the career achievements.
+**Stats per level** come from the season history: every finished season is saved with its stage
+and kicking line, so High School / College (junior college included) / Pro totals and the season
+rows are built from it (plus the season in progress). Saves from every earlier version already
+have this.
+**Expanded stats** (Stats screen, Season view and each Career tab, in collapsible sections):
+field goals by distance (20-29, 30-39, 40-49, 50-59, 60+; anything under 20 yards would count in
+20-29, but the shortest field goal is 20 yards with the current tuning), extra points, streaks
+(made field goals in a row overall and per distance range, made extra points in a row; longest and
+current), and Misc (longest field goal, points, game-winning kicks, games, clutch kicks to win or
+tie, kickoffs, touchbacks, average kickoff, onside kicks recovered). Distance, streak, clutch and
+kickoff numbers come from the per-kick log `CareerData.kick_log` (save version 6, filled from then
+on by `CareerManager._record_kicks`). Streaks run in kick order across seasons within a level; a new
+level starts fresh, and Total shows the best level's streak. A range's streak only sees kicks in
+that range. Any scope with kicks from before the log (older saves, or the season in progress when
+the save was upgraded) shows "-" for those numbers instead of guessing; a season counts as logged
+when its logged kicks match its saved attempts.
+**School interest** (Recruiting screen; `Progression.school_interest`) is computed, not saved:
+50 = the recruiting points at which that school's tier starts offering, about 2.5 per point near
+there and leveling off toward 6..94, plus a fixed -6..+6 lean per school; at least the matching
+level once a school has offered, and capped when your GPA is below the tier's minimum. Each tier's
+offer goes to its most interested school without one, so a school without an offer never outranks
+an offering school of its tier; schools at offer-level interest (50+) that are still waiting (one
+new offer per tier a season, none as a freshman) say "Interest high, no offer yet this season".
 Old career saves load and are upgraded (format versions and steps in
 `scripts/career/career_save.gd`); content that was renamed or removed since a save was made is
 dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career Mode".
@@ -376,6 +399,7 @@ dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career
 | Weekly loop / saves | `scripts/career/career_manager.gd`, `career_save.gd` (3 slots: `user://career_slot_N.json`) |
 | Stats + traits -> kick | `scripts/career/kick_profile.gd` (`KickProfile.build()` -> `KickModifiers`) |
 | Scenario engine | `scripts/career/scenario_engine.gd` |
+| Hub → **Stats** (kicking record: Season view; Career view with HS / College / Pro / Career Total tabs, season rows and totals; distance, extra point, streak and misc sections; per-kick log `CareerData.kick_log`) and Hub → **Recruiting** (recruiting points, interested colleges with interest level and offers) | `scripts/career/career_records.gd` (`CareerRecords`, read-only), screens `career_kicking.gd`, `career_recruiting_board.gd` |
 
 Goalposts and uniforms: `field_goal_game.gd` `set_look()` (called before the scene enters the
 tree) picks the posts style per stage (high school plain H-frame and wide, college gooseneck
