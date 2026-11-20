@@ -434,7 +434,7 @@ standing and the backup kicker move only through play; these need real-play chec
     forced scenarios a week.
 
 ## College story runs (verify in the game)
-The college story graph is `data/career/scenarios_college.json` (COL_*, all 150 written).
+The college story graph is `data/career/scenarios_college.json` (COL_*, all 154 written).
 **Guaranteed** scenes are story events (x4 weight while their window is open, forced in its last week) and
 beats. Everything else is a weighted random pick (1-2 a week, 2 in byes and offseasons) once its
 requirements are met, so a follow-up can take several weeks to show, or miss its window. A
