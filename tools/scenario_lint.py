@@ -20,7 +20,7 @@ The checks are heuristics: read the line before changing it.
 """
 import re
 
-NEUTRAL = {"coach", "teacher", "holder", "best_friend", "love_interest"}
+NEUTRAL = {"coach", "teacher", "holder", "best_friend", "love_interest", "backup"}
 # {tyler}/{rival}, {sibling} and {parent} are always male; {team} is a group.
 GENDERED = re.compile(r"\b(he|she|him|her|his|hers|himself|herself)\b", re.I)
 PLACEHOLDER = re.compile(r"\{([a-z_]+)\}")
