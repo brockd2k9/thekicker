@@ -284,6 +284,10 @@ deflecting leads to The Pattern / The Second Strike, then The Final Warning; the
 `character_concerns` (the label scouts and the pros see), and The Long Way Back clears it and sets
 `rebuilt_reputation`. Each step clears every strike flag, so only a new strike opens the next one. A
 choice that sets a strike must have `"conduct": "bad"` or `"scandal"` (the importer checks).
+**Adding a strike** means adding it to `strike_flags` and to the `any_flags` of the four steps in the
+design file, regenerating, and re-importing COL_036, COL_071, COL_017 and COL_086 so their choices
+clear it too: the importer rejects a step that clears some strikes but not all, and the graph check
+warns about one already in the game.
 
 **High school callbacks** are only ever locked choices inside an open scene (`requires` + `lock_text`),
 never a gate: a player without the flag still gets the whole scene. The template pre-shapes them.

@@ -305,3 +305,11 @@ Strike flags (any one opens the wrong-path chain; every wrong-path step clears t
 - **COL_150 The Next Level** (Y4 wk 10, finale beat; {parent}, {coach}): The last week of your college career. Whatever happens on draft day, this is where the kicker you became walks off the field. · Sets: `ready_for_pros`, `life_after_football`, `still_proving_it` · Lock: `combine_ready`, `pro_day_ready`, `finished_degree_track`, `rebuilt_reputation` · Note: Locked choices: ready_for_pros needs combine_ready or pro_day_ready; life_after_football needs finished_degree_track; a rebuilt_reputation lock adds 'the long way back'; still_proving_it is open.
 
 **Season 4 has no offseason.** The college stage goes straight from the last game to the draft, so draft-season scenes (combine prep, the scouts' workout, draft weekend plans, the senior trip, the leadership award, Old Rival, New Stage) happen in weeks 4-10 of the senior season. `validate_scenario_graph.py` reports an offseason scene in a stage's last season as an error.
+
+### Wrong path (added)
+- **COL_151 The Ride Home** (Y2-3; Team): A teammate who has had too much insists on driving everyone home from a party. You're one of his passengers. · Sets: `rode_along` (strike), `found_another_ride`
+- **COL_152 The Balcony Dare** (Y1-3 offseason): On a spring trip, a friend dares you to jump from the hotel balcony into the pool three floors down. · Sets: `balcony_jump` (new strike)
+- **COL_153 The Keys** (Y2-4; Team): After a party, a teammate who is in no shape to drive demands his keys back. You're sober, and you're holding them. · Sets: `rode_along` (strike), `drove_teammates_home`
+- **COL_154 The Fast Lane** (Y2-4; {coach}): A teammate pulls up next to you on the highway at night and dares you to race him to the next exit. · Sets: `street_race` (new strike)
+
+`balcony_jump` and `street_race` are new strike flags: The Coach's Office, The Second Strike, The Pattern and The Final Warning read them and clear them.

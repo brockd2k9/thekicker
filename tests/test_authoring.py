@@ -180,6 +180,18 @@ class CollegeImportTests(unittest.TestCase):
                     "followers_tier 'nobody'", "sets wrong-path strike 'missed_curfew'"]:
             self.assertIn(msg, out)
 
+    def test_wrong_path_step_must_clear_every_strike(self):
+        bad = {"scenarios": [{"id": "COL_010", "title": "x", "category": "team", "text": "A meeting.",
+                              "choices": [_choice(set_flags={"missed_curfew": False, "party_trouble": False}),
+                                          _choice()]}]}
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "bad.json")
+            with open(path, "w") as f:
+                json.dump(bad, f)
+            code, out = run(path, "--dry-run")
+        self.assertEqual(code, 1, out)
+        self.assertIn("must clear every strike flag; missing", out)
+
     def test_good_new_fields_pass(self):
         ok = {"scenarios": [{"id": "COL_018", "title": "x", "category": "health", "text": "Sessions are offered.",
                              "choices": [
@@ -200,10 +212,10 @@ class CollegeGraphTests(unittest.TestCase):
         p = subprocess.run([sys.executable, COLLEGE_GEN, "--check"], capture_output=True, text=True, cwd=ROOT)
         self.assertEqual(p.returncode, 0, p.stdout)
 
-    def test_150_college_drafts_and_hand_written_kept(self):
+    def test_154_college_scenes_and_hand_written_kept(self):
         doc = json.load(open(os.path.join(ROOT, "data", "career", "scenarios_college.json")))
         col = [s for s in doc["scenarios"] if s["id"].startswith("COL_")]
-        self.assertEqual(len(col), 150)
+        self.assertEqual(len(col), 154)
         self.assertTrue(any(s["id"] == "col_class_load" for s in doc["scenarios"]))
         self.assertTrue(all(s["stages"] == ["college"] for s in col))
 
@@ -241,7 +253,7 @@ class CollegeGraphTests(unittest.TestCase):
 
     def test_college_template_shapes(self):
         t = json.load(open(os.path.join(ROOT, "tools", "authoring", "college_template_all.json")))["scenarios"]
-        self.assertEqual(len(t), 150)
+        self.assertEqual(len(t), 154)
         for s in t:
             self.assertLessEqual(len(s["choices"]), 4, s["id"])
             if s["id"] != "COL_150":

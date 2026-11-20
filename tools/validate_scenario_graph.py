@@ -345,6 +345,17 @@ def can_precede(a, b):
     return time_span(a)[0] < time_span(b)[1]
 
 
+def _strike_flags():
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "college_graph", "college_design.json")
+    try:
+        return set(load(path).get("strike_flags", []))
+    except (OSError, ValueError):
+        return set()
+
+
+STRIKES = _strike_flags()
+
+
 def stage_seasons():
     """Seasons per stage, from CareerTuning (high_school_seasons, juco_seasons, college_seasons)."""
     path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
@@ -386,6 +397,10 @@ def audit_data(data_dir):
                     errors.append(f"{sid}: offseason in {st} season {se[0]} never happens "
                                   f"(the stage ends after season {last_season[st]}); use weeks instead")
         for ch in sc.get("choices", []):
+            off = {f for f, v in (ch.get("set_flags") or {}).items() if v is False and f in STRIKES}
+            if len(off) > 1 and off != STRIKES:
+                warns.append(f"{sid}: choice '{ch.get('label', '')}' clears {len(off)} of {len(STRIKES)} strike flags "
+                             f"(missing {', '.join(sorted(STRIKES - off))})")
             creq = ch.get("requires", {}) or {}
             for f in creq.get("flags", []) + creq.get("any_flags", []):
                 src = setters.get(f, [])

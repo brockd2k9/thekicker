@@ -379,6 +379,11 @@ def main(argv=None):
             if strikes and ch.get("conduct") not in ("bad", "scandal"):
                 rep.add(sid, "ERROR", f"{w}: sets wrong-path strike '{strikes[0]}' but has no conduct "
                         "bad or scandal")
+            cleared = {f for f, v in (ch.get("set_flags") or {}).items() if v is False and f in STRIKE_FLAGS}
+            if len(cleared) > 1 and cleared != STRIKE_FLAGS:
+                missing = sorted(STRIKE_FLAGS - cleared)
+                rep.add(sid, "ERROR", f"{w}: a wrong-path step must clear every strike flag; missing "
+                        f"{', '.join(missing)} (strike_flags in tools/college_graph/college_design.json)")
             if n_stats == 0:
                 rep.add(sid, "ERROR", f"{w}: changes no stats (every choice needs at least one stat change)")
             elif n_stats > STATS_PER_CHOICE_WARN:

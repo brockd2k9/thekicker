@@ -1097,7 +1097,9 @@
 						"ran_with_wrong_crowd",
 						"cash_camp",
 						"partied_before_pro_day",
-						"senior_trip_trouble"
+						"senior_trip_trouble",
+						"balcony_jump",
+						"street_race"
 					]
 				},
 				"must_set_flags": [
@@ -1157,6 +1159,8 @@
 						"cash_camp": false,
 						"partied_before_pro_day": false,
 						"senior_trip_trouble": false,
+						"balcony_jump": false,
+						"street_race": false,
 						"owned_it_again": true,
 						"second_chance_used": true
 					},
@@ -1196,6 +1200,8 @@
 						"cash_camp": false,
 						"partied_before_pro_day": false,
 						"senior_trip_trouble": false,
+						"balcony_jump": false,
+						"street_race": false,
 						"character_concerns": true
 					},
 					"rel": {
@@ -2345,7 +2351,9 @@
 						"sabotaged_transfer",
 						"rode_along",
 						"ran_with_wrong_crowd",
-						"cash_camp"
+						"cash_camp",
+						"balcony_jump",
+						"street_race"
 					]
 				},
 				"must_set_flags": [
@@ -2404,6 +2412,8 @@
 						"cash_camp": false,
 						"partied_before_pro_day": false,
 						"senior_trip_trouble": false,
+						"balcony_jump": false,
+						"street_race": false,
 						"owned_mistake": true
 					},
 					"rel": {
@@ -2442,6 +2452,8 @@
 						"cash_camp": false,
 						"partied_before_pro_day": false,
 						"senior_trip_trouble": false,
+						"balcony_jump": false,
+						"street_race": false,
 						"college_warning": true
 					},
 					"rel": {
@@ -4687,7 +4699,9 @@
 						"ran_with_wrong_crowd",
 						"cash_camp",
 						"partied_before_pro_day",
-						"senior_trip_trouble"
+						"senior_trip_trouble",
+						"balcony_jump",
+						"street_race"
 					]
 				},
 				"must_set_flags": [
@@ -4748,6 +4762,8 @@
 						"cash_camp": false,
 						"partied_before_pro_day": false,
 						"senior_trip_trouble": false,
+						"balcony_jump": false,
+						"street_race": false,
 						"caught_yourself": true,
 						"second_chance_used": true
 					},
@@ -4788,6 +4804,8 @@
 						"cash_camp": false,
 						"partied_before_pro_day": false,
 						"senior_trip_trouble": false,
+						"balcony_jump": false,
+						"street_race": false,
 						"character_concerns": true
 					},
 					"rel": {
@@ -5272,6 +5290,8 @@
 						"cash_camp": false,
 						"partied_before_pro_day": false,
 						"senior_trip_trouble": false,
+						"balcony_jump": false,
+						"street_race": false,
 						"rebuilt_reputation": true
 					},
 					"rel": {
@@ -5309,7 +5329,9 @@
 						"ran_with_wrong_crowd": false,
 						"cash_camp": false,
 						"partied_before_pro_day": false,
-						"senior_trip_trouble": false
+						"senior_trip_trouble": false,
+						"balcony_jump": false,
+						"street_race": false
 					},
 					"rel": {
 						"coach": 0
@@ -5843,7 +5865,9 @@
 						"ran_with_wrong_crowd",
 						"cash_camp",
 						"partied_before_pro_day",
-						"senior_trip_trouble"
+						"senior_trip_trouble",
+						"balcony_jump",
+						"street_race"
 					]
 				},
 				"must_set_flags": [
@@ -5901,6 +5925,8 @@
 						"cash_camp": false,
 						"partied_before_pro_day": false,
 						"senior_trip_trouble": false,
+						"balcony_jump": false,
+						"street_race": false,
 						"last_chance": true
 					},
 					"rel": {
@@ -5939,6 +5965,8 @@
 						"cash_camp": false,
 						"partied_before_pro_day": false,
 						"senior_trip_trouble": false,
+						"balcony_jump": false,
+						"street_race": false,
 						"character_concerns": true
 					},
 					"rel": {
@@ -10189,6 +10217,224 @@
 					},
 					"rel": {
 						"parent": 0,
+						"coach": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "COL_151",
+			"title": "The Ride Home",
+			"_info": {
+				"when": "college seasons 2-3 (Sophomore to Junior), any week",
+				"premise": "A teammate who has had too much insists on driving everyone home from a party. You're one of his passengers.",
+				"chain": "Wrong path",
+				"must_set_flags": [
+					"rode_along",
+					"found_another_ride"
+				],
+				"people": [
+					"team"
+				],
+				"leads_to": [
+					"COL_036 (The Coach's Office) when rode_along"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"skill_points": 0,
+					"modifiers": [],
+					"set_flags": {
+						"rode_along": true
+					},
+					"rel": {
+						"team": 0
+					},
+					"conduct": "bad"
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"skill_points": 0,
+					"modifiers": [],
+					"set_flags": {
+						"found_another_ride": true
+					},
+					"rel": {
+						"team": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "COL_152",
+			"title": "The Balcony Dare",
+			"_info": {
+				"when": "college seasons 1-3 (Freshman to Junior), in the offseason after that season",
+				"premise": "On a spring trip, a friend dares you to jump from the hotel balcony into the pool three floors down.",
+				"chain": "Wrong path",
+				"must_set_flags": [
+					"balcony_jump"
+				],
+				"leads_to": [
+					"COL_036 (The Coach's Office) when balcony_jump"
+				],
+				"notes": "Offseason after years 1-3 (spring break and summer trips). The jump is a strike with a real injury."
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"skill_points": 0,
+					"modifiers": [],
+					"set_flags": {
+						"balcony_jump": true
+					},
+					"conduct": "bad"
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"skill_points": 0,
+					"modifiers": [],
+					"set_flags": {}
+				}
+			]
+		},
+		{
+			"id": "COL_153",
+			"title": "The Keys",
+			"_info": {
+				"when": "college seasons 2-4 (Sophomore to Senior), any week",
+				"premise": "After a party, a teammate who is in no shape to drive demands his keys back. You're sober, and you're holding them.",
+				"chain": "Wrong path",
+				"must_set_flags": [
+					"rode_along",
+					"drove_teammates_home"
+				],
+				"people": [
+					"team"
+				],
+				"leads_to": [
+					"COL_036 (The Coach's Office) when rode_along"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"skill_points": 0,
+					"modifiers": [],
+					"set_flags": {
+						"rode_along": true
+					},
+					"rel": {
+						"team": 0
+					},
+					"conduct": "bad"
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"skill_points": 0,
+					"modifiers": [],
+					"set_flags": {
+						"drove_teammates_home": true
+					},
+					"rel": {
+						"team": 0
+					}
+				}
+			]
+		},
+		{
+			"id": "COL_154",
+			"title": "The Fast Lane",
+			"_info": {
+				"when": "college seasons 2-4 (Sophomore to Senior), any week",
+				"premise": "A teammate pulls up next to you on the highway at night and dares you to race him to the next exit.",
+				"chain": "Wrong path",
+				"must_set_flags": [
+					"street_race"
+				],
+				"people": [
+					"coach"
+				],
+				"leads_to": [
+					"COL_036 (The Coach's Office) when street_race"
+				]
+			},
+			"category": "",
+			"text": "",
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"skill_points": 0,
+					"modifiers": [],
+					"set_flags": {
+						"street_race": true
+					},
+					"rel": {
+						"coach": 0
+					},
+					"conduct": "bad"
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"skill_points": 0,
+					"modifiers": [],
+					"set_flags": {},
+					"rel": {
 						"coach": 0
 					}
 				}
