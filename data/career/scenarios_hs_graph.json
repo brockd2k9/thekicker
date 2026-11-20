@@ -1204,9 +1204,8 @@
 		{
 			"id": "HS_030",
 			"title": "The Rival's Bad Day",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "You and {tyler} have trained together since freshman year, so you know how much the competition matters to both of you. After a rough practice, {tyler} misses several kicks and starts packing up in frustration.",
 			"stages": [
 				"high_school"
 			],
@@ -1242,7 +1241,52 @@
 					"tyler"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Offer to work through it",
+					"result": "You stay and help {tyler} break down the approach and reset the routine. It takes extra time, but the session turns into the kind of honest competition that makes both of you better.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"social": 2
+						},
+						"personality": {
+							"leadership": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"skill_points": 2,
+					"set_flags": {
+						"tyler_mutual_respect": true
+					},
+					"rel": {
+						"rival": 7
+					}
+				},
+				{
+					"label": "Give him room today",
+					"result": "You tell {tyler} everyone has rough practices and let him head out on his own. You keep your own evening free, but the two of you miss a chance to turn the bad day around together.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"social": -2,
+							"fun": 1
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"rel": {
+						"rival": -1
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_031",
@@ -1311,9 +1355,8 @@
 		{
 			"id": "HS_034",
 			"title": "The Friend Who Needs Help",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "The freshman you stood up for last year catches you after practice: your best friend {best_friend} has been struggling with something at school and won't say what. You can tell it's weighing on {best_friend}, but you don't know the whole story.",
 			"stages": [
 				"high_school"
 			],
@@ -1345,7 +1388,66 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Listen before giving advice",
+					"result": "You make time to hear what has been going on and help {best_friend} sort out the next step. The conversation takes energy, but they leave feeling less alone.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"social": 3
+						},
+						"personality": {
+							"charisma": 2,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"best_friend": 7
+					}
+				},
+				{
+					"label": "Help solve one problem",
+					"result": "You help {best_friend} tackle the most urgent part instead of trying to fix everything at once. It feels practical and gives you both a little breathing room, though some of the bigger worries remain.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"fun": 1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"best_friend": 5
+					}
+				},
+				{
+					"label": "Keep your distance for now",
+					"result": "You say you have a lot going on and suggest talking to a trusted adult at school. You protect your own time, but {best_friend} seems disappointed that you aren't more available.",
+					"stats": {
+						"life": {
+							"energy": 3,
+							"social": -3
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"distracted"
+					],
+					"rel": {
+						"best_friend": -3
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_035",
@@ -3517,9 +3619,8 @@
 		{
 			"id": "HS_126",
 			"title": "The Hallway Favor",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "school",
+			"text": "After you calmly settled that locker mix-up as a freshman, a younger student approaches you in the hallway with a similar problem: an older student keeps telling them they don't belong in a certain part of the team area. They ask what you would do.",
 			"stages": [
 				"high_school"
 			],
@@ -3545,7 +3646,44 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Walk them through it",
+					"result": "You help the student explain the situation clearly and offer to go with them to the office or coach. It costs part of your break, but they leave with a plan and more confidence.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"social": 2
+						},
+						"personality": {
+							"leadership": 3,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"set_flags": {
+						"mentored_younger_student": true
+					}
+				},
+				{
+					"label": "Point them to an adult",
+					"result": "You encourage them to speak with a coach or school staff member who can sort out the issue properly. You keep your own schedule on track, though the student has to take the next step without you beside them.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"social": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_127",
@@ -3746,9 +3884,8 @@
 		{
 			"id": "HS_134",
 			"title": "The Community Recognition",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "community",
+			"text": "The organizers of the youth sports field project remember that you stayed for the full setup morning a couple of years ago. They invite you back to help at a community event, and a few people mention how much that earlier effort meant.",
 			"stages": [
 				"high_school"
 			],
@@ -3781,7 +3918,47 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Accept the recognition",
+					"result": "You thank the organizers and share how good it feels to see the field full of young players. You spend more time talking with families than you planned, but the community connection grows.",
+					"stats": {
+						"life": {
+							"social": 4,
+							"energy": -2,
+							"fun": 2
+						},
+						"personality": {
+							"charisma": 2,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"set_flags": {
+						"community_recognition": true
+					}
+				},
+				{
+					"label": "Get back to helping",
+					"result": "You thank them briefly and return to setting up equipment, keeping the focus on the kids and the event. You avoid the attention and get useful work done, though you miss a chance to build those community connections.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"social": -1,
+							"fun": 1
+						},
+						"personality": {
+							"ambition": 1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_135",
@@ -3932,9 +4109,8 @@
 		{
 			"id": "HS_139",
 			"title": "The Screenshot",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "The group chat you once challenged for mocking a teammate comes up again when someone shares an old screenshot. A few people start arguing about what happened, and you realize your earlier message is part of the conversation.",
 			"stages": [
 				"high_school"
 			],
@@ -3967,7 +4143,45 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Own what you said",
+					"result": "You explain why you spoke up and make it clear you still think the jokes crossed a line. The discussion gets uncomfortable, but your teammates know you haven't changed your position.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"social": -2
+						},
+						"personality": {
+							"leadership": 2,
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"set_flags": {
+						"owned_old_group_chat": true
+					}
+				},
+				{
+					"label": "Let the chat move on",
+					"result": "You don't respond and mute the conversation for the evening. You avoid another round of arguments, but people are left to guess whether you still stand by what you said.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 1,
+							"social": -1
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "HS_140",
@@ -4179,9 +4393,8 @@
 		{
 			"id": "HS_145",
 			"title": "The Holder's Big Moment",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "The week of a big game, {holder} bobbles a few snaps at practice and teammates start joking about it. {holder} quietly asks whether you'd rather work with someone else.",
 			"stages": [
 				"high_school"
 			],
@@ -4225,7 +4438,56 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Settle in and trust them",
+					"result": "You give {holder} a calm nod and stay after practice to rep the hold until the ball goes down clean every time. By Thursday you're both locked in, and you make sure {holder} knows you'd want nobody else on the hold.",
+					"stats": {
+						"life": {
+							"energy": -2,
+							"fun": 3
+						},
+						"personality": {
+							"leadership": 2,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"skill_points": 2,
+					"set_flags": {
+						"holder_big_moment_success": true
+					},
+					"rel": {
+						"holder": 8
+					}
+				},
+				{
+					"label": "Show your frustration",
+					"result": "You point out the bobbles in front of everyone. A few teammates agree with you, but {holder} goes quiet afterward, unsure whether you still trust them.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"social": 2
+						},
+						"personality": {
+							"leadership": -2,
+							"charisma": -1,
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"stressed"
+					],
+					"set_flags": {
+						"holder_confidence_damaged": true
+					},
+					"rel": {
+						"holder": -8
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_146",
@@ -4654,9 +4916,8 @@
 		{
 			"id": "HS_157",
 			"title": "A Family Thank-You",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "family",
+			"text": "As senior year gets busier, {parent} tells you how much your support has meant to the family over the years. The conversation turns to everything you've balanced together, and you realize there are things you haven't really said out loud.",
 			"stages": [
 				"high_school"
 			],
@@ -4684,7 +4945,52 @@
 					}
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Talk openly with him",
+					"result": "You tell {parent} what the family's support has meant to you, and listen as he shares what he's been carrying too. The conversation takes time and brings up some difficult feelings, but you understand each other better.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"social": 3,
+							"fun": 1
+						},
+						"personality": {
+							"charisma": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"set_flags": {
+						"opened_family_conversation": true
+					},
+					"rel": {
+						"parent": 8
+					}
+				},
+				{
+					"label": "Keep things light tonight",
+					"result": "You thank {parent} and steer the conversation toward lighter topics. The evening stays comfortable and you get a chance to relax, though some important feelings remain unspoken.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"fun": 3,
+							"social": -1
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"parent": 2
+					}
+				}
+			]
 		},
 		{
 			"id": "HS_158",
