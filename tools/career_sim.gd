@@ -737,8 +737,10 @@ func _followers_sections(results: Dictionary, all: Array, t: CareerTuning) -> Pa
 	var L := PackedStringArray()
 	L.append("## Followers (median, p10-p90)")
 	L.append("")
-	L.append("Choice tags: %s. Effects: %s." % ["none (field only: kicks, seasons, viral moments, benching, the audition)"
-		if Followers.sim_choice_buzz == 0.0 else "estimate, +%.1f buzz on every choice" % Followers.sim_choice_buzz,
+	L.append("Extra choice tags: %s. Effects: %s." % ["none (kicks, seasons, viral moments, benching, the audition, "
+		+ "and the followers / conduct tags already in the scenario data)"
+		if Followers.sim_choice_buzz == 0.0 else "+%.1f buzz on every choice (an estimate of tags still to come)"
+		% Followers.sim_choice_buzz,
 		"off" if Followers.effects_off else "on"])
 	L.append("")
 	var head := "| Group | Careers |"

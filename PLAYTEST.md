@@ -354,7 +354,20 @@ Median (p10-p90):
 | +2 tags (estimate) | 4,155 | 52.4K | 350K | 735K | 1.1M |
 
 Field-only college (26K) is under the 30K target **only because no choices carry followers yet**;
-with tags at about +1 a choice it sits mid-target. Household Name (2M) comes from long careers and
+with tags at about +1 a choice it sits mid-target.
+
+**After merging the college story graph** (main, later the same day: 150 college scenes, 115 of them
+with followers / conduct tags; high school has no tags yet). 360 careers, seeds 11 and 12:
+
+| | End of HS | End of college | Pro season 3 | Pro season 6 | Pro season 10 | Pro / drafted |
+|---|---|---|---|---|---|---|
+| Followers on | 1,940 | 29.5K (17.5K-37.2K) | 167K | 360K | 590K | 74.5% / 45.5% |
+| Followers off | 1,960 | 29.1K | 175K | 376K | 614K | 76.5% / 43.5% |
+
+College now sits at the bottom of the 30-100K target with its own tags (some are bad conduct, so
+they net out small); high school stays low (about 2K) **only because the high school scenarios
+have no tags yet**. Effects on vs off: pro -2, drafted +2 (within the 3-point limit). Challenge pass
+chances are unchanged. `tools/career_sim_baseline.md` is this run (seed 11). Household Name (2M) comes from long careers and
 virals: kickers at 90% reach 1.7M at their peak (median), 2M+ at the top.
 
 By kicker quality (simulator `make=P`, field only; 180 careers each):
