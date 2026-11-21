@@ -693,7 +693,20 @@ provisional**: they get their final values in retune step 3, once FG% is fitted 
 (the simulator's stand-in puts pro FG% near 60%, which makes the accuracy line negative for almost
 everyone).
 
-(Simulator table: being filled in.)
+**Simulator, today's stand-in** (seed 12, 252 pro careers; it shows the formula works end to end, not
+final shares, since FG% is still the stand-in's):
+
+| Pro seasons | Careers | Score (median, p10-p90) | Ring of Honor+ | Finalist+ | Inducted+ |
+|---|---|---|---|---|---|
+| all | 252 | 15 (7-64) | 12% | 1% | 0% |
+| 1-2 | 103 | 8 (-2-12) | 0% | 0% | 0% |
+| 3-5 | 71 | 17 (13-24) | 0% | 0% | 0% |
+| 6-9 | 24 | 37 (28-43) | 0% | 0% | 0% |
+| 10+ | 54 | 63 (50-75) | 57% | 4% | 0% |
+
+Targets for step 3: about 4-6% of pro careers inducted (about 1% first ballot), about 40-50% of long
+careful careers (10+ seasons at 80%+). Other targets unchanged here (pros 70%, drafted 30%, range
+48.9 / 54.2).
 
 | Value | Before | After |
 |---|---|---|

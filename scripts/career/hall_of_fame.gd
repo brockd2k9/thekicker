@@ -72,7 +72,7 @@ static func evaluate(c: CareerData, t: CareerTuning) -> Dictionary:
 	else:
 		acc = -minf((t.hof_acc_ref - pct) * t.hof_acc_below, t.hof_acc_below_cap)
 	lines.append(_line("Accuracy", acc_detail, acc))
-	lines.append(_line("Volume", "%d field goals made" % made, made * t.hof_per_made))
+	lines.append(_line("Volume", "%d field goal%s made" % [made, "" if made == 1 else "s"], made * t.hof_per_made))
 	lines.append(_line("Clutch", "%d game winner%s" % [gw, "" if gw == 1 else "s"],
 		minf(gw * t.hof_per_game_winner, t.hof_clutch_cap)))
 	var dist := minf(long50 * t.hof_per_long50, t.hof_long50_cap) + (t.hof_long60_bonus if long >= 60 else 0.0)
