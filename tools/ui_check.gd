@@ -184,6 +184,7 @@ func _capture_all() -> void:
 	await _fatigue_shots()
 	await _stadium_shots()
 	await _money_shots()
+	await _drill_shots()
 	await _shot("debug", Screens.CAREER_DEBUG)
 	await _shot("challenge", Screens.CHALLENGE, Callable(), Callable(), 2.0)
 	if _want("pause"):
@@ -1004,3 +1005,23 @@ func _money_shots() -> void:
 		await _capture("money_result")
 	s["choices"] = orig
 	_m = real
+
+
+## The Thumb Drill: a kick in play, and the results screen (made-up kicks).
+func _drill_shots() -> void:
+	if not (_want("drill") or _want("drill_results")):
+		return
+	await _shot("drill", Screens.CAREER_DRILL, Callable(), Callable(), 2.5)
+	if not _want("drill_results"):
+		return
+	await _open(Screens.CAREER_DRILL, 1.0)
+	var d := get_tree().current_scene
+	for i in 60:
+		d._rows.append({"yd": d.DISTANCES[i / 20], "made": 1 if i % 3 != 0 else 0, "out": "GOOD",
+			"cross_x": 0.4, "cross_y": 11.2, "speed": 4.1, "len": 0.48, "dur": 0.21, "tilt": 2.1, "bow": 0.02,
+			"finish": 3.0, "crooked": 0.18, "penalty": 0.0, "power": 0.93, "t_window": 0.6, "window": 1.3,
+			"wobble": 0.4, "path": [[0.0, 0.0], [0.01, 0.07], [0.01, 0.14], [0.02, 0.21], [0.02, 0.28],
+			[0.02, 0.35], [0.03, 0.42], [0.03, 0.48]]})
+	d._finish()
+	await _wait(0.8)
+	await _capture("drill_results")
