@@ -66,6 +66,7 @@ func _finish(pos: Vector2) -> void:
 	s.duration = t_end - _times[0]
 	s.flick_speed_px = _points[i].distance_to(pos) / dt
 	s.screen_height = get_viewport().get_visible_rect().size.y
+	s.points = _points.duplicate()  # the path, for Swipe.crookedness()
 	released.emit(s)
 
 

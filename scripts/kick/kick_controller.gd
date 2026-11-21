@@ -18,6 +18,11 @@ class Shot:
 	## Launch angle after any rushed-kick drop.
 	var elevation_deg: float
 	var wobble_deg: float
+	## Crooked-swipe result (KickDifficulty): how crooked 0..1, the penalty 0..1
+	## it earned at this distance, and the sideways curl in flight (m/s^2, + = right).
+	var crooked: float = 0.0
+	var penalty: float = 0.0
+	var hook_accel: float = 0.0
 
 
 ## Returns "" if the swipe can be a kick, otherwise a short hint for the player.
@@ -43,17 +48,33 @@ func power_from_swipe(swipe: Swipe, tuning: KickTuning) -> float:
 
 ## rush: play progress at the moment of the kick (0 = snap, 1 = blocker at the
 ## ball). Late, hurried kicks come off lower (see KickTuning "Blocks").
+## diff / yards (optional): KickDifficulty and the kick's distance. A crooked
+## swipe then costs aim, power and adds a hook/slice, more so on long kicks,
+## and long kicks get a little extra aim error. Without them: the old math.
 func build_shot(swipe: Swipe, tuning: KickTuning, mods: KickModifiers,
-		wobble_deg: float, rng: RandomNumberGenerator, rush: float = 0.0) -> Shot:
+		wobble_deg: float, rng: RandomNumberGenerator, rush: float = 0.0,
+		diff: KickDifficulty = null, yards: float = 0.0) -> Shot:
 	var shot := Shot.new()
 	shot.power = power_from_swipe(swipe, tuning)
 	shot.swipe_aim_deg = clampf(swipe.tilt_deg() * tuning.aim_sensitivity,
 		-tuning.max_aim_deg, tuning.max_aim_deg)
 	shot.wobble_deg = wobble_deg
+	var curl := 0.0
+	var spread_sd := mods.accuracy_spread_deg  # Career aim error (KickProfile)
+	if diff != null and diff.enabled:
+		shot.crooked = swipe.crookedness(diff.crooked_angle_deg, diff.crooked_bow)
+		shot.penalty = diff.penalty(shot.crooked, yards)
+		var side := swipe.curl_side()
+		curl = side * shot.penalty * diff.max_deviation_degrees
+		shot.hook_accel = side * shot.penalty * diff.max_hook_accel
+		shot.power *= 1.0 - shot.penalty * diff.max_power_loss
+		# Long-kick aim error stacks with the Career spread (independent errors).
+		var extra := diff.extra_spread_deg(yards)
+		spread_sd = sqrt(spread_sd * spread_sd + extra * extra)
 	var spread := 0.0
-	if mods.accuracy_spread_deg > 0.0:
-		spread = rng.randfn(0.0, mods.accuracy_spread_deg)
-	shot.final_aim_deg = shot.swipe_aim_deg + wobble_deg + spread
+	if spread_sd > 0.0:
+		spread = rng.randfn(0.0, spread_sd)
+	shot.final_aim_deg = shot.swipe_aim_deg + wobble_deg + spread + curl
 
 	var speed := lerpf(tuning.min_launch_speed, tuning.max_launch_speed * mods.power_mult, shot.power)
 	var yaw := deg_to_rad(shot.final_aim_deg)

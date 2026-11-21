@@ -114,8 +114,8 @@ func set_distance(distance_m: float) -> void:
 	_field_mat.set_shader_parameter("goal_z", -distance_m)
 
 
-func set_wind(mph: float, max_mph: float) -> void:
-	goal_posts.set_wind(mph, max_mph)
+func set_wind(mph: float, max_mph: float, along: float = 0.0) -> void:
+	goal_posts.set_wind(mph, max_mph, along)
 
 
 ## Where the holder puts the tip of the ball.

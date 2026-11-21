@@ -205,6 +205,22 @@ the base speed up to base + gust (the HUD shows e.g. `8-15 MPH -> GUSTY`). The H
 the ribbons on the uprights show the wind right now, so time your kick for a lull.
 Tunables: `gust_chance`, `max_gust_mph`, `gust_speed`.
 
+Difficulty (field goals and extra points, `tuning/kick_difficulty.tres`, defaults and docs in
+`scripts/config/kick_difficulty.gd`; `enabled = false` restores the old, easier kicking exactly):
+- **Crooked swipes:** the swipe's path is measured (how far it bulges off a straight line and how far
+  its finish turns away). Past `straightness_tolerance` the penalty grows on a curve
+  (`straightness_penalty_curve`): extra aim error the way the swipe curled (`max_deviation_degrees`),
+  less power (`max_power_loss`) and a hook/slice in flight (`max_hook_accel`).
+- **Distance:** from `easy_yards` to `hard_yards` the tolerance shrinks and the penalty grows, plus a
+  little extra random aim error. A 20-yarder stays easy; a 50+ needs a clean, straight swipe.
+- **Wind:** pushes harder (`wind_strength_multiplier`) and more the longer the ball is up
+  (`hang_time_wind_growth`). Windy field goals also get a headwind / tailwind (`max_head_tail_mph`);
+  the HUD arrow, its label and the upright ribbons show the true direction.
+- **Contact vibration:** a short sharp pulse for a clean strike, longer and rougher for a mishit
+  (phones only; Settings > Vibration).
+All of it stacks on the Career KickModifiers (scenario choices and stats still scale power, aim
+error, wobble, the kick window and wind as before).
+
 Did it get there? From the kicker's view a ball high in the air short of the posts looks like
 one over the bar, so every field goal / extra point result shows where the ball really ended up
 (`goal_marker.gd`, drawn over the players): a ring flashes where it crossed the plane of the posts
@@ -321,6 +337,7 @@ scripts/
   kick/kick_launch.gd         tee kicks: launch speed for a target carry (same integrator as Ball)
   kick/warmup_judge.gd        sideline net: pure strike rules, session result
   kick/kick_result.gd         GOOD / WIDE LEFT / WIDE RIGHT / SHORT / BLOCKED rules
+  config/kick_difficulty.gd   KickDifficulty: crooked swipes, distance, wind, contact vibration
   kick/goal_marker.gd         result marks at the posts (crossing ring, crossbar glow, short stake)
   kick/wind.gd                crosswind + gusts
   kick/snap_animator.gd       snap: snapper -> holder's hands -> spot
