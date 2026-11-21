@@ -1,0 +1,849 @@
+{
+  "_about": "PRO batch 41: era 4, The Veteran (34-37), set 1.",
+  "scenarios": [
+    {
+      "id": "PRO_261",
+      "title": "The Business Shortcut",
+      "category": "money",
+      "text": "Your business is losing money, and your partner has a way to make the books look better before the bank's review: two invoices, a little creative timing, and nobody gets hurt.",
+      "choices": [
+        {
+          "label": "Refuse and call the accountant",
+          "result": "No, and a call to your accountant that afternoon. The bank review is painful and honest, and the loan survives with tougher terms.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "honest_advisor": true
+          }
+        },
+        {
+          "label": "Close the business clean",
+          "result": "The business, closed cleanly, with every bill paid and every employee given a reference. It's a loss, and you can look everyone in the eye.",
+          "stats": {
+            "life": {
+              "fun": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "parent": 1
+          }
+        },
+        {
+          "label": "Sign the invoices",
+          "result": "The two invoices, signed at your partner's kitchen table. The bank is satisfied for a year, until an auditor notices the dates and calls your agent before he calls you.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "intelligence": -2,
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "coach": -3
+          },
+          "set_flags": {
+            "pro_business_fraud": true
+          },
+          "conduct": "scandal",
+          "retention": -3,
+          "followers": -3
+        }
+      ]
+    },
+    {
+      "id": "PRO_263",
+      "title": "The Phantom Injury",
+      "category": "team",
+      "text": "A teammate, also on his last contract, says a phantom injury would keep you on the injured list and paid for the rest of the year. 'Everybody does it,' he says. 'The trainers won't know.'",
+      "choices": [
+        {
+          "label": "Say no and stay honest",
+          "result": "No, and you kick the rest of the season honestly. You might be cut, and you'd rather be cut than lie to the trainers who kept you healthy.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Talk him out of it too",
+          "result": "No, for both of you, and an hour convincing him. He doesn't do it either, and he calls you years later to say thanks.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Fake the injury",
+          "result": "A limp in Thursday's practice, a story for the trainers. They know within two weeks, the club knows within three, and the whole building looks at you differently.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": -3,
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "coach": -6,
+            "team": -4
+          },
+          "set_flags": {
+            "pro_phantom_injury": true
+          },
+          "conduct": "scandal",
+          "retention": -5
+        }
+      ]
+    },
+    {
+      "id": "PRO_264",
+      "title": "Teaching the Wrong Thing",
+      "category": "team",
+      "text": "A rookie asks how you've lasted this long, really, and the honest answer includes a few things you shouldn't teach anyone: the shortcuts, the excuses, the ways around the rules.",
+      "choices": [
+        {
+          "label": "Teach him the real things",
+          "result": "The real things: the sleep, the routine, the patience, the honesty with the trainers. It's less exciting, and it's what actually worked.",
+          "stats": {
+            "life": {},
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "backup": 3
+          }
+        },
+        {
+          "label": "Tell him about your mistakes",
+          "result": "Your mistakes, all of them, and what each one cost. He listens to every word, and he never makes two of them.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "backup": 4
+          }
+        },
+        {
+          "label": "Teach him the shortcuts",
+          "result": "The shortcuts, all of them, over dinner, half joking. He uses one in October, gets caught, and tells the coaches exactly where he learned it.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "leadership": -3
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "coach": -5,
+            "backup": -3
+          },
+          "set_flags": {
+            "pro_bad_mentor": true
+          },
+          "conduct": "bad",
+          "retention": -2
+        }
+      ]
+    },
+    {
+      "id": "PRO_265",
+      "title": "The Grudge",
+      "category": "social",
+      "text": "The general manager who released you two years ago is at the same restaurant, three tables away, and he's laughing loudly. You're sure, for a moment, that he's laughing about you.",
+      "choices": [
+        {
+          "label": "Finish your dinner",
+          "result": "Your dinner, finished, and the check, paid. He never sees you, and on the drive home you realize you don't care as much as you thought.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "love_interest": 1
+          }
+        },
+        {
+          "label": "Say a polite hello",
+          "result": "A polite hello at his table, on your way out. He's surprised, then gracious, and says he made a mistake two years ago. You both pretend that settles it.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ]
+        },
+        {
+          "label": "Go over and say something",
+          "result": "You go over and say something you've rehearsed for two years. Words turn into a shove, a phone camera catches it, and the video is everywhere by midnight.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "leadership": -3,
+              "intelligence": -2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "coach": -4
+          },
+          "set_flags": {
+            "pro_bar_fight": true
+          },
+          "conduct": "scandal",
+          "retention": -4,
+          "followers": -5
+        }
+      ]
+    },
+    {
+      "id": "PRO_266",
+      "title": "The Insurance Claim",
+      "category": "money",
+      "text": "Your agent suggests an insurance claim on a hamstring injury that's mostly healed: a doctor he knows, a form, and a payout that would cover two years of your kids' school.",
+      "choices": [
+        {
+          "label": "Refuse and change agents",
+          "result": "No, and you start looking for a new agent the same week. It's awkward and costly, and you sleep fine.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Ask the union's lawyer",
+          "result": "The union's lawyer, asked quietly what the agent is suggesting. She explains exactly what it is, and you thank her and never mention it again.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "File the claim",
+          "result": "The form, signed in the agent's office. The payout comes in March; the investigators come in June, with questions about the doctor and a copy of your practice schedule.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "energy": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": -2,
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "coach": -3
+          },
+          "set_flags": {
+            "pro_insurance_fraud": true
+          },
+          "conduct": "scandal",
+          "retention": -3,
+          "followers": -3
+        }
+      ]
+    },
+    {
+      "id": "PRO_281",
+      "title": "The Body Rebuild",
+      "category": "training",
+      "text": "A new trainer wants to rebuild how you move, from the ground up: your stride, your hips, the way you plant. Most kickers stop changing at your age. She doesn't think you have to.",
+      "choices": [
+        {
+          "label": "Rebuild everything",
+          "result": "Everything, from the ground up, all summer. It's humbling and strange, and by camp you move like you did at thirty.",
+          "stats": {
+            "life": {
+              "energy": -3
+            },
+            "football": {
+              "power": 1,
+              "accuracy": 1
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 3
+        },
+        {
+          "label": "Rebuild one piece",
+          "result": "One piece only: your plant foot, rebuilt over six weeks. It's enough to feel the difference by camp, and not enough to scare you.",
+          "stats": {
+            "life": {},
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Keep what got you here",
+          "result": "What got you here stays, you tell her kindly. She understands completely, and writes you a careful maintenance plan instead.",
+          "stats": {
+            "life": {
+              "energy": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_289",
+      "title": "The Locker Room Elder",
+      "category": "team",
+      "text": "You're the oldest player in the locker room by four years, and the young ones bring you everything: contracts, girlfriends, homesickness, coaches, a car that makes a noise.",
+      "choices": [
+        {
+          "label": "Open your door to all of it",
+          "result": "Your locker becomes an office. It costs you film time and sleep, and the room is calmer than it's been in years.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 3
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Set office hours",
+          "result": "Office hours: Tuesdays after practice, nothing on game days. They laugh at the idea at first, and then they respect it completely.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "team": 1
+          }
+        },
+        {
+          "label": "Point them to the right people",
+          "result": "The right people for each problem: the team counselor, the union, the equipment manager who fixes cars. You're a switchboard, and it works.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_290",
+      "title": "Uncle to the Rookies",
+      "category": "team",
+      "text": "A rookie calls you 'unc' at practice, loudly, in front of everyone. By the end of the day the whole team is doing it, including {coach}.",
+      "choices": [
+        {
+          "label": "Embrace it",
+          "result": "You answer to 'unc' with dignity. By November the rookies have printed it on a T-shirt, and you wear it to the team meal.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Make the rookie earn it",
+          "result": "Fine, you say, but uncles give homework. The rookie spends a week learning the playbook from you, and never calls you anything else again.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "backup": 2
+          }
+        },
+        {
+          "label": "Pretend to be offended",
+          "result": "Very offended, all week, with great drama. It's the funniest bit in the locker room all season, and everyone's in on it.",
+          "stats": {
+            "life": {
+              "fun": 3
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "holder": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_291",
+      "title": "Your Old Holder Coaches Now",
+      "category": "career",
+      "text": "Your first pro holder is a special teams coach now, at another club, and they're coaching against you on Sunday. They text you a single word on Friday: 'Ready?'",
+      "choices": [
+        {
+          "label": "Text back a joke",
+          "result": "A joke about their old holds, sent back. You trade insults all week, and after the game you hug at midfield for a long time.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "holder": 2
+          }
+        },
+        {
+          "label": "Have dinner the night before",
+          "result": "Dinner, the night before, at the old place. You talk about everything except Sunday, and it feels like your rookie year.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "holder": 2
+          }
+        },
+        {
+          "label": "Prepare like it's personal",
+          "result": "Every detail of their special teams, studied. They know you better than anyone; you want to show them something new.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1
+        }
+      ]
+    },
+    {
+      "id": "PRO_294",
+      "title": "The Stadium Closes",
+      "category": "community",
+      "text": "The club's old stadium is being torn down after this season. You've played more games there than anyone left on the roster, and the grounds crew asks if you want anything before the wrecking ball.",
+      "choices": [
+        {
+          "label": "Take the old kicking net",
+          "result": "The old kicking net, rolled up and carried to your truck by you and two groundskeepers. It goes up in your backyard, holes and all.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 1
+            },
+            "football": {
+              "power": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ]
+        },
+        {
+          "label": "Walk the field one last time",
+          "result": "One last walk, alone, at night, from goal line to goal line. You find your old spot and stand there until the lights go off.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ]
+        },
+        {
+          "label": "Invite the old holders",
+          "result": "Every holder you've had there, invited for one last session on the old field. Five of them come, and you each kick one.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "holder": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_295",
+      "title": "The Two-Hundredth Game",
+      "category": "career",
+      "text": "Your two-hundredth game as a pro. The club makes a video for the big screen: your rookie photos, old interviews, your kids. You can't watch it.",
+      "choices": [
+        {
+          "label": "Watch it with the team",
+          "result": "You watch it in the locker room with the whole team, against your will. Everyone cheers, and you have to leave for a minute.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Watch it later at home",
+          "result": "Later, at home, alone, with the sound turned low. You watch it three times in a row, and then you call {parent} to tell him about it.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "parent": 2
+          }
+        },
+        {
+          "label": "Kick through it",
+          "result": "Warmups, eyes down, while it plays above you. The video ends, the crowd roars, and you go back to work.",
+          "stats": {
+            "life": {},
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1
+        }
+      ]
+    },
+    {
+      "id": "PRO_296",
+      "title": "The Old Teammates' Reunion",
+      "category": "social",
+      "text": "Your rookie class has a reunion in a hotel ballroom. Half of them have bad knees and good stories, and the one who called home crying every night is now a surgeon.",
+      "choices": [
+        {
+          "label": "Stay until the end",
+          "result": "Until the last story, at two in the morning, in the lobby. You laugh harder than you have in years, and you all promise to do it again.",
+          "stats": {
+            "life": {
+              "social": 3,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ]
+        },
+        {
+          "label": "Find the ones who struggled",
+          "result": "The ones who struggled after football, found and listened to. You leave with three phone numbers and two jobs to help with.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ]
+        },
+        {
+          "label": "Dinner and an early night",
+          "result": "Dinner, a few long hugs, and an early night back at the hotel. It's warm and brief, and on the flight home you're glad you went.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1,
+              "health": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_298",
+      "title": "A Teammate's Kid Asks for Advice",
+      "category": "community",
+      "text": "A teammate's teenage kid kicks for a high school team and wants your advice. She has film on her phone and a very specific question about her plant foot.",
+      "choices": [
+        {
+          "label": "Watch the film with her",
+          "result": "The film, watched with her twice. Her question is a good one, and the answer takes an hour and a trip to the practice field.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ]
+        },
+        {
+          "label": "Invite her to practice",
+          "result": "A practice pass for her and her father. She kicks on the stadium field after practice, and her face is something you'll remember.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Answer the one question",
+          "result": "Her one question, answered clearly, in five minutes. She thanks you and goes off to fix it, and her father texts you a video a week later.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        }
+      ]
+    }
+  ]
+}

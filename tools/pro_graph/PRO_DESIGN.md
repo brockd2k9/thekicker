@@ -38,7 +38,7 @@ College flags set severity through locked choices.
 | Era 1: Rookie (22-25) | 150 | 150 | 0 | 18 | 0 | 0 | 0 | 0 |
 | Era 2: Settled In (26-29) | 150 | 150 | 0 | 26 | 0 | 0 | 0 | 0 |
 | Era 3: Veteran (30-33) | 150 | 150 | 0 | 17 | 2 | 0 | 0 | 2 |
-| Era 4: Aging Veteran (34-37) | 150 | 22 | 0 | 14 | 0 | 2 | 0 | 2 |
+| Era 4: Aging Veteran (34-37) | 150 | 61 | 0 | 14 | 0 | 2 | 0 | 2 |
 | Era 5: Grizzled Veteran (38-41) | 80 | 0 | 80 | 5 | 0 | 0 | 0 | 0 |
 | Era 6: Hall of Fame Era (42+) | 40 | 0 | 40 | 1 | 0 | 0 | 0 | 40 |
 | Across eras (state-driven) | 108 | 24 | 0 | 10 | 1 | 0 | 0 | 1 |
@@ -197,7 +197,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_578 | Your Parents in the Stands | age 21-25 | once |  |  |  |  |
 | PRO_579 | The Sibling Who Wants to Visit | age 21-25 | once |  |  |  |  |
 | PRO_580 | The College Teammates' Chat | age 21-25 | once |  |  |  |  |
-| PRO_581 | The Old Girlfriend | age 21-25 | once | not made_long_distance_work / committed_to_relationship / new_partner / engaged / married / dating_classmate |  |  |  |
+| PRO_581 | The Old Flame | age 21-25 | once | not made_long_distance_work / committed_to_relationship / new_partner / engaged / married / dating_classmate |  |  |  |
 | PRO_582 | Your First Bad Practice Week | age 21-25 | once |  |  |  |  |
 | PRO_583 | The Veteran's Car | age 21-25 | once |  |  |  |  |
 | PRO_584 | Learning to Cook | age 21-25 | once |  |  |  |  |
@@ -348,7 +348,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 - **PRO_578 Your Parents in the Stands**: {parent} drives eleven hours to see you kick in person for the first time.
 - **PRO_579 The Sibling Who Wants to Visit**: {sibling} wants to spend his spring break at your apartment.
 - **PRO_580 The College Teammates' Chat**: Your old college teammates' group chat wants inside stories.
-- **PRO_581 The Old Girlfriend**: Someone from college messages you the week your first big headline runs.
+- **PRO_581 The Old Flame**: Someone from college messages you the week your first big headline runs.
 - **PRO_582 Your First Bad Practice Week**: Five bad practices in a row, and the coaches have stopped saying 'next one'.
 - **PRO_583 The Veteran's Car**: A veteran tosses you his keys and asks you to move his car, which costs more than your house back home.
 - **PRO_584 Learning to Cook**: Your first apartment, and your diet is cereal and takeout.

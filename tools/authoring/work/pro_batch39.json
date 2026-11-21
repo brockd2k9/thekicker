@@ -1,0 +1,924 @@
+{
+  "_about": "PRO batch 39: era 4, The Veteran (34-37), set 1.",
+  "scenarios": [
+    {
+      "id": "PRO_180",
+      "title": "The Veteran Slump",
+      "category": "training",
+      "text": "A slump at thirty-five doesn't look like a slump to anyone outside the building. It looks like the end, and talk radio has started saying so every morning, by name, with a countdown.",
+      "choices": [
+        {
+          "label": "Find the cause in the film",
+          "result": "Three nights of film, alone, and there it is: your plant foot has drifted half an inch, the way it did at twenty-four. It isn't age. You fix it by Thursday and tell nobody.",
+          "stats": {
+            "life": {},
+            "football": {
+              "accuracy": 2
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Kick until it breaks",
+          "result": "Two hundred balls a day, until your leg is heavy and the slump finally cracks on day twelve. Your hip pays for every one of them, and you'd do it again.",
+          "stats": {
+            "life": {
+              "energy": -3
+            },
+            "football": {
+              "power": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "heavy_legs"
+          ],
+          "skill_points": 3
+        },
+        {
+          "label": "Turn the radio off",
+          "result": "The radio, off, in the car and the kitchen and the locker room. Without the countdown in your ears, the misses get quieter, and so do you.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "love_interest": 1
+          }
+        },
+        {
+          "label": "Use what you learned the first time",
+          "result": "The tools from the first slump come back like an old song: the breath, the word, the one thought. This one is shorter than any before it, and you're almost grateful for it.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1,
+          "requires": {
+            "any_flags": [
+              "saw_sports_psych",
+              "leaned_on_support"
+            ]
+          },
+          "lock_text": "having gotten help before"
+        }
+      ]
+    },
+    {
+      "id": "PRO_185",
+      "title": "Still Got It",
+      "category": "media",
+      "text": "A month without a miss at thirty-six, and every story calls it a 'renaissance'. A television crew wants to film your morning routine. You'd call the whole thing work.",
+      "choices": [
+        {
+          "label": "Let them film the routine",
+          "result": "The crew films the routine at six in the morning: bands, heat, the long walk. The piece is honest about the work, and young kickers start copying it.",
+          "stats": {
+            "life": {
+              "social": 1,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "followers": 3
+        },
+        {
+          "label": "Say nothing about it",
+          "result": "No crew, no interviews, no word about the run. The streak is a fragile thing, and you treat it like a full glass you're carrying across a room.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Credit the people around you",
+          "result": "Every interview turns to the snapper, {holder} and the trainers who keep your hip alive. The specialists' group chat is very pleased with itself.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "holder": 3,
+            "team": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_193",
+      "title": "The Body Keeps Score",
+      "category": "health",
+      "text": "The trainers say this injury will heal, and they say it gently. They also say, more quietly, that the next one might not. The word 'cumulative' comes up twice.",
+      "choices": [
+        {
+          "label": "Follow every step",
+          "result": "Every step of the rehab, exactly, for eight weeks. It's slower than it used to be and you come back whole, with a list of warning signs taped inside your locker.",
+          "stats": {
+            "life": {
+              "health": 4
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        },
+        {
+          "label": "Push the timeline",
+          "result": "Back three weeks early, because you can't stand the training room anymore. The leg holds, and you can feel the trainers holding their breath every practice.",
+          "stats": {
+            "life": {
+              "health": -2
+            },
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "sore"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Talk it through at home",
+          "result": "The word 'cumulative', said out loud at the kitchen table. It's a long, honest night, and you both start, quietly, to plan for after.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "love_interest": 3
+          }
+        },
+        {
+          "label": "Build the plan yourself",
+          "result": "You know this road, so you build the plan with the trainers instead of waiting for one. They use half your ideas, and you're back on the day you predicted.",
+          "stats": {
+            "life": {
+              "health": 3
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "requires": {
+            "any_flags": [
+              "committed_to_recovery",
+              "hid_injury"
+            ]
+          },
+          "lock_text": "having been through a hard recovery before"
+        }
+      ]
+    },
+    {
+      "id": "PRO_197",
+      "title": "The Veteran Signing",
+      "category": "team",
+      "text": "A new club signed you at thirty-six 'for your experience'. On the first day, three young players wait by your locker to find out what that actually means.",
+      "choices": [
+        {
+          "label": "Show them on day one",
+          "result": "Early on the field, last off it, every kick charted. By Friday the young players have stopped asking what experience means; they've watched it.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "backup": 2,
+            "team": 1
+          },
+          "skill_points": 1
+        },
+        {
+          "label": "Take them to lunch",
+          "result": "Lunch with the three of them, and then with everyone else. The stories you tell are mostly about mistakes, which is what they actually wanted.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Keep your head down",
+          "result": "Your own work, quietly, no speeches. They learn from watching, which is slower, and the coaches notice you never ask for anything.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_212",
+      "title": "The Young Coach",
+      "category": "team",
+      "text": "The new special teams coach is younger than you are, has a laptop full of new data, and wants to change the warmup you've done since college. He's very polite about it.",
+      "choices": [
+        {
+          "label": "Try his warmup for a month",
+          "result": "His warmup, for a month, honestly. Two pieces of it are genuinely better, and you keep them, and he's surprised when you say so in a meeting.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "rel": {
+            "coach": 2
+          },
+          "skill_points": 1
+        },
+        {
+          "label": "Explain why yours works",
+          "result": "Your warmup, explained piece by piece with the reasons behind it. He listens, takes notes and leaves it alone, mostly.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        },
+        {
+          "label": "Do it your way quietly",
+          "result": "Your way, quietly, without an argument. He notices, says nothing, and the tension in the meeting room lasts all season.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "coach": -2
+          }
+        },
+        {
+          "label": "Teach him something first",
+          "result": "You've seen nine special teams coaches come and go, so you take him to lunch and teach him one thing about kickers his data can't show. He changes the warmup plan himself.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "coach": 3
+          },
+          "requires": {
+            "min": {
+              "pro_seasons": 10
+            }
+          },
+          "lock_text": "after ten seasons in the league"
+        }
+      ]
+    },
+    {
+      "id": "PRO_215",
+      "title": "The Kid Wants to Quit",
+      "category": "family",
+      "text": "Your kid wants to quit their own team, halfway through the season. They tell you in the car, staring out the window, and ask you not to be mad.",
+      "choices": [
+        {
+          "label": "Ask why, and listen",
+          "result": "Why, asked gently, and then a long time listening. It's not about the sport; it's about one coach and one bad week. You help with that instead.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "love_interest": 2
+          }
+        },
+        {
+          "label": "Ask them to finish the season",
+          "result": "Finish the season, you ask, because the team is counting on them. They do, grudgingly, and at the last game they thank you without looking at you.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "rel": {
+            "love_interest": 1
+          }
+        },
+        {
+          "label": "Let them quit",
+          "result": "Quitting is fine, you say, and you mean it. The relief on their face is enormous, and they spend the spring learning guitar instead.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "parent": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_216",
+      "title": "Teenagers",
+      "category": "family",
+      "text": "Your teenager comes home and says they're tired of being 'the kicker's kid' at school. Teachers ask about you, kids ask for tickets, and nobody asks about them.",
+      "choices": [
+        {
+          "label": "Stay away from school",
+          "result": "No more school visits, no more signed balls for the auction. You disappear from their school life on purpose, and they relax within a month.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "love_interest": 2
+          }
+        },
+        {
+          "label": "Ask what they want people to know",
+          "result": "What do they want people to know about them? You listen for an hour, and you learn more about your own kid than in the last two years.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "love_interest": 3
+          }
+        },
+        {
+          "label": "Tell them it gets easier",
+          "result": "It gets easier, you promise, and tell them about being {parent}'s kid in a small town. They roll their eyes, and they ask for more stories at dinner.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "parent": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_218",
+      "title": "A Second Child",
+      "category": "family",
+      "text": "Another baby is coming, and the house already feels small: two kids, a dog, a kicking net in the garage and one bathroom that nobody can agree about.",
+      "choices": [
+        {
+          "label": "Plan the season around the baby",
+          "result": "The whole season, planned around the due date: flights, backups, a phone in the trainer's pocket. You're there when the baby arrives, at four in the morning.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "love_interest": 5
+          }
+        },
+        {
+          "label": "Make room",
+          "result": "A weekend of moving furniture with {sibling}, turning the office into a nursery. It's chaos and it's ready, and the older kids pick the paint.",
+          "stats": {
+            "life": {
+              "energy": -2,
+              "social": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "sibling": 3,
+            "love_interest": 2
+          }
+        },
+        {
+          "label": "Ask the grandparents for help",
+          "result": "{parent}, asked to come and stay for the first month. The house is loud and full and happy, and everyone actually sleeps again.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "health": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "parent": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_222",
+      "title": "{parent} Moves In",
+      "category": "family",
+      "text": "{parent} can't live alone anymore. He fell twice this winter and didn't tell anyone. Your house has a spare room, and he has opinions about all of it.",
+      "choices": [
+        {
+          "label": "Bring him home",
+          "result": "The spare room, painted his favorite color, and his chair moved in from home. He complains for a month and then becomes the center of the house.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": -2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "parent": 6,
+            "love_interest": -1
+          }
+        },
+        {
+          "label": "Find him a good place nearby",
+          "result": "A good place, ten minutes away, with a garden and a card game on Thursdays. You visit three times a week, and he makes friends faster than you ever did.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "parent": 3
+          }
+        },
+        {
+          "label": "Share it with {sibling}",
+          "result": "{sibling}, called, and a plan made together: six months with each of you. It's fair, and it brings the two of you closer than you've been since childhood.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "sibling": 4,
+            "parent": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_223",
+      "title": "{parent} in the Hospital Again",
+      "category": "family",
+      "text": "Another call from home, on a Tuesday afternoon during film. This time the doctor uses the word 'months', and {parent} is the one who asks to speak to you.",
+      "choices": [
+        {
+          "label": "Go home this week",
+          "result": "Home, this week, whatever it costs. You sit with him on the porch every evening and he tells you things he's never told anyone.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": -3
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "parent": 6
+          }
+        },
+        {
+          "label": "Stay and call every night",
+          "result": "With the team, and a call every night at nine. He insists you keep kicking, and some nights you just listen to him breathe on the line.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "parent": 3
+          }
+        },
+        {
+          "label": "Bring him to a game",
+          "result": "A game, arranged with the club: a suite, a wheelchair ramp, his old jacket. He watches every warmup kick and cries at the anthem.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "parent": 5,
+            "coach": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_224",
+      "title": "The Funeral",
+      "category": "family",
+      "text": "{parent}'s funeral is on a Thursday in your hometown. The club says take all the time you need, and you both know they mean a week.",
+      "choices": [
+        {
+          "label": "Speak at the funeral",
+          "result": "The eulogy, written on the plane and read in the old church. You make the room laugh twice and then can't finish the last line, and {sibling} finishes it for you.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": -2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "sibling": 4
+          }
+        },
+        {
+          "label": "Take the full week",
+          "result": "The full week at home, sorting his things with {sibling}: the scrapbook, the old team jacket, every ticket stub. You come back slower and steadier.",
+          "stats": {
+            "life": {
+              "energy": -1,
+              "health": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "sibling": 3
+          }
+        },
+        {
+          "label": "Come back for the game",
+          "result": "Back for Sunday, because he would have wanted you there. You kick with his old watch in your bag, and the whole team wears a patch with his initials.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_226",
+      "title": "{best_friend} Is Sick",
+      "category": "social",
+      "text": "{best_friend} calls with news that makes the whole season feel very small: a diagnosis, a long treatment, and a voice trying hard to sound normal.",
+      "choices": [
+        {
+          "label": "Be there for the treatments",
+          "result": "Every off day, at the treatment center with {best_friend}, playing cards and complaining about the coffee. It's the most important thing you do all year.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": -3
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "best_friend": 7
+          }
+        },
+        {
+          "label": "Organize the support",
+          "result": "A schedule, built with {best_friend}'s family: rides, meals, visits, all covered. Nobody has to ask for anything, which is what {best_friend} wanted most.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "best_friend": 4
+          }
+        },
+        {
+          "label": "Call every night",
+          "result": "A call every night, ten minutes or an hour. Some nights you talk about nothing, and that's what {best_friend} needs most.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "best_friend": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_227",
+      "title": "{tyler} Retires",
+      "category": "media",
+      "text": "{tyler} retires after fourteen seasons and asks you, of all people, to speak at his press conference. The rivalry started when you were both fifteen, on a muddy field.",
+      "choices": [
+        {
+          "label": "Speak from the heart",
+          "result": "The truth, to a room of reporters: he made you better, every year, by being impossible to beat. He laughs, then has to look at the ceiling.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "rival": 6
+          },
+          "followers": 2
+        },
+        {
+          "label": "Tell the funny stories",
+          "result": "The funny stories, from high school on, including one he begged you not to tell. The room roars, and he forgives you by dinner.",
+          "stats": {
+            "life": {
+              "fun": 3
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "rival": 4
+          }
+        },
+        {
+          "label": "Send a video",
+          "result": "A video message, played at the press conference, because you have practice. He watches it twice and texts you a single word: 'Thanks.'",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "rival": 2
+          }
+        }
+      ]
+    }
+  ]
+}
