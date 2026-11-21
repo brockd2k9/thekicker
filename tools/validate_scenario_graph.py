@@ -302,11 +302,15 @@ ENGINE_FLAGS = {"walk_on", "juco", "failed_tryouts", "fa_attempts", "recruiting_
                 "traits_reported", "kicking_slump", "kick_slumps", "coach_lost_faith", "benched",
                 "benched_for_tyler", "won_job_back", "lost_audition", "contract_year", "re_signed",
                 "released", "signed_new_club", "pro_clubs", "was_dismissed", "reputation_week",
-                "reputation_text", "dismissed"}
+                "reputation_text", "dismissed",
+                # Set at retirement for the closing scenes (R10, docs/story_note_epilogue.md).
+                "hall_of_fame_earned", "hall_of_fame_tier", "hof_first_ballot", "hof_inducted", "hof_finalist",
+                "hof_ring_of_honor", "retired_by_choice", "retired_out_of_football", "retired_released",
+                "retired_unsigned"}
 # A choice's "recast": [id] sets recast_<id> (how many times that role was recast).
 ENGINE_FLAGS |= {"recast_" + p for p in ("coach", "holder", "backup", "teacher", "best_friend", "rival",
                                           "parent", "sibling", "love_interest")}
-STAGE_ORDER = {"high_school": 0, "juco": 1, "college": 2, "pro": 3, "free_agent": 3}
+STAGE_ORDER = {"high_school": 0, "juco": 1, "college": 2, "pro": 3, "free_agent": 3, "retired": 4}
 
 
 def flags_set(sc):
@@ -344,6 +348,8 @@ def time_span(sc):
         w0 = 99 if when == ["offseason"] else int(beat.get("week", 1))
     if sc.get("follow_up_only"):
         return [min(ranks), 0, 0], [99, 99, 99]
+    if when == ["epilogue"]:
+        return [min(ranks), 0, 0], [max(ranks), 99, 99]
     return [min(ranks), s0, w0], [max(ranks), s1, w1]
 
 
@@ -423,6 +429,11 @@ def audit_data(data_dir):
                 src = setters.get(f, [])
                 if src and f not in ENGINE_FLAGS and not any(can_precede(x, sc) for x in src if x["id"] != sid):
                     warns.append(f"{sid}: locked choice needs '{f}', only set after this scenario's window")
+        if "epilogue" in sc.get("when", []) or "retired" in sc.get("stages", []):
+            if sc.get("when") != ["epilogue"] or sc.get("stages") != ["retired"]:
+                errors.append(f"{sid}: a closing scene needs when [\"epilogue\"] and stages [\"retired\"]")
+            if any(ch.get("follow_up") for ch in sc.get("choices", [])):
+                errors.append(f"{sid}: closing scenes can't have follow-ups")
         req = sc.get("requires", {})
         reads = flags_read(req)
         for ch in sc.get("choices", []):

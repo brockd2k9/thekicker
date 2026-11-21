@@ -328,6 +328,21 @@ consequence. Money counts in the dominance check, so a choice that pays more nee
 elsewhere. Amounts in the text stay in words ("a little under half of everything you've
 earned"); the card shows the number.
 
+**Closing scenes (the retirement epilogue, R10).** After the last snap the game plays every scene
+with exactly `"when": ["epilogue"]` and `"stages": ["retired"]`, once each, by `"order"` (a number,
+default 0) and then by id; the card's tag reads "After the game". The list is re-checked after every
+choice, so a flag set in one closing scene can open a later one (PRO_E02 sets
+`coach_after_football` / `broadcaster_after_football`; PRO_E11 and E12 require them). Signals set at
+retirement, before the first closing scene: `hall_of_fame_earned`, one of `hof_first_ballot`,
+`hof_inducted`, `hof_finalist`, `hof_ring_of_honor` (exactly one when there's a tier;
+`hall_of_fame_tier` is a string, so gate on these), the reason (`retired_by_choice`,
+`retired_out_of_football`, `retired_released`, `retired_unsigned`) and `was_dismissed`. A career that
+never reached the pros gets the reason flags but no vote, so pro closing scenes also require
+`{"min": {"pro_seasons": 1}}`. No follow-ups, kick challenges or suspensions; money is fine. Write
+them in the past tense of a whole career and never name the vote's score or a game result. The
+pro graph generator writes the drafts (era "E" in the design); fill them from
+`tools/authoring/epilogue_template.json`.
+
 **The pro wrong path** has its own strike flags (`pro_strike_flags` in the design: `pro_night_out`,
 `pro_bar_fight`...). The team-discipline steps read and clear only those. College flags make it
 harsher or more lenient, only through locked choices. Same rules as college: never show the player
