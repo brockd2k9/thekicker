@@ -39,6 +39,15 @@ func _build(col: VBoxContainer) -> void:
 			earned += 1
 	if earned > 0:
 		list.add_child(UiKit.stat_row("Pro seasons", str(earned)))
+	if c.savings > 0 or int(c.money_log.get("peak", 0)) > 0:
+		list.add_child(UiKit.stat_row("Savings", "%s  (peak %s)" % [Savings.text(c.savings),
+			Savings.text(int(c.money_log.get("peak", c.savings)))], UiKit.GOOD, "money"))
+		var pay := int(c.money_log.get("salary", 0))
+		if pay > 0:
+			list.add_child(UiKit.stat_row("Salary after taxes and agent", Savings.text(pay)))
+		var net := int(c.money_log.get("choices_in", 0)) - int(c.money_log.get("choices_out", 0))
+		if int(c.money_log.get("choices_in", 0)) + int(c.money_log.get("choices_out", 0)) > 0:
+			list.add_child(UiKit.stat_row("From choices", Savings.change_text(net)))
 	list.add_child(UiKit.section("The road"))
 	for r in c.route:
 		var h := HBoxContainer.new()

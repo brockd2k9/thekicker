@@ -58,6 +58,9 @@ func _build(col: VBoxContainer) -> void:
 		var fans := Followers.choice_preview(c, ch, career.tuning)
 		if fans != 0:
 			v.add_child(_followers_chip(fans))
+		var money := Savings.preview(c, ch)
+		if money != 0:
+			v.add_child(CareerUi.money_chip(money))
 		if ch.get("rel") is Dictionary and not (ch["rel"] as Dictionary).is_empty():
 			v.add_child(CareerUi.rel_chips(c, ch["rel"]))
 		var mods: Array = ch.get("modifiers", [])
@@ -107,6 +110,8 @@ func _pick(index: int) -> void:
 		UiKit.feedback(&"stat_up")
 	if int(out.get("followers", 0)) != 0:
 		v.add_child(_followers_chip(int(out["followers"])))
+	if int(out.get("money", 0)) != 0:
+		v.add_child(CareerUi.money_chip(int(out["money"])))
 	if not (out.get("relationships", {}) as Dictionary).is_empty():
 		v.add_child(CareerUi.rel_chips(c, out["relationships"]))
 	if not out.get("modifiers", []).is_empty():

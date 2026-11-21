@@ -159,6 +159,8 @@ func _challenge_end() -> void:
 	if fans != 0:
 		f.add_child(UiKit.chip(Followers.change_text(fans), UiKit.group_color("personality") if fans > 0 else UiKit.BAD,
 			false, "social", 22))
+	if int(out.get("money", 0)) != 0:
+		f.add_child(CareerUi.money_chip(int(out["money"])))
 	var prog: Dictionary = out.get("progress", {})
 	for k in prog:
 		if k in ["recruiting", "draft", "retention"]:

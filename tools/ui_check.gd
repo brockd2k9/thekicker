@@ -183,6 +183,7 @@ func _capture_all() -> void:
 	await _overtime_shots()
 	await _fatigue_shots()
 	await _stadium_shots()
+	await _money_shots()
 	await _shot("debug", Screens.CAREER_DEBUG)
 	await _shot("challenge", Screens.CHALLENGE, Callable(), Callable(), 2.0)
 	if _want("pause"):
@@ -406,7 +407,7 @@ func _fatigue_shots() -> void:
 func _advance(done: Callable) -> void:
 	var c := _m.data
 	var guard := 0
-	while not done.call() and c.phase != CareerManager.PHASE_RETIRED and guard < 20000:
+	while not done.call() and c.phase != CareerManager.PHASE_RETIRED and guard < 60000:
 		guard += 1
 		match c.phase:
 			CareerManager.PHASE_WEEK_START:
@@ -974,3 +975,32 @@ func _stadium_shots() -> void:
 			RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_VIDEO_MEM_USED) / 1048576.0])
 	CareerDebugScreen.stadium_id = ""
 	CareerDebugScreen.stadium_night = false
+
+
+## Savings: a choice card carrying money (gain and loss) and its result modal.
+## No scenario has money yet, so the first scenario's two choices borrow it.
+func _money_shots() -> void:
+	if not (_want("money_card") or _want("money_result")):
+		return
+	# A throwaway copy: the result shot really applies a choice.
+	var real := _m
+	_m = CareerManager.new(CareerData.from_dict(real.data.to_dict()), real.tuning)
+	_m.data.slot = 0
+	var c := _m.data
+	var s := CareerContent.scenario(str(c.pending_scenarios[0]) if not c.pending_scenarios.is_empty()
+		else str(CareerContent.scenarios()[0]["id"]))
+	var orig: Array = (s["choices"] as Array).duplicate(true)
+	(s["choices"][0] as Dictionary)["money"] = 250000
+	if (s["choices"] as Array).size() > 1:
+		(s["choices"][1] as Dictionary)["money"] = -1500000
+	c.savings = 1200000
+	c.pending_scenarios = [str(s["id"])]
+	c.phase = CareerManager.PHASE_SCENARIO
+	await _shot("money_card", Screens.CAREER_SCENARIO)
+	if _want("money_result"):
+		await _open(Screens.CAREER_SCENARIO, 0.9)
+		get_tree().current_scene._pick(0)
+		await _wait(1.0)
+		await _capture("money_result")
+	s["choices"] = orig
+	_m = real

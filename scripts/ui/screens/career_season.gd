@@ -58,6 +58,12 @@ func _aging_rows(list: VBoxContainer) -> void:
 	var fg := int(c.social.get("season_gain", 0))
 	list.add_child(UiKit.stat_row("Followers this season", "%s%s  ·  %s total" % ["+" if fg >= 0 else "-",
 		Followers.short(absi(fg)), Followers.short(c.followers)], UiKit.group_color("personality"), "social"))
+	var pay := Savings.season_net(c, t)
+	if pay > 0:
+		list.add_child(UiKit.stat_row("Pay after taxes and agent", "+%s  ·  %s saved" % [Savings.text(pay),
+			Savings.text(c.savings + pay)], UiKit.GOOD, "money"))
+	elif c.savings > 0:
+		list.add_child(UiKit.stat_row("Savings", Savings.text(c.savings), UiKit.GOOD, "money"))
 	var bw := Bench.season_weeks(c)
 	if bw > 0:
 		list.add_child(UiKit.stat_row("Benched", "%d week%s" % [bw, "" if bw == 1 else "s"], UiKit.BAD, "whistle"))

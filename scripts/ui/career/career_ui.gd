@@ -513,6 +513,20 @@ static func followers_chip(c: CareerData, t: CareerTuning) -> PanelContainer:
 		UiKit.group_color("personality"), false, "social", 22)
 
 
+## "$1.25M saved" chip (Hub): always in the pros, elsewhere once there's any.
+static func savings_chip(c: CareerData) -> PanelContainer:
+	if c.savings <= 0 and c.stage != CareerData.STAGE_PRO:
+		return null
+	return UiKit.chip("%s saved" % Savings.text(c.savings), UiKit.GOOD, false, "money", 22)
+
+
+## "+$50K" / "-$2.00M" chip (choice cards, results).
+static func money_chip(n: int) -> PanelContainer:
+	var chip := UiKit.chip(Savings.change_text(n), UiKit.GOOD if n > 0 else UiKit.BAD, false, "money", 22)
+	chip.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	return chip
+
+
 ## This week's followers for Results: ["+120 followers", "Game winner +80, ..."], or [].
 static func followers_lines(c: CareerData) -> Array:
 	var lines := Followers.week_lines(c)
