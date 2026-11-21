@@ -77,13 +77,22 @@
             "rested"
           ],
           "requires": {
-            "any_flags": [
-              "saved_rookie_check",
-              "saved_big_check",
-              "lived_modestly"
+            "any_of": [
+              {
+                "any_flags": [
+                  "saved_rookie_check",
+                  "saved_big_check",
+                  "lived_modestly"
+                ]
+              },
+              {
+                "min": {
+                  "savings": 4000000
+                }
+              }
             ]
           },
-          "lock_text": "having saved carefully all career"
+          "lock_text": "having saved carefully"
         }
       ]
     },
