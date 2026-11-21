@@ -28,7 +28,8 @@
           ],
           "set_flags": {
             "advisor_stole": true
-          }
+          },
+          "money": -400000
         },
         {
           "label": "Call {parent}",
@@ -51,7 +52,8 @@
           },
           "rel": {
             "parent": 5
-          }
+          },
+          "money": -600000
         },
         {
           "label": "Keep it quiet and fix it yourself",
@@ -75,7 +77,8 @@
           },
           "rel": {
             "team": -3
-          }
+          },
+          "money": -800000
         },
         {
           "label": "Call your agent first",
@@ -105,7 +108,8 @@
               "good_agent"
             ]
           },
-          "lock_text": "having hired an agent who tells you the truth"
+          "lock_text": "having hired an agent who tells you the truth",
+          "money": -300000
         }
       ]
     },
@@ -134,7 +138,14 @@
           "set_flags": {
             "opened_restaurant": true
           },
-          "followers": 2
+          "followers": 2,
+          "money": -500000,
+          "requires": {
+            "min": {
+              "savings": 500000
+            }
+          },
+          "lock_text": "with enough saved"
         },
         {
           "label": "Ask to see real numbers",
@@ -170,7 +181,8 @@
           "modifiers": [
             "loose"
           ],
-          "followers": 1
+          "followers": 1,
+          "money": 20000
         },
         {
           "label": "Send it to your advisor",

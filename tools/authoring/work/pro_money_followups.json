@@ -1,0 +1,150 @@
+{
+  "_about": "Forced follow-ups for the money temptations (PRO_261, PRO_266).",
+  "scenarios": [
+    {
+      "id": "pro_fraud_audit",
+      "title": "The Auditor's Letter",
+      "category": "money",
+      "text": "The bank's auditor has found the two invoices. The letter is four pages long, names you and your partner, and gives you thirty days to repay the loan in full before the case goes to the authorities.",
+      "choices": [
+        {
+          "label": "Repay it and cooperate",
+          "result": "Every dollar repaid, with interest and a fine, and a long meeting where you answer every question honestly. The money hurts for years; the honesty is the only thing that saves your name.",
+          "stats": {
+            "life": {
+              "fun": -3
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "coach": 1
+          },
+          "money": -450000
+        },
+        {
+          "label": "Sell the business to cover it",
+          "result": "The business, sold in a hurry to a buyer who knows you're desperate. It covers the repayment and the fine, barely, and everything you built is gone by the end of the month.",
+          "stats": {
+            "life": {
+              "fun": -3
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "sibling": 1
+          },
+          "money": -400000
+        },
+        {
+          "label": "Fight it with lawyers",
+          "result": "Lawyers, appeals and months of letters, until the bank settles for more than you owed in the first place. The legal bills arrive long after the story has faded, and keep arriving.",
+          "stats": {
+            "life": {
+              "fun": -2,
+              "energy": -2
+            },
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "coach": -3
+          },
+          "money": -650000,
+          "conduct": "scandal",
+          "followers": -3
+        }
+      ]
+    },
+    {
+      "id": "pro_claim_clawback",
+      "title": "The Investigators' Visit",
+      "category": "money",
+      "text": "The insurance company's investigators sit in your living room with the doctor's report, your practice schedule and a video of you kicking forty-yarders the week you were supposedly hurt.",
+      "choices": [
+        {
+          "label": "Repay it all and admit it",
+          "result": "The whole payout repaid, with a penalty on top, and a signed statement admitting what happened. It's humiliating and expensive, and it ends there, which is worth more than the money.",
+          "stats": {
+            "life": {
+              "fun": -3
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "money": -400000
+        },
+        {
+          "label": "Hire a lawyer",
+          "result": "A lawyer, a long negotiation, and a settlement that costs more than the payout and the penalty together. Your name stays out of the papers, barely, and your savings don't.",
+          "stats": {
+            "life": {
+              "fun": -2,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "money": -550000
+        },
+        {
+          "label": "Blame your agent",
+          "result": "It was your agent's idea, you say, which is true and doesn't help. You repay it all anyway, fire the agent, and the story still leaks by the end of the week.",
+          "stats": {
+            "life": {
+              "fun": -3
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "coach": -3
+          },
+          "money": -450000,
+          "conduct": "scandal",
+          "followers": -3
+        }
+      ]
+    }
+  ]
+}

@@ -2278,6 +2278,157 @@
 			]
 		},
 		{
+			"id": "pro_fraud_audit",
+			"title": "The Auditor's Letter",
+			"category": "money",
+			"stages": [
+				"pro"
+			],
+			"follow_up_only": true,
+			"text": "The bank's auditor has found the two invoices. The letter is four pages long, names you and your partner, and gives you thirty days to repay the loan in full before the case goes to the authorities.",
+			"choices": [
+				{
+					"label": "Repay it and cooperate",
+					"result": "Every dollar repaid, with interest and a fine, and a long meeting where you answer every question honestly. The money hurts for years; the honesty is the only thing that saves your name.",
+					"stats": {
+						"life": {
+							"fun": -3
+						},
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"drained"
+					],
+					"money": -450000,
+					"rel": {
+						"coach": 1
+					}
+				},
+				{
+					"label": "Sell the business to cover it",
+					"result": "The business, sold in a hurry to a buyer who knows you're desperate. It covers the repayment and the fine, barely, and everything you built is gone by the end of the month.",
+					"stats": {
+						"life": {
+							"fun": -3
+						},
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"drained"
+					],
+					"money": -400000,
+					"rel": {
+						"sibling": 1
+					}
+				},
+				{
+					"label": "Fight it with lawyers",
+					"result": "Lawyers, appeals and months of letters, until the bank settles for more than you owed in the first place. The legal bills arrive long after the story has faded, and keep arriving.",
+					"stats": {
+						"life": {
+							"fun": -2,
+							"energy": -2
+						},
+						"football": {
+							"toughness": 1
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"stressed"
+					],
+					"followers": -3,
+					"money": -650000,
+					"conduct": "scandal",
+					"rel": {
+						"coach": -3
+					}
+				}
+			]
+		},
+		{
+			"id": "pro_claim_clawback",
+			"title": "The Investigators' Visit",
+			"category": "money",
+			"stages": [
+				"pro"
+			],
+			"follow_up_only": true,
+			"text": "The insurance company's investigators sit in your living room with the doctor's report, your practice schedule and a video of you kicking forty-yarders the week you were supposedly hurt.",
+			"choices": [
+				{
+					"label": "Repay it all and admit it",
+					"result": "The whole payout repaid, with a penalty on top, and a signed statement admitting what happened. It's humiliating and expensive, and it ends there, which is worth more than the money.",
+					"stats": {
+						"life": {
+							"fun": -3
+						},
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"drained"
+					],
+					"money": -400000
+				},
+				{
+					"label": "Hire a lawyer",
+					"result": "A lawyer, a long negotiation, and a settlement that costs more than the payout and the penalty together. Your name stays out of the papers, barely, and your savings don't.",
+					"stats": {
+						"life": {
+							"fun": -2,
+							"energy": -1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"stressed"
+					],
+					"money": -550000
+				},
+				{
+					"label": "Blame your agent",
+					"result": "It was your agent's idea, you say, which is true and doesn't help. You repay it all anyway, fire the agent, and the story still leaks by the end of the week.",
+					"stats": {
+						"life": {
+							"fun": -3
+						},
+						"personality": {
+							"ambition": 1,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"stressed"
+					],
+					"followers": -3,
+					"money": -450000,
+					"conduct": "scandal",
+					"rel": {
+						"coach": -3
+					}
+				}
+			]
+		},
+		{
 			"id": "PRO_001",
 			"title": "Rookie Camp",
 			"category": "team",
@@ -2543,9 +2694,6 @@
 					"parent"
 				],
 				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				],
 				"callbacks": [
 					"saved_first_paycheck",
 					"helped_family_financially"
@@ -2588,6 +2736,7 @@
 						"loose"
 					],
 					"followers": 2,
+					"money": -120000,
 					"set_flags": {
 						"spent_rookie_check": true
 					}
@@ -2606,6 +2755,7 @@
 					"modifiers": [
 						"inspired"
 					],
+					"money": -80000,
 					"set_flags": {
 						"paid_family_debt": true
 					},
@@ -2634,6 +2784,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -60000,
 					"set_flags": {
 						"saved_rookie_check": true
 					},
@@ -2987,10 +3138,7 @@
 				"group": "Era 1: Rookie (22-25)",
 				"premise": "Half the roster lives in the same glass tower downtown. The rent is a quarter of your salary.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -3028,6 +3176,7 @@
 					"modifiers": [
 						"loose"
 					],
+					"money": -120000,
 					"set_flags": {
 						"lived_large": true
 					},
@@ -3050,6 +3199,7 @@
 					"modifiers": [
 						"loose"
 					],
+					"money": 25000,
 					"rel": {
 						"team": 1
 					}
@@ -4692,9 +4842,6 @@
 				"premise": "A private coach who rebuilt three pro kickers offers you his offseason, for a price.",
 				"people": [],
 				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				],
 				"callbacks": [
 					"vetted_trainer",
 					"trained_with_alum"
@@ -4719,6 +4866,7 @@
 						"dialed_in"
 					],
 					"skill_points": 3,
+					"money": -150000,
 					"set_flags": {
 						"hired_private_coach": true
 					}
@@ -4784,6 +4932,7 @@
 						"dialed_in"
 					],
 					"skill_points": 2,
+					"money": -120000,
 					"set_flags": {
 						"hired_private_coach": true
 					}
@@ -5164,10 +5313,7 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "Your contract pays a bonus if you hit 90 percent this season, and your agent keeps texting you the math.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -5902,10 +6048,7 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "The club offers less than the market, and asks you to take it because you're family here.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -5924,6 +6067,7 @@
 						"loose"
 					],
 					"retention": 2,
+					"money": -300000,
 					"rel": {
 						"team": 2
 					}
@@ -5941,7 +6085,8 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"money": -120000
 				},
 				{
 					"label": "Test the market next spring",
@@ -7315,10 +7460,7 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "The signing bonus clears. Your phone lights up with cousins.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -7336,6 +7478,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": 600000,
 					"set_flags": {
 						"saved_big_check": true
 					}
@@ -7355,6 +7498,7 @@
 					"modifiers": [
 						"loose"
 					],
+					"money": -200000,
 					"set_flags": {
 						"spent_big_check": true
 					},
@@ -7377,6 +7521,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": 400000,
 					"set_flags": {
 						"saved_big_check": true
 					},
@@ -7411,10 +7556,7 @@
 				"group": "Era 1: Rookie (22-25)",
 				"premise": "A financial advisor recommended by your snapper walks you through a plan so boring it's almost funny.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -7432,6 +7574,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -10000,
 					"set_flags": {
 						"honest_advisor": true
 					}
@@ -7448,6 +7591,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -10000,
 					"set_flags": {
 						"honest_advisor": true
 					}
@@ -7463,7 +7607,8 @@
 					},
 					"modifiers": [
 						"rested"
-					]
+					],
+					"money": -20000
 				}
 			]
 		},
@@ -7593,7 +7738,10 @@
 			"requires": {
 				"flags": [
 					"trusted_flashy_advisor"
-				]
+				],
+				"min": {
+					"savings": 800000
+				}
 			},
 			"expected_flags": [
 				"advisor_stole",
@@ -7605,9 +7753,6 @@
 				"premise": "Your accounts are lighter than they should be, and the advisor isn't answering.",
 				"people": [],
 				"kind": "once",
-				"waits_on": [
-					"R3 money values (-0.4)"
-				],
 				"note": "Works now with flags and stress; the stolen 40% lands with R3."
 			},
 			"choices": [
@@ -7630,6 +7775,7 @@
 					"modifiers": [
 						"stressed"
 					],
+					"money": -400000,
 					"set_flags": {
 						"advisor_stole": true
 					}
@@ -7649,6 +7795,7 @@
 					"modifiers": [
 						"stressed"
 					],
+					"money": -600000,
 					"set_flags": {
 						"advisor_stole": true
 					},
@@ -7671,6 +7818,7 @@
 					"modifiers": [
 						"distracted"
 					],
+					"money": -800000,
 					"set_flags": {
 						"advisor_stole": true,
 						"hid_the_loss": true
@@ -7701,6 +7849,7 @@
 					"modifiers": [
 						"stressed"
 					],
+					"money": -300000,
 					"set_flags": {
 						"advisor_stole": true
 					},
@@ -7732,10 +7881,7 @@
 				"group": "Across eras (state-driven)",
 				"premise": "Your lawyer says you can sue the advisor. It'll take three years and your name will be in every story.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -7756,6 +7902,7 @@
 						"stressed"
 					],
 					"followers": -1,
+					"money": 200000,
 					"set_flags": {
 						"sued_advisor": true
 					}
@@ -7790,6 +7937,7 @@
 					"modifiers": [
 						"inspired"
 					],
+					"money": 150000,
 					"set_flags": {
 						"sued_advisor": true
 					},
@@ -7824,15 +7972,18 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "An old college teammate wants your name and your money on a steakhouse downtown. He has a chef, a location and a business plan he wrote last night.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
 					"label": "Put your money in",
 					"result": "You sign the papers at his kitchen table. Your name goes up in lights in March, and you eat there twice a week because it's yours.",
+					"requires": {
+						"min": {
+							"savings": 500000
+						}
+					},
+					"lock_text": "with enough saved",
 					"stats": {
 						"life": {
 							"fun": 3,
@@ -7846,6 +7997,7 @@
 						"inspired"
 					],
 					"followers": 2,
+					"money": -500000,
 					"set_flags": {
 						"opened_restaurant": true
 					}
@@ -7882,7 +8034,8 @@
 					"modifiers": [
 						"loose"
 					],
-					"followers": 1
+					"followers": 1,
+					"money": 20000
 				},
 				{
 					"label": "Send it to your advisor",
@@ -7932,9 +8085,6 @@
 				"premise": "The steakhouse is losing money every week, and your name is on the sign.",
 				"people": [],
 				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				],
 				"callbacks": [
 					"honest_advisor"
 				]
@@ -7956,6 +8106,7 @@
 					"modifiers": [
 						"drained"
 					],
+					"money": -100000,
 					"set_flags": {
 						"bad_venture": true
 					}
@@ -7975,6 +8126,7 @@
 					"modifiers": [
 						"stressed"
 					],
+					"money": -400000,
 					"set_flags": {
 						"bad_venture": true
 					}
@@ -7993,6 +8145,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -150000,
 					"set_flags": {
 						"bad_venture": true
 					}
@@ -8017,6 +8170,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -50000,
 					"set_flags": {
 						"bad_venture": true
 					}
@@ -8048,15 +8202,18 @@
 				"group": "Era 3: Veteran (30-33)",
 				"premise": "A dealership wants you as a partner: your face on the billboards, your money in the lot.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
 					"label": "Become a partner",
 					"result": "You sign. Your face goes up on the highway, and every teammate calls you about a deal. The dealership's books are the dealer's business, until they aren't.",
+					"requires": {
+						"min": {
+							"savings": 600000
+						}
+					},
+					"lock_text": "with enough saved",
 					"stats": {
 						"life": {
 							"fun": 2
@@ -8070,6 +8227,7 @@
 						"spotlight"
 					],
 					"followers": 3,
+					"money": -600000,
 					"set_flags": {
 						"dealership_partner": true
 					}
@@ -8086,7 +8244,8 @@
 					"modifiers": [
 						"focused"
 					],
-					"followers": 2
+					"followers": 2,
+					"money": 150000
 				},
 				{
 					"label": "Keep your name off the lot",
@@ -8133,10 +8292,7 @@
 				"people": [
 					"best_friend"
 				],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -8154,6 +8310,7 @@
 					"modifiers": [
 						"inspired"
 					],
+					"money": -250000,
 					"set_flags": {
 						"invested_in_friend": true
 					},
@@ -8173,6 +8330,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -50000,
 					"set_flags": {
 						"invested_in_friend": true
 					},
@@ -8224,9 +8382,6 @@
 					"best_friend"
 				],
 				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				],
 				"callbacks": [
 					"honest_advisor"
 				],
@@ -8247,6 +8402,7 @@
 					"modifiers": [
 						"inspired"
 					],
+					"money": 1200000,
 					"rel": {
 						"best_friend": 8
 					}
@@ -8265,6 +8421,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": 400000,
 					"rel": {
 						"best_friend": 2
 					}
@@ -8285,6 +8442,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": 500000,
 					"rel": {
 						"best_friend": 6
 					}
@@ -8310,6 +8468,7 @@
 					"modifiers": [
 						"confident"
 					],
+					"money": 1200000,
 					"rel": {
 						"best_friend": 6
 					}
@@ -8340,9 +8499,6 @@
 				"premise": "You owe taxes in every state you played a road game in, and your old accountant didn't file most of them.",
 				"people": [],
 				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				],
 				"callbacks": [
 					"saved_first_paycheck"
 				]
@@ -8363,7 +8519,8 @@
 					},
 					"modifiers": [
 						"stressed"
-					]
+					],
+					"money": -60000
 				},
 				{
 					"label": "Ignore the letters",
@@ -8379,7 +8536,8 @@
 					},
 					"modifiers": [
 						"distracted"
-					]
+					],
+					"money": -150000
 				},
 				{
 					"label": "Ask the veterans at lunch",
@@ -8395,7 +8553,8 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"money": -60000
 				},
 				{
 					"label": "Pay it from the account you never touch",
@@ -8416,7 +8575,8 @@
 					},
 					"modifiers": [
 						"rested"
-					]
+					],
+					"money": -60000
 				}
 			]
 		},
@@ -8438,10 +8598,7 @@
 					"sibling",
 					"parent"
 				],
-				"kind": "repeat",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "repeat"
 			},
 			"choices": [
 				{
@@ -8458,6 +8615,7 @@
 					"modifiers": [
 						"inspired"
 					],
+					"money": -50000,
 					"rel": {
 						"sibling": 5
 					}
@@ -8474,6 +8632,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -40000,
 					"set_flags": {
 						"honest_advisor": true
 					},
@@ -8495,6 +8654,7 @@
 					"modifiers": [
 						"drained"
 					],
+					"money": -20000,
 					"rel": {
 						"sibling": -1,
 						"parent": 2
@@ -8525,10 +8685,7 @@
 				"group": "Era 1: Rookie (22-25)",
 				"premise": "Someone from your hometown with your last name and a business idea is waiting by your car.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -8613,9 +8770,6 @@
 					"parent"
 				],
 				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				],
 				"callbacks": [
 					"helped_family_financially"
 				]
@@ -8636,6 +8790,7 @@
 					"modifiers": [
 						"loose"
 					],
+					"money": -250000,
 					"rel": {
 						"parent": 6
 					}
@@ -8657,6 +8812,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -100000,
 					"rel": {
 						"parent": 3
 					}
@@ -8675,7 +8831,8 @@
 					},
 					"modifiers": [
 						"rested"
-					]
+					],
+					"money": -10000
 				},
 				{
 					"label": "Do it the way that worked before",
@@ -8697,6 +8854,7 @@
 					"modifiers": [
 						"inspired"
 					],
+					"money": -200000,
 					"rel": {
 						"parent": 5
 					}
@@ -8728,10 +8886,7 @@
 				"group": "Era 3: Veteran (30-33)",
 				"premise": "Your charity foundation's director is spending more on galas than on kids.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -8749,6 +8904,7 @@
 						"inspired"
 					],
 					"skill_points": 1,
+					"money": -50000,
 					"set_flags": {
 						"started_foundation": true
 					},
@@ -8770,6 +8926,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -40000,
 					"set_flags": {
 						"started_foundation": true
 					}
@@ -8785,7 +8942,8 @@
 					},
 					"modifiers": [
 						"rested"
-					]
+					],
+					"money": -150000
 				}
 			]
 		},
@@ -8814,10 +8972,7 @@
 				"people": [
 					"team"
 				],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -8835,7 +8990,8 @@
 					"modifiers": [
 						"spotlight"
 					],
-					"followers": 2
+					"followers": 2,
+					"money": -200000
 				},
 				{
 					"label": "Opt out with a joke",
@@ -8894,6 +9050,7 @@
 					"age": 30
 				},
 				"max": {
+					"savings": 1500000,
 					"age": 33
 				}
 			},
@@ -8903,10 +9060,7 @@
 				"group": "Era 3: Veteran (30-33)",
 				"premise": "The money's gone faster than the career, and you have a mortgage, a family and maybe three seasons.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values + savings check"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -8923,6 +9077,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": 50000,
 					"set_flags": {
 						"honest_advisor": true
 					}
@@ -8989,10 +9144,7 @@
 				"group": "Era 3: Veteran (30-33)",
 				"premise": "The players' union holds a meeting about pensions and retirement plans. Six players show up.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -13352,10 +13504,7 @@
 				"group": "Across eras (state-driven)",
 				"premise": "The card game in the back of the team plane has a buy-in bigger than your first car.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -13407,6 +13556,7 @@
 						"stressed"
 					],
 					"retention": -2,
+					"money": -400000,
 					"conduct": "bad",
 					"set_flags": {
 						"pro_gambling_debt": true
@@ -13504,6 +13654,7 @@
 						"drained"
 					],
 					"retention": -1,
+					"money": -25000,
 					"set_flags": {
 						"stayed_out_pro": false,
 						"pro_night_out": false,
@@ -13547,6 +13698,7 @@
 						"stressed"
 					],
 					"retention": -3,
+					"money": -50000,
 					"set_flags": {
 						"stayed_out_pro": false,
 						"pro_night_out": false,
@@ -13597,6 +13749,7 @@
 						"confident"
 					],
 					"retention": -1,
+					"money": -25000,
 					"set_flags": {
 						"stayed_out_pro": false,
 						"pro_night_out": false,
@@ -13691,6 +13844,7 @@
 					],
 					"retention": -2,
 					"suspend_weeks": 2,
+					"money": -100000,
 					"conduct": "bad",
 					"set_flags": {
 						"stayed_out_pro": false,
@@ -13736,6 +13890,7 @@
 					"retention": -4,
 					"followers": -3,
 					"suspend_weeks": 2,
+					"money": -150000,
 					"conduct": "scandal",
 					"set_flags": {
 						"stayed_out_pro": false,
@@ -14710,10 +14865,7 @@
 				"group": "Era 4: Aging Veteran (34-37)",
 				"premise": "You're making a third of what you made five years ago, and the rookie next to you has your old car.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -14746,6 +14898,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": 40000,
 					"rel": {
 						"love_interest": 1
 					}
@@ -17301,9 +17454,6 @@
 					"love_interest"
 				],
 				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				],
 				"note": "Divorce clears married and the other partner flags; the money cost lands with savings (R3). People: kids in the text only."
 			},
 			"choices": [
@@ -17325,6 +17475,7 @@
 					"modifiers": [
 						"drained"
 					],
+					"money": -1000000,
 					"set_flags": {
 						"divorced": true,
 						"married": false,
@@ -17356,6 +17507,7 @@
 					"modifiers": [
 						"stressed"
 					],
+					"money": -1600000,
 					"set_flags": {
 						"divorced": true,
 						"married": false,
@@ -17385,6 +17537,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -20000,
 					"rel": {
 						"love_interest": 4
 					}
@@ -18259,6 +18412,7 @@
 					"retention": -4,
 					"followers": -4,
 					"suspend_weeks": 6,
+					"money": -250000,
 					"conduct": "scandal",
 					"set_flags": {
 						"pro_character_concerns": true
@@ -18285,6 +18439,7 @@
 					"retention": -5,
 					"followers": -5,
 					"suspend_weeks": 8,
+					"money": -350000,
 					"conduct": "scandal",
 					"set_flags": {
 						"pro_character_concerns": true
@@ -18306,6 +18461,7 @@
 					"retention": -6,
 					"followers": -7,
 					"suspend_weeks": 11,
+					"money": -500000,
 					"conduct": "scandal",
 					"set_flags": {
 						"pro_character_concerns": true
@@ -18330,6 +18486,7 @@
 					"retention": -4,
 					"followers": -5,
 					"suspend_weeks": 6,
+					"money": -250000,
 					"conduct": "scandal",
 					"set_flags": {
 						"pro_character_concerns": true
@@ -24132,10 +24289,7 @@
 				"people": [
 					"love_interest"
 				],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -24154,6 +24308,7 @@
 						"spotlight"
 					],
 					"followers": 3,
+					"money": 250000,
 					"rel": {
 						"best_friend": 2
 					}
@@ -24188,6 +24343,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": 50000,
 					"set_flags": {
 						"life_after_football": true
 					}
@@ -24206,7 +24362,10 @@
 			"requires": {
 				"flags": [
 					"dealership_partner"
-				]
+				],
+				"min": {
+					"savings": 500000
+				}
 			},
 			"expected_flags": [
 				"business_fraud_victim"
@@ -24218,10 +24377,7 @@
 				"people": [
 					"love_interest"
 				],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -24238,6 +24394,7 @@
 					"modifiers": [
 						"stressed"
 					],
+					"money": -200000,
 					"set_flags": {
 						"business_fraud_victim": true
 					}
@@ -24257,6 +24414,7 @@
 					"modifiers": [
 						"stressed"
 					],
+					"money": -400000,
 					"set_flags": {
 						"business_fraud_victim": true
 					}
@@ -24275,6 +24433,7 @@
 					"modifiers": [
 						"stressed"
 					],
+					"money": -500000,
 					"set_flags": {
 						"business_fraud_victim": true
 					}
@@ -24299,6 +24458,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -150000,
 					"set_flags": {
 						"business_fraud_victim": true
 					}
@@ -24332,10 +24492,7 @@
 				"people": [
 					"love_interest"
 				],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -24353,6 +24510,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -400000,
 					"set_flags": {
 						"franchise_owner": true
 					}
@@ -24372,6 +24530,7 @@
 					"modifiers": [
 						"loose"
 					],
+					"money": -300000,
 					"set_flags": {
 						"franchise_owner": true
 					},
@@ -24420,10 +24579,7 @@
 				"people": [
 					"love_interest"
 				],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -24437,7 +24593,8 @@
 					},
 					"modifiers": [
 						"rested"
-					]
+					],
+					"money": 2500000
 				},
 				{
 					"label": "Keep it",
@@ -24466,6 +24623,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": 1000000,
 					"rel": {
 						"sibling": 1
 					}
@@ -26496,9 +26654,6 @@
 					"team"
 				],
 				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				],
 				"note": "Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps."
 			},
 			"choices": [
@@ -26516,6 +26671,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -100000,
 					"set_flags": {
 						"honest_advisor": true
 					}
@@ -26534,6 +26690,7 @@
 					"modifiers": [
 						"drained"
 					],
+					"money": -250000,
 					"rel": {
 						"parent": 1
 					}
@@ -26556,12 +26713,17 @@
 					],
 					"retention": -3,
 					"followers": -3,
+					"money": 150000,
 					"conduct": "scandal",
 					"set_flags": {
 						"pro_business_fraud": true
 					},
 					"rel": {
 						"coach": -3
+					},
+					"follow_up": {
+						"id": "pro_fraud_audit",
+						"weeks": 3
 					}
 				}
 			]
@@ -26580,6 +26742,7 @@
 					"age": 34
 				},
 				"max": {
+					"savings": 1000000,
 					"age": 37
 				}
 			},
@@ -26596,7 +26759,6 @@
 				],
 				"kind": "once",
 				"waits_on": [
-					"R3 money values",
 					"R9 longer suspensions"
 				],
 				"note": "Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps."
@@ -26619,6 +26781,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -150000,
 					"set_flags": {
 						"honest_advisor": true
 					}
@@ -26638,6 +26801,7 @@
 					"modifiers": [
 						"drained"
 					],
+					"money": -100000,
 					"rel": {
 						"parent": 5
 					}
@@ -26659,7 +26823,8 @@
 					},
 					"modifiers": [
 						"rested"
-					]
+					],
+					"money": 80000
 				},
 				{
 					"label": "Give him the money and the games",
@@ -26680,6 +26845,7 @@
 					"retention": -6,
 					"followers": -6,
 					"suspend_weeks": 11,
+					"money": -250000,
 					"conduct": "scandal",
 					"set_flags": {
 						"pro_betting_scandal": true
@@ -27009,9 +27175,6 @@
 					"team"
 				],
 				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				],
 				"note": "Clean no with its own payoff in every scene; never shown using anything. The strike feeds the team-discipline steps."
 			},
 			"choices": [
@@ -27020,7 +27183,8 @@
 					"result": "No, and you start looking for a new agent the same week. It's awkward and costly, and you sleep fine.",
 					"stats": {
 						"football": {
-							"resilience": 1
+							"resilience": 1,
+							"toughness": 1
 						},
 						"personality": {
 							"leadership": 2
@@ -27028,7 +27192,8 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"money": -20000
 				},
 				{
 					"label": "Ask the union's lawyer",
@@ -27063,12 +27228,17 @@
 					],
 					"retention": -3,
 					"followers": -3,
+					"money": 200000,
 					"conduct": "scandal",
 					"set_flags": {
 						"pro_insurance_fraud": true
 					},
 					"rel": {
 						"coach": -3
+					},
+					"follow_up": {
+						"id": "pro_claim_clawback",
+						"weeks": 3
 					}
 				}
 			]
@@ -27245,6 +27415,7 @@
 					],
 					"retention": -3,
 					"suspend_weeks": 4,
+					"money": -200000,
 					"conduct": "bad",
 					"set_flags": {
 						"stayed_out_pro": false,
@@ -27290,6 +27461,7 @@
 					"retention": -5,
 					"followers": -4,
 					"suspend_weeks": 8,
+					"money": -400000,
 					"conduct": "scandal",
 					"set_flags": {
 						"stayed_out_pro": false,
@@ -27335,6 +27507,7 @@
 					],
 					"retention": -3,
 					"suspend_weeks": 4,
+					"money": -200000,
 					"conduct": "bad",
 					"set_flags": {
 						"stayed_out_pro": false,
@@ -28933,10 +29106,7 @@
 					"parent",
 					"sibling"
 				],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -28951,6 +29121,7 @@
 					"modifiers": [
 						"loose"
 					],
+					"money": -25000,
 					"rel": {
 						"parent": 3
 					}
@@ -30189,10 +30360,7 @@
 				"people": [
 					"team"
 				],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -30207,6 +30375,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -60000,
 					"rel": {
 						"best_friend": 1
 					}
@@ -30225,6 +30394,7 @@
 					"modifiers": [
 						"inspired"
 					],
+					"money": -100000,
 					"rel": {
 						"team": 2
 					}
@@ -30763,10 +30933,7 @@
 				"people": [
 					"team"
 				],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -30787,6 +30954,7 @@
 					"modifiers": [
 						"stressed"
 					],
+					"money": 300000,
 					"rel": {
 						"coach": -1
 					}
@@ -30805,6 +30973,7 @@
 					"modifiers": [
 						"rested"
 					],
+					"money": 150000,
 					"rel": {
 						"coach": 1
 					}
@@ -30823,6 +30992,7 @@
 					"modifiers": [
 						"loose"
 					],
+					"money": 150000,
 					"rel": {
 						"parent": 2
 					}
@@ -31972,10 +32142,7 @@
 				"group": "Era 1: Rookie (22-25)",
 				"premise": "A local business offers you your first sponsorship: a billboard, a few appearances, a small check.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -31992,7 +32159,8 @@
 					"modifiers": [
 						"spotlight"
 					],
-					"followers": 3
+					"followers": 3,
+					"money": 15000
 				},
 				{
 					"label": "Ask your agent first",
@@ -32009,7 +32177,8 @@
 					"modifiers": [
 						"focused"
 					],
-					"followers": 2
+					"followers": 2,
+					"money": 25000
 				},
 				{
 					"label": "Keep your weeks clear",
@@ -32052,10 +32221,7 @@
 				"group": "Era 1: Rookie (22-25)",
 				"premise": "Someone from home asks you for money, and you can tell it took a lot to ask.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -32073,6 +32239,7 @@
 					"modifiers": [
 						"inspired"
 					],
+					"money": -20000,
 					"rel": {
 						"best_friend": 3
 					}
@@ -32092,6 +32259,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -12000,
 					"rel": {
 						"best_friend": 2
 					}
@@ -33047,10 +33215,7 @@
 				"group": "Era 1: Rookie (22-25)",
 				"premise": "A sales rep wants you on expensive new training equipment, with a price to match.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -33067,7 +33232,8 @@
 					"modifiers": [
 						"dialed_in"
 					],
-					"skill_points": 3
+					"skill_points": 3,
+					"money": -40000
 				},
 				{
 					"label": "Use what the club has",
@@ -33287,10 +33453,7 @@
 				"group": "Era 1: Rookie (22-25)",
 				"premise": "Your family expects more now that you're earning, and they're not shy about it.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -33308,6 +33471,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -50000,
 					"rel": {
 						"parent": 3
 					}
@@ -33328,6 +33492,7 @@
 					"modifiers": [
 						"inspired"
 					],
+					"money": -200000,
 					"rel": {
 						"parent": 4,
 						"sibling": 3
@@ -33374,10 +33539,7 @@
 				"group": "Era 1: Rookie (22-25)",
 				"premise": "A costly bill arrives at the worst possible time.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -33395,6 +33557,7 @@
 					"modifiers": [
 						"tired"
 					],
+					"money": -8000,
 					"rel": {
 						"team": 1
 					}
@@ -33413,7 +33576,8 @@
 					},
 					"modifiers": [
 						"loose"
-					]
+					],
+					"money": -90000
 				},
 				{
 					"label": "Ride with a teammate",
@@ -34026,10 +34190,7 @@
 				"group": "Era 1: Rookie (22-25)",
 				"premise": "A family member asks you to donate to a cause back home.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -34048,6 +34209,7 @@
 					"modifiers": [
 						"inspired"
 					],
+					"money": -60000,
 					"rel": {
 						"parent": 3
 					}
@@ -34063,6 +34225,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -25000,
 					"rel": {
 						"parent": 1
 					}
@@ -34657,10 +34820,7 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "You can finally afford the car you've wanted since high school.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -34675,6 +34835,7 @@
 					"modifiers": [
 						"loose"
 					],
+					"money": -90000,
 					"rel": {
 						"parent": 3
 					}
@@ -34695,7 +34856,8 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"money": -25000
 				},
 				{
 					"label": "Wait one more year",
@@ -34738,10 +34900,7 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "A regional company offers you a sponsorship worth more than your rookie salary.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -34760,6 +34919,7 @@
 						"spotlight"
 					],
 					"followers": 3,
+					"money": 500000,
 					"rel": {
 						"sibling": 2
 					}
@@ -34776,7 +34936,8 @@
 					"modifiers": [
 						"focused"
 					],
-					"followers": 2
+					"followers": 2,
+					"money": 350000
 				},
 				{
 					"label": "Keep your weekends",
@@ -34819,10 +34980,7 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "Someone pitches you an investment that sounds too good, and they know it.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -34875,6 +35033,7 @@
 						"stressed"
 					],
 					"skill_points": 1,
+					"money": -300000,
 					"set_flags": {
 						"bad_venture": true
 					}
@@ -35231,10 +35390,7 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "The roof leaks the week of a road trip, and the bill is enormous.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -35251,7 +35407,8 @@
 					},
 					"modifiers": [
 						"stressed"
-					]
+					],
+					"money": -40000
 				},
 				{
 					"label": "Ask {parent} to oversee it",
@@ -35268,6 +35425,7 @@
 					"modifiers": [
 						"rested"
 					],
+					"money": -25000,
 					"rel": {
 						"parent": 3
 					}
@@ -35286,7 +35444,8 @@
 					},
 					"modifiers": [
 						"distracted"
-					]
+					],
+					"money": -5000
 				}
 			]
 		},
@@ -35712,10 +35871,7 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "An investment or a purchase wasn't as smart as it looked.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -35734,10 +35890,11 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"money": -150000
 				},
 				{
-					"label": "Tell {love_interest} everything",
+					"label": "Tell {parent} everything",
 					"result": "Everything, at the kitchen table, including the part you were embarrassed about. It's a hard talk and a good one, and you make the next decision together.",
 					"stats": {
 						"life": {
@@ -35751,6 +35908,7 @@
 					"modifiers": [
 						"drained"
 					],
+					"money": -200000,
 					"rel": {
 						"parent": 2
 					}
@@ -35772,7 +35930,8 @@
 					"modifiers": [
 						"dialed_in"
 					],
-					"skill_points": 2
+					"skill_points": 2,
+					"money": -250000
 				},
 				{
 					"label": "Call the advisor you trust",
@@ -35794,7 +35953,8 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"money": -100000
 				}
 			]
 		},
@@ -35908,10 +36068,7 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "A relative wants your money and your name to expand the family business.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -35929,6 +36086,7 @@
 					"modifiers": [
 						"loose"
 					],
+					"money": -200000,
 					"set_flags": {
 						"family_business": true
 					},
@@ -35950,6 +36108,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -200000,
 					"set_flags": {
 						"family_business": true
 					}
@@ -35998,10 +36157,7 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "A collector wants to pay you to sign five hundred footballs.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -36020,7 +36176,8 @@
 					},
 					"modifiers": [
 						"tired"
-					]
+					],
+					"money": 60000
 				},
 				{
 					"label": "Add a hundred for charity",
@@ -36037,7 +36194,8 @@
 					"modifiers": [
 						"inspired"
 					],
-					"followers": 2
+					"followers": 2,
+					"money": 60000
 				},
 				{
 					"label": "Sign for kids at the fence",
@@ -36156,10 +36314,7 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "A financial advisor reviews your long-term plan and asks a question you can't answer.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -36207,7 +36362,8 @@
 					},
 					"modifiers": [
 						"rested"
-					]
+					],
+					"money": -50000
 				}
 			]
 		},
@@ -36795,10 +36951,7 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "A private trainer could change your offseason, for a price.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -36819,7 +36972,8 @@
 					"modifiers": [
 						"dialed_in"
 					],
-					"skill_points": 3
+					"skill_points": 3,
+					"money": -120000
 				},
 				{
 					"label": "Ask for a trial week",
@@ -36838,7 +36992,8 @@
 					"modifiers": [
 						"focused"
 					],
-					"skill_points": 1
+					"skill_points": 1,
+					"money": -60000
 				},
 				{
 					"label": "Train the way you always have",
@@ -37600,10 +37755,7 @@
 				"group": "Era 3: Veteran (30-33)",
 				"premise": "You sit down and work out how much you'll need after football.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -37625,7 +37777,7 @@
 					}
 				},
 				{
-					"label": "Do it with {love_interest}",
+					"label": "Do it with {parent}",
 					"result": "{parent} sits beside you with a second calculator and decades of experience. You make the plan together, and it's better for it.",
 					"stats": {
 						"life": {
@@ -38077,10 +38229,7 @@
 				"group": "Era 3: Veteran (30-33)",
 				"premise": "Your household's expenses have quietly doubled.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -38094,7 +38243,8 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"money": 60000
 				},
 				{
 					"label": "Make a plan at home",
@@ -38110,6 +38260,7 @@
 					"modifiers": [
 						"loose"
 					],
+					"money": 40000,
 					"rel": {
 						"parent": 1
 					}
@@ -38125,7 +38276,8 @@
 					},
 					"modifiers": [
 						"distracted"
-					]
+					],
+					"money": -120000
 				}
 			]
 		},
@@ -38152,10 +38304,7 @@
 				"group": "Era 3: Veteran (30-33)",
 				"premise": "Your financial advisor questions one of your investments, carefully.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -38172,6 +38321,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -30000,
 					"set_flags": {
 						"honest_advisor": true
 					}
@@ -38191,6 +38341,7 @@
 					"modifiers": [
 						"loose"
 					],
+					"money": -60000,
 					"rel": {
 						"parent": 3
 					}
@@ -38209,7 +38360,8 @@
 					},
 					"modifiers": [
 						"rested"
-					]
+					],
+					"money": -250000
 				}
 			]
 		},
@@ -39769,15 +39921,18 @@
 				"group": "Era 3: Veteran (30-33)",
 				"premise": "You and {love_interest} disagree about a major purchase.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
 					"label": "Let {love_interest} decide",
 					"result": "Their decision, fully. It's the right call, and you know it the first weekend you sit on the dock together.",
+					"requires": {
+						"min": {
+							"savings": 600000
+						}
+					},
+					"lock_text": "with enough saved",
 					"stats": {
 						"life": {
 							"social": 2,
@@ -39787,6 +39942,7 @@
 					"modifiers": [
 						"loose"
 					],
+					"money": -600000,
 					"rel": {
 						"love_interest": 4
 					}
@@ -40416,10 +40572,7 @@
 				"group": "Era 3: Veteran (30-33)",
 				"premise": "A former teammate asks you to back his new venture.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -40434,6 +40587,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -150000,
 					"set_flags": {
 						"business_owner": true
 					}
@@ -40450,6 +40604,7 @@
 					"modifiers": [
 						"loose"
 					],
+					"money": -300000,
 					"set_flags": {
 						"business_owner": true
 					},
@@ -40665,10 +40820,7 @@
 				"group": "Era 4: Aging Veteran (34-37)",
 				"premise": "The club asks you to take less to stay.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -40686,6 +40838,7 @@
 						"inspired"
 					],
 					"retention": 2,
+					"money": -200000,
 					"rel": {
 						"team": 2
 					}
@@ -40701,7 +40854,8 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"money": -70000
 				},
 				{
 					"label": "Look elsewhere",
@@ -41084,10 +41238,7 @@
 				"group": "Era 4: Aging Veteran (34-37)",
 				"premise": "You go over your finances again with a different question in mind.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -41111,6 +41262,16 @@
 				{
 					"label": "Bring {love_interest} in",
 					"result": "{love_interest} at the table, with their own questions, which are better than yours. You leave with a plan you both believe.",
+					"requires": {
+						"any_flags": [
+							"made_long_distance_work",
+							"committed_to_relationship",
+							"new_partner",
+							"engaged",
+							"married"
+						]
+					},
+					"lock_text": "with someone at home to plan with",
 					"stats": {
 						"life": {
 							"social": 2
@@ -41735,10 +41896,7 @@
 				"group": "Era 4: Aging Veteran (34-37)",
 				"premise": "A former teammate offers you a role in his business.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -41753,6 +41911,7 @@
 					"modifiers": [
 						"confident"
 					],
+					"money": -250000,
 					"set_flags": {
 						"business_owner": true
 					}
@@ -41771,6 +41930,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -150000,
 					"set_flags": {
 						"business_owner": true
 					}
@@ -42520,10 +42680,7 @@
 				"group": "Era 4: Aging Veteran (34-37)",
 				"premise": "Your family wants you in a business after football.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -42561,6 +42718,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -200000,
 					"set_flags": {
 						"family_business": true
 					},
@@ -43166,15 +43324,18 @@
 				"group": "Era 4: Aging Veteran (34-37)",
 				"premise": "You consider investing heavily in life after football.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
 					"label": "Build the facility",
 					"result": "The facility, built over two years, with a kicking field and a gym and your name over the door. It's the biggest bet you've ever made, and it feels like a future.",
+					"requires": {
+						"min": {
+							"savings": 1500000
+						}
+					},
+					"lock_text": "with enough saved",
 					"stats": {
 						"life": {
 							"energy": -1
@@ -43187,6 +43348,7 @@
 					"modifiers": [
 						"inspired"
 					],
+					"money": -1500000,
 					"set_flags": {
 						"business_owner": true
 					}
@@ -43204,7 +43366,8 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"money": -100000
 				},
 				{
 					"label": "Keep your money safe",
@@ -44864,7 +45027,6 @@
 				"people": [],
 				"kind": "once",
 				"waits_on": [
-					"R3 money values",
 					"R1 no age cap (ages 39-41; 38 plays now)"
 				]
 			},
@@ -44927,12 +45089,21 @@
 					"label": "Show the planner the old savings",
 					"result": "The planner opens the account you set up years ago and goes quiet, then laughs. You have more than enough, it turns out, because a younger you was careful.",
 					"requires": {
-						"any_flags": [
-							"saved_rookie_check",
-							"saved_big_check"
+						"any_of": [
+							{
+								"any_flags": [
+									"saved_rookie_check",
+									"saved_big_check"
+								]
+							},
+							{
+								"min": {
+									"savings": 3000000
+								}
+							}
 						]
 					},
-					"lock_text": "having saved your big checks",
+					"lock_text": "having saved carefully",
 					"stats": {
 						"life": {
 							"fun": 1
@@ -44977,7 +45148,6 @@
 				"people": [],
 				"kind": "once",
 				"waits_on": [
-					"R3 money values",
 					"R1 no age cap (ages 39-41; 38 plays now)"
 				]
 			},
@@ -44994,6 +45164,7 @@
 					"modifiers": [
 						"stressed"
 					],
+					"money": -300000,
 					"set_flags": {
 						"business_owner": true
 					}
@@ -45011,7 +45182,8 @@
 					},
 					"modifiers": [
 						"rested"
-					]
+					],
+					"money": 30000
 				},
 				{
 					"label": "Say no kindly",
@@ -45045,6 +45217,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -200000,
 					"set_flags": {
 						"business_owner": true
 					}
@@ -45078,7 +45251,6 @@
 				"people": [],
 				"kind": "once",
 				"waits_on": [
-					"R3 money values",
 					"R1 no age cap (ages 39-41; 38 plays now)"
 				]
 			},
@@ -45086,6 +45258,12 @@
 				{
 					"label": "Buy the field",
 					"result": "You buy the field, fix the scoreboard and hire two coaches. The first summer camp has forty kids, half of them on scholarships, and the noise is wonderful.",
+					"requires": {
+						"min": {
+							"savings": 800000
+						}
+					},
+					"lock_text": "with enough saved",
 					"stats": {
 						"life": {
 							"social": 1
@@ -45098,6 +45276,7 @@
 					"modifiers": [
 						"inspired"
 					],
+					"money": -800000,
 					"set_flags": {
 						"business_owner": true
 					}
@@ -45113,7 +45292,8 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"money": -40000
 				},
 				{
 					"label": "Wait until you're done playing",
@@ -45136,7 +45316,10 @@
 					"requires": {
 						"flags": [
 							"reported_tampering"
-						]
+						],
+						"min": {
+							"savings": 700000
+						}
 					},
 					"lock_text": "having reported tampering in college",
 					"stats": {
@@ -45148,6 +45331,7 @@
 					"modifiers": [
 						"inspired"
 					],
+					"money": -700000,
 					"set_flags": {
 						"business_owner": true
 					}
@@ -46513,7 +46697,6 @@
 				"people": [],
 				"kind": "once",
 				"waits_on": [
-					"R3 money values",
 					"R1 no age cap (ages 39-41; 38 plays now)"
 				]
 			},
@@ -46547,7 +46730,8 @@
 					},
 					"modifiers": [
 						"stressed"
-					]
+					],
+					"money": -100000
 				},
 				{
 					"label": "Hand it to someone you trust",
@@ -46569,11 +46753,20 @@
 					"label": "Discover you're already there",
 					"result": "The accountant runs the numbers twice and looks up: you're already there, because you lived small for all those years. You drive home in your old car, laughing.",
 					"requires": {
-						"flags": [
-							"lived_modestly"
+						"any_of": [
+							{
+								"flags": [
+									"lived_modestly"
+								]
+							},
+							{
+								"min": {
+									"savings": 3000000
+								}
+							}
 						]
 					},
-					"lock_text": "having lived modestly all career",
+					"lock_text": "having saved carefully",
 					"stats": {
 						"life": {
 							"fun": 1
@@ -47120,7 +47313,6 @@
 				"people": [],
 				"kind": "once",
 				"waits_on": [
-					"R3 money values",
 					"R1 no age cap (ages 39-41; 38 plays now)"
 				]
 			},
@@ -47139,6 +47331,7 @@
 					"modifiers": [
 						"inspired"
 					],
+					"money": -250000,
 					"set_flags": {
 						"started_foundation": true
 					}
@@ -47157,6 +47350,7 @@
 					"modifiers": [
 						"rested"
 					],
+					"money": -150000,
 					"set_flags": {
 						"started_foundation": true
 					}
@@ -47194,6 +47388,7 @@
 					"modifiers": [
 						"inspired"
 					],
+					"money": -200000,
 					"set_flags": {
 						"started_foundation": true
 					}
@@ -48872,7 +49067,6 @@
 				"people": [],
 				"kind": "once",
 				"waits_on": [
-					"R3 money values",
 					"R1 no age cap"
 				]
 			},
@@ -48932,13 +49126,22 @@
 					"label": "Laugh at the answer",
 					"result": "She runs the numbers and laughs, because a younger you was so careful there's nothing to worry about. You drive home lighter than you've felt in years.",
 					"requires": {
-						"any_flags": [
-							"saved_rookie_check",
-							"saved_big_check",
-							"lived_modestly"
+						"any_of": [
+							{
+								"any_flags": [
+									"saved_rookie_check",
+									"saved_big_check",
+									"lived_modestly"
+								]
+							},
+							{
+								"min": {
+									"savings": 4000000
+								}
+							}
 						]
 					},
-					"lock_text": "having saved carefully all career",
+					"lock_text": "having saved carefully",
 					"stats": {
 						"life": {
 							"fun": 1
@@ -50640,10 +50843,7 @@
 				"group": "Era 1: Rookie (22-25)",
 				"premise": "The per diem envelope on the first road trip is thicker than your college scholarship check.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -50662,7 +50862,8 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"money": 10000
 				},
 				{
 					"label": "Take the rookies out",
@@ -50725,10 +50926,7 @@
 				"group": "Era 1: Rookie (22-25)",
 				"premise": "Your first tax bill as a pro is a number nobody prepared you for.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -50747,7 +50945,8 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"money": -10000
 				},
 				{
 					"label": "Ask a veteran at lunch",
@@ -50764,6 +50963,7 @@
 					"modifiers": [
 						"loose"
 					],
+					"money": -10000,
 					"rel": {
 						"team": 2
 					}
@@ -50784,7 +50984,8 @@
 					},
 					"modifiers": [
 						"drained"
-					]
+					],
+					"money": -20000
 				}
 			]
 		},
@@ -50811,10 +51012,7 @@
 				"group": "Era 1: Rookie (22-25)",
 				"premise": "A shoe company offers free cleats and a small contract, if you wear them on camera.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -50832,7 +51030,8 @@
 						"confident"
 					],
 					"skill_points": 1,
-					"followers": 2
+					"followers": 2,
+					"money": 20000
 				},
 				{
 					"label": "Test them for a week",
@@ -50850,7 +51049,8 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"money": 20000
 				},
 				{
 					"label": "Keep your old cleats",
@@ -51540,10 +51740,7 @@
 				"group": "Era 1: Rookie (22-25)",
 				"premise": "A trading card company wants your signature on a thousand cards in one afternoon.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -51560,7 +51757,8 @@
 					"modifiers": [
 						"tired"
 					],
-					"skill_points": 1
+					"skill_points": 1,
+					"money": 40000
 				},
 				{
 					"label": "Sign some for charity",
@@ -51577,7 +51775,8 @@
 					"modifiers": [
 						"inspired"
 					],
-					"followers": 2
+					"followers": 2,
+					"money": 8000
 				},
 				{
 					"label": "Pass on the cards",
@@ -53598,10 +53797,7 @@
 				"group": "Era 1: Rookie (22-25)",
 				"premise": "Your rookie class decides to celebrate your first full paycheck together.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -53616,6 +53812,7 @@
 					"modifiers": [
 						"loose"
 					],
+					"money": -8000,
 					"rel": {
 						"team": 2
 					}
@@ -53635,6 +53832,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -2000,
 					"rel": {
 						"backup": 1
 					}
@@ -54648,10 +54846,7 @@
 				"group": "Era 1: Rookie (22-25)",
 				"premise": "Your first credit card statement as a pro, and you don't remember half the charges.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -54670,7 +54865,8 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"money": 5000
 				},
 				{
 					"label": "Pay it and forget it",
@@ -54683,7 +54879,8 @@
 					},
 					"modifiers": [
 						"rested"
-					]
+					],
+					"money": -15000
 				},
 				{
 					"label": "Ask a veteran at lunch",
@@ -56716,10 +56913,7 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "Your second contract is real money, and everyone you know has noticed.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -56733,7 +56927,8 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"money": -50000
 				},
 				{
 					"label": "Help the ones who need it",
@@ -56750,6 +56945,7 @@
 					"modifiers": [
 						"inspired"
 					],
+					"money": -100000,
 					"rel": {
 						"parent": 3
 					}
@@ -56797,10 +56993,7 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "You buy a house with a yard big enough for a kicking net.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -56834,6 +57027,7 @@
 					"modifiers": [
 						"loose"
 					],
+					"money": -10000,
 					"rel": {
 						"parent": 2,
 						"sibling": 2
@@ -57931,10 +58125,7 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "A group of teammates forms an investment club and wants you in.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -57949,6 +58140,7 @@
 					"modifiers": [
 						"loose"
 					],
+					"money": 40000,
 					"rel": {
 						"team": 3
 					}
@@ -57967,6 +58159,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": 10000,
 					"set_flags": {
 						"honest_advisor": true
 					},
@@ -58015,10 +58208,7 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "You buy a second car, and then realize you never drive the first one.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -58034,7 +58224,8 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"money": -25000
 				},
 				{
 					"label": "Give the old one to {sibling}",
@@ -58066,7 +58257,8 @@
 					},
 					"modifiers": [
 						"rested"
-					]
+					],
+					"money": -40000
 				}
 			]
 		},
@@ -58586,10 +58778,7 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "Your first mortgage, and the papers are thicker than your playbook.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -58641,7 +58830,8 @@
 					},
 					"modifiers": [
 						"rested"
-					]
+					],
+					"money": -40000
 				}
 			]
 		},
@@ -58913,10 +59103,7 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "A brand wants you as its regional ambassador for three years.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -58934,7 +59121,8 @@
 					"modifiers": [
 						"spotlight"
 					],
-					"followers": 3
+					"followers": 3,
+					"money": 600000
 				},
 				{
 					"label": "Sign for one year",
@@ -58950,7 +59138,8 @@
 					"modifiers": [
 						"focused"
 					],
-					"followers": 2
+					"followers": 2,
+					"money": 200000
 				},
 				{
 					"label": "Pass on the cleat",
@@ -58990,10 +59179,7 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "A kicking company wants you on a weekend clinic tour.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -59011,7 +59197,8 @@
 					"modifiers": [
 						"inspired"
 					],
-					"followers": 2
+					"followers": 2,
+					"money": 120000
 				},
 				{
 					"label": "Do the dates near home",
@@ -59031,6 +59218,7 @@
 						"focused"
 					],
 					"skill_points": 1,
+					"money": 45000,
 					"rel": {
 						"parent": 1
 					}
@@ -59401,10 +59589,7 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "You hit a contract bonus, and your agent wants you to celebrate quietly.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -59420,7 +59605,8 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"money": 250000
 				},
 				{
 					"label": "Treat the specialists",
@@ -59434,6 +59620,7 @@
 					"modifiers": [
 						"loose"
 					],
+					"money": 150000,
 					"rel": {
 						"holder": 3
 					}
@@ -59450,7 +59637,8 @@
 					},
 					"modifiers": [
 						"rested"
-					]
+					],
+					"money": 200000
 				}
 			]
 		},
@@ -60111,10 +60299,7 @@
 				"group": "Era 2: Settled In (26-29)",
 				"premise": "Your advisor finally gets you to open a retirement account.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -63190,10 +63375,7 @@
 				"group": "Era 3: Veteran (30-33)",
 				"premise": "You consider a second business, while the first is still finding its feet.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -63226,6 +63408,7 @@
 					"modifiers": [
 						"stressed"
 					],
+					"money": -400000,
 					"set_flags": {
 						"business_owner": true
 					}
@@ -63273,10 +63456,7 @@
 				"group": "Era 3: Veteran (30-33)",
 				"premise": "A real estate agent pitches you on rental properties.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -63290,7 +63470,8 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"money": -300000
 				},
 				{
 					"label": "Ask {parent}",
@@ -63351,10 +63532,7 @@
 				"group": "Era 3: Veteran (30-33)",
 				"premise": "An investment you made years ago starts paying off.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -63370,7 +63548,8 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"money": 500000
 				},
 				{
 					"label": "Share some of it",
@@ -63386,6 +63565,7 @@
 					"modifiers": [
 						"loose"
 					],
+					"money": 250000,
 					"rel": {
 						"parent": 4
 					}
@@ -63401,7 +63581,8 @@
 					},
 					"modifiers": [
 						"rested"
-					]
+					],
+					"money": -100000
 				}
 			]
 		},
@@ -63428,10 +63609,7 @@
 				"group": "Era 3: Veteran (30-33)",
 				"premise": "You're audited, and every receipt from the last three years matters.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -63451,6 +63629,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -60000,
 					"set_flags": {
 						"honest_advisor": true
 					}
@@ -63466,13 +63645,15 @@
 							"resilience": 1
 						},
 						"personality": {
-							"intelligence": 2
+							"intelligence": 2,
+							"ambition": 1
 						}
 					},
 					"modifiers": [
 						"drained"
 					],
-					"skill_points": 1
+					"skill_points": 1,
+					"money": -100000
 				},
 				{
 					"label": "Sort receipts with {parent}",
@@ -63486,6 +63667,7 @@
 					"modifiers": [
 						"loose"
 					],
+					"money": -40000,
 					"rel": {
 						"parent": 3
 					}
@@ -63665,10 +63847,7 @@
 				"group": "Era 3: Veteran (30-33)",
 				"premise": "A company wants you to give a motivational talk to its employees.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -63685,7 +63864,8 @@
 					},
 					"modifiers": [
 						"inspired"
-					]
+					],
+					"money": 75000
 				},
 				{
 					"label": "Tell stories and laugh",
@@ -63698,7 +63878,8 @@
 					},
 					"modifiers": [
 						"loose"
-					]
+					],
+					"money": 75000
 				},
 				{
 					"label": "Turn the speech down",
@@ -63740,15 +63921,12 @@
 				"group": "Era 3: Veteran (30-33)",
 				"premise": "A publisher wants you to write a kids' book about kicking.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
 					"label": "Write it",
-					"result": "You write it at the kitchen table with your kids correcting every page. The dedication is to them, and they read it to their classes.",
+					"result": "You write it at the kitchen table with {sibling}'s kids correcting every page. The dedication is to them, and they read it to their classes.",
 					"stats": {
 						"life": {
 							"energy": -1
@@ -63762,6 +63940,7 @@
 						"inspired"
 					],
 					"skill_points": 1,
+					"money": 40000,
 					"rel": {
 						"parent": 1
 					}
@@ -63778,6 +63957,7 @@
 					"modifiers": [
 						"loose"
 					],
+					"money": 25000,
 					"rel": {
 						"holder": 3
 					}
@@ -67928,10 +68108,7 @@
 				"group": "Era 4: Aging Veteran (34-37)",
 				"premise": "A retirement planner shows you three futures, and only one has football in it.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -68815,10 +68992,7 @@
 				"group": "Era 4: Aging Veteran (34-37)",
 				"premise": "A sponsor offers what may be your last big deal.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -68835,7 +69009,8 @@
 					"modifiers": [
 						"spotlight"
 					],
-					"followers": 4
+					"followers": 4,
+					"money": 500000
 				},
 				{
 					"label": "Make it about the kids",
@@ -68849,7 +69024,8 @@
 					"modifiers": [
 						"inspired"
 					],
-					"followers": 2
+					"followers": 2,
+					"money": 250000
 				},
 				{
 					"label": "Turn it down",
@@ -68970,10 +69146,7 @@
 				"group": "Era 4: Aging Veteran (34-37)",
 				"premise": "Another season at the veteran minimum.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -68993,7 +69166,7 @@
 				},
 				{
 					"label": "Tighten the budget",
-					"result": "A tighter budget, built with your advisor and your family. Nobody misses much, and the kids think the new rules are funny.",
+					"result": "A tighter budget, built with your advisor and your family. Nobody misses much, and {sibling} thinks the new rules are hilarious.",
 					"stats": {
 						"personality": {
 							"intelligence": 2,
@@ -69002,7 +69175,8 @@
 					},
 					"modifiers": [
 						"focused"
-					]
+					],
+					"money": 40000
 				},
 				{
 					"label": "Earn a raise",
@@ -70190,10 +70364,7 @@
 				"group": "Era 4: Aging Veteran (34-37)",
 				"premise": "{sibling} wants you to join his business when you retire.",
 				"people": [],
-				"kind": "once",
-				"waits_on": [
-					"R3 money values"
-				]
+				"kind": "once"
 			},
 			"choices": [
 				{
@@ -70231,6 +70402,7 @@
 					"modifiers": [
 						"focused"
 					],
+					"money": -150000,
 					"set_flags": {
 						"family_business": true
 					},

@@ -247,7 +247,8 @@
           },
           "modifiers": [
             "stressed"
-          ]
+          ],
+          "money": -100000
         },
         {
           "label": "Hand it to someone you trust",
@@ -283,11 +284,20 @@
             "rested"
           ],
           "requires": {
-            "flags": [
-              "lived_modestly"
+            "any_of": [
+              {
+                "flags": [
+                  "lived_modestly"
+                ]
+              },
+              {
+                "min": {
+                  "savings": 3000000
+                }
+              }
             ]
           },
-          "lock_text": "having lived modestly all career"
+          "lock_text": "having saved carefully"
         }
       ]
     },
@@ -709,7 +719,8 @@
           ],
           "set_flags": {
             "started_foundation": true
-          }
+          },
+          "money": -250000
         },
         {
           "label": "Start it quietly",
@@ -728,7 +739,8 @@
           ],
           "set_flags": {
             "started_foundation": true
-          }
+          },
+          "money": -150000
         },
         {
           "label": "Wait until you retire",
@@ -768,7 +780,8 @@
               "refused_improper_help"
             ]
           },
-          "lock_text": "having refused improper help in college"
+          "lock_text": "having refused improper help in college",
+          "money": -200000
         }
       ]
     },

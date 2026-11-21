@@ -83,12 +83,21 @@
             "life_after_football": true
           },
           "requires": {
-            "any_flags": [
-              "saved_rookie_check",
-              "saved_big_check"
+            "any_of": [
+              {
+                "any_flags": [
+                  "saved_rookie_check",
+                  "saved_big_check"
+                ]
+              },
+              {
+                "min": {
+                  "savings": 3000000
+                }
+              }
             ]
           },
-          "lock_text": "having saved your big checks"
+          "lock_text": "having saved carefully"
         }
       ]
     },
@@ -114,7 +123,8 @@
           ],
           "set_flags": {
             "business_owner": true
-          }
+          },
+          "money": -300000
         },
         {
           "label": "Lend your name only",
@@ -130,7 +140,8 @@
           },
           "modifiers": [
             "rested"
-          ]
+          ],
+          "money": 30000
         },
         {
           "label": "Say no kindly",
@@ -169,7 +180,8 @@
               "business_fraud_victim"
             ]
           },
-          "lock_text": "having been cheated by a business partner"
+          "lock_text": "having been cheated by a business partner",
+          "money": -200000
         }
       ]
     },
@@ -197,7 +209,14 @@
           ],
           "set_flags": {
             "business_owner": true
-          }
+          },
+          "money": -800000,
+          "requires": {
+            "min": {
+              "savings": 800000
+            }
+          },
+          "lock_text": "with enough saved"
         },
         {
           "label": "Start small, rent first",
@@ -212,7 +231,8 @@
           },
           "modifiers": [
             "focused"
-          ]
+          ],
+          "money": -40000
         },
         {
           "label": "Wait until you're done playing",
@@ -250,9 +270,13 @@
           "requires": {
             "flags": [
               "reported_tampering"
-            ]
+            ],
+            "min": {
+              "savings": 700000
+            }
           },
-          "lock_text": "having reported tampering in college"
+          "lock_text": "having reported tampering in college",
+          "money": -700000
         }
       ]
     },
