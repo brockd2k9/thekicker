@@ -16,6 +16,7 @@ var _window_fill: StyleBoxFlat
 var _scoreboard_override := false
 var _winner: Label
 var _result_box: StyleBoxFlat
+var _debug_line: Label
 
 @onready var _attempts: Label = %AttemptsLabel
 @onready var _makes: Label = %MakesLabel
@@ -125,6 +126,22 @@ func set_window(frac: float, shown: bool) -> void:
 	_window_bar.modulate.a = 1.0 if shown else 0.0
 	_window_bar.value = frac * 100.0
 	_window_fill.bg_color = MISS_COLOR.lerp(GOOD_COLOR, frac)
+
+
+## A small extra debug line above the shot readout (e.g. Career nerves:
+## "Nerves x1.34 = 1 + energy 0.12 + ..."). Stays for the whole kick.
+func set_debug_line(text: String) -> void:
+	if _debug_line == null:
+		_debug_line = Label.new()
+		_debug_line.name = "DebugLine"
+		_debug_line.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_debug_line.add_theme_font_size_override("font_size", 18)
+		_debug_line.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		_debug_line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		var col := _shot_info.get_parent()
+		col.add_child(_debug_line)
+		col.move_child(_debug_line, _shot_info.get_index())
+	_debug_line.text = text
 
 
 func show_shot_info(text: String) -> void:

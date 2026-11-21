@@ -57,6 +57,11 @@ var wind_mult: float = 1.0
 var injury_risk: float = 0.0
 ## Game Day Outlook: [{label, detail, good: bool, source: "modifier"/"state"/"trait"}].
 var outlook: Array[Dictionary] = []
+## Kick nerves (KickNerves): crooked swipes miss wider by this factor
+## (1 = normal), and its breakdown {mult, energy, life, decisions, slump,
+## in_slump, clean_run, status} for the Outlook and the debug overlay.
+var straightness_penalty_mult: float = 1.0
+var nerves: Dictionary = {}
 
 
 ## data: the career. ctx (optional): {"miss_streak": int} during a game,
@@ -165,6 +170,14 @@ static func build(data: CareerData, tuning: CareerTuning, ctx: Dictionary = {}) 
 
 	p.injury_risk *= maxf(1.0 + Perks.total(data, "injury_risk_mult"), 0.0)
 	p._clamp(t)
+	# 7. Nerves: off-field trouble and slumps make a crooked swipe miss wider.
+	p.nerves = KickNerves.breakdown(data, t)
+	p.straightness_penalty_mult = float(p.nerves["mult"])
+	if str(p.nerves["status"]) != "":
+		p.outlook.append({"label": str(p.nerves["status"]),
+			"detail": "Crooked swipes miss %d%% wider (%s). Straight swipes are unaffected." % [
+				roundi((p.straightness_penalty_mult - 1.0) * 100.0), KickNerves.reasons(p.nerves)],
+			"note": "", "good": false, "source": "state"})
 	p._finish_range(data, t)
 	return p
 
@@ -201,6 +214,7 @@ func to_kick_modifiers() -> KickModifiers:
 	m.window_mult = window_mult
 	m.wobble_mult = wobble_mult
 	m.wind_mult = wind_mult
+	m.straightness_penalty_mult = straightness_penalty_mult
 	m.kickoff_range_yd = kickoff_range
 	m.kickoff_mult = kickoff_range / KickoffRules.new().max_carry_yards
 	return m

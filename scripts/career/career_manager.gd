@@ -543,6 +543,8 @@ func finish_game(summary: Dictionary) -> void:
 				data.fg_streak = data.fg_streak + 1 if data.fg_streak > 0 else 1
 			else:
 				data.fg_streak = data.fg_streak - 1 if data.fg_streak < 0 else -1
+	# Kick nerves: a slump starts after a run of misses, ends after clean kicks.
+	KickNerves.after_game(data, summary.get("kicks", []), tuning)
 	var line := _record_kicks(summary.get("kicks", []))
 	var e := entry()
 	e["result"] = {"us": summary.get("us", 0), "them": summary.get("them", 0), "outcome": outcome}
@@ -722,6 +724,7 @@ func end_week() -> void:
 	CareerStats.apply(data, growth, tuning)
 	Relationships.end_week(data, tuning)
 	KickTrust.end_week(data)
+	KickNerves.end_week(data, tuning)
 	Bench.end_week(data, tuning)
 	CareerStats.apply(data, Followers.end_week(data, tuning), tuning)
 	data.sp_week.clear()

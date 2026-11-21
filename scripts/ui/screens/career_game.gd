@@ -292,7 +292,12 @@ func _launch_kick(e: Dictionary) -> void:
 	var rules: KickoffRules = null
 	if _kick_kind in ["kickoff", "onside"]:
 		rules = CareerGameMode.kickoff_rules_for(career.tuning, Progression.game_params(career.data, career.tuning), prof)
-	_open_kick_scene(CareerGameMode.from_call(CareerGameMode.adjust_call(e, prof), prof.pressure_add, rules), prof, e)
+	var gm := CareerGameMode.from_call(CareerGameMode.adjust_call(e, prof), prof.pressure_add, rules)
+	# Nerves status on the kick's situation line ("... - SHAKY"), field goals / extra points.
+	var status := str(prof.nerves.get("status", ""))
+	if status != "" and _kick_kind in ["fg", "pat"]:
+		gm.situation.label += "  -  " + status.to_upper()
+	_open_kick_scene(gm, prof, e)
 
 
 ## The kick scene over the bench screen, with this week's profile, the stage's
@@ -301,6 +306,8 @@ func _open_kick_scene(mode: KickMode, prof: KickProfile, e: Dictionary) -> void:
 	_kick_scene = FIELD_GOAL.instantiate()
 	_kick_scene.mode = mode
 	_kick_scene.modifiers = prof.to_kick_modifiers()
+	if not prof.nerves.is_empty():
+		_kick_scene.nerves_debug = KickNerves.debug_text(prof.nerves, career.tuning)
 	_kick_scene.set_look(career.kick_look())
 	_layer.visible = false
 	_kick_made = false
@@ -348,6 +355,7 @@ func _on_attempt_finished(_outcome: KickResult.Outcome) -> void:
 	if GameState.kick_resolved.is_connected(_on_kick_resolved):
 		GameState.kick_resolved.disconnect(_on_kick_resolved)
 	var tee_result: Dictionary = _kick_scene.tee_result
+	var last_penalty: float = _kick_scene.last_shot_penalty
 	_kick_overlay.queue_free()
 	_kick_scene.queue_free()
 	_kick_scene = null
@@ -359,7 +367,8 @@ func _on_attempt_finished(_outcome: KickResult.Outcome) -> void:
 	if _kick_kind in ["kickoff", "onside"]:
 		sim.resolve_call(tee_result)
 	else:
-		sim.resolve_call({"made": _kick_made})
+		sim.resolve_call({"made": _kick_made,
+			"straight": last_penalty <= career.tuning.nerves_straight_penalty})
 		_show_trust(sim.kicks[sim.kicks.size() - 1] if not sim.kicks.is_empty() else {})
 	_update_status()
 	_busy = false

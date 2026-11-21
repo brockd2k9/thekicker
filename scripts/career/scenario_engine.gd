@@ -291,6 +291,8 @@ static func apply_choice(c: CareerData, id: String, index: int, tuning: CareerTu
 		push_warning("ScenarioEngine: choice %d of '%s' is locked" % [index, id])
 		return {}
 	var out := apply_effects(c, ch, tuning, CareerContent.fill(str(s.get("title", "")), Relationships.text_vars(c)))
+	# Wrong (or good) decisions feed the kick nerves (crooked swipes cost more).
+	KickNerves.on_choice(c, ch, tuning)
 	var log: Dictionary = c.scenario_log.get(id, {"times": 0})
 	log["times"] = int(log.get("times", 0)) + 1
 	log["last_week_index"] = c.week_index
