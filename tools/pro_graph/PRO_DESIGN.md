@@ -41,7 +41,7 @@ College flags set severity through locked choices.
 | Era 4: Aging Veteran (34-37) | 150 | 149 | 0 | 14 | 0 | 2 | 0 | 2 |
 | Era 5: Grizzled Veteran (38-41) | 80 | 0 | 80 | 5 | 0 | 0 | 0 | 0 |
 | Era 6: Hall of Fame Era (42+) | 40 | 0 | 40 | 1 | 0 | 0 | 0 | 40 |
-| Across eras (state-driven) | 108 | 24 | 0 | 10 | 1 | 0 | 0 | 1 |
+| Across eras (state-driven) | 108 | 68 | 0 | 10 | 1 | 0 | 0 | 1 |
 | Epilogue (after retirement) | 12 | 0 | 0 | 0 | 0 | 0 | 12 | 12 |
 
 Era 5 counts the age-38 scenes as playable now (the cap retires a player after the age-38 season); its ages 39-41 wait on R1. Eras 5 and 6 and the epilogue are proposals until the user confirms them.

@@ -1,0 +1,831 @@
+{
+  "_about": "PRO batch 50: the cross-era pool, set A.",
+  "scenarios": [
+    {
+      "id": "PRO_045",
+      "title": "Packing Up the House",
+      "category": "family",
+      "text": "The new contract is in {town}. Your partner has a job, friends and a garden where you live now, and the moving company has sent a quote that is mostly zeros.",
+      "choices": [
+        {
+          "label": "Move everyone together",
+          "result": "Everyone moves together to {town}, boxes and plants and all. It's hard on your partner for months, and the new house has a bigger garden, which helps more than either of you expected.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "love_interest": 2
+          }
+        },
+        {
+          "label": "Go alone for the season",
+          "result": "You go alone for the season and fly home every bye week, while {sibling} checks on the house. It's lonely and practical, and the nightly calls get longer as the weeks go by.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "sibling": 2
+          }
+        },
+        {
+          "label": "Let your partner decide",
+          "result": "You leave the decision to your partner and mean it. They choose to come, for reasons of their own they explain over dinner, and you're grateful for it every single day.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "love_interest": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_046",
+      "title": "The Family Stays Behind",
+      "category": "family",
+      "text": "You'll be in {town} during the season, and your family will be a flight away. The kids have drawn you a calendar with every visit marked in a different color of crayon.",
+      "choices": [
+        {
+          "label": "Fly home every off day",
+          "result": "A flight home on every off day, even for a single night. You're tired all season, your legs feel the travel, and you never miss a birthday or a school play.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": -3
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "love_interest": 3
+          }
+        },
+        {
+          "label": "Call every night at seven",
+          "result": "Seven o'clock, every night, on video, with homework help and bedtime stories, and {parent} filling in on the nights you can't. The kids set alarms for it.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "parent": 2
+          }
+        },
+        {
+          "label": "Bring them for a month",
+          "result": "The whole family comes to {town} for a month in the middle of the season. The apartment is crowded and loud and wonderful, and the kids learn every song the crowd sings.",
+          "stats": {
+            "life": {
+              "fun": 3,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_047",
+      "title": "Your Old Team Comes to Town",
+      "category": "team",
+      "text": "Your old club is on the schedule this week. Half their locker room still texts you, the equipment manager sent a care package, and the reporters want a revenge story.",
+      "choices": [
+        {
+          "label": "Visit their locker room",
+          "result": "You visit their locker room before warmups to hug the equipment manager and the snapper. It feels like a reunion, not a revenge, and you leave with a bag of their candy.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 1
+          }
+        },
+        {
+          "label": "Give the reporters nothing",
+          "result": "No revenge story and no quotes, just kicking. The reporters write that you were 'gracious', which is fine, and the week passes without a single headline about you.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Let yourself want it",
+          "result": "For once you let yourself want it. Every kick in practice that week has a little extra in it, and you sleep badly, replaying old meetings you thought you'd forgotten.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {
+              "power": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1
+        }
+      ]
+    },
+    {
+      "id": "PRO_051",
+      "title": "The Tryout Hotel",
+      "category": "career",
+      "text": "You got the job at a Tuesday tryout. Now you live in a hotel by the airport until somebody says otherwise, with a suitcase, a kicking bag and a room-service menu you've memorized.",
+      "choices": [
+        {
+          "label": "Make the hotel a home",
+          "result": "A plant, a photo, a rented bike and a favorite diner down the road. It's a strange little home with planes overhead, and it keeps you steady through the uncertain weeks.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Live at the facility",
+          "result": "You're at the facility all day, every day: film, gym, kicks. You only go back to the hotel to sleep, and you're the best-prepared player in the building by October.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Find a teammate to share with",
+          "result": "A teammate with a spare room offers it by the second week. Real dinners, real conversation, and a friend for the season instead of a menu and a television.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_067",
+      "title": "Family Asks for Money",
+      "category": "family",
+      "text": "{sibling} needs money, a real amount, and doesn't want {parent} to know. They call late, after the kids are asleep, and apologize three times before they say the number.",
+      "choices": [
+        {
+          "label": "Help, and keep the secret",
+          "result": "You send the money quietly and keep the secret. {sibling} pays you back slowly over two years, a little every month, and never forgets that you didn't ask any questions.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "sibling": 5
+          }
+        },
+        {
+          "label": "Help, with a plan",
+          "result": "You help, with conditions: an advisor, a budget, a plan written down. {sibling} grumbles and agrees, and it works well enough that they never need to call you like that again.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "sibling": 2
+          },
+          "set_flags": {
+            "honest_advisor": true
+          }
+        },
+        {
+          "label": "Ask them to tell {parent}",
+          "result": "You gently ask them to tell {parent}. They do, eventually, after a hard week, and the family solves it together, slowly, around the same table where all the big things get solved.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "sibling": -1,
+            "parent": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_078",
+      "title": "The Recital",
+      "category": "family",
+      "text": "A school recital, a road trip, and a kid who has asked you three times if you'll be there. The recital starts at seven; the team plane leaves at five.",
+      "choices": [
+        {
+          "label": "Ask to fly separately",
+          "result": "You arrange a late flight with {coach}. You're in the second row at seven and on a plane at ten, and your kid waves at you from the stage halfway through the song.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": -2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "love_interest": 3,
+            "coach": -1
+          }
+        },
+        {
+          "label": "Watch on a video call",
+          "result": "From the team plane, over spotty wifi, you watch on your phone and the whole specialist unit crowding the screen. They all clap at the end, and {holder} asks for an encore.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "holder": 2
+          }
+        },
+        {
+          "label": "Make it up after",
+          "result": "A promise, kept, and a private recital at home when you get back. Your kid performs it for you twice, in full costume, and {parent} films both shows on an old phone.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "parent": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_079",
+      "title": "Your Partner's Career",
+      "category": "family",
+      "text": "Your partner has been offered the job of a lifetime, in a city with no team, four hours away. They're trying hard not to look excited, and failing completely.",
+      "choices": [
+        {
+          "label": "Tell them to take it",
+          "result": "You tell them to take it, and you mean it. The next year is complicated and full of flights and missed dinners, and they've never been happier, which makes it worth it.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "love_interest": 5
+          }
+        },
+        {
+          "label": "Plan it together",
+          "result": "A plan made together on a whiteboard: weekends, the offseason, a house halfway. It's hard and it holds, because you built it together, and {best_friend} helps you move the first boxes.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "best_friend": 2
+          }
+        },
+        {
+          "label": "Ask them to wait a season",
+          "result": "You ask them to wait one more season. They agree, and something goes quiet between you that takes a long time to come back, even after the season ends.",
+          "stats": {
+            "life": {},
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "love_interest": -3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_083",
+      "title": "The Old Friend's Ticket Requests",
+      "category": "social",
+      "text": "{best_friend} asks for tickets every single week and brings a different stranger every time. This week's stranger wants a photo in the locker room with the whole specialist unit.",
+      "choices": [
+        {
+          "label": "Keep saying yes",
+          "result": "You keep saying yes, every week, because it's {best_friend}. The strangers are mostly nice, one of them makes everyone laugh for an hour, and one of them becomes a real friend.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "best_friend": 2
+          }
+        },
+        {
+          "label": "Set a limit",
+          "result": "Two games a month, you tell {best_friend} kindly over the phone. They laugh, agree, and start bringing better strangers, and your locker room stops feeling like a tourist stop.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Invite {best_friend} alone",
+          "result": "Just {best_friend} this time, no strangers, and a long dinner after the game. It's the best night you've had together in a year, full of old stories you'd both forgotten.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "best_friend": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_092",
+      "title": "A Teammate in Trouble",
+      "category": "team",
+      "text": "A teammate's arrest is on every channel. He calls you from his lawyer's office and asks you to speak for his character at the hearing next week.",
+      "choices": [
+        {
+          "label": "Speak honestly",
+          "result": "At the hearing you speak honestly: what you've seen of him, no more and no less. The judge listens carefully, and so does your teammate, who thanks you afterwards in the hallway.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Help him find better help",
+          "result": "You find him a better lawyer and a counselor through the union. It isn't what he asked for, and it's the help he actually needed, which he admits a month later.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ]
+        },
+        {
+          "label": "Decline politely",
+          "result": "You say no, kindly, because you don't know enough about what happened. He's hurt and hangs up quickly, and weeks later he tells you he understands, though things stay a little cooler.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "team": -1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_095",
+      "title": "The Tabloid",
+      "category": "family",
+      "text": "A gossip site prints a story about your marriage that's mostly made up: a fight in a restaurant that never happened, a quote from a 'friend' you've never met.",
+      "choices": [
+        {
+          "label": "Ignore it together",
+          "result": "You ignore it together at the kitchen table, with the laptop firmly closed. It's gone in a week, and you laugh for months about the mysterious 'friend' who knows you so well.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "love_interest": 3
+          }
+        },
+        {
+          "label": "Have your lawyer respond",
+          "result": "A letter from your lawyer and a quiet correction a week later on page nine. Few people see it, and that's fine, because the people who matter already knew the truth.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Joke about it publicly",
+          "result": "A joke at your locker about the restaurant you've never been to. The story turns into a punchline, the teammates start making reservations there, and the site quietly deletes the piece.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "rel": {
+            "team": 2
+          },
+          "followers": 1
+        }
+      ]
+    },
+    {
+      "id": "PRO_096",
+      "title": "The Marriage on the Road",
+      "category": "family",
+      "text": "You've been home eleven nights since August, and your partner has stopped asking when you'll be back. The house runs perfectly without you, which is exactly the problem.",
+      "choices": [
+        {
+          "label": "Talk about it tonight",
+          "result": "Tonight, on the phone, for two hours: everything, including the part that scares you both. It doesn't fix anything yet, and it's the honest start of fixing it.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "love_interest": 3
+          }
+        },
+        {
+          "label": "Plan real time together",
+          "result": "Real time, planned: the bye week, the offseason, and one night a week with no phones while {parent} takes the kids. It helps, slowly, and you both stop counting the nights.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "parent": 2
+          }
+        },
+        {
+          "label": "Push through to the offseason",
+          "result": "Through to the offseason, you tell yourself, and you pour everything into kicking instead. The distance at home grows another inch, and you can feel it in every short call.",
+          "stats": {
+            "life": {},
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "love_interest": -3
+          },
+          "set_flags": {
+            "marriage_strained": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_099",
+      "title": "The Locker Room Fight",
+      "category": "team",
+      "text": "Two starters are swinging at each other by the cold tub over something nobody can remember, and the rookies are all looking at you to see what happens next.",
+      "choices": [
+        {
+          "label": "Step between them",
+          "result": "You step between them calmly, hands up, talking the whole time. It stops, and both of them apologize to you afterwards, which is strange, and the rookies remember it all season.",
+          "stats": {
+            "life": {},
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "leadership": 3
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Get the coaches",
+          "result": "You fetch the coaches fast. It's over in a minute, nobody gets hurt, and the rookies see how a room is supposed to work when something breaks, which matters more than they know.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        },
+        {
+          "label": "Talk to both of them later",
+          "result": "You talk to both of them separately that evening, over dinner and over the phone. By Friday they're joking again, and nobody knows you had anything to do with it.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "backup": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_104",
+      "title": "The Labor Fight",
+      "category": "team",
+      "text": "The league and the union are fighting over the next agreement, and the owners are talking about replacement players. As your team's union rep, the young players want answers from you.",
+      "choices": [
+        {
+          "label": "Hold a players' meeting",
+          "result": "A meeting with the facts and none of the rumors, questions welcome. The young players leave calmer than they came in, and the room holds together through a long, tense month.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 3
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 3
+          }
+        },
+        {
+          "label": "Learn every detail",
+          "result": "You learn the whole proposal in detail, every clause, so every answer you give is right. It's dull, late-night work, and it's the most important thing you do all spring.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Talk to the veterans first",
+          "result": "You consult the veterans first, one by one, so the room speaks with one voice. It takes longer than anyone wants, and it works when the vote finally comes.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "holder": 2
+          }
+        }
+      ]
+    }
+  ]
+}

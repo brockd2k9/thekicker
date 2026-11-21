@@ -1,0 +1,902 @@
+{
+  "_about": "PRO batch 49: the cross-era pool, set A.",
+  "scenarios": [
+    {
+      "id": "PRO_016",
+      "title": "The Slump",
+      "category": "training",
+      "text": "Three weeks of misses in practice, and the coaches have stopped talking to you about it, which is worse. The snapper has started being very kind to you, which is worst of all.",
+      "choices": [
+        {
+          "label": "Go back to the film",
+          "result": "The film of your best month, side by side with this one, frame by frame. The difference is a few inches of plant foot, and it takes you a week of patience to fix it.",
+          "stats": {
+            "life": {},
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Kick through it",
+          "result": "Extra kicks after every practice, until your leg aches and your hip complains at night. The rhythm comes back on its own eventually, the way it always has, and you're too tired to celebrate.",
+          "stats": {
+            "life": {
+              "energy": -3
+            },
+            "football": {
+              "power": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "heavy_legs"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Talk to {holder}",
+          "result": "Coffee with {holder}, with no film and no charts, talking about anything except kicking. An hour of laughing loosens something the drills never could, and the next morning feels lighter.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "holder": 3
+          }
+        },
+        {
+          "label": "Use what helped last time",
+          "result": "The tools from the last slump, dusted off: the breath, the one word, the slow walk between kicks. This one is shorter than the last, and you're quietly grateful you kept them.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1,
+          "requires": {
+            "any_flags": [
+              "saw_sports_psych",
+              "leaned_on_support"
+            ]
+          },
+          "lock_text": "having gotten help in a slump before"
+        }
+      ]
+    },
+    {
+      "id": "PRO_017",
+      "title": "The Coach Loses Faith",
+      "category": "team",
+      "text": "{coach} watches your warmup from the sideline with folded arms and doesn't say a single word. On the way off the field, the coach walks straight past you without stopping or looking over.",
+      "choices": [
+        {
+          "label": "Ask what the coach needs",
+          "result": "You ask outright in the hallway what they need from you. The answer is specific and fair, two things, both fixable, and the coach seems relieved somebody finally asked.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 3
+          }
+        },
+        {
+          "label": "Answer with practice",
+          "result": "No questions, just practice: a week of the cleanest kicks you've had all season, every rep logged. The arms unfold on Friday, and nobody mentions the silence again.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Wait it out",
+          "result": "You wait it out quietly and keep your head down. It's a long week of folded arms and short answers, then it passes, and you never find out why it started.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "coach": -1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_018",
+      "title": "Benched",
+      "category": "team",
+      "text": "You're inactive this week. Your name is on the board in the locker room with a thin line through it, and your helmet is still hanging on its hook in your locker like nothing happened.",
+      "choices": [
+        {
+          "label": "Be the best teammate in the building",
+          "result": "Every rep with the scout team, every water bottle, every encouraging word for the kicker who replaced you. The coaches notice who you were this week, and so does the room.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 2,
+            "coach": 1
+          }
+        },
+        {
+          "label": "Train like it's a tryout",
+          "result": "An empty field after practice and kicks until it's too dark to see the posts. If they bring you back, you'll be sharper than you were, and your legs feel every one of them.",
+          "stats": {
+            "life": {
+              "energy": -3
+            },
+            "football": {
+              "power": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Spend the game at home",
+          "result": "You watch the game from your couch with {love_interest}, which is strange and quiet. You're surprised how much it helps to be away from the building for one afternoon.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "social": 1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "love_interest": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_019",
+      "title": "The Job Back",
+      "category": "team",
+      "text": "You're active again this week. In the locker room, the kicker who replaced you is clearing out his stall slowly, one thing at a time, and he doesn't look up when you walk in.",
+      "choices": [
+        {
+          "label": "Help him pack",
+          "result": "You carry his things out to his car with him. He doesn't say much on the way, and at the trunk he shakes your hand for a long time before he drives off.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "backup": 3
+          }
+        },
+        {
+          "label": "Thank the people who kept you ready",
+          "result": "{holder} and the snapper, thanked by name and out loud in front of the unit. They kept you sharp while you were out, and you want everyone in the room to know it.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "holder": 3
+          }
+        },
+        {
+          "label": "Get straight back to work",
+          "result": "You're straight back to work before your cleats are even tied. You've earned the job back, and now the harder part starts: keeping it every single week.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1
+        }
+      ]
+    },
+    {
+      "id": "PRO_020",
+      "title": "The Hot Streak",
+      "category": "media",
+      "text": "You haven't missed in a month, in practice or anywhere else, and everyone wants to talk about it except you. The specialists have stopped saying the word altogether.",
+      "choices": [
+        {
+          "label": "Never say the word",
+          "result": "The word stays unsaid by everyone, all month. Even the reporters start dancing around it in their questions, which makes the specialists laugh every time they hear it.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Enjoy it out loud",
+          "result": "For once you enjoy it out loud: the interviews, the highlight package, the dinner with the unit. It's fun, it's loud, and the streak doesn't seem to care either way.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "followers": 2
+        },
+        {
+          "label": "Give the credit away",
+          "result": "The snapper and {holder} get the credit in every interview you give. The specialists' group chat is very happy about it, and {holder} frames one of the quotes.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "holder": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_024",
+      "title": "Talk Radio",
+      "category": "media",
+      "text": "The afternoon talk show has a new segment called 'Cut the Kicker', and {parent} listens to it every single day, then calls you afterwards to argue with the hosts.",
+      "choices": [
+        {
+          "label": "Ask {parent} to stop listening",
+          "result": "A gentle request: please stop listening for your sake. {parent} agrees reluctantly and switches to the classical station, complaining about it for weeks, and your afternoons get much quieter.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "parent": 2
+          }
+        },
+        {
+          "label": "Call in to the show",
+          "result": "Live on air, with a sense of humor and a prepared joke, you dial in to the show. The hosts are speechless, the segment gets renamed, and {parent} records the whole thing.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "rel": {
+            "parent": 2
+          },
+          "followers": 3
+        },
+        {
+          "label": "Use the segment",
+          "result": "You write the segment's name on a strip of tape inside your locker. Every practice that week has a little extra in it, and nobody else knows why.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {
+              "power": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1
+        }
+      ]
+    },
+    {
+      "id": "PRO_025",
+      "title": "The Yips",
+      "category": "training",
+      "text": "Your foot won't swing through the ball in practice. You're not tired, you're not hurt; it just stops halfway, like it belongs to someone else. The snapper has stopped snapping to you.",
+      "choices": [
+        {
+          "label": "Go back to the beginning",
+          "result": "Back to the beginning: no ball, then a ball on a tee with no rush, then one snap. It takes nine slow days, and then one morning it comes back.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Talk to the team psychologist",
+          "result": "The team psychologist sees you the same afternoon. The conversation isn't about kicking at all, and the next morning your foot swings through like it never stopped.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "drained"
+          ]
+        },
+        {
+          "label": "Force it",
+          "result": "You force it for two hundred kicks. Some go through and most don't, and you go home exhausted and scared, with a sore hip and no answers.",
+          "stats": {
+            "life": {
+              "energy": -3
+            },
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Use the old tools",
+          "result": "The tools from the last time your body locked up: the breath, the count, the ground under your feet. It loosens by the end of the session, and you exhale.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1,
+          "requires": {
+            "any_flags": [
+              "saw_sports_psych",
+              "got_help_panic"
+            ]
+          },
+          "lock_text": "having worked through panic before"
+        }
+      ]
+    },
+    {
+      "id": "PRO_027",
+      "title": "The Film That Hurts",
+      "category": "training",
+      "text": "{coach} plays every miss of your season back to back in an empty meeting room, with the lights off, and then turns around in the chair and waits for you to speak.",
+      "choices": [
+        {
+          "label": "Find the pattern with the coach",
+          "result": "You find the pattern together on the third viewing: every miss starts with a rushed second step. You fix it that week, and the coach nods for the first time in a month.",
+          "stats": {
+            "life": {},
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 3
+          }
+        },
+        {
+          "label": "Ask to see the makes too",
+          "result": "You ask to see the makes too, for balance. {coach} laughs and plays them, and the dark room feels completely different by the end of the reel.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        },
+        {
+          "label": "Sit through it in silence",
+          "result": "You watch every miss in silence, all the way to the end. It's brutal and long, and somehow you walk out with a clearer head than you walked in with.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "skill_points": 1
+        }
+      ]
+    },
+    {
+      "id": "PRO_028",
+      "title": "Kicking Hurt",
+      "category": "health",
+      "text": "Your plant leg is sore in a way the trainers can't find on any scan. It's there in the morning, worse after kicking, and nobody can tell you why it started.",
+      "choices": [
+        {
+          "label": "Rest it properly",
+          "result": "A full week of real rest, with the trainers watching every step. The soreness fades slowly, and you never find out what it was, which bothers you less than you expected.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "health": 3
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Get another specialist",
+          "result": "A second specialist, then a third, until one finds it: a small strain deep in the hip. Knowing helps almost as much as the treatment does, and you sleep better.",
+          "stats": {
+            "life": {
+              "health": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        },
+        {
+          "label": "Kick through it",
+          "result": "You kick through it carefully at every practice. It holds, mostly, and you feel it with every step of every warmup, a small ache that never quite leaves.",
+          "stats": {
+            "life": {
+              "health": -2
+            },
+            "football": {
+              "toughness": 2
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "sore"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Build the plan yourself",
+          "result": "You build a plan with the trainers, using everything you learned the last time you were hurt. They follow your lead, and the soreness is gone in two weeks.",
+          "stats": {
+            "life": {
+              "health": 3
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "requires": {
+            "any_flags": [
+              "committed_to_recovery",
+              "hid_injury"
+            ]
+          },
+          "lock_text": "having been through a hard recovery before"
+        }
+      ]
+    },
+    {
+      "id": "PRO_033",
+      "title": "Playing for a Contract",
+      "category": "career",
+      "text": "Every kick in practice now feels like a negotiation: it's your contract year, the front office is watching, and the man with the clipboard writes something after every rep.",
+      "choices": [
+        {
+          "label": "Forget the clipboard",
+          "result": "You ignore the clipboard on purpose and kick like it's any other year. It turns out to be one of your best, and the clipboard man starts nodding by October.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Make every rep count",
+          "result": "Every rep gets treated like a game kick, start to finish. It's exhausting and focused, and the clipboard man starts smiling at you over the top of his pages.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Ask the front office what they need",
+          "result": "You ask the front office directly what they need to see from you. The answer is specific and reasonable, and you spend the rest of the year giving them exactly that.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_039",
+      "title": "The Re-Sign Call",
+      "category": "career",
+      "text": "The club wants you back and makes an offer on the last day of the season. Your agent wants to wait for the market. Your family wants to know where they'll live in September.",
+      "choices": [
+        {
+          "label": "Sign quickly",
+          "result": "You sign within the week. Your agent sighs loudly about the money left on the table, and your family exhales and starts planning the summer around a house they already love.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "love_interest": 2
+          },
+          "retention": 1
+        },
+        {
+          "label": "Test the market",
+          "result": "You test the market for two weeks. A rival club calls, and your own club improves its offer by a little and its respect for you by a lot. The waiting costs you sleep.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ]
+        },
+        {
+          "label": "Decide at the kitchen table",
+          "result": "You make the decision at the kitchen table with the whole family, kids included. Staying wins, for reasons that have nothing to do with money, and everyone feels heard.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "love_interest": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_043",
+      "title": "New Club, New Locker Room",
+      "category": "team",
+      "text": "First day at {club}. Your name is on tape above a locker that still has the last kicker's sticker on it, and the player at the next locker hasn't looked up from his phone.",
+      "choices": [
+        {
+          "label": "Introduce yourself to everyone",
+          "result": "You meet every person in the building by Friday: players, trainers, equipment staff. Nobody owes you anything here, and by the opener that has quietly changed.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Let your kicking introduce you",
+          "result": "Few words and a lot of kicks. The room comes around in its own time, slowly, and when it finally does, you can tell it's real and not just polite.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Find the specialists first",
+          "result": "You find the snapper and {holder} first and take them to lunch on day one. Your unit is a unit by Thursday, with its own jokes and a standing breakfast order.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "holder": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_044",
+      "title": "A Holder at the New Club",
+      "category": "team",
+      "text": "{holder} spins the laces differently than anyone you've worked with, and the timing is off by a hair. {holder} has done it this way for six years and isn't planning to change.",
+      "choices": [
+        {
+          "label": "Adjust to {holder}",
+          "result": "You adjust your timing to theirs over a week of extra reps. It's humbling to change at this point in your career, and the holds are perfect by Friday.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "accuracy": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "rel": {
+            "holder": 3
+          },
+          "skill_points": 1
+        },
+        {
+          "label": "Meet in the middle",
+          "result": "A compromise worked out over a long lunch: their spin, your count. Neither of you gets everything you wanted, and it works better than either way did alone.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "holder": 2
+          }
+        },
+        {
+          "label": "Ask {coach} to decide",
+          "result": "You ask {coach} to settle it. The coach picks your way in about ten seconds, and {holder} is very quiet with you for a week, spinning the laces exactly as told.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "holder": -2,
+            "coach": 1
+          }
+        }
+      ]
+    }
+  ]
+}

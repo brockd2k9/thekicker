@@ -1,0 +1,340 @@
+{
+  "_about": "PRO batch 52: the cross-era pool, set A.",
+  "scenarios": [
+    {
+      "id": "PRO_154",
+      "title": "The Famous Date",
+      "category": "romance",
+      "text": "You're photographed at dinner with someone famous, and by morning the internet has decided you're engaged. You've been on two dates, and your phone hasn't stopped buzzing since dawn.",
+      "choices": [
+        {
+          "label": "Laugh it off together",
+          "result": "A joint joke online about the 'engagement' that the whole league shares. It's charming, the followers pour in, and your date has opinions about your schedule by the weekend.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "followers": 4
+        },
+        {
+          "label": "Keep it private",
+          "result": "No comment from either of you. The story dies within a week, and the third date is at a quiet place with no windows, which {sibling} finds hilarious.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "sibling": 2
+          }
+        },
+        {
+          "label": "End it before it starts",
+          "result": "Too much, too fast, you decide after a long talk with {best_friend}. A kind conversation, a friendly goodbye, and the internet moves on to someone else.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "health": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "best_friend": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_155",
+      "title": "The Fan",
+      "category": "romance",
+      "text": "A fan who's been at every signing this season slips you a hotel key card along with the photo you just autographed. You're dating someone, and you've been happy.",
+      "choices": [
+        {
+          "label": "Hand it back",
+          "result": "You hand the key card back without a word. You drive home, call {love_interest}, and tell them about your day, and the card feels very far away by the time you hang up.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "love_interest": 2
+          }
+        },
+        {
+          "label": "Tell security",
+          "result": "You tell team security quietly, and the fan is kept away from future signings. You tell {best_friend} the story that night, and they make it funnier every time.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "best_friend": 1,
+            "coach": 1
+          }
+        },
+        {
+          "label": "Keep the key card",
+          "result": "You keep the key card in your wallet instead of the trash. What happens next isn't something you can take back, and the next morning you can't look at your phone.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "leadership": -3,
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "pro_cheated": true
+          },
+          "conduct": "bad"
+        }
+      ]
+    },
+    {
+      "id": "PRO_157",
+      "title": "The Sponsor's Rep",
+      "category": "romance",
+      "text": "The rep from your biggest sponsor has handled your account for a year. Tonight the dinner is just the two of you, and at the end of it they suggest a nightcap at their hotel. You're engaged.",
+      "choices": [
+        {
+          "label": "Say goodnight at the table",
+          "result": "Goodnight at the table, with a handshake and a smile. The sponsor relationship stays professional, and you call {love_interest} from the car on the way home.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "love_interest": 2
+          }
+        },
+        {
+          "label": "Ask for a new rep",
+          "result": "Through your agent, the next morning, you ask for a new account rep. Nothing is said about why, and nothing needs to be, and the deal carries on as before.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Go to the hotel",
+          "result": "The hotel, and a decision you can't undo. A photographer in the lobby makes sure it doesn't stay private, and the sponsor ends the deal by Friday.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "leadership": -3,
+              "intelligence": -2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "coach": -2
+          },
+          "set_flags": {
+            "pro_cheated": true,
+            "affair_public": true
+          },
+          "conduct": "scandal",
+          "followers": -5
+        }
+      ]
+    },
+    {
+      "id": "PRO_158",
+      "title": "The Teammate's Friend",
+      "category": "romance",
+      "text": "A teammate's friend keeps showing up at the team's Thursday dinners, keeps sitting next to you, and keeps finding reasons to text you late at night. You're married.",
+      "choices": [
+        {
+          "label": "Sit somewhere else",
+          "result": "A different seat every Thursday, beside {holder}, and no texts answered. It's awkward for a week, then fine, and {holder} never asks why you moved.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "holder": 2
+          }
+        },
+        {
+          "label": "Bring {love_interest} to dinner",
+          "result": "You bring {love_interest} to Thursday dinner and introduce them to everyone at the table. The texts stop that same night, and your partner becomes a Thursday regular.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "love_interest": 3
+          }
+        },
+        {
+          "label": "Answer the texts",
+          "result": "You answer the texts, and then more of them, and then make a decision you'll spend a long time regretting, alone in the car outside your own house.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": -3
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "pro_cheated": true
+          },
+          "conduct": "bad"
+        }
+      ]
+    },
+    {
+      "id": "PRO_159",
+      "title": "The Long Week on the Road",
+      "category": "romance",
+      "text": "Two road games back to back, ten days away from home, and someone at the team hotel who knows exactly who you are and doesn't seem to care that you're married with kids.",
+      "choices": [
+        {
+          "label": "Call home every night",
+          "result": "Every night, a call home: homework, bedtime, ten minutes with {love_interest}, five with {parent}. The ten days pass, and nothing happens worth telling.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "love_interest": 2,
+            "parent": 1
+          }
+        },
+        {
+          "label": "Stay with the team",
+          "result": "Every evening with the specialists: film, cards, early nights. You're never alone in the lobby, on purpose, and the unit has its best road trip in years.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Stay at the hotel bar",
+          "result": "The hotel bar, alone, one late night. What follows can't be undone, and the flight home is the longest of your life, with your kids' drawings in your bag.",
+          "stats": {
+            "life": {
+              "fun": 3
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "leadership": -3,
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "pro_cheated": true
+          },
+          "conduct": "bad"
+        }
+      ]
+    }
+  ]
+}
