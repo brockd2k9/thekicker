@@ -161,11 +161,13 @@ func _play_career(strat: String, n: int) -> Dictionary:
 					for id in c.pending_scenarios:
 						_count_scen(id, out)
 				var sid := str(m.current_scenario().get("id", ""))
-				var ret0 := c.retention_bonus
-				m.choose(_choose(c, m.current_scenario(), strat, m.tuning))
-				if c.retention_bonus != ret0:
+				# The choice's own standing change (not retention_bonus before /
+				# after: the last offseason choice starts a season, which resets it).
+				var co := m.choose(_choose(c, m.current_scenario(), strat, m.tuning))
+				var dr := float((co.get("progress", {}) as Dictionary).get("retention", 0.0))
+				if dr != 0.0:
 					var a: Array = _ret_by_scen.get(sid, [0.0, 0])
-					a[0] += c.retention_bonus - ret0
+					a[0] += dr
 					a[1] += 1
 					_ret_by_scen[sid] = a
 			CareerManager.PHASE_OUTLOOK:

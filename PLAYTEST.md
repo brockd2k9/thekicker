@@ -535,8 +535,10 @@ measurable difference.
 
 ## Pro standing retune (before overtime)
 
-**Cause of short pro careers.** Not the pro scenes: standing from all pro scene choices nets about
-+0.9 per pro career (the biggest single costs: the shared offseason scenes, about -3 a time). The
+**Cause of short pro careers.** Not the pro scenes: standing from pro scene choices nets about
++22 per pro career, and the only costs are real wrong-path scenes (The Spa -3, Curfew on the Road
+-2, The Team Fine, The Old Crowd). (An earlier simulator table blamed the offseason scenes: it
+counted the new-season reset of the standing bonus as the last offseason choice's cost; fixed.) The
 standing formula was the problem: 50 + 1.2 x (FG% - 80) with release under 35 and re-signing from
 50, while the simulated pro kicks about 60% (long attempts, narrow pro posts). Almost every pro
 sat one bad season from release (82-85% of pro careers ended by release).
