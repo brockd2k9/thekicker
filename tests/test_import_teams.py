@@ -15,6 +15,18 @@ import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IMPORT = os.path.join(ROOT, "tools", "teams", "import_teams.py")
+
+
+def load_json(path):
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def read_text(path):
+    with open(path, encoding="utf-8") as f:
+        return f.read()
+
+
 _spec = importlib.util.spec_from_file_location("import_teams", IMPORT)
 it = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(it)
@@ -67,6 +79,51 @@ class CleanStadiumTests(unittest.TestCase):
         self.assertEqual(it.nickname("St. Grizzlies", "St. Cloud"), "Grizzlies")
 
 
+class ProImportTests(unittest.TestCase):
+    def test_nickname_strips_a_multi_word_market(self):
+        self.assertEqual(it.nickname("New York Guardians", "New York"), "Guardians")
+        self.assertEqual(it.nickname("Tampa Bay Tritons", "Tampa Bay"), "Tritons")
+        self.assertEqual(it.nickname("San Francisco Gold", "San Francisco"), "Gold")
+        self.assertEqual(it.nickname("Buffalo Bisons", "Buffalo"), "Bisons")
+
+    def run_pro(self, rows):
+        src, out = tempfile.mkdtemp(), tempfile.mkdtemp()
+        with open(os.path.join(src, "pro_test.csv"), "w", newline="", encoding="utf-8") as f:
+            w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
+            w.writeheader()
+            w.writerows(rows)
+        p = subprocess.run([sys.executable, IMPORT, "--source", src, "--out", out],
+                           capture_output=True, text=True, cwd=ROOT)
+        self.assertEqual(p.returncode, 0, p.stdout + p.stderr)
+        return {t["name"]: t for t in load_json(os.path.join(out, "pro.json"))["teams"]}
+
+    def test_guide_columns(self):
+        base = {"League": "Test League", "Conference": "AFC", "Division": "AFC East", "Market": "", "Team Name": "",
+                "Mascot": "", "Stadium": "Big Stadium", "Stadium Capacity": "60000", "Crowd Noise": "90",
+                "Prestige": "80", "Fan Base": "70", "Team Colors": "Navy, Gold", "Primary Rival": "",
+                "Franchise History": "AFC Championship 2; League Titles 1", "Team Identity": "Tough."}
+        teams = self.run_pro([
+            dict(base, Market="New York", **{"Team Name": "New York Guardians", "Primary Rival": "Boston Rebels"}),
+            dict(base, Market="New York", Conference="NFC", Division="NFC East", **{"Team Name": "New York Empire"}),
+            dict(base, Market="Boston", **{"Team Name": "Boston Rebels", "Mascot": "Rebel"}),
+            dict(base, Market="Kansas City", **{"Team Name": "Kansas City Warriors"}),
+        ])
+        ny = teams["New York Guardians"]
+        self.assertEqual((ny["division"], ny["conference"]), ("AFC", "AFC East"), "guide Conference > Division")
+        self.assertEqual(ny["league"], "Test League")
+        self.assertEqual((ny["city"], ny["nickname"]), ("New York", "Guardians"))
+        self.assertEqual(ny["ratings"], {"prestige": 80, "crowd_noise": 90, "fan_base": 70})
+        self.assertEqual(ny["history"], {"conference_titles": 2, "league_titles": 1,
+                                         "summary": "AFC Championship 2; League Titles 1"})
+        self.assertEqual(ny["stadium"], {"name": "Big Stadium", "capacity": 60000})
+        self.assertEqual(ny["identity"], "Tough.")
+        self.assertEqual(ny["rival"], {"name": "Boston Rebels", "id": "boston_rebels"})
+        self.assertEqual(teams["Boston Rebels"]["mascot"], "Rebel")
+        # Abbreviations from the market; a shared market adds the nickname's letter.
+        self.assertEqual([teams[n]["abbr"] for n in ("New York Guardians", "New York Empire", "Boston Rebels",
+                                                     "Kansas City Warriors")], ["NYG", "NYE", "BOS", "KC"])
+
+
 class ImportRunTests(unittest.TestCase):
     def run_import(self, rows, name="college_test.csv"):
         src = tempfile.mkdtemp()
@@ -78,8 +135,8 @@ class ImportRunTests(unittest.TestCase):
         p = subprocess.run([sys.executable, IMPORT, "--source", src, "--out", out],
                            capture_output=True, text=True, cwd=ROOT)
         self.assertEqual(p.returncode, 0, p.stdout + p.stderr)
-        teams = json.load(open(os.path.join(out, "college.json")))["teams"]
-        report = open(os.path.join(out, "import_report.md"), encoding="utf-8").read()
+        teams = load_json(os.path.join(out, "college.json"))["teams"]
+        report = read_text(os.path.join(out, "import_report.md"))
         return {t["name"]: t for t in teams}, report
 
     def test_report_lists_every_change_and_doubt(self):
@@ -108,6 +165,22 @@ class ImportRunTests(unittest.TestCase):
 
 
 class CheckedInDataTests(unittest.TestCase):
+    def test_pro_guide_is_imported_unchanged(self):
+        with open(os.path.join(ROOT, "data", "teams", "source", "pro_kpfl.csv"), encoding="utf-8-sig") as f:
+            rows = list(csv.DictReader(f))
+        teams = {t["name"]: t for t in load_json(os.path.join(ROOT, "data", "teams", "pro.json"))["teams"]}
+        self.assertEqual(len(rows), 32)
+        self.assertEqual(len(teams), 32)
+        for r in rows:
+            t = teams[r["Team Name"]]
+            self.assertEqual(t["conference"], r["Division"])
+            self.assertEqual(t["division"], r["Conference"])
+            self.assertEqual(t["stadium"]["name"], r["Stadium"])
+            self.assertEqual(t["ratings"]["prestige"], int(r["Prestige"]))
+            self.assertEqual(", ".join(t["colors"]), r["Team Colors"])
+            self.assertEqual(t["rival"]["name"], r["Primary Rival"])
+            self.assertEqual(t["mascot"], r["Mascot"])
+
     def test_data_matches_the_importer(self):
         out = tempfile.mkdtemp()
         p = subprocess.run([sys.executable, IMPORT, "--out", out], capture_output=True, text=True, cwd=ROOT)
@@ -118,7 +191,7 @@ class CheckedInDataTests(unittest.TestCase):
                 self.assertEqual(a.read(), b.read(), name + " is stale: run tools/teams/import_teams.py")
 
     def test_d2_stadiums_are_town_nickname_field(self):
-        teams = json.load(open(os.path.join(ROOT, "data", "teams", "college.json")))["teams"]
+        teams = load_json(os.path.join(ROOT, "data", "teams", "college.json"))["teams"]
         d2 = [t for t in teams if t["division"] == "D2"]
         self.assertEqual(len(d2), 160)
         for t in d2:

@@ -208,6 +208,102 @@ func test_real_stadium_names_are_clean() -> void:
 			eq(str(t["stadium"]["name"]), "%s %s Field" % [t["city"], t["nickname"]], str(t["id"]))
 
 
+func test_pro_league() -> void:
+	TeamDatabase.load_files()
+	var pros := TeamDatabase.pro_teams()
+	eq(pros.size(), 32, "32 clubs")
+	var confs := {}
+	var abbrs := {}
+	for t in pros:
+		check(not bool(t.get("placeholder", false)), "%s is real data" % t["id"])
+		check(str(t["division"]) in ["AFC", "NFC"], "%s: AFC / NFC" % t["id"])
+		check(str(t["conference"]).begins_with(str(t["division"]) + " "), "%s: conference inside its division" % t["id"])
+		confs[t["conference"]] = int(confs.get(t["conference"], 0)) + 1
+		check(not abbrs.has(t["short"]), "%s: abbreviation %s unique" % [t["id"], t["short"]])
+		abbrs[t["short"]] = true
+		check(float(t["strength"]) >= 55.0 and float(t["strength"]) <= 75.0, "%s: strength in the pro range" % t["id"])
+		check(TeamDatabase.has_team(str(t.get("rival", {}).get("id", ""))), "%s: rival is a club" % t["id"])
+	eq(confs.size(), 8, "8 divisions")
+	for k in confs:
+		eq(confs[k], 4, "%s has 4 clubs" % k)
+	var ny := TeamDatabase.team("new_york_guardians")
+	eq([ny["name"], ny["mascot"], ny["short"], ny["town"]], ["New York Guardians", "Guardians", "NYG", "New York"], "NY")
+	eq(str(TeamDatabase.team("new_york_empire")["short"]), "NYE", "second New York club")
+	eq(CareerUi.league_line(ny), "AFC East", "pro league line")
+	eq(CareerUi.league_line(TeamDatabase.team("florida_university")), "FBS - Southern Athletic Conference", "college")
+
+
+func test_pro_schedule_plays_the_division_first() -> void:
+	var c := CareerData.create("Pro", CareerTuning.get_default())
+	c.stage = CareerData.STAGE_PRO
+	c.team = Progression.team_from(TeamDatabase.team("buffalo_bisons"), CareerData.STAGE_PRO)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 3
+	var regular: Array = CareerManager.build_schedule(c, CareerTuning.get_default(), rng).filter(
+		func(e: Dictionary) -> bool: return e["type"] == "regular")
+	for i in 3:
+		eq(str(regular[i]["opponent"]["conference"]), "AFC East", "game %d: a division rival" % (i + 1))
+	for e in regular:
+		check(str(e["opponent"]["id"]) != "buffalo_bisons", "never plays itself")
+
+
+# A save from before the pro league: placeholder club ids everywhere.
+static func _old_pro_save(version: int) -> Dictionary:
+	var d := fixture("career_v7_followers.json")
+	d["career_version"] = version
+	d["stage"] = CareerData.STAGE_PRO
+	d["team"] = {"id": "metro_monarchs", "name": "Metro Monarchs", "mascot": "Monarchs", "short": "MET",
+		"town": "Metro City", "colors": ["#3a0ca3", "#f8c537"], "strength": 72.0, "tier": "", "level": "pro"}
+	d["contract"] = {"team": "metro_monarchs", "team_name": "Metro Monarchs", "years_left": 2, "salary": 900000, "how": "drafted"}
+	d["draft_result"] = {"round": 3, "kind": "drafted", "team": "metro_monarchs", "team_name": "Metro Monarchs"}
+	d["tryout"] = {"purpose": "challenge", "team": "metro_monarchs", "team_name": "Charity kick"}
+	d["flags"]["failed_tryouts"] = ["bayou_gators"]
+	d["offers"] = []
+	for e in d["schedule"]:
+		if e.get("opponent") is Dictionary:
+			e["opponent"] = {"id": "harbor_hammers", "name": "Harbor Hammers", "short": "HAM", "level": "pro"}
+	d["people"] = {"rival": {"known": true, "name": "Tyler Brooks", "stage": "high_school", "value": 40.0,
+		"week_change": 0.0, "team": {"id": "desert_vipers", "name": "Desert Vipers", "short": "DSV", "stage": "pro"}}}
+	return d
+
+
+func test_placeholder_pro_ids_migrate() -> void:
+	TeamDatabase.load_files()
+	for version in [7, 8]:
+		var d := CareerSave._migrate(_old_pro_save(version))
+		var who := "v%d save" % version
+		eq(int(d["career_version"]), CareerData.VERSION, who + " version")
+		eq(str(d["team"]["id"]), "new_york_guardians", who + " team")
+		eq(str(d["team"]["name"]), "New York Guardians", who + " team name")
+		eq(str(d["team"]["short"]), "NYG", who + " abbreviation")
+		eq([d["contract"]["team"], d["contract"]["team_name"]], ["new_york_guardians", "New York Guardians"], who + " contract")
+		eq(int(d["contract"]["salary"]), 900000, who + " contract kept")
+		eq([d["draft_result"]["team"], d["draft_result"]["team_name"]], ["new_york_guardians", "New York Guardians"],
+			who + " draft")
+		eq([d["tryout"]["team"], d["tryout"]["team_name"]], ["new_york_guardians", "Charity kick"],
+			who + " a challenge keeps its title")
+		eq(d["flags"]["failed_tryouts"], ["new_orleans_voodoo"], who + " failed tryouts")
+		eq(str(d["people"]["rival"]["team"]["id"]), "arizona_scorpions", who + " Tyler")
+		for e in d["schedule"]:
+			if e.get("opponent") is Dictionary:
+				eq(str(e["opponent"]["id"]), "baltimore_admirals", who + " opponent")
+				eq(str(e["opponent"]["conference"]), "AFC North", who + " opponent rebuilt")
+		var c := CareerData.from_dict(d)
+		check(TeamDatabase.has_team(str(c.team["id"])), who + " loads")
+
+
+func test_legacy_pro_ids_cover_every_placeholder() -> void:
+	var legacy: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(CareerSave.LEGACY_IDS))
+	var seen := {}
+	eq((legacy["pro"] as Dictionary).size(), 12, "12 placeholder clubs")
+	for old in legacy["pro"]:
+		var id := str(legacy["pro"][old])
+		check(TeamDatabase.has_team(id) and TeamDatabase.team(id)["level"] == "pro", "%s -> %s is a club" % [old, id])
+		check(not seen.has(id), "%s used once" % id)
+		seen[id] = true
+		check(not TeamDatabase.has_team(str(old)), "%s is gone from the data" % old)
+
+
 # --- Hoboken start ----------------------------------------------------------------------------
 
 func test_every_new_career_starts_at_hoboken() -> void:

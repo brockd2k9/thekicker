@@ -195,7 +195,7 @@ other teams with the same nickname: evidence the word is a real nickname.
 | Row | School | City | Team column | Nickname used | Also used by |
 |---|---|---|---|---|---|
 | college_d2.csv:12 | New Bedford Valley University | New Bedford | New Redtails | Redtails | Saginaw Technical University, New Jersey University |
-| college_d2.csv:35 | Newport News State University | Newport News | Newport Cyclones | Cyclones | Lubbock Regional University, Miami International University, Coastline Cyclones |
+| college_d2.csv:35 | Newport News State University | Newport News | Newport Cyclones | Cyclones | Lubbock Regional University, Miami International University |
 | college_d2.csv:36 | Rocky Mount Mountain University | Rocky Mount | Rocky Comets | Comets | Amarillo Polytechnic University, Houston University |
 | college_d2.csv:51 | Bowling Green Heritage University | Bowling Green | Bowling Chargers | Chargers | Kingman Coastal University |
 | college_d2.csv:67 | Fort Myers Riverside University | Fort Myers | Fort Aviators | Aviators | Kennewick State University, Carolina Piedmont University |
@@ -208,11 +208,11 @@ other teams with the same nickname: evidence the word is a real nickname.
 | college_d2.csv:109 | Cape Girardeau Coastal University | Cape Girardeau | Cape Thunderbirds | Thunderbirds | Winchester Heritage University, Oregon Cascade University |
 | college_d2.csv:110 | Sioux City Technical University | Sioux City | Sioux Foxes | Foxes | Roanoke Valley University, Waycross College |
 | college_d2.csv:111 | Rapid City Heritage University | Rapid City | Rapid Bears | Bears | Longleaf High School, Danville Regional University |
-| college_d2.csv:112 | Wichita Falls Valley University | Wichita Falls | Wichita Lumberjacks | Lumberjacks | Hampton Polytechnic University, Central Michigan North University, Lakeside Lumberjacks |
-| college_d2.csv:117 | San Angelo Riverside University | San Angelo | San Mountaineers | Mountaineers | Florence Coastal University |
+| college_d2.csv:112 | Wichita Falls Valley University | Wichita Falls | Wichita Lumberjacks | Lumberjacks | Hampton Polytechnic University, Central Michigan North University |
+| college_d2.csv:117 | San Angelo Riverside University | San Angelo | San Mountaineers | Mountaineers | Florence Coastal University, Denver Mountaineers |
 | college_d2.csv:122 | Las Cruces Valley University | Las Cruces | Las Eagles | Eagles | Pinehaven High School, Gastonia Polytechnic University |
 | college_d2.csv:130 | El Paso Technical University | El Paso | El Storm | Storm | Dothan Valley University, Syracuse Metropolitan |
-| college_d2.csv:134 | Santa Rosa Polytechnic University | Santa Rosa | Santa Gators | Gators | Bell Creek High School, Meridian Mountain University, Bayou Gators |
+| college_d2.csv:134 | Santa Rosa Polytechnic University | Santa Rosa | Santa Gators | Gators | Bell Creek High School, Meridian Mountain University |
 | college_d2.csv:137 | Santa Cruz Riverside University | Santa Cruz | Santa Dragons | Dragons | Columbus Coastal University |
 | college_d2.csv:150 | Idaho Falls Technical University | Idaho Falls | Idaho Rockets | Rockets | Monroe Valley University, Granite Community College |
 | college_d2.csv:156 | Grand Junction Mountain University | Grand Junction | Grand Sailors | Sailors | Jonesboro Prairie University |

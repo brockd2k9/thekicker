@@ -250,17 +250,21 @@ func _sync_flags() -> void:
 
 
 ## games_per_season games + byes_per_season byes against this stage's teams:
-## your own conference first, then (colleges) your own tier, then the rest. Entries are typed ("regular" / "bye") so
+## your own conference first (pro: your division, "AFC East"), then your
+## division (pro: "AFC") or college tier, then the rest. Entries are typed ("regular" / "bye") so
 ## playoff weeks can be appended later.
 static func build_schedule(c: CareerData, t: CareerTuning, r: RandomNumberGenerator) -> Array:
 	var others := Progression.opponents(c)
 	Progression.shuffle(others, r)
 	var my_conf := str(TeamDatabase.team(str(c.team.get("id", ""))).get("conference", c.team.get("conference", "")))
 	var my_tier := str(c.team.get("tier", ""))
+	var my_div := str(TeamDatabase.team(str(c.team.get("id", ""))).get("division", c.team.get("division", "")))
 	var rank := func(s: Dictionary) -> int:
 		if my_conf != "" and str(s.get("conference", "")) == my_conf:
 			return 0
-		return 1 if my_tier != "" and str(s.get("tier", "")) == my_tier else 2
+		if my_tier != "" and str(s.get("tier", "")) == my_tier:
+			return 1
+		return 1 if my_tier == "" and my_div != "" and str(s.get("division", "")) == my_div else 2
 	var groups: Array = [[], [], []]
 	for s in others:
 		groups[rank.call(s)].append(s)

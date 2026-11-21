@@ -436,7 +436,7 @@ dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career
 | Aging and maintenance (from 30) | `scripts/career/aging.gd` (numbers: `career_tuning.tres` "Aging") |
 | Cold and snow games (late season) | `career_manager.gd` `_roll_cold()`, `kick_profile.gd` (numbers: "Weather") |
 | Traits (8), game-day modifiers (19), stat descriptions | `data/career/traits.json`, `modifiers.json`, `stats_info.json` |
-| Teams: 21 high schools (every career starts at Hoboken High School), 426 colleges (FBS / FCS / D2 = top / mid / small tier), 6 junior colleges and 12 pro clubs (placeholders) | `data/teams/` via the `TeamDatabase` autoload; format, import and validator: [DATA_FORMAT.md](DATA_FORMAT.md) |
+| Teams: 21 high schools (every career starts at Hoboken High School), 426 colleges (FBS / FCS / D2 = top / mid / small tier), 6 junior colleges (placeholders) and 32 pro clubs (AFC / NFC, 8 divisions) | `data/teams/` via the `TeamDatabase` autoload; format, import and validator: [DATA_FORMAT.md](DATA_FORMAT.md) |
 | Names, play-by-play, player looks | `data/career/world.json`, `game_day.json` |
 | Progression tables: college tiers, offers, draft rounds, tryouts, contracts | `data/career/progression.json` (weights in `career_tuning.tres`) |
 | Recruiting / draft / retention / academics rules | `scripts/career/progression.gd` |

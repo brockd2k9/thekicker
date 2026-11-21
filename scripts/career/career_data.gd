@@ -8,7 +8,7 @@ extends RefCounted
 ## Stats are floats 0..100 (gains can be fractional); screens show them rounded.
 ## When the layout changes: bump VERSION and add a step to CareerSave._migrate().
 
-const VERSION := 8
+const VERSION := 9
 
 const STAGE_HIGH_SCHOOL := "high_school"
 const STAGE_JUCO := "juco"

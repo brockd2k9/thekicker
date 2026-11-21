@@ -195,8 +195,10 @@ func _record(e: Dictionary, level: String, derived: Dictionary) -> Dictionary:
 
 
 ## Strength from prestige, spread over DERIVED_MIN..MAX within each division
-## (so every division has strong and weak teams). Teams with their own
-## "strength" keep it; teams without prestige get DEFAULT_STRENGTH.
+## (so every division has strong and weak teams), or over the level's
+## "strength_range" in leagues.json (pro: [55, 75], where every club is good).
+## Teams with their own "strength" keep it; teams without prestige get
+## DEFAULT_STRENGTH.
 func _derived_strengths() -> Dictionary:
 	var by_div := {}
 	for lv in LEVELS:
@@ -210,6 +212,9 @@ func _derived_strengths() -> Dictionary:
 	var out := {}
 	for key in by_div:
 		var lst: Array = by_div[key]
+		var rng: Variant = _leagues.get("levels", {}).get(str(key).get_slice("/", 0), {}).get("strength_range")
+		var smin := float(rng[0]) if rng is Array and (rng as Array).size() == 2 else DERIVED_MIN
+		var smax := float(rng[1]) if rng is Array and (rng as Array).size() == 2 else DERIVED_MAX
 		var lo := INF
 		var hi := -INF
 		for e in lst:
@@ -219,7 +224,7 @@ func _derived_strengths() -> Dictionary:
 		for e in lst:
 			var p := float(e["ratings"]["prestige"])
 			var f := (p - lo) / (hi - lo) if hi > lo else 0.5
-			out[str(e.get("id", ""))] = roundf(lerpf(DERIVED_MIN, DERIVED_MAX, f))
+			out[str(e.get("id", ""))] = roundf(lerpf(smin, smax, f))
 	return out
 
 

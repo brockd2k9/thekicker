@@ -311,11 +311,12 @@ static func html_color(s: String, fallback := Color.WHITE) -> Color:
 
 
 ## "FBS - Atlantic Coast Alliance": a team's division and conference
-## (TeamDatabase); just the conference for high school and pro.
+## (TeamDatabase); just the conference for high school, and for pro, where
+## it already names the division ("AFC East").
 static func league_line(t: Dictionary) -> String:
 	var div := str(t.get("division", ""))
 	var conf := str(t.get("conference", ""))
-	if div == "" or div in ["HS", "PRO"]:
+	if div == "" or div == "HS" or conf.begins_with(div + " "):
 		return conf
 	return "%s - %s" % [div, conf] if conf != "" else div
 

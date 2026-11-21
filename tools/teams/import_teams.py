@@ -49,9 +49,10 @@ ALIASES = {
     "level": "level",
     "division": "division", "classification": "division",
     "region": "region",
-    "conference": "conference", "league": "conference",
+    "conference": "conference",
+    "league": "league",
     "school": "name", "name": "name", "club": "name",
-    "city": "city", "town": "city", "towncommunity": "city",
+    "city": "city", "town": "city", "towncommunity": "city", "market": "city",
     "state": "state",
     "county": "county",
     "team": "team", "teamname": "team",
@@ -66,17 +67,22 @@ ALIASES = {
     "nationalchampionships": "national_titles", "nationaltitles": "national_titles",
     "conferencechampionships": "conference_titles", "conferencetitles": "conference_titles",
     "bowlwins": "bowl_wins",
-    "schoolcolors": "colors", "colors": "colors",
+    "schoolcolors": "colors", "colors": "colors", "teamcolors": "colors",
     "homejersey": "home_jersey", "homepants": "home_pants", "homehelmet": "home_helmet",
     "awayjersey": "away_jersey", "awaypants": "away_pants", "awayhelmet": "away_helmet",
-    "rival": "rival", "rivalrytrophy": "rivalry_trophy",
+    "rival": "rival", "primaryrival": "rival", "rivalrytrophy": "rivalry_trophy",
+    "fanbase": "fan_base",
+    "franchisehistory": "franchise_history", "franchiserecord": "franchise_history",
+    "teamidentity": "identity", "identity": "identity",
     "strength": "strength", "rating": "strength", "teamrating": "strength",
     "placeholder": "placeholder",
     "notes": "notes",
 }
-INTS = ("capacity", "crowd_noise", "prestige", "draft_rating", "recruiting_points", "min_ovr",
+INTS = ("capacity", "crowd_noise", "prestige", "draft_rating", "fan_base", "recruiting_points", "min_ovr",
         "national_titles", "conference_titles", "bowl_wins", "strength")
 FLOATS = ("min_gpa",)
+# Pro markets with more than one club (set per run by main()).
+SHARED_MARKETS = set()
 # Collected while importing, written to REPORT_FILE: (row, before, after, why).
 REPORT = {"changed": [], "unsure": [], "cut_short": []}
 REPORT_FILE = "import_report.md"
@@ -118,10 +124,14 @@ def number(v, kind):
 
 
 def nickname(team, city):
-    """'Burlington Timberhawks' in Burlington -> 'Timberhawks'; 'Foxes' -> 'Foxes'."""
+    """'Burlington Timberhawks' in Burlington -> 'Timberhawks'; 'New York Guardians' in
+    New York -> 'Guardians'; 'New Redtails' in New Bedford (cut short) -> 'Redtails';
+    'Foxes' -> 'Foxes'."""
     team = team.strip()
     if not team:
         return ""
+    if city and team.lower().startswith(city.lower() + " "):
+        return team[len(city) + 1:].strip()  # "New York Guardians" -> "Guardians"
     first = city.split()[0] if city.split() else ""
     if first and team.startswith(first + " "):
         return team[len(first) + 1:].strip()
@@ -186,6 +196,16 @@ def make_abbr(name, city, taken, level=""):
     ("Hoboken" -> HOB). A numbered fallback if everything is taken."""
     words = [w for w in re.findall(r"[A-Za-z]+", name) if w.lower() not in FILLER]
     cands = []
+    if level == "pro" and city:
+        # The market: BUF, KC; a market with two clubs adds the nickname's
+        # first letter (NYG, NYE). SHARED_MARKETS is set by main().
+        town = re.findall(r"[A-Za-z]+", city)
+        base = town[0][:3].upper() if len(town) == 1 else "".join(w[0] for w in town).upper()
+        nick = [w for w in re.findall(r"[A-Za-z]+", name) if w.lower() not in [x.lower() for x in town]]
+        with_nick = (base + nick[0][0].upper())[:4] if nick else base
+        if city.lower() in SHARED_MARKETS:
+            cands.append(with_nick)
+        cands += [base, with_nick]
     if level == "high_school":
         town = re.findall(r"[A-Za-z]+", city or name)
         if town:
@@ -243,9 +263,16 @@ def to_team(row, level):
     t["nickname"] = row.get("nickname", "") or nickname(row.get("team", ""), city)
     if not row.get("nickname") and cut_short_team(row.get("team", ""), city):
         REPORT["cut_short"].append((row, row.get("team", ""), t["nickname"], ""))
-    for k in ("mascot", "abbr", "city", "state", "county", "region", "division", "conference", "notes"):
+    for k in ("mascot", "abbr", "city", "state", "county", "region", "division", "conference", "league",
+              "identity", "notes"):
         if row.get(k):
             t[k] = row[k]
+    # Pro guides group teams as Conference (AFC) > Division (AFC East). In the
+    # team data the group a team plays in is always "conference" and the
+    # group above it "division", so those two swap.
+    if level == "pro" and t.get("division") and t.get("conference") \
+            and t["division"].lower().startswith(t["conference"].lower() + " "):
+        t["division"], t["conference"] = t["conference"], t["division"]
     if level == "high_school" and not t.get("division"):
         t["division"] = "HS"
     if t.get("division"):
@@ -277,7 +304,7 @@ def to_team(row, level):
         cap = number(row.get("capacity", ""), int)
         if cap is not None:
             t["stadium"]["capacity"] = cap
-    ratings = {k: number(row[k], int) for k in ("prestige", "crowd_noise", "draft_rating") if row.get(k)}
+    ratings = {k: number(row[k], int) for k in ("prestige", "crowd_noise", "draft_rating", "fan_base") if row.get(k)}
     ratings = {k: v for k, v in ratings.items() if v is not None}
     if ratings:
         t["ratings"] = ratings
@@ -293,6 +320,16 @@ def to_team(row, level):
         t["recruiting"] = rec
     hist = {k: number(row[k], int) for k in ("national_titles", "conference_titles", "bowl_wins") if row.get(k)}
     hist = {k: v for k, v in hist.items() if v is not None}
+    if row.get("franchise_history"):
+        # "AFC Championship 2; League Titles 1"
+        fh = row["franchise_history"]
+        m = re.search(r"Championships? (\d+)", fh)
+        if m and "conference_titles" not in hist:
+            hist["conference_titles"] = int(m.group(1))
+        m = re.search(r"League Titles? (\d+)", fh, re.I)
+        if m:
+            hist["league_titles"] = int(m.group(1))
+        hist["summary"] = fh
     if hist:
         t["history"] = hist
     if row.get("rival"):
@@ -378,6 +415,11 @@ def main():
             if not t["id"]:
                 t["id"] = slug(t["name"])
             by_name.setdefault(t["name"].lower(), t["id"])
+    SHARED_MARKETS.clear()
+    markets = {}
+    for t in teams["pro"]:
+        markets[t.get("city", "").lower()] = markets.get(t.get("city", "").lower(), 0) + 1
+    SHARED_MARKETS.update(m for m, n in markets.items() if m and n > 1)
     for lv in LEVELS:
         taken = set(t["abbr"].upper() for t in teams[lv] if t.get("abbr"))
         for t in teams[lv]:

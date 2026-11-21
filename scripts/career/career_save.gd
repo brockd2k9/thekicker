@@ -148,70 +148,99 @@ static func _migrate(d: Dictionary) -> Dictionary:
 	if v < 8:
 		_migrate_teams(d)
 		v = 8
+	# Version 8 -> 9: the pro league (32 clubs) replaced the 12 placeholder
+	# clubs; their ids map by legacy_ids.json "pro" (_migrate_pro_teams).
+	if v < 9:
+		_migrate_pro_teams(d)
+		v = 9
 	if v > CareerData.VERSION:
 		push_warning("CareerSave: career is from a newer version (%d)" % v)
 	d["career_version"] = CareerData.VERSION
 	return d
 
 
-## Version 8: replaces old built-in team ids with team database ids wherever
-## the save names a team (the player's team, the schedule, offers, a tryout,
-## failed tryouts, Tyler's team). The player's own high school is always
-## Hoboken; past results and history lines keep the names they were played
-## under. Junior college and pro ids didn't change.
-static func _migrate_teams(d: Dictionary) -> void:
+static func _legacy(section: String) -> Dictionary:
 	var legacy: Variant = JSON.parse_string(FileAccess.get_file_as_string(LEGACY_IDS)) \
 		if FileAccess.file_exists(LEGACY_IDS) else {}
-	var hs: Dictionary = legacy.get("high_school", {}) if legacy is Dictionary else {}
-	var col: Dictionary = legacy.get("college", {}) if legacy is Dictionary else {}
-	var map := func(id: String) -> String:
-		return str(hs.get(id, col.get(id, id)))
-	# A saved team dict rebuilt from the database (its extra keys, such as
-	# offer_type, are kept). Unknown ids are left as they are.
-	var rebuild := func(t: Dictionary, new_id: String) -> Dictionary:
-		var rec := TeamDatabase.team(new_id)
-		if rec.is_empty():
-			return t
-		var out := t.duplicate(true)
-		out.merge(Progression.team_from(rec, str(t.get("level", rec.get("level", "")))), true)
-		return out
+	var m: Variant = legacy.get(section, {}) if legacy is Dictionary else {}
+	return m if m is Dictionary else {}
+
+
+## Version 8: the team database replaced the old built-in teams. The
+## player's own high school is always Hoboken; other old high school and
+## college ids map by legacy_ids.json (_remap_team_ids).
+static func _migrate_teams(d: Dictionary) -> void:
+	var hs := _legacy("high_school")
 	var team: Variant = d.get("team", {})
 	if team is Dictionary and not (team as Dictionary).is_empty():
 		var id := str(team.get("id", ""))
 		var stage := str(d.get("stage", CareerData.STAGE_HIGH_SCHOOL))
 		if hs.has(id) or (stage == CareerData.STAGE_HIGH_SCHOOL and not TeamDatabase.has_team(id)):
-			d["team"] = rebuild.call(team, TeamDatabase.start_team_id())
-		elif col.has(id):
-			d["team"] = rebuild.call(team, str(col[id]))
+			d["team"] = _rebuild_team(team, TeamDatabase.start_team_id())
 	var player: Variant = d.get("player", {})
 	if player is Dictionary:
 		player["hometown"] = str(TeamDatabase.start_team().get("city", player.get("hometown", "")))
+	var ids := hs.duplicate()
+	ids.merge(_legacy("college"))
+	_remap_team_ids(d, ids)
+
+
+## Version 9: the 12 placeholder pro clubs became the league's 32 clubs.
+static func _migrate_pro_teams(d: Dictionary) -> void:
+	_remap_team_ids(d, _legacy("pro"))
+
+
+## A saved team dict rebuilt from the database (its extra keys, such as
+## offer_type, are kept). Unknown ids are left as they are.
+static func _rebuild_team(t: Dictionary, new_id: String) -> Dictionary:
+	var rec := TeamDatabase.team(new_id)
+	if rec.is_empty():
+		return t
+	var out := t.duplicate(true)
+	out.merge(Progression.team_from(rec, str(t.get("level", rec.get("level", "")))), true)
+	return out
+
+
+## Replaces old team ids (ids: old -> new) wherever a save names a team: the
+## player's team, the schedule, offers, a tryout, the draft result, the
+## contract, failed tryouts and Tyler's team. Names saved with them follow;
+## past results and history lines keep the names they were played under.
+static func _remap_team_ids(d: Dictionary, ids: Dictionary) -> void:
+	if ids.is_empty():
+		return
+	var new_name := func(id: String, fallback: Variant) -> String:
+		return str(TeamDatabase.team(id).get("name", fallback))
+	var team: Variant = d.get("team", {})
+	if team is Dictionary and ids.has(str(team.get("id", ""))):
+		d["team"] = _rebuild_team(team, str(ids[str(team["id"])]))
 	var sched: Variant = d.get("schedule", [])
 	if sched is Array:
 		for e in sched:
-			if e is Dictionary and e.get("opponent") is Dictionary:
-				var oid := str(e["opponent"].get("id", ""))
-				if map.call(oid) != oid:
-					e["opponent"] = rebuild.call(e["opponent"], map.call(oid))
+			if e is Dictionary and e.get("opponent") is Dictionary and ids.has(str(e["opponent"].get("id", ""))):
+				e["opponent"] = _rebuild_team(e["opponent"], str(ids[str(e["opponent"]["id"])]))
 	var offers: Variant = d.get("offers", [])
 	if offers is Array:
 		for off in offers:
-			if off is Dictionary and col.has(str(off.get("school", ""))):
-				off["school"] = str(col[str(off["school"])])
-				off["name"] = str(TeamDatabase.team(str(off["school"])).get("name", off.get("name", "")))
-	var tryout: Variant = d.get("tryout", {})
-	if tryout is Dictionary and col.has(str(tryout.get("team", ""))):
-		tryout["team"] = str(col[str(tryout["team"])])
-		tryout["team_name"] = str(TeamDatabase.team(str(tryout["team"])).get("name", tryout.get("team_name", "")))
+			if off is Dictionary and ids.has(str(off.get("school", ""))):
+				off["school"] = str(ids[str(off["school"])])
+				off["name"] = new_name.call(str(off["school"]), off.get("name", ""))
+	# {team, team_name} records. A kick challenge's team_name is its title.
+	for key in ["tryout", "draft_result", "contract"]:
+		var r: Variant = d.get(key, {})
+		if r is Dictionary and ids.has(str(r.get("team", ""))):
+			r["team"] = str(ids[str(r["team"])])
+			if r.has("team_name") and str(r.get("purpose", "")) != "challenge":
+				r["team_name"] = new_name.call(str(r["team"]), r["team_name"])
 	var flags: Variant = d.get("flags", {})
 	if flags is Dictionary and flags.get("failed_tryouts") is Array:
-		flags["failed_tryouts"] = (flags["failed_tryouts"] as Array).map(func(x: Variant) -> String: return map.call(str(x)))
+		flags["failed_tryouts"] = (flags["failed_tryouts"] as Array).map(func(x: Variant) -> String:
+			return str(ids.get(str(x), str(x))))
 	var people: Variant = d.get("people", {})
 	if people is Dictionary:
 		for k in people:
 			var pt: Variant = people[k].get("team") if people[k] is Dictionary else null
-			if pt is Dictionary and map.call(str(pt.get("id", ""))) != str(pt.get("id", "")):
-				var rec := TeamDatabase.team(map.call(str(pt["id"])))
+			if pt is Dictionary and ids.has(str(pt.get("id", ""))):
+				var rec := TeamDatabase.team(str(ids[str(pt["id"])]))
 				if not rec.is_empty():
 					pt["id"] = str(rec["id"])
 					pt["name"] = str(rec["name"])

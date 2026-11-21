@@ -43,26 +43,29 @@ are kept on the team under `extra`, so nothing you send is lost.
 | CSV column | JSON field | What |
 |---|---|---|
 | `ID` | `id` | Stable unique id: lowercase letters, digits, `_` (`hoboken_hs`). Saves refer to it, so **never change an id once it's in use**. Left blank, the importer makes one from the name (`Florida University` -> `florida_university`). |
-| `School` (or `Name`, `Club`) | `name` | School or club name: `Hoboken High School`, `Florida University`. |
-| `Team` (or `Nickname`) | `nickname` | Team nickname: `Rebels`. A leading town word is dropped (`Burlington Timberhawks` in Burlington -> `Timberhawks`). |
+| `School` (or `Name`, `Club`; pro: `Team Name`) | `name` | School or club name: `Hoboken High School`, `Florida University`, `Buffalo Bisons`. |
+| `Team` (or `Nickname`) | `nickname` | Team nickname: `Rebels`. A leading town is dropped (`Burlington Timberhawks` in Burlington -> `Timberhawks`, `New York Guardians` in New York -> `Guardians`). Pro: taken from `Team Name` the same way. |
 | `Abbreviation` | `abbr` | 2-4 letters for scoreboards and the field tracker. Blank = generated (see below). |
-| `Division` | `division` | High school: `HS` (default when blank). College: `FBS`, `FCS`, `D2`, `JUCO`. Pro: `PRO`. Must be in `leagues.json`. |
-| `Conference` | `conference` | Conference / league name. Must be listed under the division in `leagues.json`. |
-| `School Colors` (or `Colors`) | `colors` | Comma-separated, primary first: `Red, White, Silver`. Color names from `colors.json` or hex (`#c8102e`). Blank = the home jersey and home pants colors. |
+| `Division` | `division` | High school: `HS` (default when blank). College: `FBS`, `FCS`, `D2`, `JUCO`. Pro: `AFC`, `NFC`. Must be in `leagues.json`. |
+| `Conference` | `conference` | The group a team plays in (schedules start there): a high school or college conference, or a pro division (`AFC East`). Must be listed under the division in `leagues.json`. |
+| `School Colors` (or `Colors`, `Team Colors`) | `colors` | Comma-separated, primary first: `Red, White, Silver`. Color names from `colors.json` or hex (`#c8102e`). Blank = the home jersey and home pants colors. |
 
 **Optional** (left blank = left out; the game never invents values):
 
 | CSV column | JSON field | Used by the game |
 |---|---|---|
-| `City`, `State`, `County`, `Region` | `city`, `state`, `county`, `region` | City: team records ("town"), hometown. Others: shown/kept. |
+| `City` (or `Market`), `State`, `County`, `Region` | `city`, `state`, `county`, `region` | City: team records ("town"), hometown. Others: shown/kept. |
+| `League` | `league` | Kept (`Kicker Professional Football League`). |
 | `Mascot` | `mascot` | Kept (as `mascot_figure` on the record; the game calls the nickname "mascot"). |
-| `Stadium`, `Capacity` | `stadium.name`, `stadium.capacity` | Kept for game-day presentation. A town repeated at the start of the name is removed on import (see "Import report"). |
-| `Prestige` | `ratings.prestige` | 0-100. Sets the team's sim **strength** when `Strength` is blank: spread 35-80 within its division. |
-| `Crowd Noise`, `Draft Rating` | `ratings.crowd_noise`, `ratings.draft_rating` | 0-100. Kept (reserved for game day and the draft). |
+| `Stadium`, `Capacity` (or `Stadium Capacity`) | `stadium.name`, `stadium.capacity` | Kept for game-day presentation. A town repeated at the start of the name is removed on import (see "Import report"). |
+| `Prestige` | `ratings.prestige` | 0-100. Sets the team's sim **strength** when `Strength` is blank: spread 35-80 within its division, or over the level's `strength_range` in `leagues.json` (pro: 55-75). |
+| `Crowd Noise`, `Draft Rating`, `Fan Base` | `ratings.crowd_noise`, `.draft_rating`, `.fan_base` | 0-100. Kept (reserved for game day, the draft and pro fans). |
 | `Recruiting Points`, `Minimum Player OVR`, `Minimum GPA` | `recruiting.points`, `.min_ovr`, `.min_gpa` | Kept per school (reserved: offers currently use the tier thresholds in `progression.json`). |
 | `National Championships`, `Conference Championships`, `Bowl Wins` | `history.*` | Kept. |
+| `Franchise History` (pro) | `history.conference_titles`, `.league_titles`, `.summary` | `AFC Championship 2; League Titles 1` is read as 2 conference titles, 1 league title; the text is kept as `summary`. |
+| `Team Identity` | `identity` | Kept (a line about the team). |
 | `Home Jersey`, `Home Pants`, `Home Helmet`, `Away Jersey`, `Away Pants`, `Away Helmet` | `uniforms.home/away.jersey/pants/helmet` | Colors (names or hex). Kept; home jersey/pants fill `colors` when that's blank. |
-| `Rival`, `Rivalry Trophy` | `rival.name`, `rival.trophy`, `rival.id` | The rival's school name; the importer finds its id. Must be a real team. |
+| `Rival` (or `Primary Rival`), `Rivalry Trophy` | `rival.name`, `rival.trophy`, `rival.id` | The rival's school name; the importer finds its id. Must be a real team. |
 | `Strength` (or `Rating`) | `strength` | 0-100 team quality for the game sim. Overrides prestige. Neither given = 50. |
 | `Placeholder` | `placeholder` | `yes` = stand-in data (the validator lists these). |
 | `Notes` | `notes` | Free text. |
@@ -78,12 +81,19 @@ are kept on the team under `extra`, so nothing you send is lost.
   scout exposure (`data/career/progression.json`). Adding a division = add it
   to `leagues.json` with a tier.
 * **Pro**: the draft, contracts, camps and free agency pick from these teams.
+  The pro guide groups clubs as Conference (AFC) > Division (AFC East). In the
+  team data the group a team plays in is always `conference`, so for pro the
+  importer reads the guide's Conference as `division` and its Division as
+  `conference` (it swaps them when the Division starts with the Conference).
+  A pro season starts with the other three clubs in your division.
 
 ### Abbreviations
 
 Must be unique within a conference (an error otherwise) and preferably within
 the level (a warning). Generated ones: high school = the town's first three
-letters (`Hoboken` -> `HOB`); college / pro = initials without "of / the / at"
+letters (`Hoboken` -> `HOB`); pro = the market (`Buffalo` -> `BUF`,
+`Kansas City` -> `KC`), plus the nickname's first letter when two clubs share
+a market (`NYG`, `NYE`); college = initials without "of / the / at"
 (`Florida University` -> `FU`), else town letters; a number is added if
 everything is taken. Give an abbreviation in the CSV to choose it yourself.
 
@@ -130,22 +140,26 @@ College (`data/teams/college.json`):
 }
 ```
 
-Pro (`data/teams/pro.json`, placeholder until the real pro data arrives):
+Pro (`data/teams/pro.json`):
 
 ```json
 {
- "id": "bayou_gators", "level": "pro",
- "name": "Bayou Gators", "nickname": "Gators", "abbr": "BAY",
- "division": "PRO", "conference": "Pro Gridiron League",
- "city": "Bayou Point", "colors": ["#2d6a4f", "#ff9f1c"], "strength": 60,
- "placeholder": true, "notes": "PLACEHOLDER: delete when the real pro data arrives"
+ "id": "buffalo_bisons", "level": "pro",
+ "name": "Buffalo Bisons", "nickname": "Bisons", "mascot": "Bison", "abbr": "BUF",
+ "division": "AFC", "conference": "AFC East", "league": "Kicker Professional Football League",
+ "city": "Buffalo", "colors": ["Royal Blue", "Red", "White"],
+ "stadium": {"name": "Highmark Prairie Stadium", "capacity": 68400},
+ "ratings": {"prestige": 82, "crowd_noise": 94, "fan_base": 80},
+ "history": {"conference_titles": 2, "league_titles": 1, "summary": "AFC Championship 2; League Titles 1"},
+ "rival": {"name": "Miami Sharks", "id": "miami_sharks"},
+ "identity": "Cold-weather identity, physical defense, relentless home crowd."
 }
 ```
 
-A pro CSV can use the same columns as the colleges (`School` = club name,
-`Team` = nickname, `Division` = `PRO`, `Conference` = the league or its
-conference/division name, plus `Abbreviation`, colors, stadium, `Prestige` or
-`Strength`). New pro conferences go in `leagues.json` under `pro`.
+The pro guide CSV (`data/teams/source/pro_kpfl.csv`) imports as it came:
+`League, Conference, Division, Market, Team Name, Mascot, Stadium, Stadium
+Capacity, Crowd Noise, Prestige, Fan Base, Team Colors, Primary Rival,
+Franchise History, Team Identity`.
 
 ## Team record (what the game sees)
 
@@ -193,7 +207,8 @@ Saves store team ids. If an id has to change, add `"old_id": "new_id"` to
 `data/teams/legacy_ids.json` and a migration step (see `CareerSave._migrate`).
 Version 8 used that file to move saves from the old built-in teams: the
 player's high school became Hoboken, other old high schools and colleges map
-to database teams of the same level and recruiting tier.
+to database teams of the same level and recruiting tier. Version 9 moved the
+12 placeholder pro clubs to league clubs (`"pro"` in the same file).
 
 ## Commands
 
