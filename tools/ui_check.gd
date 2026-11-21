@@ -31,7 +31,7 @@ const ALL := ["main", "career_menu", "tutorial", "new", "new_web", "name_chooser
 	"hud", "hud_result", "results", "stats", "achievements", "settings", "career_stats", "people", "debug",
 	"challenge", "season", "recruiting", "recruiting_board", "recruiting_board_senior", "college_choice", "hub_college", "draft",
 	"hub_pro", "kicking_season", "kicking_hs", "kicking_total",
-	"kicking_total_sections", "kicking_season_sections", "kicking_season_misc", "contract", "retired", "pause", "toast"]
+	"kicking_total_sections", "kicking_season_sections", "kicking_season_misc", "contract", "hall_of_fame", "retired", "pause", "toast"]
 
 var _out := ""
 var _tag := ""
@@ -247,6 +247,12 @@ func _capture_all() -> void:
 	await _shot("contract", Screens.CAREER_CONTRACT)
 	if c.phase == CareerManager.PHASE_CONTRACT:
 		_m.retire("chose")
+	# The closing scenes (if any are written yet), then the Hall of Fame vote.
+	while c.phase == CareerManager.PHASE_EPILOGUE:
+		_m.choose(_sim._choose(c, _m.current_scenario(), "always-train", _m.tuning))
+	await _shot("hall_of_fame", Screens.CAREER_HALL)
+	if c.phase == CareerManager.PHASE_HALL:
+		_m.finish_hall_of_fame()
 	await _shot("retired", Screens.CAREER_RETIRED)
 
 
@@ -413,8 +419,10 @@ func _advance(done: Callable) -> void:
 		match c.phase:
 			CareerManager.PHASE_WEEK_START:
 				_m.begin_week()
-			CareerManager.PHASE_SCENARIO, CareerManager.PHASE_OFFSEASON:
+			CareerManager.PHASE_SCENARIO, CareerManager.PHASE_OFFSEASON, CareerManager.PHASE_EPILOGUE:
 				_m.choose(_sim._choose(c, _m.current_scenario(), "always-train", _m.tuning))
+			CareerManager.PHASE_HALL:
+				_m.finish_hall_of_fame()
 			CareerManager.PHASE_OUTLOOK:
 				_m.start_game()
 			CareerManager.PHASE_GAME:

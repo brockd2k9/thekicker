@@ -162,6 +162,11 @@ func _play_career(strat: String, n: int) -> Dictionary:
 				for id in c.pending_scenarios:
 					_count_scen(id, out)
 				_track_life(c, m.tuning, out)
+			CareerManager.PHASE_EPILOGUE:
+				_count_scen(str(c.pending_scenarios[0]), out)
+				m.choose(_choose(c, m.current_scenario(), strat, m.tuning))
+			CareerManager.PHASE_HALL:
+				m.finish_hall_of_fame()
 			CareerManager.PHASE_SCENARIO, CareerManager.PHASE_OFFSEASON:
 				var key := "%d_%s" % [c.season, c.stage]
 				if c.phase == CareerManager.PHASE_OFFSEASON and out.get("_off", "") != key:
@@ -280,6 +285,9 @@ func _play_career(strat: String, n: int) -> Dictionary:
 	out["rep_end"] = Reputation.state(c)
 	out["fatigue_lost"] = float(c.fatigue.get("lost_total", 0.0))
 	out["savings"] = c.savings
+	var hof: Dictionary = c.retirement.get("hof", {})
+	out["hof_tier"] = str(hof.get("tier", "none"))
+	out["hof_score"] = int(hof.get("score", 0))
 	out["money_salary"] = int(c.money_log.get("salary", 0))
 	out["money_choices"] = int(c.money_log.get("choices_in", 0)) - int(c.money_log.get("choices_out", 0))
 	out["suspensions"] = c.suspensions_total
@@ -654,6 +662,7 @@ func _report(results: Dictionary, n: int, problems: PackedStringArray, ms: int) 
 	L.append_array(_ot_section(all))
 	L.append_array(_fatigue_section(all))
 	L.append_array(_savings_section(all))
+	L.append_array(_hof_section(all))
 	L.append_array(_progress_sources(all))
 	# --- life
 	L.append("## Life stats (average over every week played; share of weeks with any life stat low)")
@@ -1148,6 +1157,30 @@ func _savings_section(all: Array) -> PackedStringArray:
 			Savings.change_text(roundi(_avgf(rows.map(func(r): return float(r.get("money_choices", 0)))))),
 			_pct(rows.filter(func(r): return int(r.get("savings", 0)) >= 1000000).size(), rows.size()),
 			_pct(rows.filter(func(r): return int(r.get("savings", 0)) >= 5000000).size(), rows.size())])
+	L.append("")
+	return L
+
+
+## The Hall of Fame vote at retirement, among pro careers, by pro seasons.
+func _hof_section(all: Array) -> PackedStringArray:
+	var L := PackedStringArray()
+	var pro := all.filter(func(r): return int(r.get("pro_seasons", 0)) > 0)
+	L.append("## Hall of Fame vote (pro careers; thresholds provisional until the kick retune)")
+	L.append("")
+	L.append("| Pro seasons | Careers | Score (median, p10-p90) | Ring of Honor+ | Finalist+ | Inducted+ | First ballot |")
+	L.append("|---|---|---|---|---|---|---|")
+	var rank := {"none": 0, "ring_of_honor": 1, "finalist": 2, "inducted": 3, "first_ballot": 4}
+	for band in [[1, 99, "all"], [1, 2, "1-2"], [3, 5, "3-5"], [6, 9, "6-9"], [10, 99, "10+"]]:
+		var rows := pro.filter(func(r): return int(r["pro_seasons"]) >= int(band[0]) and int(r["pro_seasons"]) <= int(band[1]))
+		if rows.is_empty():
+			continue
+		var v: Array = rows.map(func(r): return int(r.get("hof_score", 0)))
+		v.sort()
+		var at := func(q: float) -> int: return int(v[clampi(int(q * (v.size() - 1)), 0, v.size() - 1)])
+		var share := func(k: int) -> String:
+			return _pct(rows.filter(func(r): return int(rank.get(str(r.get("hof_tier", "none")), 0)) >= k).size(), rows.size())
+		L.append("| %s | %d | %d (%d-%d) | %s | %s | %s | %s |" % [band[2], rows.size(), at.call(0.5), at.call(0.1),
+			at.call(0.9), share.call(1), share.call(2), share.call(3), share.call(4)])
 	L.append("")
 	return L
 
