@@ -123,8 +123,8 @@ def _numbers(ch):
         for k, x in (d or {}).items():
             if x:
                 v[k] = x
-    for k in ("skill_points", "recruiting", "grades", "draft", "retention"):
-        if ch.get(k):
+    for k in ("skill_points", "recruiting", "grades", "draft", "retention", "money"):
+        if ch.get(k) and isinstance(ch[k], (int, float)) and not isinstance(ch[k], bool):
             v[k] = ch[k]
     for p, x in (ch.get("rel") or {}).items():
         if x:

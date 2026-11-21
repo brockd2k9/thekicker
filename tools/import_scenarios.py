@@ -46,7 +46,9 @@ CATEGORIES = ["social", "school", "training", "health", "work", "media", "family
 METRICS = ["recruiting", "draft", "retention", "gpa", "age",
            # Career state (docs/story_note_career_state.md): "right now" values and pro counts.
            "slump_now", "benched_now", "injured_now", "fg_streak", "season_fg_pct", "pro_seasons",
-           "contract_years_left", "clubs"]
+           "contract_years_left", "clubs",
+           # Savings in dollars (docs/story_note_savings.md).
+           "savings"]
 # Hard limits per choice (errors). Typical values are in the writing guide.
 STAT_RANGE = {"life": (-20, 15), "football": (-2, 5), "personality": (-4, 6)}
 PROGRESS_RANGE = {"recruiting": (-3, 8), "grades": (-0.2, 0.4), "draft": (-10, 6), "retention": (-6, 6)}
@@ -89,6 +91,7 @@ SKILL_POINTS_RANGE = (-2, 6)
 # (engine: suspend_max_weeks / suspend_max_weeks_pro). Over 3 is for a serious step.
 SUSPEND_MAX = 3
 SUSPEND_MAX_PRO = 11
+MONEY_MAX = 50_000_000  # whole dollars, either way (docs/story_note_savings.md)
 PRO_STAGES = {"pro", "free_agent"}
 REL_RANGE = (-15, 15)
 STATS_PER_CHOICE_WARN = 7
@@ -96,7 +99,7 @@ TEXT_WARN_CHARS = 320
 WHEN_VALUES = {"season", "bye", "offseason"}
 CHOICE_FIELDS = {"label", "result", "stats", "modifiers", "set_flags", "rel", "requires", "lock_text",
                  "follow_up", "recruiting", "grades", "draft", "retention", "skill_points",
-                 "followers", "followers_exact", "conduct", "deal", "suspend_weeks", "recast"}
+                 "followers", "followers_exact", "conduct", "deal", "suspend_weeks", "recast", "money"}
 SCENARIO_FIELDS = {"id", "title", "_info", "category", "text", "choices", "weight", "cooldown", "when",
                    "follow_up_only", "stages", "seasons", "weeks", "once", "once_per_club", "_note"}
 # Fields a template may set on a scenario that already exists (graph fields stay
@@ -149,7 +152,7 @@ def clean_choice(ch):
     out["stats"] = stats
     out["modifiers"] = list(ch.get("modifiers") or [])
     for k in ["recruiting", "grades", "draft", "retention", "skill_points", "followers", "followers_exact",
-              "suspend_weeks"]:
+              "suspend_weeks", "money"]:
         if ch.get(k) not in (None, 0, 0.0):
             out[k] = ch[k]
     if ch.get("conduct") not in (None, ""):
@@ -396,6 +399,11 @@ def main(argv=None):
                         val for val in (ch.get("set_flags") or {}).values()):
                     rep.add(sid, "warning", f"{w}: a suspension over {SUSPEND_MAX} weeks is for a serious step: "
                             "give it conduct scandal or a flag later scenes read")
+            if "money" in ch:
+                v = ch["money"]
+                if isinstance(v, bool) or not isinstance(v, int) or not -MONEY_MAX <= v <= MONEY_MAX:
+                    rep.add(sid, "ERROR", f"{w}: money {v} must be whole dollars within +-{MONEY_MAX:,}")
+                n_stats += 1  # a choice with only money counts as a change
             if "recast" in ch:
                 rc = ch["recast"]
                 if not isinstance(rc, list) or not rc or not all(isinstance(x, str) for x in rc):
