@@ -94,6 +94,7 @@ static func profile_text(p: KickProfile, kt: KickTuning) -> String:
 			p.accuracy_spread_deg, p.wobble_mult, p.window_mult],
 		"Pressure x%.2f  +%.2f   Wind x%.2f   Injury %d%%/wk" % [
 			p.pressure_sensitivity, p.pressure_add, p.wind_mult, roundi(p.injury_risk * 100.0)],
+		KickNerves.debug_text(p.nerves, CareerTuning.get_default()) if not p.nerves.is_empty() else "",
 	])
 
 

@@ -891,6 +891,53 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 
 static var _cached: CareerTuning
 
+@export_group("Kick Nerves")
+## When off-field life goes badly, a crooked swipe costs more: KickNerves
+## builds straightness_penalty_mult (1 = normal), which scales ONLY the
+## sideways miss of a crooked swipe (KickDifficulty's aim error and hook). A
+## straight swipe, power, distance and wind are never affected. Career only.
+## mult = 1 + energy + life + decisions (energy and life x slump_amplify in a
+## slump) + slump, clamped to [nerves_min_mult, nerves_max_mult].
+@export var nerves_min_mult: float = 1.0
+@export var nerves_max_mult: float = 2.0
+## Energy below this adds up to nerves_energy_max (scales with how far below).
+@export var nerves_energy_threshold: float = 40.0
+@export var nerves_energy_max: float = 0.25
+## Health, Fun and Social below this each add up to nerves_life_max.
+@export var nerves_life_threshold: float = 35.0
+@export var nerves_life_max: float = 0.12
+## Wrong decisions (a choice with conduct "bad" / "scandal", or one that sets a
+## negative character flag: character_concerns or dismissed) add this much,
+## stored and capped at nerves_decision_cap.
+@export var nerves_bad_choice: float = 0.08
+@export var nerves_scandal_choice: float = 0.2
+@export var nerves_negative_flag: float = 0.1
+@export var nerves_decision_cap: float = 0.4
+## It fades: every week without a wrong decision takes this much off, and a
+## good choice (conduct "good", rebuilt_reputation, or concerns cleared) this much more.
+@export var nerves_decision_fade_week: float = 0.04
+@export var nerves_good_choice: float = 0.04
+## Slump: entered after nerves_slump_misses missed kicks in a row, or when
+## the last nerves_slump_window kicks are under nerves_slump_pct made.
+@export var nerves_slump_misses: int = 3
+@export var nerves_slump_window: int = 8
+@export_range(0.0, 1.0) var nerves_slump_pct: float = 0.4
+## Out of a slump: nerves_slump_exit_clean straight, made kicks in a row
+## (higher than nerves_slump_misses, so you can't bounce in and out). Any miss
+## or crooked make starts the count again.
+@export var nerves_slump_exit_clean: int = 5
+## In a slump: this much extra, eased by nerves_slump_ease per clean kick in
+## the current run, never below nerves_slump_floor of it until you're out.
+@export var nerves_slump_extra: float = 0.25
+@export_range(0.0, 1.0) var nerves_slump_ease: float = 0.12
+@export_range(0.0, 1.0) var nerves_slump_floor: float = 0.4
+## In a slump, low energy and life stats hit this much harder.
+@export var nerves_slump_amplify: float = 1.5
+## A kick counts as "straight" if its crooked-swipe penalty is at most this (0..1).
+@export_range(0.0, 1.0) var nerves_straight_penalty: float = 0.05
+## Status shown to the player: "Shaky" from this multiplier up ("In a slump" always shows).
+@export var nerves_shaky_at: float = 1.1
+
 
 ## The tuning resource the game uses (loads the .tres once).
 static func get_default() -> CareerTuning:

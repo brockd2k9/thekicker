@@ -450,6 +450,18 @@ tree) picks the posts style per stage (high school plain H-frame and wide, colle
 with school-colored padding/bands, pro polished and narrower; widths in `career_tuning.tres`
 "Goalposts") and dresses both lines in the teams' colors. Without it the scene looks as before.
 
+**Kick nerves (Career only, `scripts/career/kick_nerves.gd`):** when off-field life goes badly, a
+crooked swipe costs more. One number, `straightness_penalty_mult` (1.0 = normal, clamped 1.0-2.0),
+scales only the sideways miss of a crooked swipe (KickDifficulty's extra aim error and hook); a
+straight swipe, power, distance and wind are never affected. It is 1 + low Energy + low Health /
+Fun / Social + wrong decisions (choices with conduct bad / scandal or that set
+`character_concerns` / `dismissed`; fades each week without one, faster with good choices) + a
+slump (after 3 misses in a row or a bad stretch; out only after 5 straight makes in a row, each one
+easing it a little; in a slump low Energy / life stats count 1.5x). The Game Day Outlook and the
+kick's situation line say "Shaky" or "In a slump"; with `show_debug_readout` on, the kick shows the
+breakdown, and the Career Debug screen's readout has the same line. Numbers: `career_tuning.tres`,
+"Kick Nerves".
+
 How the pieces connect: a career game runs the existing kick scene through `CareerGameMode`
 (a `KickMode`) with `KickProfile.to_kick_modifiers()`, so career field goals and extra points
 report through `GameState.kick_resolved` with `mode = &"career"` and count in My Stats and

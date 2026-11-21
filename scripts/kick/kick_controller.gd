@@ -65,8 +65,10 @@ func build_shot(swipe: Swipe, tuning: KickTuning, mods: KickModifiers,
 		shot.crooked = swipe.crookedness(diff.crooked_angle_deg, diff.crooked_bow)
 		shot.penalty = diff.penalty(shot.crooked, yards)
 		var side := swipe.curl_side()
-		curl = side * shot.penalty * diff.max_deviation_degrees
-		shot.hook_accel = side * shot.penalty * diff.max_hook_accel
+		# Career nerves make a crooked swipe's sideways miss bigger (never power).
+		var sideways := shot.penalty * mods.straightness_penalty_mult
+		curl = side * sideways * diff.max_deviation_degrees
+		shot.hook_accel = side * sideways * diff.max_hook_accel
 		shot.power *= 1.0 - shot.penalty * diff.max_power_loss
 		# Long-kick aim error stacks with the Career spread (independent errors).
 		var extra := diff.extra_spread_deg(yards)

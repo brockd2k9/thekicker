@@ -72,6 +72,10 @@ var _margin := ""
 ## seconds of flight so far (game time), for the wind's hang-time growth.
 var _hook := 0.0
 var _fg_flight_t := 0.0
+## The last field goal's crooked-swipe penalty (0 = straight), for Career nerves.
+var last_shot_penalty := 0.0
+## Career: the nerves line for the debug overlay ("" = none).
+var nerves_debug := ""
 
 @onready var field: FieldBuilder = $Field
 @onready var ball: Ball = $Ball
@@ -160,6 +164,9 @@ func _ready() -> void:
 	ball.landed.connect(_on_ball_landed)
 	_goal_marker = GoalMarker.new()
 	add_child(_goal_marker)
+	# Debug overlay (with the other debug numbers): Career nerves breakdown.
+	if nerves_debug != "" and tuning.show_debug_readout:
+		hud.set_debug_line(nerves_debug)
 	_start_attempt()
 
 
@@ -247,6 +254,7 @@ func _start_attempt() -> void:
 	situation.wind_gust_mph = wind.gust_mph
 	_hook = 0.0
 	_fg_flight_t = 0.0
+	last_shot_penalty = 0.0
 	# Field goals on windy days also get a headwind or tailwind.
 	if difficulty.enabled and not KickSituation.is_off_tee(situation.kick_type) \
 			and absf(situation.wind_mph) >= 0.5 and difficulty.max_head_tail_mph > 0.0:
@@ -316,6 +324,7 @@ func _try_kick(swipe: Swipe) -> void:
 		swipe, tuning, modifiers, pressure.wobble_deg(), _rng, _play_t, difficulty, situation.distance_yards)
 	_hook = shot.hook_accel
 	_fg_flight_t = 0.0
+	last_shot_penalty = shot.penalty
 	phase = Phase.FLIGHT
 	kick_struck.emit()
 	_wind_at_kick = wind.mph
