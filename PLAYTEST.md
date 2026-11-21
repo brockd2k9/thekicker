@@ -666,6 +666,39 @@ followers end of HS about 2.0K, end of college about 30K; pro careers 5.8-5.9 se
 | `practice_hard_sp` / `practice_hard_injury` (new) | - | 1 / 0.01 |
 | `good_habits_energy` / `_weeks` / `_sp` / `_season_cap` (new) | - | 70 / 3 / 1 / 3 |
 
+## Stadiums (Feature C)
+
+Looks: `scripts/field/stadium_spec.gd` (the presets); which stadium: `scripts/career/stadiums.gd`;
+numbers: `career_tuning.tres` "Stadiums". Built from boxes, planes and the crowd shader like the
+original stadium, which Practice mode keeps (no spec = the original, unchanged).
+
+| Stage | Tiers (by the home team) | Night |
+|---|---|---|
+| High school | `hs_1` bleachers, 4 light poles, half empty; `hs_2` wall, one deck, press box; `hs_3` two decks, towers, a scoreboard. Strength under 50 / 50-61 / 62+ | always |
+| Junior college | `juco` bleachers | never |
+| College | the school's tier: `college_small` one deck; `college_mid` two decks + board; `college_top` three-deck bowl, sideline stands, video board | 25% of games |
+| Pro | `pro_1` two decks; `pro_2` adds sideline stands; `pro_3` three decks and a lit roof ring. Strength under 60 / 60-66 / 67+ | 20% of games |
+
+- Away games are at the opponent's stadium: their tier, their colors in the crowd and the end zone.
+- Hash marks by stage (high school in thirds, college 40 ft apart, pro in line with the uprights).
+- A team with `capacity` in world.json is placed by capacity instead (high school 3,000 /
+  8,000; college 30,000 / 60,000; pro 62,000 / 70,000). None has it yet.
+- Night: a dark sky with stars, less ambient light, brighter light panels; no real-time lights.
+  The night pick is a hash of the season, week and teams, so a resume never changes it.
+- Kick challenges at a neutral site: high school showcases and camps at a small college, a college
+  combine at `pro_1`, other college challenges at `college_mid`, pro challenges at `pro_2`. Kicker
+  battles, auditions and tryouts are at the team's own stadium, by day.
+- The sideline warmup's crowd strip takes the stadium's empty seats, colors and bleachers.
+- Crowd sound hook: `StadiumSpec.crowd_level` (0.3 for `hs_1` to 1.0 for `pro_3`), read with
+  `FieldBuilder.crowd_level()`. Nothing plays it yet.
+- **Preview:** Career Debug -> "STADIUM (Try Kicks)": cycle the tier, toggle Night, then Try Kicks.
+
+**Cost** (the engine's counters in the layout check, 720x1280): the original stadium scene is
+about 3,250 draw calls and 530K primitives (nearly all of it the players); every tier is within
+about 1% of that (-40 to +10 draw calls, 525K-533K primitives; the formation is random), video
+memory 28-29 MB in all. Each tier is 11-18 boxes and planes (the original is 10; budget 30, checked by the tests).
+Real frame times need a phone (see below).
+
 ## Kick challenge tuning
 
 The simulator plays each proposed conversion (`tests/fixtures/kick_challenge_conversions.json`) for

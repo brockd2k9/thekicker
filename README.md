@@ -553,6 +553,12 @@ week in a row costs a point of Power and Toughness (at most 3 a season, bought b
 points). Each week you pick Light, Normal or Hard practice on the Hub; three well-rested weeks in a
 row pay a "Good habits" skill point. Details: `PLAYTEST.md`, "Low Energy".
 
+**Stadiums:** each Career game is at the home team's stadium, with tiers by stage (high school
+bleachers to a two-deck field, always at night; junior college bleachers; college one deck to a
+three-deck bowl; pro stadiums up to a lit roof ring) and some college and pro games at night.
+Challenges are at neutral sites. Practice keeps the original stadium. Preview them from Career
+Debug ("STADIUM"). Details: `PLAYTEST.md`, "Stadiums".
+
 **Kick challenges:** a scenario choice can be a real kick challenge (showcase, camp, combine,
 kicker battle): picking it opens the kick scene (field goals clamped to your range - 1, and kickoffs
 for combines); pass for the full reward, miss for a milder outcome. Tryouts, the bench audition and
