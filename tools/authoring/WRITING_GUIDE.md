@@ -317,12 +317,16 @@ veteran) are separate ids with their own text.
 **No hard-coded club, city or league names.** Use "the club", "the city", "the league" until
 `{club}` and `{town}` exist (gameplay request R5); then use those placeholders.
 
-**Money.** The game has no money stat yet. Write money scenes (advisors, ventures, family asks,
-big checks, divorce) with flags that later scenes read (`advisor_stole`, `bad_venture`,
-`opened_restaurant`...) and real stress costs (Fun, Energy, `stressed`, a relationship, retention).
-Don't write "money" fields yet; they're added when the savings stat lands (request R3). Show
-amounts in words ("a little under half of everything you've earned"), never as numbers that might
-contradict the contract screen.
+**Money.** Pro savings are a stat (gameplay R3, docs/story_note_savings.md). A choice can carry
+`"money"`: whole dollars, positive or negative, within 50,000,000 either way (a kick challenge's
+`on_pass` / `on_fail` takes it too). A choice with only `money` counts as a change. Scenes can
+require savings: `"requires": {"min": {"savings": 2000000}}` ("Requires $2.00M saved") or
+`{"max": {"savings": 99999}}`. Scale: a rookie season saves about $450K-$600K; a long careful
+career ends with several million; savings never go below $0. Keep the flags later scenes read
+(`advisor_stole`, `bad_venture`...) and the stress costs as well, so money is never the only
+consequence. Money counts in the dominance check, so a choice that pays more needs a real cost
+elsewhere. Amounts in the text stay in words ("a little under half of everything you've
+earned"); the card shows the number.
 
 **The pro wrong path** has its own strike flags (`pro_strike_flags` in the design: `pro_night_out`,
 `pro_bar_fight`...). The team-discipline steps read and clear only those. College flags make it

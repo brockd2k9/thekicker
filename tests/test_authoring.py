@@ -376,6 +376,35 @@ class ProWritingStandardTests(unittest.TestCase):
         self.assertNotIn("coach", " ".join(m for _, _, m in scenario_lint.rel_balance_findings(scenes, 0.5)))
 
 
+class MoneyTests(unittest.TestCase):
+    """Gameplay request R3 (savings): "money" on a choice, "savings" in requires."""
+
+    def _run(self, doc):
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "x.json")
+            with open(path, "w") as f:
+                json.dump(doc, f)
+            return run(path, "--dry-run")
+
+    def test_money_and_savings_are_accepted(self):
+        ok = {"scenarios": [{"id": "PRO_144", "title": "x", "category": "money", "text": "A dinner party.",
+                             "choices": [_choice(money=-400000, stats={"life": {"fun": 3}}),
+                                         {"label": "Only money", "result": "Paid.", "stats": {},
+                                          "modifiers": ["focused"], "money": 250000},
+                                         _choice(requires={"min": {"savings": 2000000}}, lock_text="saved",
+                                                 stats={"life": {"fun": 2}})]}]}
+        code, out = self._run(ok)
+        self.assertEqual(code, 0, out)
+        self.assertNotIn("changes no stats", out)
+
+    def test_bad_money_values_are_errors(self):
+        bad = {"scenarios": [{"id": "PRO_144", "title": "x", "category": "money", "text": "A dinner party.",
+                              "choices": [_choice(money=2.5), _choice(money=60000000), _choice(money="lots")]}]}
+        code, out = self._run(bad)
+        self.assertEqual(code, 1, out)
+        self.assertEqual(out.count("must be whole dollars"), 3, out)
+
+
 class RecastAndProSuspensionTests(unittest.TestCase):
     """Gameplay requests R8 (recast a cast member) and R9 (pro suspensions up to a season)."""
 
