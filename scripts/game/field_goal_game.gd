@@ -22,6 +22,9 @@ signal attempt_finished(outcome: KickResult.Outcome)
 signal kick_struck
 
 @export var tuning: KickTuning
+## Field goal / extra point difficulty (crooked swipes, distance, wind,
+## contact vibration). null = res://tuning/kick_difficulty.tres.
+@export var difficulty: KickDifficulty
 
 var phase: Phase = Phase.SETUP
 var situation: KickSituation
@@ -65,6 +68,10 @@ var _default_rules := KickoffRules.new()
 ## the margin line under the result banner ("Cleared the bar by 4 ft").
 var _goal_marker: GoalMarker
 var _margin := ""
+## Field goals: the hook / slice from a crooked swipe (m/s^2, + = right) and
+## seconds of flight so far (game time), for the wind's hang-time growth.
+var _hook := 0.0
+var _fg_flight_t := 0.0
 
 @onready var field: FieldBuilder = $Field
 @onready var ball: Ball = $Ball
@@ -114,6 +121,9 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	if tuning == null:
 		tuning = KickTuning.new()
+	if difficulty == null:
+		var d: Variant = load("res://tuning/kick_difficulty.tres")
+		difficulty = d if d is KickDifficulty else KickDifficulty.new()
 	_rng.randomize()
 	ball.set_visual_scales(tuning.ball_visual_scale, tuning.ball_visual_scale_far)
 	cam.fov = tuning.camera_fov
@@ -129,8 +139,8 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	# Live (gusting) wind on the flags and the HUD arrow.
-	field.set_wind(wind.mph, tuning.max_wind_mph + tuning.max_gust_mph)
-	hud.set_live_wind(wind.mph, tuning.max_wind_mph + tuning.max_gust_mph)
+	field.set_wind(wind.mph, tuning.max_wind_mph + tuning.max_gust_mph, wind.along_mph)
+	hud.set_live_wind(wind.mph, tuning.max_wind_mph + tuning.max_gust_mph, wind.along_mph)
 
 	if phase != Phase.FLIGHT and phase != Phase.RESULT:
 		aim_marker.set_aim(pressure.wobble_deg(), situation.distance_m())
@@ -152,7 +162,9 @@ func _process(delta: float) -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	ball.set_wind_accel(wind.acceleration(tuning) * modifiers.wind_mult)
+	if not _tee and phase == Phase.FLIGHT:
+		_fg_flight_t += _delta * tuning.flight_speed_scale
+	ball.set_wind_accel(_ball_wind_accel())
 	if _net:
 		_net_physics(_delta)
 		return
@@ -207,6 +219,13 @@ func _start_attempt() -> void:
 		var wind_mph := wind.roll(_rng, tuning)
 		situation = KickSituation.roll(_rng, tuning, wind_mph)
 	situation.wind_gust_mph = wind.gust_mph
+	_hook = 0.0
+	_fg_flight_t = 0.0
+	# Field goals on windy days also get a headwind or tailwind.
+	if difficulty.enabled and not KickSituation.is_off_tee(situation.kick_type) \
+			and absf(situation.wind_mph) >= 0.5 and difficulty.max_head_tail_mph > 0.0:
+		situation.wind_along_mph = roundf(_rng.randf_range(-1.0, 1.0) * difficulty.max_head_tail_mph)
+		wind.set_along(situation.wind_along_mph)
 	_net = situation.kick_type == KickSituation.KickType.WARMUP_NET and field.sideline != null
 	_tee = (situation.is_tee_kick() and field.kickoff != null) or _net
 	if _net:
@@ -268,7 +287,9 @@ func _try_kick(swipe: Swipe) -> void:
 		hud.flash_hint(problem)
 		return
 	var shot: KickController.Shot = kicker.build_shot(
-		swipe, tuning, modifiers, pressure.wobble_deg(), _rng, _play_t)
+		swipe, tuning, modifiers, pressure.wobble_deg(), _rng, _play_t, difficulty, situation.distance_yards)
+	_hook = shot.hook_accel
+	_fg_flight_t = 0.0
 	phase = Phase.FLIGHT
 	kick_struck.emit()
 	_wind_at_kick = wind.mph
@@ -276,18 +297,44 @@ func _try_kick(swipe: Swipe) -> void:
 	hud.set_window(0.0, false)
 	hud.set_hint("")
 	if tuning.show_debug_readout:
-		hud.show_shot_info("Power %d%%  Aim %+.1f°  Wobble %+.1f°  Loft %.0f°" % [
-			roundi(shot.power * 100.0), shot.swipe_aim_deg, shot.wobble_deg, shot.elevation_deg])
+		hud.show_shot_info("Power %d%%  Aim %+.1f°  Wobble %+.1f°  Crooked %d%% (-%d%%)" % [
+			roundi(shot.power * 100.0), shot.final_aim_deg, shot.wobble_deg,
+			roundi(shot.crooked * 100.0), roundi(shot.penalty * 100.0)])
 
 	_ball_prev = ball.global_position
-	ball.launch(shot.velocity, tuning.gravity, wind.acceleration(tuning) * modifiers.wind_mult,
+	ball.launch(shot.velocity, tuning.gravity, _ball_wind_accel(),
 		tuning.flight_speed_scale, -situation.distance_m(), tuning.ball_spin_speed)
 	trail.start(ball)
 	field.set_holder_pose(FieldBuilder.HolderPose.RELEASED)
 	cam.follow(ball, tuning.camera_follow_strength, tuning.camera_follow_speed)
 	cam.shake(tuning.kick_shake * (0.5 + shot.power))
 	Sfx.play(&"kick", 0.0, lerpf(0.9, 1.15, shot.power))
-	Haptics.pulse(roundi(tuning.kick_vibration_ms * lerpf(0.75, 1.5, shot.power)))
+	_contact_vibration(shot)
+
+
+## The pulse at the moment the foot meets the ball (phones only; Haptics is a
+## no-op on desktop / Steam and when Vibration is off in Settings).
+## Clean strike: short and sharp. Mishit (crooked swipe): longer, weaker, rough.
+func _contact_vibration(shot: KickController.Shot) -> void:
+	if not difficulty.enabled:
+		Haptics.pulse(roundi(tuning.kick_vibration_ms * lerpf(0.75, 1.5, shot.power)))
+		return
+	var bad := clampf(shot.penalty * 2.0, 0.0, 1.0)  # even a modest penalty feels off
+	var ms := roundi(lerpf(difficulty.clean_vibration_ms, difficulty.mishit_vibration_ms, bad))
+	Haptics.pulse(ms, lerpf(difficulty.clean_vibration_amp, difficulty.mishit_vibration_amp, bad))
+	if bad > 0.5:
+		Haptics.pulse_after(ms / 1000.0 + 0.04, roundi(ms * 0.4), difficulty.mishit_vibration_amp)
+
+
+## Wind on the ball right now. Field goals (KickDifficulty): stronger, more of a
+## push the longer the ball has been up, plus a crooked swipe's hook / slice.
+## Career's wind_mult (Toughness) still applies first.
+func _ball_wind_accel() -> Vector3:
+	var a := wind.acceleration(tuning) * modifiers.wind_mult
+	if _tee or not difficulty.enabled:
+		return a
+	var grow := difficulty.wind_strength_multiplier * (1.0 + difficulty.hang_time_wind_growth * _fg_flight_t)
+	return Vector3(a.x * grow + _hook, 0.0, a.z * grow * difficulty.head_tail_effect)
 
 
 func _kick_blocked() -> void:
