@@ -64,7 +64,8 @@ var _fixed_make := 0.0
 var _conv: Array = []
 var _chal := {}
 var _scen_count := {}  # id -> appearances
-var _ret_by_scen := {}  # scenario id -> [standing applied by choices, times]
+var _ret_by_scen := {}
+var _practice := "normal"  # scenario id -> [standing applied by choices, times]
 var _scen_careers := {}  # id -> careers that saw it
 
 
@@ -91,6 +92,9 @@ func _ready() -> void:
 	Followers.sim_choice_buzz = float(args.get("tag", 0.0))
 	# rep=0: character reputation and suspensions have no effect.
 	Reputation.off = str(args.get("rep", "1")) == "0"
+	# practice=normal (default) / light / hard / sensible (hard when rested,
+	# light when tired): every career's weekly practice intensity.
+	_practice = str(args.get("practice", "normal"))
 	var conv_path := str(args.get("conv", "res://tests/fixtures/kick_challenge_conversions.json"))
 	var cj: Variant = JSON.parse_string(FileAccess.get_file_as_string(conv_path))
 	_conv = cj.get("conversions", []) if cj is Dictionary else []
@@ -148,9 +152,13 @@ func _play_career(strat: String, n: int) -> Dictionary:
 			out["reached"][c.stage] = true
 		match c.phase:
 			CareerManager.PHASE_WEEK_START:
+				_pick_practice(c, m.tuning)
+				var e0 := c.stat("energy")
+				var hurt0 := c.is_injured()
 				if c.week == 1:
 					out["_chal_start"] = _challenge_probs(m)
 				m.begin_week()
+				_count_fatigue(c, m.tuning, out, e0, hurt0)
 				for id in c.pending_scenarios:
 					_count_scen(id, out)
 				_track_life(c, m.tuning, out)
@@ -270,6 +278,7 @@ func _play_career(strat: String, n: int) -> Dictionary:
 			pa += int(h.get("stats", {}).get("fg_att", 0))
 	out["pro_fg"] = float(pm) / pa if pa > 0 else -1.0
 	out["rep_end"] = Reputation.state(c)
+	out["fatigue_lost"] = float(c.fatigue.get("lost_total", 0.0))
 	out["suspensions"] = c.suspensions_total
 	out["fg_pct"] = float(c.career_totals.get("fg_made", 0)) / maxf(float(c.career_totals.get("fg_att", 0)), 1.0)
 	var src := {}
@@ -640,6 +649,7 @@ func _report(results: Dictionary, n: int, problems: PackedStringArray, ms: int) 
 	L.append_array(_age_section(all))
 	L.append_array(_retention_section(all))
 	L.append_array(_ot_section(all))
+	L.append_array(_fatigue_section(all))
 	L.append_array(_progress_sources(all))
 	# --- life
 	L.append("## Life stats (average over every week played; share of weeks with any life stat low)")
@@ -1093,6 +1103,63 @@ func _progress_sources(all: Array) -> PackedStringArray:
 	return L
 
 
+func _pick_practice(c: CareerData, t: CareerTuning) -> void:
+	var p := _practice
+	if p == "sensible":
+		p = "hard" if c.stat("energy") >= t.good_habits_energy else ("light" if c.stat("energy") < t.low_energy_threshold else "normal")
+	Fatigue.set_practice(c, p)
+
+
+## Weekly Energy, exhaustion and injuries (the week's injury roll happens in
+## begin_week): {weeks, tired, exhausted, by bucket: [weeks, new injuries]}.
+func _count_fatigue(c: CareerData, t: CareerTuning, out: Dictionary, energy: float, hurt_before: bool) -> void:
+	var f: Dictionary = out.get_or_add("fat", {"weeks": 0, "tired": 0, "exhausted": 0, "buckets": {}})
+	f["weeks"] += 1
+	if energy < t.low_energy_threshold:
+		f["tired"] += 1
+	if energy < t.exhausted_energy:
+		f["exhausted"] += 1
+	var b := "under 20" if energy < 20.0 else ("20-39" if energy < 40.0 else ("40-59" if energy < 60.0 else "60+"))
+	var a: Array = f["buckets"].get(b, [0, 0])
+	a[0] += 1
+	if not hurt_before and c.is_injured():
+		a[1] += 1
+	f["buckets"][b] = a
+
+
+func _fatigue_section(all: Array) -> PackedStringArray:
+	var L := PackedStringArray()
+	var w := 0
+	var tired := 0
+	var ex := 0
+	var buckets := {}
+	for r in all:
+		var f: Dictionary = r.get("fat", {})
+		w += int(f.get("weeks", 0))
+		tired += int(f.get("tired", 0))
+		ex += int(f.get("exhausted", 0))
+		for b in f.get("buckets", {}):
+			var a: Array = buckets.get(b, [0, 0])
+			a[0] += int(f["buckets"][b][0])
+			a[1] += int(f["buckets"][b][1])
+			buckets[b] = a
+	L.append("## Fatigue (practice: %s)" % _practice)
+	L.append("")
+	L.append("Weeks starting tired (Energy under 40): %s; exhausted (under 20): %s. Careers that lost attribute "
+		% [_pct(tired, w), _pct(ex, w)] + "points to exhaustion: %s (%.1f points per such career). Good habits skill points per season: %.2f." % [
+		_pct(all.filter(func(r): return float(r.get("fatigue_lost", 0.0)) > 0.0).size(), all.size()),
+		_avgf(all.filter(func(r): return float(r.get("fatigue_lost", 0.0)) > 0.0).map(func(r): return float(r["fatigue_lost"]))),
+		_avgf(all.map(func(r): return float(r.get("sp_src", {}).get(Fatigue.SP_HABITS, 0)) / maxf(float(r["seasons"]), 1.0)))])
+	L.append("")
+	L.append("| Energy at the week's start | Share of weeks | New injuries per 11-week season |")
+	L.append("|---|---|---|")
+	for b in ["60+", "40-59", "20-39", "under 20"]:
+		var a: Array = buckets.get(b, [0, 0])
+		L.append("| %s | %s | %.2f |" % [b, _pct(int(a[0]), w), 11.0 * int(a[1]) / maxi(int(a[0]), 1)])
+	L.append("")
+	return L
+
+
 ## Overtime tallies per career: {stage: {games, ot, ties, two_point, won, lost}}
 ## and overtime game winners made.
 func _count_ot(c: CareerData, out: Dictionary) -> void:
@@ -1284,7 +1351,8 @@ func _skill_sections(all: Array, t: CareerTuning) -> PackedStringArray:
 	L.append("")
 	L.append("## Benching by kicker quality (career FG%)")
 	L.append("")
-	L.append("Targets: 80%+ under 5% of careers benched at least once, 70-80% 15-35%, under 65% over 60%.")
+	L.append("Targets, per 10 seasons played (careers are longer since the pro standing retune, so \"at least "
+		+ "once\" grows with career length): 80%+ under 0.1 benches, 70-80% 0.1-0.4, under 65% 0.8 or more.")
 	L.append("")
 	L.append("| Career FG% | Careers | Benched at least once | Benches per 10 seasons | Bench weeks per bench | Career over within 1 season of a bench |")
 	L.append("|---|---|---|---|---|---|")
