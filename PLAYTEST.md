@@ -568,6 +568,55 @@ benched in), 80% 3%.
 | `retention_fg_ref` (new; was fixed at 80%) | 0.80 | 0.66 |
 | `retention_maintained` (new) | - | 3.0 per preserved attribute |
 
+## Overtime (Feature B)
+
+Rules: `scripts/career/game_sim.gd` (overtime section); numbers: `career_tuning.tres` "Overtime".
+A game tied after four quarters goes to overtime; the coach calls your field goals as in regulation.
+
+- **High school (Kansas plan):** each team gets the ball at the opponent's 10 (field goals of about
+  27 yards), rounds until one team leads after both have had it, at most 4 rounds; then a tie.
+- **College:** each team gets the ball at the 25 (field goals of about 42 yards) in rounds 1-2. From
+  round 3, two-point tries only: you sit out, and Results says why. Never a tie.
+- **Pro:** one 10-minute period. Both teams get the ball unless the first scores a touchdown, then
+  sudden death; field goals from wherever the coach calls them; a tie when time runs out.
+- Overtime kicks are high pressure (0.9). A kick that wins the game is full pressure and labeled
+  "OT - GAME WINNER", so it counts as a game winner everywhere (skill points, Coach / Team,
+  followers, the walk-off achievement); a miss is a missed game winner. No kickoffs in overtime.
+  When you're benched, the backup kicks overtime field goals.
+- Shown: "OT / 2OT / OT 7:30" on the clock and in kick labels, "WIN (OT)" / "TIE (after OT)" on
+  Results with a line on what happened, "(OT)" in the Hub's recent results, this stage's rule at
+  the bottom of the Outlook.
+
+**Simulator (seeds 12-13, 360 careers each):**
+
+| Stage | Games to overtime | Overtime games: won / lost / tied | Ties left (all games) | Two-point rounds |
+|---|---|---|---|---|
+| High school | 5% | 53% / 46% / 1% | 0.0-0.1% | - |
+| College | 5% | 48-49% / 51-52% / 0% | 0% | 8-9% of overtimes |
+| Pro (first run: drives 150-330 s) | 4-5% | 34-36% / 39-40% / 25-26% | 1.1-1.2% | - |
+
+Pro ties were too common (the real rate is under one in ten overtimes): each possession used too
+much of the 10 minutes. `ot_pro_drive_sec` 150-330 -> 90-180 s: 8% of pro overtimes tied (600
+overtimes tested directly). Overtime game winners made: 0.3 per career (a quarter of careers make
+at least one).
+
+**Targets hold** (seeds 12-13): pros 67-75%, drafted 30-33%; FG range 48.8-48.9 / 54.1; 70 yd 0%;
+challenges unchanged (average kicker 81-98%); followers end of HS about 2.0K, end of college 29K;
+pro careers 5.8-6.2 seasons, 38+ 9-11% (preserving 10-14%). **Benching** for the 70% kicker:
+40-46% benched at least once (target 15-35%), 80% kicker 3-4%, 60% kicker 70%. Not overtime:
+leaving overtime misses out of the bench trigger changed nothing (43-46%). The cause is the pro
+standing retune: pro careers are about twice as long, so there are more seasons to be benched in;
+the per-season rate is unchanged.
+
+| Value | Before | After |
+|---|---|---|
+| `ot_pressure` (new) | - | 0.9 |
+| `ot_hs_rounds` / `ot_hs_fg_yards` / `ot_hs_td_chance` (new) | - | 4 / 27 / 0.4 |
+| `ot_college_fg_yards` / `ot_college_td_chance` / `ot_two_point_chance` (new) | - | 42 / 0.4 / 0.45 |
+| `ot_pro_minutes` (new) | - | 10 |
+| `ot_pro_drive_sec_min` / `_max` (new) | (150 / 330 first try) | 90 / 180 |
+| `ot_fg_range_chance` (new) | - | 0.75 |
+
 ## Kick challenge tuning
 
 The simulator plays each proposed conversion (`tests/fixtures/kick_challenge_conversions.json`) for

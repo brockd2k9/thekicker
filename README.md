@@ -523,6 +523,13 @@ ineligibility. Rules: `scripts/career/reputation.gd`; notes for writers:
 game-set flags (`contract_year`, `re_signed`, `signed_new_club`, `released`), `{club}` / `{town}`,
 `once_per_club`, and a season-end `dismissed` flag: `docs/story_note_career_state.md`.
 
+**Overtime:** a tie after four quarters goes to overtime, with rules by stage: high school (the
+Kansas plan from the 10, up to 4 rounds), college (from the 25; two-point tries from the third
+overtime, so the kicker sits out; no ties) and pro (one 10-minute period, both teams get the ball
+unless the first scores a touchdown, then sudden death; can end tied). Overtime kicks are high
+pressure, and an overtime game winner counts like any game winner. Details: `PLAYTEST.md`,
+"Overtime".
+
 **Kick challenges:** a scenario choice can be a real kick challenge (showcase, camp, combine,
 kicker battle): picking it opens the kick scene (field goals clamped to your range - 1, and kickoffs
 for combines); pass for the full reward, miss for a milder outcome. Tryouts, the bench audition and
