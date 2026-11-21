@@ -783,6 +783,31 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export_range(0.0, 0.8) var savings_tax_rate: float = 0.37
 @export_range(0.0, 0.2) var savings_agent_fee: float = 0.03
 
+@export_group("Hall of Fame")
+## The Hall of Fame vote at retirement (scripts/career/hall_of_fame.gd). The
+## tier thresholds are provisional until the kick retune settles FG%.
+@export var hof_per_season: float = 2.5
+@export var hof_season_cap: float = 50.0
+@export var hof_min_attempts: int = 150
+@export var hof_acc_ref: float = 75.0
+@export var hof_acc_above: float = 2.5
+@export var hof_acc_below: float = 1.0
+@export var hof_acc_below_cap: float = 15.0
+@export var hof_per_made: float = 0.1
+@export var hof_per_game_winner: float = 3.0
+@export var hof_clutch_cap: float = 30.0
+@export var hof_per_long50: float = 1.0
+@export var hof_long50_cap: float = 15.0
+@export var hof_long60_bonus: float = 5.0
+@export var hof_fame_max: float = 5.0
+@export var hof_per_suspension: float = -8.0
+@export var hof_concerns: float = -10.0
+@export var hof_dismissed: float = -25.0
+@export var hof_ring_of_honor: int = 60
+@export var hof_finalist: int = 80
+@export var hof_inducted: int = 100
+@export var hof_first_ballot: int = 125
+
 @export_group("Stadiums")
 ## Stadiums (scripts/career/stadiums.gd): the home team's stadium by stage.
 ## High school always plays at night; these are the night shares elsewhere

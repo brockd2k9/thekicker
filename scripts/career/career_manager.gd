@@ -34,6 +34,10 @@ const PHASE_TRYOUT := "tryout"
 const PHASE_DRAFT := "draft"
 const PHASE_CONTRACT := "contract"
 const PHASE_RETIRED := "retired"
+## After retirement (R10): the closing scenes (scenarios with when "epilogue"),
+## then the Hall of Fame vote, then the career summary (PHASE_RETIRED).
+const PHASE_EPILOGUE := "epilogue"
+const PHASE_HALL := "hall_of_fame"
 
 var data: CareerData
 var tuning: CareerTuning
@@ -131,8 +135,10 @@ func career_result() -> Dictionary:
 ## Which screen this phase belongs on.
 func screen_path() -> String:
 	match data.phase:
-		PHASE_SCENARIO, PHASE_OFFSEASON:
+		PHASE_SCENARIO, PHASE_OFFSEASON, PHASE_EPILOGUE:
 			return Screens.CAREER_SCENARIO
+		PHASE_HALL:
+			return Screens.CAREER_HALL
 		PHASE_OUTLOOK:
 			return Screens.CAREER_OUTLOOK
 		PHASE_GAME:
@@ -356,7 +362,9 @@ func choose(index: int) -> Dictionary:
 
 
 func _after_scenarios() -> void:
-	if data.phase == PHASE_OFFSEASON:
+	if data.phase == PHASE_EPILOGUE:
+		_next_epilogue()
+	elif data.phase == PHASE_OFFSEASON:
 		_start_next_season()
 	elif is_bye():
 		_finish_bye()
@@ -1063,6 +1071,7 @@ func finish_tryout(made: int) -> void:
 				_enter_stage(CareerData.STAGE_COLLEGE, t, "Walked on at %s" % team.get("name", ""))
 			_:
 				data.contract = Progression.contract(team_id, "camp" if purpose == "camp" else "free_agent")
+				data.flags["last_exit"] = ""
 				data.contract["salary"] = Followers.salary(data, int(data.contract["salary"]), tuning)
 				_enter_stage(CareerData.STAGE_PRO, Progression.team_from(team, CareerData.STAGE_PRO),
 					"Signed with the %s (%d year, %s)" % [team.get("name", ""), int(data.contract["years_left"]),
@@ -1175,6 +1184,45 @@ func _dismissal_done() -> void:
 	data.flags["was_dismissed"] = true
 
 
+## Retirement-reason flags for the closing scenes: retired_by_choice,
+## retired_out_of_football (no team or roster spot), and for a pro who was let
+## go first, retired_released or retired_unsigned (the last club's exit).
+func _retirement_flags(reason: String) -> void:
+	var chose := reason in ["chose", "age_cap"]
+	data.flags["retired_by_choice"] = chose
+	data.flags["retired_out_of_football"] = not chose
+	var exit := str(data.flags.get("last_exit", ""))
+	data.flags["retired_released"] = not chose and exit == "released"
+	data.flags["retired_unsigned"] = not chose and exit == "not_resigned"
+
+
+## The next closing scene (in id order, or "order"), each once, re-checked
+## after every choice so earlier choices can open later scenes. None left: the
+## Hall of Fame vote (pro careers) or the career summary.
+func _next_epilogue() -> void:
+	var left := CareerContent.scenarios().filter(func(s: Dictionary) -> bool:
+		return "epilogue" in s.get("when", []) and not data.scenario_log.has(str(s.get("id", ""))) \
+			and ScenarioEngine.is_eligible(data, s, "epilogue", tuning, true))
+	if not left.is_empty():
+		left.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+			var ka := [int(a.get("order", 0)), str(a.get("id", ""))]
+			var kb := [int(b.get("order", 0)), str(b.get("id", ""))]
+			return ka[0] < kb[0] or (ka[0] == kb[0] and ka[1] < kb[1]))
+		data.pending_scenarios = [str(left[0]["id"])]
+		data.phase = PHASE_EPILOGUE
+		return
+	var hof: Dictionary = data.retirement.get("hof", {})
+	data.phase = PHASE_HALL if bool(hof.get("eligible", false)) else PHASE_RETIRED
+
+
+## The Hall of Fame screen's Continue: on to the career summary.
+func finish_hall_of_fame() -> void:
+	if data.phase != PHASE_HALL:
+		return
+	data.phase = PHASE_RETIRED
+	save()
+
+
 ## Contract screen buttons.
 func contract_continue() -> void:
 	if data.phase != PHASE_CONTRACT:
@@ -1194,6 +1242,7 @@ func contract_continue() -> void:
 			_begin_offseason()
 		"released", "not_resigned":
 			data.flags["released"] = true
+			data.flags["last_exit"] = str(data.contract["status"])  # retirement-reason flags
 			data.poor_streak += 1
 			data.add_route("%s by the %s" % ["Released" if data.contract["status"] == "released" else "Not re-signed",
 				data.contract.get("team_name", "")])
@@ -1219,8 +1268,15 @@ func retire(reason: String) -> void:
 	data.retirement = {"reason": reason, "text": text, "age": data.age, "season": data.season,
 		"stage": data.stage}
 	data.add_route(text)
+	_retirement_flags(reason)
+	var hof := HallOfFame.evaluate(data, tuning)
+	data.retirement["hof"] = hof
+	HallOfFame.set_flags(data, hof)
 	data.stage = CareerData.STAGE_RETIRED
-	data.phase = PHASE_RETIRED
+	data.queued_scenarios.clear()
+	data.pending_scenarios.clear()
+	data.phase = PHASE_EPILOGUE
+	_next_epilogue()
 	var res := career_result()
 	_event({"event": "retired", "reason": reason, "age": data.age, "seasons": res["seasons"],
 		"pro_seasons": data.history.filter(func(h: Dictionary) -> bool:
