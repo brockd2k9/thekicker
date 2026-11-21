@@ -1,0 +1,814 @@
+{
+  "_about": "PRO batch 43: era 4, The Veteran (34-37), set 2.",
+  "scenarios": [
+    {
+      "id": "PRO_436",
+      "title": "The Old Injury",
+      "category": "health",
+      "text": "An old ankle injury has started affecting your preparation: it aches in the cold, it's slow on Mondays, and it's changing how you plant without you noticing.",
+      "choices": [
+        {
+          "label": "See a specialist",
+          "result": "A specialist, three states away, and a brace you hate on sight. The ankle stops changing your plant within a month, and you stop noticing the brace.",
+          "stats": {
+            "life": {
+              "health": 3
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        },
+        {
+          "label": "Adjust your approach",
+          "result": "Your approach, adjusted around the ankle: a shorter step, a different angle. It works, and it feels like learning to kick again.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {
+              "accuracy": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Rest it longer each week",
+          "result": "More rest days, built into every single week of the season. The ankle calms down by October, and your practices get shorter, sharper and more focused.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "health": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_437",
+      "title": "The Retirement Savings Review",
+      "category": "money",
+      "text": "You go over your finances again with your advisor, but this time the question is different. Not 'how much can I spend', but 'how long does this have to last'.",
+      "choices": [
+        {
+          "label": "Plan for forty years",
+          "result": "Forty years, planned on a long spreadsheet with the advisor. It's sobering, and for the first time the numbers feel like a life, not a score.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "honest_advisor": true
+          }
+        },
+        {
+          "label": "Bring {love_interest} in",
+          "result": "{love_interest} at the table, with their own questions, which are better than yours. You leave with a plan you both believe.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "love_interest": 3
+          }
+        },
+        {
+          "label": "Trust the plan you have",
+          "result": "The plan you already have, trusted for another year. Your advisor nods, mostly satisfied, and schedules a careful check-in for next spring, in pencil.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_438",
+      "title": "The Family's Patience",
+      "category": "family",
+      "text": "{love_interest} is tired of not knowing whether there'll be another season. Every spring is the same conversation, and this year they say so out loud.",
+      "choices": [
+        {
+          "label": "Set a date together",
+          "result": "A date, agreed together: after this season, you'll decide for good. The fog lifts in the house within a week.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "love_interest": 5,
+            "parent": 1
+          },
+          "set_flags": {
+            "planning_retirement": true
+          }
+        },
+        {
+          "label": "Explain why you're not done",
+          "result": "Why you're not done, explained honestly and at length. {love_interest} listens, and asks you to promise one thing: no surprises.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "love_interest": 2
+          }
+        },
+        {
+          "label": "Ask what they need",
+          "result": "What do they need from you, either way? The answer is smaller than you feared: more Sundays, and a plan written down.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "love_interest": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_439",
+      "title": "The Empty Nest Approaches",
+      "category": "family",
+      "text": "Your kids are getting ready to leave home: college brochures on the kitchen table, a car search, arguments about which city. The house feels like it's holding its breath.",
+      "choices": [
+        {
+          "label": "Visit the colleges together",
+          "result": "A road trip to five colleges with your oldest, during the bye week. They pick the one with the best library, and you're secretly thrilled.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "love_interest": 2
+          }
+        },
+        {
+          "label": "Help them plan, then step back",
+          "result": "A plan, built together, and then you step back and let them decide. It's the hardest part of parenting so far.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "love_interest": 1
+          }
+        },
+        {
+          "label": "Ask {parent} how he did it",
+          "result": "{parent}, asked how he survived your leaving home. He laughs, then tells you he sat in your room for an hour that first night.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "parent": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_440",
+      "title": "The Younger Teammate's Question",
+      "category": "team",
+      "text": "A rookie asks you, in front of everyone at lunch, whether age really matters in this league. The whole table goes quiet and waits to hear your answer.",
+      "choices": [
+        {
+          "label": "Tell the truth",
+          "result": "Yes, it matters, and here's what you do about it: sleep, recovery, honesty with the trainers. The table listens like it's a meeting.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "backup": 2
+          }
+        },
+        {
+          "label": "Make them laugh",
+          "result": "Only when you get up off the couch, you say. The table roars, and the rookie gets a real answer later, in private.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Show him instead",
+          "result": "No answer at lunch. Instead you show him your morning routine the next day, all ninety minutes of it. He doesn't ask again.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "backup": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_441",
+      "title": "Another One Hangs It Up",
+      "category": "social",
+      "text": "Another veteran from your era retires, the fourth this year. He calls to tell you before the announcement, and says you're the last one left he really talks to.",
+      "choices": [
+        {
+          "label": "Go to his announcement",
+          "result": "His announcement, attended in person, in the second row. He sees you and loses his place in the speech, and laughs about it after.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "rival": 1
+          }
+        },
+        {
+          "label": "Ask him what it's like",
+          "result": "What's it like, the week after? He tells you honestly: strange, quiet, a little wonderful. You think about it on the drive home.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Plan a trip with him",
+          "result": "A fishing trip, planned for the offseason, with him and two other old-timers. It becomes an annual thing, and the fish are always small.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "best_friend": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_442",
+      "title": "One More Big Deal?",
+      "category": "career",
+      "text": "Late one night you wonder whether you'll ever get another real contract, the kind with years and guarantees, or whether it's one year at a time until it isn't.",
+      "choices": [
+        {
+          "label": "Earn one more real deal",
+          "result": "One more real deal, earned the old way, starting at six the next morning. It becomes the thing you train for all summer.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "power": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Make peace with one year at a time",
+          "result": "One year at a time, accepted, even enjoyed now. Every season is a gift, and you kick like you know it.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Talk it through with your agent",
+          "result": "An honest conversation with your agent about the market. It's not great, and it's clear, and you sleep better knowing.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_443",
+      "title": "The Media's Age Debate",
+      "category": "media",
+      "text": "Analysts spend a whole segment questioning whether older kickers can be trusted in big moments. They show a graphic with your age on it, in red.",
+      "choices": [
+        {
+          "label": "Answer on the field",
+          "result": "No comment, and the best week of practice you've had in a year. The analysts move on to someone else by Sunday.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Answer with a joke",
+          "result": "A joke at your locker about red being your favorite color. It's the clip of the week, and one of the analysts laughs on air.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "followers": 2
+        },
+        {
+          "label": "Ignore the segment",
+          "result": "Never watched, never mentioned. Your teammates bring it up once in the locker room, and you change the subject to lunch.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_444",
+      "title": "The Training Load",
+      "category": "training",
+      "text": "At thirty-six you have to choose, every single week: train hard and risk the body, or recover and risk the edge. The trainers have different opinions on every day of the week.",
+      "choices": [
+        {
+          "label": "Train hard on Mondays only",
+          "result": "One hard day, Mondays, and recovery the rest of the week. It's a system, and it works better than either extreme.",
+          "stats": {
+            "life": {
+              "health": 1
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Keep training hard",
+          "result": "Hard, every day, the way you always have. You're strong and sore, and the trainers watch you nervously from the sideline.",
+          "stats": {
+            "life": {
+              "energy": -3
+            },
+            "football": {
+              "power": 2
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "heavy_legs"
+          ],
+          "skill_points": 3
+        },
+        {
+          "label": "Recover first",
+          "result": "Recovery first, training second, every week of the season. Your body feels years younger, and your leg feels a little rusty by Saturday morning.",
+          "stats": {
+            "life": {
+              "energy": 3,
+              "health": 2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_445",
+      "title": "The Business Offer",
+      "category": "money",
+      "text": "A former teammate offers you a role in his business after football: a gym chain, three locations, a partner's title. He wants your name now and your time later.",
+      "choices": [
+        {
+          "label": "Join as a partner",
+          "result": "A partner, with your name on the door. The gyms do well, and you spend your Tuesdays learning about payroll.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "confident"
+          ],
+          "set_flags": {
+            "business_owner": true
+          }
+        },
+        {
+          "label": "Invest quietly",
+          "result": "Money, but no name and no title on anything. It's safer, and your old teammate understands, mostly, after a long lunch.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "business_owner": true
+          }
+        },
+        {
+          "label": "Say not yet",
+          "result": "After football, you tell him, you'll talk properly. He says the offer stands, and you believe him completely, and you shake on it.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "team": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_446",
+      "title": "The Charity Legacy",
+      "category": "community",
+      "text": "You've done community work for twelve years: the camps, the hospital visits, the coat drives. You're starting to think about making it permanent, with a building and a staff.",
+      "choices": [
+        {
+          "label": "Start a real foundation",
+          "result": "A foundation, legally and properly, with a board and a director. It's a year of paperwork, and it will outlast your career.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 3,
+              "intelligence": 1,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "started_foundation": true
+          }
+        },
+        {
+          "label": "Partner with a charity you trust",
+          "result": "A charity you've worked with for years becomes your partner. They do what they do best; you bring your name and your Saturdays.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Keep it personal",
+          "result": "No building, no staff, no board. You keep showing up yourself on Saturdays, which is what the kids remember anyway.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_447",
+      "title": "The Franchise Rebuild",
+      "category": "career",
+      "text": "The club starts a rebuild: younger, cheaper, faster. Veterans are expensive, and every morning there's a new empty locker. Yours has a lot of years on it.",
+      "choices": [
+        {
+          "label": "Be worth the money",
+          "result": "Worth every dollar, at every practice. If they rebuild without you, it won't be because you got slow or soft.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Help build the new team",
+          "result": "The new young players, taught and welcomed by you. The coaches see you as part of the rebuild instead of a cost.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 3
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "backup": 3
+          }
+        },
+        {
+          "label": "Ask your agent to look around",
+          "result": "Your agent, quietly looking around the league. There's interest from a contender, and you start to wonder about a new city.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_448",
+      "title": "The New Kicker's Contract",
+      "category": "career",
+      "text": "Your likely replacement, a young kicker the club drafted last spring, signs a big contract extension. His locker is next to yours, and he looks embarrassed about it.",
+      "choices": [
+        {
+          "label": "Congratulate him first",
+          "result": "Congratulations, before anyone else, with a handshake and a joke. He relaxes, and the rest of the season is easy between you.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "backup": 4
+          }
+        },
+        {
+          "label": "Use it as fuel",
+          "result": "Fuel, quietly, in every single rep. You're not done yet, and the coaches notice the new edge in your practices.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "power": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Talk to {coach} about your role",
+          "result": "Your role, discussed openly with {coach}. It's changing, the coach says, and they'd like you to help him grow into it.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        }
+      ]
+    }
+  ]
+}
