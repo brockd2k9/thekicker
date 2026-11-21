@@ -17,6 +17,11 @@ var window_mult: float = 1.0
 var wobble_mult: float = 1.0
 ## Toughness -> scales how hard the wind pushes the ball.
 var wind_mult: float = 1.0
+## Career nerves (KickNerves: low energy / life stats, bad decisions, a slump)
+## -> scales the SIDEWAYS deviation a crooked swipe causes (KickDifficulty's
+## extra aim error and hook / slice). A straight swipe has none, so it's
+## unaffected. 1.0 = normal (Practice, Challenge).
+var straightness_penalty_mult: float = 1.0
 ## Career kickoff range: yards of carry a full-strength kickoff flick reaches
 ## (0 = not set: Practice / Challenge). kickoff_mult = kickoff_range_yd /
 ## KickoffRules' default max_carry_yards, for kickoff code that scales carry

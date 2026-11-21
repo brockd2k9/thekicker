@@ -166,6 +166,8 @@ func resolve_call(result: Dictionary) -> void:
 		"fg", "pat":
 			var made := bool(result.get("made", false))
 			entry["made"] = made
+			# Was the swipe straight? (KickNerves: only straight makes get you out of a slump.)
+			entry["straight"] = bool(result.get("straight", true))
 			entry["result"] = "GOOD" if made else "NO GOOD"
 			miss_streak = 0 if made else miss_streak + 1
 			if made:

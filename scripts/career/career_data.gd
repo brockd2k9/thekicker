@@ -208,6 +208,9 @@ var fg_streak: int = 0
 ## Fatigue: {practice (light / normal / hard), exhausted_weeks, loss_season_n,
 ## lost {stat: points}, lost_total, rested_weeks, habits_season_n}.
 var fatigue: Dictionary = {}
+## Kick nerves (KickNerves): {decisions, bad_week, slump, clean_run, miss_run,
+## recent}. Empty = calm; missing in older saves means the same.
+var nerves: Dictionary = {}
 
 
 ## A fresh career with starting stats from the tuning file.
@@ -434,6 +437,7 @@ func to_dict() -> Dictionary:
 		"suspensions_total": suspensions_total,
 		"fg_streak": fg_streak,
 		"fatigue": fatigue.duplicate(true),
+		"nerves": nerves.duplicate(true),
 	}
 
 
@@ -542,6 +546,7 @@ static func from_dict(d: Dictionary) -> CareerData:
 	c.suspensions_total = maxi(_num(d, "suspensions_total"), 0)
 	c.fg_streak = _num(d, "fg_streak")
 	c.fatigue = _dict(d, "fatigue")
+	c.nerves = _dict(d, "nerves")
 	for id in _dict(d, "people"):
 		var p: Variant = d["people"][id]
 		if p is Dictionary and not Relationships.def(str(id)).is_empty():
