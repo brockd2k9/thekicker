@@ -88,7 +88,14 @@ static func build(data: CareerData, tuning: CareerTuning, ctx: Dictionary = {}) 
 	var f := CareerTuning.lowness(data.stat("energy"), t.low_energy_threshold)
 	if f > 0.0:
 		p._add_state("low_energy", {
-			"range_yd": -t.low_energy_range_yd * f, "wobble_mult": t.low_energy_wobble * f})
+			"range_yd": -t.low_energy_range_yd * f, "wobble_mult": t.low_energy_wobble * f,
+			"injury_risk": t.low_energy_injury * f})
+	# Exhausted (Fatigue): a further temporary penalty until Energy recovers.
+	if data.stat("energy") < t.exhausted_energy:
+		p._add_state("exhausted", {"range_yd": -t.exhausted_range_yd, "accuracy_spread_deg": t.exhausted_spread})
+	# Hard practice this week: a little more injury risk.
+	if Fatigue.practice(data) == "hard":
+		p.injury_risk += t.practice_hard_injury
 	f = CareerTuning.lowness(data.stat("health"), t.low_health_threshold)
 	if f > 0.0:
 		p._add_state("low_health", {"range_yd": -t.low_health_range_yd * f,

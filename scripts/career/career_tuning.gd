@@ -751,6 +751,32 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var followers_migrate_pro: int = 30000
 @export var followers_migrate_pro_per_season: int = 40000
 
+@export_group("Fatigue")
+## Low Energy hurts (Fatigue). Tired below low_energy_threshold: injury chance
+## up to low_energy_injury at Energy 0 (on top of the kick penalty above).
+@export_range(0.0, 0.3) var low_energy_injury: float = 0.08
+## Exhausted below this at the end of a week: a further temporary penalty
+## (exhausted_range_yd, exhausted_spread) and the "Running on empty" warning.
+@export var exhausted_energy: float = 20.0
+@export var exhausted_range_yd: float = 2.0
+@export var exhausted_spread: float = 0.5
+## The second exhausted week in a row (after the warning) and every one after:
+## this much Power and Toughness lost, at most fatigue_loss_season_cap times a season.
+@export var fatigue_loss_points: float = 1.0
+@export var fatigue_loss_season_cap: int = 3
+## Weekly practice intensity (Hub): light / hard Energy change, hard's extra
+## skill points and injury chance (light gives no practice skill points).
+@export var practice_light_energy: float = 6.0
+@export var practice_hard_energy: float = -6.0
+@export var practice_hard_sp: int = 1
+@export_range(0.0, 0.1) var practice_hard_injury: float = 0.01
+## Good habits: good_habits_weeks weeks in a row ending at good_habits_energy+
+## Energy pay good_habits_sp, at most good_habits_season_cap times a season.
+@export var good_habits_energy: float = 70.0
+@export var good_habits_weeks: int = 3
+@export var good_habits_sp: int = 1
+@export var good_habits_season_cap: int = 3
+
 @export_group("Overtime")
 ## A tie after four quarters goes to overtime (GameSim), by stage:
 ##   high school (Kansas plan): each team gets the ball at the opponent's 10

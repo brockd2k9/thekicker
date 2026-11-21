@@ -205,6 +205,9 @@ var suspension: Dictionary = {}
 var suspensions_total: int = 0
 ## Field goals of yours in a row: +n makes / -n misses (games only).
 var fg_streak: int = 0
+## Fatigue: {practice (light / normal / hard), exhausted_weeks, loss_season_n,
+## lost {stat: points}, lost_total, rested_weeks, habits_season_n}.
+var fatigue: Dictionary = {}
 
 
 ## A fresh career with starting stats from the tuning file.
@@ -430,6 +433,7 @@ func to_dict() -> Dictionary:
 		"suspension": suspension.duplicate(),
 		"suspensions_total": suspensions_total,
 		"fg_streak": fg_streak,
+		"fatigue": fatigue.duplicate(true),
 	}
 
 
@@ -537,6 +541,7 @@ static func from_dict(d: Dictionary) -> CareerData:
 	c.suspension = _dict(d, "suspension")
 	c.suspensions_total = maxi(_num(d, "suspensions_total"), 0)
 	c.fg_streak = _num(d, "fg_streak")
+	c.fatigue = _dict(d, "fatigue")
 	for id in _dict(d, "people"):
 		var p: Variant = d["people"][id]
 		if p is Dictionary and not Relationships.def(str(id)).is_empty():

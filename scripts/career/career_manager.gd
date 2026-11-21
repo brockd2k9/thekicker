@@ -203,6 +203,7 @@ func _start_season(continuing: bool) -> void:
 	Bench.new_season(data)
 	_season_flags()
 	Followers.new_season(data)
+	Fatigue.new_season(data)
 	if continuing:
 		data.team["strength"] = clampf(float(data.team.get("strength", 50)) +
 			rng.randf_range(-tuning.team_strength_drift, tuning.team_strength_drift), 20.0, 90.0)
@@ -692,8 +693,9 @@ func _finish_bye() -> void:
 ## practice (less when Energy is low) and a rival Tyler pushing you.
 func _week_practice() -> void:
 	var tired := data.stat("energy") < tuning.low_energy_threshold
-	SkillPoints.earn(data, tuning.sp_weekly_practice_tired if tired else tuning.sp_weekly_practice,
-		"Practice" + (" (tired)" if tired else ""))
+	var intensity := Fatigue.practice(data)
+	SkillPoints.earn(data, Fatigue.practice_sp(data, tuning),
+		"Practice" + (" (%s)" % intensity if intensity != "normal" else (" (tired)" if tired else "")))
 	SkillPoints.earn(data, Relationships.rival_sp(data, tuning),
 		"%s pushing you" % Relationships.name_of(data, Relationships.TYLER))
 
@@ -705,7 +707,11 @@ func _week_practice() -> void:
 func end_week() -> void:
 	if data.phase != PHASE_RESULTS:
 		return
-	var growth := {"energy": tuning.weekly_energy_recovery, "health": tuning.weekly_health_recovery}
+	# Fatigue first, on the week's Energy before recovery: exhaustion, the
+	# warning, permanent loss, good habits; then practice intensity's Energy.
+	var practice := Fatigue.end_week(data, tuning)
+	var growth := {"energy": tuning.weekly_energy_recovery + float(practice.get("energy", 0.0)),
+		"health": tuning.weekly_health_recovery}
 	for k in CareerData.GROUP_KEYS[CareerData.LIFE]:
 		growth[k] = float(growth.get(k, 0.0)) + (tuning.life_baseline - data.stat(k)) * tuning.weekly_life_drift
 	var rel := Relationships.weekly_growth(data, tuning)
