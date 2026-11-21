@@ -666,6 +666,42 @@ followers end of HS about 2.0K, end of college about 30K; pro careers 5.8-5.9 se
 | `practice_hard_sp` / `practice_hard_injury` (new) | - | 1 / 0.01 |
 | `good_habits_energy` / `_weeks` / `_sp` / `_season_cap` (new) | - | 70 / 3 / 1 / 3 |
 
+## Savings (Stage 6)
+
+Rules: `scripts/career/savings.gd`; numbers: `career_tuning.tres` "Savings". Save version 8.
+Savings are a score and a story hook only: they never buy skill points, attributes or anything
+that changes a kick (a test checks it).
+
+- **Pro pay:** at each pro season's end, the salary minus taxes (37%) and the agent's fee (3%)
+  goes into savings: 60% of the salary. A $1M season saves $600K.
+- **The `money` choice field** (whole dollars, + or -, up to $50M either way; also allowed in a kick
+  challenge's on_pass / on_fail) adds or takes away, at any stage. Savings never go below $0: a
+  bigger cost takes what's there, and the choice card already shows the capped amount.
+- **Requirements:** `requires: {"min": {"savings": 1000000}}` (or `"max"`); the lock text reads
+  "Requires $1.00M saved".
+- **Shown:** a "$X saved" chip on the Hub (always in the pros; elsewhere once there's any),
+  "+$250K" / "-$1.20M" chips on choice cards and in the result, the season summary's "Pay after
+  taxes and agent" row (pros), and Savings (with the peak), salary and choices on the career summary.
+- **Old saves** (version 7) start with an estimate: pro seasons played x the current salary (or
+  the league minimum) x 60%.
+
+**Simulator** (seed 12, 360 careers; no scene has a money value yet, so it's all salary):
+
+| Pro seasons | Careers | Savings at career end (median, p10-p90) | Share with $1M+ / $5M+ |
+|---|---|---|---|
+| none | 106 | $0 | 0% / 0% |
+| 1-2 | 99 | $509K ($468K-$1.43M) | 21% / 0% |
+| 3-5 | 75 | $2.56M ($1.59M-$3.97M) | 100% / 1% |
+| 6-9 | 33 | $5.44M ($3.75M-$7.35M) | 100% / 61% |
+| 10+ | 47 | $12.51M ($8.36M-$17.04M) | 100% / 100% |
+
+Gameplay targets unchanged (savings touch nothing in play): pros 71%, drafted 29%, FG range 48.8 / 54.1.
+
+| Value | Before | After |
+|---|---|---|
+| `savings_tax_rate` (new) | - | 0.37 |
+| `savings_agent_fee` (new) | - | 0.03 |
+
 ## Stadiums (Feature C)
 
 Looks: `scripts/field/stadium_spec.gd` (the presets); which stadium: `scripts/career/stadiums.gd`;

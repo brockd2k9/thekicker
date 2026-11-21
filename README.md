@@ -553,6 +553,11 @@ week in a row costs a point of Power and Toughness (at most 3 a season, bought b
 points). Each week you pick Light, Normal or Hard practice on the Hub; three well-rested weeks in a
 row pay a "Good habits" skill point. Details: `PLAYTEST.md`, "Low Energy".
 
+**Savings:** each pro season's salary, minus taxes and the agent's fee, goes into savings, and
+scenario choices can add or take money ("money" field). Savings show on the Hub, on choice cards
+and in the career summary, and scenarios can require a savings level. They're a score and a story
+hook: money never buys skill points or performance. Details: `PLAYTEST.md`, "Savings".
+
 **Stadiums:** each Career game is at the home team's stadium, with tiers by stage (high school
 bleachers to a two-deck field, always at night; junior college bleachers; college one deck to a
 three-deck bowl; pro stadiums up to a lit roof ring) and some college and pro games at night.
