@@ -180,6 +180,7 @@ func _capture_all() -> void:
 	await _followers_shots()
 	await _challenge_shots()
 	await _reputation_shots()
+	await _overtime_shots()
 	await _shot("debug", Screens.CAREER_DEBUG)
 	await _shot("challenge", Screens.CHALLENGE, Callable(), Callable(), 2.0)
 	if _want("pause"):
@@ -356,6 +357,28 @@ func _reputation_shots() -> void:
 	c.phase = keep["phase"]
 	c.last_week = keep["last_week"]
 	c.notice = keep["notice"]
+
+
+## Overtime: a college win in three overtimes (two-point rounds: the kicker sat
+## out) on Results, and the Hub's recent results with OT tags.
+func _overtime_shots() -> void:
+	if not (_want("results_ot") or _want("hub_ot")):
+		return
+	var c := _m.data
+	var keep := {"lw": c.last_week.duplicate(true), "rr": c.recent_results.duplicate(true), "phase": c.phase}
+	c.last_week = {"type": "game", "week": c.week, "opponent": "Stonegate Rams", "mascot": "Rams", "home": true,
+		"us": 29, "them": 27, "outcome": "W", "kicks": [{"kind": "fg", "yards": 42, "made": true,
+		"label": "OT - FIELD GOAL", "pressure": 0.9}], "warmups": [], "line": "FG 1/1", "changes": {},
+		"ot": {"rule": "college", "rounds": 3, "two_point": true}}
+	c.recent_results.append({"week": c.week, "opponent": "Stonegate Rams", "us": 29, "them": 27, "outcome": "W",
+		"line": "FG 1/1", "ot": {"rule": "college", "rounds": 3, "two_point": true}})
+	c.phase = CareerManager.PHASE_RESULTS
+	await _shot("results_ot", Screens.CAREER_RESULTS)
+	c.phase = CareerManager.PHASE_WEEK_START
+	await _shot("hub_ot", Screens.CAREER_HUB)
+	c.last_week = keep["lw"]
+	c.recent_results = keep["rr"]
+	c.phase = keep["phase"]
 
 
 ## Plays the career forward with the real rules until `done` (or it retires).

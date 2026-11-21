@@ -44,6 +44,20 @@ func _build(col: VBoxContainer) -> void:
 			"vs" if w.get("home", true) else "at", w.get("opponent", ""), int(c.record["w"]),
 			int(c.record["l"])], 24, UiKit.MUTED))
 		list = UiKit.scroll_list(col)
+		# Overtime: what happened, and (college from the third overtime) why
+		# you didn't kick.
+		var ot: Dictionary = w.get("ot", {}) if w.get("ot") is Dictionary else {}
+		if not ot.is_empty():
+			var txt := "Overtime%s." % ("" if int(ot.get("rounds", 1)) <= 1 or str(ot.get("rule")) == "pro"
+				else " (%d rounds)" % int(ot["rounds"]))
+			if bool(ot.get("two_point", false)):
+				txt += " From the third overtime college plays two-point tries only, so you didn't kick."
+			elif str(w.get("outcome", "")) == "T":
+				txt += " Still tied when overtime ran out."
+			var oc := UiKit.chip(txt, UiKit.WARN, false, "whistle", 22)
+			oc.get_child(0).get_child(1).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			oc.get_child(0).get_child(1).size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			list.add_child(oc)
 		list.add_child(UiKit.section("Your kicks"))
 		var kicks: Array = w.get("kicks", [])
 		if kicks.is_empty():
@@ -148,7 +162,11 @@ func _build(col: VBoxContainer) -> void:
 
 ## WIN / LOSS / TIE banner that punches in.
 func _banner(col: VBoxContainer, o: String) -> void:
-	col.add_child(CareerUi.result_banner({"W": "WIN", "L": "LOSS", "T": "TIE"}.get(o, o),
+	var tag := CareerManager.ot_tag(career.data.last_week)
+	var word: String = {"W": "WIN", "L": "LOSS", "T": "TIE"}.get(o, o)
+	if tag != "":
+		word = "TIE (after OT)" if o == "T" else "%s %s" % [word, tag]
+	col.add_child(CareerUi.result_banner(word,
 		UiKit.GOOD if o == "W" else (UiKit.BAD if o == "L" else UiKit.MUTED)))
 	UiKit.feedback(&"week_result")
 

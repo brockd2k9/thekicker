@@ -67,6 +67,8 @@ func _build(col: VBoxContainer) -> void:
 		list.add_child(UiKit.stat_row(key[1], _word(p.value(str(w.get("field", ""))),
 			w.get("cuts", []), w.get("words", ["?"])), Color(0, 0, 0, 0), key[2]))
 	list.add_child(UiKit.label(str(words.get("tip", "")), 22, UiKit.MUTED))
+	# This stage's overtime rule (a tie after four quarters).
+	list.add_child(UiKit.label(CareerManager.ot_rule_text(str(params.get("ot", "hs")), career.tuning), 22, UiKit.MUTED))
 	UiKit.stagger(list, 0.04)
 
 	var play := UiKit.primary("Play Game", func() -> void:

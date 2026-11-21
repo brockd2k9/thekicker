@@ -181,8 +181,9 @@ func _result_row(r: Dictionary) -> PanelContainer:
 	mid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	mid.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	h.add_child(mid)
-	mid.add_child(UiKit.line("Wk %d  %s" % [int(r.get("week", 0)), r.get("opponent", "")], 28, UiKit.TEXT,
-		UiTokens.FONT_DISPLAY))
+	var ot := CareerManager.ot_tag(r)
+	mid.add_child(UiKit.line("Wk %d  %s%s" % [int(r.get("week", 0)), r.get("opponent", ""),
+		("  " + ot) if ot != "" else ""], 28, UiKit.TEXT, UiTokens.FONT_DISPLAY))
 	if str(r.get("line", "")) != "":
 		mid.add_child(UiKit.label(str(r.get("line", "")), 22, UiKit.MUTED))
 	var score := UiKit.label("%d-%d" % [int(r.get("us", 0)), int(r.get("them", 0))], 38, col.lightened(0.1),
