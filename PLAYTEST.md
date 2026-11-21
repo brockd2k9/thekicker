@@ -666,6 +666,29 @@ followers end of HS about 2.0K, end of college about 30K; pro careers 5.8-5.9 se
 | `practice_hard_sp` / `practice_hard_injury` (new) | - | 1 / 0.01 |
 | `good_habits_energy` / `_weeks` / `_sp` / `_season_cap` (new) | - | 70 / 3 / 1 / 3 |
 
+## Thumb Drill (retune step 1: measuring a real thumb)
+
+Code: `scripts/ui/screens/career_drill.gd` (the kick scene itself is unchanged; the drill only
+listens to its signals). Purpose: fit the simulator's swipe skill levels (tools/kick_sample.gd) to a
+real thumb.
+
+**How to run it** (phone app, web build or desktop; every build):
+1. Main menu -> Career -> **Thumb Drill (calibration)** (at the bottom of the list; in debug
+   builds it's also on Career Debug next to Try Kicks).
+2. Kick 60 field goals: 20 from 30 yards, 20 from 40, 20 from 50. Calm wind, medium pressure, pro
+   posts, a neutral kicker (no Career attributes, so only your thumb varies). Swipe the way you
+   normally play; tap after each result for the next kick. The scoreboard counts kick and makes.
+3. At the end: your makes per distance, and the results as text. Tap **Copy** and paste it into the
+   chat (if Copy doesn't work in your browser, long-press / select the text box and copy). It's
+   also saved on the device (`user://thumb_drill.json`, the last 5 runs).
+
+**What's recorded** (one row per kick, columns named in the first line): distance, made, the
+outcome, where the ball crossed the goal line (x: + = right, y: height in m), and the swipe: flick
+speed and length (screen heights), duration, tilt (degrees), bow (sideways bulge, share of length),
+finish turn (degrees), crookedness and the crooked-swipe penalty it earned, power, when in the kick
+window you released and the window's length (s), the aim wobble at that moment, and the path as 8
+points. About 11 KB of text.
+
 ## Savings (Stage 6)
 
 Rules: `scripts/career/savings.gd`; numbers: `career_tuning.tres` "Savings". Save version 8.
