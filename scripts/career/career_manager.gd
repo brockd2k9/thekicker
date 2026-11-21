@@ -411,6 +411,25 @@ func new_game_sim(kt: KickTuning) -> GameSim:
 	return sim
 
 
+## "(OT)" / "(2OT)" for a result that went to overtime, "" otherwise.
+static func ot_tag(r: Dictionary) -> String:
+	var ot: Dictionary = r.get("ot", {}) if r.get("ot") is Dictionary else {}
+	if ot.is_empty():
+		return ""
+	var n := int(ot.get("rounds", 1))
+	return "(OT)" if str(ot.get("rule", "")) == "pro" or n <= 1 else "(%dOT)" % n
+
+
+## This stage's overtime rule in one line (Outlook).
+static func ot_rule_text(rule: String, t: CareerTuning) -> String:
+	match rule:
+		"pro":
+			return "Overtime: one %d-minute period; both teams get the ball unless the first scores a touchdown, then the next score wins. It can end tied." % roundi(t.ot_pro_minutes)
+		"college":
+			return "Overtime: each team gets the ball at the 25 (field goals around %d yards). From the third overtime, two-point tries only: no kicks." % t.ot_college_fg_yards
+	return "Overtime: each team gets the ball at the 10 (field goals around %d yards), up to %d rounds; then it stays a tie." % [t.ot_hs_fg_yards, t.ot_hs_rounds]
+
+
 ## The kick scene's look this week (posts, widths, team colors).
 func kick_look() -> Dictionary:
 	var gp := Progression.game_params(data, tuning)
@@ -458,15 +477,16 @@ func _bench_game() -> void:
 	if suspended and data.people.has(Relationships.TEAM):
 		team = Relationships.apply(data, {Relationships.TEAM: tuning.suspend_team})
 	var opp: Dictionary = entry().get("opponent", {})
+	var ot: Dictionary = sim.summary().get("ot", {})
 	entry()["result"] = {"us": sim.score_us, "them": sim.score_them, "outcome": outcome}
 	data.recent_results.append({"week": data.week, "opponent": opp.get("name", ""), "us": sim.score_us,
-		"them": sim.score_them, "outcome": outcome, "line": why})
+		"them": sim.score_them, "outcome": outcome, "line": why, "ot": ot})
 	while data.recent_results.size() > 5:
 		data.recent_results.pop_front()
 	data.last_week = {"type": "benched", "week": data.week, "opponent": opp.get("name", ""),
 		"mascot": opp.get("mascot", ""), "home": entry().get("home", true), "us": sim.score_us,
 		"them": sim.score_them, "outcome": outcome, "kicks": [], "line": why,
-		"changes": applied}
+		"changes": applied, "ot": ot}
 	if suspended:
 		data.last_week["suspended"] = {"reason": str(data.suspension.get("reason", "")),
 			"left": Reputation.served(data), "team": team}
@@ -525,6 +545,9 @@ func finish_game(summary: Dictionary) -> void:
 	e["result"] = {"us": summary.get("us", 0), "them": summary.get("them", 0), "outcome": outcome}
 	var result := {"week": data.week, "opponent": opp.get("name", ""), "us": summary.get("us", 0),
 		"them": summary.get("them", 0), "outcome": outcome, "line": line}
+	if summary.has("ot"):  # overtime (GameSim): rule, rounds, two_point
+		e["result"]["ot"] = summary["ot"]
+		result["ot"] = summary["ot"]
 	data.recent_results.append(result)
 	while data.recent_results.size() > 5:
 		data.recent_results.pop_front()
@@ -532,7 +555,7 @@ func finish_game(summary: Dictionary) -> void:
 		"mascot": opp.get("mascot", ""), "home": e.get("home", true),
 		"us": summary.get("us", 0), "them": summary.get("them", 0),
 		"outcome": outcome, "kicks": summary.get("kicks", []), "warmups": summary.get("warmups", []),
-		"line": line, "changes": applied, "trust": trust, "bench": bench_info}
+		"line": line, "changes": applied, "trust": trust, "bench": bench_info, "ot": summary.get("ot", {})}
 	data.game_checkpoint = {}
 	data.phase = PHASE_RESULTS
 	save()

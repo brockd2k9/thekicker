@@ -46,6 +46,11 @@ var backup_name: String = "The backup"
 var backup_make: float = 0.7
 ## "pure" / "loose" / "skipped", one per warmup offer.
 var warmups: Array = []
+## Overtime (a tie after four quarters; rules by stage, params "ot"):
+## {rule: hs/college/pro, round, order: [first, second], idx (possessions
+## this round), start_us, start_them (scores at the round's start), clock
+## (pro seconds left), poss (pro possessions), two_point, done}. Empty = none.
+var ot: Dictionary = {}
 
 var _t: CareerTuning
 var _rng := RandomNumberGenerator.new()
@@ -111,8 +116,17 @@ func quarter() -> int:
 	return mini(int(elapsed / _quarter_sec()) + 1, 4)
 
 
+func in_overtime() -> bool:
+	return not ot.is_empty()
+
+
 ## "Q3 6:21" for a game time (default: now).
 func clock_text(at: float = -1.0) -> String:
+	if in_overtime() and at < 0.0:
+		if str(ot["rule"]) == "pro":
+			var c := maxf(float(ot.get("clock", 0.0)), 0.0)
+			return "OT %d:%02d" % [int(c) / 60, int(c) % 60]
+		return "OT" if int(ot.get("round", 1)) == 1 else "%dOT" % int(ot["round"])
 	var t := elapsed if at < 0.0 else at
 	var q := mini(int(t / _quarter_sec()) + 1, 4)
 	var left := maxf(_quarter_sec() * q - t, 0.0)
@@ -160,7 +174,7 @@ func resolve_call(result: Dictionary) -> void:
 				else:
 					score_us += 1
 			_line(("%s_us_good" if made else "%s_us_miss") % kind, {"yards": entry["yards"]})
-			if kind == "pat" or made:
+			if (kind == "pat" or made) and not in_overtime():
 				_push_kickoff_after_score()
 		"kickoff":
 			var q := clampf(float(result.get("quality", 0.5)), 0.0, 1.0)
@@ -201,14 +215,25 @@ func outcome() -> String:
 
 
 func summary() -> Dictionary:
-	return {"us": score_us, "them": score_them, "outcome": outcome(),
+	var out := {"us": score_us, "them": score_them, "outcome": outcome(),
 		"kicks": kicks.duplicate(true), "warmups": warmups.duplicate()}
+	if in_overtime():
+		out["ot"] = {"rule": str(ot["rule"]), "rounds": int(ot.get("round", 1)),
+			"two_point": bool(ot.get("two_point", false))}
+	return out
 
 
 # --- simulation --------------------------------------------------------------------
 
 func _simulate_drive() -> void:
 	if _drive_i >= _drives.size():
+		# Tied after four quarters: overtime (once), then the final whistle.
+		if ot.is_empty() and score_us == score_them:
+			_start_overtime()
+			return
+		if in_overtime() and not bool(ot.get("done", false)):
+			_ot_step()
+			return
 		finished = true
 		possession = ""
 		_line("final")
@@ -343,7 +368,8 @@ func _push_kickoff_after_score() -> void:
 		_push_call("kickoff")
 
 
-func _push_call(kind: String, yards: int = 0) -> void:
+## over: {"pressure", "label"} for overtime kicks (else the situation's).
+func _push_call(kind: String, yards: int = 0, over: Dictionary = {}) -> void:
 	# Your kick: your team is on the field.
 	var e := {"type": "call", "kind": kind, "elapsed": elapsed, "us": score_us, "them": score_them, "poss": "us",
 		"q": quarter(), "left": maxf(_quarter_sec() * 4.0 - elapsed, 0.0)}
@@ -351,7 +377,7 @@ func _push_call(kind: String, yards: int = 0) -> void:
 		yards = int(_p["pat"])
 	e["yards"] = yards
 	if kind == "fg" or kind == "pat":
-		var p := _situation_pressure(kind)
+		var p := _situation_pressure(kind) if over.is_empty() else over
 		e["pressure"] = p["pressure"]
 		e["label"] = p["label"]
 		e["wind"] = _kick_wind()
@@ -440,3 +466,185 @@ func _teammate_names() -> Array:
 		out.append("%s %s" % [first[_rng.randi_range(0, first.size() - 1)],
 			last[_rng.randi_range(0, last.size() - 1)]])
 	return out
+
+
+# --- overtime ---------------------------------------------------------------------
+
+func _start_overtime() -> void:
+	var rule := str(_p.get("ot", "hs"))
+	var first := "us" if _rng.randf() < 0.5 else "them"
+	ot = {"rule": rule, "round": 1, "order": [first, "them" if first == "us" else "us"], "idx": 0,
+		"start_us": score_us, "start_them": score_them, "two_point": false, "done": false,
+		"clock": _t.ot_pro_minutes * 60.0, "poss": 0}
+	possession = ""
+	elapsed = maxf(elapsed, _quarter_sec() * 4.0)
+	match rule:
+		"pro":
+			_text("Tied after four quarters: OVERTIME. One %d-minute period. Both teams get the ball unless the first scores a touchdown, then the next score wins." % roundi(_t.ot_pro_minutes))
+		"college":
+			_text("Tied after four quarters: OVERTIME. Each team gets the ball at the 25. From the third overtime, two-point tries only.")
+		_:
+			_text("Tied after four quarters: OVERTIME. Each team gets the ball at the 10, until one leads after both have had it.")
+	_text("The %s win the toss and take the ball first." % _team_word(first))
+
+
+func _team_word(team: String) -> String:
+	var t: Dictionary = us if team == "us" else them
+	return str(t.get("mascot", t.get("name", team)))
+
+
+## One overtime possession (or the end of overtime).
+func _ot_step() -> void:
+	if str(ot["rule"]) == "pro":
+		_ot_pro_step()
+	else:
+		_ot_round_step()
+
+
+## High school / college: rounds of one possession each.
+func _ot_round_step() -> void:
+	var rule := str(ot["rule"])
+	if int(ot["idx"]) >= 2:
+		# Both teams have had the ball this round.
+		if score_us != score_them:
+			_ot_end()
+			return
+		var max_rounds := _t.ot_hs_rounds if rule == "hs" else 99
+		if int(ot["round"]) >= max_rounds:
+			_ot_end()  # high school: still tied after the last round
+			return
+		ot["round"] = int(ot["round"]) + 1
+		ot["idx"] = 0
+		ot["order"] = [ot["order"][1], ot["order"][0]]
+		ot["start_us"] = score_us
+		ot["start_them"] = score_them
+		if rule == "college" and int(ot["round"]) >= 3 and not ot["two_point"]:
+			ot["two_point"] = true
+			_text("Still tied. From the third overtime it's two-point tries only: no kicks. You watch from the sideline.")
+		else:
+			_text("Still tied: overtime round %d." % int(ot["round"]))
+	var team: String = ot["order"][int(ot["idx"])]
+	var second := int(ot["idx"]) == 1
+	ot["idx"] = int(ot["idx"]) + 1
+	possession = team
+	if bool(ot["two_point"]):
+		var good := _rng.randf() < _t.ot_two_point_chance
+		if team == "us":
+			score_us += 2 if good else 0
+		else:
+			score_them += 2 if good else 0
+		_text("Two-point try by the %s: %s. %d-%d." % [_team_word(team), "GOOD" if good else "no good", score_us, score_them])
+		return
+	var spot := 10 if rule == "hs" else 25
+	var fg_yards := _t.ot_hs_fg_yards if rule == "hs" else _t.ot_college_fg_yards
+	var td_base := _t.ot_hs_td_chance if rule == "hs" else _t.ot_college_td_chance
+	# Points this team needs this round: behind by what the other team scored.
+	var mine := (score_us - int(ot["start_us"])) if team == "us" else (score_them - int(ot["start_them"]))
+	var theirs := (score_them - int(ot["start_them"])) if team == "us" else (score_us - int(ot["start_us"]))
+	var need := theirs - mine if second else -1  # -1: going first
+	_text("The %s start at the %d." % [_team_word(team), spot])
+	var adv := ((float(us.get("strength", 50)) - float(them.get("strength", 50))) / 100.0 * _t.strength_effect) \
+		* (1.0 if team == "us" else -1.0)
+	var td := clampf(td_base + adv, 0.1, 0.8)
+	var roll := _rng.randf()
+	if roll < td:
+		if team == "us":
+			score_us += 6
+			_line("td_us", {"yards": _rng.randi_range(1, spot)})
+			if second and score_us > score_them:
+				return  # a touchdown going second wins it: no extra point needed
+			_push_call("pat", 0, {"pressure": _t.ot_pressure, "label": "%s - PAT" % clock_text()})
+		else:
+			var pat_good := _rng.randf() < _t.opponent_pat_chance
+			score_them += 7 if pat_good else 6
+			_line("td_them")
+		return
+	# No touchdown: a field goal if it helps (behind by more than 3 going
+	# second, only a touchdown would do).
+	if need > 3 or _rng.randf() > _t.ot_fg_range_chance:
+		_text("The %s can't get it done." % _team_word(team))
+		return
+	if team == "us":
+		var wins := second and need == 0
+		var ties := second and need == 3
+		var label := "%s - %s" % [clock_text(), "GAME WINNER" if wins else ("TO TIE" if ties else "FIELD GOAL")]
+		_push_call("fg", fg_yards + _rng.randi_range(-2, 2),
+			{"pressure": _t.game_winner_pressure if wins else _t.ot_pressure, "label": label})
+	else:
+		if _rng.randf() < _t.opponent_fg_chance:
+			score_them += 3
+			_line("fg_them_good")
+		else:
+			_line("fg_them_miss")
+
+
+## Pro: one period. Both teams get the ball unless the first scores a
+## touchdown; then sudden death; a tie when the clock runs out.
+func _ot_pro_step() -> void:
+	var n := int(ot["poss"])
+	# Over? A first-possession touchdown, a lead after both have had it, any
+	# score in sudden death, or no time left.
+	if n >= 1 and score_us != score_them:
+		var first_td := n == 1 and absi(score_us - score_them) >= 6
+		if first_td or n >= 2:
+			_ot_end()
+			return
+	if float(ot["clock"]) <= 0.0:
+		_ot_end()
+		return
+	var team: String = ot["order"][n % 2]
+	ot["poss"] = n + 1
+	possession = team
+	var dur := minf(_rng.randf_range(_t.ot_pro_drive_sec_min, _t.ot_pro_drive_sec_max), float(ot["clock"]))
+	ot["clock"] = float(ot["clock"]) - dur
+	elapsed += dur
+	var adv := ((float(us.get("strength", 50)) - float(them.get("strength", 50))) / 100.0 * _t.strength_effect) \
+		* (1.0 if team == "us" else -1.0)
+	var td := clampf(_t.base_td_chance + adv, 0.05, 0.75)
+	var fg := clampf(_t.base_fg_chance + adv * 0.3, 0.05, 0.5) * (_fg_chance_mult if team == "us" else 1.0)
+	var roll := _rng.randf()
+	_line("drive_start_us" if team == "us" else "drive_start_them", {"spot": _rng.randi_range(15, 35)})
+	if roll < td:
+		if team == "us":
+			score_us += 6
+			_line("td_us", {"yards": _rng.randi_range(1, 25)})
+		else:
+			score_them += 6
+			_line("td_them")
+		return  # a touchdown ends it (first possession) or wins it: no extra point
+	if roll < td + fg:
+		var behind := (score_them - score_us) if team == "us" else (score_us - score_them)
+		if team == "us":
+			var yards := _fg_distance()
+			var limit := _max_fg_yards
+			var r := int(_p.get("call_random_yd", 0))
+			if r > 0:
+				limit = mini(limit + _rng.randi_range(-r, r), int(_p.get("call_cap_yd", limit + r)))
+			if yards > limit:
+				_line("coach_no_trust", {"yards": yards})
+				return
+			# Wins if it puts us ahead and the other team has had (or can't get) the ball.
+			var wins := behind == 0 and n >= 1
+			var ties := behind == 3
+			var label := "%s - %s" % [clock_text(), "GAME WINNER" if wins else ("TO TIE" if ties else "FIELD GOAL")]
+			_push_call("fg", yards, {"pressure": _t.game_winner_pressure if wins else _t.ot_pressure, "label": label})
+		else:
+			if _rng.randf() < _t.opponent_fg_chance:
+				score_them += 3
+				_line("fg_them_good")
+			else:
+				_line("fg_them_miss")
+		return
+	_line("punt_us" if team == "us" else "punt_them")
+
+
+func _ot_end() -> void:
+	ot["done"] = true
+	possession = ""
+	if score_us == score_them:
+		_text("Overtime ends tied, %d-%d." % [score_us, score_them])
+	else:
+		_text("%s win it in %s, %d-%d." % [_team_word("us" if score_us > score_them else "them"),
+			"overtime" if str(ot["rule"]) == "pro" or int(ot["round"]) == 1 else "%d overtimes" % int(ot["round"]),
+			maxi(score_us, score_them), mini(score_us, score_them)])
+

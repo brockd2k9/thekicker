@@ -751,6 +751,34 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var followers_migrate_pro: int = 30000
 @export var followers_migrate_pro_per_season: int = 40000
 
+@export_group("Overtime")
+## A tie after four quarters goes to overtime (GameSim), by stage:
+##   high school (Kansas plan): each team gets the ball at the opponent's 10
+##     (field goals of about ot_hs_fg_yards); rounds until one team leads after
+##     both have had it, at most ot_hs_rounds, then it stays a tie.
+##   college: alternating possessions at the opponent's 25 (field goals of
+##     about ot_college_fg_yards) in rounds 1-2; from round 3 two-point tries
+##     only (the kicker sits out); no ties.
+##   pro: one ot_pro_minutes period; both teams get the ball unless the first
+##     scores a touchdown, then sudden death; field goals from wherever the
+##     coach calls them; a tie when time runs out.
+## Every overtime kick is high pressure (ot_pressure); a kick that wins the
+## game is game_winner_pressure and labeled "OT - GAME WINNER".
+@export_range(0.0, 1.0) var ot_pressure: float = 0.9
+@export var ot_hs_rounds: int = 4
+@export var ot_hs_fg_yards: int = 27
+@export_range(0.0, 1.0) var ot_hs_td_chance: float = 0.4
+@export var ot_college_fg_yards: int = 42
+@export_range(0.0, 1.0) var ot_college_td_chance: float = 0.4
+@export_range(0.0, 1.0) var ot_two_point_chance: float = 0.45
+@export var ot_pro_minutes: float = 10.0
+## A pro overtime possession uses this many seconds of the clock (random in range).
+@export var ot_pro_drive_sec_min: float = 90.0
+@export var ot_pro_drive_sec_max: float = 180.0
+## Chance an overtime possession ends in field goal range (when it isn't a
+## touchdown); the rest stall or turn the ball over.
+@export_range(0.0, 1.0) var ot_fg_range_chance: float = 0.75
+
 @export_group("Kick Challenges")
 ## A scenario choice's "kick_challenge" (showcases, camps, combines, kicker
 ## battles): real kicks in the kick scene (KickChallenge). Distances are

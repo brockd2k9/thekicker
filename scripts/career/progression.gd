@@ -341,6 +341,9 @@ static func game_params(c: CareerData, t: CareerTuning) -> Dictionary:
 			p = {"fg_min": t.pro_fg_min_yards, "fg_max": t.pro_fg_max_yards, "pat": t.pro_pat_yards,
 				"pressure_bonus": t.pro_pressure_bonus, "wind_max": t.pro_wind_max_mph, "posts": "pro",
 				"width": t.goal_width_pro}
+	# Overtime rules (GameSim): high school (Kansas plan), college, pro.
+	p["ot"] = "pro" if c.stage in [CareerData.STAGE_PRO, CareerData.STAGE_FREE_AGENT] else \
+		("college" if c.stage in [CareerData.STAGE_COLLEGE, CareerData.STAGE_JUCO] else "hs")
 	# Kickoff rules for this stage (KickoffRules, built by CareerGameMode).
 	match c.stage:
 		CareerData.STAGE_COLLEGE, CareerData.STAGE_JUCO:
