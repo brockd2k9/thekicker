@@ -666,6 +666,46 @@ followers end of HS about 2.0K, end of college about 30K; pro careers 5.8-5.9 se
 | `practice_hard_sp` / `practice_hard_injury` (new) | - | 1 / 0.01 |
 | `good_habits_energy` / `_weeks` / `_sp` / `_season_cap` (new) | - | 70 / 3 / 1 / 3 |
 
+## Retirement epilogue and Hall of Fame (R10)
+
+Rules: `scripts/career/hall_of_fame.gd`, `CareerManager.retire()`; numbers: `career_tuning.tres`
+"Hall of Fame"; the story side: `docs/story_note_epilogue.md`.
+
+After the last snap: the closing scenes (scenarios with `when: ["epilogue"]`; none are written
+yet, so it goes straight on), the **Hall of Fame vote** screen (pro careers: each part of the case
+with its points, the tiers, the result), then the career summary, which also shows the result.
+Retirement sets the story signals first: `hall_of_fame_earned`, `hall_of_fame_tier`, one `hof_*`
+flag per tier, and `retired_by_choice` / `retired_out_of_football` / `retired_released` /
+`retired_unsigned`.
+
+| Part | Points |
+|---|---|
+| Longevity | 2.5 a pro season, max 50 |
+| Accuracy (150+ pro attempts) | +2.5 a point of pro FG% over 75; -1 a point under, max -15 |
+| Volume | 0.1 per pro field goal made |
+| Clutch | 3 per pro game winner, max 30 |
+| Distance | 1 per pro make of 50+, max 15; +5 for a 60+ long |
+| Fame | up to 5 by the best followers tier |
+| Character | -8 a suspension; -10 character concerns at retirement; -25 if ever dismissed |
+
+Tiers: Ring of Honor 60+, Finalist 80+, Hall of Fame 100+, First ballot 125+. **The thresholds are
+provisional**: they get their final values in retune step 3, once FG% is fitted to the real kick
+(the simulator's stand-in puts pro FG% near 60%, which makes the accuracy line negative for almost
+everyone).
+
+(Simulator table: being filled in.)
+
+| Value | Before | After |
+|---|---|---|
+| `hof_per_season` / `hof_season_cap` (new) | - | 2.5 / 50 |
+| `hof_min_attempts` / `hof_acc_ref` / `hof_acc_above` / `hof_acc_below` / `hof_acc_below_cap` (new) | - | 150 / 75 / 2.5 / 1 / 15 |
+| `hof_per_made` (new) | - | 0.1 |
+| `hof_per_game_winner` / `hof_clutch_cap` (new) | - | 3 / 30 |
+| `hof_per_long50` / `hof_long50_cap` / `hof_long60_bonus` (new) | - | 1 / 15 / 5 |
+| `hof_fame_max` (new) | - | 5 |
+| `hof_per_suspension` / `hof_concerns` / `hof_dismissed` (new) | - | -8 / -10 / -25 |
+| `hof_ring_of_honor` / `hof_finalist` / `hof_inducted` / `hof_first_ballot` (new, provisional) | - | 60 / 80 / 100 / 125 |
+
 ## Thumb Drill (retune step 1: measuring a real thumb)
 
 Code: `scripts/ui/screens/career_drill.gd` (the kick scene itself is unchanged; the drill only

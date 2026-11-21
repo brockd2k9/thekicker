@@ -565,6 +565,11 @@ week in a row costs a point of Power and Toughness (at most 3 a season, bought b
 points). Each week you pick Light, Normal or Hard practice on the Hub; three well-rested weeks in a
 row pay a "Good habits" skill point. Details: `PLAYTEST.md`, "Low Energy".
 
+**Retirement epilogue and Hall of Fame:** after the last snap, the closing scenes (scenarios with
+`when: ["epilogue"]`), then a Hall of Fame vote for pro careers (longevity, accuracy, volume,
+clutch, distance, fame and character, each shown with its points; tiers Ring of Honor, Finalist,
+Hall of Fame, First ballot), then the career summary. Details: `PLAYTEST.md`, "Retirement epilogue".
+
 **Thumb Drill:** Career -> Thumb Drill (calibration) plays 60 field goals (30 / 40 / 50 yards,
 calm, a neutral kicker) and records each swipe, so the simulator's swipe model can be fitted to a
 real thumb. Results: Copy on the last screen, also saved in `user://thumb_drill.json`. Details:
