@@ -114,7 +114,8 @@ func _records(final: bool) -> void:
 	var events := RecordBook.check(data, final)
 	if events.is_empty():
 		return
-	data.records["pending"] = (data.records.get("pending", []) as Array) + events
+	var pending: Array = (data.records.get("pending", []) as Array) + events
+	data.records["pending"] = pending.slice(maxi(pending.size() - 60, 0))  # the newest, until a screen shows them
 	records_set.emit(events)
 	for e in events:
 		if str(e["kind"]) == "record":
@@ -760,6 +761,10 @@ func end_week() -> void:
 	data.week_index += 1
 	data.week += 1
 	data.phase = PHASE_SEASON_END if data.week > weeks_in_season() else PHASE_WEEK_START
+	if data.phase == PHASE_SEASON_END:
+		# All-time records for the finished season and the career so far
+		# (shown on the season summary).
+		_records(true)
 	save()
 
 
@@ -796,8 +801,6 @@ func end_season() -> void:
 		"follower_bonus": float(fans["progress"])}
 	# Recorded first, so a retirement at the age cap includes this season.
 	data.history.append(h)
-	# All-time records: the finished season and the career so far.
-	_records(true)
 	match data.stage:
 		CareerData.STAGE_HIGH_SCHOOL, CareerData.STAGE_JUCO:
 			var gain := Progression.recruiting_gain(data, tuning) + float(fans["progress"])

@@ -597,3 +597,53 @@ static func bench_banner(c: CareerData, t: CareerTuning, week_start: bool) -> Co
 	b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	v.add_child(b)
 	return p
+
+
+## New all-time records since the last time they were shown
+## (CareerData.records "pending", RecordBook.check): a card per record / tie,
+## then the lists you entered, and a Records button. Clears "pending".
+## Returns null when there's nothing new.
+static func record_events(c: CareerData) -> Control:
+	var pending: Array = c.records.get("pending", [])
+	if pending.is_empty():
+		return null
+	c.records["pending"] = []
+	var v := VBoxContainer.new()
+	v.add_theme_constant_override("separation", 10)
+	v.add_child(UiKit.section("Record book"))
+	var entered := 0
+	for e in pending:
+		if str(e.get("kind", "")) == "entered":
+			entered += 1
+			continue
+		var parts := UiKit.card(UiKit.GOOD, 4)
+		var box: VBoxContainer = parts[1]
+		var top := HBoxContainer.new()
+		top.add_theme_constant_override("separation", 12)
+		box.add_child(top)
+		var head := UiKit.line(str(e["headline"]), 34, UiKit.GOOD, UiTokens.FONT_BANNER)
+		head.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		top.add_child(head)
+		top.add_child(UiKit.line(str(e["value_text"]), 34, UiKit.TEXT, UiTokens.FONT_DISPLAY))
+		box.add_child(UiKit.label("%s, %s" % [RecordBook.CAT_NAMES.get(str(e["cat"]), ""),
+			RecordBook.SPAN_NAMES.get(str(e["span"]), "").to_lower()], 26))
+		box.add_child(UiKit.label(str(e["scope_name"]), 22, UiKit.MUTED))
+		v.add_child(parts[0])
+	if entered > 0:
+		var lines := PackedStringArray()
+		for e in pending:
+			if str(e.get("kind", "")) == "entered" and lines.size() < 6:
+				lines.append("#%d  %s, %s (%s): %s" % [int(e["rank"]), RecordBook.CAT_NAMES.get(str(e["cat"]), ""),
+					RecordBook.SPAN_NAMES.get(str(e["span"]), "").to_lower(), e["scope_name"], e["value_text"]])
+		var more := entered - lines.size()
+		var parts := UiKit.card(UiKit.ACCENT, 4)
+		var box: VBoxContainer = parts[1]
+		box.add_child(UiKit.line("ENTERED THE RECORD BOOK  ·  %d LIST%s" % [entered, "" if entered == 1 else "S"],
+			24, UiKit.ACCENT, UiTokens.FONT_CONDENSED))
+		for l in lines:
+			box.add_child(UiKit.label(l, 22, UiKit.TEXT))
+		if more > 0:
+			box.add_child(UiKit.label("and %d more" % more, 22, UiKit.MUTED))
+		v.add_child(parts[0])
+	v.add_child(UiKit.button("Record Book", Screens.go.bind(Screens.CAREER_RECORDS), UiKit.SECONDARY, "achievements"))
+	return v

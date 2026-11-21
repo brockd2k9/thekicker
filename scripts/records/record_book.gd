@@ -213,6 +213,20 @@ static func scopes(level: String, kind: String) -> Array:
 			for t in record_teams(level):
 				out.append({"key": "team:" + str(t["id"]), "kind": kind, "name": str(t["name"]),
 					"short": str(t.get("short", ""))})
+	# Divisions in leagues.json order (FBS, FCS, D2; AFC, NFC), then by name.
+	var order: Array = TeamDatabase.level_info(level).get("divisions", {}).keys()
+	var div_of := func(sc: Dictionary) -> int:
+		var k := str(sc["key"])
+		var t := TeamDatabase.team(k.substr(5)) if kind == "team" else {}
+		var d := str(t.get("division", "")) if kind == "team" else k.substr(k.find(":") + 1).get_slice("/", 0)
+		return order.find(d)
+	out.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		var da: int = div_of.call(a)
+		var db: int = div_of.call(b)
+		return da < db if da != db else str(a["name"]) < str(b["name"]))
+	for sc in out:
+		if kind == "conference":
+			sc["division"] = str(sc["key"]).substr(11).get_slice("/", 0)
 	return out
 
 
@@ -439,6 +453,11 @@ static func _consider(level: String, span: String, tops: Dictionary, cuts: Dicti
 			cut[i] = value(top[top.size() - 1], CATS[i])
 
 
+## True when a scope's lists are built (the screen builds big ones on a thread).
+static func is_cached(level: String, key: String) -> bool:
+	return _cache.has("%s|%s" % [level, key])
+
+
 ## Forget cached lists (tests; after the data file changes).
 static func clear_cache() -> void:
 	_cache.clear()
@@ -585,27 +604,33 @@ static func standing(level: String, key: String, span: String, cat: String, c: C
 			or (is_equal_approx(float(e["value"]), v) and not ahead(best, e, cat)))
 		if not above.is_empty():
 			out["next_gap"] = float(above[above.size() - 1]["value"]) - v
-	out["text"] = gap_text(out, level, span, cat, list.size() >= list_size(span, cat))
+	out["text"] = gap_text(out, level, span, cat)
 	return out
 
 
-## "7 more FGs to break the record", "You hold the record", ...
-static func gap_text(st: Dictionary, level: String, span: String, cat: String, full: bool) -> String:
+## "2 more FGs for #3  ·  7 more FGs to break the record", "You hold the record.",
+## "Needs 17 field goal attempts to qualify."
+static func gap_text(st: Dictionary, level: String, span: String, cat: String) -> String:
 	if not st.get("have", false):
 		return ""
 	if cat == "fg_pct" and not st["eligible"]:
 		return "Needs %d field goal attempts to qualify." % min_att(level, span)
-	if int(st["rank"]) == 1:
+	var rank := int(st["rank"])
+	if rank == 1:
 		return "You hold the record."
-	var gap := float(st["record_gap"])
-	if cat == "fg_pct":
-		return "%.1f%% behind the record." % (gap * 100.0)
 	var unit: Array = CAT_UNITS.get(cat, ["", ""])
-	var need := int(gap) + 1
-	if int(st["rank"]) == 0 and full:
-		var to_list := int(float(st["next_gap"])) + 1
-		return "%d more %s to make the list; %d to break the record." % [to_list, unit[0] if to_list == 1 else unit[1], need]
-	return "%d more %s to break the record." % [need, unit[0] if need == 1 else unit[1]]
+	var more := func(gap: float) -> String:
+		if cat == "fg_pct":
+			return "+%.1f%%" % (gap * 100.0 + 0.05)
+		var n := int(gap) + 1
+		return "%d more %s" % [n, unit[0] if n == 1 else unit[1]]
+	var parts := PackedStringArray()
+	if rank == 0:
+		parts.append("%s to make the list" % more.call(float(st["next_gap"])))
+	elif rank > 2:
+		parts.append("%s for #%d" % [more.call(float(st["next_gap"])), rank - 1])
+	parts.append("%s to break the record" % more.call(float(st["record_gap"])))
+	return "  ·  ".join(parts)
 
 
 # --- record events (saved) ------------------------------------------------------------------

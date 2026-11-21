@@ -447,6 +447,7 @@ dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career
 | Stats + traits -> kick | `scripts/career/kick_profile.gd` (`KickProfile.build()` -> `KickModifiers`) |
 | Scenario engine | `scripts/career/scenario_engine.gd` |
 | Hub → **Stats** (kicking record: Season view; Career view with HS / College / Pro / Career Total tabs, season rows and totals; distance, extra point, streak and misc sections; per-kick log `CareerData.kick_log`) and Hub → **Recruiting** (recruiting points, interested colleges with interest level and offers) | `scripts/career/career_records.gd` (`CareerRecords`, read-only), screens `career_kicking.gd`, `career_recruiting_board.gd` |
+| Hub → **Records** (Records Book: High School / College / Pro, then League / Conference / Division / Team with a team picker, Single Season / Career, ◀ category ▶; your entries highlighted and "Your best" with the gap to the next rank and to #1). New records, ties and lists entered show on the Results and Season screens | `scripts/ui/screens/career_records.gd`, row scene `scenes/ui/record_row.tscn`, `CareerUi.record_events` |
 
 Goalposts and uniforms: `field_goal_game.gd` `set_look()` (called before the scene enters the
 tree) picks the posts style per stage (high school plain H-frame and wide, college gooseneck

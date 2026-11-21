@@ -37,9 +37,15 @@ func _build(col: VBoxContainer) -> void:
 		grid.add_child(CareerUi.group_panel(c, g, true, bars))
 	grid.add_child(_traits_panel())
 	_animate_bars(bars)
-	list.add_child(CareerUi.button_row([
-		UiKit.button("Stats", Screens.go.bind(Screens.CAREER_KICKING), UiKit.SECONDARY, "stats"),
-		UiKit.button("Recruiting", Screens.go.bind(Screens.CAREER_RECRUITING_BOARD), UiKit.SECONDARY, "school")]))
+	# Three across: text only, so each fits a phone's third.
+	var row3 := CareerUi.button_row([
+		UiKit.button("Stats", Screens.go.bind(Screens.CAREER_KICKING), UiKit.SECONDARY),
+		UiKit.button("Recruiting", Screens.go.bind(Screens.CAREER_RECRUITING_BOARD), UiKit.SECONDARY),
+		UiKit.button("Records", Screens.go.bind(Screens.CAREER_RECORDS), UiKit.SECONDARY)])
+	row3.add_theme_constant_override("separation", 10)
+	for b in row3.get_children():
+		(b as Button).add_theme_font_size_override("font_size", 28)
+	list.add_child(row3)
 	list.add_child(CareerUi.button_row([
 		UiKit.button("Stats & Traits", Screens.go.bind(Screens.CAREER_STATS), UiKit.SECONDARY, "charisma"),
 		UiKit.button("People", Screens.go.bind(Screens.CAREER_PEOPLE), UiKit.SECONDARY, "social")]))

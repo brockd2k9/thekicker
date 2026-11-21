@@ -305,8 +305,12 @@ func test_standing_gaps() -> void:
 	var c := _career(CareerData.STAGE_HIGH_SCHOOL, "hoboken_hs", 10, 3, 5)
 	var st := R.standing(R.LEVEL_HS, key, R.CAREER, "fg_made", c)
 	eq(int(st["record_gap"]), record - 3, "gap to #1")
-	eq(str(st["text"]).ends_with("%d to break the record." % (record - 2)) or str(st["text"]) == \
-		"%d more FGs to break the record." % (record - 2), true, "text: %s" % st["text"])
+	check(str(st["text"]).ends_with("%d more FGs to break the record" % (record - 2)), "text: %s" % st["text"])
+	var rank := int(st["rank"])
+	if rank == 0:
+		check(str(st["text"]).contains("to make the list"), "off the list: %s" % st["text"])
+	elif rank > 2:
+		check(str(st["text"]).contains("for #%d" % (rank - 1)), "next rank: %s" % st["text"])
 
 
 func test_my_years_follow_the_career_start() -> void:

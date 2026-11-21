@@ -20,6 +20,7 @@ const CAREER_SKILLS := "res://scenes/screens/career_skills.tscn"
 const CAREER_KICKING := "res://scenes/screens/career_kicking.tscn"
 ## Hub → Recruiting: recruiting points and interested schools.
 const CAREER_RECRUITING_BOARD := "res://scenes/screens/career_recruiting_board.tscn"
+const CAREER_RECORDS := "res://scenes/screens/career_records.tscn"
 const CAREER_RECRUITING := "res://scenes/screens/career_recruiting.tscn"
 const CAREER_TRYOUT := "res://scenes/screens/career_tryout.tscn"
 const CAREER_DRAFT := "res://scenes/screens/career_draft.tscn"
