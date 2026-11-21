@@ -617,6 +617,55 @@ the per-season rate is unchanged.
 | `ot_pro_drive_sec_min` / `_max` (new) | (150 / 330 first try) | 90 / 180 |
 | `ot_fg_range_chance` (new) | - | 0.75 |
 
+## Low Energy (Feature A)
+
+Rules: `scripts/career/fatigue.gd`; numbers: `career_tuning.tres` "Fatigue".
+
+- **Tired** (Energy under 40, Outlook "Tired"): the old kick penalty (range, wobble) plus injury
+  chance, up to +8% at Energy 0.
+- **Exhausted** (Energy under 20 at the end of a week, Outlook "Exhausted"): a further temporary
+  -2 yards and +0.5 degrees of aim spread, and a "RUNNING ON EMPTY" banner on the Hub and the
+  Outlook. The first exhausted week costs nothing permanent: it is the warning.
+- **Exhausted again** (the next week, and every one after while it lasts): -1 Power and
+  -1 Toughness, at most 3 times a season, with the notice "EXHAUSTED AGAIN". Skills shows
+  "points lost to exhaustion: upgrade to win them back"; they cost skill points like any point.
+  A week that ends rested clears the warning. Temporary penalties end when Energy recovers.
+- **Practice this week** (Hub, at the start of each week in season): Light (+6 Energy, no
+  practice skill points), Normal (as always), Hard (-6 Energy, +1 skill point, +1% injury
+  chance). The choice stays until you change it, and is saved.
+- **Good habits:** 3 weeks in a row ending at Energy 70+ pay 1 skill point (source "Good
+  habits"), at most 3 a season.
+- "Tired" replaces the old Outlook label "Exhausted" for low Energy (the tutorial too).
+
+**Simulator** (`practice=normal|light|hard|sensible`; sensible = hard when Energy is 60+, light
+under 40). Seeds 12-13, 360 careers each (normal), 180 each for hard and sensible:
+
+| Practice | Weeks tired / exhausted | Careers losing points (points each) | Good habits SP / season | Pros | FG range (end college / pro) |
+|---|---|---|---|---|---|
+| Normal (every week) | 1% / 0% | 8-13% (3.2-3.7) | 0.12 | 69% | 48.8 / 54.1-54.2 |
+| Sensible | 1% / 0% | 4% (2.5) | 0.01 | 73% | 48.8 / 54.2 |
+| Hard (every week) | 84% / 25% | 100% (54) | 0.01 | 48% | 47.2 / 51.0 |
+
+Always-hard practice is punished hard on purpose (it ignores every warning); switching with your
+Energy pays a little. Injuries per 11-week season: 0.14 at Energy 60+, 0.13-0.16 at 40-59,
+0.18-0.27 at 20-39 (normal practice).
+
+**Targets hold** (normal practice, seeds 12-13): pros 69%, drafted 31-34%; FG range 48.8 /
+54.1-54.2; 70 yd 0%; challenges unchanged (the 75% kicker 87-98% normal, 80-98% tired, heavy-legged or hurt);
+followers end of HS about 2.0K, end of college about 30K; pro careers 5.8-5.9 seasons, 38+ 8-10%.
+**Benching, per 10 seasons played** (the new measure): under 65% FG 0.9-1.2 (target 0.8+), 65-70%
+0.5, 70-80% 0.2 (target 0.1-0.4), 80%+ 0 (target under 0.1; only 1-3 careers). Overtime unchanged
+(4-5% of games).
+
+| Value | Before | After |
+|---|---|---|
+| `low_energy_injury` (new) | - | 0.08 |
+| `exhausted_energy` / `exhausted_range_yd` / `exhausted_spread` (new) | - | 20 / 2 / 0.5 |
+| `fatigue_loss_points` / `fatigue_loss_season_cap` (new) | - | 1 / 3 |
+| `practice_light_energy` / `practice_hard_energy` (new) | - | 6 / -6 |
+| `practice_hard_sp` / `practice_hard_injury` (new) | - | 1 / 0.01 |
+| `good_habits_energy` / `_weeks` / `_sp` / `_season_cap` (new) | - | 70 / 3 / 1 / 3 |
+
 ## Kick challenge tuning
 
 The simulator plays each proposed conversion (`tests/fixtures/kick_challenge_conversions.json`) for

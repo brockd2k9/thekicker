@@ -547,6 +547,12 @@ unless the first scores a touchdown, then sudden death; can end tied). Overtime 
 pressure, and an overtime game winner counts like any game winner. Details: `PLAYTEST.md`,
 "Overtime".
 
+**Low Energy:** tired (Energy under 40) also raises injury chance; ending a week exhausted (under
+20) brings a further temporary penalty and a "Running on empty" warning, and a second exhausted
+week in a row costs a point of Power and Toughness (at most 3 a season, bought back with skill
+points). Each week you pick Light, Normal or Hard practice on the Hub; three well-rested weeks in a
+row pay a "Good habits" skill point. Details: `PLAYTEST.md`, "Low Energy".
+
 **Kick challenges:** a scenario choice can be a real kick challenge (showcase, camp, combine,
 kicker battle): picking it opens the kick scene (field goals clamped to your range - 1, and kickoffs
 for combines); pass for the full reward, miss for a milder outcome. Tryouts, the bench audition and
