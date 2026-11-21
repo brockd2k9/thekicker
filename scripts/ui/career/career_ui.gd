@@ -561,6 +561,11 @@ static func bench_banner(c: CareerData, t: CareerTuning, week_start: bool) -> Co
 		col = UiKit.WARN
 	else:
 		return null
+	return banner_panel(title, body, col, "whistle")
+
+## A big plain warning panel (bench, thin ice, running on empty): icon,
+## title and body in one color.
+static func banner_panel(title: String, body: String, col: Color, icon := "whistle") -> PanelContainer:
 	var p := PanelContainer.new()
 	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	p.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -575,7 +580,7 @@ static func bench_banner(c: CareerData, t: CareerTuning, week_start: bool) -> Co
 	var h := HBoxContainer.new()
 	h.add_theme_constant_override("separation", 10)
 	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	h.add_child(UiIcons.rect("whistle", col, 40))
+	h.add_child(UiIcons.rect(icon, col, 40))
 	var tl := UiKit.label(title, 40, col, UiTokens.FONT_DISPLAY)
 	tl.autowrap_mode = TextServer.AUTOWRAP_OFF
 	tl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -586,3 +591,34 @@ static func bench_banner(c: CareerData, t: CareerTuning, week_start: bool) -> Co
 	b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	v.add_child(b)
 	return p
+
+
+## Running on empty (Fatigue): last week ended exhausted; one more costs
+## attribute points. null otherwise.
+static func fatigue_banner(c: CareerData, t: CareerTuning) -> Control:
+	if not Fatigue.warned(c):
+		return null
+	return banner_panel("RUNNING ON EMPTY", "You ended last week exhausted (Energy under %d). Rest this week: " \
+		% roundi(t.exhausted_energy) + "light practice and rest choices. One more exhausted week costs " +
+		"%d Power and %d Toughness." % [roundi(t.fatigue_loss_points), roundi(t.fatigue_loss_points)], UiKit.WARN, "energy")
+
+
+## Weekly practice intensity (Hub): Light / Normal / Hard, with what each does.
+static func practice_selector(c: CareerData, t: CareerTuning, on_change: Callable) -> Control:
+	var v := VBoxContainer.new()
+	v.add_theme_constant_override("separation", 6)
+	var cur := Fatigue.practice(c)
+	var row: Array = []
+	for it in Fatigue.INTENSITIES:
+		var name := str(it).capitalize()
+		var b := UiKit.button(name, on_change.bind(str(it)), UiKit.PRIMARY if it == cur else UiKit.SECONDARY)
+		row.append(b)
+	v.add_child(UiKit.section("Practice this week"))
+	v.add_child(button_row(row))
+	var what: String = {"light": "Light: +%d Energy, no practice skill points." % roundi(t.practice_light_energy),
+		"normal": "Normal: the usual week.",
+		"hard": "Hard: %d Energy, +%d skill point, a little more injury risk." % [roundi(t.practice_hard_energy),
+			t.practice_hard_sp]}[cur]
+	v.add_child(UiKit.label(what, 22, UiKit.MUTED))
+	return v
+

@@ -33,6 +33,9 @@ func _build(col: VBoxContainer) -> void:
 	var bb := CareerUi.bench_banner(c, career.tuning, false)
 	if bb != null:
 		col.add_child(bb)
+	var fb := CareerUi.fatigue_banner(c, career.tuning)
+	if fb != null:
+		col.add_child(fb)
 	var list := UiKit.scroll_list(col)
 	list.add_child(UiKit.section("How you're feeling"))
 	if p.outlook.is_empty():

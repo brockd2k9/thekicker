@@ -15,6 +15,10 @@ func _build(col: VBoxContainer) -> void:
 	var bb := CareerUi.bench_banner(c, career.tuning, c.phase == CareerManager.PHASE_WEEK_START)
 	if bb != null:
 		col.add_child(bb)
+	# Running on empty (Fatigue): rest this week, or lose attribute points.
+	var fb := CareerUi.fatigue_banner(c, career.tuning)
+	if fb != null:
+		col.add_child(fb)
 	# Next up, and where the career is heading.
 	col.add_child(_next_card())
 	if c.notice != "":
@@ -27,6 +31,9 @@ func _build(col: VBoxContainer) -> void:
 
 	var list := UiKit.scroll_list(col)
 	list.add_child(CareerUi.range_strip(c, career.tuning, Screens.go.bind(Screens.CAREER_SKILLS)))
+	# Weekly practice intensity (Fatigue), before you play the week.
+	if c.phase == CareerManager.PHASE_WEEK_START and career.in_season_loop():
+		list.add_child(CareerUi.practice_selector(c, career.tuning, _set_practice))
 	var grid := GridContainer.new()
 	grid.columns = 2
 	grid.add_theme_constant_override("h_separation", 12)
@@ -382,6 +389,13 @@ func _main_text() -> String:
 		CareerManager.PHASE_RETIRED:
 			return "Career Summary"
 	return "Continue"
+
+
+func _set_practice(intensity: String) -> void:
+	Fatigue.set_practice(career.data, intensity)
+	career.save()
+	UiKit.feedback(&"ui_tap")
+	Screens.go(Screens.CAREER_HUB)
 
 
 func _main_action() -> void:

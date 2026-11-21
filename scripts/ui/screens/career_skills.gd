@@ -53,6 +53,10 @@ func _attributes(list: VBoxContainer) -> void:
 	list.add_child(UiKit.section("ATTRIBUTES"))
 	for s in STATS:
 		list.add_child(_card(s))
+		var lost := Fatigue.lost(c, s)
+		if lost > 0.0:
+			list.add_child(UiKit.label("%d point%s lost to exhaustion: upgrade to win %s back." % [roundi(lost),
+				"" if roundi(lost) == 1 else "s", "it" if roundi(lost) == 1 else "them"], 22, UiKit.WARN))
 	list.add_child(UiKit.label("Earn skill points by making kicks (long, clutch and game-winning ones "
 		+ "earn more), practicing every week, training in the offseason, good seasons, and choices "
 		+ "that work on your game. Each point costs more as an attribute climbs.", 22, UiKit.MUTED))

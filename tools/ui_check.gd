@@ -181,6 +181,7 @@ func _capture_all() -> void:
 	await _challenge_shots()
 	await _reputation_shots()
 	await _overtime_shots()
+	await _fatigue_shots()
 	await _shot("debug", Screens.CAREER_DEBUG)
 	await _shot("challenge", Screens.CHALLENGE, Callable(), Callable(), 2.0)
 	if _want("pause"):
@@ -379,6 +380,25 @@ func _overtime_shots() -> void:
 	c.last_week = keep["lw"]
 	c.recent_results = keep["rr"]
 	c.phase = keep["phase"]
+
+
+## Fatigue: the Hub with Running on empty and the practice selector (Hard),
+## the Outlook banner, Skills with points lost to exhaustion.
+func _fatigue_shots() -> void:
+	if not (_want("hub_fatigue") or _want("outlook_fatigue") or _want("skills_fatigue")):
+		return
+	var c := _m.data
+	var keep := {"f": c.fatigue.duplicate(true), "phase": c.phase, "energy": c.stat("energy")}
+	c.fatigue = {"practice": "hard", "exhausted_weeks": 1, "lost": {"power": 1.0, "toughness": 1.0}}
+	c.set_stat("energy", 18.0)
+	c.phase = CareerManager.PHASE_WEEK_START
+	await _shot("hub_fatigue", Screens.CAREER_HUB)
+	c.phase = CareerManager.PHASE_OUTLOOK
+	await _shot("outlook_fatigue", Screens.CAREER_OUTLOOK)
+	await _shot("skills_fatigue", Screens.CAREER_SKILLS)
+	c.fatigue = keep["f"]
+	c.phase = keep["phase"]
+	c.set_stat("energy", keep["energy"])
 
 
 ## Plays the career forward with the real rules until `done` (or it retires).

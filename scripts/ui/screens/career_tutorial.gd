@@ -86,7 +86,7 @@ func _visual(kind: String) -> Control:
 		"kick":
 			v.add_child(CareerUi.outlook_line({"label": "Rested", "detail": "+accuracy, steadier aim", "good": true}, 28))
 			v.add_child(CareerUi.outlook_line({"label": "Warmed Up", "detail": "+power, +accuracy", "good": true}, 28))
-			v.add_child(CareerUi.outlook_line({"label": "Exhausted", "detail": "-power, +aim wobble", "good": false}, 28))
+			v.add_child(CareerUi.outlook_line({"label": "Tired", "detail": "-power, +aim wobble", "good": false}, 28))
 			v.add_child(CareerUi.outlook_line({"label": "Stressed", "detail": "+pressure", "good": false}, 28))
 		"road":
 			for step in ["High school: get recruited", "Signing day: pick a college (or walk on / junior college)",
