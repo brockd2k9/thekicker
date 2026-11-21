@@ -48,6 +48,14 @@ func _build(col: VBoxContainer) -> void:
 		var net := int(c.money_log.get("choices_in", 0)) - int(c.money_log.get("choices_out", 0))
 		if int(c.money_log.get("choices_in", 0)) + int(c.money_log.get("choices_out", 0)) > 0:
 			list.add_child(UiKit.stat_row("From choices", Savings.change_text(net)))
+	# Hall of Fame (R10): pro careers. Old saves get the vote worked out now.
+	var hof: Dictionary = c.retirement.get("hof", {})
+	if hof.is_empty():
+		hof = HallOfFame.evaluate(c, career.tuning)
+	if bool(hof.get("eligible", false)):
+		list.add_child(UiKit.stat_row("Hall of Fame", "%s  ·  score %d" % [HallOfFame.tier_text(hof),
+			int(hof.get("score", 0))], UiKit.GOOD if HallOfFame.earned(str(hof.get("tier", ""))) else UiKit.MUTED,
+			"career"))
 	list.add_child(UiKit.section("The road"))
 	for r in c.route:
 		var h := HBoxContainer.new()

@@ -14,6 +14,8 @@ func _build(col: VBoxContainer) -> void:
 	var vars := Relationships.text_vars(c)
 	var where := "Offseason" if c.phase == CareerManager.PHASE_OFFSEASON else \
 		("Bye week %d" % c.week if career.is_bye() else "Week %d  ·  Off the field" % c.week)
+	if c.phase == CareerManager.PHASE_EPILOGUE:
+		where = "After the game"
 	# Tags: category (with its icon) and any trait/stat gate.
 	var tags := HFlowContainer.new()
 	tags.add_theme_constant_override("h_separation", 8)

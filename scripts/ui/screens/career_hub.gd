@@ -389,6 +389,10 @@ func _main_text() -> String:
 			return "Draft Day" if career.data.stage == CareerData.STAGE_COLLEGE else "Free Agency"
 		CareerManager.PHASE_CONTRACT:
 			return "Contract Review"
+		CareerManager.PHASE_EPILOGUE:
+			return "After the Game"
+		CareerManager.PHASE_HALL:
+			return "Hall of Fame Vote"
 		CareerManager.PHASE_RETIRED:
 			return "Career Summary"
 	return "Continue"
