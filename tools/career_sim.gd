@@ -174,6 +174,7 @@ func _play_career(strat: String, n: int) -> Dictionary:
 				m.start_game()
 			CareerManager.PHASE_GAME:
 				m.finish_game(_play_game(m))
+				_count_ot(c, out)
 			CareerManager.PHASE_RESULTS:
 				_spend(c, m.tuning, out)
 				m.end_week()
@@ -638,6 +639,7 @@ func _report(results: Dictionary, n: int, problems: PackedStringArray, ms: int) 
 	L.append_array(_reputation_section(all))
 	L.append_array(_age_section(all))
 	L.append_array(_retention_section(all))
+	L.append_array(_ot_section(all))
 	L.append_array(_progress_sources(all))
 	# --- life
 	L.append("## Life stats (average over every week played; share of weeks with any life stat low)")
@@ -1087,6 +1089,56 @@ func _progress_sources(all: Array) -> PackedStringArray:
 		_avgf(rs.map(func(r): return float(r.get("choice_progress", {}).get("draft", 0.0)))),
 		_avgf(all.map(func(r): return float(r.get("choice_progress", {}).get("recruiting", 0.0)))),
 		_avgf(all.map(func(r): return float(r.get("choice_progress", {}).get("grades", 0.0))))])
+	L.append("")
+	return L
+
+
+## Overtime tallies per career: {stage: {games, ot, ties, two_point, won, lost}}
+## and overtime game winners made.
+func _count_ot(c: CareerData, out: Dictionary) -> void:
+	var st := "college" if c.stage == CareerData.STAGE_JUCO else c.stage
+	var d: Dictionary = out.get_or_add("ot", {})
+	var t: Dictionary = d.get_or_add(st, {"games": 0, "ot": 0, "ties": 0, "two_point": 0, "won": 0, "lost": 0})
+	t["games"] += 1
+	var w := c.last_week
+	var ot: Dictionary = w.get("ot", {}) if w.get("ot") is Dictionary else {}
+	if ot.is_empty():
+		return
+	t["ot"] += 1
+	match str(w.get("outcome", "")):
+		"T":
+			t["ties"] += 1
+		"W":
+			t["won"] += 1
+		"L":
+			t["lost"] += 1
+	if bool(ot.get("two_point", false)):
+		t["two_point"] += 1
+	for k in w.get("kicks", []):
+		if k.get("made", false) and not k.get("backup", false) and str(k.get("label", "")).contains("OT") \
+				and str(k.get("label", "")).contains("GAME WINNER"):
+			out["ot_winners"] = int(out.get("ot_winners", 0)) + 1
+
+
+func _ot_section(all: Array) -> PackedStringArray:
+	var L := PackedStringArray()
+	L.append("## Overtime by stage (all careers)")
+	L.append("")
+	L.append("| Stage | Games | To overtime | Won / lost / tied (of OT games) | Ties left (of all games) | Two-point rounds |")
+	L.append("|---|---|---|---|---|---|")
+	for st in ["high_school", "college", "pro"]:
+		var g := {"games": 0, "ot": 0, "ties": 0, "two_point": 0, "won": 0, "lost": 0}
+		for r in all:
+			var d: Dictionary = r.get("ot", {}).get(st, {})
+			for k in g:
+				g[k] += int(d.get(k, 0))
+		L.append("| %s | %d | %s | %s / %s / %s | %s | %s |" % [st, g["games"], _pct(g["ot"], g["games"]),
+			_pct(g["won"], g["ot"]), _pct(g["lost"], g["ot"]), _pct(g["ties"], g["ot"]),
+			"%.1f%%" % (100.0 * g["ties"] / maxi(g["games"], 1)), _pct(g["two_point"], g["ot"])])
+	L.append("")
+	L.append("Overtime game winners made per career: %.2f (careers with at least one: %s)." % [
+		_avgf(all.map(func(r): return int(r.get("ot_winners", 0)))),
+		_pct(all.filter(func(r): return int(r.get("ot_winners", 0)) > 0).size(), all.size())])
 	L.append("")
 	return L
 
