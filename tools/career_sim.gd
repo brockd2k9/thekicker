@@ -279,6 +279,9 @@ func _play_career(strat: String, n: int) -> Dictionary:
 	out["pro_fg"] = float(pm) / pa if pa > 0 else -1.0
 	out["rep_end"] = Reputation.state(c)
 	out["fatigue_lost"] = float(c.fatigue.get("lost_total", 0.0))
+	out["savings"] = c.savings
+	out["money_salary"] = int(c.money_log.get("salary", 0))
+	out["money_choices"] = int(c.money_log.get("choices_in", 0)) - int(c.money_log.get("choices_out", 0))
 	out["suspensions"] = c.suspensions_total
 	out["fg_pct"] = float(c.career_totals.get("fg_made", 0)) / maxf(float(c.career_totals.get("fg_att", 0)), 1.0)
 	var src := {}
@@ -650,6 +653,7 @@ func _report(results: Dictionary, n: int, problems: PackedStringArray, ms: int) 
 	L.append_array(_retention_section(all))
 	L.append_array(_ot_section(all))
 	L.append_array(_fatigue_section(all))
+	L.append_array(_savings_section(all))
 	L.append_array(_progress_sources(all))
 	# --- life
 	L.append("## Life stats (average over every week played; share of weeks with any life stat low)")
@@ -1125,6 +1129,36 @@ func _count_fatigue(c: CareerData, t: CareerTuning, out: Dictionary, energy: flo
 	if not hurt_before and c.is_injured():
 		a[1] += 1
 	f["buckets"][b] = a
+
+
+## Savings at the end of the career, by pro seasons played (median, p10-p90).
+func _savings_section(all: Array) -> PackedStringArray:
+	var L := PackedStringArray()
+	L.append("## Savings at career end (median, p10-p90)")
+	L.append("")
+	L.append("| Pro seasons | Careers | Savings | From salary | From choices (net) | $1M+ | $5M+ |")
+	L.append("|---|---|---|---|---|---|---|")
+	for band in [[0, 0, "none"], [1, 2, "1-2"], [3, 5, "3-5"], [6, 9, "6-9"], [10, 99, "10+"]]:
+		var rows := all.filter(func(r): return int(r.get("pro_seasons", 0)) >= int(band[0]) and int(r.get("pro_seasons", 0)) <= int(band[1]))
+		if rows.is_empty():
+			continue
+		L.append("| %s | %d | %s | %s | %s | %s | %s |" % [band[2], rows.size(),
+			_money_spread(rows.map(func(r): return int(r.get("savings", 0)))),
+			Savings.text(roundi(_avgf(rows.map(func(r): return float(r.get("money_salary", 0)))))),
+			Savings.change_text(roundi(_avgf(rows.map(func(r): return float(r.get("money_choices", 0)))))),
+			_pct(rows.filter(func(r): return int(r.get("savings", 0)) >= 1000000).size(), rows.size()),
+			_pct(rows.filter(func(r): return int(r.get("savings", 0)) >= 5000000).size(), rows.size())])
+	L.append("")
+	return L
+
+
+static func _money_spread(xs: Array) -> String:
+	if xs.is_empty():
+		return "-"
+	var v := xs.duplicate()
+	v.sort()
+	var at := func(q: float) -> int: return int(v[clampi(int(q * (v.size() - 1)), 0, v.size() - 1)])
+	return "%s (%s-%s)" % [Savings.text(at.call(0.5)), Savings.text(at.call(0.1)), Savings.text(at.call(0.9))]
 
 
 func _fatigue_section(all: Array) -> PackedStringArray:
