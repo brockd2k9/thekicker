@@ -689,6 +689,9 @@ finish turn (degrees), crookedness and the crooked-swipe penalty it earned, powe
 window you released and the window's length (s), the aim wobble at that moment, and the path as 8
 points. About 11 KB of text.
 
+Drill kicks are a measurement, not play: they never count in My Stats, the session streak,
+achievements or anything Career (GameState.UNRECORDED_MODES; the same for tools/kick_sample).
+
 ## Savings (Stage 6)
 
 Rules: `scripts/career/savings.gd`; numbers: `career_tuning.tres` "Savings". Save version 8.
