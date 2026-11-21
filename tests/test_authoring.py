@@ -386,7 +386,7 @@ class RecastAndProSuspensionTests(unittest.TestCase):
                 json.dump(doc, f)
             return run(path, "--dry-run")
 
-    # Fixture: an unwritten era-6 draft (written last); repoint it if that changes.
+    # Fixture: PRO_144, a pro-only scene (dry runs only, so its written content is untouched).
     def test_pro_scene_may_suspend_a_season_and_recast(self):
         ok = {"scenarios": [{"id": "PRO_144", "title": "x", "category": "family", "text": "A dinner party.",
                              "choices": [_choice(recast=["love_interest"]),

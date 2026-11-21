@@ -40,7 +40,7 @@ College flags set severity through locked choices.
 | Era 3: Veteran (30-33) | 150 | 150 | 0 | 17 | 2 | 0 | 0 | 2 |
 | Era 4: Aging Veteran (34-37) | 150 | 150 | 0 | 14 | 0 | 2 | 0 | 2 |
 | Era 5: Grizzled Veteran (38-41) | 80 | 80 | 80 | 5 | 0 | 0 | 0 | 0 |
-| Era 6: Hall of Fame Era (42+) | 40 | 0 | 40 | 1 | 0 | 0 | 0 | 40 |
+| Era 6: Hall of Fame Era (42+) | 40 | 40 | 40 | 1 | 0 | 0 | 0 | 40 |
 | Across eras (state-driven) | 108 | 108 | 0 | 10 | 1 | 0 | 0 | 1 |
 | Epilogue (after retirement) | 12 | 0 | 0 | 0 | 0 | 0 | 12 | 12 |
 
@@ -1490,7 +1490,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_177 | Contract Year: Nobody This Old | age 42+ | variant | contract_year |  |  | R1 no age cap |
 | PRO_182 | The Last Slump | age 42+ | variant | slump_now 1+ |  | saw_sports_psych, leaned_on_support | R1 no age cap |
 | PRO_187 | A Legend's Month | age 42+ | variant | fg_streak 8+ |  |  | R1 no age cap |
-| PRO_190 | Your Replacement Was Born the Year You Turned Pro | age 42+, weeks 1-3 | variant |  |  |  | R1 no age cap |
+| PRO_190 | The New Kicker's Mother | age 42+, weeks 1-3 | variant |  |  |  | R1 no age cap |
 | PRO_195 | One More Comeback | age 42+ | variant | injured_now 1+ |  | committed_to_recovery, hid_injury | R1 no age cap |
 | PRO_199 | Signed at Your Age | age 42+ | variant | signed_new_club |  |  | R1 no age cap |
 | PRO_507 | The Historic Contract | age 42+ | once | contract_year |  |  | R1 no age cap |
@@ -1514,7 +1514,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_525 | The Front Office | age 42+ | once |  |  |  | R1 no age cap |
 | PRO_526 | The Retirement Financial Review | age 42+ | once |  |  |  | R3 money values; R1 no age cap |
 | PRO_527 | The Family's Final Request | age 42+ | once |  |  |  | R1 no age cap |
-| PRO_528 | The Grandchild's Game | age 42+ | once | became_parent |  |  | R1 no age cap |
+| PRO_528 | The Big Game in the Family | age 42+ | once |  |  |  | R1 no age cap |
 | PRO_529 | The Hometown Celebration | age 42+ | once |  |  |  | R1 no age cap |
 | PRO_530 | The Hall Visit | age 42+ | once |  |  |  | R1 no age cap |
 | PRO_531 | The Historic Stadium Return | age 42+ | once |  |  |  | R1 no age cap |
@@ -1527,11 +1527,11 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_538 | The Former Coach's Recognition | age 42+ | once |  |  |  | R1 no age cap |
 | PRO_539 | The All-Time Greats Dinner | age 42+ | once |  |  |  | R1 no age cap |
 
-- **PRO_144 Still the Oldest**: You've been the oldest player in the league for years now, and a reporter asks how long.
+- **PRO_144 Still the Oldest**: You may be the oldest player in the league now, and a reporter asks how it feels.
 - **PRO_177 Contract Year: Nobody This Old**: No kicker your age has signed a contract in years. Your agent says the league is curious, and the general manager says 'prove it'.
 - **PRO_182 The Last Slump**: You've survived a dozen slumps. This one feels different, and you know exactly why.
 - **PRO_187 A Legend's Month**: Kids who weren't born when you started are wearing your jersey to practice.
-- **PRO_190 Your Replacement Was Born the Year You Turned Pro**: The new kicker's mother asks for your autograph at camp. For herself.
+- **PRO_190 The New Kicker's Mother**: The new kicker's mother asks for your autograph at camp. For herself.
 - **PRO_195 One More Comeback**: The doctors are polite about it, which is how you know.
 - **PRO_199 Signed at Your Age**: The press conference is bigger than the contract. Everybody wants to see the oldest kicker in the league sign the papers.
 - **PRO_507 The Historic Contract**: A club offers you another contract, at an age nobody signs.
@@ -1540,7 +1540,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 - **PRO_510 The Retirement Question**: A reporter asks if this is your final season.
 - **PRO_511 The Young Kicker's Inspiration**: A rookie says you're the reason he started kicking.
 - **PRO_512 The Final Contract Offer**: An offer that could extend your career one more year.
-- **PRO_513 The Franchise Legend**: A former club wants to recognize what you gave it.
+- **PRO_513 The Franchise Legend**: The first club that ever signed you wants to recognize what you gave it.
 - **PRO_514 The Jersey Retirement Discussion**: A club discusses retiring your number once you're done.
 - **PRO_515 The All-Time Record**: You could become the league's career scoring leader.
 - **PRO_516 The Longevity Record**: You're close to the record for most seasons by a kicker.
@@ -1555,7 +1555,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 - **PRO_525 The Front Office**: A club discusses a front-office job with you.
 - **PRO_526 The Retirement Financial Review**: You review whether you're ready to stop.
 - **PRO_527 The Family's Final Request**: Your family asks you to spend more time at home.
-- **PRO_528 The Grandchild's Game**: A grandchild wants you at an important game.
+- **PRO_528 The Big Game in the Family**: {sibling}'s youngest has a big game and wants you there.
 - **PRO_529 The Hometown Celebration**: Your hometown throws a celebration of your career.
 - **PRO_530 The Hall Visit**: You visit the Hall of Fame and look at the kickers on the wall.
 - **PRO_531 The Historic Stadium Return**: You play at the stadium where your career began.

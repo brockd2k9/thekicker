@@ -15518,9 +15518,8 @@
 		{
 			"id": "PRO_144",
 			"title": "Still the Oldest",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "You may be the oldest player in the league now, and a reporter asks how it feels, notebook open, as though the answer might be printed on a plaque. Behind her, two rookies are trying not to laugh.",
 			"stages": [
 				"pro"
 			],
@@ -15534,14 +15533,87 @@
 			"authoring": {
 				"chain": "Veteran",
 				"group": "Era 6: Hall of Fame Era (42+)",
-				"premise": "You've been the oldest player in the league for years now, and a reporter asks how long.",
+				"premise": "You may be the oldest player in the league now, and a reporter asks how it feels.",
 				"people": [],
 				"kind": "once",
 				"waits_on": [
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Tell her it feels early",
+					"result": "Early, you say: you get up before everyone, and you go to bed before everyone, and in between you kick. The rookies stop trying not to laugh, and so does she.",
+					"stats": {
+						"life": {
+							"fun": 1
+						},
+						"personality": {
+							"charisma": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"followers": 2
+				},
+				{
+					"label": "Tell her what it costs",
+					"result": "The honest version: the ice, the sleep, the hip, the mornings when getting out of the car takes two tries. She prints all of it, and older fans write in to thank you.",
+					"stats": {
+						"life": {
+							"health": 1
+						},
+						"football": {
+							"resilience": 2
+						}
+					},
+					"modifiers": [
+						"drained"
+					],
+					"followers": 1
+				},
+				{
+					"label": "Point at the rookies",
+					"result": "A nod at the two rookies behind her: ask them, they're the ones who have to keep up. The clip of their faces runs everywhere, and they ask you for a rematch at lunch.",
+					"stats": {
+						"life": {
+							"fun": 2
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 2
+					}
+				},
+				{
+					"label": "Tell her about the quiet evenings",
+					"result": "The truth about the quiet evenings, alone and content, a book and an early night. It surprises her, and it's the most shared paragraph of the week.",
+					"requires": {
+						"flags": [
+							"enjoying_single_life"
+						]
+					},
+					"lock_text": "having enjoyed the single life in your prime",
+					"stats": {
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_145",
@@ -18752,9 +18824,8 @@
 		{
 			"id": "PRO_177",
 			"title": "Contract Year: Nobody This Old",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "No kicker your age has signed a contract in years. Your agent says the league is curious, and the general manager, across the desk, says two words with a small smile: 'Prove it.'",
 			"stages": [
 				"pro"
 			],
@@ -18778,7 +18849,74 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Prove it in practice",
+					"result": "A month of practice like a tryout, every kick charted and sent to the general manager by email at the end of each day. He signs off on the contract with the chart stapled to it.",
+					"stats": {
+						"football": {
+							"accuracy": 1
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Offer a short deal",
+					"result": "A short deal, offered by you before they ask: half a season, with an option. It lowers the risk for the club, and the general manager respects the honesty.",
+					"stats": {
+						"personality": {
+							"intelligence": 2,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"retention": 2
+				},
+				{
+					"label": "Ask what proof means",
+					"result": "A question back across the desk: what would proof look like, exactly? The answer is specific, three numbers on a sticky note, and you put it on your car's dashboard.",
+					"stats": {
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Show them the old leg",
+					"result": "The scouts called you a power leg once, a lifetime ago. You kick one from the logo in front of the general manager, and he laughs and reaches for the pen.",
+					"requires": {
+						"flags": [
+							"scouts_power"
+						]
+					},
+					"lock_text": "having been scouted as a power kicker",
+					"stats": {
+						"football": {
+							"power": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"spotlight"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_178",
@@ -19234,9 +19372,8 @@
 		{
 			"id": "PRO_182",
 			"title": "The Last Slump",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "training",
+			"text": "You've survived a dozen slumps. This one feels different, and you know exactly why: your leg is tired in a way no drill can fix, and the coaches are being kind to you, which is worse.",
 			"stages": [
 				"pro"
 			],
@@ -19265,7 +19402,79 @@
 					"leaned_on_support"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Fight it one more time",
+					"result": "One more fight, the way you always have: film, extra reps, early mornings. It comes back slower than ever, and it comes back, and you know it may be the last time.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"football": {
+							"toughness": 1
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"heavy_legs"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Accept what's changed",
+					"result": "Acceptance, quietly, of what your leg can and can't do now. You shorten your range, sharpen your accuracy, and kick smarter than you ever did young.",
+					"stats": {
+						"football": {
+							"accuracy": 1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Talk to {holder}",
+					"result": "An honest talk with {holder}, who has seen every slump. They say this one isn't the end, and then, more quietly, that you'll know when it is.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"football": {
+							"resilience": 1
+						}
+					},
+					"modifiers": [
+						"drained"
+					],
+					"rel": {
+						"holder": 3
+					}
+				},
+				{
+					"label": "Make the call, one more time",
+					"result": "One more call to the voice that's helped you through every slump. This conversation is about more than kicking, and you're glad it is.",
+					"requires": {
+						"any_flags": [
+							"saw_sports_psych",
+							"leaned_on_support"
+						]
+					},
+					"lock_text": "having leaned on help in slumps before",
+					"stats": {
+						"football": {
+							"resilience": 3
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_183",
@@ -19623,9 +19832,8 @@
 		{
 			"id": "PRO_187",
 			"title": "A Legend's Month",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "A perfect month at your age, and kids who weren't born when you started are wearing your jersey to practice. A youth league two towns over has named its kicking award after you without asking.",
 			"stages": [
 				"pro"
 			],
@@ -19649,7 +19857,52 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Present the award yourself",
+					"result": "You show up unannounced to present the award at the end of their season. The winner is nine and speechless, and his coach has to sit down on the bench.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"followers": 3
+				},
+				{
+					"label": "Stay quiet about the month",
+					"result": "Silence about the month, every interview, every week. The kids in the jerseys do the talking for you, and you keep your head where it belongs.",
+					"stats": {
+						"football": {
+							"resilience": 2,
+							"accuracy": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Send jerseys for the whole league",
+					"result": "Jerseys for every kid in the youth league, sent quietly through the club. The photos come back with crooked numbers and huge smiles, and you keep every one.",
+					"stats": {
+						"life": {
+							"fun": 1
+						},
+						"personality": {
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_188",
@@ -19855,10 +20108,9 @@
 		},
 		{
 			"id": "PRO_190",
-			"title": "Your Replacement Was Born the Year You Turned Pro",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"title": "The New Kicker's Mother",
+			"category": "team",
+			"text": "The new kicker's mother asks for your autograph at camp. For herself, she explains, a little embarrassed: she used to watch you with her own father on Sunday afternoons.",
 			"stages": [
 				"pro"
 			],
@@ -19886,7 +20138,57 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Sign it with a story",
+					"result": "A signature, and a story about the Sunday afternoons you remember from those years. She tells her son later, and he looks at you differently for the rest of camp.",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"personality": {
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Laugh about it",
+					"result": "A good laugh with her, and then with her son, about how old this makes everyone. It breaks the ice, and the new kicker relaxes for the first time all week.",
+					"stats": {
+						"life": {
+							"fun": 2
+						},
+						"football": {
+							"resilience": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"backup": 1
+					}
+				},
+				{
+					"label": "Sign it and get back to work",
+					"result": "Signed, politely, and back to the drill. You'll be friends with the new kicker later; for now, you're competing for a job, and both of you know it.",
+					"stats": {
+						"football": {
+							"accuracy": 1
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 1
+				}
+			]
 		},
 		{
 			"id": "PRO_191",
@@ -20341,9 +20643,8 @@
 		{
 			"id": "PRO_195",
 			"title": "One More Comeback",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "health",
+			"text": "An injury at your age, and the doctors are polite about it, which is how you know. The scans are on the wall, and the head trainer has used the word 'considering' three times in five minutes.",
 			"stages": [
 				"pro"
 			],
@@ -20372,7 +20673,82 @@
 					"hid_injury"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Do the rehab anyway",
+					"result": "The rehab, every exercise, every session, because you're not ready to let an injury write the ending. It's slow and lonely, and you're back by December.",
+					"stats": {
+						"life": {
+							"health": 1
+						},
+						"football": {
+							"toughness": 2
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"sore"
+					],
+					"skill_points": 1
+				},
+				{
+					"label": "Ask the hard question",
+					"result": "The hard question, asked out loud: is this the end? The head trainer is honest, and the honesty is a gift, whatever you decide.",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"drained"
+					]
+				},
+				{
+					"label": "Take the time to think",
+					"result": "Time to think, away from the facility, a week at home with the scans in a folder you don't open. When you do open it, you know what you want.",
+					"stats": {
+						"life": {
+							"energy": 2
+						},
+						"football": {
+							"resilience": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Write the plan from experience",
+					"result": "A rehab plan written from every recovery you've ever done. The trainers read it, change two lines, and tell you it's the best plan they've seen from a player.",
+					"requires": {
+						"any_flags": [
+							"committed_to_recovery",
+							"hid_injury"
+						]
+					},
+					"lock_text": "having been through hard recoveries before",
+					"stats": {
+						"life": {
+							"health": 3
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_196",
@@ -20645,9 +21021,8 @@
 		{
 			"id": "PRO_199",
 			"title": "Signed at Your Age",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "The press conference is bigger than the contract. Everybody wants to see a kicker your age sign papers: three cameras, a podium, and a reporter who asks whether you need help with the pen.",
 			"stages": [
 				"pro"
 			],
@@ -20674,7 +21049,57 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Sign it with a flourish",
+					"result": "A huge, looping signature, done slowly for the cameras, and a bow. The room laughs, the reporter applauds, and the clip opens every sports show that night.",
+					"stats": {
+						"life": {
+							"fun": 1
+						},
+						"personality": {
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"spotlight"
+					],
+					"followers": 3
+				},
+				{
+					"label": "Keep it to the facts",
+					"result": "Facts only: one year, glad to be here, ready to work. It's a dull press conference on purpose, and the coaches appreciate it more than they say.",
+					"stats": {
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Thank the people who got you here",
+					"result": "Every person who got you to this podium, thanked by name, including the trainer who taped your ankle as a rookie. Some of them are watching, and one sends flowers.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"parent": 1
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_200",
@@ -46891,9 +47316,8 @@
 		{
 			"id": "PRO_507",
 			"title": "The Historic Contract",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "A club offers you another contract, at an age nobody signs one. Your agent read it twice before calling, just to be sure it wasn't a joke, and then laughed for a full minute.",
 			"stages": [
 				"pro"
 			],
@@ -46917,14 +47341,61 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Sign it before they change their minds",
+					"result": "Signed that afternoon, before anyone can change their minds. The ink is barely dry when the club announces it, and the internet can't decide whether to laugh or cheer.",
+					"stats": {
+						"life": {
+							"fun": 1
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"retention": 1
+				},
+				{
+					"label": "Ask why they want you",
+					"result": "A question for the general manager: why you, why now? The answer is about the young players and what you teach them, and it makes you prouder than any number.",
+					"stats": {
+						"personality": {
+							"intelligence": 1,
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"team": 2
+					}
+				},
+				{
+					"label": "Take a week",
+					"result": "A week to decide, at home, with the contract on the table and the body asking questions. You sign at the end of it, sure for the first time in months.",
+					"stats": {
+						"life": {
+							"health": 1
+						},
+						"football": {
+							"resilience": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_508",
 			"title": "The Record-Breaking Career",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "You're approaching the league's all-time scoring record, and the countdown has a graphic of its own on every broadcast. A memorabilia company wants to mark every ball you kick in practice, just in case.",
 			"stages": [
 				"pro"
 			],
@@ -46946,14 +47417,61 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Let them mark the balls",
+					"result": "The balls, marked and numbered, and you sign a stack for kids' hospitals. It turns the countdown into something useful, and the hospital staff send photos.",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"personality": {
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"followers": 3
+				},
+				{
+					"label": "Refuse the countdown",
+					"result": "No countdown in your house, your car or your locker. The specialists build a wall of cardboard around your stall as a joke, and it actually helps.",
+					"stats": {
+						"life": {
+							"fun": 1
+						},
+						"football": {
+							"resilience": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"holder": 2
+					}
+				},
+				{
+					"label": "Think about the ones before you",
+					"result": "An evening reading about the kicker who holds the record now, and the one before him. It makes the number feel like a relay, not a race, and you sleep well.",
+					"stats": {
+						"personality": {
+							"intelligence": 2,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_509",
 			"title": "The Hall of Fame Debate",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "Analysts argue on television about whether your career belongs in the Hall of Fame. One of them has a whiteboard, and he's drawn your career as a long flat line, which he means as a compliment.",
 			"stages": [
 				"pro"
 			],
@@ -46975,14 +47493,61 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Laugh at the flat line",
+					"result": "A post with the flat line and the caption 'accurate'. It's the funniest thing you've said all year, and the analyst sends a thank-you note.",
+					"stats": {
+						"life": {
+							"fun": 2
+						},
+						"personality": {
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"spotlight"
+					],
+					"followers": 3
+				},
+				{
+					"label": "Stay out of it",
+					"result": "Nothing said, nothing posted, nothing watched. The argument belongs to people who aren't kicking, and you have a practice at nine.",
+					"stats": {
+						"football": {
+							"resilience": 2,
+							"accuracy": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Let your family enjoy it",
+					"result": "{parent} watches every segment, records them, and calls after each one to report. You let them enjoy it completely, and their joy is better than any vote.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"football": {
+							"resilience": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"parent": 2
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_510",
 			"title": "The Retirement Question",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "A reporter asks, gently, at the end of a quiet press conference, whether this is your final season. The room goes still, and you realize nobody has ever asked it this kindly.",
 			"stages": [
 				"pro"
 			],
@@ -47003,14 +47568,60 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Say you don't know",
+					"result": "The honest answer: you don't know yet, and you're at peace with not knowing. It's the most-read quote of the week, and it surprises even you.",
+					"stats": {
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Say maybe",
+					"result": "A maybe, said with a small smile, and nothing more. The room writes it down, and the speculation lasts a month, and you enjoy it more than you expected.",
+					"stats": {
+						"life": {
+							"fun": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"spotlight"
+					],
+					"followers": 2
+				},
+				{
+					"label": "Thank her for asking kindly",
+					"result": "Thanks, first, for asking it kindly, and then a promise that she'll be the first to know. She is, months later, and she writes the best piece of anyone.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_511",
 			"title": "The Young Kicker's Inspiration",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "A rookie tells you in the training room that you're the reason he started kicking: he saw you on television when he was six and asked for a ball for his birthday the next day.",
 			"stages": [
 				"pro"
 			],
@@ -47031,14 +47642,84 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Ask what he remembers",
+					"result": "A question: what did he see that day? His memory of you is more generous than yours, and listening to it is like meeting a version of yourself you'd forgotten.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Teach him one thing a day",
+					"result": "One thing a day, all season, from you to him: a footwork trick, a breathing habit, a way to handle a bad week. By December he has a notebook full.",
+					"stats": {
+						"football": {
+							"accuracy": 1
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"backup": 2
+					}
+				},
+				{
+					"label": "Tell him who your hero was",
+					"result": "The story of your own hero, the kicker you copied in the backyard. The rookie laughs at the idea of you as a kid, and you realize the line keeps going.",
+					"stats": {
+						"life": {
+							"fun": 1
+						},
+						"personality": {
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"loose"
+					]
+				},
+				{
+					"label": "Teach him how to talk to scouts",
+					"result": "The interview lessons you learned before the draft, handed on: how to answer, how to listen, how to say 'I don't know'. He uses them at his next contract meeting.",
+					"requires": {
+						"flags": [
+							"scouts_interview"
+						]
+					},
+					"lock_text": "having impressed scouts in your interviews",
+					"stats": {
+						"personality": {
+							"leadership": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"backup": 1
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_512",
 			"title": "The Final Contract Offer",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "An offer arrives that could extend your career one more year: fair money, a clean contract, and a handwritten note from the special teams coach that says 'One more?' with three question marks.",
 			"stages": [
 				"pro"
 			],
@@ -47062,14 +47743,68 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Answer the note",
+					"result": "A note back, handwritten too: 'One more.' The coach pins it on the wall of the special teams room, and it stays there all season.",
+					"stats": {
+						"personality": {
+							"leadership": 1,
+							"charisma": 1,
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"set_flags": {
+						"chose_one_more_year": true
+					},
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Think it over at home",
+					"result": "The offer, the note and a long weekend at home to think. Whatever you decide, you decide it rested and sure, which is new.",
+					"stats": {
+						"life": {
+							"health": 1
+						},
+						"football": {
+							"resilience": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Decline with thanks",
+					"result": "No, with thanks and a long phone call to the coach. It's time, and saying it out loud is easier than you feared, and you sleep well for the first time in weeks.",
+					"stats": {
+						"life": {
+							"social": 1,
+							"energy": 2
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"drained"
+					],
+					"set_flags": {
+						"planning_retirement": true
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_513",
 			"title": "The Franchise Legend",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "The first club that ever signed you wants to recognize what you gave it: a night in your name, a banner, and the old equipment manager, retired now, asking to present you with your first helmet.",
 			"stages": [
 				"pro"
 			],
@@ -47083,21 +47818,90 @@
 			"authoring": {
 				"chain": "Seed list",
 				"group": "Era 6: Hall of Fame Era (42+)",
-				"premise": "A former club wants to recognize what you gave it.",
+				"premise": "The first club that ever signed you wants to recognize what you gave it.",
 				"people": [],
 				"kind": "once",
 				"waits_on": [
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Accept the helmet",
+					"result": "The old helmet, handed over by the old equipment manager at midfield, scuffed and too small. You both hold it up, and the crowd remembers you as a rookie.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"followers": 3
+				},
+				{
+					"label": "Ask them to honor the staff",
+					"result": "A request that the night honor the staff from your rookie year too: the trainers, the cooks, the laundry crew. The club agrees, and the photo has forty people in it.",
+					"stats": {
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Make it a family night",
+					"result": "Your family on the field with you, {sibling} wearing your rookie jersey. It's loud and happy, and {sibling} does a victory dance that the cameras love.",
+					"stats": {
+						"life": {
+							"fun": 2,
+							"social": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"sibling": 3
+					}
+				},
+				{
+					"label": "Tell the story of the rookie check",
+					"result": "The truth, told into the microphone: you spent your whole rookie check in a month, and this club's staff helped you grow up. The crowd laughs, and the old equipment manager cries.",
+					"requires": {
+						"flags": [
+							"spent_rookie_check"
+						]
+					},
+					"lock_text": "having spent your rookie check fast",
+					"stats": {
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"followers": 2
+				}
+			]
 		},
 		{
 			"id": "PRO_514",
 			"title": "The Jersey Retirement Discussion",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "A club is discussing retiring your number once you're done. The general manager wants to know how you'd feel about it, and whether there's a young player you'd rather see wear it.",
 			"stages": [
 				"pro"
 			],
@@ -47118,14 +47922,63 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Retire it",
+					"result": "Retire it, you say, honored and a little embarrassed. The club plans a ceremony for whenever you stop, and the number goes on a list nobody can touch.",
+					"stats": {
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Give it to a young player",
+					"result": "Give it to a young player, you say, and name one. The kid hears about it and can't speak for a full minute, and promises to wear it properly.",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"backup": 2
+					}
+				},
+				{
+					"label": "Let the fans decide",
+					"result": "Let the fans decide, you suggest. The vote runs for a month, the comments are wonderful, and the result surprises everyone, including the general manager.",
+					"stats": {
+						"life": {
+							"fun": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"spotlight"
+					],
+					"followers": 3
+				}
+			]
 		},
 		{
 			"id": "PRO_515",
 			"title": "The All-Time Record",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "You could become the league's career scoring leader this season, and the league office calls to ask how you'd want the moment marked, if it comes: a ceremony, a pause, or nothing at all.",
 			"stages": [
 				"pro"
 			],
@@ -47147,14 +48000,56 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Ask for nothing",
+					"result": "Nothing at all, you tell them: no pause, no ceremony, just the next play. The league is surprised and agrees, and the specialists say it's the most you thing you've ever done.",
+					"stats": {
+						"football": {
+							"resilience": 2,
+							"accuracy": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Ask for the old kickers",
+					"result": "If it comes, you'd like the living kickers who held the record before you to be there. The league calls them all, and every one of them says yes.",
+					"stats": {
+						"personality": {
+							"leadership": 2,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Ask for your family",
+					"result": "Your family on the sideline, if it comes, and nothing else. The league arranges passes, and {parent} starts planning an outfit that very evening.",
+					"stats": {
+						"life": {
+							"social": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"parent": 2
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_516",
 			"title": "The Longevity Record",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "You're close to the record for most seasons by a kicker, and a historian calls to interview you for a book about long careers. She has a list of every kicker who lasted, and the reasons each one stopped.",
 			"stages": [
 				"pro"
 			],
@@ -47176,14 +48071,61 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Read her list",
+					"result": "Her whole list, read carefully, every reason every kicker stopped. It's sobering and kind, and it makes you grateful for every morning your leg still works.",
+					"stats": {
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Give her the whole story",
+					"result": "Hours of interviews, every slump, every injury, every year you thought was the last. Her chapter about you is the longest in the book, and the most honest.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"followers": 2
+				},
+				{
+					"label": "Keep the interview short",
+					"result": "A short interview, and back to practice. The record isn't something you want to think about until it's behind you, if it ever is.",
+					"stats": {
+						"football": {
+							"accuracy": 1
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 1
+				}
+			]
 		},
 		{
 			"id": "PRO_517",
 			"title": "The Documentary Premiere",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "The documentary about your career premieres at a small theater downtown: a red carpet the length of a hallway, your old coaches in the third row, and a director who keeps squeezing your arm.",
 			"stages": [
 				"pro"
 			],
@@ -47204,14 +48146,62 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Watch it with the audience",
+					"result": "You sit in the audience and watch your whole life on a big screen. The parts you'd forgotten hit hardest, and you need a minute in the lobby afterwards.",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"football": {
+							"resilience": 2
+						}
+					},
+					"modifiers": [
+						"drained"
+					]
+				},
+				{
+					"label": "Skip it and watch at home",
+					"result": "At home instead, later, alone with the dog. It's easier that way, and you text the director a long message at two in the morning.",
+					"stats": {
+						"life": {
+							"energy": 2
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Bring the whole unit",
+					"result": "The snapper and {holder}, brought as your guests, in suits they complain about all night. They cheer for every kick on screen like it's live, and the audience joins in.",
+					"stats": {
+						"life": {
+							"fun": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"holder": 3
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_518",
 			"title": "A Night in the Hall",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "A quarterback you played with is inducted into the Hall of Fame, and he's asked you to introduce him. The speech has a time limit, and he has already told you not to mention the time with the goat.",
 			"stages": [
 				"pro"
 			],
@@ -47232,14 +48222,58 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Mention the goat",
+					"result": "The goat, mentioned, within the time limit. The audience roars, he covers his face, and his speech afterwards starts with 'Thanks for nothing.'",
+					"stats": {
+						"life": {
+							"fun": 3
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"followers": 2
+				},
+				{
+					"label": "Keep it serious",
+					"result": "A serious introduction, about what he was like on the hard days nobody saw. He's in tears by the end, and so is half the room.",
+					"stats": {
+						"personality": {
+							"leadership": 2,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Let his family tell it",
+					"result": "Half your time given to his children, who tell the story better than you could. It's the best introduction of the night, and he hugs you for a long time.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"football": {
+							"resilience": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_519",
 			"title": "The Hall of Fame Dinner",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "You're invited to a dinner for the league's greats, a long table in a private room, and you're the only one still playing. The others keep asking how your knees are, with genuine concern.",
 			"stages": [
 				"pro"
 			],
@@ -47260,14 +48294,59 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Listen more than you talk",
+					"result": "You listen far more than you talk, all night, to stories you'll never hear anywhere else. Driving home, you realize you've been given a map of what comes next.",
+					"stats": {
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Ask about stopping",
+					"result": "A question for the table: how did each of them know it was time? The answers go around the room, honest and funny, and the dinner runs two hours late.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Talk about the young players",
+					"result": "You talk about the young players you've seen this year, and the legends lean in. Two of them ask for names, and a week later one of them visits your club's camp.",
+					"stats": {
+						"life": {
+							"fun": 1
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_520",
 			"title": "The Final Road Game",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "family",
+			"text": "Your family comes along for what could be your last road trip: a hotel floor of relatives, a bus to the stadium, and {parent} wearing a jersey with your name spelled the old way.",
 			"stages": [
 				"pro"
 			],
@@ -47288,14 +48367,61 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Spend the evening with them",
+					"result": "An evening with the family at the hotel, room service and stories, home to your own room by ten. They talk about it for years.",
+					"stats": {
+						"life": {
+							"social": 3,
+							"energy": -1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"parent": 2
+					}
+				},
+				{
+					"label": "Keep your routine",
+					"result": "Your routine, kept exactly, with a family breakfast the morning after the game. They understand completely, and the breakfast runs until checkout.",
+					"stats": {
+						"football": {
+							"resilience": 2,
+							"accuracy": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Give them the stadium tour",
+					"result": "A tour of the stadium the afternoon before, arranged with the home team's staff. {sibling} runs out of the tunnel like a player, and nobody stops them.",
+					"stats": {
+						"life": {
+							"fun": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"sibling": 2
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_521",
 			"title": "The Team's Tribute Video",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "Your teammates and coaches have put together a tribute video, and they want to show it at the team meeting tomorrow. {holder} has warned you, quietly, to bring tissues and to sit near the door.",
 			"stages": [
 				"pro"
 			],
@@ -47316,14 +48442,69 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Watch it with everyone",
+					"result": "You watch it with the whole team, in the meeting room, with the lights off. When it ends nobody turns the lights on for a while, and that's how you know it worked.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"football": {
+							"resilience": 1
+						}
+					},
+					"modifiers": [
+						"drained"
+					],
+					"rel": {
+						"team": 2
+					}
+				},
+				{
+					"label": "Make a joke first",
+					"result": "A joke before it starts, to take the pressure off, and the room laughs. Then the video plays, and the joke doesn't help at all.",
+					"stats": {
+						"life": {
+							"fun": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 1
+					}
+				},
+				{
+					"label": "Thank {holder} for the warning",
+					"result": "Over coffee before the meeting, {holder} gets thanked for the warning. They admit they made half the video, and you sit near the door, as told.",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"personality": {
+							"intelligence": 1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"holder": 3
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_522",
 			"title": "The New Generation",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "A young kicker on another club asks you to be his mentor: a phone call a week, film by email, and the honesty nobody on his own staff gives him. He apologizes twice for asking.",
 			"stages": [
 				"pro"
 			],
@@ -47344,14 +48525,56 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Say yes",
+					"result": "Yes, and you mean it: a call every Sunday night, film every Monday, honesty always. He gets better quickly, and so does your own eye for kicking.",
+					"stats": {
+						"personality": {
+							"leadership": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Say yes, with conditions",
+					"result": "Yes, with conditions: he tells his own coaches, and he does the work before he calls. He agrees, and the conditions make the whole thing better.",
+					"stats": {
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"leadership": 1,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Point him somewhere better",
+					"result": "A kind no, and the name of a coach who'd be better for him than you right now. He's disappointed, then grateful, and the coach turns out perfect.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"social": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_523",
 			"title": "The Coaching Job",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "A club offers you a coaching job, starting the day you retire: special teams coordinator, a staff of three, and an office with a window over the practice field.",
 			"stages": [
 				"pro"
 			],
@@ -47372,14 +48595,65 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Accept for later",
+					"result": "Accepted, for whenever you're ready. Knowing the window is waiting makes the present lighter, and you start keeping a notebook of drills.",
+					"stats": {
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"set_flags": {
+						"life_after_football": true
+					}
+				},
+				{
+					"label": "Ask for a trial",
+					"result": "A trial, on your bye week, running one practice. You love it and you're bad at the whistle, and the players say you'll be great.",
+					"stats": {
+						"life": {
+							"fun": 1
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"set_flags": {
+						"life_after_football": true
+					}
+				},
+				{
+					"label": "Say coaching isn't for you",
+					"result": "Coaching isn't for you, you decide, after a long walk. You'd rather teach kids than run a staff, and the club respects the honesty.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_524",
 			"title": "The Analyst Offer",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "A network wants you as its lead football analyst once you retire: the big games, the studio, and a wardrobe person who has already asked for your measurements.",
 			"stages": [
 				"pro"
 			],
@@ -47400,14 +48674,85 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Sign for later",
+					"result": "Signed for later, with a start date that reads 'when ready'. The wardrobe person sends a swatch book, and you laugh at every page.",
+					"stats": {
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"set_flags": {
+						"life_after_football": true
+					}
+				},
+				{
+					"label": "Ask to try a broadcast",
+					"result": "One broadcast first, on a bye week, beside a veteran announcer. You're nervous and good, and the network calls the next morning with a better offer.",
+					"stats": {
+						"personality": {
+							"charisma": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"spotlight"
+					],
+					"followers": 2
+				},
+				{
+					"label": "Stay on the field",
+					"result": "No, with thanks: you'd rather be on a field than talking about one. The network says the door stays open, and you believe them.",
+					"stats": {
+						"life": {
+							"health": 1
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Bring your old producer",
+					"result": "You agree on one condition: your old radio producer comes too. The network agrees, and the two of you start planning segments over the phone like nothing ever ended.",
+					"requires": {
+						"flags": [
+							"radio_show"
+						]
+					},
+					"lock_text": "having hosted your own radio show",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"personality": {
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"set_flags": {
+						"life_after_football": true
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_525",
 			"title": "The Front Office",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "A club discusses a front-office job with you: scouting, contracts, the business side you've watched from the locker room for years. The general manager says you'd see the game from the other side of the desk.",
 			"stages": [
 				"pro"
 			],
@@ -47428,14 +48773,88 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Learn the business now",
+					"result": "A few hours a week with the front office now, learning contracts and scouting. It's fascinating and humbling, and your own negotiations will never be the same.",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"personality": {
+							"intelligence": 2,
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"set_flags": {
+						"life_after_football": true
+					}
+				},
+				{
+					"label": "Ask about the hard parts",
+					"result": "The hard parts, asked about directly: cutting players, saying no, telling a rookie it's over. The answers are honest, and they make you think for a long time.",
+					"stats": {
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"drained"
+					]
+				},
+				{
+					"label": "Decline for now",
+					"result": "Not now: you still have a leg and a job on the field. The general manager shakes your hand and says the desk will wait.",
+					"stats": {
+						"life": {
+							"energy": 1
+						},
+						"football": {
+							"power": 1
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					]
+				},
+				{
+					"label": "Ask about the integrity work",
+					"result": "You ask about the integrity side, the part you once saw up close when you reported a bookie. The general manager offers you that role specifically, and it fits.",
+					"requires": {
+						"flags": [
+							"reported_bookie"
+						]
+					},
+					"lock_text": "having reported a bookie to the league",
+					"stats": {
+						"personality": {
+							"leadership": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"set_flags": {
+						"life_after_football": true
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_526",
 			"title": "The Retirement Financial Review",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "Your financial advisor wants to review whether you're ready to stop: one meeting, every account, and a single question at the end that she's written in capital letters at the top of the page.",
 			"stages": [
 				"pro"
 			],
@@ -47457,14 +48876,88 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Answer the question honestly",
+					"result": "Every account opened, every number read aloud, and at the end you answer her question honestly. The answer is yes, and hearing it said frightens and frees you at once.",
+					"stats": {
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"drained"
+					],
+					"set_flags": {
+						"life_after_football": true
+					}
+				},
+				{
+					"label": "Bring {sibling}",
+					"result": "{sibling} comes along, because they ask better questions than you do. The meeting runs long, and {sibling} takes notes that you'll use for years.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"sibling": 2
+					}
+				},
+				{
+					"label": "Postpone the meeting",
+					"result": "Postponed, for a season, with an apology. The question waits in your inbox, polite and patient, and you think about it every time you see the envelope icon.",
+					"stats": {
+						"football": {
+							"power": 1
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"stressed"
+					]
+				},
+				{
+					"label": "Laugh at the answer",
+					"result": "She runs the numbers and laughs, because a younger you was so careful there's nothing to worry about. You drive home lighter than you've felt in years.",
+					"requires": {
+						"any_flags": [
+							"saved_rookie_check",
+							"saved_big_check",
+							"lived_modestly"
+						]
+					},
+					"lock_text": "having saved carefully all career",
+					"stats": {
+						"life": {
+							"fun": 1
+						},
+						"football": {
+							"resilience": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_527",
 			"title": "The Family's Final Request",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "family",
+			"text": "Your family asks you to spend more time at home this season: not to stop, just to be there. {parent} has written out a list of the dinners, birthdays and ordinary evenings they'd like you at.",
 			"stages": [
 				"pro"
 			],
@@ -47485,22 +48978,96 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Say yes to the whole list",
+					"result": "Yes to the whole list, every dinner and birthday you can reach. You're tired on Mondays and full on Sundays, and nobody at home has to ask twice.",
+					"stats": {
+						"life": {
+							"social": 3,
+							"energy": -2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"parent": 3
+					}
+				},
+				{
+					"label": "Choose the ones that matter most",
+					"result": "The list, gone through together, picking the ones that matter most. You make every one of those, and the family feels heard rather than scheduled.",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"rel": {
+						"parent": 2
+					}
+				},
+				{
+					"label": "Explain what this season needs",
+					"result": "An honest explanation of what this season needs from you, and a promise about the next one. They understand, mostly, and {parent} keeps the list on the fridge.",
+					"stats": {
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"stressed"
+					]
+				},
+				{
+					"label": "Plan it with your partner",
+					"result": "The list, planned with your partner on the kitchen table, colored pens and all. It becomes a calendar the whole house follows, and it works better than any coach's schedule.",
+					"requires": {
+						"any_flags": [
+							"made_long_distance_work",
+							"committed_to_relationship",
+							"new_partner",
+							"engaged",
+							"married"
+						]
+					},
+					"lock_text": "with someone at home waiting",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"love_interest": 3
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_528",
-			"title": "The Grandchild's Game",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"title": "The Big Game in the Family",
+			"category": "family",
+			"text": "{sibling}'s youngest has a big game on the same weekend as a road trip and has asked whether you'll be there. The question came by text, with three exclamation marks and a photo of a homemade sign.",
 			"stages": [
 				"pro"
 			],
 			"once": true,
 			"requires": {
-				"flags": [
-					"became_parent"
-				],
 				"min": {
 					"age": 42
 				}
@@ -47509,21 +49076,69 @@
 			"authoring": {
 				"chain": "Seed list",
 				"group": "Era 6: Hall of Fame Era (42+)",
-				"premise": "A grandchild wants you at an important game.",
+				"premise": "{sibling}'s youngest has a big game and wants you there.",
 				"people": [],
 				"kind": "once",
 				"waits_on": [
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Get there somehow",
+					"result": "A red-eye flight, a rental car, and the second half of the game from the front row of the bleachers. The kid sees you and waves the sign, and you're on a plane again by dawn.",
+					"stats": {
+						"life": {
+							"social": 2,
+							"energy": -3
+						}
+					},
+					"modifiers": [
+						"drained"
+					],
+					"rel": {
+						"sibling": 3
+					}
+				},
+				{
+					"label": "Watch on a video call",
+					"result": "On a video call from the team hotel, with {sibling} holding the phone up to the field. You cheer so loud the specialists in the next room bang on the wall.",
+					"stats": {
+						"life": {
+							"fun": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"sibling": 1
+					}
+				},
+				{
+					"label": "Send a message for the locker room",
+					"result": "A recorded message for their locker room before the game. The coach plays it, the kids go wild, and the youngest tells everyone at school about it for a month.",
+					"stats": {
+						"personality": {
+							"leadership": 2,
+							"charisma": 1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_529",
 			"title": "The Hometown Celebration",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "Your hometown throws a celebration of your career: a parade on Main Street, the high school band, and a stage outside the hardware store where you bought your first kicking tee.",
 			"stages": [
 				"pro"
 			],
@@ -47544,14 +49159,61 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Ride in the parade",
+					"result": "The parade, ridden in the back of an old convertible, waving at people you went to school with. The band plays the fight song badly, and it's perfect.",
+					"stats": {
+						"life": {
+							"fun": 2,
+							"social": 2
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"followers": 2
+				},
+				{
+					"label": "Speak from the stage",
+					"result": "A speech from the stage outside the hardware store, about the people on Main Street who gave you rides, meals and second chances. Half the crowd is crying by the end.",
+					"stats": {
+						"personality": {
+							"charisma": 2,
+							"leadership": 1,
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"followers": 3
+				},
+				{
+					"label": "Spend the day at the old field",
+					"result": "Most of the day at your old high school field, kicking with kids from the youth league. You miss half the parade and nobody minds at all.",
+					"stats": {
+						"life": {
+							"fun": 1
+						},
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_530",
 			"title": "The Hall Visit",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "You visit the Hall of Fame on an off day, alone, and stand in front of the wall of kickers. A family nearby recognizes you and goes very quiet, and the little girl asks whether you're going up there too.",
 			"stages": [
 				"pro"
 			],
@@ -47572,14 +49234,61 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Tell her you don't know",
+					"result": "You don't know, you tell her honestly, and it doesn't matter as much as she thinks. She looks unconvinced, and her father thanks you quietly.",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"football": {
+							"resilience": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Give her a tour of the wall",
+					"result": "A tour of the wall for the family, a story for every kicker on it. By the end there's a small crowd following you, and the museum staff bring you a chair.",
+					"stats": {
+						"life": {
+							"fun": 1
+						},
+						"personality": {
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"followers": 2
+				},
+				{
+					"label": "Stand there a while longer",
+					"result": "You stand there a while longer after they leave, reading every plaque. The quiet does something to you that no stadium ever has.",
+					"stats": {
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"intelligence": 2,
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"drained"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_531",
 			"title": "The Historic Stadium Return",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "An exhibition game is scheduled at the college stadium where you played before the pros. The groundskeeper is the same, the scoreboard is new, and the old kicking net is still behind the end zone.",
 			"stages": [
 				"pro"
 			],
@@ -47600,14 +49309,80 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Kick into the old net",
+					"result": "A few kicks into the old net before warmups, alone, the way you did at nineteen. The groundskeeper watches from his cart and gives you a thumbs-up.",
+					"stats": {
+						"football": {
+							"resilience": 2,
+							"accuracy": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Visit the college team",
+					"result": "A visit to the college team's locker room, where you talk to the specialists for twenty minutes. One of them has your old locker and shows you what's carved inside.",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"personality": {
+							"leadership": 2,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Bring the old roommates",
+					"result": "Your old college roommates, invited and seated together in the stands. They make a sign with your college nickname on it, and the cameras find it.",
+					"stats": {
+						"life": {
+							"fun": 2,
+							"social": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"best_friend": 2
+					}
+				},
+				{
+					"label": "Find the coach who said you were ready",
+					"result": "The coach who told you, years ago, that you were ready for the pros is in the press box. You climb up to find them, and neither of you says much at first.",
+					"requires": {
+						"flags": [
+							"ready_for_pros"
+						]
+					},
+					"lock_text": "having been told in college you were ready",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_532",
 			"title": "The Final Training Camp",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "training",
+			"text": "Another camp, and you wonder how many remain. The dormitory hallway smells the same, the rookies are louder than ever, and your body needs twenty minutes to agree to get out of bed.",
 			"stages": [
 				"pro"
 			],
@@ -47628,14 +49403,62 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Enjoy every small thing",
+					"result": "Every small thing, enjoyed on purpose: the cafeteria eggs, the late-night meetings, the bad jokes on the bus. It's the happiest camp you've had in years.",
+					"stats": {
+						"life": {
+							"fun": 2
+						},
+						"football": {
+							"resilience": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					]
+				},
+				{
+					"label": "Train smarter than ever",
+					"result": "Smarter than ever: fewer reps, more recovery, every session planned to the minute. Your leg is fresher on the last day of camp than on the first.",
+					"stats": {
+						"life": {
+							"health": 1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Look after the rookies",
+					"result": "The rookies, looked after: rides, advice, an ear for the homesick ones. You become camp's unofficial dorm parent, and the coaches let it happen.",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"team": 2
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_533",
 			"title": "The Rookie's Question",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "A rookie asks you, sitting on the bench after practice, how you lasted this long. He's genuinely curious and a little worried, as though the answer might be something he can't do.",
 			"stages": [
 				"pro"
 			],
@@ -47656,14 +49479,82 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Tell him the boring truth",
+					"result": "The boring truth: sleep, hips, the same routine every day, and saying no to most things. He looks disappointed, then writes it all down.",
+					"stats": {
+						"personality": {
+							"intelligence": 2,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"backup": 2
+					}
+				},
+				{
+					"label": "Tell him about the luck",
+					"result": "The luck, honestly: the injuries that missed you, the coaches who kept faith, the timing. He nods slowly, and it seems to take some weight off him.",
+					"stats": {
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Tell him about the people",
+					"result": "The people: the holders, the trainers, the family who drove you to camps. He calls his own family that night, and tells you about it the next day.",
+					"stats": {
+						"life": {
+							"social": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Tell him about the package",
+					"result": "The story of the package left in your locker years ago, and the phone call you made instead of keeping it. He goes quiet, and says he'll remember it.",
+					"requires": {
+						"flags": [
+							"reported_package"
+						]
+					},
+					"lock_text": "having turned in a package you were sent",
+					"stats": {
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"backup": 1
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_534",
 			"title": "The Veteran's Legacy",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "You've been asked to speak to a room of young athletes from every sport: three hundred teenagers, a microphone, and an organizer who says you can talk about anything except the weather.",
 			"stages": [
 				"pro"
 			],
@@ -47684,14 +49575,59 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Talk about failing",
+					"result": "Fifteen minutes about failing: the misses, the cuts, the years you almost quit. The room is silent, and the line afterwards to talk to you goes out the door.",
+					"stats": {
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"followers": 2
+				},
+				{
+					"label": "Answer their questions instead",
+					"result": "No speech at all: just questions from the room, for an hour. They ask brilliant, strange things, and you answer every one honestly.",
+					"stats": {
+						"personality": {
+							"charisma": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Bring a teammate along",
+					"result": "A younger teammate brought along to share the stage, so the kids hear from someone closer to their age. He's terrified and wonderful, and they love him.",
+					"stats": {
+						"life": {
+							"social": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 1
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_535",
 			"title": "The Final Free Agency",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "The first week at a new club, after a spring nobody expected you to survive. The coaches are curious, the rookies are amazed, and the local paper has run a headline with the word 'ageless' in it.",
 			"stages": [
 				"pro"
 			],
@@ -47724,14 +49660,66 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Prove the headline right",
+					"result": "Every kick in the first week, clean and quiet, with no speeches. By Friday the coaches have stopped being curious and started being grateful.",
+					"stats": {
+						"football": {
+							"accuracy": 1
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Make friends fast",
+					"result": "The whole building, learned by name in three days, including the cooks. The new place feels like home by the first game, which at your age is a gift.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"team": 2
+					}
+				},
+				{
+					"label": "Be honest about the spring",
+					"result": "An honest talk with the special teams coach about the spring of waiting. He listens, and says he'll never take you for granted, and he doesn't.",
+					"stats": {
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"drained"
+					],
+					"rel": {
+						"coach": 2
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_536",
 			"title": "Planning the Goodbye",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "You start planning how you'd announce it, if you did: a notebook on the kitchen table with three pages of options, crossed out, rewritten and crossed out again, and a mug of cold coffee.",
 			"stages": [
 				"pro"
 			],
@@ -47752,14 +49740,67 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Write the letter",
+					"result": "A letter, written over a week, to everyone who helped: coaches, families, fans, the snapper. It sits in a drawer, finished, waiting for its day.",
+					"stats": {
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"intelligence": 2,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"drained"
+					],
+					"set_flags": {
+						"planning_retirement": true
+					}
+				},
+				{
+					"label": "Plan a quiet goodbye",
+					"result": "A quiet goodbye, planned: one press release, one last walk around the field, and dinner with the people who matter. It feels right the moment you write it.",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"football": {
+							"resilience": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"set_flags": {
+						"planning_retirement": true
+					}
+				},
+				{
+					"label": "Close the notebook",
+					"result": "The notebook, closed, and put on a high shelf. Not yet. You go to practice and kick like someone with no notebook at all.",
+					"stats": {
+						"football": {
+							"power": 1
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 1
+				}
+			]
 		},
 		{
 			"id": "PRO_537",
 			"title": "The Final Season Decision",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "You decide whether to keep going. The season is over, the house is quiet, and the decision sits on the kitchen table between the salt shaker and a stack of mail you haven't opened.",
 			"stages": [
 				"pro"
 			],
@@ -47783,14 +49824,93 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Keep going",
+					"result": "Keep going, you decide, on a long walk in the cold. Your leg is still a leg, and you want to find out how far it goes.",
+					"stats": {
+						"football": {
+							"toughness": 1
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"set_flags": {
+						"chose_one_more_year": true
+					}
+				},
+				{
+					"label": "Stop",
+					"result": "Stop, you decide, in the quiet of the kitchen. It's the hardest and easiest decision of your life, and you sleep for twelve hours afterwards.",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"football": {
+							"resilience": 2
+						}
+					},
+					"modifiers": [
+						"drained"
+					],
+					"set_flags": {
+						"planning_retirement": true
+					}
+				},
+				{
+					"label": "Give it until spring",
+					"result": "Until spring, you decide, with no announcements and no deadlines. The body and the heart can argue it out while you rest.",
+					"stats": {
+						"life": {
+							"health": 2
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Decide it together",
+					"result": "Together, at the kitchen table, with your partner and two cups of tea. Whatever you choose, you choose it as two people, and that's what you remember.",
+					"requires": {
+						"any_flags": [
+							"made_long_distance_work",
+							"committed_to_relationship",
+							"new_partner",
+							"engaged",
+							"married"
+						]
+					},
+					"lock_text": "with someone at home to decide with",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"love_interest": 3
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_538",
 			"title": "The Former Coach's Recognition",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "An old coach credits you publicly for your longevity, in a long interview that runs on the front of the sports section: the habits, the honesty, the way you treated the people nobody films.",
 			"stages": [
 				"pro"
 			],
@@ -47811,14 +49931,61 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Call to thank them",
+					"result": "That afternoon you ring them to say thank you. They laugh and say they only told the truth, and then talk about your first camp for half an hour.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"coach": 1
+					}
+				},
+				{
+					"label": "Frame the article",
+					"result": "The article, framed and hung in your hallway, where you'll see it every morning. Some days it's the reason you get in the car.",
+					"stats": {
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Credit them back",
+					"result": "A short public reply, crediting the coach for teaching you the habits in the first place. The two articles run side by side online, and coaches everywhere share them.",
+					"stats": {
+						"personality": {
+							"leadership": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"followers": 2
+				}
+			]
 		},
 		{
 			"id": "PRO_539",
 			"title": "The All-Time Greats Dinner",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "A legend of the game invites you to a private dinner at his home with a few others like him: no cameras, no phones, a long table, and a rule that nobody talks about statistics.",
 			"stages": [
 				"pro"
 			],
@@ -47839,7 +50006,51 @@
 					"R1 no age cap"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Listen to every story",
+					"result": "Every story, listened to, all night long, from men who played before you were born. You drive home at midnight feeling like you've been handed something to keep.",
+					"stats": {
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Tell your own",
+					"result": "One story of your own, about the hardest week of your career. The table goes quiet, then the legend raises his glass of water to you, and the others follow.",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"personality": {
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Help in the kitchen",
+					"result": "The evening spent helping the legend's wife in the kitchen, plating dessert and hearing the stories that never made the papers. They're the best ones.",
+					"stats": {
+						"life": {
+							"fun": 2,
+							"social": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_551",
