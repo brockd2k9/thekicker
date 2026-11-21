@@ -50,3 +50,17 @@ func test_path_is_8_points_in_screen_heights() -> void:
 	var p: Array = Drill._path(s)
 	eq(p.size(), 8, "8 points")
 	eq(p[7], [0.0, 0.5], "half a screen up")
+
+
+func test_drill_kicks_are_not_recorded() -> void:
+	var before := JSON.stringify(GameState.stats.to_dict()) if GameState.stats.has_method("to_dict") else ""
+	var attempts := GameState.attempts
+	var r := KickReport.new()
+	r.mode = &"thumb_drill"
+	r.made = true
+	r.distance_yards = 40
+	GameState._on_kick_resolved(r)
+	eq(GameState.attempts, attempts, "not a session attempt")
+	if before != "":
+		eq(JSON.stringify(GameState.stats.to_dict()), before, "My Stats unchanged")
+	check(&"thumb_drill" in GameState.UNRECORDED_MODES, "the drill is a measurement")

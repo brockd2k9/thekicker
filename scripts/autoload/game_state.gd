@@ -82,7 +82,15 @@ func report_career_event(e: Dictionary) -> void:
 	save_game()
 
 
+## Kick modes that are measurements, not play: the Thumb Drill and the
+## real-swipe sample tool. Their kicks still go out on kick_resolved (the drill
+## records them) but never count in My Stats, the session streak or achievements.
+const UNRECORDED_MODES := [&"thumb_drill", &"kick_sample"]
+
+
 func _on_kick_resolved(r: KickReport) -> void:
+	if r.mode in UNRECORDED_MODES:
+		return
 	record_attempt(r.distance_yards, r.pressure, r.outcome)
 	stats.record_kick(r)
 	stats_changed.emit()
