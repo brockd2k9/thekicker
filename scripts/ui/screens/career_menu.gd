@@ -20,6 +20,10 @@ func _build(col: VBoxContainer) -> void:
 		list.add_child(_slot_panel(slot))
 	list.add_child(UiKit.button("How Career Mode Works", Screens.go.bind(Screens.CAREER_TUTORIAL),
 		UiKit.SECONDARY, "info"))
+	# The thumb-measuring drill (calibration): in every build, so it works in
+	# the web build and a release APK too. Remove once the swipe model is fitted.
+	list.add_child(UiKit.button("Thumb Drill (calibration)", Screens.go.bind(Screens.CAREER_DRILL),
+		UiKit.SECONDARY, "accuracy"))
 	if OS.is_debug_build():
 		list.add_child(UiKit.button("Debug: Career Tuning", Screens.go.bind(Screens.CAREER_DEBUG),
 			UiKit.SECONDARY, "settings"))

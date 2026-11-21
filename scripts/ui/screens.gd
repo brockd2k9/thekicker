@@ -32,6 +32,7 @@ const SETTINGS := "res://scenes/screens/settings.tscn"
 ## Debug builds only: edit career stats and watch the kick profile.
 const CAREER_DEBUG := "res://scenes/screens/career_debug.tscn"
 const CAREER_DEBUG_KICKS := "res://scenes/screens/career_debug_kicks.tscn"
+const CAREER_DRILL := "res://scenes/screens/career_drill.tscn"
 
 
 static func go(path: String) -> void:

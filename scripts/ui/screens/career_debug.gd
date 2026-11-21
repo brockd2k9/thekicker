@@ -67,6 +67,7 @@ func _build(col: VBoxContainer) -> void:
 	bottom.add_theme_constant_override("separation", 12)
 	col.add_child(bottom)
 	for b in [UiKit.button("Try Kicks", Screens.go.bind(Screens.CAREER_DEBUG_KICKS)),
+			UiKit.button("Thumb Drill", Screens.go.bind(Screens.CAREER_DRILL)),
 			UiKit.button("Back", go_back)]:
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		bottom.add_child(b)
