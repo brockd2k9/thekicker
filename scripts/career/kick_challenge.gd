@@ -27,7 +27,7 @@ const PRESSURES := ["low", "medium", "high"]
 const WINDS := ["calm", "breezy", "windy"]
 ## Fields a block (on_pass / on_fail) may hold: the choice effect fields.
 const BLOCK_FIELDS := ["result", "stats", "skill_points", "recruiting", "draft", "retention", "grades", "rel",
-	"modifiers", "set_flags", "follow_up", "followers", "followers_exact", "conduct", "deal", "suspend_weeks", "recast"]
+	"modifiers", "set_flags", "follow_up", "followers", "followers_exact", "conduct", "deal", "suspend_weeks", "recast", "money"]
 const SP_SOURCE := "Challenge"
 
 

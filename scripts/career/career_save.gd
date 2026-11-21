@@ -138,6 +138,14 @@ static func _migrate(d: Dictionary) -> Dictionary:
 		d["followers"] = int(d.get("followers", n))
 		d["social"] = {"peak": n, "best_tier": Followers.tier_of(n, t)}
 		v = 7
+	# Version 7 -> 8: savings. Old saves start with an estimate from the pro
+	# seasons already played (Savings.migrate_start).
+	if v < 8:
+		var t := CareerTuning.get_default()
+		var est := Savings.migrate_start(d, t)
+		d["savings"] = int(d.get("savings", est))
+		d["money_log"] = {"salary": est, "peak": est}
+		v = 8
 	if v > CareerData.VERSION:
 		push_warning("CareerSave: career is from a newer version (%d)" % v)
 	d["career_version"] = CareerData.VERSION

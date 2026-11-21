@@ -777,6 +777,12 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var good_habits_sp: int = 1
 @export var good_habits_season_cap: int = 3
 
+@export_group("Savings")
+## Savings (scripts/career/savings.gd): each pro season's salary goes in at the
+## season end, minus taxes and the agent's fee (shares of the salary).
+@export_range(0.0, 0.8) var savings_tax_rate: float = 0.37
+@export_range(0.0, 0.2) var savings_agent_fee: float = 0.03
+
 @export_group("Stadiums")
 ## Stadiums (scripts/career/stadiums.gd): the home team's stadium by stage.
 ## High school always plays at night; these are the night shares elsewhere

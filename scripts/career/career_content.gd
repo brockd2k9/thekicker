@@ -244,6 +244,7 @@ static func _check_followers(problems: PackedStringArray, where: String, ch: Dic
 		var rc: Variant = ch["recast"]
 		if not (rc is Array) or (rc as Array).any(func(x: Variant) -> bool: return not (str(x) in Relationships.ids())):
 			problems.append("%s: recast must be a list of cast ids" % where)
+	problems.append_array(Savings.problems(where, ch))
 	if ch.has("conduct") and not (str(ch["conduct"]) in ["good", "bad", "scandal"]):
 		problems.append("%s: conduct must be good, bad or scandal" % where)
 	if ch.has("deal"):
@@ -351,7 +352,7 @@ static func validate() -> PackedStringArray:
 			for g in ch.get("stats", {}):
 				n_stats += (ch["stats"][g] as Dictionary).size() if ch["stats"][g] is Dictionary else 0
 			n_stats += (ch.get("rel", {}) as Dictionary).size() if ch.get("rel") is Dictionary else 0
-			for k in ["followers", "followers_exact", "conduct", "deal", "suspend_weeks", "recast"]:
+			for k in ["followers", "followers_exact", "conduct", "deal", "suspend_weeks", "recast", "money"]:
 				n_stats += 1 if ch.has(k) else 0
 			n_stats += 1 if ch.has("kick_challenge") else 0
 			_check_followers(problems, "scenario %s choice '%s'" % [id, ch.get("label", "")], ch)

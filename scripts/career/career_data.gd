@@ -8,7 +8,7 @@ extends RefCounted
 ## Stats are floats 0..100 (gains can be fractional); screens show them rounded.
 ## When the layout changes: bump VERSION and add a step to CareerSave._migrate().
 
-const VERSION := 7
+const VERSION := 8
 
 const STAGE_HIGH_SCHOOL := "high_school"
 const STAGE_JUCO := "juco"
@@ -196,6 +196,10 @@ var followers: int = 0
 ## {text: followers}, week [{text, n, buzz}] (this week's Results lines),
 ## deals [{id, name, kind, value, seasons_left}], virals, sp_season}.
 var social: Dictionary = {}
+## Savings / net worth in dollars (Savings): a score and a story hook only.
+var savings: int = 0
+## Where it came from: {salary, choices_in, choices_out, peak}.
+var money_log: Dictionary = {}
 ## The last kick challenge's outcome, for the tryout screen's result:
 ## {passed, made, kicks, need, perfect, title, scenario, out}.
 var last_challenge: Dictionary = {}
@@ -273,7 +277,7 @@ func stat(key: String) -> float:
 ## (a relationship value, e.g. "rel_coach"; 50 for someone not in the cast now).
 const METRICS := ["recruiting", "draft", "retention", "gpa", "age", "followers",
 	"slump_now", "benched_now", "injured_now", "fg_streak", "season_fg_pct", "pro_seasons",
-	"contract_years_left", "clubs"]
+	"contract_years_left", "clubs", "savings"]
 
 
 func metric(key: String) -> float:
@@ -309,6 +313,8 @@ func metric(key: String) -> float:
 			return float(int(contract.get("years_left", 0)))
 		"clubs":
 			return float(pro_clubs().size())
+		"savings":
+			return float(savings)
 	if key.begins_with("rel_"):
 		return Relationships.value(self, key.substr(4))
 	return stat(key)
@@ -429,6 +435,8 @@ func to_dict() -> Dictionary:
 		"kick_log": kick_log.duplicate(true),
 		"followers": followers,
 		"social": social.duplicate(true),
+		"savings": savings,
+		"money_log": money_log.duplicate(true),
 		"last_challenge": last_challenge.duplicate(true),
 		"suspension": suspension.duplicate(),
 		"suspensions_total": suspensions_total,
@@ -537,6 +545,8 @@ static func from_dict(d: Dictionary) -> CareerData:
 			c.kick_log.append(e)
 	c.followers = maxi(_num(d, "followers"), 0)
 	c.social = _dict(d, "social")
+	c.savings = maxi(_num(d, "savings"), 0)
+	c.money_log = _dict(d, "money_log")
 	c.last_challenge = _dict(d, "last_challenge")
 	c.suspension = _dict(d, "suspension")
 	c.suspensions_total = maxi(_num(d, "suspensions_total"), 0)

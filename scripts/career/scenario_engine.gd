@@ -83,6 +83,10 @@ static func requirement_text(req: Dictionary) -> String:
 			parts.append(Followers.tier_label(i, CareerTuning.get_default()))
 	if req.has("min") and (req["min"] as Dictionary).has("followers"):
 		parts.append("%s followers" % Followers.round_count(int(req["min"]["followers"])))
+	if req.has("min") and (req["min"] as Dictionary).has("savings"):
+		parts.append("%s saved" % Savings.text(int(req["min"]["savings"])))
+	if req.has("max") and (req["max"] as Dictionary).has("savings"):
+		parts.append("under %s saved" % Savings.text(int(req["max"]["savings"]) + 1))
 	for t in req.get("traits", []):
 		parts.append(_trait_name(t))
 	var any_t: Array = req.get("any_traits", [])
@@ -332,6 +336,7 @@ static func apply_effects(c: CareerData, ch: Dictionary, tuning: CareerTuning, r
 		mods.append(str(m))
 	var rel := Relationships.apply(c, ch.get("rel", {}))
 	var fans := Followers.from_choice(c, ch, tuning)
+	var money := Savings.from_choice(c, ch)
 	var set_flags: Dictionary = ch.get("set_flags", {})
 	for f in set_flags:
 		c.flags[f] = set_flags[f]
@@ -349,7 +354,8 @@ static func apply_effects(c: CareerData, ch: Dictionary, tuning: CareerTuning, r
 		c.queued_scenarios.append({"id": follow, "due": c.week_index + maxi(int(fu.get("weeks", 1)), 1)})
 	return {"applied": applied, "new_traits": applied.get("new_traits", []),
 		"result": str(ch.get("result", "")), "modifiers": mods, "follow_up": follow,
-		"progress": progress, "relationships": rel, "skill_points": sp, "followers": fans}
+		"progress": progress, "relationships": rel, "skill_points": sp, "followers": fans,
+		"money": money}
 
 
 ## A choice's stat changes with the football ones scaled by

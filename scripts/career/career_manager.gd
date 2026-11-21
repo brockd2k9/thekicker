@@ -811,10 +811,13 @@ func end_season() -> void:
 			else:
 				_begin_offseason()
 		CareerData.STAGE_PRO:
+			# The season's pay, after taxes and the agent's fee (Savings).
+			h["pay"] = Savings.pay_season(data, tuning)
 			data.retention_bonus += float(fans["progress"]) + tuning.retention_maintained * preserved
 			data.retention_score = Progression.retention(data, tuning)
 			h["retention"] = data.retention_score
 			_pro_season_end()
+	h["savings"] = data.savings
 	var res := career_result()
 	_event({"event": "season_end", "seasons": res["seasons"], "rank": res["rank"], "result_text": res["text"]})
 	save()
