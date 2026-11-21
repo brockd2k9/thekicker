@@ -11,14 +11,14 @@ Dry run and import: 13 written, 0 errors, 0 warnings, 0 lint notes.
 - **Cast:** {love_interest}  
 - **Premise:** The new contract is in {town}. Your partner has a job and friends where you live now.
 
-The new contract is in {town}. Your partner has a job, friends and a garden where you live now, and the moving company has sent a quote that is mostly zeros.
+The new contract is in {town}. Your friends, your routines and your favorite diner are all where you live now, and the moving company has sent a quote that is mostly zeros.
 
-1. **Move everyone together**: Everyone moves together to {town}, boxes and plants and all. It's hard on your partner for months, and the new house has a bigger garden, which helps more than either of you expected.  
-   *(energy -2; toughness +1; leadership +2; {love_interest} +2; modifier drained)*
+1. **Move everyone together**: Everything moves to {town} at once, boxes and plants and all. It's a hard month of unpacking alone, and the new place has a bigger yard, which helps more than you expected.  
+   *(energy -2; toughness +1; leadership +2; modifier drained)*
 2. **Go alone for the season**: You go alone for the season and fly home every bye week, while {sibling} checks on the house. It's lonely and practical, and the nightly calls get longer as the weeks go by.  
    *(resilience +2; ambition +1; {sibling} +2; modifier stressed)*
-3. **Let your partner decide**: You leave the decision to your partner and mean it. They choose to come, for reasons of their own they explain over dinner, and you're grateful for it every single day.  
-   *(social +2; charisma +1; {love_interest} +3; modifier inspired)*
+3. **Bring {parent} for the first month**: {parent} comes with you for the first month to help you settle in. Together you find the grocery store, the good bakery and a dentist, and the new city stops feeling foreign.  
+   *(social +2; charisma +1; {parent} +3; modifier inspired)*
 
 ### PRO_046 The Family Stays Behind
 - **Category:** family  
@@ -26,10 +26,10 @@ The new contract is in {town}. Your partner has a job, friends and a garden wher
 - **Cast:** {love_interest}, {parent}  
 - **Premise:** You'll be in {town} during the season, and your family will be a flight away.
 
-You'll be in {town} during the season, and your family will be a flight away. The kids have drawn you a calendar with every visit marked in a different color of crayon.
+You'll be in {town} during the season, and your family will be a flight away. {sibling}'s kids have drawn you a calendar with every visit marked in a different color of crayon.
 
 1. **Fly home every off day**: A flight home on every off day, even for a single night. You're tired all season, your legs feel the travel, and you never miss a birthday or a school play.  
-   *(social +2; energy -3; {love_interest} +3; modifier drained)*
+   *(social +2; energy -3; {sibling} +3; modifier drained)*
 2. **Call every night at seven**: Seven o'clock, every night, on video, with homework help and bedtime stories, and {parent} filling in on the nights you can't. The kids set alarms for it.  
    *(resilience +2; intelligence +1; {parent} +2; modifier rested)*
 3. **Bring them for a month**: The whole family comes to {town} for a month in the middle of the season. The apartment is crowded and loud and wonderful, and the kids learn every song the crowd sings.  
@@ -167,7 +167,7 @@ You've been home eleven nights since August, and your partner has stopped asking
 
 1. **Talk about it tonight**: Tonight, on the phone, for two hours: everything, including the part that scares you both. It doesn't fix anything yet, and it's the honest start of fixing it.  
    *(social +2; resilience +1; {love_interest} +3; modifier drained)*
-2. **Plan real time together**: Real time, planned: the bye week, the offseason, and one night a week with no phones while {parent} takes the kids. It helps, slowly, and you both stop counting the nights.  
+2. **Plan real time together**: Real time, planned: the bye week, the offseason, and one night a week with no phones while {parent} keeps an eye on the house. It helps, slowly, and you both stop counting the nights.  
    *(intelligence +2; leadership +1; {parent} +2; modifier focused)*
 3. **Push through to the offseason**: Through to the offseason, you tell yourself, and you pour everything into kicking instead. The distance at home grows another inch, and you can feel it in every short call.  
    *(accuracy +1; ambition +2; {love_interest} -3; modifier stressed; sets `marriage_strained`)*
@@ -206,5 +206,5 @@ The league and the union are fighting over the next agreement, and the owners ar
 
 #### Flags this batch sets, and what they open
 
-- `honest_advisor` (from PRO_067) → PRO_058 The Advisor With the Yacht (locked choice); PRO_058 The Advisor With the Yacht (planned locked choice); PRO_061 The Restaurant (locked choice); PRO_062 The Restaurant Is Failing (locked choice); PRO_062 The Restaurant Is Failing (planned locked choice); PRO_065 The Start-Up Calls (locked choice); PRO_065 The Start-Up Calls (planned locked choice); PRO_371 The Financial Mistake (locked choice)
+- `honest_advisor` (from PRO_067) → PRO_058 The Advisor With the Yacht (locked choice); PRO_058 The Advisor With the Yacht (planned locked choice); PRO_061 The Restaurant (locked choice); PRO_062 The Restaurant Is Failing (locked choice); PRO_062 The Restaurant Is Failing (planned locked choice); PRO_065 The Start-Up Calls (locked choice); PRO_065 The Start-Up Calls (planned locked choice); PRO_234 The Partner Who Cheats You (locked choice); PRO_371 The Financial Mistake (locked choice)
 - `marriage_strained` (from PRO_096) → PRO_163 The Divorce

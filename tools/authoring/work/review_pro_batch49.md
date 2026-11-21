@@ -52,8 +52,8 @@ You're inactive this week. Your name is on the board in the locker room with a t
    *(resilience +1; leadership +2; Team +2; {coach} +1; modifier inspired)*
 2. **Train like it's a tryout**: An empty field after practice and kicks until it's too dark to see the posts. If they bring you back, you'll be sharper than you were, and your legs feel every one of them.  
    *(energy -3; power +1; ambition +2; 2 SP; modifier dialed_in)*
-3. **Spend the game at home**: You watch the game from your couch with {love_interest}, which is strange and quiet. You're surprised how much it helps to be away from the building for one afternoon.  
-   *(energy +2; social +1; resilience +1; {love_interest} +2; modifier rested)*
+3. **Spend the game at home**: You watch the game from your couch with {best_friend}, which is strange and quiet. You're surprised how much it helps to be away from the building for one afternoon.  
+   *(energy +2; social +1; resilience +1; {best_friend} +2; modifier rested)*
 
 ### PRO_019 The Job Back
 - **Category:** team  
@@ -172,14 +172,14 @@ Every kick in practice now feels like a negotiation: it's your contract year, th
 - **Cast:** (no cast)  
 - **Premise:** The club wants you back. Your agent wants to wait for the market.
 
-The club wants you back and makes an offer on the last day of the season. Your agent wants to wait for the market. Your family wants to know where they'll live in September.
+The club wants you back and makes an offer on the last day of the season. Your agent wants to wait for the market. {parent} wants to know which city to send the birthday cards to.
 
-1. **Sign quickly**: You sign within the week. Your agent sighs loudly about the money left on the table, and your family exhales and starts planning the summer around a house they already love.  
-   *(social +1; resilience +2; **retention +1**; {love_interest} +2; modifier rested)*
+1. **Sign quickly**: You sign within the week. Your agent sighs loudly about the money left on the table, and {parent} exhales and starts planning a summer visit to a city they already love.  
+   *(social +1; resilience +2; **retention +1**; {parent} +2; modifier rested)*
 2. **Test the market**: You test the market for two weeks. A rival club calls, and your own club improves its offer by a little and its respect for you by a lot. The waiting costs you sleep.  
    *(ambition +2; intelligence +1; modifier stressed)*
-3. **Decide at the kitchen table**: You make the decision at the kitchen table with the whole family, kids included. Staying wins, for reasons that have nothing to do with money, and everyone feels heard.  
-   *(social +2; leadership +1; {love_interest} +3; modifier inspired)*
+3. **Decide at the kitchen table**: You make the decision at {parent}'s kitchen table, with {sibling} on speakerphone. Staying wins, for reasons that have nothing to do with money, and everyone feels heard.  
+   *(social +2; leadership +1; {sibling} +3; modifier inspired)*
 
 ### PRO_043 New Club, New Locker Room
 - **Category:** team  

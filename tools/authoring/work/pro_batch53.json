@@ -1,0 +1,1173 @@
+{
+  "_about": "PRO batch 53: the cross-era pool, set B.",
+  "scenarios": [
+    {
+      "id": "PRO_165",
+      "title": "The Search",
+      "category": "career",
+      "text": "League testers arrive unannounced on a Tuesday and ask to see your locker and your gym bag. The package from the private gym trainer is still in the side pocket, exactly where you left it.",
+      "choices": [
+        {
+          "label": "Tell them before they look",
+          "result": "Before they unzip anything, you speak up and hand it over yourself. The league suspends you anyway, and the testers note in their report that you came forward first.",
+          "stats": {
+            "life": {
+              "fun": -2
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "set_flags": {
+            "pro_caught_with_package": true
+          },
+          "conduct": "scandal",
+          "suspend_weeks": 4,
+          "retention": -3,
+          "followers": -3
+        },
+        {
+          "label": "Ask for the union lawyer",
+          "result": "Not a word until the union lawyer arrives, you insist, and the testers wait in the hallway. The case is handled properly and slowly, and the suspension still comes in the spring.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "pro_caught_with_package": true
+          },
+          "conduct": "scandal",
+          "suspend_weeks": 6,
+          "retention": -4,
+          "followers": -4
+        },
+        {
+          "label": "Say it isn't yours",
+          "result": "You say it isn't yours, which nobody believes, least of all the trainer's text messages. The suspension is the longest the league can give, and every sponsor leaves by Friday.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "charisma": 1,
+              "leadership": -3
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "coach": -6,
+            "team": -3
+          },
+          "set_flags": {
+            "pro_caught_with_package": true
+          },
+          "conduct": "scandal",
+          "suspend_weeks": 8,
+          "retention": -6,
+          "followers": -6
+        },
+        {
+          "label": "Call {parent} first",
+          "result": "From the trainers' room, before the testers finish, you phone {parent}. You tell the truth on the phone first, then to the league, and {parent} drives up that night to sit with you.",
+          "stats": {
+            "life": {
+              "social": 1,
+              "fun": -2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "parent": 3
+          },
+          "set_flags": {
+            "pro_caught_with_package": true
+          },
+          "conduct": "scandal",
+          "suspend_weeks": 4,
+          "retention": -3,
+          "followers": -4
+        }
+      ]
+    },
+    {
+      "id": "PRO_166",
+      "title": "The Night Before",
+      "category": "social",
+      "text": "The night before a road game, a teammate's dinner moves on to an adult club across the river, and the whole table is getting up and reaching for their jackets.",
+      "choices": [
+        {
+          "label": "Go back to the hotel",
+          "result": "Back to the hotel, alone, with a room-service sandwich and the film you meant to watch anyway. You're the sharpest player at breakfast, and nobody even teases you about it.",
+          "stats": {
+            "life": {
+              "energy": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Get the young players back",
+          "result": "You round up the two rookies and put them in a car with you. They grumble the whole ride, and in the morning one of them thanks you quietly at the bus.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "backup": 2
+          }
+        },
+        {
+          "label": "Go along",
+          "result": "You go along. The next morning there are photos online, your legs feel like sand in warmups, and {coach} doesn't say a word to you, which is worse than shouting.",
+          "stats": {
+            "life": {
+              "fun": 3,
+              "social": 2,
+              "energy": -4
+            },
+            "football": {},
+            "personality": {
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "late_night"
+          ],
+          "rel": {
+            "coach": -3
+          },
+          "set_flags": {
+            "pro_night_before": true
+          },
+          "conduct": "bad",
+          "followers": -2
+        },
+        {
+          "label": "Call {love_interest} and head back",
+          "result": "You call {love_interest} from the curb and walk back to the hotel talking. By the time you hang up you've forgotten the club existed, and you sleep well.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "health": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "love_interest": 2
+          },
+          "requires": {
+            "any_flags": [
+              "made_long_distance_work",
+              "committed_to_relationship",
+              "new_partner",
+              "engaged",
+              "married"
+            ]
+          },
+          "lock_text": "with someone waiting at home"
+        }
+      ]
+    },
+    {
+      "id": "PRO_167",
+      "title": "Late for the Meeting",
+      "category": "team",
+      "text": "The special teams meeting started at eight. It's 8:06, you're still in the parking lot, and your phone has three missed calls from the coordinator's office.",
+      "choices": [
+        {
+          "label": "Walk in and own it",
+          "result": "You walk in, apologize to the room, and sit in the back. The fine is posted on the board by lunch, and the coordinator nods at you once, which means it's over.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "set_flags": {
+            "late_fined": true
+          }
+        },
+        {
+          "label": "Pay it and laugh it off",
+          "result": "You pay the fine and make a joke about the traffic at the next meeting. The room laughs, the coordinator doesn't, and the fine gets slightly bigger next time.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "set_flags": {
+            "late_fined": true
+          }
+        },
+        {
+          "label": "Make up a story",
+          "result": "A flat tire, you tell them, which isn't true. The coordinator checks the security cameras, and the fine doubles, and now there's a note in your file with the word 'honesty' in it.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1,
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "coach": -2
+          },
+          "set_flags": {
+            "late_fined": true,
+            "pro_late_meeting": true
+          },
+          "conduct": "bad"
+        }
+      ]
+    },
+    {
+      "id": "PRO_168",
+      "title": "Late Again",
+      "category": "team",
+      "text": "Late again, by four minutes this time. {coach} is waiting outside the meeting room with the door closed behind them, and the fine isn't what the coach wants to talk about.",
+      "choices": [
+        {
+          "label": "Listen all the way through",
+          "result": "You listen all the way through without an excuse. It's a hard ten minutes about trust and standards, and at the end the coach puts a hand on your shoulder.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "coach": 2
+          },
+          "set_flags": {
+            "late_warned": true
+          }
+        },
+        {
+          "label": "Fix the real problem",
+          "result": "The truth about why comes out: the long commute, the late film nights, the broken alarm. Together you fix it, and you start arriving forty minutes early with a coffee for the coordinator.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "late_warned": true
+          }
+        },
+        {
+          "label": "Argue it was four minutes",
+          "result": "You point out it was four minutes. {coach} looks at you for a long moment, says nothing else, and walks into the meeting without you, which follows you around for weeks.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "charisma": 1,
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "coach": -4
+          },
+          "set_flags": {
+            "late_warned": true,
+            "pro_late_meeting": true
+          },
+          "conduct": "bad"
+        }
+      ]
+    },
+    {
+      "id": "PRO_169",
+      "title": "The Depth Chart Note",
+      "category": "team",
+      "text": "A third late arrival this season. There's a handwritten note taped to your locker: see {coach} before you dress. {backup} is already in the trainers' room, getting their ankles taped.",
+      "choices": [
+        {
+          "label": "Take it like a professional",
+          "result": "Like a professional, you accept the week inactive, and you hold for {backup} in warmups. The coach notices who you were in the worst week, and says so in the next meeting.",
+          "stats": {
+            "life": {
+              "fun": -2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "backup": 3
+          },
+          "set_flags": {
+            "pro_late_meeting": true
+          },
+          "conduct": "bad",
+          "suspend_weeks": 1
+        },
+        {
+          "label": "Ask what it takes to earn back trust",
+          "result": "You ask {coach} exactly what it takes to earn back their trust. The list is short and specific, and you start on it that afternoon, a week of early mornings.",
+          "stats": {
+            "life": {
+              "fun": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          },
+          "set_flags": {
+            "pro_late_meeting": true
+          },
+          "conduct": "bad",
+          "suspend_weeks": 1
+        },
+        {
+          "label": "Spend the week sulking",
+          "result": "Sulking at home all week, phone off, you stay away from everything. The team plays without you and the building moves on, faster than you expected it to.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "team": -2
+          },
+          "set_flags": {
+            "pro_late_meeting": true
+          },
+          "conduct": "bad",
+          "suspend_weeks": 1
+        }
+      ]
+    },
+    {
+      "id": "PRO_172",
+      "title": "The Investigation",
+      "category": "career",
+      "text": "Two investigators from the league office are waiting in the general manager's conference room with a thick folder and a recorder, and they've asked for you by name.",
+      "choices": [
+        {
+          "label": "Tell them everything",
+          "result": "Everything, start to finish, and then your signature on the statement. The suspension is long, and the investigators write that you cooperated fully, which matters later more than you know.",
+          "stats": {
+            "life": {
+              "fun": -3
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "team": 1
+          },
+          "set_flags": {
+            "pro_character_concerns": true
+          },
+          "conduct": "scandal",
+          "suspend_weeks": 6,
+          "retention": -4,
+          "followers": -4
+        },
+        {
+          "label": "Bring a lawyer and say little",
+          "result": "A lawyer beside you, and as few words as possible. It drags out for weeks, every word is careful, and the suspension lands anyway, slightly longer.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "pro_character_concerns": true
+          },
+          "conduct": "scandal",
+          "suspend_weeks": 8,
+          "retention": -5,
+          "followers": -5
+        },
+        {
+          "label": "Deny it",
+          "result": "You deny it, even with the phone records on the table in front of you. The suspension is the longest the league gives, and the whole locker room reads about it on the same morning.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "charisma": 1,
+              "leadership": -3
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "coach": -6,
+            "team": -4
+          },
+          "set_flags": {
+            "pro_character_concerns": true
+          },
+          "conduct": "scandal",
+          "suspend_weeks": 11,
+          "retention": -6,
+          "followers": -7
+        },
+        {
+          "label": "Call {parent} that night",
+          "result": "You cooperate, and then you call {parent} that night and tell the whole story. It's the hardest call you've made, and {parent} stays on the line until you're ready to sleep.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": -3
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "parent": 3
+          },
+          "set_flags": {
+            "pro_character_concerns": true
+          },
+          "conduct": "scandal",
+          "suspend_weeks": 6,
+          "retention": -4,
+          "followers": -5
+        }
+      ]
+    },
+    {
+      "id": "PRO_174",
+      "title": "The Hearing",
+      "category": "career",
+      "text": "A police report, a league hearing and a sponsor's lawyer, all in the same week. Your agent has cleared the calendar and keeps saying the word 'contain' on the phone.",
+      "choices": [
+        {
+          "label": "Own it publicly",
+          "result": "A short statement, in your own words, with no excuses in it. The league suspends you, the sponsors leave anyway, and a few teammates text to say they respect how you handled it.",
+          "stats": {
+            "life": {
+              "fun": -3
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "team": 1
+          },
+          "set_flags": {
+            "pro_hearing_done": true
+          },
+          "conduct": "scandal",
+          "suspend_weeks": 4,
+          "retention": -3,
+          "followers": -4
+        },
+        {
+          "label": "Let the lawyers handle it",
+          "result": "You let the lawyers handle everything and say nothing at all. It's quieter and slower, the suspension is longer, and the silence reads to the public like hiding.",
+          "stats": {
+            "life": {
+              "energy": 1,
+              "fun": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "pro_hearing_done": true
+          },
+          "conduct": "scandal",
+          "suspend_weeks": 6,
+          "retention": -4,
+          "followers": -5
+        },
+        {
+          "label": "Fight the league",
+          "result": "You fight the league's ruling through every appeal. It costs months, a lot of money and most of the goodwill you had left, and the suspension still stands at the end.",
+          "stats": {
+            "life": {},
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "ambition": 2,
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "coach": -5
+          },
+          "set_flags": {
+            "pro_hearing_done": true
+          },
+          "conduct": "scandal",
+          "suspend_weeks": 8,
+          "retention": -6,
+          "followers": -6
+        },
+        {
+          "label": "Tell {parent} before the news does",
+          "result": "You tell {parent} before the news does, in person, at the kitchen table. It's a terrible conversation, and {parent} is still there on the morning of the hearing.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": -3
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "parent": 2
+          },
+          "set_flags": {
+            "pro_hearing_done": true
+          },
+          "conduct": "scandal",
+          "suspend_weeks": 4,
+          "retention": -3,
+          "followers": -5
+        }
+      ]
+    },
+    {
+      "id": "PRO_175",
+      "title": "The Hearing, at Home",
+      "category": "family",
+      "text": "A police report, a league hearing and a sponsor's lawyer, all in the same week, and {love_interest} has read every word of it, sitting on the stairs with the paper in their lap.",
+      "choices": [
+        {
+          "label": "Tell them all of it",
+          "result": "You tell {love_interest} all of it, without softening anything. They listen, go upstairs, and close the door, and the hearing two days later feels small next to that.",
+          "stats": {
+            "life": {
+              "fun": -3
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "love_interest": -10
+          },
+          "set_flags": {
+            "pro_hearing_done": true,
+            "pro_cheated": true
+          },
+          "conduct": "scandal",
+          "suspend_weeks": 4,
+          "retention": -3,
+          "followers": -4
+        },
+        {
+          "label": "Ask for counseling",
+          "result": "You ask {love_interest} to see a counselor with you, and mean it. They agree to one appointment, only one for now, and the suspension letter arrives the same morning.",
+          "stats": {
+            "life": {
+              "social": 1,
+              "fun": -3
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "love_interest": -10
+          },
+          "set_flags": {
+            "pro_hearing_done": true,
+            "pro_cheated": true
+          },
+          "conduct": "scandal",
+          "suspend_weeks": 4,
+          "retention": -3,
+          "followers": -5
+        },
+        {
+          "label": "Minimize it",
+          "result": "You tell {love_interest} it isn't what it looks like. They've read the police report, and they look at you for a long time before packing a bag for a friend's.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "charisma": 1,
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "love_interest": -15
+          },
+          "set_flags": {
+            "pro_hearing_done": true,
+            "pro_cheated": true
+          },
+          "conduct": "scandal",
+          "suspend_weeks": 6,
+          "retention": -4,
+          "followers": -5
+        }
+      ]
+    },
+    {
+      "id": "PRO_200",
+      "title": "The Yearly Media Session",
+      "category": "media",
+      "text": "Media day, and the questions are the same as they always are: the leg, the pressure, the miss everybody still remembers. The reporters have their phones out before you sit down.",
+      "choices": [
+        {
+          "label": "Give them something new",
+          "result": "A new answer to an old question, rehearsed in the car on the way in. It runs on every channel that night, and the reporters actually look up from their phones.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "followers": 2
+        },
+        {
+          "label": "Keep it brief",
+          "result": "Short, polite and finished in eight minutes, with nothing anybody can use. You're back on the practice field before the linemen have even sat down at their tables.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Talk about the specialists",
+          "result": "You spend every answer on the snapper and {holder}, and they get their first real profile in the local paper. {holder} cuts it out and puts it on the fridge.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "holder": 2
+          }
+        },
+        {
+          "label": "Answer the question before they ask it",
+          "result": "You've heard every question so many times you answer them before they're asked, with a grin. The room laughs, the young reporters write it all down, and the session is a joy.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "followers": 3,
+          "requires": {
+            "min": {
+              "pro_seasons": 6
+            }
+          },
+          "lock_text": "after six seasons in the league"
+        }
+      ]
+    },
+    {
+      "id": "PRO_201",
+      "title": "Camp Opens",
+      "category": "team",
+      "text": "The first day of camp. The rookies are terrified and too loud, the veterans are bored and too quiet, and you're somewhere in between with a new pair of cleats that pinch.",
+      "choices": [
+        {
+          "label": "Learn the rookies' names",
+          "result": "Every rookie's name, learned by the end of the first day, and used. They stop looking terrified by Wednesday, and one of them asks you about plant-foot drills.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Get your legs under you",
+          "result": "A quiet first week of building your legs back up, slowly, with the trainers. You're the healthiest specialist in camp when the hitting starts, and you plan to stay that way.",
+          "stats": {
+            "life": {
+              "health": 2
+            },
+            "football": {
+              "power": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Set the tone early",
+          "result": "Every rep at full effort from the first whistle. The coaches notice, the other specialists pick it up, and your legs hate you by Friday.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Take {backup} under your wing",
+          "result": "You take {backup} aside on the first day and show them the things nobody showed you. It costs you an hour a day, and it's the best hour of camp.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "backup": 3
+          },
+          "requires": {
+            "min": {
+              "pro_seasons": 3
+            }
+          },
+          "lock_text": "after three seasons in the league"
+        }
+      ]
+    },
+    {
+      "id": "PRO_203",
+      "title": "The Charity Kick",
+      "category": "media",
+      "text": "The club's charity day: kids in oversized jerseys, a dozen cameras, and a field goal for every dollar raised. The organizers have put a microphone on you without asking.",
+      "choices": [
+        {
+          "label": "Kick until your leg gives out",
+          "result": "Kick after kick, until your leg is jelly and the board says the total twice what anyone hoped. The kids chant your name, and you can't lift your leg the next morning.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": -3
+            },
+            "football": {
+              "power": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "followers": 2
+        },
+        {
+          "label": "Teach the kids instead",
+          "result": "The afternoon goes to teaching the kids to kick instead. One small girl puts it through from ten yards, and the cameras catch your face when it does.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "followers": 3
+        },
+        {
+          "label": "Bring your own family",
+          "result": "You bring your own family and make it their day too, with {parent} working the face-painting tent. Nobody watches you kick, and that's perfect.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "parent": 2
+          }
+        },
+        {
+          "label": "Bring back an old charity",
+          "result": "You bring back the charity you've supported for years, and the total goes to them. Their director cries on the microphone, and the club makes it a yearly thing.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "followers": 2,
+          "requires": {
+            "min": {
+              "pro_seasons": 6
+            }
+          },
+          "lock_text": "after six seasons in the league"
+        }
+      ]
+    },
+    {
+      "id": "PRO_204",
+      "title": "Bye Week at Home",
+      "category": "family",
+      "text": "The bye week. You're home for six days, and everyone wants a piece of them: family, friends, the plumber who has been rescheduling since August, and a dog who has forgotten your face.",
+      "choices": [
+        {
+          "label": "Rest, properly",
+          "result": "You rest properly for the first three days: long sleeps, a slow walk, no phone. By Thursday your legs feel new and your family has stopped tiptoeing around you.",
+          "stats": {
+            "life": {
+              "energy": 3,
+              "health": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "See everyone",
+          "result": "You see everyone, every day, from breakfast to the last late phone call. It's wonderful and exhausting, and {best_friend} says it's the most like yourself you've been in months.",
+          "stats": {
+            "life": {
+              "social": 3,
+              "energy": -2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "best_friend": 2
+          }
+        },
+        {
+          "label": "Fix the house",
+          "result": "You fix the house, finally: the gutter, the gate, the leak under the sink. It's satisfying in a way kicking never quite is, and {sibling} comes over to help.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "sibling": 2
+          }
+        },
+        {
+          "label": "Keep the bye-week ritual",
+          "result": "The same bye week you've had for years: the same diner, the same hike, the same movie with the kids. The ritual itself is the rest, and everyone knows their parts.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "social": 1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "requires": {
+            "min": {
+              "pro_seasons": 6
+            }
+          },
+          "lock_text": "after six seasons in the league"
+        }
+      ]
+    },
+    {
+      "id": "PRO_205",
+      "title": "The Offseason Plan",
+      "category": "career",
+      "text": "The offseason starts on a gray Monday. Your locker is empty, your calendar isn't yet, and you can rest, rebuild or chase something new before camp opens in July.",
+      "choices": [
+        {
+          "label": "Rest first",
+          "result": "The first month is off completely: no kicking, no film, no plans. Your body is grateful by week three, and your mind follows soon after.",
+          "stats": {
+            "life": {
+              "health": 2,
+              "energy": 2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Rebuild your leg",
+          "result": "A strength program with a specialist, four days a week, from the first week on. It's hard and boring, and you come back to camp with more leg than you've had in years.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "power": 2,
+              "toughness": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "heavy_legs"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Learn something new",
+          "result": "A course, a language, a skill that has nothing to do with football. It fills the empty days, and it reminds you there's a person under the helmet.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Start planning the next life",
+          "result": "You start sketching out the life after football, quietly, with a notebook and a few phone calls. It isn't sad at all, it turns out, and some of it is exciting.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "requires": {
+            "min": {
+              "pro_seasons": 10
+            }
+          },
+          "lock_text": "after ten seasons in the league"
+        }
+      ]
+    }
+  ]
+}

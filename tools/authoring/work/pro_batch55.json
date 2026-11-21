@@ -1,0 +1,813 @@
+{
+  "_about": "PRO batch 55: the cross-era pool, set B.",
+  "scenarios": [
+    {
+      "id": "PRO_246",
+      "title": "The General Manager's Call",
+      "category": "career",
+      "text": "The general manager calls in March, on a Tuesday morning while you're making breakfast. It's a short call, polite and careful, and the word 'competition' comes up three times.",
+      "choices": [
+        {
+          "label": "Ask what it would take",
+          "result": "You ask plainly what it would take to stay. The answer is honest and hard, and you write it on the fridge and start working on it the same afternoon.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "retention": 2
+        },
+        {
+          "label": "Call your agent",
+          "result": "You call your agent before the coffee is cold. Your agent has already heard, has three clubs in mind, and tells you to keep your phone charged and your leg ready.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "charisma": 1,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ]
+        },
+        {
+          "label": "Tell the family",
+          "result": "Over breakfast, without pretending it's nothing, the family hears it from you. {parent} asks good questions, and {sibling} squeezes your hand under the table.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "parent": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_247",
+      "title": "Forced Out",
+      "category": "career",
+      "text": "They didn't say retire. They just stopped saying anything at all. It's been weeks since your release, your phone is quiet, and your kicking bag is still by the front door.",
+      "choices": [
+        {
+          "label": "Keep training for the call",
+          "result": "You keep training every morning at the high school field, just in case. The call may or may not come, and the mornings keep you yourself while you wait.",
+          "stats": {
+            "life": {},
+            "football": {
+              "power": 1,
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Start the next life",
+          "result": "You start the next life on a Monday: a course, a few coffees, a plan on paper. It's frightening and a little exciting, and you put the kicking bag in the garage.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "planning_retirement": true
+          }
+        },
+        {
+          "label": "Call {coach}",
+          "result": "You call {coach}, your old coach, who still answers on the first ring. They don't have a job for you, and they talk to you for an hour like you're still on the team.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "coach": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_248",
+      "title": "The Announcement",
+      "category": "career",
+      "text": "How do you tell the world you're done? The club has offered a podium, your agent wants an exclusive interview, and your family just wants to know when you'll be home for good.",
+      "choices": [
+        {
+          "label": "A press conference",
+          "result": "A podium, a room full of cameras, and a speech you rewrite nine times. Your voice catches twice, and the room stands when you finish.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "announced_retirement": true
+          },
+          "followers": 3
+        },
+        {
+          "label": "A letter to the fans",
+          "result": "A handwritten letter to the fans, posted online with no warning on a quiet Sunday. It's shared a million times, and strangers write back about their own fathers and mothers.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "announced_retirement": true
+          },
+          "followers": 2
+        },
+        {
+          "label": "Tell the locker room first",
+          "result": "The locker room hears it first, before anyone outside, in a meeting {coach} lets you lead. Nobody speaks for a long moment, and then the whole room is on its feet.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "team": 3
+          },
+          "set_flags": {
+            "announced_retirement": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_249",
+      "title": "The Last Road Trip",
+      "category": "team",
+      "text": "The last road trip of your career. The flight attendants have heard, and so has the hotel, which has left a cake in your room shaped like a football with your number on it.",
+      "choices": [
+        {
+          "label": "Take the whole unit to dinner",
+          "result": "You take the whole specialist unit to dinner at the best restaurant in town and pay for all of it. The stories go on until midnight, and nobody wants to leave.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "holder": 2
+          }
+        },
+        {
+          "label": "Walk the city alone",
+          "result": "You walk the city alone on the last afternoon, slowly, past every place you've ever been there. It's sad and lovely, and you take a photo of each one.",
+          "stats": {
+            "life": {
+              "health": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Share the cake with the crew",
+          "result": "You carry the cake down to the hotel staff and the flight crew. They take photos with you in the lobby, and the manager says nobody has ever done that before.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "followers": 2
+        }
+      ]
+    },
+    {
+      "id": "PRO_250",
+      "title": "The Last Home Week",
+      "category": "family",
+      "text": "The last home week of your career. The city knows, and so does every kid at practice, and your family has flown in from everywhere for the weekend, filling the house to the walls.",
+      "choices": [
+        {
+          "label": "Make the house the center",
+          "result": "You make the house the center of the week: big dinners, old photos, the cousins on the floor. It's loud and full, and you don't watch any film at all.",
+          "stats": {
+            "life": {
+              "social": 3,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "parent": 2
+          }
+        },
+        {
+          "label": "Keep the week normal",
+          "result": "You keep the week as normal as you can, the same routine as always. The family understands, and the calm in the middle of everything is its own gift.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2,
+              "accuracy": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Visit the kids at practice",
+          "result": "You visit the youth practice on the field where you first trained in the city. You hold for the kids' kicks for an hour, and one of them tells you they'll be you someday.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "followers": 2
+        }
+      ]
+    },
+    {
+      "id": "PRO_251",
+      "title": "Thank You, {holder}",
+      "category": "team",
+      "text": "One last week of holds. {holder} has been counting them on a whiteboard in the specialists' room, every hold you've done together, and the number is bigger than either of you expected.",
+      "choices": [
+        {
+          "label": "Tell {holder} what it meant",
+          "result": "You tell {holder} what it meant, in the empty specialists' room after practice. You both say more than you planned, and neither of you mentions it again.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "holder": 5
+          }
+        },
+        {
+          "label": "Give {holder} the last ball",
+          "result": "You sign the last practice ball for {holder} and write the number on it. They keep it on a shelf at home for the rest of their life.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "holder": 3
+          }
+        },
+        {
+          "label": "Keep it light",
+          "result": "You keep it light all week, with jokes and the same old routine. That's how you've always done it, and {holder} understands perfectly.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "energy": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "holder": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_252",
+      "title": "The Family Vote",
+      "category": "family",
+      "text": "You put it to a family vote at the kitchen table: one more season, or done. {sibling} has made ballots out of index cards, and your partner is pretending to be the returning officer.",
+      "choices": [
+        {
+          "label": "Count the votes honestly",
+          "result": "You count the votes honestly, out loud, one by one. It's close, and the result is the result, and somehow that makes it easier to accept than any decision you made alone.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "love_interest": 3
+          }
+        },
+        {
+          "label": "Ask each of them why",
+          "result": "You ask each of them why they voted the way they did. The reasons are funny and wise and surprising, and you learn more about your family than about your career.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "sibling": 1
+          }
+        },
+        {
+          "label": "Tell them you'll talk to {coach}",
+          "result": "You thank them for the vote and promise to talk to {coach} before you decide. {sibling} is outraged that the vote isn't binding, and everyone ends up laughing.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_254",
+      "title": "The Exit Interview",
+      "category": "career",
+      "text": "The club holds exit interviews after every season. This year the general manager is in yours, sitting next to {coach} with a notepad that has nothing written on it yet.",
+      "choices": [
+        {
+          "label": "Be completely honest",
+          "result": "You're completely honest about the season, the facility and the coaching. The general manager writes three pages of notes, and {coach} looks at you with something like respect.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Talk about the future",
+          "result": "Directly, and without warming up, you put it to the general manager: where do you fit in next year's plans? The answer is clear and fair, and you leave the room knowing exactly where you stand.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "retention": 1
+        },
+        {
+          "label": "Speak up for the young players",
+          "result": "You spend most of your time talking about the young specialists and what they need. The general manager is surprised, and two of your suggestions are in place by camp.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "backup": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_255",
+      "title": "The Retirement Party",
+      "category": "team",
+      "text": "Your teammates throw you a retirement party before you've even decided, at a bowling alley with a banner that says 'Thanks for the memories' and a cake with your face on it.",
+      "choices": [
+        {
+          "label": "Enjoy the party",
+          "result": "You enjoy the party anyway, because they meant it with love. You bowl terribly, give a short speech, and go home still undecided and very happy.",
+          "stats": {
+            "life": {
+              "fun": 3,
+              "social": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Tell them you haven't decided",
+          "result": "You tell them, laughing, that you haven't decided yet. They don't care at all, it turns out, and the banner gets a handwritten 'maybe' added to it.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ]
+        },
+        {
+          "label": "Let the party decide it",
+          "result": "Looking around the room at all of them, you realize you have decided. You tell {best_friend} first, at the bar counter, and they hug you hard.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "best_friend": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_257",
+      "title": "Changing Your Mind",
+      "category": "career",
+      "text": "You announced it, and now you want to take it back. Your leg feels better than it has in two years, the club has a need, and your agent says it's been done before.",
+      "choices": [
+        {
+          "label": "Take it back",
+          "result": "You take it back, publicly, with a short and slightly embarrassed statement. Some fans are delighted and some roll their eyes, and you go back to the field the next morning.",
+          "stats": {
+            "life": {},
+            "football": {
+              "power": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "set_flags": {
+            "announced_retirement": false
+          }
+        },
+        {
+          "label": "Keep your word",
+          "result": "You keep your word and let the feeling pass, slowly, over a long week. It's harder than you thought, and you're glad later that you stayed the course.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ]
+        },
+        {
+          "label": "Talk it through with {best_friend}",
+          "result": "You talk it through with {best_friend} until midnight. You decide together to keep the announcement, and the decision feels shared instead of lonely.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "best_friend": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_258",
+      "title": "The Last Kick in Practice",
+      "category": "training",
+      "text": "The last kick of your last practice, on a gray afternoon. Nobody leaves the field: the linemen are standing on the sideline, the coaches have stopped talking, and {holder} is waiting.",
+      "choices": [
+        {
+          "label": "Take it like any other",
+          "result": "Same routine, same breath, like any other kick on any other day. It's perfect, and the whole field claps, and you walk off without looking back.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2,
+              "accuracy": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ]
+        },
+        {
+          "label": "Let {backup} take one with you",
+          "result": "You call {backup} over and let them take the last one beside you, one each. The young kicker is shaking, and you both laugh about it for years afterwards.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "backup": 3
+          }
+        },
+        {
+          "label": "Kick from the logo",
+          "result": "You kick from the logo at midfield, for fun, for the first time in your career. It doesn't matter where it goes, and the whole team roars anyway.",
+          "stats": {
+            "life": {
+              "fun": 3
+            },
+            "football": {
+              "power": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_282",
+      "title": "The Last Summer",
+      "category": "training",
+      "text": "It might be your last offseason as a player. Every summer routine feels a little heavier: the early runs, the strength work, the long drives to the field on empty roads.",
+      "choices": [
+        {
+          "label": "Do it all one more time",
+          "result": "You do it all one more time, every run and every lift, without skipping anything. It's hard, and it feels like saying goodbye properly to something that made you.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "toughness": 2
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "heavy_legs"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Bring the family along",
+          "result": "You bring the family to the field for the summer sessions, with a picnic and a ball for anyone who wants one. It's slower and sweeter than any offseason you've had.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "parent": 2
+          }
+        },
+        {
+          "label": "Do only what you need",
+          "result": "Only what you need, and nothing more, to protect your body. You spend the rest of the summer resting and reading on the porch, and you don't miss the extra miles.",
+          "stats": {
+            "life": {
+              "health": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_267",
+      "title": "The Last Big Night",
+      "category": "social",
+      "text": "Your farewell season, a city that loves you, and a night out after a home win that keeps growing: a booth at the best spot downtown, strangers buying rounds, phones everywhere.",
+      "choices": [
+        {
+          "label": "One hour, then home",
+          "result": "An hour of handshakes, photos and stories, and then home before eleven. The city still loves you in the morning, and you're fresh for the specialists' meeting.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Take the party to a diner",
+          "result": "You move the whole group to an all-night diner, which is quieter and much funnier. The photos online are of you serving pancakes, and they're everywhere.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 1
+          },
+          "followers": 2
+        },
+        {
+          "label": "Let the night run",
+          "result": "You let the night run until four in the morning. The photos aren't flattering, the club's statement is short, and {coach} wants to see you before practice.",
+          "stats": {
+            "life": {
+              "fun": 4,
+              "social": 3,
+              "energy": -5
+            },
+            "football": {},
+            "personality": {
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "late_night"
+          ],
+          "rel": {
+            "coach": -3
+          },
+          "set_flags": {
+            "pro_night_before": true
+          },
+          "conduct": "bad",
+          "followers": -3
+        }
+      ]
+    }
+  ]
+}

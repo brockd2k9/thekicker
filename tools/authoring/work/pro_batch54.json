@@ -1,0 +1,1003 @@
+{
+  "_about": "PRO batch 54: the cross-era pool, set B.",
+  "scenarios": [
+    {
+      "id": "PRO_206",
+      "title": "The Film Room",
+      "category": "training",
+      "text": "{coach} wants an extra film session with the specialists every Wednesday this month, at six in the morning, in the small room where the projector hums and the heat never works.",
+      "choices": [
+        {
+          "label": "Be there first every week",
+          "result": "You're there first every Wednesday, with coffee for the room. By the third week the snapper is bringing pastries, and the sessions are the best part of the week.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "coach": 2
+          },
+          "skill_points": 1
+        },
+        {
+          "label": "Ask to move it to the afternoon",
+          "result": "You ask, politely, to move it to the afternoon so the snapper can do the school run. {coach} agrees, a little surprised, and the room is grateful to you.",
+          "stats": {
+            "life": {
+              "social": 1,
+              "energy": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "team": 1
+          }
+        },
+        {
+          "label": "Go, and watch your own film after",
+          "result": "You go to every session, then stay another hour alone with your own film. It's a long month of early mornings, and you see your kick more clearly than you have in years.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "accuracy": 2
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Run the session yourself",
+          "result": "{coach} hands you the remote in the second week and leaves you to run it. The younger specialists listen to you differently after that, and so does the coach.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "backup": 2
+          },
+          "requires": {
+            "min": {
+              "pro_seasons": 6
+            }
+          },
+          "lock_text": "after six seasons in the league"
+        }
+      ]
+    },
+    {
+      "id": "PRO_207",
+      "title": "The Fan Letter",
+      "category": "social",
+      "text": "A letter arrives at the facility from a fan who has watched every kick of your career, good and bad, written by hand on lined paper, four pages long, with a photo of their kid in your jersey.",
+      "choices": [
+        {
+          "label": "Write back by hand",
+          "result": "You write back by hand, two pages, and mail it yourself from the post office near the facility. A month later a second photo arrives: the kid, holding your letter.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "followers": 1
+        },
+        {
+          "label": "Send a signed ball",
+          "result": "A signed ball and a short note, sent through the club's community office. It's a small thing, and the fan posts about it with a happiness that's hard to scroll past.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "followers": 2
+        },
+        {
+          "label": "Keep it in your locker",
+          "result": "You read it twice, fold it carefully, and keep it in your locker. On the hard weeks you take it out again, and it does more for you than any speech.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Invite them to practice",
+          "result": "You invite the fan and their kid to a practice, which the club arranges quietly. They stand by the goalposts all morning, and the kid gets to hold for one kick.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "holder": 2
+          },
+          "followers": 2,
+          "requires": {
+            "min": {
+              "pro_seasons": 10
+            }
+          },
+          "lock_text": "after ten seasons in the league"
+        }
+      ]
+    },
+    {
+      "id": "PRO_208",
+      "title": "The Locker Room Prank",
+      "category": "team",
+      "text": "The locker room's annual prank war has started, and this year someone has made you the target: your car is wrapped in plastic, and your cleats are frozen in a block of ice.",
+      "choices": [
+        {
+          "label": "Take it with a smile",
+          "result": "You laugh, take photos for the group chat, and let it go entirely. The room decides you're a good sport, and the pranks get gentler and much funnier from there.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Plan the perfect revenge",
+          "result": "You spend a week planning, with {holder} as your accomplice. The revenge involves a hundred rubber ducks and the general manager's parking space, and it becomes a legend.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "holder": 3
+          }
+        },
+        {
+          "label": "Ask to sit this one out",
+          "result": "Quietly, you ask the veterans to leave you out this year: you're tired, and the family is coming to visit. They respect it, a little disappointed, and nobody pushes.",
+          "stats": {
+            "life": {
+              "energy": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Call in an old favor",
+          "result": "You call in a favor from a veteran you helped years ago, and the prank war ends overnight with a truce signed on a napkin. You keep the napkin.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "requires": {
+            "min": {
+              "pro_seasons": 6
+            }
+          },
+          "lock_text": "after six seasons in the league"
+        }
+      ]
+    },
+    {
+      "id": "PRO_209",
+      "title": "The Holder's Birthday",
+      "category": "team",
+      "text": "It's {holder}'s birthday, and the specialists have a tradition that involves a cake, a terrible song and a kick taken in a costume that the equipment manager keeps in a locked cabinet.",
+      "choices": [
+        {
+          "label": "Wear the costume",
+          "result": "You wear the costume and take the kick in front of the whole team, cape flapping. The kick is the least important part, and {holder} laughs so hard they have to sit down on the turf.",
+          "stats": {
+            "life": {
+              "fun": 3
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "holder": 3
+          }
+        },
+        {
+          "label": "Bake the cake yourself",
+          "result": "You bake the cake yourself the night before, badly, with {sibling} on video giving instructions. It leans to one side, and {holder} says it's the best one yet.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "holder": 2,
+            "sibling": 1
+          }
+        },
+        {
+          "label": "Give them something real",
+          "result": "A real gift, chosen carefully: a framed photo of the first kick you ever made together. {holder} goes quiet for a moment and then hugs you in front of everyone.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "holder": 4
+          }
+        },
+        {
+          "label": "Retire the costume",
+          "result": "You retire the costume with a small ceremony and hang it in the equipment room for good. It becomes a story the rookies hear about every year after.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 1
+          },
+          "requires": {
+            "min": {
+              "pro_seasons": 6
+            }
+          },
+          "lock_text": "after six seasons with the same specialists"
+        }
+      ]
+    },
+    {
+      "id": "PRO_210",
+      "title": "Road Trip Routine",
+      "category": "training",
+      "text": "Another road trip, another hotel, the same small routine you've built over the years: the same stretch, the same meal, the same walk. It's either a superpower or a rut, and you can't tell which.",
+      "choices": [
+        {
+          "label": "Keep the routine exactly",
+          "result": "You keep it exactly, down to the minute and the walking route. It's calming and predictable, and on the morning of the game your body knows what to do.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2,
+              "accuracy": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Break it on purpose",
+          "result": "You break it on purpose: a new walk, a new restaurant, a museum with the snapper. The city feels new, and so do you, a little, for the rest of the trip.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ]
+        },
+        {
+          "label": "Ask {backup} what they do",
+          "result": "You ask {backup} about their routine over breakfast and steal two good ideas. They're delighted to teach you something for once, and your stretch improves.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "backup": 2
+          }
+        },
+        {
+          "label": "Visit the old places",
+          "result": "You've been to this city so many times you have old places: a bookshop, a bakery, a bench by the river. You visit all of them, and it feels like coming home.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "requires": {
+            "min": {
+              "pro_seasons": 10
+            }
+          },
+          "lock_text": "after ten seasons in the league"
+        }
+      ]
+    },
+    {
+      "id": "PRO_211",
+      "title": "The Contract Talk at Home",
+      "category": "family",
+      "text": "Contract season again, and the conversation at the kitchen table sounds familiar: the years, the money, the move that might come, and the same worries you both had last time.",
+      "choices": [
+        {
+          "label": "Lay it all out",
+          "result": "You lay it all out on the table, every number and every option, nothing held back. It's long and honest, and everyone goes to bed knowing where they stand.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "love_interest": 2
+          }
+        },
+        {
+          "label": "Let your agent handle it",
+          "result": "You let your agent handle the details and keep the kitchen table for dinner. The house stays calm, and the decision, when it comes, surprises nobody.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Ask what your partner wants first",
+          "result": "You ask your partner what they want first, before any numbers come out. The answer changes how you talk to your agent the next morning.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "love_interest": 3
+          }
+        },
+        {
+          "label": "Remember the last time",
+          "result": "You remember the last contract and how hard it was on everyone, and you do it differently this time: shorter talks, a deadline, and a walk after every one.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "love_interest": 2
+          },
+          "requires": {
+            "min": {
+              "pro_seasons": 6
+            }
+          },
+          "lock_text": "after six seasons in the league"
+        }
+      ]
+    },
+    {
+      "id": "PRO_213",
+      "title": "Playoff Atmosphere",
+      "category": "media",
+      "text": "The playoff push is on, and the city has noticed the team again: lines at the team store, a mural on a parking garage, and requests for you stacking up on your agent's desk.",
+      "choices": [
+        {
+          "label": "Visit the mural",
+          "result": "You visit the mural at night, unannounced, and take a photo with the artist, who happens to be there touching it up. The photo goes everywhere, and the artist gets commissions.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "followers": 3
+        },
+        {
+          "label": "Say no to all of it",
+          "result": "No to everything until January, politely and firmly. Your agent sighs, your legs are fresh, and you watch the city celebrate from your own couch with a quiet smile.",
+          "stats": {
+            "life": {
+              "health": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Give your requests to the rookies",
+          "result": "You pass your requests on to the rookies who need the exposure more than you do. They're thrilled, a little terrified, and very grateful by the end of the month.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Tell the city what this feels like",
+          "result": "You've done this before, and you know it's rare. On the radio you tell the city to enjoy every minute of it, and the line gets printed on the team's own posters.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "followers": 2,
+          "requires": {
+            "min": {
+              "pro_seasons": 10
+            }
+          },
+          "lock_text": "after ten seasons in the league"
+        }
+      ]
+    },
+    {
+      "id": "PRO_214",
+      "title": "Your Kid's First Game",
+      "category": "family",
+      "text": "Your kid is in the stands for the first time, in a jersey three sizes too big, holding a homemade sign with your name spelled wrong in glitter.",
+      "choices": [
+        {
+          "label": "Find them before warmups",
+          "result": "You find them before warmups and kneel by the railing to say hello. They're too shy to speak, and they hold the sign up higher, which says everything.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "love_interest": 2
+          }
+        },
+        {
+          "label": "Kick toward their section",
+          "result": "You take your warmup kicks toward their section of the stands, on purpose. Your kid screams every time one goes through, and {holder} laughs at you between holds.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "holder": 2
+          }
+        },
+        {
+          "label": "Keep the sign",
+          "result": "After the game the sign goes up in your locker, and it stays there for the rest of your career, misspelling and all. Your kid is very proud of the glitter.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "parent": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_233",
+      "title": "The Business Grows",
+      "category": "career",
+      "text": "The start-up you backed for a friend is opening offices in three cities, and the founders want your face on the launch: billboards, a video, and a speech at the opening party.",
+      "choices": [
+        {
+          "label": "Do the launch",
+          "result": "You do the billboards, the video and the speech, with a lot of practice in the mirror. The launch is a success, your friend hugs you on stage, and your phone fills up with offers.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "rel": {
+            "best_friend": 2
+          },
+          "followers": 3
+        },
+        {
+          "label": "Stay a silent investor",
+          "result": "You stay a silent investor and let the founders be the faces. It's their company and their moment, and they respect you more for knowing it.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Ask for a seat at the table",
+          "result": "An advisory seat instead of a billboard is what you ask for. The meetings are long and interesting, and you learn more about business in a year than in your whole career.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "life_after_football": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_234",
+      "title": "The Partner Who Cheats You",
+      "category": "career",
+      "text": "Your accountant calls on a Sunday, which never happens. Your partner in the dealership has been cooking the books for a year, and some of the money missing has your name on the paperwork.",
+      "choices": [
+        {
+          "label": "Go to the police",
+          "result": "You go to the police on Monday with the accountant and every document. It's slow and public and humiliating, and it's the only way your name comes out clean.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "business_fraud_victim": true
+          }
+        },
+        {
+          "label": "Settle it quietly",
+          "result": "You settle it quietly through the lawyers and take the loss. Nobody outside the family hears about it, and you lie awake for weeks doing sums in the dark.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "business_fraud_victim": true
+          }
+        },
+        {
+          "label": "Confront your partner",
+          "result": "You drive to your partner's house and confront them on the porch. They cry and apologize and promise to pay it back, and you never see a cent of it.",
+          "stats": {
+            "life": {},
+            "football": {
+              "toughness": 2
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "business_fraud_victim": true
+          }
+        },
+        {
+          "label": "Call your advisor",
+          "result": "Your advisor has a plan before you've finished the first sentence: freeze the accounts, call the lawyer, call the police. It's still a bad month, and it's a contained one.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "business_fraud_victim": true
+          },
+          "requires": {
+            "flags": [
+              "honest_advisor"
+            ]
+          },
+          "lock_text": "with an honest advisor in your corner"
+        }
+      ]
+    },
+    {
+      "id": "PRO_236",
+      "title": "Selling the Business",
+      "category": "career",
+      "text": "Someone wants to buy what you built, for more than you ever made kicking. The offer is on your kitchen table in a blue folder, and the buyer wants an answer by Friday.",
+      "choices": [
+        {
+          "label": "Sell it",
+          "result": "You sign on Friday, after one long night of reading every page. It feels strange to let it go, and also very light, like setting down a bag you'd stopped noticing.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Keep it",
+          "result": "You keep it, because it's yours and it means something to the people who work there. The buyer is surprised, the staff are relieved, and you go back to work on Monday.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ]
+        },
+        {
+          "label": "Sell part and stay on",
+          "result": "You sell a share and stay on to run it, with a partner who knows more than you do. It's a compromise, and it gives the thing you built room to grow.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "sibling": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_244",
+      "title": "One More Year?",
+      "category": "career",
+      "text": "The season's over. Your body says stop, your agent says one more year, and nobody at home has said anything yet, which is its own kind of answer, waiting at dinner.",
+      "choices": [
+        {
+          "label": "Say one more",
+          "result": "One more, you tell your agent, and then you tell the family at dinner. They take it well, mostly, and you start the offseason program a week earlier than usual.",
+          "stats": {
+            "life": {},
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "set_flags": {
+            "chose_one_more_year": true
+          }
+        },
+        {
+          "label": "Ask the family first",
+          "result": "One at a time, you ask the family first, before you call anyone back. The answers are kinder and more complicated than you expected, and you still don't know.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "parent": 2
+          }
+        },
+        {
+          "label": "Give it a month",
+          "result": "You give yourself a month with no decision at all, no calls, no talk of football. Your body heals a little, and the question gets quieter, if not answered.",
+          "stats": {
+            "life": {
+              "health": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_245",
+      "title": "Choosing One More Year",
+      "category": "training",
+      "text": "You chose one more year. Every practice now has a little countdown in it: the last first day of camp, the last stretch on this field, the last time the snapper says the same joke.",
+      "choices": [
+        {
+          "label": "Savor every rep",
+          "result": "You savor every rep and stop rushing anything. The countdown turns into something warm instead of sad, and the specialists notice you smiling at nothing in particular.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "holder": 2
+          }
+        },
+        {
+          "label": "Train like it's year one",
+          "result": "You train like it's your first year, angry and hungry. Your legs feel it and complain, and you're kicking further than you have in two seasons by October.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "power": 2
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "heavy_legs"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Teach everything you know",
+          "result": "You spend the year teaching {backup} everything you know, every trick and every mistake. It gives the countdown a purpose, and the young kicker gets better fast.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "backup": 3
+          }
+        }
+      ]
+    }
+  ]
+}

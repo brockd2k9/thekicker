@@ -126,7 +126,7 @@ A teammate rents a big house for the bye week, and the guest list is long: playe
 1. **Stop by for an hour**: An hour, a few laughs, and gone before it gets out of hand. You're the only one in Monday's meeting who isn't hiding from the coaches, and that's noticed.  
    *(social +2; energy +1; Team +1; modifier rested)*
 2. **Spend the bye with family**: You spend the bye week at home with family. You see the photos later on your phone and are very glad you aren't in a single one of them.  
-   *(health +2; resilience +1; {love_interest} +2; modifier rested)*
+   *(health +2; resilience +1; {parent} +2; modifier rested)*
 3. **Stay all weekend**: The whole weekend. On Monday a neighbor's complaint and a stack of photos land on the general manager's desk, and your name is on the list he reads out.  
    *(fun +4; social +3; energy -5; leadership -2; **retention -2**; Team -2; modifier late_night; **conduct bad**; sets **strike** `pro_party_house`)*
 
