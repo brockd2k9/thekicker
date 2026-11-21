@@ -39,7 +39,7 @@ College flags set severity through locked choices.
 | Era 2: Settled In (26-29) | 150 | 150 | 0 | 26 | 0 | 0 | 0 | 0 |
 | Era 3: Veteran (30-33) | 150 | 150 | 0 | 17 | 2 | 0 | 0 | 2 |
 | Era 4: Aging Veteran (34-37) | 150 | 150 | 0 | 14 | 0 | 2 | 0 | 2 |
-| Era 5: Grizzled Veteran (38-41) | 80 | 39 | 80 | 5 | 0 | 0 | 0 | 0 |
+| Era 5: Grizzled Veteran (38-41) | 80 | 80 | 80 | 5 | 0 | 0 | 0 | 0 |
 | Era 6: Hall of Fame Era (42+) | 40 | 0 | 40 | 1 | 0 | 0 | 0 | 40 |
 | Across eras (state-driven) | 108 | 108 | 0 | 10 | 1 | 0 | 0 | 1 |
 | Epilogue (after retirement) | 12 | 0 | 0 | 0 | 0 | 0 | 12 | 12 |
@@ -1372,14 +1372,14 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_504 | The Next Chapter Contract | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
 | PRO_505 | The Legacy Foundation | age 38-41 | once |  |  |  | R3 money values; R1 no age cap (ages 39-41; 38 plays now) |
 | PRO_506 | The Final Decision | age 38-41, offseason | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_812 | The Thirty-Eighth Camp | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
+| PRO_812 | Another Camp, Another Selfie | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
 | PRO_813 | The Oldest Locker | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
 | PRO_814 | The Doctors' Second Opinion | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
 | PRO_815 | The Medical Clearance | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
 | PRO_816 | The Recovery Pool | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
 | PRO_817 | The Grandparent Question | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_818 | The Grandchild | age 38-41 | once | became_parent |  |  | R1 no age cap (ages 39-41; 38 plays now) |
-| PRO_819 | The Kid in College | age 38-41 | once | became_parent |  |  | R1 no age cap (ages 39-41; 38 plays now) |
+| PRO_818 | Four Generations | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
+| PRO_819 | The Kid's Own Season | age 38-41 | once | became_parent |  |  | R1 no age cap (ages 39-41; 38 plays now) |
 | PRO_820 | The Family's Last Road Trip | age 38-41 | once |  |  |  | R1 no age cap (ages 39-41; 38 plays now) |
 | PRO_821 | Another Make-or-Break Year | age 38-41 | once | contract_year |  |  | R1 no age cap (ages 39-41; 38 plays now) |
 | PRO_822 | The League's Oldest Kickers | age 38-41 | once | pro_seasons 15+ |  |  | R1 no age cap (ages 39-41; 38 plays now) |
@@ -1453,14 +1453,14 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 - **PRO_504 The Next Chapter Contract**: A club offers you a non-playing role.
 - **PRO_505 The Legacy Foundation**: You consider a foundation for young athletes.
 - **PRO_506 The Final Decision**: You decide whether to come back for another season.
-- **PRO_812 The Thirty-Eighth Camp**: Another camp, and the rookies are taking selfies with you.
+- **PRO_812 Another Camp, Another Selfie**: Another camp, and the rookies are taking selfies with you.
 - **PRO_813 The Oldest Locker**: Your locker is the oldest one in the building, and the equipment manager wants to retire it.
 - **PRO_814 The Doctors' Second Opinion**: Two doctors disagree about whether you should play another season.
 - **PRO_815 The Medical Clearance**: The club's doctors clear you, but only after a week of tests.
 - **PRO_816 The Recovery Pool**: You spend more time in the recovery pool than on the practice field.
 - **PRO_817 The Grandparent Question**: {parent} asks when he'll get to see you retire.
-- **PRO_818 The Grandchild**: You become a grandparent, and you're still kicking.
-- **PRO_819 The Kid in College**: Your kid's college games and your games are on the same weekends.
+- **PRO_818 Four Generations**: {sibling}'s family has a new baby, and the family wants a four-generation photo before the season starts.
+- **PRO_819 The Kid's Own Season**: Your kid's own games and your games land on the same weekends.
 - **PRO_820 The Family's Last Road Trip**: Your whole family travels to a road game together.
 - **PRO_821 Another Make-or-Break Year**: Another contract year that might be the last.
 - **PRO_822 The League's Oldest Kickers**: A list of the oldest kickers in league history, and your name is climbing it.
@@ -1469,10 +1469,10 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 - **PRO_825 The Kicker You Watched Retire**: A kicker you watched as a kid has a statue unveiled, and you're invited.
 - **PRO_826 The Night Practice**: A night practice at your age, and the cold gets into your joints.
 - **PRO_827 The New Recovery Tech**: The club buys new recovery technology, and you're the first to try it.
-- **PRO_828 The Gala in Your Honor**: Your foundation's gala honors your career while you're still playing.
+- **PRO_828 The Gala in Your Honor**: A charity gala honors your career while you're still playing.
 - **PRO_829 The Retirement Present**: Teammates buy you a retirement present before you've retired.
 - **PRO_830 The Last Contract Signing**: You sign what everyone assumes is your last contract.
-- **PRO_831 The Long Snapper's Retirement**: The long snapper you've worked with for ten years retires.
+- **PRO_831 The Long Snapper's Retirement**: The long snapper you've worked with for years retires.
 - **PRO_832 The Rival's Kid**: {tyler}'s kid is a kicker in college.
 - **PRO_833 The Old College Coach's Funeral**: The coach who recruited you to college dies.
 - **PRO_834 The Weight You Can't Lose**: You can't keep the weight off the way you used to.

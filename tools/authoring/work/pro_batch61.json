@@ -1,0 +1,890 @@
+{
+  "_about": "PRO batch 61: era 5 (ages 38-41), set B.",
+  "scenarios": [
+    {
+      "id": "PRO_812",
+      "title": "Another Camp, Another Selfie",
+      "category": "team",
+      "text": "Another camp, and the rookies are taking selfies with you between drills. One of them asks you to hold his phone so he can get one with the snapper too, and then asks you to get the angle right.",
+      "choices": [
+        {
+          "label": "Take the best photo of his life",
+          "result": "The best photo of his life, from a low angle, with the stadium behind him. He posts it, it goes everywhere, and he credits you as the photographer.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "followers": 2
+        },
+        {
+          "label": "Set a rule for camp",
+          "result": "A rule for camp, announced kindly: phones away between drills, photos at lunch. The rookies grumble and comply, and the veterans quietly thank you.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "team": 1
+          }
+        },
+        {
+          "label": "Join every selfie",
+          "result": "Every selfie, all camp long, with a different face each time. By the end of the week there's a whole account dedicated to them, and the coaches follow it.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "followers": 3
+        },
+        {
+          "label": "Turn it into a team photo",
+          "result": "You gather the whole roster for one photo instead, rookies in front, the way your old captain did. It hangs in the cafeteria for the rest of the season.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 2
+          },
+          "requires": {
+            "flags": [
+              "pro_captain"
+            ]
+          },
+          "lock_text": "having worn the captain's patch"
+        }
+      ]
+    },
+    {
+      "id": "PRO_813",
+      "title": "The Oldest Locker",
+      "category": "team",
+      "text": "Your locker is the oldest one in the building, with your name on the same plate for years, and the equipment manager wants to retire it when you go. He's already measuring it for a glass front.",
+      "choices": [
+        {
+          "label": "Tell him to wait",
+          "result": "Wait until you're gone, you say, laughing, and stop measuring. He puts the tape measure away and starts a list of the things you've left in it over the years.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ]
+        },
+        {
+          "label": "Ask for a rookie to get it",
+          "result": "Ask him to give it to a rookie instead, with a note inside the door. He loves the idea, and so does the rookie who gets it the next spring.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ]
+        },
+        {
+          "label": "Help him plan it",
+          "result": "An afternoon with the equipment manager going through the locker, deciding what goes behind the glass. It's funny and sad, and he tells you stories you'd never heard.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_814",
+      "title": "The Doctors' Second Opinion",
+      "category": "health",
+      "text": "Two doctors disagree about whether you should play another season. One shows you a scan with a circle on it. The other says the circle is just age, and that you've earned the right to decide.",
+      "choices": [
+        {
+          "label": "Get a third opinion",
+          "result": "A third doctor, out of town, with no connection to the club. Her answer is careful and specific, and it's the one you trust, and you sleep better knowing it.",
+          "stats": {
+            "life": {
+              "health": 1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Trust the careful one",
+          "result": "You trust the doctor with the circle and change your training around it. It costs you some power and buys you a body that works when you're sixty.",
+          "stats": {
+            "life": {
+              "health": 3
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Trust the one who says play",
+          "result": "You trust the one who says play. Your leg feels fine, the season starts, and the circle stays in the back of your mind every morning.",
+          "stats": {
+            "life": {},
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ]
+        },
+        {
+          "label": "Tell both of them everything",
+          "result": "Both doctors hear the whole truth from you, including the parts you've never told anyone, the way you learned to do in college. With full information they agree on a plan.",
+          "stats": {
+            "life": {
+              "health": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "requires": {
+            "flags": [
+              "told_trainer_col"
+            ]
+          },
+          "lock_text": "having told the trainers the truth in college"
+        }
+      ]
+    },
+    {
+      "id": "PRO_815",
+      "title": "The Medical Clearance",
+      "category": "health",
+      "text": "The club's doctors clear you for another season, but only after a week of tests: scans, a heart test, a treadmill with wires, and a cognitive test on a tablet that you're sure you failed.",
+      "choices": [
+        {
+          "label": "Take every test seriously",
+          "result": "Every test, treated like a game day, with sleep and food planned around it. The doctors say your results look like someone ten years younger, and you frame the printout.",
+          "stats": {
+            "life": {
+              "health": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Joke your way through it",
+          "result": "A joke for every nurse, every test, all week. The treadmill technician asks for a signed ball, and the cognitive test turns out fine, which you knew.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ]
+        },
+        {
+          "label": "Ask what the tests are for",
+          "result": "Questions about every test, what it measures and why it matters at your age. The doctors explain it all, and you learn more about your body than in twenty years of playing.",
+          "stats": {
+            "life": {
+              "health": 1,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_816",
+      "title": "The Recovery Pool",
+      "category": "health",
+      "text": "You spend more time in the recovery pool than on the practice field now. The young players call it your office, and someone has taped a nameplate to the side of the pool that says 'Executive Suite'.",
+      "choices": [
+        {
+          "label": "Lean into the office",
+          "result": "A rubber duck, a waterproof clipboard and office hours posted on the wall. The young players start booking appointments, half as a joke, and you give real advice from the water.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Follow the program",
+          "result": "The pool program, followed exactly, an hour every morning, no matter how dull. Your hip moves better than it has in years, and your leg is fresh by Sunday.",
+          "stats": {
+            "life": {
+              "health": 3
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Get back on the field",
+          "result": "Less pool, more field, because you miss kicking with the others. Your body grumbles, and you feel more like a teammate than a patient again.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "health": -1
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1
+        }
+      ]
+    },
+    {
+      "id": "PRO_817",
+      "title": "The Grandparent Question",
+      "category": "family",
+      "text": "{parent} asks, over the phone, when they'll get to see you retire. It isn't a complaint; it's a wish, said quietly, and they've clearly been thinking about it for a while.",
+      "choices": [
+        {
+          "label": "Promise them a front-row seat",
+          "result": "A promise: whenever it happens, {parent} will be in the front row. They go quiet on the line, then say thank you in a voice you haven't heard in years.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "parent": 3
+          }
+        },
+        {
+          "label": "Ask why now",
+          "result": "Why now, you ask gently. The answer is about their own health, something small that frightened them, and you book a flight home for the bye week.",
+          "stats": {
+            "life": {
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "parent": 2
+          }
+        },
+        {
+          "label": "Invite them to every home game",
+          "result": "Tickets to every home game this season, with travel paid and the best seats you can find. They come to most of them, and wave at the end of every warmup.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "parent": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_818",
+      "title": "Four Generations",
+      "category": "family",
+      "text": "{sibling}'s family has a new baby, and everyone wants a four-generation photo before your season starts: {parent}, {sibling}, their oldest and the newest, plus you somewhere in the frame.",
+      "choices": [
+        {
+          "label": "Fly home for the photo",
+          "result": "You fly home for a single day, hold the baby, and stand where the photographer tells you. The photo goes on every wall in the family, and you're smiling in all of them.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": -2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "sibling": 3
+          }
+        },
+        {
+          "label": "Join on a video call",
+          "result": "A video call, held up behind the family by {sibling}'s oldest. The photo is ridiculous, with your face on a phone screen, and it becomes everyone's favorite.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "sibling": 1
+          }
+        },
+        {
+          "label": "Send a gift and a letter",
+          "result": "A gift for the baby and a long letter for {sibling}, about what it was like when you were both small. {sibling} reads it at the dinner after the photo and has to stop.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "sibling": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_819",
+      "title": "The Kid's Own Season",
+      "category": "family",
+      "text": "Your kid's own games and your games land on the same weekends now, and your kid has started asking which ones you'll watch. The schedules are taped to the fridge side by side.",
+      "choices": [
+        {
+          "label": "Watch their games on film",
+          "result": "Every one of their games recorded and watched on the plane, with notes. Your kid gets a message after every game with one thing they did well, and they keep every message.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ]
+        },
+        {
+          "label": "Ask the club for one Saturday",
+          "result": "One Saturday, asked for and granted, to stand on the sideline of your kid's game. You yell louder than any parent there, and your kid pretends to be embarrassed.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "coach": -1
+          }
+        },
+        {
+          "label": "Help coach on off days",
+          "result": "Help coaching their team on your off days, learning every kid's name. It's chaotic and loud and the best part of your week, and the kids think you're a superhero.",
+          "stats": {
+            "life": {
+              "fun": 1,
+              "energy": -1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_820",
+      "title": "The Family's Last Road Trip",
+      "category": "family",
+      "text": "Your whole family travels to a road game together: {parent}, {sibling}, cousins, a rented bus with your name on a sign in the window, and a hotel that has no idea what's coming.",
+      "choices": [
+        {
+          "label": "Spend the night before with them",
+          "result": "The night before the game at their hotel, eating room-service fries on the floor with cousins. You're home in bed by ten, which counts as a miracle.",
+          "stats": {
+            "life": {
+              "social": 3,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "sibling": 2
+          }
+        },
+        {
+          "label": "Stay with the team",
+          "result": "With the team, the way it has to be, and a breakfast with the family the morning after. They understand, and the breakfast lasts three hours.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Give them the full tour",
+          "result": "A tour of the visitors' locker room after the game for everyone, arranged with the equipment staff. {parent} sits in your stall and won't get up.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "parent": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_821",
+      "title": "Another Make-or-Break Year",
+      "category": "career",
+      "text": "Another contract year that might be the last, and the club has said so out loud: earn the next one or plan for something else. Your agent has stopped making jokes on the phone.",
+      "choices": [
+        {
+          "label": "Earn it every day",
+          "result": "Every practice treated like a tryout, every kick charted, every morning early. It's exhausting and clarifying, and by October the club has started talking numbers.",
+          "stats": {
+            "life": {},
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Plan for both endings",
+          "result": "Two plans, side by side: another year, or the next life. Having both ready takes the fear out of every practice, and you kick looser for it.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {
+            "life_after_football": true
+          }
+        },
+        {
+          "label": "Ask for clarity",
+          "result": "A meeting with the general manager to ask exactly what earning it means. The answer is fair and measurable, and you write it on the whiteboard in your kitchen.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "retention": 1
+        },
+        {
+          "label": "Recommit, out loud",
+          "result": "You did it once in college, when you almost walked away: you recommit, out loud, to the special teams coach. The words change something, and the coaches see it.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "coach": 2
+          },
+          "requires": {
+            "flags": [
+              "recommitted"
+            ]
+          },
+          "lock_text": "having recommitted to football once before"
+        }
+      ]
+    },
+    {
+      "id": "PRO_822",
+      "title": "The League's Oldest Kickers",
+      "category": "media",
+      "text": "A list of the oldest kickers in league history goes around the internet, and your name is climbing it. A graphic artist has drawn you as a wizard with a long white beard and a kicking tee.",
+      "choices": [
+        {
+          "label": "Share the wizard",
+          "result": "You share the wizard with a caption about your actual beard. The internet loves it, and a kids' clinic makes wizard hats for your next visit.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "followers": 3
+        },
+        {
+          "label": "Look at the names above you",
+          "result": "You read about every kicker above you on the list, one by one, over a week of evenings. Their careers teach you more than any coach has in years.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Ignore the list",
+          "result": "No lists, no graphics, no wizards; just the field. The list will be there when you're done, and you'd rather be kicking than reading about kicking.",
+          "stats": {
+            "life": {},
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1
+        }
+      ]
+    },
+    {
+      "id": "PRO_823",
+      "title": "The Rule You Remember",
+      "category": "team",
+      "text": "The league changes a rule about the kickoff, and the young players don't understand why the veterans are laughing. It's the same rule the league changed back the year you were a rookie.",
+      "choices": [
+        {
+          "label": "Explain the history",
+          "result": "The whole history, explained in the meeting room with a whiteboard: the old rule, the change, the change back. The young players are fascinated, and the coaches take notes.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 1
+          }
+        },
+        {
+          "label": "Practice the new rule",
+          "result": "Practice the new rule more than anyone, because you remember how it caught everyone out the last time. You're ready on day one, and the young kickers copy your drills.",
+          "stats": {
+            "life": {},
+            "football": {
+              "accuracy": 2
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Laugh with the veterans",
+          "result": "A good laugh with the other veterans at lunch, trading stories about the last time. It's the best lunch of the season, and you feel very old and very lucky.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_824",
+      "title": "The Former Teammate as Head Coach",
+      "category": "social",
+      "text": "A former teammate has just been named a head coach, and he's younger than you. He calls to tell you himself, then pauses, and asks whether you'd ever consider working for him when you're done.",
+      "choices": [
+        {
+          "label": "Congratulate him properly",
+          "result": "A real congratulations, then a long conversation about everything he'll face. You don't answer his question, and he doesn't push, and you both know it's open.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ]
+        },
+        {
+          "label": "Say yes, for later",
+          "result": "Yes, for later, you tell him, and mean it. It's a strange thing to have a future boss who used to borrow your cleats, and you laugh about it together.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {
+            "life_after_football": true
+          }
+        },
+        {
+          "label": "Say you're not done",
+          "result": "Not done yet, you tell him, and ask him to try to beat you next season. He laughs and says he'll scheme against you specifically, which is the best compliment.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ]
+        },
+        {
+          "label": "Offer to help him recruit",
+          "result": "You offer to help him with recruiting, the way you once hosted recruits in college. He accepts on the spot, and you spend the bye week on video calls with nervous kids.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "life_after_football": true
+          },
+          "requires": {
+            "flags": [
+              "hosted_recruit_well"
+            ]
+          },
+          "lock_text": "having hosted recruits well in college"
+        }
+      ]
+    }
+  ]
+}
