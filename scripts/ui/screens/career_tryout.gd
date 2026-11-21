@@ -63,7 +63,9 @@ func _build_scene(tee: bool) -> void:
 	_game = FIELD_GOAL.instantiate()
 	_game.mode = _mode
 	_game.modifiers = prof.to_kick_modifiers()
-	_game.set_look(Progression.look(stage, width, team, {}))
+	var look := Progression.look(stage, width, team, {})
+	look["stadium"] = Stadiums.for_tryout(career.data, t, career.tuning)
+	_game.set_look(look)
 	add_child(_game)
 	if _overlay != null and _overlay.get_parent() == self:
 		move_child(_overlay, -1)

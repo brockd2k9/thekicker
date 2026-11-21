@@ -182,6 +182,7 @@ func _capture_all() -> void:
 	await _reputation_shots()
 	await _overtime_shots()
 	await _fatigue_shots()
+	await _stadium_shots()
 	await _shot("debug", Screens.CAREER_DEBUG)
 	await _shot("challenge", Screens.CHALLENGE, Callable(), Callable(), 2.0)
 	if _want("pause"):
@@ -947,3 +948,29 @@ func _restore_saves() -> void:
 		if fa != null:
 			fa.store_buffer(_backup[f])
 			fa.close()
+
+
+## Every stadium tier through the debug screen's "Try Kicks" preview, by day,
+## plus the night versions of one tier per stage.
+func _stadium_shots() -> void:
+	var shots: Array = [["", false]]
+	for id in StadiumSpec.preset_ids():
+		shots.append([id, id.begins_with("hs")])
+	for id in ["college_mid", "pro_3"]:
+		shots.append([id, true])
+	for s in shots:
+		var shot_id := "stadium_%s%s" % [s[0] if s[0] != "" else "original",
+			"_night" if s[1] and not str(s[0]).begins_with("hs") else ""]
+		if not _want(shot_id):
+			continue
+		CareerDebugScreen.stadium_id = str(s[0])
+		CareerDebugScreen.stadium_night = bool(s[1])
+		await _open(Screens.CAREER_DEBUG_KICKS, 1.6)
+		await _capture(shot_id)
+		# Frame cost (the engine's own counters), for the performance notes.
+		print("STADIUM %s draw calls %d, primitives %d, video memory %.1f MB" % [shot_id,
+			RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_DRAW_CALLS_IN_FRAME),
+			RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_TOTAL_PRIMITIVES_IN_FRAME),
+			RenderingServer.get_rendering_info(RenderingServer.RENDERING_INFO_VIDEO_MEM_USED) / 1048576.0])
+	CareerDebugScreen.stadium_id = ""
+	CareerDebugScreen.stadium_night = false

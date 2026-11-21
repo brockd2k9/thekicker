@@ -31,6 +31,14 @@ func _ready() -> void:
 	_game = FIELD_GOAL.instantiate()
 	_game.mode = _mode
 	_apply_profile()  # before the scene enters the tree: kick 1 uses it
+	var st := CareerDebugScreen.preview_stadium()
+	if st != null:
+		var posts := "high_school" if st.tier.begins_with("hs") else \
+			("pro" if st.tier.begins_with("pro") else ("college" if st.tier != "default" else ""))
+		var t := CareerTuning.get_default()
+		var width: float = {"high_school": t.goal_width_high_school, "pro": t.goal_width_pro}.get(posts,
+			t.goal_width_college)
+		_game.set_look({"posts": posts, "width": width, "stadium": st})
 	add_child(_game)
 	var overlay := PlayOverlay.new()
 	overlay.quit_text = "Back to Debug"

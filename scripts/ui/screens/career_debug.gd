@@ -13,6 +13,10 @@ const KICK_TUNING := "res://tuning/kick_tuning.tres"
 static var scratch: CareerData
 static var miss_streak: int = 0
 static var slot: int = 1
+## "Try Kicks" stadium preview: a StadiumSpec preset id ("" = the original
+## stadium) and night.
+static var stadium_id := ""
+static var stadium_night := false
 
 var _tuning := CareerTuning.get_default()
 var _kick_tuning: KickTuning
@@ -73,6 +77,19 @@ func go_back() -> void:
 	Screens.go(Screens.CAREER)
 
 
+static func stadium_label() -> String:
+	return "Stadium: " + (stadium_id if stadium_id != "" else "original")
+
+
+## The stadium "Try Kicks" plays in (null: the original).
+static func preview_stadium() -> StadiumSpec:
+	if stadium_id == "" and not stadium_night:
+		return null
+	var st := StadiumSpec.preset(stadium_id)
+	st.night = stadium_night
+	return st
+
+
 ## The profile this screen describes (also used by "Try Kicks").
 static func current_profile(streak: int) -> KickProfile:
 	return KickProfile.build(scratch, CareerTuning.get_default(), {"miss_streak": streak})
@@ -106,6 +123,17 @@ func _fill_list() -> void:
 		func(x: float) -> void:
 			scratch.injury["severity"] = x
 			_refresh(), 0.0, 1.0, 0.05))
+
+	_list.add_child(UiKit.section("STADIUM (Try Kicks)"))
+	var ids: Array[String] = [""]
+	ids.append_array(StadiumSpec.preset_ids())
+	var st_b := UiKit.button(stadium_label(), func() -> void: pass)
+	st_b.pressed.connect(func() -> void:
+		stadium_id = ids[(ids.find(stadium_id) + 1) % ids.size()]
+		st_b.text = stadium_label())
+	_list.add_child(st_b)
+	_list.add_child(CareerUi.toggle_row("Night", stadium_night, func(on: bool) -> void:
+		stadium_night = on))
 
 	_list.add_child(UiKit.section("TRAITS (on = unlocked)"))
 	for t in CareerContent.traits():
