@@ -108,14 +108,17 @@ func _add_flag(x: float, top: float, color: Color) -> void:
 
 
 ## Ribbons point downwind and stretch with strength; they droop when calm.
-func set_wind(mph: float, max_mph: float) -> void:
-	var strength := clampf(absf(mph) / maxf(max_mph, 0.01), 0.0, 1.0)
+## mph: crosswind (+ = to the kicker's right). along: tailwind (+, away from the
+## kicker) / headwind (-), so the ribbons show the real direction.
+func set_wind(mph: float, max_mph: float, along: float = 0.0) -> void:
+	var speed := Vector2(mph, along).length()
+	var strength := clampf(speed / maxf(max_mph, 0.01), 0.0, 1.0)
 	for pivot in _flag_pivots:
-		if absf(mph) < 0.5:
+		if speed < 0.5:
 			pivot.rotation = Vector3(0.0, 0.0, deg_to_rad(-80.0))
 			pivot.scale = Vector3(0.5, 1.0, 1.0)
 		else:
-			pivot.rotation = Vector3(0.0, 0.0 if mph > 0.0 else PI, deg_to_rad(-60.0 * (1.0 - strength)))
+			pivot.rotation = Vector3(0.0, atan2(along, mph), deg_to_rad(-60.0 * (1.0 - strength)))
 			pivot.scale = Vector3(lerpf(0.5, 1.4, strength), 1.0, 1.0)
 
 

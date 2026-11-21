@@ -30,6 +30,8 @@ var distance_yards: int = 30
 var wind_mph: float = 0.0
 ## Extra mph at peak gust (0 = steady).
 var wind_gust_mph: float = 0.0
+## Head / tailwind (signed mph, + = tailwind). Field goals only (KickDifficulty).
+var wind_along_mph: float = 0.0
 var pressure: float = 0.0
 var label: String = ""
 

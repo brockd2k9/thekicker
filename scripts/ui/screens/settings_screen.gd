@@ -14,10 +14,11 @@ func _build(col: VBoxContainer) -> void:
 		GameState.settings.music_volume = v))
 
 	list.add_child(UiKit.section("GAMEPLAY"))
-	list.add_child(_toggle("Haptics", s.haptics, func(on: bool) -> void:
+	# "Vibration": the contact pulse and UI buzzes (saved as "haptics"). Phones only.
+	list.add_child(_toggle("Vibration", s.haptics, func(on: bool) -> void:
 		GameState.settings.haptics = on
 		if on:
-			Haptics.pulse(40)))
+			Haptics.pulse.call_deferred(40)))  # after the setting is applied
 	list.add_child(_toggle("Aim Assist", s.aim_assist, func(on: bool) -> void:
 		GameState.settings.aim_assist = on))
 	list.add_child(UiKit.label("Aim Assist shows the ring above the crossbar where a straight "
