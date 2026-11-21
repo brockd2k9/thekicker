@@ -1,0 +1,163 @@
+{
+  "_about": "PRO batch 56: the two held pool scenes, reworked.",
+  "scenarios": [
+    {
+      "id": "PRO_123",
+      "title": "The Card Game",
+      "category": "social",
+      "text": "The card game in the back of the team plane has a buy-in bigger than your first car, and the veterans running it have saved you the seat by the window. The flight is four hours long.",
+      "choices": [
+        {
+          "label": "Put the headphones on",
+          "result": "Headphones on, seat back, and four hours of sleep while the shouting carries on behind you. You land rested, and nobody says a word about it the next morning.",
+          "stats": {
+            "life": {
+              "energy": 2,
+              "health": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Sit up front with the specialists",
+          "result": "Up front with the snapper and {holder}, a crossword and a bag of pretzels. It's the quietest flight of the season, and the three of you finish the puzzle.",
+          "stats": {
+            "life": {
+              "social": 1,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "holder": 2
+          }
+        },
+        {
+          "label": "Take the seat",
+          "result": "The window seat is yours for the flight. By the time the wheels touch down you owe a veteran more than your signing bonus, and the team's security director has heard about the game by lunch.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": -2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "leadership": -2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "coach": -2
+          },
+          "set_flags": {
+            "pro_gambling_debt": true
+          },
+          "conduct": "bad",
+          "retention": -2
+        },
+        {
+          "label": "Text your advisor a photo of the stakes",
+          "result": "You text your advisor a photo of the buy-in, and the reply comes back in four words: absolutely not, go sleep. You laugh, and you do exactly that.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "requires": {
+            "flags": [
+              "honest_advisor"
+            ]
+          },
+          "lock_text": "with an honest advisor in your corner"
+        }
+      ]
+    },
+    {
+      "id": "PRO_170",
+      "title": "The Office Pool",
+      "category": "team",
+      "text": "The locker room runs a pool on the college basketball tournament: twenty dollars a sheet, a whiteboard of brackets by the cold tub, and a lot of loud trash talk between the linemen.",
+      "choices": [
+        {
+          "label": "Run a pool with no money",
+          "result": "You start a second bracket with no money in it: the loser wears the worst jersey in the equipment room for a week. Half the room switches over, and {coach} thanks you quietly.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "coach": 2
+          }
+        },
+        {
+          "label": "Keep your name off the board",
+          "result": "Your name stays off the whiteboard, and you keep out of the trash talk with a smile. Nobody notices, which is exactly how it should go in a league with rules like these.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Put your twenty in",
+          "result": "You put your twenty in and write your bracket on the board. A week later the league's memo reaches the locker room, the board is wiped, and your name is on a short list of small fines.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": -1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "coach": -2
+          },
+          "set_flags": {
+            "pro_casual_bet": true
+          },
+          "conduct": "bad"
+        }
+      ]
+    }
+  ]
+}

@@ -458,8 +458,8 @@
 			"stages": [
 				"pro"
 			],
-			"weight": 2,
-			"cooldown": 4,
+			"weight": 0.5,
+			"cooldown": 30,
 			"choices": [
 				{
 					"label": "Extra reps every day",
@@ -1008,6 +1008,1272 @@
 					"rel": {
 						"coach": -4
 					}
+				}
+			]
+		},
+		{
+			"id": "pro_offseason_focus_a",
+			"title": "The Empty Facility",
+			"category": "training",
+			"stages": [
+				"pro"
+			],
+			"when": [
+				"offseason"
+			],
+			"weight": 0.75,
+			"cooldown": 40,
+			"text": "The season is over and the facility is nearly empty: a few rehab players, the strength staff and a coffee machine nobody cleans. You have a few weeks to build something before camp.",
+			"choices": [
+				{
+					"label": "Build the leg",
+					"result": "Squats, sled pushes and long kicks into the wind, five mornings a week. Your leg aches by lunch, and by June the ball sounds different coming off your foot.",
+					"stats": {
+						"football": {
+							"power": 5
+						},
+						"personality": {
+							"ambition": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"fresh_legs"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Groove the stroke",
+					"result": "Five hundred kicks a week from the same three spots, every one charted on a clipboard. It's boring, and the stroke that comes out of it is boringly perfect.",
+					"stats": {
+						"football": {
+							"accuracy": 5
+						},
+						"personality": {
+							"ambition": 1,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Train the head",
+					"result": "Breathing work, visualization and pressure games with the team psychologist, who makes you kick with a stadium's noise in your headphones. Your heart rate stops jumping by May.",
+					"stats": {
+						"football": {
+							"resilience": 5
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Rebuild the body",
+					"result": "Core, hips and the small muscles nobody films, with the strength staff three days a week. You come out of it moving like a younger player and sleeping like a stone.",
+					"stats": {
+						"life": {
+							"health": 5
+						},
+						"football": {
+							"toughness": 5
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"skill_points": 2
+				}
+			]
+		},
+		{
+			"id": "pro_offseason_focus_b",
+			"title": "The Offseason Program",
+			"category": "training",
+			"stages": [
+				"pro"
+			],
+			"when": [
+				"offseason"
+			],
+			"weight": 0.75,
+			"cooldown": 40,
+			"text": "The strength coach slides a printed offseason program across the desk: four tracks, each one highlighted in a different color, and a note at the bottom that says pick one and own it.",
+			"choices": [
+				{
+					"label": "Take the power track",
+					"result": "The power track, the yellow one: heavy lifts, sprints and kicks from a little farther back every week. It's brutal, and the extra yards show up by the end of spring.",
+					"stats": {
+						"football": {
+							"power": 5,
+							"toughness": 1
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"fresh_legs"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Take the precision track",
+					"result": "The green track, all precision: narrow posts, odd angles and a target taped to the net. The misses get smaller until they nearly stop, and the coach starts bringing friends to watch.",
+					"stats": {
+						"football": {
+							"accuracy": 5
+						},
+						"personality": {
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Take the mental track",
+					"result": "The blue track, the strange one: meditation, sleep coaching and kicking with a buzzer that goes off at random. It's uncomfortable, and by camp nothing rattles you at all.",
+					"stats": {
+						"football": {
+							"resilience": 5
+						},
+						"personality": {
+							"charisma": 1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Take the conditioning track",
+					"result": "The red track: running, mobility and hours in the pool with the linemen. You're the fittest specialist in the building by camp, and the linemen stop calling you 'the kicker'.",
+					"stats": {
+						"life": {
+							"health": 5,
+							"social": 1
+						},
+						"football": {
+							"toughness": 4
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"skill_points": 2,
+					"rel": {
+						"team": 2
+					}
+				}
+			]
+		},
+		{
+			"id": "pro_offseason_focus_c",
+			"title": "The Garage Gym",
+			"category": "training",
+			"stages": [
+				"pro"
+			],
+			"when": [
+				"offseason"
+			],
+			"weight": 0.75,
+			"cooldown": 40,
+			"text": "No facility this spring: the club is renovating, so it's your garage, a borrowed rack, a high school field down the road and whatever discipline you can find on your own at six in the morning.",
+			"choices": [
+				{
+					"label": "Lift in the garage",
+					"result": "The borrowed rack in the garage, every morning before the neighbors wake up. It's cold and loud and lonely, and your legs come out of it stronger than they've ever been.",
+					"stats": {
+						"football": {
+							"power": 5,
+							"resilience": 1
+						}
+					},
+					"modifiers": [
+						"fresh_legs"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Kick at the high school",
+					"result": "The high school field, a bag of balls and the groundskeeper who lets you in early. You kick until the stroke is automatic, and the varsity kicker starts showing up to watch.",
+					"stats": {
+						"football": {
+							"accuracy": 5
+						},
+						"personality": {
+							"leadership": 1,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Work on the quiet parts",
+					"result": "Journals, film on the laptop, long walks and a phone call a week with the sports psychologist. It doesn't look like training to the neighbors, and it changes how you handle pressure.",
+					"stats": {
+						"life": {
+							"health": 1,
+							"social": -1
+						},
+						"football": {
+							"resilience": 5
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Run the hills",
+					"result": "The steep road behind the house, run until your lungs burn, every second day. Your body hardens, and the neighbors start timing you from their porch.",
+					"stats": {
+						"life": {
+							"health": 5,
+							"fun": 1
+						},
+						"football": {
+							"toughness": 5
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"skill_points": 2
+				}
+			]
+		},
+		{
+			"id": "pro_offseason_focus_d",
+			"title": "The Film Says",
+			"category": "training",
+			"stages": [
+				"pro"
+			],
+			"when": [
+				"offseason"
+			],
+			"weight": 0.75,
+			"cooldown": 40,
+			"text": "The coaches send you home with a hard drive of last season's kicks and a short note: three things we'd like to see fixed by camp. You have a few weeks, and you can only really fix one.",
+			"choices": [
+				{
+					"label": "Fix the distance",
+					"result": "The long ones, first: a power program with a specialist and kicks from deeper every week. The coaches' note had distance at the top for a reason, and you treat it that way.",
+					"stats": {
+						"football": {
+							"power": 5
+						},
+						"personality": {
+							"ambition": 1,
+							"charisma": -1
+						}
+					},
+					"modifiers": [
+						"fresh_legs"
+					],
+					"skill_points": 2,
+					"rel": {
+						"coach": 1
+					}
+				},
+				{
+					"label": "Fix the misses",
+					"result": "The misses, one by one, sorted by direction and broken down frame by frame. Most of them start in your plant foot, and by camp your plant foot is a different animal.",
+					"stats": {
+						"life": {
+							"fun": -1
+						},
+						"football": {
+							"accuracy": 5
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Fix the big moments",
+					"result": "The kicks that mattered most, watched again and again with the psychologist until they stop feeling dangerous. You come into camp with a calmer pulse and a quieter head.",
+					"stats": {
+						"football": {
+							"resilience": 5
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Fix the body first",
+					"result": "None of the three, at first: your body, which the film says is tired. Six weeks of conditioning later, the other problems start fixing themselves.",
+					"stats": {
+						"life": {
+							"health": 5
+						},
+						"football": {
+							"toughness": 5
+						},
+						"personality": {
+							"ambition": -1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"skill_points": 2
+				}
+			]
+		},
+		{
+			"id": "pro_offseason_focus_e",
+			"title": "A Kicker Tags Along",
+			"category": "training",
+			"stages": [
+				"pro"
+			],
+			"when": [
+				"offseason"
+			],
+			"weight": 0.75,
+			"cooldown": 40,
+			"text": "A young kicker from another club asks to train with you this offseason. He's eager, a little loud, and willing to do whatever you're doing, every single morning, if you'll let him tag along.",
+			"choices": [
+				{
+					"label": "Lift together",
+					"result": "Heavy lifting together, three mornings a week, and he pushes you harder than any coach would. Neither of you wants to be the one who stops first, and both legs get stronger.",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"football": {
+							"power": 5
+						},
+						"personality": {
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"fresh_legs"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Compete on the targets",
+					"result": "A target competition every day, loser buys breakfast. You buy breakfast a lot in April and almost never by June, and your stroke is the sharpest it's been.",
+					"stats": {
+						"life": {
+							"fun": 1
+						},
+						"football": {
+							"accuracy": 5
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Teach him the head game",
+					"result": "You teach him the mental side, and teaching it makes you better at it. By the end of spring you both breathe the same way before every kick, and he calls it your trick.",
+					"stats": {
+						"football": {
+							"resilience": 5
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Train alone after all",
+					"result": "You thank him and train alone, with a conditioning plan and a lot of quiet. You come back healthier than you've been in years, and he finds another partner happily.",
+					"stats": {
+						"life": {
+							"health": 5,
+							"social": -1
+						},
+						"football": {
+							"toughness": 5
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"skill_points": 2
+				}
+			]
+		},
+		{
+			"id": "pro_offseason_focus_f",
+			"title": "The Long Spring",
+			"category": "training",
+			"stages": [
+				"pro"
+			],
+			"when": [
+				"offseason"
+			],
+			"weight": 0.75,
+			"cooldown": 40,
+			"text": "A long spring with nothing on the calendar but camp in July. Your body has opinions about what it needs, and so do your agent, the coaches and the trainer who texts you every week.",
+			"choices": [
+				{
+					"label": "Listen to the coaches",
+					"result": "The coaches want distance, so you give them distance: a strength block, then long kicks on windy days. It's the hardest spring you've had, and the leg answers.",
+					"stats": {
+						"life": {
+							"energy": -1
+						},
+						"football": {
+							"power": 5
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"fresh_legs"
+					],
+					"skill_points": 2,
+					"rel": {
+						"coach": 1
+					}
+				},
+				{
+					"label": "Listen to your own notes",
+					"result": "Your own notes from last season say accuracy, so you chase it: narrow posts, bad angles and a lot of patience. The coaches notice the difference in the first week of camp.",
+					"stats": {
+						"football": {
+							"accuracy": 5
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Listen to your agent",
+					"result": "Your agent says the market pays for calm, so you work on calm: the psychologist, the routines, the breath. It's quiet work, and it shows up in every pressure drill.",
+					"stats": {
+						"football": {
+							"resilience": 5
+						},
+						"personality": {
+							"charisma": 1,
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"skill_points": 2
+				},
+				{
+					"label": "Listen to the trainer",
+					"result": "The trainer says your body needs rebuilding, so you rebuild it: mobility, strength and a lot of sleep. You arrive at camp feeling better than you did as a rookie.",
+					"stats": {
+						"life": {
+							"health": 5
+						},
+						"football": {
+							"toughness": 5
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"skill_points": 2
+				}
+			]
+		},
+		{
+			"id": "pro_offseason_summer_a",
+			"title": "A Few Free Weeks",
+			"category": "social",
+			"stages": [
+				"pro"
+			],
+			"when": [
+				"offseason"
+			],
+			"weight": 0.5,
+			"cooldown": 40,
+			"text": "A few free weeks before camp, and for once nobody needs you anywhere. The phone has three invitations on it: a road trip, a youth camp and a course you've been meaning to take.",
+			"choices": [
+				{
+					"label": "Take the road trip",
+					"result": "A week on the road with {best_friend}, gas station snacks and bad music, sleeping wherever the night ends. You come home sunburned and lighter than you've felt all year.",
+					"stats": {
+						"life": {
+							"fun": 10,
+							"social": 8
+						},
+						"personality": {
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"rel": {
+						"best_friend": 2
+					}
+				},
+				{
+					"label": "Coach at the youth camp",
+					"result": "A week at a youth camp in the hills, teaching ten-year-olds to kick. They think you're a superstar, and the one who finally makes a kick from twenty yards cries happy tears.",
+					"stats": {
+						"life": {
+							"fun": 5,
+							"social": 4
+						},
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"leadership": 3
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Take the course",
+					"result": "A short course in something you've always wanted to understand, with homework and a professor who doesn't care about football. It's humbling, and you like the person it makes you.",
+					"stats": {
+						"personality": {
+							"intelligence": 4,
+							"ambition": 1,
+							"charisma": -1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				}
+			]
+		},
+		{
+			"id": "pro_offseason_summer_b",
+			"title": "The Lake House",
+			"category": "social",
+			"stages": [
+				"pro"
+			],
+			"when": [
+				"offseason"
+			],
+			"weight": 0.5,
+			"cooldown": 40,
+			"text": "{sibling} has rented a lake house for two weeks and wants the whole family there. There's a dock, a boat that barely starts, and a list of projects you are definitely being asked to help with.",
+			"choices": [
+				{
+					"label": "Go for the whole two weeks",
+					"result": "Two full weeks at the lake: the dock, the boat, the cousins and a lot of terrible card tricks. Nobody mentions football once, and you sleep better than you have in a year.",
+					"stats": {
+						"life": {
+							"fun": 10,
+							"social": 6,
+							"health": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"rel": {
+						"sibling": 3
+					}
+				},
+				{
+					"label": "Teach the cousins to kick",
+					"result": "You set up a goal with two oars and a rope and teach every cousin to kick. The tournament at the end of the week becomes a family legend, with handmade trophies.",
+					"stats": {
+						"life": {
+							"fun": 6,
+							"social": 3
+						},
+						"personality": {
+							"leadership": 3,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"sibling": 1
+					}
+				},
+				{
+					"label": "Go for a weekend and read",
+					"result": "One weekend at the lake, and the rest of the time at home with a stack of books you've been meaning to read. You come back to camp with a head full of ideas.",
+					"stats": {
+						"life": {
+							"social": -1
+						},
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"intelligence": 4
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				}
+			]
+		},
+		{
+			"id": "pro_offseason_summer_c",
+			"title": "The Empty City",
+			"category": "social",
+			"stages": [
+				"pro"
+			],
+			"when": [
+				"offseason"
+			],
+			"weight": 0.5,
+			"cooldown": 40,
+			"text": "The city empties out in summer: the season's over, the crowds are gone, and the streets you only ever see on the way to the facility have street fairs and night markets on them.",
+			"choices": [
+				{
+					"label": "See the city properly",
+					"result": "Every night market, every street fair, every neighborhood you've only driven through. You meet more people in two weeks than in two seasons, and some of them become friends.",
+					"stats": {
+						"life": {
+							"fun": 8,
+							"social": 8
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					]
+				},
+				{
+					"label": "Run a free clinic",
+					"result": "A free kicking clinic in a city park every Saturday, with the snapper helping. The crowds grow every week, and by the last one the local news shows up.",
+					"stats": {
+						"life": {
+							"social": 4,
+							"fun": 4
+						},
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"leadership": 3
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"followers": 2,
+					"rel": {
+						"team": 1
+					}
+				},
+				{
+					"label": "Find a quiet project",
+					"result": "A quiet project: a language app, a cooking class, a garden on the balcony. It fills the long evenings, and it reminds you there's a person under the helmet.",
+					"stats": {
+						"life": {
+							"health": 1
+						},
+						"personality": {
+							"intelligence": 4,
+							"ambition": -1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				}
+			]
+		},
+		{
+			"id": "pro_offseason_summer_d",
+			"title": "The Old Friends",
+			"category": "social",
+			"stages": [
+				"pro"
+			],
+			"when": [
+				"offseason"
+			],
+			"weight": 0.5,
+			"cooldown": 40,
+			"text": "Your old friends from home have planned a week away and booked you in without asking. The group chat is already full of plans, packing lists and photos of a cabin with no internet.",
+			"choices": [
+				{
+					"label": "Go, no phone",
+					"result": "You go, and the phone stays in a drawer at the cabin. A week of old jokes, campfires and arguments about nothing, and you come home feeling young again.",
+					"stats": {
+						"life": {
+							"fun": 10,
+							"social": 7
+						},
+						"football": {
+							"resilience": 1
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"rel": {
+						"best_friend": 3
+					}
+				},
+				{
+					"label": "Go, and run the mornings",
+					"result": "You go, and you run the mornings: a hike, a swim, a kicking contest with a ball you brought. The old friends grumble and then demand a rematch every day.",
+					"stats": {
+						"life": {
+							"fun": 6,
+							"social": 4,
+							"health": 1
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"best_friend": 2
+					}
+				},
+				{
+					"label": "Send them off and stay home",
+					"result": "You send them off with your blessing and stay home to rest, read and sort out the house. The photos are great, and so is the quiet, and you don't regret it.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"social": -1
+						},
+						"personality": {
+							"intelligence": 3
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				}
+			]
+		},
+		{
+			"id": "pro_offseason_summer_e",
+			"title": "The Charity Tour",
+			"category": "social",
+			"stages": [
+				"pro"
+			],
+			"when": [
+				"offseason"
+			],
+			"weight": 0.5,
+			"cooldown": 40,
+			"text": "The players' union is running a summer tour of small towns: clinics, hospital visits and a softball game against the local firefighters. They need one more player for two weeks.",
+			"choices": [
+				{
+					"label": "Join the tour",
+					"result": "Two weeks in a bus with five teammates and a lot of small-town diners. The softball game is a disaster, the clinics are wonderful, and you come home with a bag of handmade gifts.",
+					"stats": {
+						"life": {
+							"fun": 8,
+							"social": 6
+						},
+						"personality": {
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"followers": 2,
+					"rel": {
+						"team": 2
+					}
+				},
+				{
+					"label": "Lead the clinics",
+					"result": "You take charge of the kicking clinics, town after town, and train two local coaches to run them after you leave. The union asks you to do it again next year.",
+					"stats": {
+						"life": {
+							"social": 4,
+							"fun": 3
+						},
+						"personality": {
+							"leadership": 4,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Help plan it from home",
+					"result": "You help plan the tour from home: the schedules, the hospitals, the sponsors. It's useful, invisible work, and it leaves you rested and a little wiser about how things get done.",
+					"stats": {
+						"life": {
+							"energy": 1,
+							"fun": -1
+						},
+						"personality": {
+							"intelligence": 4,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				}
+			]
+		},
+		{
+			"id": "pro_offseason_summer_f",
+			"title": "The Unplanned Summer",
+			"category": "social",
+			"stages": [
+				"pro"
+			],
+			"when": [
+				"offseason"
+			],
+			"weight": 0.5,
+			"cooldown": 40,
+			"text": "For the first time in years, the summer has no plan at all. The house is quiet, the calendar is blank until camp, and {parent} keeps calling to ask what you're doing with yourself.",
+			"choices": [
+				{
+					"label": "Say yes to everything",
+					"result": "You say yes to every invitation that comes in: barbecues, weddings, a friend's band in a tiny bar. It's chaotic and wonderful, and you see people you'd almost lost touch with.",
+					"stats": {
+						"life": {
+							"fun": 9,
+							"social": 8
+						}
+					},
+					"modifiers": [
+						"confident"
+					],
+					"rel": {
+						"parent": 1
+					}
+				},
+				{
+					"label": "Spend it with {parent}",
+					"result": "You spend a few weeks with {parent}, fixing things around the house and helping out in the neighborhood. The neighbors' kids follow you around asking for kicking tips.",
+					"stats": {
+						"life": {
+							"social": 4,
+							"fun": 4
+						},
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"parent": 3
+					}
+				},
+				{
+					"label": "Learn something properly",
+					"result": "You pick one thing and learn it properly: a language, an instrument, a trade. It's slow and humbling, and by camp you can do something you couldn't do in May.",
+					"stats": {
+						"life": {
+							"social": -1
+						},
+						"personality": {
+							"intelligence": 4,
+							"ambition": 2
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				}
+			]
+		},
+		{
+			"id": "pro_holder_chemistry_b",
+			"title": "Holder Chemistry: The New Spin",
+			"category": "training",
+			"stages": [
+				"pro"
+			],
+			"weight": 0.5,
+			"cooldown": 30,
+			"text": "{holder} has been fiddling with how they spin the laces, and the timing is a hair off in practice. They want to stay late this week and get it right, just the two of you and the jugs machine.",
+			"choices": [
+				{
+					"label": "Stay late every night",
+					"result": "Late every night, until the spin and your step line up again. By Thursday it's back, maybe better than before, and {holder} buys the pizza to celebrate.",
+					"stats": {
+						"life": {
+							"energy": -4
+						},
+						"football": {
+							"accuracy": 3
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 3,
+					"rel": {
+						"holder": 3
+					}
+				},
+				{
+					"label": "Ask them to switch back",
+					"result": "You ask {holder}, kindly, to go back to the old spin until the season's over. They agree after a long look, and you both know it's a conversation for the spring.",
+					"stats": {
+						"life": {
+							"health": 2,
+							"energy": 3
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Film it and compare",
+					"result": "Two angles of film, side by side, old spin and new spin, for an evening. You find the problem together on a laptop instead of on a cold field, and nobody's legs pay for it.",
+					"stats": {
+						"personality": {
+							"intelligence": 3,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"scouted"
+					],
+					"skill_points": 1
+				}
+			]
+		},
+		{
+			"id": "pro_holder_chemistry_c",
+			"title": "Holder Chemistry: The Bad Week",
+			"category": "training",
+			"stages": [
+				"pro"
+			],
+			"weight": 0.5,
+			"cooldown": 30,
+			"text": "{holder} had a rough week: two bobbled holds in practice and a quiet bus ride home. They ask if you'll stay after on Wednesday, mostly, you suspect, so they don't have to be alone with it.",
+			"choices": [
+				{
+					"label": "Stay as long as they need",
+					"result": "As long as they need, and longer. You catch, hold and kick until the bobbles stop, and then you sit on the bench and talk about anything except football.",
+					"stats": {
+						"life": {
+							"energy": -3,
+							"social": 2
+						},
+						"football": {
+							"accuracy": 1
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2,
+					"rel": {
+						"holder": 4
+					}
+				},
+				{
+					"label": "Take them to dinner instead",
+					"result": "No practice at all: dinner at the place {holder} likes, and a long talk. The holds on Thursday are perfect, and neither of you mentions why.",
+					"stats": {
+						"life": {
+							"fun": 2,
+							"energy": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					]
+				},
+				{
+					"label": "Bring in the snapper",
+					"result": "The snapper gets a call, and it becomes a unit session, with jokes and a competition. Spreading it across three people takes the weight off {holder}, which is what they needed.",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"personality": {
+							"leadership": 3
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"skill_points": 1
+				}
+			]
+		},
+		{
+			"id": "pro_holder_chemistry_d",
+			"title": "Holder Chemistry: The Weather",
+			"category": "training",
+			"stages": [
+				"pro"
+			],
+			"weight": 0.5,
+			"cooldown": 30,
+			"text": "The forecast for Sunday is wind, rain and a cold front, and {holder} wants to practice in the worst of it this week: wet balls, numb hands, and a hose the equipment staff have agreed to point at you.",
+			"choices": [
+				{
+					"label": "Practice in the hose",
+					"result": "Every snap, every hold, every kick under the hose, until your hands stop feeling the cold. It's miserable and funny, and by Friday nothing about wet weather surprises either of you.",
+					"stats": {
+						"life": {
+							"energy": -4
+						},
+						"football": {
+							"toughness": 2,
+							"accuracy": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 3,
+					"rel": {
+						"holder": 3
+					}
+				},
+				{
+					"label": "Save your legs for Sunday",
+					"result": "You save your legs for the weather and let {holder} work with the backup instead. They understand, mostly, and your leg is fresh on a day when it needs to be.",
+					"stats": {
+						"life": {
+							"health": 4,
+							"energy": 5
+						}
+					},
+					"modifiers": [
+						"fresh_legs"
+					]
+				},
+				{
+					"label": "Study wet-weather film",
+					"result": "Wet-weather film from every stadium you've played in, studied together over two evenings. You both learn exactly how a wet ball behaves, and you make a plan.",
+					"stats": {
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"intelligence": 3
+						}
+					},
+					"modifiers": [
+						"scouted"
+					],
+					"skill_points": 1
+				}
+			]
+		},
+		{
+			"id": "pro_holder_chemistry_e",
+			"title": "Holder Chemistry: The Routine",
+			"category": "training",
+			"stages": [
+				"pro"
+			],
+			"weight": 0.5,
+			"cooldown": 30,
+			"text": "{holder} wants to rebuild your pre-kick routine from scratch: the count, the steps, the look, the nod. They've written it all out on an index card, and they're very proud of the index card.",
+			"choices": [
+				{
+					"label": "Try their routine",
+					"result": "You try their routine for a week, every rep, exactly as written. Half of it sticks and half of it doesn't, and the half that sticks is better than what you had.",
+					"stats": {
+						"life": {
+							"energy": -2
+						},
+						"football": {
+							"accuracy": 2
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 2,
+					"rel": {
+						"holder": 3
+					}
+				},
+				{
+					"label": "Keep your own",
+					"result": "You keep your own routine, thank them for the card, and pin it on your locker anyway. {holder} laughs and says the card was half a joke, and you're not sure which half.",
+					"stats": {
+						"life": {
+							"fun": 1
+						},
+						"football": {
+							"resilience": 3
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Build one together",
+					"result": "You build a new routine together over two late sessions, a little of yours and a little of theirs. It belongs to both of you now, which makes it stronger.",
+					"stats": {
+						"football": {
+							"accuracy": 1
+						},
+						"personality": {
+							"leadership": 2,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"skill_points": 2,
+					"rel": {
+						"holder": 3
+					}
+				}
+			]
+		},
+		{
+			"id": "pro_holder_chemistry_f",
+			"title": "Holder Chemistry: The Young Snapper",
+			"category": "training",
+			"stages": [
+				"pro"
+			],
+			"weight": 0.5,
+			"cooldown": 30,
+			"text": "There's a young snapper on the roster this week, filling in for an injury, and his snaps are fast and a little wild. {holder} wants the three of you to stay after every day until the timing settles.",
+			"choices": [
+				{
+					"label": "Stay with both of them",
+					"result": "Every day after practice, the three of you and a bag of balls. The young snapper settles by Thursday, and he thanks you both with a nervousness that's hard not to like.",
+					"stats": {
+						"life": {
+							"energy": -4
+						},
+						"football": {
+							"accuracy": 2
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"dialed_in"
+					],
+					"skill_points": 3,
+					"rel": {
+						"holder": 2,
+						"team": 1
+					}
+				},
+				{
+					"label": "Let {holder} handle it",
+					"result": "You let {holder} handle the snapper and save your leg. They do it well, the timing settles by Friday, and {holder} enjoys being in charge for once.",
+					"stats": {
+						"life": {
+							"health": 3,
+							"energy": 4,
+							"social": 1
+						}
+					},
+					"modifiers": [
+						"fresh_legs"
+					]
+				},
+				{
+					"label": "Give him your film",
+					"result": "You give the young snapper a folder of film and notes from the best snappers you've worked with. He studies it all night and shows up with questions you've never been asked.",
+					"stats": {
+						"personality": {
+							"intelligence": 2,
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"scouted"
+					],
+					"skill_points": 1
 				}
 			]
 		},
@@ -1877,7 +3143,7 @@
 				},
 				{
 					"label": "Keep the Sunday call",
-					"result": "You kept the Sunday call through four years of college, and you keep it now. The first Sunday in {town}, {sibling} answers and talks for an hour.",
+					"result": "You kept the Sunday call all through college, and you keep it now. The first Sunday in {town}, {sibling} answers and talks for an hour.",
 					"requires": {
 						"flags": [
 							"promised_to_call_home"
@@ -4458,7 +5724,7 @@
 			"id": "PRO_038",
 			"title": "Contract Year: One More",
 			"category": "career",
-			"text": "At thirty-six, the next contract is one year at a time, and everyone in the building knows it, including the twenty-two-year-old kicker on the practice squad.",
+			"text": "This late in a career, the next contract is one year at a time, and everyone in the building knows it, including the twenty-two-year-old kicker on the practice squad.",
 			"stages": [
 				"pro"
 			],
@@ -7609,7 +8875,7 @@
 		},
 		{
 			"id": "PRO_072",
-			"title": "Broke at Thirty-Three",
+			"title": "Broke in Your Thirties",
 			"category": "money",
 			"text": "The money's gone faster than the career. There's a mortgage, a family, a car payment, and maybe three seasons left in your leg, if you're very lucky.",
 			"stages": [
@@ -9904,7 +11170,7 @@
 			"id": "PRO_097",
 			"title": "The Reunion",
 			"category": "social",
-			"text": "Your high school reunion is the weekend after the season ends. Twenty years, a gym with streamers, and everyone wants to know what the league is really like.",
+			"text": "Your high school reunion is the weekend after the season ends. A gym with streamers, name tags, and everyone wants to know what the league is really like.",
 			"stages": [
 				"pro"
 			],
@@ -12072,9 +13338,8 @@
 		{
 			"id": "PRO_123",
 			"title": "The Card Game",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "The card game in the back of the team plane has a buy-in bigger than your first car, and the veterans running it have saved you the seat by the window. The flight is four hours long.",
 			"stages": [
 				"pro"
 			],
@@ -12092,7 +13357,86 @@
 					"R3 money values"
 				]
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Put the headphones on",
+					"result": "Headphones on, seat back, and four hours of sleep while the shouting carries on behind you. You land rested, and nobody says a word about it the next morning.",
+					"stats": {
+						"life": {
+							"energy": 2,
+							"health": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Sit up front with the specialists",
+					"result": "Up front with the snapper and {holder}, a crossword and a bag of pretzels. It's the quietest flight of the season, and the three of you finish the puzzle.",
+					"stats": {
+						"life": {
+							"social": 1,
+							"fun": 1
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"holder": 2
+					}
+				},
+				{
+					"label": "Take the seat",
+					"result": "The window seat is yours for the flight. By the time the wheels touch down you owe a veteran more than your signing bonus, and the team's security director has heard about the game by lunch.",
+					"stats": {
+						"life": {
+							"social": 2,
+							"energy": -2
+						},
+						"personality": {
+							"charisma": 2,
+							"leadership": -2
+						}
+					},
+					"modifiers": [
+						"stressed"
+					],
+					"retention": -2,
+					"conduct": "bad",
+					"set_flags": {
+						"pro_gambling_debt": true
+					},
+					"rel": {
+						"coach": -2
+					}
+				},
+				{
+					"label": "Text your advisor a photo of the stakes",
+					"result": "You text your advisor a photo of the buy-in, and the reply comes back in four words: absolutely not, go sleep. You laugh, and you do exactly that.",
+					"requires": {
+						"flags": [
+							"honest_advisor"
+						]
+					},
+					"lock_text": "with an honest advisor in your corner",
+					"stats": {
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"intelligence": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_124",
@@ -13177,7 +14521,7 @@
 			"id": "PRO_133",
 			"title": "The Younger Kicker in Camp",
 			"category": "career",
-			"text": "At thirty-five, you walk into the meeting room and a fourth-round rookie is sitting in your seat. He doesn't know it's your seat. Everyone else does.",
+			"text": "Deep into your thirties, you walk into the meeting room and a fourth-round rookie is sitting in your seat. He doesn't know it's your seat. Everyone else does.",
 			"stages": [
 				"pro"
 			],
@@ -13347,7 +14691,7 @@
 			"id": "PRO_135",
 			"title": "The Veteran Minimum",
 			"category": "money",
-			"text": "You're on the veteran minimum, a third of what you made five years ago. The rookie at the next locker drives your old car; he bought it from the dealer you sold it to.",
+			"text": "You're on the veteran minimum, a third of what you made in your prime. The rookie at the next locker drives your old car; he bought it from the dealer you sold it to.",
 			"stages": [
 				"pro"
 			],
@@ -13799,7 +15143,7 @@
 			"id": "PRO_140",
 			"title": "The Comeback Workout",
 			"category": "career",
-			"text": "Released last spring, signed this summer at thirty-five by a club that needed a kicker fast. Everyone in camp, including some of the coaches, thinks you're finished.",
+			"text": "Released last spring, signed this summer by a club that needed a kicker fast, at an age when most kickers are coaching. Everyone in camp, including some of the coaches, thinks you're finished.",
 			"stages": [
 				"pro"
 			],
@@ -16496,9 +17840,8 @@
 		{
 			"id": "PRO_170",
 			"title": "The Office Pool",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "team",
+			"text": "The locker room runs a pool on the college basketball tournament: twenty dollars a sheet, a whiteboard of brackets by the cold tub, and a lot of loud trash talk between the linemen.",
 			"stages": [
 				"pro"
 			],
@@ -16516,7 +17859,64 @@
 				"kind": "once",
 				"note": "Small strike: league rules forbid it, even on other sports. Conduct bad, a small fine, {coach}. Clean no with a payoff."
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Run a pool with no money",
+					"result": "You start a second bracket with no money in it: the loser wears the worst jersey in the equipment room for a week. Half the room switches over, and {coach} thanks you quietly.",
+					"stats": {
+						"life": {
+							"fun": 1
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"coach": 2
+					}
+				},
+				{
+					"label": "Keep your name off the board",
+					"result": "Your name stays off the whiteboard, and you keep out of the trash talk with a smile. Nobody notices, which is exactly how it should go in a league with rules like these.",
+					"stats": {
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Put your twenty in",
+					"result": "You put your twenty in and write your bracket on the board. A week later the league's memo reaches the locker room, the board is wiped, and your name is on a short list of small fines.",
+					"stats": {
+						"life": {
+							"fun": 2,
+							"social": 2
+						},
+						"personality": {
+							"intelligence": -1
+						}
+					},
+					"modifiers": [
+						"stressed"
+					],
+					"conduct": "bad",
+					"set_flags": {
+						"pro_casual_bet": true
+					},
+					"rel": {
+						"coach": -2
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_171",
@@ -17427,7 +18827,7 @@
 			"id": "PRO_180",
 			"title": "The Veteran Slump",
 			"category": "training",
-			"text": "A slump at thirty-five doesn't look like a slump to anyone outside the building. It looks like the end, and talk radio has started saying so every morning, by name, with a countdown.",
+			"text": "A slump at your age doesn't look like a slump to anyone outside the building. It looks like the end, and talk radio has started saying so every morning, by name, with a countdown.",
 			"stages": [
 				"pro"
 			],
@@ -17459,7 +18859,7 @@
 			"choices": [
 				{
 					"label": "Find the cause in the film",
-					"result": "Three nights of film, alone, and there it is: your plant foot has drifted half an inch, the way it did at twenty-four. It isn't age. You fix it by Thursday and tell nobody.",
+					"result": "Three nights of film, alone, and there it is: your plant foot has drifted half an inch, the way it did when you were young. It isn't age. You fix it by Thursday and tell nobody.",
 					"stats": {
 						"football": {
 							"accuracy": 2
@@ -17780,7 +19180,7 @@
 			"id": "PRO_185",
 			"title": "Still Got It",
 			"category": "media",
-			"text": "A month without a miss at thirty-six, and every story calls it a 'renaissance'. A television crew wants to film your morning routine. You'd call the whole thing work.",
+			"text": "A month without a miss, this late in a career, and every story calls it a 'renaissance'. A television crew wants to film your morning routine. You'd call the whole thing work.",
 			"stages": [
 				"pro"
 			],
@@ -18601,7 +20001,7 @@
 			"id": "PRO_197",
 			"title": "The Veteran Signing",
 			"category": "team",
-			"text": "A new club signed you at thirty-six 'for your experience'. On the first day, three young players wait by your locker to find out what that actually means.",
+			"text": "A new club signed you this late in your career 'for your experience'. On the first day, three young players wait by your locker to find out what that actually means.",
 			"stages": [
 				"pro"
 			],
@@ -20713,7 +22113,7 @@
 			"id": "PRO_221",
 			"title": "The Anniversary",
 			"category": "family",
-			"text": "Ten years married, and you're in a hotel room in a city you can't remember the name of, with a road game tomorrow. {love_interest} is home with the dog and a cake.",
+			"text": "Another wedding anniversary, and you're in a hotel room in a city you can't remember the name of, with a road game tomorrow. {love_interest} is home with the dog and a cake.",
 			"stages": [
 				"pro"
 			],
@@ -23888,7 +25288,7 @@
 			"id": "PRO_259",
 			"title": "The Recovery Clinic",
 			"category": "health",
-			"text": "A recovery clinic promises to make your thirty-six-year-old leg feel twenty-eight. The brochure is beautiful, two veterans swear by it, and the treatment menu includes a substance the league bans.",
+			"text": "A recovery clinic promises to make your veteran leg feel ten years younger. The brochure is beautiful, two veterans swear by it, and the treatment menu includes a substance the league bans.",
 			"stages": [
 				"pro"
 			],
@@ -23936,7 +25336,7 @@
 				},
 				{
 					"label": "Ask the team doctor for a real plan",
-					"result": "A real plan from the team doctor: legal, slow and specific. Your leg doesn't feel twenty-eight, and by October it feels like a strong thirty-six.",
+					"result": "A real plan from the team doctor: legal, slow and specific. Your leg doesn't feel ten years younger, and by October it feels strong, honest and your own.",
 					"stats": {
 						"life": {
 							"energy": -1,
@@ -24498,12 +25898,15 @@
 			"id": "PRO_265",
 			"title": "The Grudge",
 			"category": "social",
-			"text": "The general manager who released you two years ago is at the same restaurant, three tables away, and he's laughing loudly. You're sure, for a moment, that he's laughing about you.",
+			"text": "The general manager who released you is at the same restaurant, three tables away, and he's laughing loudly. You're sure, for a moment, that he's laughing about you.",
 			"stages": [
 				"pro"
 			],
 			"once": true,
 			"requires": {
+				"flags": [
+					"released"
+				],
 				"min": {
 					"age": 34
 				},
@@ -24546,7 +25949,7 @@
 				},
 				{
 					"label": "Say a polite hello",
-					"result": "A polite hello at his table, on your way out. He's surprised, then gracious, and says he made a mistake two years ago. You both pretend that settles it.",
+					"result": "A polite hello at his table, on your way out. He's surprised, then gracious, and says he made a mistake back then. You both pretend that settles it.",
 					"stats": {
 						"personality": {
 							"charisma": 2,
@@ -24559,7 +25962,7 @@
 				},
 				{
 					"label": "Go over and say something",
-					"result": "You go over and say something you've rehearsed for two years. Words turn into a shove, a phone camera catches it, and the video is everywhere by midnight.",
+					"result": "You go over and say something you've rehearsed in the car for years. Words turn into a shove, a phone camera catches it, and the video is everywhere by midnight.",
 					"stats": {
 						"life": {
 							"fun": 1
@@ -27698,7 +29101,7 @@
 			"id": "PRO_302",
 			"title": "The Owner's Funeral",
 			"category": "community",
-			"text": "The owner who signed you fourteen years ago has died at eighty-one. His family asks if you'll speak at the memorial, because he used to talk about you at dinner.",
+			"text": "The owner of the club that first signed you has died at eighty-one. His family asks if you'll speak at the memorial, because he used to talk about you at dinner.",
 			"stages": [
 				"pro"
 			],
@@ -27941,7 +29344,7 @@
 			"id": "PRO_305",
 			"title": "The Old Lineman's Memory",
 			"category": "social",
-			"text": "At a team reunion, a lineman you played beside for six years looks at you kindly and doesn't remember your name. His wife squeezes his arm and says it quietly for him.",
+			"text": "At a team reunion, a lineman you played beside for years looks at you kindly and doesn't remember your name. His wife squeezes his arm and says it quietly for him.",
 			"stages": [
 				"pro"
 			],
@@ -29025,13 +30428,16 @@
 			"id": "PRO_319",
 			"title": "Ten Years",
 			"category": "career",
-			"text": "Ten years in the league. The pension kicks in, the club gives you a watch, and the question arrives with it, uninvited: how many more?",
+			"text": "A decade in the league. The pension kicks in, the club gives you a watch, and the question arrives with it, uninvited: how many more?",
 			"stages": [
 				"pro"
 			],
 			"once": true,
 			"requires": {
 				"min": {
+					"pro_seasons": 10
+				},
+				"max": {
 					"pro_seasons": 10
 				}
 			},
@@ -35934,7 +37340,7 @@
 			"id": "PRO_404",
 			"title": "The Mentor's Retirement",
 			"category": "team",
-			"text": "The special teams coach who rebuilt your swing in your second season is stepping away at the end of the year. He hasn't told the room yet; he told you first.",
+			"text": "The special teams coach who rebuilt your swing years ago is retiring at the end of the year, and he calls to tell you before he tells anyone else, even his own players.",
 			"stages": [
 				"pro"
 			],
@@ -36906,7 +38312,7 @@
 			"id": "PRO_416",
 			"title": "The Retirement Rumors",
 			"category": "media",
-			"text": "The media have started asking how much longer you'll play: at your locker, on the radio, in a column titled 'The Last Good Years'. You're thirty-one, and you feel fine.",
+			"text": "The media have started asking how much longer you'll play: at your locker, on the radio, in a column titled 'The Last Good Years'. You're in your thirties, you feel fine, and you'd rather be asked about kicking.",
 			"stages": [
 				"pro"
 			],
@@ -38458,7 +39864,7 @@
 			"id": "PRO_435",
 			"title": "The Backup Role",
 			"category": "career",
-			"text": "A club offers you a job: backup kicker, behind a twenty-four-year-old with a huge leg. The money is fine. The role is the one you held the clipboard for at twenty-two.",
+			"text": "A club offers you a job: backup kicker, behind a twenty-four-year-old with a huge leg. The money is fine. It's the job young kickers hold while they wait their turn, and you are not young.",
 			"stages": [
 				"pro"
 			],
@@ -39188,7 +40594,7 @@
 			"id": "PRO_444",
 			"title": "The Training Load",
 			"category": "training",
-			"text": "At thirty-six you have to choose, every single week: train hard and risk the body, or recover and risk the edge. The trainers have different opinions on every day of the week.",
+			"text": "This deep into a career you have to choose, every single week: train hard and risk the body, or recover and risk the edge. The trainers have different opinions on every day of the week.",
 			"stages": [
 				"pro"
 			],
@@ -39349,7 +40755,7 @@
 			"id": "PRO_446",
 			"title": "The Charity Legacy",
 			"category": "community",
-			"text": "You've done community work for twelve years: the camps, the hospital visits, the coat drives. You're starting to think about making it permanent, with a building and a staff.",
+			"text": "You've done community work for years: the camps, the hospital visits, the coat drives. You're starting to think about making it permanent, with a building and a staff.",
 			"stages": [
 				"pro"
 			],
@@ -49628,15 +51034,16 @@
 		},
 		{
 			"id": "PRO_630",
-			"title": "The Fourth Season",
+			"title": "No Longer a Rookie",
 			"category": "career",
-			"text": "Your fourth pro season. Nobody calls you a rookie anymore, the equipment manager knows your cleat size by heart, and two of this year's rookies ask for your autograph.",
+			"text": "Another pro season. Nobody calls you a rookie anymore, the equipment manager knows your cleat size by heart, and two of this year's rookies ask for your autograph.",
 			"stages": [
 				"pro"
 			],
 			"once": true,
 			"requires": {
 				"min": {
+					"pro_seasons": 3,
 					"age": 26
 				},
 				"max": {
@@ -49790,12 +51197,16 @@
 			"id": "PRO_632",
 			"title": "The Raise",
 			"category": "money",
-			"text": "Your second contract is real money, and everyone you know has noticed: old friends with ideas, cousins with emergencies, a teacher from middle school with a fundraiser.",
+			"text": "Your new contract is real money, and everyone you know has noticed: old friends with ideas, cousins with emergencies, a teacher from middle school with a fundraiser.",
 			"stages": [
 				"pro"
 			],
 			"once": true,
 			"requires": {
+				"any_flags": [
+					"re_signed",
+					"signed_new_club"
+				],
 				"min": {
 					"age": 26
 				},
@@ -49951,7 +51362,7 @@
 			"id": "PRO_634",
 			"title": "The Specialist Who Retires",
 			"category": "team",
-			"text": "The punter you've worked beside for six years retires suddenly, with a two-line statement on a Tuesday afternoon. He hasn't returned anyone's calls since, including yours.",
+			"text": "The punter you've worked beside since your first day at the club retires suddenly, with a two-line statement on a Tuesday afternoon. He hasn't returned anyone's calls since, including yours.",
 			"stages": [
 				"pro"
 			],
@@ -54631,7 +56042,7 @@
 		},
 		{
 			"id": "PRO_692",
-			"title": "Doubts at Thirty",
+			"title": "Doubts in Your Thirties",
 			"category": "training",
 			"text": "A slump in your thirties, and the questions are all about your age, not your form. The analysts have started using the word 'decline', and a reporter asks about retirement.",
 			"stages": [
@@ -54737,7 +56148,7 @@
 			"id": "PRO_693",
 			"title": "The Thirty-Something Streak",
 			"category": "media",
-			"text": "A month without a miss, and the stories say you're better than ever at thirty-two. The highlight shows have a graphic, and the specialists have stopped saying the word.",
+			"text": "A month without a miss, and the stories say you're better than ever in your thirties. The highlight shows have a graphic, and the specialists have stopped saying the word.",
 			"stages": [
 				"pro"
 			],
@@ -54898,7 +56309,7 @@
 		},
 		{
 			"id": "PRO_695",
-			"title": "Hurt at Thirty",
+			"title": "The Slow Recovery",
 			"category": "health",
 			"text": "An injury in your thirties, a groin strain on a routine kick, and the recovery takes longer than it used to. The trainers keep saying 'at your age', gently.",
 			"stages": [
@@ -54925,7 +56336,7 @@
 			"choices": [
 				{
 					"label": "Follow the plan exactly",
-					"result": "The plan, exactly, for six weeks. It takes longer than it would have at twenty-five, and you come back whole.",
+					"result": "The plan, exactly, for six weeks. It takes longer than it would have a few years ago, and you come back whole.",
 					"stats": {
 						"life": {
 							"health": 3,
@@ -55002,9 +56413,9 @@
 		},
 		{
 			"id": "PRO_696",
-			"title": "The New Club at Thirty",
+			"title": "The New Club in Your Thirties",
 			"category": "team",
-			"text": "A new club, at thirty-one, and the young players already know your name. Some of them had your poster. One of them asks you to sign his old jersey.",
+			"text": "A new club, in your thirties, and the young players already know your name. Some of them had your poster. One of them asks you to sign his old jersey.",
 			"stages": [
 				"pro"
 			],
@@ -59491,7 +60902,7 @@
 			"id": "PRO_752",
 			"title": "Running the Music",
 			"category": "team",
-			"text": "You've been the locker room DJ for six years, and a rookie wants the job. He has a speaker the size of a refrigerator and opinions about your playlists.",
+			"text": "You've been the locker room DJ for years, and a rookie wants the job. He has a speaker the size of a refrigerator and opinions about your playlists.",
 			"stages": [
 				"pro"
 			],
@@ -59657,7 +61068,7 @@
 			"id": "PRO_754",
 			"title": "The Halfway Point",
 			"category": "media",
-			"text": "A reporter asks if you think you're halfway through your career. You're thirty-two, it's a fair question, and you have no idea how to answer it.",
+			"text": "A reporter asks if you think you're halfway through your career. You're in your thirties, it's a fair question, and you have no idea how to answer it.",
 			"stages": [
 				"pro"
 			],
@@ -60607,10 +62018,10 @@
 			"once": true,
 			"requires": {
 				"min": {
-					"age": 34
+					"age": 35
 				},
 				"max": {
-					"age": 37
+					"age": 35
 				}
 			},
 			"expected_flags": [],
@@ -62951,7 +64362,7 @@
 			"id": "PRO_795",
 			"title": "The Last Charity Game",
 			"category": "community",
-			"text": "You play in the charity game you've hosted for ten years, maybe for the last time: same field, same kids, a sold-out crowd that knows the anniversary.",
+			"text": "You play in the charity game you've hosted for years, maybe for the last time: same field, same kids, a sold-out crowd that knows the anniversary.",
 			"stages": [
 				"pro"
 			],
@@ -63356,7 +64767,7 @@
 			"id": "PRO_800",
 			"title": "The Fan Who Has Seen Every Game",
 			"category": "community",
-			"text": "A fan has been to every one of your home games, sixteen seasons, in the same seat, and asks through the team for a photo at what might be the last one.",
+			"text": "A fan has been to every one of your home games since you arrived, always in the same seat, and asks through the team for a photo at what might be the last one.",
 			"stages": [
 				"pro"
 			],
@@ -63906,7 +65317,7 @@
 			"id": "PRO_807",
 			"title": "The Trainer's Retirement",
 			"category": "health",
-			"text": "The trainer who has taped your ankle every game day for nine seasons is retiring. He says your ankle is the one he'll miss, which you choose to take as a compliment.",
+			"text": "The trainer who has taped your ankle every game day since you arrived is retiring. He says your ankle is the one he'll miss, which you choose to take as a compliment.",
 			"stages": [
 				"pro"
 			],

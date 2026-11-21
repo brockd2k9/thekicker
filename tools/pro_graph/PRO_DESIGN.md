@@ -41,7 +41,7 @@ College flags set severity through locked choices.
 | Era 4: Aging Veteran (34-37) | 150 | 150 | 0 | 14 | 0 | 2 | 0 | 2 |
 | Era 5: Grizzled Veteran (38-41) | 80 | 0 | 80 | 5 | 0 | 0 | 0 | 0 |
 | Era 6: Hall of Fame Era (42+) | 40 | 0 | 40 | 1 | 0 | 0 | 0 | 40 |
-| Across eras (state-driven) | 108 | 106 | 0 | 10 | 1 | 0 | 0 | 1 |
+| Across eras (state-driven) | 108 | 108 | 0 | 10 | 1 | 0 | 0 | 1 |
 | Epilogue (after retirement) | 12 | 0 | 0 | 0 | 0 | 0 | 12 | 12 |
 
 Era 5 counts the age-38 scenes as playable now (the cap retires a player after the age-38 season); its ages 39-41 wait on R1. Eras 5 and 6 and the epilogue are proposals until the user confirms them.
@@ -491,9 +491,9 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_388 | The New Family Responsibility | age 26-29 | once |  |  |  |  |
 | PRO_389 | The Offseason Media Tour | age 26-29, offseason | once |  |  |  |  |
 | PRO_390 | The Career Milestone | age 26-29 | once | pro_seasons 4+ |  |  |  |
-| PRO_630 | The Fourth Season | age 26-29 | once |  |  |  |  |
+| PRO_630 | No Longer a Rookie | age 26-29 | once | pro_seasons 3+ |  |  |  |
 | PRO_631 | The Comfortable Routine | age 26-29 | once |  |  |  |  |
-| PRO_632 | The Raise | age 26-29 | once |  |  |  | R3 money values |
+| PRO_632 | The Raise | age 26-29 | once | re_signed / signed_new_club |  |  | R3 money values |
 | PRO_633 | The House With a Yard | age 26-29 | once |  |  |  | R3 money values |
 | PRO_634 | The Specialist Who Retires | age 26-29 | once |  |  |  |  |
 | PRO_635 | A Different Snap | age 26-29 | once |  |  |  |  |
@@ -642,7 +642,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 - **PRO_388 The New Family Responsibility**: A family member needs more of your time than the season has.
 - **PRO_389 The Offseason Media Tour**: Your growing reputation comes with an offseason full of interviews.
 - **PRO_390 The Career Milestone**: You reach a milestone and have to decide how to celebrate it.
-- **PRO_630 The Fourth Season**: Your fourth pro season, and nobody calls you a rookie anymore.
+- **PRO_630 No Longer a Rookie**: Your fourth pro season, and nobody calls you a rookie anymore.
 - **PRO_631 The Comfortable Routine**: Your routine works so well it's starting to feel like a rut.
 - **PRO_632 The Raise**: Your second contract is real money, and everyone you know has noticed.
 - **PRO_633 The House With a Yard**: You buy a house with a yard big enough for a kicking net.
@@ -715,7 +715,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_055 | Loyalty or the Paycheck | age 30-33 | once | contract_year |  | stayed_loyal, explored_options |  |
 | PRO_063 | The Car Dealership | age 30-33 | once |  | dealership_partner |  | R3 money values |
 | PRO_070 | The Foundation | age 30-33 | once |  | started_foundation |  | R3 money values |
-| PRO_072 | Broke at Thirty-Three | age 30-33 | once | advisor_stole / bad_venture / spent_big_check / lived_large / hid_the_loss |  |  | R3 money values + savings check |
+| PRO_072 | Broke in Your Thirties | age 30-33 | once | advisor_stole / bad_venture / spent_big_check / lived_large / hid_the_loss |  |  | R3 money values + savings check |
 | PRO_073 | The Pension Meeting | age 30-33 | once |  |  |  | R3 money values |
 | PRO_084 | The Coach Who Taught You | age 30-33, offseason | once |  |  | earned_coach_confidence, repaired_coach_trust |  |
 | PRO_088 | The Rookie Kicker You Mentor | age 30-33 | once |  | mentored_rookie_kicker | mentored_backup, mentored_younger_student |  |
@@ -742,7 +742,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_293 | The Rule Change | any | once | pro_seasons 8+ |  |  |  |
 | PRO_297 | The Rookie Who Wears Your Number | any | once | pro_seasons 8+ |  |  |  |
 | PRO_299 | The Coach You Outlasted | any | once | pro_seasons 8+ |  |  |  |
-| PRO_319 | Ten Years | any | once | pro_seasons 10+ |  |  |  |
+| PRO_319 | Ten Years | any | once | pro_seasons 10+; pro_seasons under 10 |  |  |  |
 | PRO_391 | The Room Starts Looking at You | age 30-33 | once |  |  |  |  |
 | PRO_392 | The Coaching Staff Meeting | age 30-33 | once |  |  |  |  |
 | PRO_393 | The Family Schedule | age 30-33 | once | became_parent |  |  |  |
@@ -784,11 +784,11 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_429 | The Old Teammate's Request | age 30-33 | once |  | business_owner |  | R3 money values |
 | PRO_430 | The Next Chapter Conversation | age 30-33 | once | made_long_distance_work / committed_to_relationship / new_partner / engaged / married |  |  |  |
 | PRO_691 | Contract Year: The Middle Years | age 30-33 | once | contract_year |  |  |  |
-| PRO_692 | Doubts at Thirty | age 30-33 | once | slump_now 1+ |  |  |  |
+| PRO_692 | Doubts in Your Thirties | age 30-33 | once | slump_now 1+ |  |  |  |
 | PRO_693 | The Thirty-Something Streak | age 30-33 | once | fg_streak 8+ |  |  |  |
 | PRO_694 | The Kicker They Drafted | age 30-33 | once |  |  |  |  |
-| PRO_695 | Hurt at Thirty | age 30-33 | once | injured_now 1+ |  |  |  |
-| PRO_696 | The New Club at Thirty | age 30-33, club season 1 | once | signed_new_club |  |  |  |
+| PRO_695 | The Slow Recovery | age 30-33 | once | injured_now 1+ |  |  |  |
+| PRO_696 | The New Club in Your Thirties | age 30-33, club season 1 | once | signed_new_club |  |  |  |
 | PRO_697 | The Captain's Patch | age 30-33 | once |  |  |  |  |
 | PRO_698 | The Holder Retires | age 30-33 | once |  |  |  |  |
 | PRO_699 | The Rookie's Holdout | age 30-33 | once |  |  |  |  |
@@ -866,7 +866,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 - **PRO_055 Loyalty or the Paycheck**: Another club would pay you double. This one gave you your first chance.
 - **PRO_063 The Car Dealership**: A dealership wants you as a partner: your face on the billboards, your money in the lot.
 - **PRO_070 The Foundation**: Your charity foundation's director is spending more on galas than on kids.
-- **PRO_072 Broke at Thirty-Three**: The money's gone faster than the career, and you have a mortgage, a family and maybe three seasons.
+- **PRO_072 Broke in Your Thirties**: The money's gone faster than the career, and you have a mortgage, a family and maybe three seasons.
 - **PRO_073 The Pension Meeting**: The players' union holds a meeting about pensions and retirement plans. Six players show up.
 - **PRO_084 The Coach Who Taught You**: Your high school coach is retiring, and the school wants you to speak at the dinner.
 - **PRO_088 The Rookie Kicker You Mentor**: The club drafts a kicker and asks you to show the rookie how things work, knowing what that means.
@@ -935,11 +935,11 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 - **PRO_429 The Old Teammate's Request**: A former teammate asks you to back his new venture.
 - **PRO_430 The Next Chapter Conversation**: {love_interest} wants to know what you picture for life after football.
 - **PRO_691 Contract Year: The Middle Years**: At thirty, a contract year means proving you're not slowing down.
-- **PRO_692 Doubts at Thirty**: A slump at thirty, and the questions are about your age, not your form.
+- **PRO_692 Doubts in Your Thirties**: A slump at thirty, and the questions are about your age, not your form.
 - **PRO_693 The Thirty-Something Streak**: A month without a miss, and the stories say you're better than ever.
 - **PRO_694 The Kicker They Drafted**: The club drafts a kicker in the middle rounds, and he's watching your every kick.
-- **PRO_695 Hurt at Thirty**: An injury at thirty, and the recovery takes longer than it used to.
-- **PRO_696 The New Club at Thirty**: A new club, and the young players already know your name.
+- **PRO_695 The Slow Recovery**: An injury at thirty, and the recovery takes longer than it used to.
+- **PRO_696 The New Club in Your Thirties**: A new club, and the young players already know your name.
 - **PRO_697 The Captain's Patch**: You wear the captain's patch for the first time.
 - **PRO_698 The Holder Retires**: Your longtime holder retires, and the new one is half your age.
 - **PRO_699 The Rookie's Holdout**: A rookie holds out, and the veterans want you to talk to him.
@@ -1064,7 +1064,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_262 | Betting to Cover It | age 34-37 | once |  | pro_betting_scandal |  | R3 money values; R9 longer suspensions |
 | PRO_263 | The Phantom Injury | age 34-37 | once |  | pro_phantom_injury |  |  |
 | PRO_264 | Teaching the Wrong Thing | age 34-37 | once |  | pro_bad_mentor |  |  |
-| PRO_265 | The Grudge | age 34-37 | once |  | pro_bar_fight |  |  |
+| PRO_265 | The Grudge | age 34-37 | once | released | pro_bar_fight |  |  |
 | PRO_266 | The Insurance Claim | age 34-37 | once |  | pro_insurance_fraud |  | R3 money values |
 | PRO_267 | The Last Big Night | age 34-37 | once | announced_retirement | pro_night_before |  |  |
 | PRO_268 | The Veteran Hearing | age 34-37 | once | pro_warning; (every pro strike) | pro_second_chance |  | R9 longer suspensions |
@@ -1118,7 +1118,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_462 | The Missed Family Event | age 34-37 | once |  |  |  |  |
 | PRO_463 | The Investment Decision | age 34-37 | once |  |  |  | R3 money values |
 | PRO_464 | The Career Retrospective | age 34-37 | once |  |  |  |  |
-| PRO_766 | The Thirty-Fifth Birthday | age 34-37 | once |  |  |  |  |
+| PRO_766 | The Thirty-Fifth Birthday | age 35 | once |  |  |  |  |
 | PRO_767 | Training for Longevity | age 34-37 | once |  |  |  |  |
 | PRO_768 | The Doctor's Honest Talk | age 34-37 | once |  |  |  |  |
 | PRO_769 | The Teammates Half Your Age | age 34-37 | once |  |  |  |  |
