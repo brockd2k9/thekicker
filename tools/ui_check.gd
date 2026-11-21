@@ -85,7 +85,7 @@ func _capture_all() -> void:
 	var ach := GameState.achievements
 	for i in mini(4, AchievementDefs.ALL.size()):
 		ach.unlocked[str(AchievementDefs.ALL[i]["id"])] = int(Time.get_unix_time_from_system()) - i * 86400
-	_m = CareerManager.create(3, "Jordan Reyes", 7, {"skin": 2, "hair": 1}, "ridgeline")
+	_m = CareerManager.create(3, "Jordan Reyes", 7, {"skin": 2, "hair": 1})
 	_m.rng.seed = 5
 	GameState.career = _m
 	var c := _m.data

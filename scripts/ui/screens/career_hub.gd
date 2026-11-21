@@ -182,7 +182,8 @@ func _result_row(r: Dictionary) -> PanelContainer:
 	mid.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	h.add_child(mid)
 	var ot := CareerManager.ot_tag(r)
-	mid.add_child(UiKit.line("Wk %d  %s%s" % [int(r.get("week", 0)), r.get("opponent", ""),
+	# Long school names ("Alexandria Polytechnic University") wrap on phones.
+	mid.add_child(UiKit.label("Wk %d  %s%s" % [int(r.get("week", 0)), r.get("opponent", ""),
 		("  " + ot) if ot != "" else ""], 28, UiKit.TEXT, UiTokens.FONT_DISPLAY))
 	if str(r.get("line", "")) != "":
 		mid.add_child(UiKit.label(str(r.get("line", "")), 22, UiKit.MUTED))

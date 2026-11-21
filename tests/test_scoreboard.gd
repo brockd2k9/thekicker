@@ -94,14 +94,14 @@ func test_abbreviations() -> void:
 	eq(ScoreBugState.abbreviation({"town": "Ridgeline"}), "RID", "first three letters")
 	eq(ScoreBugState.abbreviation({"name": "St. Mary's Academy"}), "SMA", "punctuation ignored")
 	eq(ScoreBugState.abbreviation({}), "TM", "nothing to go on")
-	for t in CareerContent.high_schools() + CareerContent.colleges():
+	for t in TeamDatabase.high_schools() + TeamDatabase.colleges():
 		var a := ScoreBugState.abbreviation(t)
 		check(a.length() >= 2 and a.length() <= 4, "%s -> %s is 2-4 letters" % [t.get("name"), a])
 
 
 func test_game_sim_events_carry_possession() -> void:
 	var c := CareerData.create("Bug Test", CareerTuning.get_default())
-	c.team = Progression.team_from(CareerContent.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
+	c.team = Progression.team_from(TeamDatabase.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
 	var m := CareerManager.new(c)
 	m.rng.seed = 4
 	m._start_season(false)
@@ -133,7 +133,7 @@ func test_possession_does_not_change_the_game_script() -> void:
 	var lines := []
 	for run in 2:
 		var c := CareerData.create("Bug Test", CareerTuning.get_default())
-		c.team = Progression.team_from(CareerContent.high_schools()[1], CareerData.STAGE_HIGH_SCHOOL)
+		c.team = Progression.team_from(TeamDatabase.high_schools()[1], CareerData.STAGE_HIGH_SCHOOL)
 		var m := CareerManager.new(c)
 		m.rng.seed = 11
 		m._start_season(false)

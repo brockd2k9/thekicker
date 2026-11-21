@@ -310,6 +310,16 @@ static func html_color(s: String, fallback := Color.WHITE) -> Color:
 	return Color.from_string(s, fallback)
 
 
+## "FBS - Atlantic Coast Alliance": a team's division and conference
+## (TeamDatabase); just the conference for high school and pro.
+static func league_line(t: Dictionary) -> String:
+	var div := str(t.get("division", ""))
+	var conf := str(t.get("conference", ""))
+	if div == "" or div in ["HS", "PRO"]:
+		return conf
+	return "%s - %s" % [div, conf] if conf != "" else div
+
+
 ## Team color stripe (school colors) as a skewed broadcast bar.
 static func team_stripe(t: Dictionary, width := 60.0, height := 8.0) -> HBoxContainer:
 	var h := HBoxContainer.new()

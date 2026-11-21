@@ -50,8 +50,15 @@ func test_v2_round_trip_is_lossless() -> void:
 		var again := CareerData.from_dict(CareerSave._migrate(c.to_dict()))
 		eq(JSON.stringify(again.to_dict()), JSON.stringify(c.to_dict()), name + " round trip")
 		var raw := fixture(name)
-		for key in ["flags", "scenario_log", "offers", "history", "route", "schedule"]:
+		for key in ["flags", "scenario_log", "history", "route"]:
 			eq(JSON.stringify(c.to_dict()[key]), JSON.stringify(raw[key]), "%s keeps %s" % [name, key])
+		# Offers and the schedule keep everything but old team ids (version 8
+		# moved them to the team database: test_team_database.gd).
+		eq(c.offers.size(), (raw["offers"] as Array).size(), name + " keeps its offers")
+		eq(c.schedule.size(), (raw["schedule"] as Array).size(), name + " keeps its schedule")
+		for i in c.schedule.size():
+			eq(JSON.stringify(c.schedule[i].get("result")), JSON.stringify(raw["schedule"][i].get("result")),
+				"%s keeps week %d's result" % [name, i + 1])
 
 
 func test_old_careers_keep_playing() -> void:
@@ -126,7 +133,7 @@ func test_v3_relationships_load_unchanged() -> void:
 	people.erase(Relationships.TEAM)
 	check(people.has(Bench.BACKUP) and not bool(people[Bench.BACKUP]["known"]), "v5 adds the backup kicker, hidden")
 	people.erase(Bench.BACKUP)
-	eq(JSON.stringify(people), JSON.stringify(raw["people"]), "people kept exactly")
+	eq(people_json(people), people_json(raw["people"]), "people kept exactly")
 	eq(JSON.stringify(c.to_dict()["former_people"]), JSON.stringify(raw["former_people"]), "former people kept")
 	check(Relationships.known(c, "rival") and Relationships.value(c, "rival") < 50.0, "Tyler met, a rival")
 	eq(str(Relationships.tyler_team(c).get("stage", "")), "college", "Tyler's college kept")

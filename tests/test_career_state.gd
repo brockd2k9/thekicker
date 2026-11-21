@@ -11,13 +11,13 @@ func _career(stage := CareerData.STAGE_HIGH_SCHOOL) -> CareerManager:
 	var c := CareerData.create("State Test", t)
 	c.created = 1794983149
 	c.slot = 0
-	c.team = Progression.team_from(CareerContent.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
+	c.team = Progression.team_from(TeamDatabase.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
 	var m := CareerManager.new(c, t)
 	m.rng.seed = 9
 	m._start_season(false)
 	if stage != CareerData.STAGE_HIGH_SCHOOL:
 		c.stage = stage
-		c.team = Progression.team_from(CareerContent.colleges()[0], stage)
+		c.team = Progression.team_from(TeamDatabase.colleges()[0], stage)
 		Relationships.enter_stage(c, t)
 	return m
 
@@ -55,7 +55,7 @@ func test_fg_streak() -> void:
 func test_pro_flags_and_clubs() -> void:
 	var m := _career(CareerData.STAGE_COLLEGE)
 	var c := m.data
-	var clubs := CareerContent.pro_clubs()
+	var clubs := TeamDatabase.pro_teams()
 	m._enter_stage(CareerData.STAGE_PRO, Progression.team_from(clubs[0], CareerData.STAGE_PRO), "x")
 	eq(c.metric("clubs"), 1.0, "one club")
 	check(not c.flags.get("signed_new_club", false), "the first club isn't a new club")
@@ -99,7 +99,7 @@ func test_once_per_club() -> void:
 	check(ScenarioEngine.is_eligible(c, s, "season", t), "never seen")
 	c.scenario_log["test_arrival"] = {"times": 1, "clubs": [ScenarioEngine._club_key(c)]}
 	check(not ScenarioEngine.is_eligible(c, s, "season", t), "seen at this club")
-	c.team = Progression.team_from(CareerContent.colleges()[1], c.stage)
+	c.team = Progression.team_from(TeamDatabase.colleges()[1], c.stage)
 	check(ScenarioEngine.is_eligible(c, s, "season", t), "a new club: again")
 	c.scenario_log["test_arrival"] = {"times": 1}
 	check(not ScenarioEngine.is_eligible(c, s, "season", t), "an old log entry counts as seen here")
@@ -140,7 +140,7 @@ func test_dismissed_in_college() -> void:
 func test_dismissed_in_the_pros() -> void:
 	var m := _career(CareerData.STAGE_COLLEGE)
 	var c := m.data
-	m._enter_stage(CareerData.STAGE_PRO, Progression.team_from(CareerContent.pro_clubs()[0], CareerData.STAGE_PRO), "x")
+	m._enter_stage(CareerData.STAGE_PRO, Progression.team_from(TeamDatabase.pro_teams()[0], CareerData.STAGE_PRO), "x")
 	c.contract = {"years_left": 3, "team": "x", "team_name": "X", "salary": 900000}
 	c.season_stats = {"fg_att": 20, "fg_made": 20, "long": 55}
 	c.flags[Reputation.DISMISSED] = true

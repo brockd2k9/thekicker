@@ -161,7 +161,7 @@ static func update_offers(c: CareerData, rng: RandomNumberGenerator) -> Dictiona
 		if not gpa_ok(c, tier_id):
 			out["blocked_by_gpa"].append(tier_id)
 			continue
-		var schools := CareerContent.colleges().filter(func(s: Dictionary) -> bool:
+		var schools := TeamDatabase.colleges().filter(func(s: Dictionary) -> bool:
 			return s.get("tier", "") == tier_id and not have.has(str(s["id"])))
 		# The most interested schools offer first (school_interest), so the
 		# Recruiting screen's order and the offers agree. The shuffle only
@@ -232,7 +232,7 @@ static func fallback_options(c: CareerData, t: CareerTuning) -> Array:
 	for tier_id in ["mid", "small"]:
 		if not gpa_ok(c, tier_id):
 			continue
-		var schools := CareerContent.colleges().filter(func(s: Dictionary) -> bool:
+		var schools := TeamDatabase.colleges().filter(func(s: Dictionary) -> bool:
 			return s.get("tier", "") == tier_id and not offered.has(str(s["id"])) \
 				and not (str(s["id"]) in c.flags.get("failed_tryouts", [])))
 		if not schools.is_empty():
@@ -248,7 +248,7 @@ static func fallback_options(c: CareerData, t: CareerTuning) -> Array:
 ## {round (0 = undrafted), kind: drafted / camp / open, team, team_name}.
 static func draft(c: CareerData, rng: RandomNumberGenerator) -> Dictionary:
 	var d: Dictionary = rules().get("draft", {})
-	var clubs := CareerContent.pro_clubs()
+	var clubs := TeamDatabase.pro_teams()
 	var club: Dictionary = clubs[rng.randi_range(0, clubs.size() - 1)]
 	# Character on draft day (Reputation): concerns cost stock; rebuilt clears it.
 	var adj := Reputation.draft_adjust(c, CareerTuning.get_default())
@@ -268,7 +268,7 @@ static func draft(c: CareerData, rng: RandomNumberGenerator) -> Dictionary:
 ## A contract dict: {team, team_name, years_left, salary, how}.
 static func contract(team_id: String, how: String, round_n: int = 0, years := 0, salary := 0) -> Dictionary:
 	var k: Dictionary = rules().get("contracts", {})
-	var club := CareerContent.team_by_id(team_id)
+	var club := TeamDatabase.team(team_id)
 	match how:
 		"drafted":
 			years = int(k.get("rookie_years", {}).get(str(round_n), 3))
@@ -299,12 +299,14 @@ static func money(n: int) -> String:
 
 # --- teams and games ------------------------------------------------------------------
 
-## A team dict for CareerData.team / opponents from any world.json entry.
+## A team dict for CareerData.team / opponents from a TeamDatabase team
+## record (saved with the career, so it stays readable if the data changes).
 static func team_from(s: Dictionary, level: String) -> Dictionary:
 	return {"id": s.get("id", ""), "name": s.get("name", "Team"), "mascot": s.get("mascot", ""),
 		"short": s.get("short", "???"), "town": s.get("town", ""),
 		"colors": s.get("colors", ["#1f3a8a", "#f2b632"]), "strength": float(s.get("strength", 50)),
-		"tier": s.get("tier", ""), "level": level}
+		"tier": s.get("tier", ""), "division": s.get("division", ""), "conference": s.get("conference", ""),
+		"level": level}
 
 
 ## Who you can play this stage.
@@ -313,13 +315,13 @@ static func opponents(c: CareerData) -> Array:
 	match c.stage:
 		CareerData.STAGE_COLLEGE:
 			# Mostly your own tier, a few from the others.
-			pool = CareerContent.colleges()
+			pool = TeamDatabase.colleges()
 		CareerData.STAGE_JUCO:
-			pool = CareerContent.jucos()
+			pool = TeamDatabase.jucos()
 		CareerData.STAGE_PRO:
-			pool = CareerContent.pro_clubs()
+			pool = TeamDatabase.pro_teams()
 		_:
-			pool = CareerContent.high_schools()
+			pool = TeamDatabase.high_schools()
 	return pool.filter(func(s: Dictionary) -> bool: return s.get("id", "") != c.team.get("id", ""))
 
 

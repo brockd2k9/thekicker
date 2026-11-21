@@ -9,13 +9,13 @@ func _career(stage := CareerData.STAGE_HIGH_SCHOOL) -> CareerManager:
 	var c := CareerData.create("Bench Test", t)
 	c.created = 1794983149
 	c.slot = 0
-	c.team = Progression.team_from(CareerContent.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
+	c.team = Progression.team_from(TeamDatabase.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
 	var m := CareerManager.new(c, t)
 	m.rng.seed = 7
 	m._start_season(false)
 	if stage != CareerData.STAGE_HIGH_SCHOOL:
 		c.stage = stage
-		var col: Dictionary = CareerContent.colleges()[0]
+		var col: Dictionary = TeamDatabase.colleges()[0]
 		c.team = Progression.team_from(col, stage)
 		Relationships.enter_stage(c, t)
 	return m
@@ -229,7 +229,7 @@ func test_frozen_v5_save_loads_unchanged() -> void:
 	check(Bench.benched(c), "still benched")
 	eq(str(c.bench["backup"]), Bench.BACKUP, "backup kept")
 	check(Relationships.known(c, Bench.BACKUP), "backup known")
-	eq(JSON.stringify(c.to_dict()["people"]), JSON.stringify(raw["people"]), "people kept exactly")
+	eq(people_json(c.to_dict()["people"]), people_json(raw["people"]), "people kept exactly")
 	var again := CareerData.from_dict(CareerSave._migrate(c.to_dict()))
 	eq(JSON.stringify(again.to_dict()), JSON.stringify(c.to_dict()), "v5 round trip")
 

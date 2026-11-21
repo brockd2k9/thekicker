@@ -76,6 +76,9 @@ static func summary(slot: int) -> Dictionary:
 	}
 
 
+const LEGACY_IDS := "res://data/teams/legacy_ids.json"
+
+
 static func _migrate(d: Dictionary) -> Dictionary:
 	var v := int(d.get("career_version", 0))
 	# Version 0 -> 1: nothing to convert.
@@ -138,7 +141,78 @@ static func _migrate(d: Dictionary) -> Dictionary:
 		d["followers"] = int(d.get("followers", n))
 		d["social"] = {"peak": n, "best_tier": Followers.tier_of(n, t)}
 		v = 7
+	# Version 7 -> 8: the team database (data/teams, TeamDatabase). The old
+	# built-in teams are gone: the player's high school becomes Hoboken High
+	# School (every career starts there now), and other old team ids map to
+	# database teams by data/teams/legacy_ids.json (_migrate_teams).
+	if v < 8:
+		_migrate_teams(d)
+		v = 8
 	if v > CareerData.VERSION:
 		push_warning("CareerSave: career is from a newer version (%d)" % v)
 	d["career_version"] = CareerData.VERSION
 	return d
+
+
+## Version 8: replaces old built-in team ids with team database ids wherever
+## the save names a team (the player's team, the schedule, offers, a tryout,
+## failed tryouts, Tyler's team). The player's own high school is always
+## Hoboken; past results and history lines keep the names they were played
+## under. Junior college and pro ids didn't change.
+static func _migrate_teams(d: Dictionary) -> void:
+	var legacy: Variant = JSON.parse_string(FileAccess.get_file_as_string(LEGACY_IDS)) \
+		if FileAccess.file_exists(LEGACY_IDS) else {}
+	var hs: Dictionary = legacy.get("high_school", {}) if legacy is Dictionary else {}
+	var col: Dictionary = legacy.get("college", {}) if legacy is Dictionary else {}
+	var map := func(id: String) -> String:
+		return str(hs.get(id, col.get(id, id)))
+	# A saved team dict rebuilt from the database (its extra keys, such as
+	# offer_type, are kept). Unknown ids are left as they are.
+	var rebuild := func(t: Dictionary, new_id: String) -> Dictionary:
+		var rec := TeamDatabase.team(new_id)
+		if rec.is_empty():
+			return t
+		var out := t.duplicate(true)
+		out.merge(Progression.team_from(rec, str(t.get("level", rec.get("level", "")))), true)
+		return out
+	var team: Variant = d.get("team", {})
+	if team is Dictionary and not (team as Dictionary).is_empty():
+		var id := str(team.get("id", ""))
+		var stage := str(d.get("stage", CareerData.STAGE_HIGH_SCHOOL))
+		if hs.has(id) or (stage == CareerData.STAGE_HIGH_SCHOOL and not TeamDatabase.has_team(id)):
+			d["team"] = rebuild.call(team, TeamDatabase.start_team_id())
+		elif col.has(id):
+			d["team"] = rebuild.call(team, str(col[id]))
+	var player: Variant = d.get("player", {})
+	if player is Dictionary:
+		player["hometown"] = str(TeamDatabase.start_team().get("city", player.get("hometown", "")))
+	var sched: Variant = d.get("schedule", [])
+	if sched is Array:
+		for e in sched:
+			if e is Dictionary and e.get("opponent") is Dictionary:
+				var oid := str(e["opponent"].get("id", ""))
+				if map.call(oid) != oid:
+					e["opponent"] = rebuild.call(e["opponent"], map.call(oid))
+	var offers: Variant = d.get("offers", [])
+	if offers is Array:
+		for off in offers:
+			if off is Dictionary and col.has(str(off.get("school", ""))):
+				off["school"] = str(col[str(off["school"])])
+				off["name"] = str(TeamDatabase.team(str(off["school"])).get("name", off.get("name", "")))
+	var tryout: Variant = d.get("tryout", {})
+	if tryout is Dictionary and col.has(str(tryout.get("team", ""))):
+		tryout["team"] = str(col[str(tryout["team"])])
+		tryout["team_name"] = str(TeamDatabase.team(str(tryout["team"])).get("name", tryout.get("team_name", "")))
+	var flags: Variant = d.get("flags", {})
+	if flags is Dictionary and flags.get("failed_tryouts") is Array:
+		flags["failed_tryouts"] = (flags["failed_tryouts"] as Array).map(func(x: Variant) -> String: return map.call(str(x)))
+	var people: Variant = d.get("people", {})
+	if people is Dictionary:
+		for k in people:
+			var pt: Variant = people[k].get("team") if people[k] is Dictionary else null
+			if pt is Dictionary and map.call(str(pt.get("id", ""))) != str(pt.get("id", "")):
+				var rec := TeamDatabase.team(map.call(str(pt["id"])))
+				if not rec.is_empty():
+					pt["id"] = str(rec["id"])
+					pt["name"] = str(rec["name"])
+					pt["short"] = str(rec["short"])

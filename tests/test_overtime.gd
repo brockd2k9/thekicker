@@ -13,9 +13,9 @@ var t := CareerTuning.get_default()
 ## A game skipped to the end of regulation, tied. rule: hs / college / pro.
 func _tied_sim(rule: String, seed_n: int, backup_fg := false) -> GameSim:
 	var c := CareerData.create("OT Test", t)
-	c.team = Progression.team_from(CareerContent.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
+	c.team = Progression.team_from(TeamDatabase.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
 	var sim := GameSim.new()
-	var e := {"opponent": Progression.team_from(CareerContent.high_schools()[1], CareerData.STAGE_HIGH_SCHOOL),
+	var e := {"opponent": Progression.team_from(TeamDatabase.high_schools()[1], CareerData.STAGE_HIGH_SCHOOL),
 		"home": true, "weather": {}}
 	var params := {"fg_min": 25, "fg_max": 50, "pat": 20, "pressure_bonus": 0.0, "ot": rule}
 	sim.backup_fg = backup_fg

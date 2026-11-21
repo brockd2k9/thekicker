@@ -10,7 +10,7 @@ func _pro(age: int) -> CareerManager:
 	var c := CareerData.create("End Test", t)
 	c.created = 1794983149
 	c.slot = 0
-	c.team = Progression.team_from(CareerContent.pro_clubs()[0], CareerData.STAGE_PRO)
+	c.team = Progression.team_from(TeamDatabase.pro_teams()[0], CareerData.STAGE_PRO)
 	c.stage = CareerData.STAGE_PRO
 	c.age = age
 	var m := CareerManager.new(c, t)

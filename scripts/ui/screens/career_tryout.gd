@@ -51,7 +51,7 @@ func _build_scene(tee: bool) -> void:
 		remove_child(_game)
 	var t := career.data.tryout
 	_mode = TryoutMode.from_tryout(t, tee)
-	var team := CareerContent.team_by_id(str(t.get("team", "")))
+	var team := TeamDatabase.team(str(t.get("team", "")))
 	var stage := str(t.get("stage", "pro"))
 	var width := career.tuning.goal_width_pro if stage == "pro" else career.tuning.goal_width_college
 	if stage == "high_school":  # high school auditions and challenges on high school posts

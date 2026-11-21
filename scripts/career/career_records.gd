@@ -23,6 +23,9 @@ const INTEREST_WORDS := [[80, "Recruiting hard"], [60, "Very interested"], [40, 
 const OFFER_INTEREST := 50.0
 ## Schools below this interest (and without an offer) aren't listed.
 const LIST_MIN_INTEREST := 15.0
+## At most this many schools are listed (the database has hundreds); schools
+## that offered are always listed.
+const LIST_MAX := 30
 
 
 # --- kicking stats ----------------------------------------------------------------------
@@ -134,7 +137,7 @@ static func offer_from(c: CareerData, school_id: String) -> Dictionary:
 ## [{school, interest, word, offer, gpa_short}].
 static func interested_schools(c: CareerData) -> Array:
 	var out: Array = []
-	for s in CareerContent.colleges():
+	for s in TeamDatabase.colleges():
 		var v := school_interest(c, s)
 		var off := offer_from(c, str(s.get("id", "")))
 		if v < LIST_MIN_INTEREST and off.is_empty():
@@ -151,6 +154,12 @@ static func interested_schools(c: CareerData) -> Array:
 		if a["offer"].is_empty() != b["offer"].is_empty():
 			return not a["offer"].is_empty()  # equal interest: the school that offered first
 		return str(a["school"].get("name", "")) < str(b["school"].get("name", "")))
+	if out.size() > LIST_MAX:
+		var kept := out.slice(0, LIST_MAX)
+		for e in out.slice(LIST_MAX):
+			if not e["offer"].is_empty():
+				kept.append(e)
+		out = kept
 	return out
 
 

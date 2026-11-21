@@ -46,15 +46,15 @@ func _init(c: CareerData, t: CareerTuning = null) -> void:
 	rng.randomize()
 
 
-## A new career in `slot`, at school `school_id`, saved and ready at week 1.
-static func create(slot: int, player_name: String, number: int, appearance: Dictionary,
-		school_id: String) -> CareerManager:
+## A new career in `slot`, saved and ready at week 1. Every career starts at
+## Hoboken High School (TeamDatabase.start_team, data/teams/leagues.json).
+static func create(slot: int, player_name: String, number: int, appearance: Dictionary) -> CareerManager:
 	var t := CareerTuning.get_default()
 	var c := CareerData.create(player_name, t)
 	c.slot = slot
 	c.player["number"] = number
 	c.player["appearance"] = appearance.duplicate()
-	var s := CareerContent.school(school_id)
+	var s := TeamDatabase.start_team()
 	c.player["hometown"] = str(s.get("town", ""))
 	c.team = Progression.team_from(s, CareerData.STAGE_HIGH_SCHOOL)
 	c.add_route("Freshman kicker at %s" % s.get("name", ""))
@@ -249,17 +249,22 @@ func _sync_flags() -> void:
 		data.flags["benched"] = true
 
 
-## games_per_season games + byes_per_season byes against this stage's teams
-## (colleges: your own tier first). Entries are typed ("regular" / "bye") so
+## games_per_season games + byes_per_season byes against this stage's teams:
+## your own conference first, then (colleges) your own tier, then the rest. Entries are typed ("regular" / "bye") so
 ## playoff weeks can be appended later.
 static func build_schedule(c: CareerData, t: CareerTuning, r: RandomNumberGenerator) -> Array:
 	var others := Progression.opponents(c)
 	Progression.shuffle(others, r)
+	var my_conf := str(TeamDatabase.team(str(c.team.get("id", ""))).get("conference", c.team.get("conference", "")))
 	var my_tier := str(c.team.get("tier", ""))
-	if my_tier != "":
-		var same := others.filter(func(s: Dictionary) -> bool: return s.get("tier", "") == my_tier)
-		var rest := others.filter(func(s: Dictionary) -> bool: return s.get("tier", "") != my_tier)
-		others = same + rest
+	var rank := func(s: Dictionary) -> int:
+		if my_conf != "" and str(s.get("conference", "")) == my_conf:
+			return 0
+		return 1 if my_tier != "" and str(s.get("tier", "")) == my_tier else 2
+	var groups: Array = [[], [], []]
+	for s in others:
+		groups[rank.call(s)].append(s)
+	others = groups[0] + groups[1] + groups[2]
 	var total := t.games_per_season + t.byes_per_season
 	var byes: Array = []
 	while byes.size() < t.byes_per_season:
@@ -909,7 +914,7 @@ func choose_college(option: Dictionary) -> void:
 	match str(option.get("kind", "")):
 		"offer":
 			var off: Dictionary = option["offer"]
-			var s := CareerContent.team_by_id(str(off["school"]))
+			var s := TeamDatabase.team(str(off["school"]))
 			var team := Progression.team_from(s, CareerData.STAGE_COLLEGE)
 			team["offer_type"] = off["type"]
 			var start: Dictionary = Progression.tier(str(off["tier"])).get("start_draft", {})
@@ -922,7 +927,7 @@ func choose_college(option: Dictionary) -> void:
 		"walk_on_tryout":
 			start_tryout("walk_on", str(option["school"]))
 		"juco":
-			var jucos := CareerContent.jucos()
+			var jucos := TeamDatabase.jucos()
 			var s: Dictionary = jucos[rng.randi_range(0, jucos.size() - 1)]
 			data.flags["juco"] = true
 			_enter_stage(CareerData.STAGE_JUCO, Progression.team_from(s, CareerData.STAGE_JUCO),
@@ -935,7 +940,7 @@ func choose_college(option: Dictionary) -> void:
 ## purpose: walk_on / camp / free_agent (progression.json "tryouts").
 func start_tryout(purpose: String, team_id: String) -> void:
 	var def: Dictionary = Progression.rules().get("tryouts", {}).get(purpose, {})
-	var team := CareerContent.team_by_id(team_id)
+	var team := TeamDatabase.team(team_id)
 	data.tryout = def.duplicate(true)
 	data.tryout.merge({"purpose": purpose, "team": team_id, "team_name": str(team.get("name", "")), "results": [],
 		"made": 0, "taken": 0, "seed": rng.randi()}, true)
@@ -1033,7 +1038,7 @@ func finish_tryout(made: int) -> void:
 		save()
 		return
 	var team_id := str(data.tryout.get("team", ""))
-	var team := CareerContent.team_by_id(team_id)
+	var team := TeamDatabase.team(team_id)
 	var passed := tryout_passed()
 	data.add_route("%s tryout with %s: %s (%d of %d)" % [purpose.replace("_", " ").capitalize(),
 		team.get("name", ""), "made the team" if passed else "cut", made, (data.tryout.get("distances", []) as Array).size()])
@@ -1087,7 +1092,7 @@ func sign_drafted() -> void:
 	data.contract = Progression.contract(str(d["team"]), "drafted", int(d["round"]))
 	data.contract["salary"] = Followers.salary(data, int(data.contract["salary"]), tuning)
 	_event({"event": "drafted", "round": int(d["round"])})
-	var team := CareerContent.team_by_id(str(d["team"]))
+	var team := TeamDatabase.team(str(d["team"]))
 	_enter_stage(CareerData.STAGE_PRO, Progression.team_from(team, CareerData.STAGE_PRO),
 		"Drafted in round %d by the %s (%d years, %s)" % [int(d["round"]), team.get("name", ""),
 		int(data.contract["years_left"]), Progression.money(int(data.contract["salary"]))])
@@ -1118,7 +1123,7 @@ func _free_agency(why: String) -> void:
 		data.notice = "No team called this year: clubs look hard at a %d-year-old kicker." % (data.age - 1)
 		_free_agency(why)
 		return
-	var clubs := CareerContent.pro_clubs().filter(func(s: Dictionary) -> bool:
+	var clubs := TeamDatabase.pro_teams().filter(func(s: Dictionary) -> bool:
 		return not (str(s["id"]) in data.flags.get("failed_tryouts", [])))
 	if clubs.is_empty():
 		retire("out_of_football")

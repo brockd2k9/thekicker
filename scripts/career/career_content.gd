@@ -96,44 +96,12 @@ static func world() -> Dictionary:
 	return file("world.json")
 
 
-static func high_schools() -> Array:
-	return world().get("high_school", {}).get("schools", [])
-
-
-static func school(id: String) -> Dictionary:
-	for s in high_schools():
-		if s.get("id", "") == id:
-			return s
-	return {}
-
-
 static func stats_info() -> Dictionary:
 	return file("stats_info.json")
 
 
 static func progression() -> Dictionary:
 	return file("progression.json")
-
-
-static func colleges() -> Array:
-	return world().get("college", {}).get("schools", [])
-
-
-static func jucos() -> Array:
-	return world().get("juco", {}).get("schools", [])
-
-
-static func pro_clubs() -> Array:
-	return world().get("pro", {}).get("clubs", [])
-
-
-## Any team by id: high school, college, junior college or pro club.
-static func team_by_id(id: String) -> Dictionary:
-	for list in [high_schools(), colleges(), jucos(), pro_clubs()]:
-		for s in list:
-			if s.get("id", "") == id:
-				return s
-	return {}
 
 
 static func game_day() -> Dictionary:

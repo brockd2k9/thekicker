@@ -8,7 +8,7 @@ var t := CareerTuning.get_default()
 func _career() -> CareerData:
 	var c := CareerData.create("Perk Test", t)
 	c.created = 1794983149
-	c.team = Progression.team_from(CareerContent.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
+	c.team = Progression.team_from(TeamDatabase.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
 	c.set_stat("energy", 60.0)
 	c.set_stat("health", 60.0)
 	return c
@@ -196,8 +196,8 @@ func test_season_end_applies_aging() -> void:
 	var c := _career()
 	c.stage = CareerData.STAGE_PRO
 	c.age = 32
-	c.team = Progression.team_from(CareerContent.pro_clubs()[0], CareerData.STAGE_PRO)
-	c.contract = Progression.contract(str(CareerContent.pro_clubs()[0]["id"]), "drafted", 3)
+	c.team = Progression.team_from(TeamDatabase.pro_teams()[0], CareerData.STAGE_PRO)
+	c.contract = Progression.contract(str(TeamDatabase.pro_teams()[0]["id"]), "drafted", 3)
 	c.set_stat("power", 80.0)
 	var m := CareerManager.new(c, t)
 	m._start_season(true)
