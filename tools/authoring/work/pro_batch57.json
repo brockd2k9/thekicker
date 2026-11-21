@@ -1,0 +1,986 @@
+{
+  "_about": "PRO batch 57: era 5 (ages 38-41), set A.",
+  "scenarios": [
+    {
+      "id": "PRO_143",
+      "title": "Forty",
+      "category": "team",
+      "text": "You turn forty in camp. The rookies were in diapers when you kicked your first high school field goal, and one of them asks, very politely, whether you knew any of the players on his old trading cards.",
+      "choices": [
+        {
+          "label": "Name every card",
+          "result": "Every card he names, you knew: one was your holder, one ate your lunch for a season, one still owes you twenty dollars. The rookies gather around, and the stories run past curfew.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Celebrate quietly",
+          "result": "A small dinner with the specialists, one candle and no speeches. Forty feels lighter than you expected when the people at the table have watched you earn it.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "rel": {
+            "holder": 2
+          }
+        },
+        {
+          "label": "Kick forty from forty",
+          "result": "Forty yards, on your fortieth birthday, in front of the whole camp, at the end of practice. The kick is the least important part; the noise the rookies make is the part you keep.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {
+              "power": 1
+            },
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "followers": 2
+        }
+      ]
+    },
+    {
+      "id": "PRO_150",
+      "title": "The Note in the Locker",
+      "category": "team",
+      "text": "A rookie leaves a folded note in your locker: he grew up watching you on a television in his grandmother's kitchen, and he wanted you to know before he lost his nerve to say it out loud.",
+      "choices": [
+        {
+          "label": "Find him at lunch",
+          "result": "You find him at lunch and sit down across from him with your tray. He goes red, then talks for an hour, and by the end of it he's asking about his plant foot.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "backup": 2
+          }
+        },
+        {
+          "label": "Write a note back",
+          "result": "A note back, left in his locker the next morning, about the kitchen televisions you watched as a kid. He keeps it in his playbook for the rest of the season.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ]
+        },
+        {
+          "label": "Keep the note",
+          "result": "You fold it into your wallet and say nothing, and it stays there for years. On the hard mornings, when your hip argues with you, you read it in the car before you go in.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Make him your shadow for camp",
+          "result": "You make him your shadow for camp, the way a captain once did for you: meetings, film, the walk between drills. The coaches notice how fast he grows up.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 3
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "backup": 3
+          },
+          "requires": {
+            "flags": [
+              "pro_captain"
+            ]
+          },
+          "lock_text": "having worn the captain's patch"
+        }
+      ]
+    },
+    {
+      "id": "PRO_176",
+      "title": "Contract Year: The Phone Call Every Spring",
+      "category": "career",
+      "text": "At your age the club offers one year at a time, and every spring you wait by the phone to hear if there's another. This spring the phone has been quiet for eleven days, and you've started checking it in the shower.",
+      "choices": [
+        {
+          "label": "Train as if it's coming",
+          "result": "You train as if the call is coming, five mornings a week, and refuse to check the phone before noon. When it rings in the third week, your leg is ready and so is your answer.",
+          "stats": {
+            "life": {},
+            "football": {
+              "power": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Call the general manager first",
+          "result": "The general manager gets a call from you first, which nobody your age is supposed to do. The conversation is short and honest, and you hang up knowing exactly what they need from you.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "retention": 1
+        },
+        {
+          "label": "Plan for both answers",
+          "result": "Two plans on the kitchen table, one for another season and one for the life after. Writing the second one down takes the fear out of the waiting, and you sleep again.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Wait it out, like before",
+          "result": "You waited out a roomful of agents once, at twenty-one, and you remember how the patient answer was the right one. You put the phone in a drawer and go fishing.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 3
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "requires": {
+            "flags": [
+              "waited_for_agents"
+            ]
+          },
+          "lock_text": "having waited out the agents in college"
+        }
+      ]
+    },
+    {
+      "id": "PRO_181",
+      "title": "The Slump Nobody Waits Out",
+      "category": "training",
+      "text": "At this age, a club doesn't wait for you to work out a slump. The backup is already kicking where the coaches can see him, and the special teams coordinator has stopped making eye contact.",
+      "choices": [
+        {
+          "label": "Find it in the film tonight",
+          "result": "Film, alone, until two in the morning, and there it is: you're rushing the second step to save your hip. You fix the hip work first, and the step follows by Friday.",
+          "stats": {
+            "life": {
+              "energy": -2
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Kick in front of them",
+          "result": "You kick right in front of the coaches on purpose, every rep, so they see the work and not the rumor. It's uncomfortable and honest, and by Thursday the coordinator is watching you again.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Help the backup",
+          "result": "You help the backup with his timing, out loud, in front of everyone. It's the strangest week of your career, and the room has never respected you more.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "backup": 3
+          }
+        },
+        {
+          "label": "Make the call you know works",
+          "result": "The call you know works, made on Monday instead of Friday this time. The voice on the other end has heard it all before, and the slump is gone in a week.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 3
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "requires": {
+            "any_flags": [
+              "saw_sports_psych",
+              "leaned_on_support"
+            ]
+          },
+          "lock_text": "having leaned on help in a slump before"
+        }
+      ]
+    },
+    {
+      "id": "PRO_186",
+      "title": "The Oldest Streak",
+      "category": "media",
+      "text": "A perfect month at your age, and the league office sends a statistician to make sure the numbers are real. He spends two days with a laptop in the press box and leaves apologizing for being there.",
+      "choices": [
+        {
+          "label": "Bring him down to the field",
+          "result": "You invite the statistician down to practice, and he charts every kick himself, grinning. His report ends with a paragraph that isn't about numbers at all.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "followers": 2
+        },
+        {
+          "label": "Ignore the fuss",
+          "result": "No interviews, no jokes, no word about the month. You treat it like a glass of water carried across a crowded room, and the specialists protect you from every microphone.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2,
+              "accuracy": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Give the month away",
+          "result": "Every question about the month goes to the snapper, {holder} and the trainers who keep your hip moving. The specialists' group chat is unbearable for a week.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "holder": 2
+          }
+        },
+        {
+          "label": "Do the segment yourself",
+          "result": "You call your old radio show and do the statistician segment yourself, live, with a straight face. The clip is everywhere by dinner, and the league office sends a cake.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 3
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "followers": 3,
+          "requires": {
+            "flags": [
+              "radio_show"
+            ]
+          },
+          "lock_text": "having hosted your own radio show"
+        }
+      ]
+    },
+    {
+      "id": "PRO_189",
+      "title": "The Kid in Your Seat",
+      "category": "team",
+      "text": "The club drafts a kicker who was in grade school when you signed your first contract. He has a huge leg, a phone full of training videos, and your name on an old poster in his childhood bedroom.",
+      "choices": [
+        {
+          "label": "Compete with him",
+          "result": "You compete with him every rep, and you let him see how a veteran does it: no excuses, no shortcuts, no sulking. He gets better fast, and so, somehow, do you.",
+          "stats": {
+            "life": {},
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 2
+        },
+        {
+          "label": "Teach him what you know",
+          "result": "You teach him everything, starting on the first day, even knowing what it might cost. The coaches watch it happen, and the room calls you 'coach' half seriously.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Keep your distance",
+          "result": "Polite and distant, for now: you have a job to keep, and he has one to take. It's lonely, and it's professional, and you both understand it without saying so.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Do it differently this time",
+          "result": "You remember freezing out the veteran whose job you took, years ago, and how small it made you feel. You go to the rookie's locker on the first day and shake his hand.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "backup": 2
+          },
+          "requires": {
+            "flags": [
+              "froze_out_veteran"
+            ]
+          },
+          "lock_text": "having frozen out a veteran when you were young"
+        }
+      ]
+    },
+    {
+      "id": "PRO_194",
+      "title": "Six Weeks at Your Age",
+      "category": "health",
+      "text": "A hamstring strain, six weeks on the shelf, and at your age six weeks feels like a season. The club has started working out kickers on Tuesdays, and you can hear them from the trainers' room.",
+      "choices": [
+        {
+          "label": "Follow the plan to the day",
+          "result": "The plan, followed to the day, with no shortcuts and no heroics. It's slow and dull, and you're back in six weeks with a hamstring that holds all the way to December.",
+          "stats": {
+            "life": {
+              "health": 3
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Push the timeline",
+          "result": "You push the timeline by a week, against the trainers' advice, because the Tuesday kickers are getting good. The hamstring holds, mostly, and you feel it every morning.",
+          "stats": {
+            "life": {
+              "health": -2
+            },
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "sore"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Watch the Tuesday kickers",
+          "result": "You walk out on a Tuesday and watch the tryout kickers yourself, then shake each of their hands. It takes the fear out of it, and one of them asks for your number.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "charisma": 1,
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ]
+        },
+        {
+          "label": "Use what the last one taught you",
+          "result": "The last recovery taught you the order of things: the sleep, the small exercises, the patience. You write the plan yourself, and the trainers sign off on it with a smile.",
+          "stats": {
+            "life": {
+              "health": 3
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "requires": {
+            "any_flags": [
+              "committed_to_recovery",
+              "hid_injury"
+            ]
+          },
+          "lock_text": "having been through a hard recovery before"
+        }
+      ]
+    },
+    {
+      "id": "PRO_198",
+      "title": "The Last Stop?",
+      "category": "team",
+      "text": "Another new club, signed late in a career, and everyone in the building assumes it's your last stop, including you. Your nameplate is printed on tape, and the equipment manager hands you a jersey number nobody wanted.",
+      "choices": [
+        {
+          "label": "Make it home anyway",
+          "result": "A plant in the locker, photos on the shelf, names learned by Friday. It may be the last stop, and you decide to unpack properly for once, and the room notices.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 2
+          }
+        },
+        {
+          "label": "Earn the number",
+          "result": "The unwanted number starts to mean something, one practice at a time. By the opener the equipment manager has stopped calling it unlucky.",
+          "stats": {
+            "life": {},
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Find the young specialists",
+          "result": "Lunch with the young specialists, the first week, and you answer every question they're too shy to ask. They follow you around camp like a tour guide.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "holder": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_217",
+      "title": "Graduation Day",
+      "category": "family",
+      "text": "Your kid's graduation lands on a road trip: the ceremony is Saturday afternoon, the team flies out Saturday morning, and your kid says it's fine in the voice that means it isn't.",
+      "choices": [
+        {
+          "label": "Ask to fly out late",
+          "result": "A late flight, arranged with {coach} after a long conversation. You're in the third row when your kid walks across the stage, and on a plane two hours later.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "energy": -2
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "coach": -1,
+            "parent": 1
+          }
+        },
+        {
+          "label": "Celebrate a day early",
+          "result": "A graduation dinner the night before, with speeches and terrible jokes and a cake. Your kid says it's better than the ceremony, and almost means it.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ]
+        },
+        {
+          "label": "Watch it on the bus",
+          "result": "You watch the ceremony on a phone on the team bus, with the specialists crowded around the screen. They cheer louder than anyone in the stands.",
+          "stats": {
+            "life": {
+              "social": 1,
+              "fun": 1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "holder": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_308",
+      "title": "Kicking in Your Forties",
+      "category": "team",
+      "text": "Turning forty in the league: a birthday cake in the locker room shaped like a rocking chair, and a question about retirement in every single interview you give that week.",
+      "choices": [
+        {
+          "label": "Answer with a joke",
+          "result": "A different joke for every interview, all week, about the rocking chair. By Friday the reporters have stopped asking and started laughing, which is what you wanted.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "followers": 2
+        },
+        {
+          "label": "Answer honestly",
+          "result": "The honest answer, every time: you'll stop when the leg says so, and the leg hasn't said so. It's a dull headline, and it's true, and it ends the conversation.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Sit in the chair",
+          "result": "You sit in the cake's rocking chair, which the equipment staff have built for real out of an old bench. The photo becomes the club's most shared picture of the year.",
+          "stats": {
+            "life": {
+              "fun": 3,
+              "social": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "team": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_465",
+      "title": "The Oldest Player in the League",
+      "category": "media",
+      "text": "A list goes around the league office: the oldest active players, ranked by birthday. Your name is near the top, and a reporter wants to know how it feels to be a museum exhibit.",
+      "choices": [
+        {
+          "label": "Lean into it",
+          "result": "You lean into it completely: you wear a 'Do Not Touch' sign to practice. The photo is everywhere, and the young players start calling you 'the exhibit' with real affection.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "followers": 3
+        },
+        {
+          "label": "Talk about the work",
+          "result": "You talk about the work instead: the sleep, the hip routine, the boring mornings. Young kickers read it and copy it, and their coaches send you thank-you notes.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ]
+        },
+        {
+          "label": "Say nothing at all",
+          "result": "No comment, and back to practice. The list is a list, and it has never kicked a ball in its life, and you'd rather spend the afternoon on the field.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Tell them about the old car",
+          "result": "You tell the reporter about the car you still drive from your rookie year, and the habits that kept your body and your money in one piece. It's the most read story of the week.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "followers": 2,
+          "requires": {
+            "flags": [
+              "lived_modestly"
+            ]
+          },
+          "lock_text": "having lived modestly all career"
+        }
+      ]
+    },
+    {
+      "id": "PRO_466",
+      "title": "The One-Year Contract",
+      "category": "career",
+      "text": "Another one-year deal, offered across the general manager's desk with a shrug and a pen. The salary is fair, the guarantees are thin, and the message underneath it is perfectly clear.",
+      "choices": [
+        {
+          "label": "Sign it today",
+          "result": "Signed today, with a handshake and no negotiation. You'd rather spend the summer training than arguing, and the general manager seems quietly grateful.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "retention": 1
+        },
+        {
+          "label": "Ask for one guarantee",
+          "result": "One guarantee, asked for calmly: an out if the club signs a younger kicker in camp. They agree after a day, and you sign it knowing exactly where you stand.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Take a week to think",
+          "result": "A week to think, at home, with the contract on the kitchen table. You read it every morning, and on the seventh day you sign it, sure for the first time.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "drained"
+          ]
+        },
+        {
+          "label": "Negotiate it yourself",
+          "result": "You negotiate it yourself, the way you've done since you fired your agent. You come away with a little more money and a lot more respect from the front office.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "retention": 1,
+          "requires": {
+            "flags": [
+              "fired_agent"
+            ]
+          },
+          "lock_text": "having fired an agent and handled your own deals"
+        }
+      ]
+    },
+    {
+      "id": "PRO_467",
+      "title": "The Recovery Challenge",
+      "category": "health",
+      "text": "Your body needs two days to do what used to take one. The trainers have built you a recovery schedule with color codes, and it takes up more of the week than practice does.",
+      "choices": [
+        {
+          "label": "Follow the colors",
+          "result": "Every color, every day: the pool, the bands, the long sleep and the dull stretches. It's tedious, and your body answers by October, which is all you ask of it.",
+          "stats": {
+            "life": {
+              "health": 3
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Cut the practice reps",
+          "result": "Fewer kicks in practice, more in your head: you trade reps for film and visualization. It feels strange, and your leg is fresher on game days than it's been in years.",
+          "stats": {
+            "life": {
+              "energy": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Push like you used to",
+          "result": "You push like you used to for two weeks, to prove you can. You can, barely, and the trainers rebuild the color schedule around the damage without saying a word.",
+          "stats": {
+            "life": {
+              "health": -2
+            },
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "sore"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Bring in your old coach",
+          "result": "You fly in the private coach you hired years ago, who knows your body better than anyone. Together you build a week that works, and your leg feels younger by the end of it.",
+          "stats": {
+            "life": {
+              "health": 2
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1,
+          "requires": {
+            "flags": [
+              "hired_private_coach"
+            ]
+          },
+          "lock_text": "having hired your own private coach"
+        }
+      ]
+    }
+  ]
+}

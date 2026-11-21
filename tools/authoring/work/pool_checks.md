@@ -105,3 +105,23 @@ Numbers that don't describe the player (a holder's six years, a fan's thirty yea
 - PRO_446 "community work for twelve years", PRO_752 "locker room DJ for six years", PRO_795 "the charity game you've hosted for ten years": plausible at those ages, but they assume one club for that long. A softer "for years" would fit everyone.
 - College season 4 scenes COL_114 "lived with for four years", COL_115 / COL_133 "four years ago", COL_117 "camp two years ago", and COL_096 "three years of holds" (season 3): right for a four-year player, slightly off for a JUCO transfer who joined later.
 - The repeatables I just wrote (PRO_200-213) and the wind-down chain use no ages; their experience locks say "after six seasons in the league" and fire only then.
+
+## Update after the variants and eras 5 and 6
+
+**Repeat check, final content** (202 careers, all 20+ seasons):
+
+| Seasons | Already seen earlier in the career | Scenes seen 3+ times by end of band |
+|---|---|---|
+| 1-5 | 3% (was 6%) | 0.1 (was 1.2) |
+| 6-10 | 11% (was 12%) | 1.9 (was 3.9) |
+| 11-15 | 17% (was 18%) | 6.3 (was 8.4) |
+| 16-21 | 31% (was 65%) | 17.0 (was 25.4) |
+
+- The variants cut the most-seen text from Offseason Training 9.5, Holder Chemistry 8.5 and Summer Break 8.4 per career to at most 1.9 for any single variant text.
+- Each family still shows about 9-10 times per career in total.
+- Most repeated scenes now: Family and Finances 3.7, PRO_067 Family Asks for Money 3.3, Team Hospital Visit 3.3, PRO_207 The Fan Letter 3.2.
+
+**Flag audit, final content:**
+- 0 flags read that nothing sets.
+- 62 flags set that nothing reads, all of them high school. Every pro and college flag is now read, mostly by locked callbacks in eras 5 and 6.
+- No college wrong-path ending loses a pro scene.

@@ -1,0 +1,143 @@
+{
+  "_about": "PRO batch 63: era 5 (ages 38-41), set B.",
+  "scenarios": [
+    {
+      "id": "PRO_838",
+      "title": "The Fan's Memory",
+      "category": "social",
+      "text": "A fan shows you a ticket stub from your first pro game, kept in a plastic sleeve for years. She was eleven at the time, and now she's brought her own kid, who is wearing your number.",
+      "choices": [
+        {
+          "label": "Sign the stub",
+          "result": "A signature on the stub, and another on the kid's jersey, with both their names. She cries a little, and the kid asks why, and she tries to explain it.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "followers": 1
+        },
+        {
+          "label": "Invite them to practice",
+          "result": "A practice pass for both of them, and a hold for the kid on the sideline. The kid tells everyone at school, and the mother sends you a letter that you keep.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "followers": 2
+        },
+        {
+          "label": "Ask about the game",
+          "result": "Questions about that first game: where she sat, what she remembers, what you looked like. Her memory is better than yours, and you hear your own career from the outside.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PRO_839",
+      "title": "The Kicker's Union",
+      "category": "team",
+      "text": "You've been talking with a few kickers and punters about health after football: hips, knees, heads, the things nobody measures. Someone suggests starting a group, and everyone looks at you.",
+      "choices": [
+        {
+          "label": "Start the group",
+          "result": "A group chat, then a monthly call, then a doctor who agrees to join. By the end of the season forty specialists are on it, sharing what nobody told them.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 1
+          }
+        },
+        {
+          "label": "Bring it to the union",
+          "result": "The idea, brought to the players' union with a short proposal. It moves slowly, the way unions do, and a year later it becomes a real program.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Ask someone younger to lead",
+          "result": "A younger punter with more energy, asked to lead it while you help. She's brilliant at it, and you're glad you stepped back.",
+          "stats": {
+            "life": {
+              "social": 1,
+              "energy": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Write the honesty rules",
+          "result": "Rules for the group about money and sponsors, because you saw in college what happens when nobody writes them. The doctors trust the group because of it.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "requires": {
+            "flags": [
+              "reported_runner"
+            ]
+          },
+          "lock_text": "having reported a runner in college"
+        }
+      ]
+    }
+  ]
+}

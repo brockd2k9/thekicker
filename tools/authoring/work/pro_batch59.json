@@ -1,0 +1,1019 @@
+{
+  "_about": "PRO batch 59: era 5 (ages 38-41), set A.",
+  "scenarios": [
+    {
+      "id": "PRO_481",
+      "title": "The Financial Freedom Question",
+      "category": "career",
+      "text": "A financial planner asks the question across a small round table, with a folder of charts open between you: do you have enough to stop? You realize you've never actually asked it out loud.",
+      "choices": [
+        {
+          "label": "Go through every number",
+          "result": "Every account, every debt, every promise to family, gone through line by line for three hours. The answer is clearer than you feared, and you drive home thinking about it.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "life_after_football": true
+          }
+        },
+        {
+          "label": "Ask {sibling} to sit in",
+          "result": "You ask {sibling} to sit in, because they're better with money than you'll ever be. They ask the hard questions, and the planner is visibly relieved.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "sibling": 2
+          },
+          "set_flags": {
+            "life_after_football": true
+          }
+        },
+        {
+          "label": "Put it off another season",
+          "result": "Another season first, you tell the planner, and close the folder. The question follows you home anyway, and you lie awake with it longer than you'd admit.",
+          "stats": {
+            "life": {},
+            "football": {
+              "power": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ]
+        },
+        {
+          "label": "Show the planner the old savings",
+          "result": "The planner opens the account you set up years ago and goes quiet, then laughs. You have more than enough, it turns out, because a younger you was careful.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "set_flags": {
+            "life_after_football": true
+          },
+          "requires": {
+            "any_flags": [
+              "saved_rookie_check",
+              "saved_big_check"
+            ]
+          },
+          "lock_text": "having saved your big checks"
+        }
+      ]
+    },
+    {
+      "id": "PRO_482",
+      "title": "Partners in Something New",
+      "category": "career",
+      "text": "A former teammate wants you as a partner in something new: a sports-performance gym in a strip mall, with his savings, your name on the sign, and a business plan printed at a copy shop.",
+      "choices": [
+        {
+          "label": "Go in as a partner",
+          "result": "You go in as a partner, with lawyers, a real contract and an accountant. The gym opens in the spring, and the sign with your name on it is slightly crooked.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "ambition": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "set_flags": {
+            "business_owner": true
+          }
+        },
+        {
+          "label": "Lend your name only",
+          "result": "Your name on the sign, and nothing else: no money, no decisions. He's disappointed, then grateful, and the gym does fine without you worrying about it.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Say no kindly",
+          "result": "No, kindly, over a long lunch: you're not ready for the next thing yet. He understands, and asks again a year later, and you're glad he did.",
+          "stats": {
+            "life": {
+              "energy": 2
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Check everything first",
+          "result": "You've been cheated by a partner before, so you check everything: his books, his lease, his references. It all holds up, and you sign with a clear head.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 3
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "business_owner": true
+          },
+          "requires": {
+            "flags": [
+              "business_fraud_victim"
+            ]
+          },
+          "lock_text": "having been cheated by a business partner"
+        }
+      ]
+    },
+    {
+      "id": "PRO_483",
+      "title": "Opening an Academy",
+      "category": "career",
+      "text": "You've been thinking about opening a kicking academy for kids: a field, a few coaches, and a program for the ones who can't afford private lessons. A realtor has found you a field with a broken scoreboard.",
+      "choices": [
+        {
+          "label": "Buy the field",
+          "result": "You buy the field, fix the scoreboard and hire two coaches. The first summer camp has forty kids, half of them on scholarships, and the noise is wonderful.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "business_owner": true
+          }
+        },
+        {
+          "label": "Start small, rent first",
+          "result": "A rented field on Sundays first, and a single coach. It's small and it works, and you learn what an academy actually needs before spending anything.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Wait until you're done playing",
+          "result": "Not yet: an academy deserves your full attention, and you don't have it to give. You write the plan down and put it in a drawer to wait for you.",
+          "stats": {
+            "life": {
+              "health": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Write the rules first",
+          "result": "You write the academy's rules first, about money, recruiters and honesty, because you've seen what happens without them. Parents notice, and the waiting list fills.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "set_flags": {
+            "business_owner": true
+          },
+          "requires": {
+            "flags": [
+              "reported_tampering"
+            ]
+          },
+          "lock_text": "having reported tampering in college"
+        }
+      ]
+    },
+    {
+      "id": "PRO_484",
+      "title": "The Old Rival's Message",
+      "category": "social",
+      "text": "{tyler} writes you a long letter, by hand, looking back on both careers: the camps, the competition, the years you couldn't stand each other and the years you could. It ends with a question.",
+      "choices": [
+        {
+          "label": "Write back by hand",
+          "result": "You write back by hand, three pages, and mail it the same afternoon. It's the most honest thing you've written, and {tyler} calls the day it arrives.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "rival": 4
+          }
+        },
+        {
+          "label": "Call instead",
+          "result": "You call instead, because letters were always {tyler}'s thing. You talk for two hours and laugh at things neither of you found funny at the time.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "rival": 3
+          }
+        },
+        {
+          "label": "Keep it and answer later",
+          "result": "You keep the letter on your desk for a month, reading it now and then, until you know what to say. When you finally answer, it's the right answer.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "rival": 1
+          }
+        },
+        {
+          "label": "Answer the question in person",
+          "result": "You drive to {tyler}'s house and answer the question in person, on the porch, after all those years of division games. It feels like the end of something good.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "rival": 5
+          },
+          "requires": {
+            "flags": [
+              "tyler_division_rival"
+            ]
+          },
+          "lock_text": "having faced {tyler} twice a year in the same division"
+        }
+      ]
+    },
+    {
+      "id": "PRO_485",
+      "title": "The Hall of Fame Discussion",
+      "category": "media",
+      "text": "The analysts have started discussing your Hall of Fame chances on television: graphics, arguments, a former coach who says yes and a former player who says absolutely not.",
+      "choices": [
+        {
+          "label": "Don't watch",
+          "result": "You don't watch, and you ask {parent} not to call about it. The conversation goes on without you, which is exactly where it belongs while you're still playing.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Answer the critic",
+          "result": "You answer the former player's argument on your own channel, calmly, with one sentence and a smile. It's the best line of the week, and he laughs too.",
+          "stats": {
+            "life": {
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "followers": 3
+        },
+        {
+          "label": "Thank the believer",
+          "result": "The former coach who said yes gets a thank-you call from you. He says he only told the truth, and then talks about your rookie year for twenty minutes.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        },
+        {
+          "label": "Remember who said it first",
+          "result": "You remember the college coach who first told you that you were ready for the pros, and send them the clip with a note. They reply with a photo of their old notebook.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "requires": {
+            "flags": [
+              "ready_for_pros"
+            ]
+          },
+          "lock_text": "having been told in college you were ready"
+        }
+      ]
+    },
+    {
+      "id": "PRO_486",
+      "title": "The Final Jersey",
+      "category": "media",
+      "text": "A club asks you to donate a game-worn jersey to its permanent collection, to hang in a glass case beside players you watched as a kid. The curator wants to know which one, and why.",
+      "choices": [
+        {
+          "label": "Give your first jersey",
+          "result": "You give the jersey from your first season, faded and patched. The curator's card tells the story of a rookie nobody expected to last, and you like that it's true.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "followers": 2
+        },
+        {
+          "label": "Give the one from a hard year",
+          "result": "The jersey from your hardest season, on purpose, with a card about getting through it. Young players read it on their visits, and one writes to you about it.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ]
+        },
+        {
+          "label": "Let the kids choose",
+          "result": "You let your family choose, at the kitchen table, with a lot of arguing. They pick one you'd never have chosen, for a reason that makes you laugh.",
+          "stats": {
+            "life": {
+              "fun": 2,
+              "social": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "loose"
+          ],
+          "rel": {
+            "sibling": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_487",
+      "title": "The New Generation of Kickers",
+      "category": "team",
+      "text": "Young kickers keep telling you they grew up watching you: in camps, at clinics, in messages after games. One of them has your old routine on a laminated card in his bag.",
+      "choices": [
+        {
+          "label": "Host a clinic for them",
+          "result": "A free clinic for the young kickers in the league, on a bye week, at your own field. They come, all of them, and the routine on the laminated card gets an update.",
+          "stats": {
+            "life": {
+              "social": 1,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "followers": 2
+        },
+        {
+          "label": "Answer every message",
+          "result": "You answer every message, one by one, over a month of evenings. It takes forever, and every answer you send feels like paying something back.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Ask what they'd change",
+          "result": "The one with the laminated card gets asked what he'd change in your routine. His answer is smart, and you steal it the next morning, and tell him so.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "backup": 2
+          }
+        },
+        {
+          "label": "Tell them about the doubters",
+          "result": "The story of leaving college still proving it, and how long the proving lasted, is what you give them. The young kickers listen differently after that, and so do the coaches.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "requires": {
+            "flags": [
+              "still_proving_it"
+            ]
+          },
+          "lock_text": "having left college still proving it"
+        }
+      ]
+    },
+    {
+      "id": "PRO_488",
+      "title": "One Last Negotiation",
+      "category": "career",
+      "text": "What could be your last contract negotiation, and everyone at the table knows it: your agent, the general manager, and the lawyer who has done every one of your deals with this club.",
+      "choices": [
+        {
+          "label": "Keep it short and fair",
+          "result": "Short and fair: one year, honest money, a handshake before lunch. Everyone at the table is relieved, and the lawyer jokes that it's the fastest one yet.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ],
+          "retention": 1
+        },
+        {
+          "label": "Ask for a role after",
+          "result": "A role after playing, written into the deal: coaching the specialists, or a seat in the front office. The club agrees, and the end gets a little less frightening.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "set_flags": {
+            "life_after_football": true
+          }
+        },
+        {
+          "label": "Push for one more good deal",
+          "result": "You push for one more good deal, because your leg is still good. It takes three weeks, and you get most of what you asked for, and a little resentment.",
+          "stats": {
+            "life": {},
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "ambition": 2
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ]
+        },
+        {
+          "label": "Read every page yourself",
+          "result": "You read every page yourself, the way you have since the court case. You find one clause nobody explained, and the club removes it without a fight.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "requires": {
+            "flags": [
+              "sued_advisor"
+            ]
+          },
+          "lock_text": "having taken a crooked advisor to court"
+        }
+      ]
+    },
+    {
+      "id": "PRO_489",
+      "title": "The Family's Concern",
+      "category": "family",
+      "text": "Your family wants you to stop putting your body through this. They've rehearsed it: {parent} speaks first, {sibling} has notes, and the kitchen table has a bowl of fruit nobody is touching.",
+      "choices": [
+        {
+          "label": "Listen all the way",
+          "result": "You listen all the way through, without defending yourself once. It's hard to hear, and you promise to see a doctor and talk again in a month.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "drained"
+          ],
+          "rel": {
+            "parent": 2
+          }
+        },
+        {
+          "label": "Explain why you keep going",
+          "result": "You explain why you keep going, honestly: the leg still works, and you're not ready to be someone else yet. They don't agree, and they understand.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "charisma": 2,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "stressed"
+          ],
+          "rel": {
+            "sibling": 1
+          }
+        },
+        {
+          "label": "Ask what scares them",
+          "result": "You ask what scares them most. The answer is specific, a fall your {parent} saw on television last month, and you see the doctor that same week.",
+          "stats": {
+            "life": {
+              "health": 1
+            },
+            "football": {},
+            "personality": {
+              "intelligence": 2
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "rel": {
+            "parent": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_490",
+      "title": "The Longest Career Record",
+      "category": "media",
+      "text": "You could set a longevity record for kickers this season, and the league has made a short film about it. The director wants to follow you for a week, including the ice bath at five in the morning.",
+      "choices": [
+        {
+          "label": "Let them film the ice bath",
+          "result": "You let them film all of it, the ice bath included, teeth chattering. The film is honest about what a long career costs, and young players share it everywhere.",
+          "stats": {
+            "life": {},
+            "football": {
+              "toughness": 1
+            },
+            "personality": {
+              "charisma": 2
+            }
+          },
+          "modifiers": [
+            "spotlight"
+          ],
+          "followers": 4
+        },
+        {
+          "label": "Film only the field",
+          "result": "Only the field, nothing at home and nothing in the training room. The film is shorter and less personal, and your mornings stay your own.",
+          "stats": {
+            "life": {
+              "energy": 1
+            },
+            "football": {
+              "resilience": 2
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "focused"
+          ]
+        },
+        {
+          "label": "Make it about the trainers",
+          "result": "You turn the film toward the trainers, the doctors and the equipment staff who kept you going. They get a premiere invitation, and one of them brings their whole family.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "team": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "PRO_491",
+      "title": "The Old Training Routine",
+      "category": "training",
+      "text": "You can't train the way you did as a young player. The old routine leaves you sore for three days, and the strength coach has started quietly editing your program in red pen.",
+      "choices": [
+        {
+          "label": "Accept the red pen",
+          "result": "You accept the red pen and the new program: fewer lifts, more mobility, much more sleep. It feels like losing something, and by October your leg feels better than it has in years.",
+          "stats": {
+            "life": {
+              "health": 3
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Keep one old drill",
+          "result": "One old drill, kept on purpose, the hardest one, because it's yours. Everything else changes, and that one drill keeps you honest every Tuesday.",
+          "stats": {
+            "life": {},
+            "football": {
+              "toughness": 2
+            },
+            "personality": {
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Design the new routine together",
+          "result": "You sit with the strength coach for an afternoon and design the new routine together. He knows bodies; you know kicking. It's the best program you've had.",
+          "stats": {
+            "life": {},
+            "football": {},
+            "personality": {
+              "intelligence": 2,
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "focused"
+          ],
+          "skill_points": 1
+        },
+        {
+          "label": "Ask your old private coach",
+          "result": "Your old private coach flies in for a weekend and rebuilds the routine around how your body moves now. It's humbling, and it works almost immediately.",
+          "stats": {
+            "life": {
+              "health": 2
+            },
+            "football": {
+              "accuracy": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "dialed_in"
+          ],
+          "skill_points": 1,
+          "requires": {
+            "flags": [
+              "hired_private_coach"
+            ]
+          },
+          "lock_text": "having hired your own private coach"
+        }
+      ]
+    },
+    {
+      "id": "PRO_492",
+      "title": "A Program for Former Players",
+      "category": "social",
+      "text": "You've been thinking about a program for former players: help with jobs, health and money after the game ends. A retired lineman who struggled for years wants to help you build it.",
+      "choices": [
+        {
+          "label": "Build it with him",
+          "result": "You build it with him, on weekends, with a list of phone numbers and a borrowed office. The first ten players who call get real help, and he cries telling you about one.",
+          "stats": {
+            "life": {
+              "social": 1
+            },
+            "football": {},
+            "personality": {
+              "leadership": 2,
+              "ambition": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ]
+        },
+        {
+          "label": "Fund it and step back",
+          "result": "You help fund it and let him run it, because he knows the struggle better than you do. It grows faster without you in the way.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "intelligence": 1,
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "rested"
+          ]
+        },
+        {
+          "label": "Start with one call a week",
+          "result": "One phone call a week to a former teammate, just to check in. It's small and steady, and three of them tell you later it mattered more than they said.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 1
+            },
+            "football": {
+              "resilience": 1
+            },
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ]
+        },
+        {
+          "label": "Add the hard part",
+          "result": "You add the part nobody talks about: mental health, panic, the quiet years. You know it from college, and you say so in the first meeting, which opens the door for everyone.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 1
+            },
+            "personality": {
+              "leadership": 2
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "requires": {
+            "any_flags": [
+              "took_mental_health_day",
+              "hid_panic"
+            ]
+          },
+          "lock_text": "having struggled quietly yourself in college"
+        }
+      ]
+    },
+    {
+      "id": "PRO_493",
+      "title": "The Former Coach's Legacy",
+      "category": "social",
+      "text": "You reconnect with the coach who first believed in you, years ago: older now, retired, still coaching a little at the park on Saturdays. They want you to come and kick for the kids.",
+      "choices": [
+        {
+          "label": "Go on Saturday",
+          "result": "You go on Saturday and kick for the kids, then hold for theirs. Your old coach watches from a folding chair, saying nothing, and you know exactly what the silence means.",
+          "stats": {
+            "life": {
+              "social": 2,
+              "fun": 1
+            },
+            "football": {},
+            "personality": {}
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "rel": {
+            "coach": 1
+          }
+        },
+        {
+          "label": "Bring them to a game",
+          "result": "You bring your old coach to a home game, in the best seats, with a pass to the sideline. They spend the whole warmup telling the other kickers what you used to do wrong.",
+          "stats": {
+            "life": {
+              "fun": 2
+            },
+            "football": {},
+            "personality": {
+              "charisma": 1
+            }
+          },
+          "modifiers": [
+            "loose"
+          ]
+        },
+        {
+          "label": "Write it down for them",
+          "result": "A letter about everything they taught you, the small things and the big ones. They call after reading it, and their voice is thick on the phone.",
+          "stats": {
+            "life": {},
+            "football": {
+              "resilience": 2
+            },
+            "personality": {
+              "intelligence": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ]
+        },
+        {
+          "label": "Tell them about the year you almost lost it",
+          "result": "You tell your old coach about the year in college you almost lost it all, and caught yourself. They knew, it turns out, and were waiting for you to say it.",
+          "stats": {
+            "life": {
+              "social": 2
+            },
+            "football": {},
+            "personality": {
+              "leadership": 1
+            }
+          },
+          "modifiers": [
+            "inspired"
+          ],
+          "requires": {
+            "flags": [
+              "caught_yourself"
+            ]
+          },
+          "lock_text": "having caught yourself on the wrong path in college"
+        }
+      ]
+    }
+  ]
+}
