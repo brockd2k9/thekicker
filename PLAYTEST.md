@@ -674,7 +674,7 @@ real thumb.
 
 **How to run it** (phone app, web build or desktop; every build):
 1. Main menu -> Career -> **Thumb Drill (calibration)** (at the bottom of the list; in debug
-   builds it's also on Career Debug next to Try Kicks).
+   builds it's also on Career Debug: "Drill", next to Try Kicks).
 2. Kick 60 field goals: 20 from 30 yards, 20 from 40, 20 from 50. Calm wind, medium pressure, pro
    posts, a neutral kicker (no Career attributes, so only your thumb varies). Swipe the way you
    normally play; tap after each result for the next kick. The scoreboard counts kick and makes.
