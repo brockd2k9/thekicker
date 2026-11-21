@@ -22,6 +22,11 @@ What the importer fills in (only when the CSV leaves it blank):
                 Timberhawks" in Burlington -> "Timberhawks").
   Colors        "School Colors", else the home jersey and home pants.
   Rival         the rival's id, when the "Rival" name matches a school.
+And it cleans one known data defect (clean_stadium): stadium names that
+repeat the town ("Burlington Burlington Timberhawks Field" -> "Burlington
+Timberhawks Field"). Every change, every name it wasn't sure about (left as
+it was), and every "Team" column cut short for a two-word town go to
+data/teams/import_report.md for review.
 It never invents ratings: missing numbers stay missing (TeamDatabase uses
 documented defaults and the validator lists them).
 """
@@ -72,6 +77,9 @@ ALIASES = {
 INTS = ("capacity", "crowd_noise", "prestige", "draft_rating", "recruiting_points", "min_ovr",
         "national_titles", "conference_titles", "bowl_wins", "strength")
 FLOATS = ("min_gpa",)
+# Collected while importing, written to REPORT_FILE: (row, before, after, why).
+REPORT = {"changed": [], "unsure": [], "cut_short": []}
+REPORT_FILE = "import_report.md"
 # Words left out of generated abbreviations.
 FILLER = {"of", "the", "at", "and", "&"}
 
@@ -118,6 +126,58 @@ def nickname(team, city):
     if first and team.startswith(first + " "):
         return team[len(first) + 1:].strip()
     return team
+
+
+def words(s):
+    return s.split()
+
+
+def clean_stadium(stadium, city, team):
+    """Removes a repeated town from a stadium name, judged per row.
+
+    Returns (name, status, reason): status "changed" (name is the clean one),
+    "unsure" (a word repeats but not in a known pattern: name is unchanged,
+    for review) or "" (nothing to do).
+
+      town twice in a row     "Burlington Burlington Timberhawks Field" (Burlington)
+                              -> "Burlington Timberhawks Field"
+      town + cut-short Team   "New Bedford New Redtails Field" (New Bedford, Team
+                              "New Redtails": the town's first word + nickname)
+                              -> "New Bedford Redtails Field"
+    """
+    w, cw = words(stadium), words(city)
+    if not w or not cw:
+        return stadium, "", ""
+    n = len(cw)
+    low = [x.lower() for x in w]
+    clow = [x.lower() for x in cw]
+    # The whole town, twice in a row at the start.
+    if low[:n] == clow and low[n:2 * n] == clow:
+        return " ".join(w[n:]), "changed", "town repeated (%s %s)" % (city, city)
+    # Town, then the "Team" column whose town was cut to its first word.
+    tw = words(team)
+    if n >= 2 and low[:n] == clow and len(tw) >= 2 and tw[0].lower() == clow[0] \
+            and [x.lower() for x in tw[1:n]] != clow[1:] \
+            and low[n:n + len(tw)] == [x.lower() for x in tw]:
+        return " ".join(w[:n] + w[n + 1:]), "changed", \
+            "town + cut-short Team column (%s %s)" % (city, team)
+    # Any other repeated word: leave it, but list it.
+    seen = {}
+    for x in low:
+        if len(x) > 2 and x.isalpha() or x.endswith("."):
+            seen[x] = seen.get(x, 0) + 1
+    rep = [x for x, k in seen.items() if k > 1]
+    if rep:
+        return stadium, "unsure", "repeats %s; not a known town pattern" % ", ".join("'%s'" % r for r in rep)
+    return stadium, "", ""
+
+
+def cut_short_team(team, city):
+    """True when the "Team" column holds only the first word of a multi-word
+    town plus the nickname ("New Redtails" for New Bedford)."""
+    tw, cw = words(team), words(city)
+    return len(cw) >= 2 and len(tw) >= 2 and tw[0].lower() == cw[0].lower() \
+        and [x.lower() for x in tw[1:len(cw)]] != [x.lower() for x in cw[1:]]
 
 
 def make_abbr(name, city, taken, level=""):
@@ -181,6 +241,8 @@ def to_team(row, level):
     t = {"id": row.get("id", ""), "level": level, "name": row.get("name", "") or row.get("team", "")}
     city = row.get("city", "")
     t["nickname"] = row.get("nickname", "") or nickname(row.get("team", ""), city)
+    if not row.get("nickname") and cut_short_team(row.get("team", ""), city):
+        REPORT["cut_short"].append((row, row.get("team", ""), t["nickname"], ""))
     for k in ("mascot", "abbr", "city", "state", "county", "region", "division", "conference", "notes"):
         if row.get(k):
             t[k] = row[k]
@@ -208,7 +270,10 @@ def to_team(row, level):
     if uni:
         t["uniforms"] = uni
     if row.get("stadium") or row.get("capacity"):
-        t["stadium"] = {"name": row.get("stadium", "")}
+        st, status, why = clean_stadium(row.get("stadium", ""), city, row.get("team", ""))
+        if status:
+            REPORT[status].append((row, row.get("stadium", ""), st, why))
+        t["stadium"] = {"name": st}
         cap = number(row.get("capacity", ""), int)
         if cap is not None:
             t["stadium"]["capacity"] = cap
@@ -246,6 +311,45 @@ def to_team(row, level):
     return t
 
 
+def write_report(path, teams):
+    """data/teams/import_report.md: what the importer changed or wants checked."""
+    nick_users = {}
+    for lv in LEVELS:
+        for t in teams[lv]:
+            nick_users.setdefault(t.get("nickname", "").lower(), []).append(t["name"])
+
+    def where(row):
+        return "%s:%d" % (row["_file"], row["_line"])
+
+    out = ["# Team import report", "",
+           "Generated by tools/teams/import_teams.py on every run. The source CSVs are not changed;",
+           "the fixes below are applied to data/teams/*.json.", ""]
+    ch = REPORT["changed"]
+    out += ["## Stadium names cleaned (%d)" % len(ch), "",
+            "The town was repeated at the start of the name. Detected per row (clean_stadium).", "",
+            "| Row | School | Before | After | Why |", "|---|---|---|---|---|"]
+    out += ["| %s | %s | %s | %s | %s |" % (where(r), r.get("name", ""), b, a, w) for r, b, a, w in ch]
+    un = REPORT["unsure"]
+    out += ["", "## Stadium names left as they were: please check (%d)" % len(un), "",
+            "A word repeats, but not in the town pattern above, so the name may be intended.", "",
+            "| Row | School | City | Stadium | Why |", "|---|---|---|---|---|"]
+    out += ["| %s | %s | %s | %s | %s |" % (where(r), r.get("name", ""), r.get("city", ""), b, w) for r, b, a, w in un]
+    cs = REPORT["cut_short"]
+    out += ["", "## Team column cut short for multi-word towns (%d)" % len(cs), "",
+            "The \"Team\" column holds the town's first word + the nickname (\"New Redtails\" for New",
+            "Bedford). The nickname used is the Team column without that word. \"Also used by\" lists",
+            "other teams with the same nickname: evidence the word is a real nickname.", "",
+            "| Row | School | City | Team column | Nickname used | Also used by |", "|---|---|---|---|---|---|"]
+    for r, b, a, w in cs:
+        others = [n for n in nick_users.get(a.lower(), []) if n != r.get("name", "")]
+        out.append("| %s | %s | %s | %s | %s | %s |" % (where(r), r.get("name", ""), r.get("city", ""), b, a,
+                                                       ", ".join(others[:3]) + (" ..." if len(others) > 3 else "") or "-"))
+    with open(path, "w", encoding="utf-8") as f:
+        f.write("\n".join(out) + "\n")
+    print("wrote %s (%d stadium names cleaned, %d to check, %d cut-short Team columns)"
+          % (path, len(ch), len(un), len(cs)))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--source", default="data/teams/source")
@@ -256,6 +360,8 @@ def main():
         print("No CSV files in %s" % a.source)
         return 1
     teams = {lv: [] for lv in LEVELS}
+    for k in REPORT:
+        REPORT[k].clear()
     problems = []
     for p in paths:
         for row in read_rows(p):
@@ -293,6 +399,7 @@ def main():
             json.dump(out, f, indent=1, ensure_ascii=False)
             f.write("\n")
         print("wrote %s (%d teams)" % (path, len(lst)))
+    write_report(os.path.join(a.out, REPORT_FILE), teams)
     for p in problems:
         print("ERROR " + p)
     print("Next: godot --headless --path . res://tools/validate_teams.tscn  (checks the imported data)")

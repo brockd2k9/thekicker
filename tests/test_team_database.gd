@@ -163,6 +163,51 @@ func test_validator_empty_level() -> void:
 	check(_has(_errors_for(raw), "pro: needs at least 2 teams"), "a level with no teams")
 
 
+func _warnings_for(raw: Dictionary) -> PackedStringArray:
+	TeamDatabase.load_data(raw, _leagues(), PALETTE)
+	var r: Dictionary = TeamDatabase.validate()
+	TeamDatabase.load_files()
+	return r["warnings"]
+
+
+func test_stadium_repeating_a_school_word() -> void:
+	eq(TeamDatabase.stadium_repeats_school_word("Burlington Burlington Timberhawks Field",
+		"Burlington Valley University"), "Burlington", "town twice")
+	eq(TeamDatabase.stadium_repeats_school_word("Prairie View Prairie Stadium", "Brazos Prairie University"),
+		"Prairie", "a school word twice, not side by side")
+	eq(TeamDatabase.stadium_repeats_school_word("bossier city Bossier Cranes Field",
+		"Bossier City Regional University"), "Bossier", "case doesn't matter")
+	eq(TeamDatabase.stadium_repeats_school_word("Burlington Timberhawks Field", "Burlington Valley University"),
+		"", "the town once is fine")
+	eq(TeamDatabase.stadium_repeats_school_word("Beaver Falls Beaver Stadium", "Geneva Valley University"),
+		"", "a repeat that isn't in the school name")
+	eq(TeamDatabase.stadium_repeats_school_word("Field of Field", "University of Field"), "Field",
+		"short words (of) never count; Field does")
+	var raw := _raw()
+	raw["college"][0]["stadium"] = {"name": "Big Big Bowl"}
+	raw["college"][1]["stadium"] = {"name": "Small Arena"}
+	var w := _warnings_for(raw)
+	check(_has(w, "'big_u' (Big U): stadium name 'Big Big Bowl' repeats 'Big' from the school name"),
+		"warning names the team, the stadium and the word: %s" % [w])
+	check(not _has(w, "small_u"), "no warning for a clean stadium")
+	raw["college"][1]["stadium"] = {"name": "Arena Arena"}
+	check(_has(_warnings_for(raw), "'small_u' (Small U): stadium name repeats a word ('Arena Arena')"),
+		"other doubled words still warn")
+
+
+func test_real_stadium_names_are_clean() -> void:
+	TeamDatabase.load_files()
+	var r: Dictionary = TeamDatabase.validate()
+	var stadium: Array = Array(r["warnings"]).filter(func(x: String) -> bool: return "stadium name" in x)
+	# Left for review (data/teams/import_report.md): Prairie View Prairie
+	# Stadium repeats a school word; Beaver Falls Beaver Stadium doesn't.
+	eq(stadium.size(), 1, "only the stadium left for review warns: %s" % [stadium])
+	check(stadium.size() == 1 and "Prairie View Prairie Stadium" in str(stadium[0]), "Prairie View")
+	for t in TeamDatabase.colleges():
+		if t["division"] == "D2":
+			eq(str(t["stadium"]["name"]), "%s %s Field" % [t["city"], t["nickname"]], str(t["id"]))
+
+
 # --- Hoboken start ----------------------------------------------------------------------------
 
 func test_every_new_career_starts_at_hoboken() -> void:

@@ -293,8 +293,13 @@ func validate() -> Dictionary:
 				if s != "" and _doubled_word(s) != "":
 					warnings.append("%s: %s repeats a word ('%s')" % [who, f, _doubled_word(s)])
 			var st: Variant = e.get("stadium", {})
-			if st is Dictionary and _doubled_word(str(st.get("name", ""))) != "":
-				warnings.append("%s: stadium name repeats a word ('%s')" % [who, st.get("name", "")])
+			if st is Dictionary:
+				var sn := str(st.get("name", ""))
+				var rep := stadium_repeats_school_word(sn, str(e.get("name", "")))
+				if rep != "":
+					warnings.append("%s: stadium name '%s' repeats '%s' from the school name" % [who, sn, rep])
+				elif _doubled_word(sn) != "":
+					warnings.append("%s: stadium name repeats a word ('%s')" % [who, sn])
 			if bool(e.get("placeholder", false)):
 				warnings.append("%s: placeholder team (replace with real data)" % who)
 	# Rivals must be real teams; every level and division needs teams to play.
@@ -322,6 +327,20 @@ func validate() -> Dictionary:
 	elif not ("high_school" in str(seen_ids[start_team_id()])):
 		errors.append("start team '%s' must be a high school" % start_team_id())
 	return {"errors": errors, "warnings": warnings}
+
+
+## The first word of `school` that appears more than once in `stadium`
+## ("" when none): "Burlington Burlington Timberhawks Field" at Burlington
+## Valley University -> "Burlington". Case-insensitive; words of one or two
+## letters don't count.
+static func stadium_repeats_school_word(stadium: String, school: String) -> String:
+	var count := {}
+	for w in stadium.to_lower().split(" ", false):
+		count[w] = int(count.get(w, 0)) + 1
+	for w in school.split(" ", false):
+		if w.length() > 2 and int(count.get(w.to_lower(), 0)) > 1:
+			return w
+	return ""
 
 
 static func _doubled_word(s: String) -> String:

@@ -56,7 +56,7 @@ are kept on the team under `extra`, so nothing you send is lost.
 |---|---|---|
 | `City`, `State`, `County`, `Region` | `city`, `state`, `county`, `region` | City: team records ("town"), hometown. Others: shown/kept. |
 | `Mascot` | `mascot` | Kept (as `mascot_figure` on the record; the game calls the nickname "mascot"). |
-| `Stadium`, `Capacity` | `stadium.name`, `stadium.capacity` | Kept for game-day presentation. |
+| `Stadium`, `Capacity` | `stadium.name`, `stadium.capacity` | Kept for game-day presentation. A town repeated at the start of the name is removed on import (see "Import report"). |
 | `Prestige` | `ratings.prestige` | 0-100. Sets the team's sim **strength** when `Strength` is blank: spread 35-80 within its division. |
 | `Crowd Noise`, `Draft Rating` | `ratings.crowd_noise`, `ratings.draft_rating` | 0-100. Kept (reserved for game day and the draft). |
 | `Recruiting Points`, `Minimum Player OVR`, `Minimum GPA` | `recruiting.points`, `.min_ovr`, `.min_gpa` | Kept per school (reserved: offers currently use the tier thresholds in `progression.json`). |
@@ -166,9 +166,26 @@ unknown color; rival that isn't a team; a level with fewer than 2 teams; start
 team missing or not a high school.
 
 Warnings: abbreviation in use elsewhere in the level or not 2-4 letters; no
-strength or prestige (sim uses 50); a word repeated in a name or stadium
-(`Burlington Burlington Timberhawks Field`); a conference with no teams;
-placeholder teams.
+strength or prestige (sim uses 50); a stadium name that repeats a word from
+the school name (`Prairie View Prairie Stadium` at Brazos Prairie University);
+any other word repeated twice in a row in a name or stadium; a conference with
+no teams; placeholder teams.
+
+## Import report
+
+Every import writes `data/teams/import_report.md` for review:
+
+* **Stadium names cleaned**: the importer removes a town repeated at the start
+  of a stadium name, judged per row (`clean_stadium`): the town twice in a row
+  (`Burlington Burlington Timberhawks Field` -> `Burlington Timberhawks Field`),
+  or the town followed by a cut-short Team column (`New Bedford New Redtails
+  Field` -> `New Bedford Redtails Field`). The CSVs are left as sent.
+* **Stadium names left as they were**: a word repeats but not in those
+  patterns (`Beaver Falls Beaver Stadium`), so it may be intended. Check them
+  and fix the CSV if needed.
+* **Team column cut short**: the Team column holds only a multi-word town's
+  first word plus the nickname (`New Redtails` for New Bedford); the nickname
+  used and other teams with the same nickname are listed.
 
 ## Changing ids, and old saves
 
