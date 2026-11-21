@@ -149,6 +149,12 @@ func conference_mates(t: Dictionary) -> Array:
 		return str(o.get("conference", "")) == conf and str(o.get("id", "")) != str(t.get("id", "")))
 
 
+## Level info from leagues.json: {name, league, divisions, ...} ({} when unknown).
+func level_info(level: String) -> Dictionary:
+	ensure_loaded()
+	return _leagues.get("levels", {}).get(level, {})
+
+
 ## Division info from leagues.json ({} when unknown).
 func division_info(level: String, division: String) -> Dictionary:
 	ensure_loaded()

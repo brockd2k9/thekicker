@@ -153,6 +153,16 @@ static func _migrate(d: Dictionary) -> Dictionary:
 	if v < 9:
 		_migrate_pro_teams(d)
 		v = 9
+	# Version 9 -> 10: all-time records (CareerData.records starts empty) and
+	# each season's team id in history, for the record books: found by the
+	# saved team name (seasons played before the team database keep "").
+	if v < 10:
+		var hist: Variant = d.get("history", [])
+		if hist is Array:
+			for h in hist:
+				if h is Dictionary and str(h.get("team_id", "")) == "":
+					h["team_id"] = RecordBook.team_id_by_name(str(h.get("team", "")))
+		v = 10
 	if v > CareerData.VERSION:
 		push_warning("CareerSave: career is from a newer version (%d)" % v)
 	d["career_version"] = CareerData.VERSION

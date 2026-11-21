@@ -437,6 +437,8 @@ dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career
 | Cold and snow games (late season) | `career_manager.gd` `_roll_cold()`, `kick_profile.gd` (numbers: "Weather") |
 | Traits (8), game-day modifiers (19), stat descriptions | `data/career/traits.json`, `modifiers.json`, `stats_info.json` |
 | Teams: 21 high schools (every career starts at Hoboken High School), 426 colleges (FBS / FCS / D2 = top / mid / small tier), 6 junior colleges (placeholders) and 32 pro clubs (AFC / NFC, 8 divisions) | `data/teams/` via the `TeamDatabase` autoload; format, import and validator: [DATA_FORMAT.md](DATA_FORMAT.md) |
+| All-time records: fictional record books (league / conference / division / team, single season and career, 11 categories) and your kicker's records, NEW RECORD events (`CareerManager.records_set`) | `data/records/record_book.json` (made once by `tools/records/generate_records.py`, fixed seed), `scripts/records/record_book.gd` (`RecordBook`), saved events: `CareerData.records` |
+| Season length: high school 10, college 12, pro 17 regular-season games (+1 bye) | `career_tuning.tres` "Seasons" (`games_for`) |
 | Names, play-by-play, player looks | `data/career/world.json`, `game_day.json` |
 | Progression tables: college tiers, offers, draft rounds, tryouts, contracts | `data/career/progression.json` (weights in `career_tuning.tres`) |
 | Recruiting / draft / retention / academics rules | `scripts/career/progression.gd` |

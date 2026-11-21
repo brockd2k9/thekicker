@@ -35,3 +35,12 @@ static func people_json(people: Dictionary) -> String:
 		if p[k] is Dictionary:
 			(p[k] as Dictionary).erase("team")
 	return JSON.stringify(p)
+
+
+## `history` as JSON without each season's team_id (added by save version 10).
+static func history_json(history: Array) -> String:
+	var h := history.duplicate(true)
+	for row in h:
+		if row is Dictionary:
+			(row as Dictionary).erase("team_id")
+	return JSON.stringify(h)

@@ -8,7 +8,7 @@ extends RefCounted
 ## Stats are floats 0..100 (gains can be fractional); screens show them rounded.
 ## When the layout changes: bump VERSION and add a step to CareerSave._migrate().
 
-const VERSION := 9
+const VERSION := 10
 
 const STAGE_HIGH_SCHOOL := "high_school"
 const STAGE_JUCO := "juco"
@@ -126,6 +126,10 @@ var route: Array = []
 var people: Dictionary = {}
 ## People from earlier stages: [{id, name, value, stage, role}].
 var former_people: Array = []
+## All-time records (RecordBook.check, save version 10): {best: {list key:
+## "entered" / "tie" / "record"}, held: [list keys you're #1 on], log: [events]}.
+## The fictional record book itself is data (data/records), never saved.
+var records: Dictionary = {}
 ## Set when the career ends: {reason, text, age, season}.
 var retirement: Dictionary = {}
 ## Mid-game state so a quit restarts the game from its first kick: {"seed"}.
@@ -407,6 +411,7 @@ func to_dict() -> Dictionary:
 		"last_week": last_week.duplicate(true),
 		"people": people.duplicate(true),
 		"former_people": former_people.duplicate(true),
+		"records": records.duplicate(true),
 		"notice": notice,
 		"skill_points": skill_points,
 		"range_physics": range_physics,
@@ -531,6 +536,7 @@ static func from_dict(d: Dictionary) -> CareerData:
 	for e in _array(d, "kick_log"):
 		if e is Dictionary and str(e.get("kind", "")) != "":
 			c.kick_log.append(e)
+	c.records = _dict(d, "records")
 	c.followers = maxi(_num(d, "followers"), 0)
 	c.social = _dict(d, "social")
 	c.last_challenge = _dict(d, "last_challenge")

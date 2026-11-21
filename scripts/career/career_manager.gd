@@ -35,6 +35,13 @@ const PHASE_DRAFT := "draft"
 const PHASE_CONTRACT := "contract"
 const PHASE_RETIRED := "retired"
 
+## All-time records (RecordBook): you set, tied or entered a record list.
+## events: [{kind "record" / "tie" / "entered", headline ("NEW RECORD",
+## "Entered top 25"), text, level, scope, scope_name, span, cat, value,
+## value_text, rank, season, week}], best first. Also kept in data.records
+## ("log"), so screens that open later can show them.
+signal records_set(events: Array)
+
 var data: CareerData
 var tuning: CareerTuning
 var rng := RandomNumberGenerator.new()
@@ -101,6 +108,19 @@ func save() -> bool:
 
 ## Career milestones go to GameState (My Stats career totals + achievements).
 ## In-memory careers (slot 0, the balance simulator) report nothing.
+## Checks the record books after a game (records and ties) or at the end of
+## the season (final: also "entered top 25"), and tells the UI.
+func _records(final: bool) -> void:
+	var events := RecordBook.check(data, final)
+	if events.is_empty():
+		return
+	data.records["pending"] = (data.records.get("pending", []) as Array) + events
+	records_set.emit(events)
+	for e in events:
+		if str(e["kind"]) == "record":
+			_event({"event": "record", "level": e["level"], "scope": e["scope_kind"], "cat": e["cat"]})
+
+
 func _event(e: Dictionary) -> void:
 	if data.slot != 0:
 		GameState.report_career_event(e)
@@ -249,7 +269,8 @@ func _sync_flags() -> void:
 		data.flags["benched"] = true
 
 
-## games_per_season games + byes_per_season byes against this stage's teams:
+## CareerTuning.games_for(stage) games (high school 10, college 12, pro 17)
+## + byes_per_season byes against this stage's teams:
 ## your own conference first (pro: your division, "AFC East"), then your
 ## division (pro: "AFC") or college tier, then the rest. Entries are typed ("regular" / "bye") so
 ## playoff weeks can be appended later.
@@ -269,7 +290,7 @@ static func build_schedule(c: CareerData, t: CareerTuning, r: RandomNumberGenera
 	for s in others:
 		groups[rank.call(s)].append(s)
 	others = groups[0] + groups[1] + groups[2]
-	var total := t.games_per_season + t.byes_per_season
+	var total := t.games_for(c.stage) + t.byes_per_season
 	var byes: Array = []
 	while byes.size() < t.byes_per_season:
 		var w := r.randi_range(mini(t.bye_week_earliest, total), mini(t.bye_week_latest, total))
@@ -567,6 +588,7 @@ func finish_game(summary: Dictionary) -> void:
 		"line": line, "changes": applied, "trust": trust, "bench": bench_info, "ot": summary.get("ot", {})}
 	data.game_checkpoint = {}
 	data.phase = PHASE_RESULTS
+	_records(false)
 	save()
 	for k in summary.get("kicks", []):
 		if k.get("made", false) and not k.get("backup", false) and "GAME WINNER" in str(k.get("label", "")):
@@ -763,7 +785,8 @@ func end_season() -> void:
 	var fans := Followers.season_end(data, tuning)
 	data.social["week"] = []
 	var h := {"stage": data.stage, "season": data.season, "season_in_stage": data.season_in_stage,
-		"year": class_year(), "team": data.team.get("name", ""), "age": data.age,
+		"year": class_year(), "team": data.team.get("name", ""), "team_id": str(data.team.get("id", "")),
+		"age": data.age,
 		"record": data.record.duplicate(), "stats": data.season_stats.duplicate(),
 		"sp": data.sp_season, "sp_bonus": bonus, "aged": aged, "sp_sources": data.sp_sources.duplicate(),
 		"fg_range": snappedf(KickRange.fg_range(data, tuning), 0.1),
@@ -773,6 +796,8 @@ func end_season() -> void:
 		"follower_bonus": float(fans["progress"])}
 	# Recorded first, so a retirement at the age cap includes this season.
 	data.history.append(h)
+	# All-time records: the finished season and the career so far.
+	_records(true)
 	match data.stage:
 		CareerData.STAGE_HIGH_SCHOOL, CareerData.STAGE_JUCO:
 			var gain := Progression.recruiting_gain(data, tuning) + float(fans["progress"])

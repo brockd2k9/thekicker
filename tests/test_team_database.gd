@@ -346,7 +346,7 @@ func test_old_saves_move_to_database_teams() -> void:
 		var tt := Relationships.tyler_team(c)
 		if not tt.is_empty():
 			check(TeamDatabase.has_team(str(tt["id"])), "%s: Tyler's team %s" % [name, tt["id"]])
-		eq(JSON.stringify(c.to_dict()["history"]), JSON.stringify(raw.get("history", [])), name + ": history kept")
+		eq(history_json(c.to_dict()["history"]), history_json(raw.get("history", [])), name + ": history kept")
 
 
 func test_old_college_keeps_tier_and_offer_type() -> void:

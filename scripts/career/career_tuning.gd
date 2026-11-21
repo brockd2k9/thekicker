@@ -199,8 +199,12 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var high_school_seasons: int = 4
 @export var juco_seasons: int = 1
 @export var college_seasons: int = 4
-## Regular-season games and bye weeks per season (all stages for now).
+## Regular-season games per season: high school (games_per_season),
+## junior college, college and pro (games_for). Bye weeks: all stages.
 @export var games_per_season: int = 10
+@export var games_per_season_juco: int = 10
+@export var games_per_season_college: int = 12
+@export var games_per_season_pro: int = 17
 @export var byes_per_season: int = 1
 ## The bye falls in a random week between these (inclusive).
 @export var bye_week_earliest: int = 4
@@ -879,3 +883,15 @@ func goal_width_for(stage: String) -> float:
 		CareerData.STAGE_COLLEGE, CareerData.STAGE_JUCO:
 			return goal_width_college
 	return goal_width_pro
+
+
+## Regular-season games for a stage (high school 10, college 12, pro 17).
+func games_for(stage: String) -> int:
+	match stage:
+		CareerData.STAGE_COLLEGE:
+			return games_per_season_college
+		CareerData.STAGE_JUCO:
+			return games_per_season_juco
+		CareerData.STAGE_PRO, CareerData.STAGE_FREE_AGENT:
+			return games_per_season_pro
+	return games_per_season

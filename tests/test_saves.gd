@@ -50,8 +50,9 @@ func test_v2_round_trip_is_lossless() -> void:
 		var again := CareerData.from_dict(CareerSave._migrate(c.to_dict()))
 		eq(JSON.stringify(again.to_dict()), JSON.stringify(c.to_dict()), name + " round trip")
 		var raw := fixture(name)
-		for key in ["flags", "scenario_log", "history", "route"]:
+		for key in ["flags", "scenario_log", "route"]:
 			eq(JSON.stringify(c.to_dict()[key]), JSON.stringify(raw[key]), "%s keeps %s" % [name, key])
+		eq(history_json(c.to_dict()["history"]), history_json(raw["history"]), name + " keeps history")
 		# Offers and the schedule keep everything but old team ids (version 8
 		# moved them to the team database: test_team_database.gd).
 		eq(c.offers.size(), (raw["offers"] as Array).size(), name + " keeps its offers")
