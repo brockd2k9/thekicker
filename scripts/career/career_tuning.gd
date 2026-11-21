@@ -777,6 +777,21 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 @export var good_habits_sp: int = 1
 @export var good_habits_season_cap: int = 3
 
+@export_group("Stadiums")
+## Stadiums (scripts/career/stadiums.gd): the home team's stadium by stage.
+## High school always plays at night; these are the night shares elsewhere
+## (prime-time games), picked per game from the week so a resume never changes it.
+@export_range(0.0, 1.0) var college_night_share: float = 0.25
+@export_range(0.0, 1.0) var pro_night_share: float = 0.2
+## Strength bands where a team has no capacity: below the first, tier 1; below
+## the second, tier 2; else tier 3 (high school and pro; college uses its tier).
+@export var stadium_hs_strength: Vector2 = Vector2(50, 62)
+@export var stadium_pro_strength: Vector2 = Vector2(60, 67)
+## Capacity bands when a team has "capacity" in world.json (it then decides).
+@export var stadium_hs_capacity: Vector2 = Vector2(3000, 8000)
+@export var stadium_college_capacity: Vector2 = Vector2(30000, 60000)
+@export var stadium_pro_capacity: Vector2 = Vector2(62000, 70000)
+
 @export_group("Overtime")
 ## A tie after four quarters goes to overtime (GameSim), by stage:
 ##   high school (Kansas plan): each team gets the ball at the opponent's 10

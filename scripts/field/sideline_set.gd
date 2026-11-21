@@ -21,6 +21,8 @@ const TEAMMATES := [[3.4, -3.0, false], [3.0, -5.2, false], [3.6, -8.6, true], [
 	[3.5, -13.5, false]]
 
 var net: KickingNet
+## The stadium's crowd settings (empty seats, colors, bleachers). Set before build().
+var stadium: StadiumSpec
 var _tee: MeshInstance3D
 
 
@@ -93,6 +95,7 @@ func _build_stands() -> void:
 	var mat := ShaderMaterial.new()
 	mat.shader = CROWD_SHADER
 	mat.set_shader_parameter("plane_size", plane.size)
+	FieldBuilder.stadium_crowd(mat, stadium)
 	plane.material = mat
 	var crowd := MeshInstance3D.new()
 	crowd.mesh = plane

@@ -301,10 +301,15 @@ static func money(n: int) -> String:
 
 ## A team dict for CareerData.team / opponents from any world.json entry.
 static func team_from(s: Dictionary, level: String) -> Dictionary:
-	return {"id": s.get("id", ""), "name": s.get("name", "Team"), "mascot": s.get("mascot", ""),
+	var out := {"id": s.get("id", ""), "name": s.get("name", "Team"), "mascot": s.get("mascot", ""),
 		"short": s.get("short", "???"), "town": s.get("town", ""),
 		"colors": s.get("colors", ["#1f3a8a", "#f2b632"]), "strength": float(s.get("strength", 50)),
 		"tier": s.get("tier", ""), "level": level}
+	# Optional (story data): stadium capacity and name (Stadiums).
+	for k in ["capacity", "stadium"]:
+		if s.has(k):
+			out[k] = s[k]
+	return out
 
 
 ## Who you can play this stage.

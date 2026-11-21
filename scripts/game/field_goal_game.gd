@@ -89,8 +89,9 @@ var _fg_flight_t := 0.0
 ## Career Mode: goalpost style/width/colors and team uniforms. Call after
 ## instantiate() and before adding the scene to the tree. look keys (all
 ## optional): posts ("high_school"/"college"/"pro"), width (m), accent, accent2
-## (Color), home / away ([primary, secondary] Colors). Without it the scene
-## looks exactly as before.
+## (Color), home / away ([primary, secondary] Colors), stadium (StadiumSpec:
+## the stands, lights, scoreboard, night). Without it the scene looks exactly
+## as before.
 func set_look(look: Dictionary) -> void:
 	var posts := get_node("Field/GoalEnd/GoalPosts") as GoalPosts
 	posts.style = StringName(str(look.get("posts", "")))
@@ -104,6 +105,31 @@ func set_look(look: Dictionary) -> void:
 	var away: Array = look.get("away", [])
 	if away.size() == 2:
 		f.away_kit_override = TeamKit.from_colors(away[0], away[1], true)
+	var st: Variant = look.get("stadium")
+	if st is StadiumSpec:
+		f.stadium = st
+		if st.night:
+			_set_night()
+
+
+## Night games: a dark sky with stars, less ambient light, a cooler key light
+## (the stadium lights). No real-time lights are added.
+func _set_night() -> void:
+	var we := get_node("WorldEnvironment") as WorldEnvironment
+	var env := we.environment.duplicate(true) as Environment
+	var sky_mat := env.sky.sky_material as ShaderMaterial
+	sky_mat.set_shader_parameter("top_color", Color(0.01, 0.02, 0.06))
+	sky_mat.set_shader_parameter("horizon_color", Color(0.09, 0.11, 0.2))
+	sky_mat.set_shader_parameter("cloud_color", Color(0.1, 0.11, 0.16))
+	sky_mat.set_shader_parameter("cloud_cover", 0.25)
+	sky_mat.set_shader_parameter("stars", 1.0)
+	env.ambient_light_color = Color(0.7, 0.76, 0.95)
+	env.ambient_light_energy = 0.42
+	env.fog_light_color = Color(0.08, 0.1, 0.17)
+	we.environment = env
+	var sun := get_node("Sun") as DirectionalLight3D
+	sun.light_color = Color(0.96, 0.97, 1.0)
+	sun.light_energy = 1.05
 
 
 ## Tee kicks need their formation built before the field's _ready().

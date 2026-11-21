@@ -28,6 +28,9 @@ const STAND_SLOPE_DEG := 34.0
 const WALL_HEIGHT := 2.6
 
 const WALL_COLOR := Color(0.07, 0.12, 0.3)
+const BLEACHER_RAIL := Color(0.62, 0.64, 0.68)
+## Sideline stands (wings): distance from the middle of the field.
+const WING_X := 38.0
 
 ## Field-goal unit (x, z offset from the line of scrimmage, + = our side).
 ## Long snapper at 0, guards, tackles, tight ends, then the two wings.
@@ -65,6 +68,10 @@ var _away_kit := TeamKit.away()
 ## tree (field_goal_game.gd set_look()); null = the default kits.
 var home_kit_override: TeamKit
 var away_kit_override: TeamKit
+## The stadium (StadiumSpec). Set before the scene enters the tree
+## (field_goal_game.gd set_look()); null = the original stadium.
+var stadium: StadiumSpec
+var _stadium: StadiumSpec
 var _rng := RandomNumberGenerator.new()
 var _plan: RushPlan
 ## KickSituation.KickType. Set before the scene enters the tree
@@ -91,12 +98,14 @@ func _ready() -> void:
 		_home_kit = home_kit_override
 	if away_kit_override != null:
 		_away_kit = away_kit_override
+	_stadium = stadium if stadium != null else StadiumSpec.new()
 	_build_ground()
 	_build_stands()
 	if kick_type == KickSituation.KickType.WARMUP_NET:
 		# Empty field (the game goes on without you); you're on the sideline.
 		_rng.randomize()
 		sideline = SidelineSet.new()
+		sideline.stadium = _stadium
 		sideline.position = Vector3(sideline_x, 0.0, 0.0)
 		add_child(sideline)
 		sideline.build(_home_kit, _rng, tee_height, tee_ball_scale)
@@ -112,6 +121,11 @@ func _ready() -> void:
 func set_distance(distance_m: float) -> void:
 	goal_end.position = Vector3(0.0, 0.0, -distance_m)
 	_field_mat.set_shader_parameter("goal_z", -distance_m)
+
+
+## How loud this stadium's crowd is (0-1): a hook for crowd sound later.
+func crowd_level() -> float:
+	return _stadium.crowd_level if _stadium != null else 0.8
 
 
 func set_wind(mph: float, max_mph: float, along: float = 0.0) -> void:
@@ -352,6 +366,9 @@ func _build_ground() -> void:
 	_field_mat = ShaderMaterial.new()
 	_field_mat.shader = FIELD_SHADER
 	plane.material = _field_mat
+	_field_mat.set_shader_parameter("hash_x", _stadium.hash_x)
+	if _stadium.endzone.a > 0.0:
+		_field_mat.set_shader_parameter("endzone_color", _stadium.endzone)
 	var mi := MeshInstance3D.new()
 	mi.mesh = plane
 	mi.position = Vector3(0.0, 0.0, -120.0)
@@ -414,55 +431,157 @@ func _number(used: Array[int], lo: int, hi: int) -> int:
 
 func _build_stands() -> void:
 	# All parented to GoalEnd (local z=0 is the end line, the field is +Z).
+	var st := _stadium
 	var front_z := -STANDS_GAP
-	_add_box(goal_end, Vector3(STAND_WIDTH, WALL_HEIGHT, 0.5),
-		Vector3(0.0, WALL_HEIGHT * 0.5, front_z), WALL_COLOR)
+	var width := st.stand_width
+	_add_box(goal_end, Vector3(width, st.wall_height, 0.5),
+		Vector3(0.0, st.wall_height * 0.5, front_z), BLEACHER_RAIL if st.bleachers else WALL_COLOR)
 	# Trim band along the top of the wall.
-	_add_box(goal_end, Vector3(STAND_WIDTH, 0.35, 0.55),
-		Vector3(0.0, WALL_HEIGHT - 0.4, front_z + 0.02), Color(0.9, 0.9, 0.92))
+	_add_box(goal_end, Vector3(width, 0.35, 0.55),
+		Vector3(0.0, st.wall_height - 0.4, front_z + 0.02), Color(0.9, 0.9, 0.92))
 
-	var lower_top := _add_stand(Vector3(0.0, WALL_HEIGHT, front_z - 0.3), 46.0)
-	# Suite level: a dark glass band between the decks.
-	_add_box(goal_end, Vector3(STAND_WIDTH, 4.0, 1.0),
-		lower_top + Vector3(0.0, 2.0, -0.5), Color(0.05, 0.07, 0.12))
-	var upper_top := _add_stand(lower_top + Vector3(0.0, 4.0, -1.0), 30.0)
-	# Roof rim.
-	_add_box(goal_end, Vector3(STAND_WIDTH, 1.2, 6.0),
-		upper_top + Vector3(0.0, 0.6, 1.5), Color(0.75, 0.77, 0.8))
+	var top := Vector3(0.0, st.wall_height, front_z - 0.3)
+	for i in st.decks.size():
+		if i > 0:
+			# Suite level (dark glass) or a concrete fascia between the decks.
+			var band := 4.0 if st.suite_band else 2.5
+			_add_box(goal_end, Vector3(width, band, 1.0), top + Vector3(0.0, band * 0.5, -0.5),
+				Color(0.05, 0.07, 0.12) if st.suite_band else Color(0.4, 0.41, 0.44))
+			top += Vector3(0.0, band, -1.0)
+		top = _add_stand(goal_end, top, st.decks[i], width)
+	if st.roof_rim:
+		_add_box(goal_end, Vector3(width, 1.2, 6.0), top + Vector3(0.0, 0.6, 1.5),
+			Color(0.75, 0.77, 0.8))
+	if st.press_box:
+		# Off to one side, so it never sits behind the uprights.
+		var px := Vector3(-width * 0.3, 0.0, 0.0)
+		_add_box(goal_end, Vector3(18.0, 4.0, 5.0), top + px + Vector3(0.0, 2.0, -2.0),
+			Color(0.82, 0.83, 0.85))
+		var glass := _add_box(goal_end, Vector3(16.0, 1.4, 0.2), top + px + Vector3(0.0, 2.4, 0.55),
+			Color(0.1, 0.13, 0.2))
+		_glow(glass, Color(1.0, 0.92, 0.7), 0.8 if st.night else 0.0)
+	_build_lights(top)
+	_build_scoreboard(top)
+	if st.wings:
+		for side_v in [-1.0, 1.0]:
+			var side: float = side_v
+			# The warmup's own sideline set stands on +X.
+			if side > 0.0 and kick_type == KickSituation.KickType.WARMUP_NET:
+				continue
+			_build_wing(side)
 
-	# Light towers above the stands.
-	for side_v in [-1.0, 1.0]:
-		var side: float = side_v
-		var base := Vector3(side * 34.0, 0.0, upper_top.z - 4.0)
-		var height := upper_top.y + 14.0
+
+## Light towers (2), poles (4, high school and bleachers) or a lit roof ring.
+func _build_lights(top: Vector3) -> void:
+	var st := _stadium
+	var energy := 4.0 if st.night else 1.5
+	if st.lights == "ring":
+		var ring := _add_box(goal_end, Vector3(st.stand_width * 0.9, 0.6, 1.2),
+			top + Vector3(0.0, 1.6, 4.0), Color(1.0, 1.0, 0.95))
+		_glow(ring, Color(1.0, 0.97, 0.85), energy)
+		return
+	var spots: Array[Vector3] = []
+	var height := 0.0
+	if st.lights == "poles":
+		# Along both sidelines: two by the stands, two out toward midfield.
+		height = maxf(top.y + 12.0, 22.0)
+		for z in [-STANDS_GAP - 2.0, 45.0]:
+			for side in [-1.0, 1.0]:
+				spots.append(Vector3(float(side) * 33.0, 0.0, float(z)))
+	else:
+		height = top.y + 14.0
+		for side in [-1.0, 1.0]:
+			spots.append(Vector3(float(side) * st.stand_width * 0.17, 0.0, top.z - 4.0))
+	var panel_size := Vector3(6.0, 3.5, 0.5) if st.lights == "poles" else Vector3(10.0, 5.0, 0.6)
+	for base in spots:
 		_add_box(goal_end, Vector3(0.8, height, 0.8), base + Vector3(0.0, height * 0.5, 0.0),
 			Color(0.55, 0.57, 0.6))
-		var panel := _add_box(goal_end, Vector3(10.0, 5.0, 0.6),
-			base + Vector3(0.0, height + 2.0, 0.6), Color(1.0, 1.0, 0.95))
-		var lm := (panel.mesh as BoxMesh).material as StandardMaterial3D
-		lm.emission_enabled = true
-		lm.emission = Color(1.0, 0.97, 0.85)
-		lm.emission_energy_multiplier = 1.5
+		var panel := _add_box(goal_end, panel_size, base + Vector3(0.0, height + 2.0, 0.6),
+			Color(1.0, 1.0, 0.95))
+		_glow(panel, Color(1.0, 0.97, 0.85), energy)
+
+
+## A scoreboard: small on two posts beside the end zone, or a board / video
+## board on top of the stands.
+func _build_scoreboard(top: Vector3) -> void:
+	var st := _stadium
+	match st.scoreboard:
+		"small":
+			var base := Vector3(-22.0, 0.0, -STANDS_GAP + 2.0)
+			for dx in [-3.0, 3.0]:
+				_add_box(goal_end, Vector3(0.4, 5.0, 0.4), base + Vector3(float(dx), 2.5, 0.0),
+					Color(0.55, 0.57, 0.6))
+			var board := _add_box(goal_end, Vector3(8.0, 3.2, 0.4), base + Vector3(0.0, 6.2, 0.0),
+				Color(0.08, 0.1, 0.16))
+			_glow(board, Color(0.95, 0.55, 0.2), 0.5 if st.night else 0.15)
+		"board", "video":
+			var big := st.scoreboard == "video"
+			var size := Vector3(36.0, 12.0, 1.0) if big else Vector3(22.0, 8.0, 1.0)
+			var at := top + Vector3(0.0, size.y * 0.5 + 3.0, -3.0)
+			_add_box(goal_end, size, at, Color(0.12, 0.13, 0.16))
+			var face := _add_box(goal_end, Vector3(size.x - 1.6, size.y - 1.6, 0.2),
+				at + Vector3(0.0, 0.0, 0.55), Color(0.05, 0.08, 0.16))
+			var color := Color(0.35, 0.55, 1.0) if big else Color(0.95, 0.6, 0.2)
+			_glow(face, color, (1.2 if st.night else 0.35) * (1.0 if big else 0.7))
+
+
+## A sideline stand (the bowl): a wall and one deck along the whole field,
+## facing the middle. Parented to the field, not the moving goal end.
+func _build_wing(side: float) -> void:
+	var st := _stadium
+	var pivot := Node3D.new()
+	pivot.position = Vector3(side * WING_X, 0.0, -70.0)
+	pivot.rotation.y = side * PI * 0.5  # local +Z = toward the field
+	add_child(pivot)
+	var length := 220.0
+	_add_box(pivot, Vector3(length, st.wall_height, 0.5), Vector3(0.0, st.wall_height * 0.5, 0.0),
+		WALL_COLOR)
+	_add_stand(pivot, Vector3(0.0, st.wall_height, -0.3), st.decks[0] * 0.7, length)
 
 
 ## Adds one sloped seating deck whose bottom-front edge is at `bottom`.
 ## Returns the top-back edge position so the next deck can stack on it.
-func _add_stand(bottom: Vector3, length: float) -> Vector3:
+func _add_stand(parent: Node3D, bottom: Vector3, length: float, width: float) -> Vector3:
 	var slope := deg_to_rad(STAND_SLOPE_DEG)
 	var up_dir := Vector3(0.0, sin(slope), -cos(slope))
 	var plane := PlaneMesh.new()
-	plane.size = Vector2(STAND_WIDTH, length)
+	plane.size = Vector2(width, length)
 	var mat := ShaderMaterial.new()
 	mat.shader = CROWD_SHADER
 	mat.set_shader_parameter("plane_size", plane.size)
+	stadium_crowd(mat, _stadium)
 	plane.material = mat
 	var mi := MeshInstance3D.new()
 	mi.mesh = plane
 	mi.rotation = Vector3(slope, 0.0, 0.0)  # tilt to face the field
 	mi.position = bottom + up_dir * length * 0.5
 	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	goal_end.add_child(mi)
+	parent.add_child(mi)
 	return bottom + up_dir * length
+
+
+## The crowd shader's stadium settings: empty seats, the home crowd's colors,
+## pale aluminum seats for bleachers. Shared with the sideline warmup.
+static func stadium_crowd(mat: ShaderMaterial, st: StadiumSpec) -> void:
+	if st == null or st.tier == "default":
+		return
+	mat.set_shader_parameter("empty_seats", st.empty_seats)
+	if st.crowd_colors.size() == 2:
+		mat.set_shader_parameter("home_color", st.crowd_colors[0])
+		mat.set_shader_parameter("alt_color", st.crowd_colors[1])
+	if st.bleachers:
+		mat.set_shader_parameter("seat_color", Color(0.6, 0.62, 0.66))
+		mat.set_shader_parameter("concrete", Color(0.68, 0.7, 0.73))
+
+
+## Makes a box glow (light panels, scoreboards). energy 0: no glow.
+func _glow(mi: MeshInstance3D, color: Color, energy: float) -> void:
+	if energy <= 0.0:
+		return
+	var m := (mi.mesh as BoxMesh).material as StandardMaterial3D
+	m.emission_enabled = true
+	m.emission = color
+	m.emission_energy_multiplier = energy
 
 
 func _add_box(parent: Node, size: Vector3, pos: Vector3, color: Color) -> MeshInstance3D:

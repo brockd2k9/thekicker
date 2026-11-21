@@ -431,10 +431,12 @@ static func ot_rule_text(rule: String, t: CareerTuning) -> String:
 	return "Overtime: each team gets the ball at the 10 (field goals around %d yards), up to %d rounds; then it stays a tie." % [t.ot_hs_fg_yards, t.ot_hs_rounds]
 
 
-## The kick scene's look this week (posts, widths, team colors).
+## The kick scene's look this week (posts, widths, team colors, the stadium).
 func kick_look() -> Dictionary:
 	var gp := Progression.game_params(data, tuning)
-	return Progression.look(str(gp["posts"]), float(gp["width"]), data.team, entry().get("opponent", {}))
+	var look := Progression.look(str(gp["posts"]), float(gp["width"]), data.team, entry().get("opponent", {}))
+	look["stadium"] = Stadiums.for_game(data, entry(), tuning)
+	return look
 
 
 ## College: below the minimum GPA you sit out games.

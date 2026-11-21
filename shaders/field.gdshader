@@ -12,6 +12,7 @@ uniform vec3 line_color : source_color = vec3(0.96, 0.96, 0.93);
 uniform vec3 outside_color : source_color = vec3(0.15, 0.34, 0.15);
 uniform float field_half_width = 24.38;
 uniform float grain_strength = 0.4;
+uniform float hash_x = 3.12; // hash marks' distance from the middle (m), by stage
 
 varying vec3 world_pos;
 
@@ -61,7 +62,7 @@ void fragment() {
 		lines = max(lines, line_mask(abs(p.y - goal_z), 0.06));
 		// Hash marks every yard, in line with the uprights.
 		float d1 = abs(yd - round(yd)) * 0.9144;
-		float on_hash = step(abs(ax - 3.12), 0.3);
+		float on_hash = step(abs(ax - hash_x), 0.3);
 		if (yd > 10.0) {
 			lines = max(lines, line_mask(d1, 0.05) * on_hash);
 		}
