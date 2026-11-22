@@ -183,11 +183,7 @@ static func trait_unlock_card(id: String) -> PanelContainer:
 	var def := CareerContent.trait_def(id)
 	var p := PanelContainer.new()
 	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var box := UiKit.panel_box(UiKit.GOOD, Color(UiKit.GOOD, 0.14))
-	box.shadow_color = Color(UiKit.GOOD, 0.45)
-	box.shadow_size = 22
-	box.shadow_offset = Vector2.ZERO
-	p.add_theme_stylebox_override("panel", box)
+	p.add_theme_stylebox_override("panel", UiKit.panel_box(Brand.RED, Brand.INK_2))
 	var h := HBoxContainer.new()
 	h.add_theme_constant_override("separation", 16)
 	h.mouse_filter = Control.MOUSE_FILTER_IGNORE

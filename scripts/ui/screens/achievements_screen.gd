@@ -36,11 +36,10 @@ func _row(def: Dictionary, tracker: AchievementTracker) -> Control:
 	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var box := UiKit.panel_box()
 	if unlocked:
-		box.border_color = UiKit.ACCENT
-		box.border_width_left = UiTokens.BUTTON_STRIPE
+		box.stripe = Brand.RED
+		box.content_margin_left += Brand.STRIPE
 	else:
-		box.bg_color = Color(UiKit.PANEL, 0.5)
-		box.shadow_size = 0
+		box.texture_color = Color(0, 0, 0, 0)
 		p.modulate = Color(1, 1, 1, 0.6)
 	p.add_theme_stylebox_override("panel", box)
 	var h := HBoxContainer.new()

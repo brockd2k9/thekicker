@@ -43,17 +43,14 @@ func _logo() -> Control:
 	var v := VBoxContainer.new()
 	v.add_theme_constant_override("separation", 0)
 	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var top := UiKit.label("FIELD GOAL UNIT", 30, UiKit.ACCENT, UiTokens.FONT_DISPLAY)
+	var top := UiKit.label("FIELD GOAL UNIT", 28, Brand.GREY, UiTokens.FONT_CONDENSED)
 	top.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(top)
 	var logo := UiKit.label("KICKER", 150, UiKit.TEXT, UiTokens.FONT_BANNER)
 	logo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	logo.autowrap_mode = TextServer.AUTOWRAP_OFF
-	logo.add_theme_color_override("font_shadow_color", Color(UiKit.ACCENT, 0.3))
-	logo.add_theme_constant_override("shadow_outline_size", 16)
-	logo.add_theme_constant_override("shadow_offset_x", 0)
-	logo.add_theme_constant_override("shadow_offset_y", 0)
 	v.add_child(logo)
+	v.add_child(UiKit.rule())
 	var tag_row := HBoxContainer.new()
 	tag_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	tag_row.mouse_filter = Control.MOUSE_FILTER_IGNORE

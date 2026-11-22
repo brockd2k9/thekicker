@@ -25,7 +25,7 @@ func _build(col: VBoxContainer) -> void:
 	chips.add_theme_constant_override("h_separation", 8)
 	chips.add_theme_constant_override("v_separation", 6)
 	chips.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	chips.add_child(UiKit.chip(_weather_text(e.get("weather", {})), Color(0.6, 0.82, 1.0), false, "wind", 24))
+	chips.add_child(UiKit.chip(_weather_text(e.get("weather", {})), UiKit.MUTED, false, "wind", 24))
 	chips.add_child(UiKit.chip("%s %s" % ["vs" if home else "at", CareerScreen.team_name(opp)], UiKit.MUTED,
 		false, "home" if home else "next", 24))
 	col.add_child(chips)

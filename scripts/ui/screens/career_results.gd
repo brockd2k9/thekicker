@@ -25,8 +25,6 @@ func _build(col: VBoxContainer) -> void:
 				(" (%s)" % susp["reason"]) if str(susp.get("reason", "")) != "" else "",
 				("%d more game%s." % [left, "" if left == 1 else "s"]) if left > 0 else "You're back next week."],
 				UiKit.BAD, false, "whistle", 24)
-			n.get_child(0).get_child(1).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-			n.get_child(0).get_child(1).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			col.add_child(n)
 		else:
 			col.add_child(UiKit.chip("You sat out: academically ineligible (GPA %.2f)." % c.gpa, UiKit.BAD, false, "book", 24))
@@ -55,8 +53,6 @@ func _build(col: VBoxContainer) -> void:
 			elif str(w.get("outcome", "")) == "T":
 				txt += " Still tied when overtime ran out."
 			var oc := UiKit.chip(txt, UiKit.WARN, false, "whistle", 22)
-			oc.get_child(0).get_child(1).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-			oc.get_child(0).get_child(1).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			list.add_child(oc)
 		list.add_child(UiKit.section("Your kicks"))
 		var kicks: Array = w.get("kicks", [])
@@ -100,8 +96,6 @@ func _build(col: VBoxContainer) -> void:
 		var n := UiKit.chip("%s has lost faith in your kicking (%s): fewer, shorter field goals for %d weeks."
 			% [Relationships.name_of(c, "coach"), c.coach_doubt.get("reason", ""), int(c.coach_doubt.get("weeks_left", 0))],
 			UiKit.BAD, false, "whistle", 22)
-		n.get_child(0).get_child(1).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		n.get_child(0).get_child(1).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		list.add_child(n)
 	# Benching: the backup's line, or the bench that starts now.
 	var bi: Dictionary = w.get("bench", {})
@@ -114,8 +108,6 @@ func _build(col: VBoxContainer) -> void:
 		var n := UiKit.chip("BENCHED: %s takes your field goals for %d week%s (%s). Then an audition to win the job back."
 			% [bi.get("backup", ""), int(bi.get("weeks", 1)), "" if int(bi.get("weeks", 1)) == 1 else "s", bi.get("reason", "")],
 			UiKit.BAD, false, "whistle", 24)
-		n.get_child(0).get_child(1).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		n.get_child(0).get_child(1).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		list.add_child(n)
 	# Skill points earned this week and what's left to spend.
 	var sp := CareerUi.sp_lines(c)
@@ -133,8 +125,6 @@ func _build(col: VBoxContainer) -> void:
 	if rep != "":
 		var good := Reputation.state(c) != "concerns"
 		var rc := UiKit.chip(rep, UiKit.GOOD if good else UiKit.BAD, false, "career", 22)
-		rc.get_child(0).get_child(1).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		rc.get_child(0).get_child(1).size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		list.add_child(rc)
 	# Followers this week (real counts) and where they came from.
 	var fl := CareerUi.followers_lines(c)

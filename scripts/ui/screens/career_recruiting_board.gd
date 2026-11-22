@@ -91,9 +91,8 @@ func _school_row(e: Dictionary) -> PanelContainer:
 	bar.max_value = 100
 	bar.value = interest
 	bar.custom_minimum_size.y = 10
-	var fill := StyleBoxFlat.new()
-	fill.bg_color = col
-	fill.set_corner_radius_all(5)
+	var fill := UiKit._box(col, 0)
+	fill.set_content_margin_all(0)
 	bar.add_theme_stylebox_override("fill", fill)
 	v.add_child(bar)
 	var chips := HFlowContainer.new()

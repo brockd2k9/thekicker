@@ -198,7 +198,7 @@ func _table_row(title: String, sub: String, st: Dictionary, is_total: bool) -> C
 	var parts := UiKit.card(UiKit.ACCENT if is_total else Color(0, 0, 0, 0), 0)
 	var p: PanelContainer = parts[0]
 	if is_total:
-		p.add_theme_stylebox_override("panel", UiKit.panel_box(UiKit.ACCENT, Color(UiKit.ACCENT.darkened(0.72), 0.95)))
+		p.add_theme_stylebox_override("panel", UiKit.panel_box(UiKit.ACCENT, Brand.INK_2))
 	var h := HBoxContainer.new()
 	h.add_theme_constant_override("separation", 0)
 	(parts[1] as VBoxContainer).add_child(h)
@@ -337,7 +337,6 @@ func _mini_row(name: String, vals: Array) -> Control:
 	var box := UiKit.panel_box()
 	box.content_margin_top = 10
 	box.content_margin_bottom = 10
-	box.shadow_size = 4
 	p.add_theme_stylebox_override("panel", box)
 	var h := HBoxContainer.new()
 	(parts[1] as VBoxContainer).add_child(h)

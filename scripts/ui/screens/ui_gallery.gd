@@ -336,13 +336,13 @@ func _motion() -> void:
 func _icons() -> void:
 	var v := _section("Icons (Material Symbols Sharp, filled)")
 	var grid := GridContainer.new()
-	grid.columns = 5
+	grid.columns = 4
 	grid.add_theme_constant_override("h_separation", Brand.SPACE_3)
 	grid.add_theme_constant_override("v_separation", Brand.SPACE_3)
 	v.add_child(grid)
 	for n in BrandIcons.names():
 		var cell := VBoxContainer.new()
-		cell.custom_minimum_size.x = 112
+		cell.custom_minimum_size.x = 140
 		var ic := BrandIcons.rect(n, Brand.WHITE, 48)
 		ic.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		cell.add_child(ic)

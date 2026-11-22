@@ -39,9 +39,7 @@ func _trait_panel(c: CareerData, t: Dictionary) -> PanelContainer:
 	var parts := UiKit.card(UiKit.GOOD if unlocked else Color(1, 1, 1, 0.15), 6)
 	var p: PanelContainer = parts[0]
 	if unlocked:
-		var box := UiKit.panel_box(UiKit.GOOD, Color(UiKit.GOOD.darkened(0.6), 0.9))
-		box.shadow_color = Color(UiKit.GOOD, 0.25)
-		p.add_theme_stylebox_override("panel", box)
+		p.add_theme_stylebox_override("panel", UiKit.panel_box(Brand.WHITE, Brand.INK_2))
 	var v: VBoxContainer = parts[1]
 	var head := HBoxContainer.new()
 	head.add_theme_constant_override("separation", 12)
@@ -72,9 +70,8 @@ func _trait_panel(c: CareerData, t: Dictionary) -> PanelContainer:
 			bar.value = minf(c.stat(k), need)
 			bar.custom_minimum_size.y = 10
 			bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			var fill := StyleBoxFlat.new()
-			fill.bg_color = UiKit.group_color(CareerData.group_of(k))
-			fill.set_corner_radius_all(5)
+			var fill := UiKit._box(Brand.WHITE, 0)
+			fill.set_content_margin_all(0)
 			bar.add_theme_stylebox_override("fill", fill)
 			v.add_child(bar)
 	v.add_child(UiKit.label("Bonus: " + passive_text(t.get("passive", {})), 24))

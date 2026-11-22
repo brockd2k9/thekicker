@@ -9,7 +9,7 @@ func _build(col: VBoxContainer) -> void:
 	var hero := UiKit.card(UiKit.team_color(1), 2)
 	var hv: VBoxContainer = hero[1]
 	(hero[0] as PanelContainer).add_theme_stylebox_override("panel",
-		UiKit.panel_box(UiKit.team_color(1), UiKit.team_color(0).darkened(0.4)))
+		UiKit.panel_box(Brand.RED, Brand.INK_2))
 	var name_l := UiKit.label("%s  #%d" % [c.display_name().to_upper(), int(c.player.get("number", 0))], 44,
 		Color.WHITE, UiTokens.FONT_DISPLAY)
 	hv.add_child(name_l)

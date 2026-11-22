@@ -163,7 +163,8 @@ func _pick_school(id: String) -> void:
 	for k in _school_buttons:
 		var b: Button = _school_buttons[k]
 		if k == id:
-			b.add_theme_stylebox_override("normal", UiKit._box(UiKit.BUTTON_PRESSED, 14, UiKit.ACCENT))
+			b.add_theme_stylebox_override("normal", (b.get_theme_stylebox("normal") as ClippedBox).with(
+				{"bg": Brand.INK_3, "stroke": Brand.WHITE, "stripe": Brand.RED, "stripe_width": Brand.STRIPE}))
 		else:
 			b.remove_theme_stylebox_override("normal")
 	_refresh_look()
@@ -226,7 +227,7 @@ func _open_name_chooser() -> void:
 	var v := UiKit.modal(self, "Pick a Name")
 	var root := UiKit.modal_root(v)
 	var grid := GridContainer.new()
-	grid.columns = 2
+	grid.columns = 1  # one name per row: long names never clip
 	grid.add_theme_constant_override("h_separation", 12)
 	grid.add_theme_constant_override("v_separation", 12)
 	v.add_child(grid)
@@ -237,7 +238,8 @@ func _open_name_chooser() -> void:
 			var b := UiKit.button(n, func() -> void:
 				_set_name(n)
 				root.queue_free())
-			b.add_theme_font_size_override("font_size", 28)
+			b.text = n  # a name keeps its own case (upper case runs too wide)
+			b.clip_text = true
 			b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			grid.add_child(b)
 	fill.call()
