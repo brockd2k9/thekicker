@@ -12,12 +12,13 @@ extends Node
 ## Quitting (pause -> Leave Game) goes back to the Hub; the game then restarts
 ## from its first kick. Kicks already taken still count in My Stats.
 ## Score bug: one ScoreBugState, set from every sim event, drives the
-## Scoreboard (scenes/ui/scoreboard.tscn) on this bench screen and the one in
-## the kick scene, so both always show the same score, clock and your line.
+## BrandScoreBug (scenes/ui/brand/score_bug.tscn) on this bench screen and the
+## compact one over the kick scene, so both always show the same score and clock.
 
 const FIELD_GOAL := preload("res://scenes/field_goal.tscn")
-const SCOREBOARD := preload("res://scenes/ui/scoreboard.tscn")
-const FIELD_TRACKER := preload("res://scenes/ui/field_tracker.tscn")
+const SCORE_BUG := preload("res://scenes/ui/brand/score_bug.tscn")
+const FIELD_STRIP := preload("res://scenes/ui/brand/field_strip.tscn")
+const STAT_STRIP := preload("res://scenes/ui/brand/stat_strip.tscn")
 ## Room the HUD keeps clear at the top of the kick scene for the score bug.
 const SCORE_BUG_ROOM := 150.0
 const KICK_TUNING := "res://tuning/kick_tuning.tres"
@@ -37,6 +38,7 @@ var bug := ScoreBugState.new()
 ## The field tracker's picture of the game (FieldModel.state), from the same events.
 var field := FieldModel.new()
 var _status: Label
+var _strip: BrandStatStrip
 var _feed: VBoxContainer
 var _scroll: ScrollContainer
 var _fast_b: Button
@@ -131,43 +133,44 @@ func _build_ui() -> void:
 	add_child(_layer)
 	_root = Control.new()
 	_layer.add_child(_root)
-	CareerScreen.apply_career_look(career)
-	var col := UiKit.build_frame(_root, "")
+	var col := BrandUi.frame(_root, "")
 	var c := career.data
 	var opp: Dictionary = career.entry().get("opponent", {})
 
-	# The score bug, top left (the column already keeps clear of notches).
-	var board: Scoreboard = SCOREBOARD.instantiate()
+	# The score bug, with the matchup beside it.
+	var top := HBoxContainer.new()
+	top.add_theme_constant_override("separation", Brand.SPACE_3)
+	col.add_child(top)
+	var board: BrandScoreBug = SCORE_BUG.instantiate()
 	board.bind(bug)
-	col.add_child(board)
-	col.add_child(UiKit.label("%s %s %s" % [CareerScreen.team_name(c.team), "vs" if sim.home else "at",
-		CareerScreen.team_name(opp)], 24, UiKit.TEXT, UiTokens.FONT_DISPLAY))
-	# The field tracker: ball, drive, down & distance, last play.
-	var tracker: FieldTracker = FIELD_TRACKER.instantiate()
+	top.add_child(board)
+	var match_l := BrandUi.text("%s %s %s" % [CareerScreen.team_name(c.team), "vs" if sim.home else "at",
+		CareerScreen.team_name(opp)], "Eyebrow")
+	match_l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	match_l.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	top.add_child(match_l)
+	# Your game so far: the kicker stats strip.
+	_strip = STAT_STRIP.instantiate()
+	col.add_child(_strip)
+	# The field strip: ball, drive, down & distance, last play.
+	var tracker: BrandFieldStrip = FIELD_STRIP.instantiate()
 	tracker.bind(field.state)
 	col.add_child(tracker)
 
-	_status = UiKit.label("", 24, UiKit.MUTED, UiTokens.FONT_CONDENSED)
+	_status = BrandTheme.label("", "Eyebrow")
+	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	col.add_child(_status)
-	_feed = UiKit.scroll_list(col)
-	_feed.add_theme_constant_override("separation", 6)
+	_feed = BrandUi.scroll_list(col, Brand.SPACE_2)
 	_scroll = _feed.get_parent().get_parent() as ScrollContainer
 
-	var pause := UiKit.button("", _pause, UiKit.SECONDARY, "pause")
-	pause.custom_minimum_size.x = 96
-	pause.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-	_fast_b = UiKit.button("Normal", func() -> void:
+	var pause := BrandUi.button("", _pause, "secondary", "pause")
+	pause.custom_minimum_size.x = Brand.TAP + Brand.SPACE_3
+	_fast_b = BrandUi.button("Normal", func() -> void:
 		_fast = not _fast
-		_fast_b.text = "Fast" if _fast else "Normal", UiKit.SECONDARY, "fast")
-	var skip := UiKit.button("To My Kick", func() -> void: _skip = true, UiKit.SECONDARY, "next")
-	for b in [_fast_b, skip]:
-		b.add_theme_font_size_override("font_size", 28)
-		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 12)
-	row.add_child(pause)
-	row.add_child(_fast_b)
-	row.add_child(skip)
+		_fast_b.text = ("Fast" if _fast else "Normal").to_upper(), "secondary")
+	var skip := BrandUi.button("To My Kick", func() -> void: _skip = true, "secondary")
+	var row := BrandUi.button_row([pause, _fast_b, skip])
+	pause.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	col.add_child(row)
 	_update_status()
 
@@ -178,39 +181,34 @@ func _set_score(us: int, them: int, at: float) -> void:
 
 
 func _update_status() -> void:
-	var fg := [0, 0]
-	var xp := [0, 0]
-	for k in sim.kicks:
-		var pair: Array = fg if k["kind"] == "fg" else (xp if k["kind"] == "pat" else [])
-		if pair.is_empty():
-			continue
-		pair[1] += 1
-		if k.get("made", false):
-			pair[0] += 1
+	var line := ScoreBugState.kicker_line(sim.kicks)
+	_strip.set_cells([["FG", "%d/%d" % [int(line["fg_made"]), int(line["fg_att"])]],
+		["XP", "%d/%d" % [int(line["pat_made"]), int(line["pat_att"])]],
+		["Long", str(int(line["long"])) if int(line["long"]) > 0 else "-"], ["Pts", str(int(line["points"]))]])
 	var warm := ""
 	if sim.warm_modifier != "":
-		warm = "  -  " + str(CareerContent.modifier(sim.warm_modifier).get("label", ""))
-	_status.text = "ON THE BENCH  ·  FG %d/%d  ·  XP %d/%d%s" % [fg[0], fg[1], xp[0], xp[1], warm.to_upper()]
-	bug.set_stats(ScoreBugState.kicker_line(sim.kicks))
+		warm = "  ·  " + str(CareerContent.modifier(sim.warm_modifier).get("label", ""))
+	_status.text = "On the bench%s" % warm
+	bug.set_stats(line)
 
 
 func _add_line(text: String, color := Color(0, 0, 0, 0)) -> void:
-	# Older lines fade back; the newest reads brightest.
+	# Older lines step back (grey); the newest reads white with a red tick.
 	for ch in _feed.get_children():
-		(ch as Control).modulate.a = maxf((ch as Control).modulate.a - 0.12, 0.45)
+		(ch as Control).modulate.a = maxf((ch as Control).modulate.a - 0.12, 0.5)
+		var old_tick := ch.get_child(0) as ColorRect
+		if old_tick != null:
+			old_tick.color = Brand.LINE
 	var h := HBoxContainer.new()
-	h.add_theme_constant_override("separation", 10)
+	h.add_theme_constant_override("separation", Brand.SPACE_3)
 	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var dot := Panel.new()
-	var db := StyleBoxFlat.new()
-	db.bg_color = UiKit.ACCENT
-	db.skew = Vector2(UiTokens.SKEW * 2.0, 0)
-	dot.add_theme_stylebox_override("panel", db)
-	dot.custom_minimum_size = Vector2(6, 26)
-	dot.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-	dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	h.add_child(dot)
-	var l := UiKit.label(text, 26, color)
+	var tick := ColorRect.new()
+	tick.color = Brand.RED
+	tick.custom_minimum_size = Vector2(Brand.RULE, 30)
+	tick.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	tick.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	h.add_child(tick)
+	var l := BrandUi.text(text, "Body", color)
 	l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	h.add_child(l)
 	_feed.add_child(h)
@@ -230,17 +228,15 @@ func _scroll_down() -> void:
 func _offer_warmup(e: Dictionary) -> void:
 	_busy = true
 	var w: Dictionary = CareerContent.game_day().get("warmup", {})
-	var v := UiKit.modal(_root, "GET LOOSE")
-	var msg := UiKit.label(CareerContent.fill(str(w.get("offer", "")), {"us": career.data.team.get("mascot", ""),
-		"spot": e.get("spot", "")}), 30)
-	msg.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	v.add_child(msg)
-	v.add_child(CareerUi.centered(str(w.get("offer_hint", "")), 24, UiKit.MUTED))
+	var v := BrandUi.modal(_root, "Get loose")
+	v.add_child(BrandUi.text(CareerContent.fill(str(w.get("offer", "")), {"us": career.data.team.get("mascot", ""),
+		"spot": e.get("spot", "")})))
+	v.add_child(BrandUi.text(str(w.get("offer_hint", "")), "Caption"))
 	var modal := UiKit.modal_root(v)
-	v.add_child(UiKit.button(str(w.get("go", "Warm Up")), func() -> void:
+	v.add_child(BrandUi.button(str(w.get("go", "Warm Up")), func() -> void:
 		modal.queue_free()
-		_warmup_session(e), UiKit.PRIMARY, "toughness"))
-	v.add_child(UiKit.button(str(w.get("skip", "Stay on the Bench")), func() -> void:
+		_warmup_session(e), "primary", "energy"))
+	v.add_child(BrandUi.button(str(w.get("skip", "Stay on the Bench")), func() -> void:
 		modal.queue_free()
 		_finish_warmup("skipped")))
 
@@ -266,19 +262,20 @@ func _coach_call(e: Dictionary) -> void:
 	_busy = true
 	var kind := str(e["kind"])
 	var calls: Dictionary = CareerContent.game_day().get("calls", {})
-	var v := UiKit.modal(_root, {"fg": "FIELD GOAL", "pat": "EXTRA POINT", "kickoff": "KICKOFF",
-		"onside": "ONSIDE KICK"}.get(kind, "YOU'RE UP"))
-	var line := UiKit.label(CareerContent.fill(str(calls.get(kind, "")), {"yards": e.get("yards", 0)}), 32)
-	line.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	v.add_child(line)
-	if kind in ["fg", "pat"]:
-		v.add_child(CareerUi.centered(str(e.get("label", "")), 24, UiKit.MUTED))
+	var v := BrandUi.modal(_root, {"fg": "Field goal", "pat": "Extra point", "kickoff": "Kickoff",
+		"onside": "Onside kick"}.get(kind, "You're up"))
+	v.add_child(BrandUi.text(CareerContent.fill(str(calls.get(kind, "")), {"yards": e.get("yards", 0)})))
+	if kind in ["fg", "pat"] and str(e.get("label", "")) != "":
+		v.add_child(BrandUi.chip(str(e.get("label", "")), "red" if "WINNER" in str(e.get("label", "")) else "outline"))
 	if sim.warm_modifier != "":
-		v.add_child(CareerUi.modifier_chips(_warm()))
+		var f := BrandUi.chip_flow()
+		for m in _warm():
+			f.add_child(BrandUi.chip(str(CareerContent.modifier(str(m)).get("label", m)), "neutral", "energy"))
+		v.add_child(f)
 	var modal := UiKit.modal_root(v)
-	var go := UiKit.button("Run On", func() -> void:
+	var go := BrandUi.button("Run On", func() -> void:
 		modal.queue_free()
-		_launch_kick(e), UiKit.PRIMARY, "play")
+		_launch_kick(e), "primary", "play")
 	v.add_child(go)
 	if not OS.has_feature("mobile"):
 		go.grab_focus.call_deferred()
@@ -324,7 +321,8 @@ func _open_kick_scene(mode: KickMode, prof: KickProfile, e: Dictionary) -> void:
 	add_child(_kick_overlay)
 
 
-## A CanvasLayer with a Scoreboard bound to `bug`, in the safe area's top-left.
+## A CanvasLayer with the compact score bug bound to `bug`, in the safe
+## area's top-left (the HUD keeps SCORE_BUG_ROOM clear for it).
 func _score_bug_layer() -> CanvasLayer:
 	var layer := CanvasLayer.new()
 	layer.layer = 8  # over the HUD, under the pause overlay (10)
@@ -333,8 +331,11 @@ func _score_bug_layer() -> CanvasLayer:
 	m.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	layer.add_child(m)
 	UiKit.apply_safe_area(m, 18)
-	var board: Scoreboard = SCOREBOARD.instantiate()
+	var board: BrandScoreBug = SCORE_BUG.instantiate()
+	board.compact = true
 	board.bind(bug)
+	board.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	board.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	m.add_child(board)
 	return layer
 
@@ -383,9 +384,9 @@ func _show_trust(k: Dictionary) -> void:
 		return
 	var good := float(r["coach"]) + float(r["team"]) >= 0.0
 	_add_line("%s  ·  %s" % [txt, r["reason"]] if txt != "" else str(r["reason"]),
-		CareerUi.GOOD_TEXT if good else CareerUi.BAD_TEXT)
+		Brand.WHITE if good else Brand.RED_HOT)
 	if r["slump"]:
-		_add_line("%s has lost faith in your kicking." % Relationships.name_of(career.data, "coach"), CareerUi.BAD_TEXT)
+		_add_line("%s has lost faith in your kicking." % Relationships.name_of(career.data, "coach"), Brand.RED_HOT)
 
 
 ## This half's warmup modifier, as a list for KickProfile ctx.
@@ -403,14 +404,23 @@ func _end_game() -> void:
 	var summary := sim.summary()
 	career.finish_game(summary)
 	var o := str(summary["outcome"])
-	var v := UiKit.modal(_root, "Final")
-	v.add_child(CareerUi.result_banner({"W": "WIN!", "L": "LOSS", "T": "TIE"}[o],
-		UiKit.GOOD if o == "W" else (UiKit.BAD if o == "L" else UiKit.MUTED), 84))
-	var fb := CareerUi.scoreboard(career.data.team, career.entry().get("opponent", {}), str(sim.score_us),
-		str(sim.score_them), "FINAL")
-	v.add_child(fb["root"])
+	var v := BrandUi.modal(_root, "Final")
+	var res := BrandTheme.label({"W": "Win", "L": "Loss", "T": "Tie"}[o], "Display", Brand.RED_HOT if o == "L" else Brand.WHITE)
+	res.uppercase = true
+	v.add_child(res)
+	var opp: Dictionary = career.entry().get("opponent", {})
+	var score := HBoxContainer.new()
+	score.add_theme_constant_override("separation", Brand.SPACE_3)
+	v.add_child(score)
+	for side in [[career.data.team, sim.score_us], [opp, sim.score_them]]:
+		var cell := VBoxContainer.new()
+		cell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		cell.add_child(BrandUi.text(CareerScreen.team_name(side[0]), "Eyebrow"))
+		var n := BrandTheme.label(str(side[1]), "Display")
+		cell.add_child(n)
+		score.add_child(cell)
 	UiKit.feedback(&"week_result")
-	var b := UiKit.button("Week Results", Screens.go.bind(Screens.CAREER_RESULTS), UiKit.PRIMARY, "next")
+	var b := BrandUi.button("Week Results", Screens.go.bind(Screens.CAREER_RESULTS), "primary", "next")
 	v.add_child(b)
 	if not OS.has_feature("mobile"):
 		b.grab_focus.call_deferred()
@@ -420,13 +430,13 @@ func _pause() -> void:
 	if _busy or _root.get_node_or_null("Modal") != null:
 		return
 	_busy = true
-	var v := UiKit.modal(_root, "PAUSED")
+	var v := BrandUi.modal(_root, "Paused")
 	var modal := UiKit.modal_root(v)
-	v.add_child(UiKit.button("Resume", func() -> void:
+	v.add_child(BrandUi.button("Resume", func() -> void:
 		modal.queue_free()
-		_busy = false, UiKit.PRIMARY, "play"))
-	v.add_child(UiKit.label("Leaving restarts this game from its first kick next time.", 24, UiKit.MUTED))
-	v.add_child(UiKit.button("Leave Game", Screens.go.bind(Screens.CAREER_HUB), UiKit.DANGER))
+		_busy = false, "primary", "play"))
+	v.add_child(BrandUi.text("Leaving restarts this game from its first kick next time.", "Caption"))
+	v.add_child(BrandUi.button("Leave Game", Screens.go.bind(Screens.CAREER_HUB), "secondary", "close"))
 
 
 func _notification(what: int) -> void:
