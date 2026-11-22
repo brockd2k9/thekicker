@@ -23,12 +23,11 @@ R2 changes numbers only; no scene waits on it. Money scenes (R3) are written now
 **Relationship strike flags** (the cheating storyline PRO_155-163; never read by team discipline): `pro_cheated`, `affair_public`.
 College flags set severity through locked choices.
 
-**Totals:** 840 scenes. **703 can be written now**: 703 need nothing new, and 0 are money scenes written with flags and stress costs. **137 are blocked** until R1, R10, R8, R9 lands. Kinds: 765 once, 31 repeat, 29 variant, 3 per_club, 12 epilogue.
+**Totals:** 840 scenes. **715 can be written now**: 715 need nothing new, and 0 are money scenes written with flags and stress costs. **125 are blocked** until R1, R8, R9 lands. Kinds: 765 once, 31 repeat, 29 variant, 3 per_club, 12 epilogue.
 
 | Waits on | Scenes |
 |---|---|
 | R1 | 120: 143, 144, 150, 176, 177, 181, 182, 186, 187, 189, 190, 194, 195, 198, 199, 217, 308, 465, 466, 467, 468, 469, 470, 471, 472, 473, 474, 475, 476, 477, 478, 479, 480, 481, 482, 483, 484, 485, 486, 487, 488, 489, 490, 491, 492, 493, 494, 495, 496, 497, 498, 499, 500, 501, 502, 503, 504, 505, 506, 507, 508, 509, 510, 511, 512, 513, 514, 515, 516, 517, 518, 519, 520, 521, 522, 523, 524, 525, 526, 527, 528, 529, 530, 531, 532, 533, 534, 535, 536, 537, 538, 539, 812, 813, 814, 815, 816, 817, 818, 819, 820, 821, 822, 823, 824, 825, 826, 827, 828, 829, 830, 831, 832, 833, 834, 835, 836, 837, 838, 839 |
-| R10 | 12: E01, E02, E03, E04, E05, E06, E07, E08, E09, E10, E11, E12 |
 | R8 | 3: 151, 219, 220 |
 | R9 | 2: 262, 268 |
 
@@ -41,7 +40,7 @@ College flags set severity through locked choices.
 | Era 5: Grizzled Veteran (38-41) | 80 | 80 | 80 | 0 | 0 | 0 | 0 | 0 |
 | Era 6: Hall of Fame Era (42+) | 40 | 40 | 40 | 0 | 0 | 0 | 0 | 40 |
 | Across eras (state-driven) | 108 | 108 | 0 | 0 | 1 | 0 | 0 | 1 |
-| Epilogue (after retirement) | 12 | 0 | 0 | 0 | 0 | 0 | 12 | 12 |
+| Epilogue (after retirement) | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 Era 5 counts the age-38 scenes as playable now (the cap retires a player after the age-38 season); its ages 39-41 wait on R1. Eras 5 and 6 and the epilogue are proposals until the user confirms them.
 
@@ -1793,23 +1792,23 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 
 | ID | Title | Window | Kind | Opens on | Sets | Callbacks (locked choices) | Waits on |
 |---|---|---|---|---|---|---|---|
-| PRO_E01 | Retirement Day | any | epilogue |  |  |  | R10 retirement epilogue stage |
-| PRO_E02 | The Phone Call From the Club | any | epilogue |  |  |  | R10 retirement epilogue stage |
-| PRO_E03 | Hall of Fame Eligibility | any | epilogue |  |  |  | R10 retirement epilogue stage |
-| PRO_E04 | The Nomination | any | epilogue |  |  |  | R10 retirement epilogue stage |
-| PRO_E05 | The Call | any | epilogue |  |  |  | R10 retirement epilogue stage |
-| PRO_E06 | The Call That Doesn't Come | any | epilogue |  |  |  | R10 retirement epilogue stage |
-| PRO_E07 | The Speech of a Lifetime | any | epilogue |  |  |  | R10 retirement epilogue stage |
-| PRO_E08 | The Speech, Second Draft | any | epilogue |  |  |  | R10 retirement epilogue stage |
-| PRO_E09 | The Look Back | any | epilogue |  |  |  | R10 retirement epilogue stage |
-| PRO_E10 | The Kid With Your Number | any | epilogue |  |  |  | R10 retirement epilogue stage |
-| PRO_E11 | Coach, Now | any | epilogue |  |  |  | R10 retirement epilogue stage |
-| PRO_E12 | In the Booth | any | epilogue |  |  |  | R10 retirement epilogue stage |
+| PRO_E01 | The First Morning After | any | epilogue | retired_by_choice / retired_out_of_football / retired_released / retired_unsigned; pro_seasons 1+ |  |  |  |
+| PRO_E02 | The Phone Call From the Club | any | epilogue | pro_seasons 1+ | coach_after_football, broadcaster_after_football |  |  |
+| PRO_E03 | Hall of Fame Eligibility | any | epilogue | hof_finalist / hof_inducted / hof_first_ballot |  |  |  |
+| PRO_E04 | The Nomination | any | epilogue | hall_of_fame_earned |  |  |  |
+| PRO_E05 | The Call | any | epilogue | hall_of_fame_earned |  |  |  |
+| PRO_E06 | The Call That Doesn't Come | any | epilogue | not hall_of_fame_earned |  |  |  |
+| PRO_E07 | The Speech of a Lifetime | any | epilogue | hall_of_fame_earned |  |  |  |
+| PRO_E08 | The Speech, Second Draft | any | epilogue | hall_of_fame_earned; made_long_distance_work / committed_to_relationship / new_partner / engaged / married |  |  |  |
+| PRO_E09 | The Look Back | any | epilogue | pro_seasons 1+ |  |  |  |
+| PRO_E10 | The Kid With Your Number | any | epilogue | pro_seasons 1+ |  |  |  |
+| PRO_E11 | Coach, Now | any | epilogue | coach_after_football |  |  |  |
+| PRO_E12 | In the Booth | any | epilogue | broadcaster_after_football |  |  |  |
 
-- **PRO_E01 Retirement Day**: The first morning with nowhere to be. The way it ended decides how it feels. *(Versions by retirement reason (chose / forced out / dismissed).)*
+- **PRO_E01 The First Morning After**: The first morning with nowhere to be. The way it ended decides how it feels. *(Versions by retirement reason (chose / forced out / dismissed).)*
 - **PRO_E02 The Phone Call From the Club**: Your last club calls with an offer to stay connected.
 - **PRO_E03 Hall of Fame Eligibility**: Five years after your last kick, your name is on the list of eligible players. *(Only if the career earned it (engine formula, request R10).)*
-- **PRO_E04 The Nomination**: You're a finalist. *(Hall of Fame earned.)*
+- **PRO_E04 The Nomination**: The Hall of Fame vote is in, and your name is on the list of new members. *(Hall of Fame earned.)*
 - **PRO_E05 The Call**: The call that changes your legacy. *(Hall of Fame earned.)*
 - **PRO_E06 The Call That Doesn't Come**: The finalists are announced, and you're not one of them. *(Not earned: a closing scene about what you built anyway.)*
 - **PRO_E07 The Speech of a Lifetime**: You write your induction speech and think about everyone who got you there. *(Versions keyed to family and wrong-path flags.)*

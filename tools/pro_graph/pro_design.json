@@ -20200,7 +20200,7 @@
   },
   {
    "id": "PRO_E01",
-   "title": "Retirement Day",
+   "title": "The First Morning After",
    "group": "Epilogue (after retirement)",
    "chain": "Epilogue",
    "premise": "The first morning with nowhere to be. The way it ended decides how it feels.",
@@ -20208,19 +20208,28 @@
    "seasons_with_club": null,
    "weeks": null,
    "when": null,
-   "requires": null,
+   "requires": {
+    "any_flags": [
+     "retired_by_choice",
+     "retired_out_of_football",
+     "retired_released",
+     "retired_unsigned"
+    ],
+    "min": {
+     "pro_seasons": 1
+    }
+   },
    "sets": [],
    "people": [
     "love_interest",
     "parent"
    ],
    "kind": "epilogue",
-   "waits_on": [
-    "R10 retirement epilogue stage"
-   ],
+   "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": "Versions by retirement reason (chose / forced out / dismissed)."
+   "note": "Versions by retirement reason (chose / forced out / dismissed).",
+   "order": 10
   },
   {
    "id": "PRO_E02",
@@ -20232,19 +20241,25 @@
    "seasons_with_club": null,
    "weeks": null,
    "when": null,
-   "requires": null,
-   "sets": [],
+   "requires": {
+    "min": {
+     "pro_seasons": 1
+    }
+   },
+   "sets": [
+    "coach_after_football",
+    "broadcaster_after_football"
+   ],
    "people": [
     "love_interest",
     "parent"
    ],
    "kind": "epilogue",
-   "waits_on": [
-    "R10 retirement epilogue stage"
-   ],
+   "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": ""
+   "note": "",
+   "order": 20
   },
   {
    "id": "PRO_E03",
@@ -20256,43 +20271,51 @@
    "seasons_with_club": null,
    "weeks": null,
    "when": null,
-   "requires": null,
+   "requires": {
+    "any_flags": [
+     "hof_finalist",
+     "hof_inducted",
+     "hof_first_ballot"
+    ]
+   },
    "sets": [],
    "people": [
     "love_interest",
     "parent"
    ],
    "kind": "epilogue",
-   "waits_on": [
-    "R10 retirement epilogue stage"
-   ],
+   "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": "Only if the career earned it (engine formula, request R10)."
+   "note": "Only if the career earned it (engine formula, request R10).",
+   "order": 30
   },
   {
    "id": "PRO_E04",
    "title": "The Nomination",
    "group": "Epilogue (after retirement)",
    "chain": "Epilogue",
-   "premise": "You're a finalist.",
+   "premise": "The Hall of Fame vote is in, and your name is on the list of new members.",
    "ages": null,
    "seasons_with_club": null,
    "weeks": null,
    "when": null,
-   "requires": null,
+   "requires": {
+    "flags": [
+     "hall_of_fame_earned"
+    ]
+   },
    "sets": [],
    "people": [
     "love_interest",
     "parent"
    ],
    "kind": "epilogue",
-   "waits_on": [
-    "R10 retirement epilogue stage"
-   ],
+   "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": "Hall of Fame earned."
+   "note": "Hall of Fame earned.",
+   "order": 40
   },
   {
    "id": "PRO_E05",
@@ -20304,19 +20327,22 @@
    "seasons_with_club": null,
    "weeks": null,
    "when": null,
-   "requires": null,
+   "requires": {
+    "flags": [
+     "hall_of_fame_earned"
+    ]
+   },
    "sets": [],
    "people": [
     "love_interest",
     "parent"
    ],
    "kind": "epilogue",
-   "waits_on": [
-    "R10 retirement epilogue stage"
-   ],
+   "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": "Hall of Fame earned."
+   "note": "Hall of Fame earned.",
+   "order": 50
   },
   {
    "id": "PRO_E06",
@@ -20328,19 +20354,35 @@
    "seasons_with_club": null,
    "weeks": null,
    "when": null,
-   "requires": null,
+   "requires": {
+    "not_flags": [
+     "hall_of_fame_earned"
+    ],
+    "any_of": [
+     {
+      "min": {
+       "pro_seasons": 8
+      }
+     },
+     {
+      "any_flags": [
+       "hof_finalist",
+       "hof_ring_of_honor"
+      ]
+     }
+    ]
+   },
    "sets": [],
    "people": [
     "love_interest",
     "parent"
    ],
    "kind": "epilogue",
-   "waits_on": [
-    "R10 retirement epilogue stage"
-   ],
+   "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": "Not earned: a closing scene about what you built anyway."
+   "note": "Not earned: a closing scene about what you built anyway.",
+   "order": 60
   },
   {
    "id": "PRO_E07",
@@ -20352,19 +20394,22 @@
    "seasons_with_club": null,
    "weeks": null,
    "when": null,
-   "requires": null,
+   "requires": {
+    "flags": [
+     "hall_of_fame_earned"
+    ]
+   },
    "sets": [],
    "people": [
     "love_interest",
     "parent"
    ],
    "kind": "epilogue",
-   "waits_on": [
-    "R10 retirement epilogue stage"
-   ],
+   "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": "Versions keyed to family and wrong-path flags."
+   "note": "Versions keyed to family and wrong-path flags.",
+   "order": 70
   },
   {
    "id": "PRO_E08",
@@ -20376,19 +20421,29 @@
    "seasons_with_club": null,
    "weeks": null,
    "when": null,
-   "requires": null,
+   "requires": {
+    "flags": [
+     "hall_of_fame_earned"
+    ],
+    "any_flags": [
+     "made_long_distance_work",
+     "committed_to_relationship",
+     "new_partner",
+     "engaged",
+     "married"
+    ]
+   },
    "sets": [],
    "people": [
     "love_interest",
     "parent"
    ],
    "kind": "epilogue",
-   "waits_on": [
-    "R10 retirement epilogue stage"
-   ],
+   "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": "Partner version."
+   "note": "Partner version.",
+   "order": 80
   },
   {
    "id": "PRO_E09",
@@ -20400,19 +20455,22 @@
    "seasons_with_club": null,
    "weeks": null,
    "when": null,
-   "requires": null,
+   "requires": {
+    "min": {
+     "pro_seasons": 1
+    }
+   },
    "sets": [],
    "people": [
     "love_interest",
     "parent"
    ],
    "kind": "epilogue",
-   "waits_on": [
-    "R10 retirement epilogue stage"
-   ],
+   "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": "Closing summary scene."
+   "note": "Closing summary scene.",
+   "order": 90
   },
   {
    "id": "PRO_E10",
@@ -20424,19 +20482,22 @@
    "seasons_with_club": null,
    "weeks": null,
    "when": null,
-   "requires": null,
+   "requires": {
+    "min": {
+     "pro_seasons": 1
+    }
+   },
    "sets": [],
    "people": [
     "love_interest",
     "parent"
    ],
    "kind": "epilogue",
-   "waits_on": [
-    "R10 retirement epilogue stage"
-   ],
+   "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": ""
+   "note": "",
+   "order": 100
   },
   {
    "id": "PRO_E11",
@@ -20448,19 +20509,22 @@
    "seasons_with_club": null,
    "weeks": null,
    "when": null,
-   "requires": null,
+   "requires": {
+    "flags": [
+     "coach_after_football"
+    ]
+   },
    "sets": [],
    "people": [
     "love_interest",
     "parent"
    ],
    "kind": "epilogue",
-   "waits_on": [
-    "R10 retirement epilogue stage"
-   ],
+   "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": "If you took a coaching path."
+   "note": "If you took a coaching path.",
+   "order": 110
   },
   {
    "id": "PRO_E12",
@@ -20472,19 +20536,22 @@
    "seasons_with_club": null,
    "weeks": null,
    "when": null,
-   "requires": null,
+   "requires": {
+    "flags": [
+     "broadcaster_after_football"
+    ]
+   },
    "sets": [],
    "people": [
     "love_interest",
     "parent"
    ],
    "kind": "epilogue",
-   "waits_on": [
-    "R10 retirement epilogue stage"
-   ],
+   "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": "If you took a broadcasting path."
+   "note": "If you took a broadcasting path.",
+   "order": 120
   }
  ],
  "relationship_strike_flags": [

@@ -41,10 +41,14 @@ def build(design, existing_doc):
     old = {s["id"]: s for s in existing_doc.get("scenarios", []) if str(s.get("id", "")).startswith(PREFIX)}
     out = []
     for e in design["scenarios"]:
-        if e.get("era") == "E":
-            continue  # retirement epilogue: waits for the engine's epilogue stage (request R10)
         sid = e["id"]
         d = {"id": sid, "title": e["title"], "draft": True, "category": "", "text": "", "stages": ["pro"]}
+        if e.get("era") == "E":
+            # Retirement epilogue (R10): closing scenes after the last snap, once each, by order then id.
+            d["stages"] = ["retired"]
+            d["when"] = ["epilogue"]
+            if e.get("order") is not None:
+                d["order"] = e["order"]
         if e.get("seasons_with_club"):
             d["seasons"] = e["seasons_with_club"]
         if e.get("weeks"):
@@ -70,6 +74,8 @@ def build(design, existing_doc):
         for k in ("followers_tier", "max_followers_tier"):
             if src.get(k):
                 req[k] = src[k]
+        if src.get("any_of"):
+            req["any_of"] = src["any_of"]
         mn, mx = dict(src.get("min") or {}), dict(src.get("max") or {})
         if e.get("ages"):
             a = e["ages"]

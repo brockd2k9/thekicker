@@ -96,12 +96,19 @@ PRO_STAGES = {"pro", "free_agent"}
 REL_RANGE = (-15, 15)
 STATS_PER_CHOICE_WARN = 7
 TEXT_WARN_CHARS = 320
-WHEN_VALUES = {"season", "bye", "offseason"}
+WHEN_VALUES = {"season", "bye", "offseason", "epilogue"}
+# Closing scenes after retirement (R10, docs/story_note_epilogue.md): exactly this when and stage.
+EPILOGUE_WHEN = ["epilogue"]
+EPILOGUE_STAGES = ["retired"]
+# Set by the engine at retirement, before the first closing scene.
+EPILOGUE_FLAGS = {"hall_of_fame_earned", "hall_of_fame_tier", "hof_first_ballot", "hof_inducted", "hof_finalist",
+                  "hof_ring_of_honor", "retired_by_choice", "retired_out_of_football", "retired_released",
+                  "retired_unsigned", "was_dismissed"}
 CHOICE_FIELDS = {"label", "result", "stats", "modifiers", "set_flags", "rel", "requires", "lock_text",
                  "follow_up", "recruiting", "grades", "draft", "retention", "skill_points",
                  "followers", "followers_exact", "conduct", "deal", "suspend_weeks", "recast", "money"}
 SCENARIO_FIELDS = {"id", "title", "_info", "category", "text", "choices", "weight", "cooldown", "when",
-                   "follow_up_only", "stages", "seasons", "weeks", "once", "once_per_club", "_note"}
+                   "follow_up_only", "stages", "seasons", "weeks", "once", "once_per_club", "_note", "order"}
 # Fields a template may set on a scenario that already exists (graph fields stay
 # with tools/convert_hs_graph.py).
 WRITABLE = ["category", "text", "choices", "weight", "cooldown", "when"]
@@ -250,7 +257,7 @@ def main(argv=None):
     # a requirement, or set by the engine.
     # kicking_slump / kick_slumps: set by KickTrust when misses pile up.
     known_flags = {"walk_on", "juco", "failed_tryouts", "fa_attempts", "recruiting_update", "traits_reported",
-                   "kicking_slump", "kick_slumps"}
+                   "kicking_slump", "kick_slumps"} | EPILOGUE_FLAGS
     for d in docs.values():
         for s in d.get("scenarios", []):
             known_flags.update(s.get("expected_flags", []))
@@ -310,7 +317,7 @@ def main(argv=None):
             elif k not in SCENARIO_FIELDS:
                 rep.add(sid, "ERROR", f"unknown field '{k}'")
         if existing is not None:
-            for k in ("stages", "seasons", "weeks", "once", "once_per_club", "follow_up_only"):
+            for k in ("stages", "seasons", "weeks", "once", "once_per_club", "follow_up_only", "order"):
                 if k in e and e[k] != existing.get(k):
                     rep.add(sid, "ERROR", f"'{k}' is graph data; change it in the graph generator "
                             "(tools/convert_hs_graph.py, tools/college_graph/make_college_graph.py or tools/pro_graph/make_pro_graph.py)")
@@ -327,7 +334,14 @@ def main(argv=None):
         check_text(rep, sid, "title", str(e.get("title", "")), blocked, placeholders)
         for w in e.get("when", []) or []:
             if w not in WHEN_VALUES:
-                rep.add(sid, "ERROR", f"when '{w}' must be season, bye or offseason")
+                rep.add(sid, "ERROR", f"when '{w}' must be season, bye, offseason or epilogue")
+        stages_now = list((existing or e).get("stages") or [])
+        when_now = list(e.get("when") or (existing or {}).get("when") or [])
+        is_epilogue = "epilogue" in when_now or "retired" in stages_now
+        if is_epilogue and (when_now != EPILOGUE_WHEN or stages_now != EPILOGUE_STAGES):
+            rep.add(sid, "ERROR", "a closing scene needs exactly \"when\": [\"epilogue\"] and \"stages\": [\"retired\"]")
+        if "order" in e and (isinstance(e["order"], bool) or not isinstance(e["order"], (int, float))):
+            rep.add(sid, "ERROR", "order must be a number (closing scenes play by order, then id)")
         choices = [c for c in e.get("choices", []) if isinstance(c, dict)]
         if not (2 <= len(choices) <= 4):
             rep.add(sid, "ERROR", f"needs 2-4 choices (has {len(choices)})")
@@ -399,6 +413,10 @@ def main(argv=None):
                         val for val in (ch.get("set_flags") or {}).values()):
                     rep.add(sid, "warning", f"{w}: a suspension over {SUSPEND_MAX} weeks is for a serious step: "
                             "give it conduct scandal or a flag later scenes read")
+            if is_epilogue and ch.get("follow_up"):
+                rep.add(sid, "ERROR", f"{w}: closing scenes can't have follow-ups (set a flag and require it in a later closing scene)")
+            if is_epilogue and "suspend_weeks" in ch:
+                rep.add(sid, "ERROR", f"{w}: suspend_weeks means nothing after retirement")
             if "money" in ch:
                 v = ch["money"]
                 if isinstance(v, bool) or not isinstance(v, int) or not -MONEY_MAX <= v <= MONEY_MAX:

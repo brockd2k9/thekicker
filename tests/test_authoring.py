@@ -376,6 +376,44 @@ class ProWritingStandardTests(unittest.TestCase):
         self.assertNotIn("coach", " ".join(m for _, _, m in scenario_lint.rel_balance_findings(scenes, 0.5)))
 
 
+class EpilogueTests(unittest.TestCase):
+    """Gameplay request R10: closing scenes after retirement."""
+
+    def _run(self, doc):
+        with tempfile.TemporaryDirectory() as d:
+            path = os.path.join(d, "x.json")
+            with open(path, "w") as f:
+                json.dump(doc, f)
+            return run(path, "--dry-run")
+
+    def test_epilogue_draft_is_retired_and_epilogue(self):
+        pro = json.load(open(os.path.join(ROOT, "data", "career", "scenarios_pro.json")))["scenarios"]
+        e = {s["id"]: s for s in pro if s["id"].startswith("PRO_E")}
+        self.assertEqual(len(e), 12)
+        for s in e.values():
+            self.assertEqual(s["when"], ["epilogue"])
+            self.assertEqual(s["stages"], ["retired"])
+
+    def test_coaching_and_booth_scenes_play_after_the_club_call(self):
+        # The engine plays closing scenes by order, then id; E02 sets the flags E11 / E12 require.
+        pro = json.load(open(os.path.join(ROOT, "data", "career", "scenarios_pro.json")))["scenarios"]
+        e = sorted((s for s in pro if s.get("when") == ["epilogue"]), key=lambda s: (s.get("order", 0), s["id"]))
+        ids = [s["id"] for s in e]
+        self.assertLess(ids.index("PRO_E02"), ids.index("PRO_E11"))
+        self.assertLess(ids.index("PRO_E02"), ids.index("PRO_E12"))
+
+    def test_epilogue_rules(self):
+        bad = {"scenarios": [{"id": "PRO_E10", "title": "x", "category": "career", "text": "A camp.",
+                              "when": ["season"],
+                              "choices": [_choice(follow_up={"id": "pro_fraud_audit", "weeks": 2}),
+                                          _choice(suspend_weeks=1, conduct="bad"), _choice(order=1)]}]}
+        code, out = self._run(bad)
+        self.assertEqual(code, 1, out)
+        for msg in ["exactly \"when\": [\"epilogue\"]", "closing scenes can't have follow-ups",
+                    "suspend_weeks means nothing after retirement"]:
+            self.assertIn(msg, out)
+
+
 class MoneyTests(unittest.TestCase):
     """Gameplay request R3 (savings): "money" on a choice, "savings" in requires."""
 
