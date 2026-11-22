@@ -89,8 +89,18 @@ func test_retirement_sets_the_signals() -> void:
 	check(not bool(r.data.flags.get("retired_unsigned")), "not the unsigned one")
 
 
+## The real closing scenes (story content) are set aside for a test: marked
+## as seen, so only the test's own scenes (or none) play.
+func _set_real_epilogue_aside(c: CareerData) -> void:
+	for s in CareerContent.scenarios():
+		var id := str(s.get("id", ""))
+		if "epilogue" in s.get("when", []) and not id.begins_with("ZZ_"):
+			c.scenario_log[id] = {"count": 1, "set_aside": true}
+
+
 func test_no_closing_scenes_goes_to_the_vote_then_the_summary() -> void:
 	var m := _pro(12, 246, 300, 10)
+	_set_real_epilogue_aside(m.data)
 	m.retire("chose")
 	eq(m.data.phase, CareerManager.PHASE_HALL, "the vote")
 	eq(m.screen_path(), Screens.CAREER_HALL, "on its screen")
@@ -98,6 +108,7 @@ func test_no_closing_scenes_goes_to_the_vote_then_the_summary() -> void:
 	eq(m.data.phase, CareerManager.PHASE_RETIRED, "then the summary")
 	var hs := CareerManager.new(CareerData.create("HS only", t), t)
 	hs.data.slot = 0
+	_set_real_epilogue_aside(hs.data)
 	hs.retire("no_options")
 	eq(hs.data.phase, CareerManager.PHASE_RETIRED, "no pro career: straight to the summary")
 
@@ -117,6 +128,7 @@ func test_closing_scenes_in_order_and_rechecked() -> void:
 		CareerContent._check_requires(problems, "x", s["requires"])
 	eq(problems.size(), 0, "valid scenes")
 	var m := _pro(12, 246, 300, 10)
+	_set_real_epilogue_aside(m.data)
 	m.retire("chose")
 	var seen: Array = []
 	while m.data.phase == CareerManager.PHASE_EPILOGUE:
