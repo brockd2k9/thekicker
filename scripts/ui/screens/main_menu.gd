@@ -17,6 +17,8 @@ func _build(col: VBoxContainer) -> void:
 		["Achievements", Screens.ACHIEVEMENTS, "achievements"],
 		["Settings", Screens.SETTINGS, "settings"],
 	]
+	if OS.is_debug_build():
+		items.append(["UI Gallery", Screens.UI_GALLERY, "settings"])  # the design system, for review
 	var buttons := VBoxContainer.new()
 	buttons.add_theme_constant_override("separation", 14)
 	col.add_child(buttons)
