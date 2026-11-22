@@ -78,6 +78,7 @@ func _build() -> void:
 	_banners()
 	_popup()
 	_chips()
+	_game_pieces()
 	_motion()
 	_icons()
 
@@ -96,7 +97,9 @@ func _section(title: String) -> VBoxContainer:
 	tick.custom_minimum_size = Vector2(Brand.RULE, 28)
 	tick.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	h.add_child(tick)
-	h.add_child(BrandTheme.label(title, "Subhead"))
+	var l := BrandUi.text(title, "Subhead")
+	l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	h.add_child(l)
 	return v
 
 
@@ -277,6 +280,40 @@ func _chips() -> void:
 			"team_color": Color(SAMPLE_TEAM), "disabled": spec[0] == "Locked"}))
 
 
+## The game screen's pieces: the score bug, the kicker stats strip and the
+## field strip, on a made-up game.
+func _game_pieces() -> void:
+	var v := _section("Game screen: score bug, stats strip, field strip")
+	var us := {"name": "Ridgeline", "town": "Ridgeline", "mascot": "Falcons", "short": "RID", "colors": [SAMPLE_TEAM, "#f2b632"]}
+	var them := {"name": "Oak Valley", "town": "Oak Valley", "mascot": "Oaks", "short": "OAK", "colors": ["#a4161a", "#111111"]}
+	var bug := ScoreBugState.new()
+	bug.setup(us, them, true, 7)
+	bug.set_score(10, 7)
+	bug.set_time(1500.0, 720.0)
+	bug.set_possession("us")
+	bug.set_stats({"fg_made": 2, "fg_att": 3, "pat_made": 1, "pat_att": 1, "long": 44, "points": 7})
+	var b: BrandScoreBug = load("res://scenes/ui/brand/score_bug.tscn").instantiate()
+	b.bind(bug)
+	v.add_child(_state("score bug (the kick screen uses the compact one, without the line)", b))
+	var strip: BrandStatStrip = load("res://scenes/ui/brand/stat_strip.tscn").instantiate()
+	strip.set_cells([["FG", "2/3"], ["XP", "1/1"], ["Long", "44"], ["Pts", "7"]])
+	v.add_child(_state("kicker stats strip", strip))
+	var fm := FieldModel.new()
+	fm.setup(us, them, true, 720.0, 45.0, 45.0)
+	fm.state.possession = "home"
+	fm.state.ball = 72.0
+	fm.state.drive_start = 40.0
+	fm.state.first_down = 80.0
+	fm.state.down = 2
+	fm.state.to_go = 8
+	fm.state.play_text = "Quick pass to Mendez for 12."
+	fm.state.play_type = "PASS"
+	fm.state.kick = {"kind": "fg", "yards": 45}
+	var f: BrandFieldStrip = load("res://scenes/ui/brand/field_strip.tscn").instantiate()
+	f.bind(fm.state)
+	v.add_child(_state("field strip (your field goal coming up)", f))
+
+
 func _motion() -> void:
 	var v := _section("Motion")
 	_demo_tile = _make(TILE, {"caption": "Career points", "value": 338.0, "highlight": true})
@@ -340,9 +377,6 @@ func _state(caption: String, c: Control) -> VBoxContainer:
 	var v := VBoxContainer.new()
 	v.add_theme_constant_override("separation", Brand.SPACE_1)
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var l := BrandTheme.label(caption, "Caption")
-	l.clip_text = true
-	l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	v.add_child(l)
+	v.add_child(BrandUi.text(caption, "Caption"))
 	v.add_child(c)
 	return v

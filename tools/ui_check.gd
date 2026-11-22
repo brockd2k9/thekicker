@@ -811,13 +811,21 @@ func _check(id: String, root: Node) -> void:
 			_check_button(id, c as Button, where)
 
 
-## The score bug (Scoreboard) must not cover the HUD's text and bars or any
+## The score bug (Scoreboard or BrandScoreBug) must not cover the HUD's text and bars or any
 ## button (pause, controls) on the same screen.
 func _check_score_bug(id: String, root: Node) -> void:
 	for bug in _all(root):
-		if not (bug is Scoreboard) or not (bug as Control).is_visible_in_tree():
+		if not (bug is Scoreboard or bug is BrandScoreBug) or not (bug as Control).is_visible_in_tree():
 			continue
 		var br := (bug as Control).get_global_rect().grow(-1.0)
+		# Inside a scrolling list (the gallery): only the part showing counts.
+		var anc := bug.get_parent()
+		while anc != null and not (anc is ScrollContainer):
+			anc = anc.get_parent()
+		if anc != null:
+			br = br.intersection((anc as Control).get_global_rect())
+			if br.size.x <= 0.0 or br.size.y <= 0.0:
+				continue
 		for n in _all(root):
 			if not (n is Control) or n == bug or (bug as Node).is_ancestor_of(n) or n.is_ancestor_of(bug):
 				continue
