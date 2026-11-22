@@ -9,19 +9,23 @@ not be sold on their own. Each font's full license text is next to it.
 
 | Font | Used for | File | License | Source |
 | --- | --- | --- | --- | --- |
-| Oswald (variable, used at weight 700) | headings, buttons, numbers | `Oswald-Variable.ttf` | OFL 1.1, `OFL-oswald.txt` | https://github.com/googlefonts/OswaldFont |
-| Anton | logo, result banners, scoreboards | `Anton-Regular.ttf` | OFL 1.1, `OFL-anton.txt` | https://github.com/googlefonts/AntonFont |
-| Barlow SemiBold | body text | `Barlow-SemiBold.ttf` | OFL 1.1, `OFL-barlow.txt` | https://github.com/jpt/barlow |
-| Barlow Condensed SemiBold | chips, tickers, small labels | `BarlowCondensed-SemiBold.ttf` | OFL 1.1, `OFL-barlowcondensed.txt` | https://github.com/jpt/barlow |
+| Barlow Regular, Medium | body text | `Barlow-Regular.ttf`, `Barlow-Medium.ttf` | OFL 1.1, `OFL-barlow.txt` | https://github.com/jpt/barlow |
+| Barlow Condensed Bold, ExtraBold | headings, buttons, numbers, banners | `BarlowCondensed-Bold.ttf`, `BarlowCondensed-ExtraBold.ttf` | OFL 1.1, `OFL-barlowcondensed.txt` | https://github.com/jpt/barlow |
 
 Fonts were taken unmodified from the Google Fonts repository
 (https://github.com/google/fonts).
 
-## Icons, backgrounds and UI art
+## Icons
 
-All icons, backgrounds, badges and UI shapes are original and drawn in code
-(`scripts/ui/ui_icons.gd`, `scripts/ui/backdrop.gd`, `scripts/ui/ui_kit.gd`).
-No third-party images, logos or team marks are used. Team names and colors in
+UI icons are Google Material Symbols (Sharp, filled), licensed under the
+**Apache License 2.0**: https://github.com/google/material-design-icons.
+The icon path data is in `scripts/ui/brand/brand_icons.gd`; the license text is
+`assets/ui/icons/LICENSE-material-symbols.txt`. Keep it with the game.
+
+## Backgrounds and UI art
+
+Panels, badges and UI shapes are original and drawn in code
+(`scripts/ui/brand/`, `scripts/ui/ui_kit.gd`). No third-party images, logos or team marks are used. Team names and colors in
 `data/career/world.json` are fictional. The score bug's network, "GRIDCAST", is fictional
 too; its look is built from code-drawn panels and the bundled OFL fonts.
 

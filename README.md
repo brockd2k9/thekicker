@@ -231,79 +231,12 @@ margin: "Cleared the bar by 4 ft", "Under the bar by 1 ft", "Wide by 2 ft", "3 y
 Vibration: `Haptics.pulse()` on contact (stronger with more power) and on a block.
 Tunables: `kick_vibration_ms`, `block_vibration_ms` (0 = off).
 
-## UI look ("Night Broadcast")
+## UI look: the broadcast design system
 
-Menus and overlays share one look: a night-game stadium (deep backgrounds, floodlight glow,
-gold accent) with broadcast graphics (slanted buttons, lower-third headers, tickers, color
-bars on cards). No image files: backgrounds (`ui/backdrop.gd`) and icons (`ui/ui_icons.gd`,
-original SVG markup rasterized at runtime) are drawn from code.
-
-- **Tokens, one place:** `scripts/ui/ui_tokens.gd` holds the palettes (colors), spacing,
-  radii, slant, tap size, font sizes and animation times. Change a value there and every
-  screen follows.
-- **Theme:** `assets/ui/kicker_theme.tres` (the project's default theme) holds the fonts:
-  Barlow (body), Oswald Bold (`Display`), Anton (`Banner`), Barlow Condensed (`Condensed`).
-  `UiKit.theme()` adds the palette's buttons, panels, sliders and switches on top.
-- **Widgets:** `UiKit` (buttons: `primary` / secondary / `danger`, with press feedback;
-  `card`, `chip`, `section`, `title_block`, `stat_row`, `stat_tile`, `ticker`, `modal`) and
-  `CareerUi` (stat group cards, `StatBar` with animated changes and +/- previews, change
-  chips, choice cards with a locked state, scoreboard, result banner).
-- **Career stages:** `UiKit.set_stage()` switches the palette: Friday Night (high school,
-  navy + gold), Saturday (junior college / college, crimson + orange), Sunday Broadcast
-  (pro, charcoal + red). The player's team colors are used in the Hub header and backdrop.
-- **Motion:** screens fade/slide between each other (`ScreenFade` autoload), cards stagger
-  in, stat bars glide to new values, trait unlocks and result banners punch in.
-- **Sound and haptics hooks:** `UiKit.feedback(&"event")` plays the Sfx event (silent until
-  a file exists) and pulses the phone. Events are listed under "Sound".
-- **Performance:** backgrounds are drawn once (no per-frame shaders on menus); the only
-  continuous animation is the main menu ticker when its text doesn't fit.
-- Font licenses: `CREDITS.md` (all SIL Open Font License).
-
-**Score bug (career games):** `scenes/ui/scoreboard.tscn` (`Scoreboard`) is an early-2000s TV score bug
-for the fictional **GRIDCAST** network: a quarter / clock tab, the network block, away and home rows
-(team abbreviation, score, a gold marker for the team with the ball) and a strip with your game line
-(FG, XP, long, points). Chrome and glass panels are drawn in code (`Scoreboard.GlossPanel`). It reads a
-`ScoreBugState` (`scripts/ui/score_bug_state.gd`) through signals, never polling; the career game screen
-owns one state, set from every `GameSim` event (score, clock, `possession`), and both the bench screen's
-bug and the one over the kick scene bind to it. A kick updates the score and strip the moment it is
-judged; changes flash. In the kick scene the HUD keeps the top clear for it
-(`Hud.make_room_for_score_bug`). Abbreviations: each team's `short` field, or one made from its name.
-
-**Field tracker (career game screen):** `scenes/ui/field_tracker.tscn` (`FieldTracker`) is a compact
-top-down strip of the field under the score bug, sized to the screen width (height about 30% of the
-width, at most 16% of the screen). End zones in team colors with the names written vertically (away
-left, home right, all game; the offense attacks the other end, so direction flips with possession),
-striped turf with faint yard numbers, the ball (tweened between plays), the line of scrimmage (red)
-and first-down line (yellow), a drive bar in the offense's color with an arrow, field goal range
-shaded when the offense is in it, and a gold frame with the distance when it's your kick. Under it:
-an info bar ("1st & 10 ball on OAK 37", timeouts at the edges) and the last play with a type tag
-(RUSH, PASS, PUNT, FG, XP, KICKOFF, TURNOVER, TD, TIMEOUT). It reads a `FieldState`
-(`scripts/ui/field_state.gd`, signals only, no polling) that `FieldModel`
-(`scripts/career/field_model.gd`) fills from `GameSim`'s events. The sim plays drives, not single
-plays, so the model builds the field picture from the sim's own numbers (drive start spots, gains,
-the warmup's "opponent 32", your kick's distance, kickoff start spots, TDs / punts / turnovers);
-timeouts are 3 per team per half, used to ice your clutch kicks and by a trailing offense late in a
-half. Display only: it never changes the sim (a test plays the same seeded game with and without it).
-Play events carry their play line's key and numbers (`"key"`, `"vars"`) for it. Nothing is saved.
-
-**Layout checker:** `tools/ui_check.tscn` opens every screen in a real state (it plays a
-career forward with the real rules) and checks tap targets (>= 88 px), cut-off text and
-anything off screen. Run it at the four window shapes (needs a window, not `--headless`;
-your saves are backed up and restored):
-
-```
-godot --path . --resolution 720x1280  res://tools/ui_check.tscn -- tag=phone out=/tmp/shots
-godot --path . --resolution 1080x2400 res://tools/ui_check.tscn -- tag=tall
-godot --path . --resolution 1536x2048 res://tools/ui_check.tscn -- tag=tablet
-godot --path . --resolution 1920x1080 res://tools/ui_check.tscn -- tag=desktop
-```
-`out=` saves a screenshot of every screen; `only=hub,results` limits the run.
-
-## Broadcast design system (UI revamp, in progress)
-
-The new look: modern TV sports broadcast graphics, strictly red, black and white. It is being
-rolled out in phases (1: the system and a gallery; 2: Career Hub and Game screen; 3: every other
-screen). Until a screen is moved over it keeps the "Night Broadcast" look below.
+Every menu, career screen and overlay uses one look: modern TV sports broadcast graphics,
+strictly red, black and white (greys allowed). Red marks primary actions and highlights only;
+team colors appear only as thin stripes. The kick scene's in-play HUD (`scenes/ui/hud.tscn`) keeps
+its own layout but uses the same fonts.
 
 - **One file for the look:** `scripts/ui/brand/brand.gd` (`Brand`): the palette (blacks for
   layering, one red, white, two greys), the type scale (Hero 128, Display 84, Title 60, Heading 48,
@@ -327,6 +260,17 @@ screen). Until a screen is moved over it keeps the "Night Broadcast" look below.
   icons from Google Material Symbols, Sharp, filled (Apache License 2.0,
   `assets/ui/icons/LICENSE-material-symbols.txt`; the path data is in `scripts/ui/brand/brand_icons.gd`).
   Both allow commercial use; keep the license files with the game.
+- **Older screens, same look:** screens built with the older toolkit (`UiKit`, `CareerUi`,
+  `UiIcons`, `StatBar`, `UiTokens`) keep their code but draw with the system: `UiTokens` has one
+  palette taken from `Brand`, `UiKit` panels are `ClippedBox`es, its buttons and chips are the
+  Brand ones, its text sizes snap to the type scale, and `UiIcons` names map onto the Brand icons.
+  `UiKit.set_stage()` keeps the player's team color as an accent; the palette no longer changes
+  by career stage.
+- **Project theme:** `assets/ui/kicker_theme.tres` (the project default, used by the kick scene)
+  holds the same fonts: Barlow Medium (body), Barlow Condensed Bold (`Display`, buttons),
+  Barlow Condensed ExtraBold (`Banner`).
+- **Sound and haptics hooks:** `UiKit.feedback(&"event")` plays the Sfx event (silent until a file
+  exists) and pulses the phone. Events are listed under "Sound".
 
 ## Project layout
 
