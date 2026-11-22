@@ -64,11 +64,11 @@ func _show_results() -> void:
 		nb.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		v.add_child(nb)
 	v.add_child(UiKit.stat_row("Kicks Made", "%d of %d" % [rules.makes, rules.kicks], UiKit.ACCENT))
-	v.add_child(UiKit.stat_row("Best Streak", str(rules.best_streak)))
+	v.add_child(UiKit.stat_row("Streak This Run", str(rules.best_streak)))
 	v.add_child(UiKit.stat_row("Longest Make",
 		("%d yd" % rules.longest_make) if rules.longest_make > 0 else "-"))
 	v.add_child(UiKit.stat_row("Total Yards", str(rules.total_yards)))
-	v.add_child(UiKit.stat_row("Best Run", "%d makes" % GameState.stats.challenge_best_makes))
+	v.add_child(UiKit.stat_row("Best Streak", "%d makes" % GameState.stats.challenge_best_makes))
 	var again := UiKit.button("Play Again", Screens.go.bind(Screens.CHALLENGE))
 	v.add_child(again)
 	v.add_child(UiKit.button("Main Menu", Screens.go.bind(Screens.MAIN_MENU)))

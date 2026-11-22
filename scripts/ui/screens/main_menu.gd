@@ -30,7 +30,7 @@ func _build(col: VBoxContainer) -> void:
 	UiKit.stagger(buttons, 0.04)
 
 	var s := GameState.stats
-	col.add_child(UiKit.ticker("Stats", "All-time %d/%d  •  %d%%  •  Best run %d" % [
+	col.add_child(UiKit.ticker("Stats", "All-time %d/%d  •  %d%%  •  Best streak %d" % [
 		s.makes, s.attempts, s.accuracy_percent(), s.challenge_best_makes]))
 	col.add_child(UiKit.expanding_spacer())
 	# Keyboard / gamepad focus for desktop (Steam later). Harmless on touch.

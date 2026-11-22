@@ -74,7 +74,7 @@ Things that are built but **untuned**. Every value named here is in `tuning/kick
     hide anything important during the slow-mo result.
 30. **Windy Day** uses the wind at the moment of the kick, gusts included. A gusty
     "8-15 MPH" kick taken in a lull won't count.
-31. **Reset Stats** clears stats and best run but keeps achievements and settings. Confirm
+31. **Reset Stats** clears stats and best streak but keeps achievements and settings. Confirm
     that's the behavior you want.
 32. **Aim Assist off** hides the aim ring only. Does the game still feel readable without it?
 33. **Volume sliders** work once real sounds/music are in `audio/` (`music.ogg` loops on the Music bus).

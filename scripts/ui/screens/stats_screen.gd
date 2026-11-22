@@ -25,7 +25,7 @@ func _build(col: VBoxContainer) -> void:
 	list.add_child(UiKit.stat_row("Blocked", str(s.misses_by_type.get("blocked", 0))))
 
 	list.add_child(UiKit.section("CHALLENGE"))
-	list.add_child(UiKit.stat_row("Best Run", "%d makes" % s.challenge_best_makes))
+	list.add_child(UiKit.stat_row("Best Streak", "%d makes" % s.challenge_best_makes))
 	list.add_child(UiKit.stat_row("Runs Played", str(s.challenge_runs)))
 
 	list.add_child(UiKit.section("CAREER"))

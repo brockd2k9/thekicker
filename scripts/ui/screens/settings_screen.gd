@@ -83,7 +83,7 @@ func _toggle(text: String, on: bool, set_value: Callable) -> CheckButton:
 
 func _confirm_reset() -> void:
 	UiKit.confirm(self, "Reset Stats?",
-		"This clears your session and all-time stats, streaks and best run. "
+		"This clears your session and all-time stats, streaks and best streak. "
 		+ "Achievements and settings are kept. This can't be undone.",
 		"Reset", func() -> void:
 			GameState.reset_stats()

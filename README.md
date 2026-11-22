@@ -291,7 +291,7 @@ scripts/
   autoload/haptics.gd         Haptics: phone vibration
   autoload/music.gd           Music: loops audio/music.ogg on the "Music" bus if present
   core/kick_report.gd         KickReport: the kick-result event payload
-  systems/kick_stats.gd       all-time stats (streaks, longest FG, misses by type, best run)
+  systems/kick_stats.gd       all-time stats (streaks, longest FG, misses by type, best streak)
   systems/achievement_defs.gd achievements as data
   systems/achievement_tracker.gd  unlock state + condition checks
   systems/game_settings.gd    volumes, haptics, aim assist; creates SFX/Music buses
