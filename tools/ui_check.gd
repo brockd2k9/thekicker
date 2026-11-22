@@ -819,7 +819,7 @@ func _check_score_bug(id: String, root: Node) -> void:
 			continue
 		var br := (bug as Control).get_global_rect().grow(-1.0)
 		# Inside a scrolling list (the gallery): only the part showing counts.
-		var anc := bug.get_parent()
+		var anc: Node = bug.get_parent()
 		while anc != null and not (anc is ScrollContainer):
 			anc = anc.get_parent()
 		if anc != null:
