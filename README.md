@@ -299,6 +299,35 @@ godot --path . --resolution 1920x1080 res://tools/ui_check.tscn -- tag=desktop
 ```
 `out=` saves a screenshot of every screen; `only=hub,results` limits the run.
 
+## Broadcast design system (UI revamp, in progress)
+
+The new look: modern TV sports broadcast graphics, strictly red, black and white. It is being
+rolled out in phases (1: the system and a gallery; 2: Career Hub and Game screen; 3: every other
+screen). Until a screen is moved over it keeps the "Night Broadcast" look below.
+
+- **One file for the look:** `scripts/ui/brand/brand.gd` (`Brand`): the palette (blacks for
+  layering, one red, white, two greys), the type scale (Hero 128, Display 84, Title 60, Heading 48,
+  Subhead 40, Body 32, BodyStrong 32, Caption 28, Eyebrow 28; nothing smaller than 28 px, about
+  15 pt on a phone), spacing, corner clips, rules and motion times. No other UI script holds a
+  color (a test checks the component scripts).
+- **Theme:** `BrandTheme.get_theme()` builds it from Brand. `assets/ui/brand_theme.tres` is a
+  generated copy for the editor: after editing Brand, run
+  `godot --headless --path . res://tools/build_brand_theme.tscn` (a test fails if it's stale).
+- **Panel shape:** `ClippedBox` (a StyleBox drawn from polygons): clipped corners, a thin inner
+  stroke, a faint diagonal texture, an accent stripe, a top or bottom rule.
+- **Components** (`scenes/ui/brand/*.tscn`, scripts in `scripts/ui/brand/`): primary and secondary
+  button, tab bar, segmented toggle, list row, stat tile (numbers count up and shrink to fit),
+  progress bar, card, header bar, banner (info / warning), popup, chip. States: normal, hover,
+  focus, pressed, disabled. Motion (`BrandMotion`): 80-150 ms presses and swaps, count-ups, a red
+  flash.
+- **UI Gallery:** main menu -> UI Gallery (debug builds), or `Screens.UI_GALLERY`: every component
+  in every state, the palette with contrast ratios, the type scale and the icons. The layout
+  checker pages through it (shots `gallery_1` ... `gallery_N`).
+- **Licenses:** Barlow and Barlow Condensed (SIL Open Font License 1.1, `assets/fonts/OFL-barlow*.txt`);
+  icons from Google Material Symbols, Sharp, filled (Apache License 2.0,
+  `assets/ui/icons/LICENSE-material-symbols.txt`; the path data is in `scripts/ui/brand/brand_icons.gd`).
+  Both allow commercial use; keep the license files with the game.
+
 ## Project layout
 
 ```

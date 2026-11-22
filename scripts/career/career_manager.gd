@@ -1253,9 +1253,25 @@ func contract_continue() -> void:
 
 
 ## The chance a club gives this free agent a tryout this year (1 until
-## fa_age_from, then fa_age_drop less a year).
+## fa_age_from, then fa_age_drop less a year; never below fa_elite_floor after
+## an elite season, at any age).
 func fa_call_chance() -> float:
-	return clampf(1.0 - tuning.fa_age_drop * maxf(float(data.age - tuning.fa_age_from), 0.0), 0.0, 1.0)
+	var chance := clampf(1.0 - tuning.fa_age_drop * maxf(float(data.age - tuning.fa_age_from), 0.0), 0.0, 1.0)
+	if elite_last_season():
+		chance = maxf(chance, tuning.fa_elite_floor)
+	return chance
+
+
+## The last season played was elite (fa_elite_fg or better on at least
+## fa_elite_min_attempts field goals): clubs still call, whatever the age.
+func elite_last_season() -> bool:
+	for i in range(data.history.size() - 1, -1, -1):
+		var s: Dictionary = data.history[i].get("stats", {})
+		var att := int(s.get("fg_att", 0))
+		if att == 0:
+			continue  # a season without kicks (free agency): look further back
+		return att >= tuning.fa_elite_min_attempts and float(s.get("fg_made", 0)) / att >= tuning.fa_elite_fg
+	return false
 
 
 ## Ends the career: reason chose / out_of_football / no_options (age_cap: old

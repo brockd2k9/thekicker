@@ -42,6 +42,22 @@ func test_older_free_agents_get_fewer_calls() -> void:
 	eq(m.data.phase, CareerManager.PHASE_RETIRED, "out of football when nobody calls")
 
 
+func test_elite_form_keeps_the_door_open_at_any_age() -> void:
+	var m := _pro(50)
+	eq(m.fa_call_chance(), 0.0, "50 and no elite season: no calls")
+	m.data.history.append({"stage": CareerData.STAGE_PRO, "stats": {"fg_att": 24, "fg_made": 23}})
+	check(m.elite_last_season(), "23 of 24 is elite")
+	eq(m.fa_call_chance(), t.fa_elite_floor, "an elite season keeps the floor, even at 50")
+	m.data.history.append({"stage": CareerData.STAGE_FREE_AGENT, "stats": {}})
+	check(m.elite_last_season(), "a season without kicks looks back to the last one played")
+	m.data.history.append({"stage": CareerData.STAGE_PRO, "stats": {"fg_att": 10, "fg_made": 10}})
+	check(not m.elite_last_season(), "too few attempts to count")
+	m.data.history.append({"stage": CareerData.STAGE_PRO, "stats": {"fg_att": 30, "fg_made": 24}})
+	check(not m.elite_last_season(), "80% isn't elite")
+	m.data.age = t.fa_age_from
+	eq(m.fa_call_chance(), 1.0, "younger: the age rule as before")
+
+
 func test_ironman_is_playing_until_40() -> void:
 	var d := AchievementDefs.find("career_ironman")
 	eq(int(d["condition"]["min_value"]["age"]), 40, "played until 40")

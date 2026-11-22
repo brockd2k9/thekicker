@@ -910,6 +910,12 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## free_agent_attempts).
 @export var fa_age_from: int = 36
 @export var fa_age_drop: float = 0.1
+## Elite form keeps the door open at any age: when the last season played had
+## at least fa_elite_min_attempts field goals at fa_elite_fg or better, the
+## call chance never drops below fa_elite_floor.
+@export_range(0.0, 1.0) var fa_elite_fg: float = 0.9
+@export var fa_elite_min_attempts: int = 20
+@export_range(0.0, 1.0) var fa_elite_floor: float = 0.5
 
 @export_group("Goalposts")
 ## Inner width between the uprights, meters, per stage (used from Stage 5).

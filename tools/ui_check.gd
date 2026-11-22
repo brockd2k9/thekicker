@@ -31,7 +31,7 @@ const ALL := ["main", "career_menu", "tutorial", "new", "new_web", "name_chooser
 	"hud", "hud_result", "results", "stats", "achievements", "settings", "career_stats", "people", "debug",
 	"challenge", "season", "recruiting", "recruiting_board", "recruiting_board_senior", "college_choice", "hub_college", "draft",
 	"hub_pro", "kicking_season", "kicking_hs", "kicking_total",
-	"kicking_total_sections", "kicking_season_sections", "kicking_season_misc", "contract", "hall_of_fame", "retired", "pause", "toast"]
+	"kicking_total_sections", "kicking_season_sections", "kicking_season_misc", "contract", "hall_of_fame", "retired", "pause", "toast", "gallery"]
 
 var _out := ""
 var _tag := ""
@@ -185,6 +185,7 @@ func _capture_all() -> void:
 	await _stadium_shots()
 	await _money_shots()
 	await _drill_shots()
+	await _gallery_shots()
 	await _shot("debug", Screens.CAREER_DEBUG)
 	await _shot("challenge", Screens.CHALLENGE, Callable(), Callable(), 2.0)
 	if _want("pause"):
@@ -836,9 +837,10 @@ func _check_label(id: String, l: Label, where: String) -> void:
 	var font := l.get_theme_font("font")
 	var fs := l.get_theme_font_size("font_size")
 	var w := l.size.x
+	var shown := l.text.to_upper() if l.uppercase else l.text  # what is drawn
 	if l.autowrap_mode == TextServer.AUTOWRAP_OFF:
 		var need := 0.0
-		for line in l.text.split("\n"):
+		for line in shown.split("\n"):
 			need = maxf(need, font.get_string_size(line, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x)
 		if need > w + 1.5:
 			_add(id, "text cut off (%d > %d px): %s \"%s\"" % [roundi(need), roundi(w), where, l.text])
@@ -1033,3 +1035,29 @@ func _drill_shots() -> void:
 	d._finish()
 	await _wait(0.8)
 	await _capture("drill_results")
+
+
+## The UI Gallery (the broadcast design system), page by page: gallery_1 ...
+## gallery_N, scrolling one screen at a time to the end.
+func _gallery_shots() -> void:
+	if not (_want("gallery") or _want("gallery_1")):
+		return
+	await _open(Screens.UI_GALLERY, 1.2)
+	var g := get_tree().current_scene
+	if g == null or not ("scroll" in g):
+		_problems.append("[%s] gallery: not open" % _tag)
+		return
+	var sc: ScrollContainer = g.scroll
+	await _wait(0.6)
+	var page := maxf(sc.size.y - 40.0, 200.0)
+	var total := sc.get_v_scroll_bar().max_value
+	var n := 0
+	var y := 0.0
+	while n < 30:
+		sc.scroll_vertical = int(y)
+		await _wait(0.5)
+		n += 1
+		await _capture("gallery_%d" % n)
+		if y + sc.size.y >= total:
+			break
+		y += page

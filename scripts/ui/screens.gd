@@ -34,6 +34,7 @@ const CAREER_DEBUG := "res://scenes/screens/career_debug.tscn"
 const CAREER_DEBUG_KICKS := "res://scenes/screens/career_debug_kicks.tscn"
 const CAREER_DRILL := "res://scenes/screens/career_drill.tscn"
 const CAREER_HALL := "res://scenes/screens/career_hall.tscn"
+const UI_GALLERY := "res://scenes/screens/ui_gallery.tscn"
 
 
 static func go(path: String) -> void:
