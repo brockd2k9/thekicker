@@ -6,161 +6,161 @@ extends CareerScreen
 ## Game Day / Restart Game / Results / Season Summary ...).
 
 
+func _uses_brand() -> bool:
+	return true
+
+
 func _build(col: VBoxContainer) -> void:
 	var c := career.data
-	col.add_theme_constant_override("separation", 14)
-	col.add_child(_header())
+	var t := career.tuning
+	# Everything scrolls; only the action row stays put (thumb reach).
+	var list := BrandUi.scroll_list(col)
+	list.add_child(_header())
 
-	# Benched / thin ice: the first thing you see (never a surprise).
-	var bb := CareerUi.bench_banner(c, career.tuning, c.phase == CareerManager.PHASE_WEEK_START)
-	if bb != null:
-		col.add_child(bb)
+	# Benched / thin ice / suspended: the first thing you see (never a surprise).
+	var bb := CareerUi.bench_banner_text(c, t, c.phase == CareerManager.PHASE_WEEK_START)
+	if not bb.is_empty():
+		list.add_child(BrandUi.banner("warning", bb["title"], bb["body"]))
 	# Running on empty (Fatigue): rest this week, or lose attribute points.
-	var fb := CareerUi.fatigue_banner(c, career.tuning)
-	if fb != null:
-		col.add_child(fb)
+	if Fatigue.warned(c):
+		list.add_child(BrandUi.banner("warning", "Running on empty", CareerUi.fatigue_text(t)))
 	# Next up, and where the career is heading.
-	col.add_child(_next_card())
+	list.add_child(_next_card())
 	if c.notice != "":
-		var n := UiKit.chip(c.notice, UiKit.WARN, false, "info", 24)
-		n.get_child(0).get_child(1).autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		n.get_child(0).get_child(1).size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		col.add_child(n)
+		list.add_child(BrandUi.banner("info", "Update", c.notice))
 		c.notice = ""
 		career.save()
 
-	var list := UiKit.scroll_list(col)
-	list.add_child(CareerUi.range_strip(c, career.tuning, Screens.go.bind(Screens.CAREER_SKILLS)))
+	list.add_child(_range_tiles())
 	# Weekly practice intensity (Fatigue), before you play the week.
 	if c.phase == CareerManager.PHASE_WEEK_START and career.in_season_loop():
-		list.add_child(CareerUi.practice_selector(c, career.tuning, _set_practice))
+		list.add_child(BrandUi.section("Practice this week"))
+		var seg: BrandSegmented = load("res://scenes/ui/brand/segmented_toggle.tscn").instantiate()
+		seg.options = PackedStringArray(Fatigue.INTENSITIES.map(func(x: String) -> String: return x.capitalize()))
+		seg.selected = Fatigue.INTENSITIES.find(Fatigue.practice(c))
+		seg.option_selected.connect(func(i: int) -> void: _set_practice(str(Fatigue.INTENSITIES[i])))
+		list.add_child(seg)
+		list.add_child(BrandUi.text(CareerUi.practice_text(c, t), "Caption"))
+	if c.is_injured():
+		list.add_child(BrandUi.banner("warning", "Injured", "%d week(s) left." % int(c.injury["weeks_left"])))
 	var grid := GridContainer.new()
 	grid.columns = 2
-	grid.add_theme_constant_override("h_separation", 12)
-	grid.add_theme_constant_override("v_separation", 12)
+	grid.add_theme_constant_override("h_separation", Brand.SPACE_3)
+	grid.add_theme_constant_override("v_separation", Brand.SPACE_3)
 	list.add_child(grid)
 	var bars := {}
 	for g in [CareerData.LIFE, CareerData.FOOTBALL, CareerData.PERSONALITY]:
-		grid.add_child(CareerUi.group_panel(c, g, true, bars))
+		grid.add_child(_group_card(g, bars))
 	grid.add_child(_traits_panel())
 	_animate_bars(bars)
-	list.add_child(CareerUi.button_row([
-		UiKit.button("Stats", Screens.go.bind(Screens.CAREER_KICKING), UiKit.SECONDARY, "stats"),
-		UiKit.button("Recruiting", Screens.go.bind(Screens.CAREER_RECRUITING_BOARD), UiKit.SECONDARY, "school")]))
-	list.add_child(CareerUi.button_row([
-		UiKit.button("Stats & Traits", Screens.go.bind(Screens.CAREER_STATS), UiKit.SECONDARY, "charisma"),
-		UiKit.button("People", Screens.go.bind(Screens.CAREER_PEOPLE), UiKit.SECONDARY, "social")]))
 
-	if c.is_injured():
-		list.add_child(UiKit.stat_row("Injury", "%d week(s) left" % int(c.injury["weeks_left"]), UiKit.BAD, "health"))
-	list.add_child(UiKit.section("Recent results"))
+	list.add_child(BrandUi.section("Career"))
+	var nav := VBoxContainer.new()
+	nav.add_theme_constant_override("separation", 0)
+	list.add_child(nav)
+	var st := CareerRecords.this_season(c)
+	for r in [["Skills", "%d skill points to spend" % c.skill_points, "", "trend", Screens.CAREER_SKILLS],
+			["Kicking stats", "This season, career and records", "FG %d/%d" % [int(st["fg_made"]), int(st["fg_att"])],
+				"football", Screens.CAREER_KICKING],
+			["Recruiting", "Who's watching, offers", "", "school", Screens.CAREER_RECRUITING_BOARD],
+			["Stats & traits", "Every attribute and trait", "", "star", Screens.CAREER_STATS],
+			["People", "Coach, team, family and friends", "", "team", Screens.CAREER_PEOPLE]]:
+		nav.add_child(_nav_row(r[0], r[1], r[2], r[3], r[4]))
+
+	list.add_child(BrandUi.section("Recent results"))
 	if c.recent_results.is_empty():
-		list.add_child(UiKit.label("No games yet.", 26, UiKit.MUTED))
+		list.add_child(BrandUi.text("No games yet.", "Caption"))
 	for i in range(c.recent_results.size() - 1, -1, -1):
 		list.add_child(_result_row(c.recent_results[i]))
 
-	var main := UiKit.primary(_main_text(), _main_action, "play")
-	col.add_child(CareerUi.button_row([UiKit.button("Menu", go_back, UiKit.SECONDARY, "home"), main]))
+	var main := BrandUi.button(_main_text(), _main_action, "primary", "play")
+	var menu := BrandUi.button("Menu", go_back, "secondary", "home")
+	col.add_child(BrandUi.button_row([menu, main]))
 	main.size_flags_stretch_ratio = 2.0
 	if not OS.has_feature("mobile"):
 		main.grab_focus.call_deferred()
 
 
-## Broadcast lower-third in the team's colors: who (with this season's
-## kicking line), the team (with its record), and when.
+## The player card: a team-color stripe, who and when, the team and its
+## record, and this season's kicking line as a stat strip.
 func _header() -> Control:
 	var c := career.data
-	var p := PanelContainer.new()
-	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var tc := UiKit.team_color(0)
-	var box := UiKit.panel_box(Color(0, 0, 0, 0), tc.darkened(0.35))
-	box.border_color = UiKit.team_color(1)
-	box.border_width_top = 0
-	box.border_width_left = 0
-	box.border_width_right = 0
-	box.border_width_bottom = 6
-	box.content_margin_top = 14
-	box.content_margin_bottom = 12
-	p.add_theme_stylebox_override("panel", box)
-	var h := HBoxContainer.new()
-	h.add_theme_constant_override("separation", 12)
-	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	p.add_child(h)
-	var left := VBoxContainer.new()
-	left.add_theme_constant_override("separation", 0)
-	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	left.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	h.add_child(left)
+	var team_col := Color.from_string(str((c.team.get("colors", []) as Array).front() if not
+		(c.team.get("colors", []) as Array).is_empty() else ""), Brand.GREY)
+	var card := BrandUi.card("raised", team_col)
 	var when := "Offseason" if c.week == 0 else "Week %d of %d" % [mini(c.week, career.weeks_in_season()),
 		career.weeks_in_season()]
-	var top := UiKit.label("#%d  ·  %s  ·  Season %d  ·  %s  ·  %s" % [int(c.player.get("number", 0)),
-		career.stage_name(), c.season, career.class_year(), when],
-		22, UiKit.team_color(1).lightened(0.2), UiTokens.FONT_CONDENSED)
-	top.autowrap_mode = TextServer.AUTOWRAP_OFF
-	top.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	top.text = top.text.to_upper()
-	left.add_child(top)
-	# Name, with this season's kicking line beside it.
-	var name_row := HBoxContainer.new()
-	name_row.add_theme_constant_override("separation", 12)
-	name_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	left.add_child(name_row)
-	var name_l := UiKit.label(c.display_name().to_upper(), 44, Color.WHITE, UiTokens.FONT_DISPLAY)
-	name_l.autowrap_mode = TextServer.AUTOWRAP_OFF
-	name_l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	name_l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	name_l.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	name_row.add_child(name_l)
-	name_row.add_child(_season_line())
-	# Team, with the team's record beside it.
+	card.content.add_child(BrandUi.text("#%d  ·  %s  ·  Season %d  ·  %s  ·  %s" % [int(c.player.get("number", 0)),
+		career.stage_name(), c.season, career.class_year(), when], "Eyebrow"))
+	card.content.add_child(BrandUi.text(c.display_name(), "Title"))
 	var team_row := HBoxContainer.new()
-	team_row.add_theme_constant_override("separation", 12)
+	team_row.add_theme_constant_override("separation", Brand.SPACE_3)
 	team_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	left.add_child(team_row)
-	var team_l := UiKit.label(CareerScreen.team_name(c.team).to_upper(), 26, Color(1, 1, 1, 0.88), UiTokens.FONT_DISPLAY)
-	team_l.autowrap_mode = TextServer.AUTOWRAP_OFF
-	team_l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	card.content.add_child(team_row)
+	var team_l := BrandUi.text(CareerScreen.team_name(c.team), "Subhead", Brand.GREY)
 	team_l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	team_l.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	team_row.add_child(team_l)
-	var rec := UiKit.line(CareerRecords.record_text(c.record), 40, Color.WHITE, UiTokens.FONT_BANNER)
-	rec.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	rec.add_theme_color_override("font_shadow_color", Color(UiKit.ACCENT, 0.35))
-	rec.add_theme_constant_override("shadow_outline_size", 10)
-	rec.add_theme_constant_override("shadow_offset_x", 0)
-	rec.add_theme_constant_override("shadow_offset_y", 0)
+	var rec := BrandTheme.label(CareerRecords.record_text(c.record), "Heading")
+	rec.add_theme_font_override("font", BrandTheme.font(Brand.FONT_NUMBER))
 	team_row.add_child(rec)
-	return p
+	var st := CareerRecords.this_season(c)
+	var strip: BrandStatStrip = load("res://scenes/ui/brand/stat_strip.tscn").instantiate()
+	card.content.add_child(strip)
+	strip.set_cells([["FG", "%d/%d" % [int(st["fg_made"]), int(st["fg_att"])]], ["FG%", CareerRecords.pct_text(st)],
+		["XP", "%d/%d" % [int(st["pat_made"]), int(st["pat_att"])]],
+		["Long", str(int(st["long"])) if int(st["long"]) > 0 else "-"], ["Pts", str(int(st["points"]))]])
+	return card
 
 
-## This season's kicking line, two compact rows (FG and FG%; XP, long, points).
-func _season_line() -> VBoxContainer:
-	var st := CareerRecords.this_season(career.data)
-	var v := VBoxContainer.new()
-	v.add_theme_constant_override("separation", -4)
-	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	v.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	var gold := UiKit.team_color(1).lightened(0.25)
-	var l1 := UiKit.line("FG %d/%d  ·  %s" % [int(st["fg_made"]), int(st["fg_att"]), CareerRecords.pct_text(st)],
-		24, Color.WHITE, UiTokens.FONT_DISPLAY)
-	l1.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	v.add_child(l1)
-	var l2 := UiKit.line("XP %d/%d  ·  LNG %s  ·  %d PTS" % [int(st["pat_made"]), int(st["pat_att"]),
-		str(int(st["long"])) if int(st["long"]) > 0 else "-", int(st["points"])], 20, gold, UiTokens.FONT_CONDENSED)
-	l2.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	v.add_child(l2)
-	return v
+## FG range (the key number), kickoff range and skill points.
+func _range_tiles() -> HBoxContainer:
+	var c := career.data
+	var t := career.tuning
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", Brand.SPACE_3)
+	var params := Progression.game_params(c, t)
+	var ko := KickRange.kickoff_range(c, t)
+	row.add_child(_tile("FG range", floorf(KickRange.fg_range(c, t) + 0.001), "yd", "", true))
+	row.add_child(_tile("Kickoff", floorf(ko + 0.001), "yd",
+		"Touchback range" if KickRange.touchback_possible(ko, params, t) else ""))
+	row.add_child(_tile("Skill pts", float(c.skill_points), "", ""))
+	return row
+
+
+func _tile(caption: String, value: float, unit: String, note: String, highlight := false) -> BrandStatTile:
+	var tile: BrandStatTile = load("res://scenes/ui/brand/stat_tile.tscn").instantiate()
+	tile.caption = caption
+	tile.value = value
+	tile.unit = unit
+	tile.delta = note
+	tile.highlight = highlight
+	return tile
+
+
+## A stat group: its name, then each stat as a bar.
+func _group_card(group: String, bars: Dictionary) -> BrandCard:
+	var card := BrandUi.card()
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.content.add_theme_constant_override("separation", Brand.SPACE_3)
+	card.content.add_child(BrandTheme.label(str(CareerData.GROUP_NAMES[group]), "Eyebrow", Brand.WHITE))
+	for k in CareerData.GROUP_KEYS[group]:
+		var b: BrandBar = load("res://scenes/ui/brand/progress_bar.tscn").instantiate()
+		b.title = str(CareerData.STAT_NAMES[k]).replace("Kicking ", "")
+		b.value = career.data.stat(k)
+		bars[k] = b
+		card.content.add_child(b)
+	return card
 
 
 ## Bars glide from what the Hub showed last time (UI memory only).
 func _animate_bars(bars: Dictionary) -> void:
 	var seen: Dictionary = CareerUi.last_seen.get(_seen_key(), {})
-	var i := 0
 	for k in bars:
-		var b: StatBar = bars[k]
-		if seen.has(k):
-			b.animate_from(float(seen[k]), 0.25 + i * 0.03)
-		i += 1
+		var b: BrandBar = bars[k]
+		if seen.has(k) and not is_equal_approx(float(seen[k]), career.data.stat(k)):
+			b.value = float(seen[k])
+			b.animate_to.call_deferred(career.data.stat(k))
 	var now := {}
 	for k in bars:
 		now[k] = career.data.stat(k)
@@ -171,17 +171,26 @@ func _seen_key() -> String:
 	return "%d|%d" % [career.data.slot, career.data.created]
 
 
-func _result_row(r: Dictionary) -> PanelContainer:
+func _nav_row(title: String, sub: String, value: String, icon: String, path: String) -> BrandListRow:
+	var r: BrandListRow = load("res://scenes/ui/brand/list_row.tscn").instantiate()
+	r.title = title
+	r.subtitle = sub
+	r.value = value
+	r.icon_name = icon
+	r.pressed.connect(Screens.go.bind(path))
+	return r
+
+
+## A result: W / L / T, the week and opponent (with the game line), the score.
+func _result_row(r: Dictionary) -> BrandCard:
 	var o := str(r.get("outcome", "T"))
-	var col: Color = UiKit.GOOD if o == "W" else (UiKit.BAD if o == "L" else UiKit.MUTED)
-	var parts := UiKit.card(Color(0, 0, 0, 0), 0)
-	var p: PanelContainer = parts[0]
+	var card := BrandUi.card("card")
 	var h := HBoxContainer.new()
-	h.add_theme_constant_override("separation", 14)
+	h.add_theme_constant_override("separation", Brand.SPACE_3)
 	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	(parts[1] as VBoxContainer).add_child(h)
-	var badge := UiKit.chip(o, col, true, "", 30)
-	badge.custom_minimum_size = Vector2(52, 48)
+	card.content.add_child(h)
+	var badge := BrandUi.chip(o, {"W": "outline", "L": "red"}.get(o, "neutral"))
+	badge.custom_minimum_size.x = 52
 	h.add_child(badge)
 	var mid := VBoxContainer.new()
 	mid.add_theme_constant_override("separation", 0)
@@ -189,15 +198,16 @@ func _result_row(r: Dictionary) -> PanelContainer:
 	mid.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	h.add_child(mid)
 	var ot := CareerManager.ot_tag(r)
-	mid.add_child(UiKit.line("Wk %d  %s%s" % [int(r.get("week", 0)), r.get("opponent", ""),
-		("  " + ot) if ot != "" else ""], 28, UiKit.TEXT, UiTokens.FONT_DISPLAY))
+	mid.add_child(BrandUi.text("Wk %d  %s%s" % [int(r.get("week", 0)), r.get("opponent", ""),
+		("  " + ot) if ot != "" else ""], "BodyStrong"))
 	if str(r.get("line", "")) != "":
-		mid.add_child(UiKit.label(str(r.get("line", "")), 22, UiKit.MUTED))
-	var score := UiKit.label("%d-%d" % [int(r.get("us", 0)), int(r.get("them", 0))], 38, col.lightened(0.1),
-		UiTokens.FONT_BANNER)
-	score.autowrap_mode = TextServer.AUTOWRAP_OFF
+		mid.add_child(BrandUi.text(str(r.get("line", "")), "Caption"))
+	var score := BrandTheme.label("%d-%d" % [int(r.get("us", 0)), int(r.get("them", 0))], "Subhead",
+		Brand.RED_HOT if o == "L" else Brand.WHITE)
+	score.add_theme_font_override("font", BrandTheme.font(Brand.FONT_NUMBER))
+	score.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	h.add_child(score)
-	return p
+	return card
 
 
 func go_back() -> void:
@@ -205,133 +215,130 @@ func go_back() -> void:
 	Screens.go(Screens.CAREER)
 
 
-func _next_card() -> PanelContainer:
-	var parts := UiKit.card(UiKit.ACCENT, 4)
-	var p: PanelContainer = parts[0]
-	var v: VBoxContainer = parts[1]
+## This week: home / away, the opponent (with a small stripe of their color)
+## and how strong they are; or what's next outside the season. Then the
+## career status chips.
+func _next_card() -> BrandCard:
+	var card := BrandUi.card("accent")
 	var c := career.data
 	var head := HBoxContainer.new()
-	head.add_theme_constant_override("separation", 10)
+	head.add_theme_constant_override("separation", Brand.SPACE_2)
 	head.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	v.add_child(head)
-	var kicker := UiKit.line("", 24, UiKit.MUTED, UiTokens.FONT_DISPLAY)
+	card.content.add_child(head)
+	var kicker := BrandTheme.label("", "Eyebrow")
 	head.add_child(kicker)
-	var big := UiKit.label("", 34, UiKit.TEXT, UiTokens.FONT_DISPLAY)
+	var big := BrandUi.text("", "Heading")
 	if not career.in_season_loop():
-		kicker.text = career.stage_name().to_upper()
+		kicker.text = career.stage_name()
 		big.text = "Decision time: see what's next."
 	elif c.phase == CareerManager.PHASE_SEASON_END:
-		kicker.text = "SEASON OVER"
+		kicker.text = "Season over"
 		big.text = "Final record %d-%d" % [int(c.record["w"]), int(c.record["l"])]
 	elif c.phase == CareerManager.PHASE_OFFSEASON:
-		kicker.text = "OFFSEASON"
+		kicker.text = "Offseason"
 		big.text = "Get ready for next season."
 	elif career.is_bye():
-		kicker.text = "THIS WEEK"
-		big.text = "BYE WEEK: no game"
+		kicker.text = "This week"
+		big.text = "Bye week: no game"
 	else:
 		var e := career.entry()
 		var opp: Dictionary = e.get("opponent", {})
 		var home: bool = e.get("home", true)
-		kicker.text = "THIS WEEK"
-		head.add_child(UiKit.chip("HOME" if home else "AWAY", UiKit.GOOD if home else UiKit.ALT, false, "", 22))
-		var vs := HBoxContainer.new()
-		vs.add_theme_constant_override("separation", 12)
-		vs.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		var stripe := CareerUi.team_stripe(opp, 10, 34)
-		stripe.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		vs.add_child(stripe)
-		vs.add_child(UiKit.line("vs" if home else "at", 28, UiKit.MUTED, UiTokens.FONT_DISPLAY))
-		big.text = CareerScreen.team_name(opp).to_upper()
-		big.autowrap_mode = TextServer.AUTOWRAP_OFF
-		big.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		big.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		vs.add_child(big)
-		v.add_child(vs)
+		kicker.text = "This week"
+		head.add_child(BrandUi.chip("Home" if home else "Away", "outline"))
 		var sp := Control.new()
 		sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		sp.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		head.add_child(sp)
-		head.add_child(UiKit.chip(CareerScreen.strength_word(float(opp.get("strength", 50))), UiKit.WARN, false, "", 22))
-		v.add_child(_status_line())
-		return p
-	v.add_child(big)
-	v.add_child(_status_line())
-	return p
+		head.add_child(BrandUi.chip(CareerScreen.strength_word(float(opp.get("strength", 50))), "neutral"))
+		var vs := HBoxContainer.new()
+		vs.add_theme_constant_override("separation", Brand.SPACE_3)
+		vs.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var block := ColorRect.new()
+		var oc: Array = opp.get("colors", [])
+		block.color = Brand.team_accent(Color.from_string(str(oc[0]) if not oc.is_empty() else "", Brand.GREY))
+		block.custom_minimum_size = Vector2(Brand.STRIPE * 2, 44)
+		block.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		block.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		vs.add_child(block)
+		var at := BrandTheme.label("vs" if home else "at", "Subhead", Brand.GREY)
+		at.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		vs.add_child(at)
+		big.text = CareerScreen.team_name(opp)
+		big.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		vs.add_child(big)
+		card.content.add_child(vs)
+		card.content.add_child(_status_line())
+		return card
+	card.content.add_child(big)
+	card.content.add_child(_status_line())
+	return card
 
 
 ## Recruiting / draft stock / contract, depending on the stage, as chips.
 func _status_line() -> HFlowContainer:
 	var c := career.data
-	var f := HFlowContainer.new()
-	f.add_theme_constant_override("h_separation", 8)
-	f.add_theme_constant_override("v_separation", 6)
-	f.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var f := BrandUi.chip_flow()
 	var t := career.tuning
 	match c.stage:
 		CareerData.STAGE_HIGH_SCHOOL, CareerData.STAGE_JUCO:
-			f.add_child(UiKit.chip("Recruiting %d  ·  %s" % [roundi(c.recruiting_score), CareerScreen.recruit_word(c)],
-				UiKit.ACCENT, false, "school", 22))
-			f.add_child(UiKit.chip("GPA %.2f" % c.gpa, UiKit.MUTED, false, "book", 22))
+			f.add_child(BrandUi.chip("Recruiting %d  ·  %s" % [roundi(c.recruiting_score), CareerScreen.recruit_word(c)],
+				"neutral", "school"))
+			f.add_child(BrandUi.chip("GPA %.2f" % c.gpa, "neutral"))
 			if c.offers.size() > 0:
-				f.add_child(UiKit.chip("%d offer%s" % [c.offers.size(), "" if c.offers.size() == 1 else "s"],
-					UiKit.GOOD, true, "", 22))
+				f.add_child(BrandUi.chip("%d offer%s" % [c.offers.size(), "" if c.offers.size() == 1 else "s"], "red"))
 		CareerData.STAGE_COLLEGE:
-			f.add_child(UiKit.chip("Draft stock %d  ·  %s" % [roundi(c.draft_score), CareerScreen.draft_word(c)],
-				UiKit.ACCENT, false, "career", 22))
+			f.add_child(BrandUi.chip("Draft stock %d  ·  %s" % [roundi(c.draft_score), CareerScreen.draft_word(c)],
+				"neutral", "trend"))
 			var bad_gpa := c.gpa < t.college_min_gpa
-			f.add_child(UiKit.chip("GPA %.2f%s" % [c.gpa, "  INELIGIBLE" if bad_gpa else ""],
-				UiKit.BAD if bad_gpa else UiKit.MUTED, bad_gpa, "book", 22))
+			f.add_child(BrandUi.chip("GPA %.2f%s" % [c.gpa, "  ineligible" if bad_gpa else ""], "red" if bad_gpa else "neutral"))
 		CareerData.STAGE_PRO:
-			f.add_child(UiKit.chip("%s  ·  %d yr left" % [Progression.money(int(c.contract.get("salary", 0))),
-				int(c.contract.get("years_left", 0))], UiKit.ACCENT, false, "money", 22))
-			f.add_child(UiKit.chip("Standing: %s" % CareerScreen.standing_word(
-				c.retention_score if c.season_in_stage > 1 else 50.0, t), UiKit.MUTED, false, "", 22))
+			f.add_child(BrandUi.chip("%s  ·  %d yr left" % [Progression.money(int(c.contract.get("salary", 0))),
+				int(c.contract.get("years_left", 0))], "neutral", "money"))
+			f.add_child(BrandUi.chip("Standing: %s" % CareerScreen.standing_word(
+				c.retention_score if c.season_in_stage > 1 else 50.0, t), "outline"))
 		_:
-			f.add_child(UiKit.chip(career.stage_name(), UiKit.MUTED, false, "", 22))
-	f.add_child(CareerUi.followers_chip(c, t))
-	var saved := CareerUi.savings_chip(c)
-	if saved != null:
-		f.add_child(saved)
-	var rep := CareerUi.reputation_chip(c, t)
-	if rep != null:
-		f.add_child(rep)
+			f.add_child(BrandUi.chip(career.stage_name(), "outline"))
+	f.add_child(BrandUi.chip("%s followers  ·  %s" % [Followers.short(c.followers),
+		Followers.tier_name(Followers.tier(c, t))], "neutral", "team"))
+	if c.savings > 0 or c.stage == CareerData.STAGE_PRO:
+		f.add_child(BrandUi.chip("%s saved" % Savings.text(c.savings), "neutral", "money"))
+	if Reputation.is_dismissed(c):
+		f.add_child(BrandUi.chip("Dismissed at season end", "red", "warning"))
+	else:
+		match Reputation.state(c):
+			"concerns":
+				f.add_child(BrandUi.chip("Character concerns", "red", "warning"))
+			"rebuilt":
+				f.add_child(BrandUi.chip("Rebuilt reputation", "outline", "check"))
 	return f
 
 
-func _traits_panel() -> PanelContainer:
-	var parts := UiKit.card(UiKit.ALT if UiKit.palette.get("mood") == "broadcast" else UiKit.ACCENT, 10)
-	var p: PanelContainer = parts[0]
-	var v: VBoxContainer = parts[1]
-	p.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	v.add_child(UiKit.label("TRAITS", 24, UiKit.ACCENT, UiTokens.FONT_DISPLAY))
+func _traits_panel() -> BrandCard:
+	var card := BrandUi.card()
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.content.add_theme_constant_override("separation", Brand.SPACE_3)
+	card.content.add_child(BrandTheme.label("Traits", "Eyebrow", Brand.WHITE))
 	for id in career.data.traits:
-		var t := CareerContent.trait_def(str(id))
-		v.add_child(_trait_tile(UiIcons.for_trait(str(id)), str(t.get("name", id)), true))
-	# The closest locked trait, greyed, so there's always something to chase.
+		var td := CareerContent.trait_def(str(id))
+		card.content.add_child(_trait_line("star", str(td.get("name", id)), true))
+	# The closest locked trait, dimmed, so there's always something to chase.
 	var next := _next_trait()
 	if not next.is_empty():
-		v.add_child(_trait_tile(UiIcons.for_trait(str(next["id"])), str(next["text"]), false))
+		card.content.add_child(_trait_line("lock", str(next["text"]), false))
 	elif career.data.traits.is_empty():
-		v.add_child(UiKit.label("None yet. Personality stats unlock them.", 22, UiKit.MUTED))
-	return p
+		card.content.add_child(BrandUi.text("None yet. Personality stats unlock them.", "Caption"))
+	return card
 
 
-static func _trait_tile(icon: String, text: String, unlocked: bool) -> HBoxContainer:
+static func _trait_line(icon: String, text: String, unlocked: bool) -> HBoxContainer:
 	var h := HBoxContainer.new()
-	h.add_theme_constant_override("separation", 10)
+	h.add_theme_constant_override("separation", Brand.SPACE_2)
 	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var tile := PanelContainer.new()
-	tile.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var b := UiKit._skewed(UiKit._box(Color(UiKit.ACCENT, 0.2) if unlocked else Color(1, 1, 1, 0.05),
-		UiTokens.RADIUS_CHIP, Color(0, 0, 0, 0) if unlocked else Color(1, 1, 1, 0.18)))
-	b.set_content_margin_all(6)
-	if not unlocked:
-		b.set_border_width_all(2)
-	tile.add_theme_stylebox_override("panel", b)
-	tile.add_child(UiIcons.rect(icon if unlocked else "lock", UiKit.ACCENT if unlocked else Color(1, 1, 1, 0.35), 26))
-	h.add_child(tile)
-	var l := UiKit.label(text, 24 if unlocked else 20, UiKit.TEXT if unlocked else Color(UiKit.TEXT, 0.45),
-		UiTokens.FONT_DISPLAY if unlocked else UiTokens.FONT_CONDENSED)
+	var ic := BrandIcons.rect(icon, Brand.WHITE if unlocked else Brand.GREY, 32)
+	ic.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	h.add_child(ic)
+	var l := BrandUi.text(text, "BodyStrong" if unlocked else "Caption")
 	l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	h.add_child(l)
 	return h

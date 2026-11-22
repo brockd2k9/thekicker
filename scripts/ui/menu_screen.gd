@@ -8,8 +8,14 @@ extends Control
 
 func _ready() -> void:
 	_apply_look()
-	var col := UiKit.build_frame(self, title)
+	var col := BrandUi.frame(self, title) if _uses_brand() else UiKit.build_frame(self, title)
 	_build(col)
+
+
+## True for screens moved to the broadcast design system (BrandUi.frame and
+## the brand components); the rest keep the older look until they move.
+func _uses_brand() -> bool:
+	return false
 
 
 func _build(_col: VBoxContainer) -> void:
@@ -27,7 +33,8 @@ func go_back() -> void:
 
 ## Standard Back button for the bottom of a screen (thumb reach).
 func add_back_button(col: VBoxContainer) -> Button:
-	var b := UiKit.button("Back", go_back, UiKit.SECONDARY, "back")
+	var b: Button = BrandUi.button("Back", go_back, "secondary", "back") if _uses_brand() \
+		else UiKit.button("Back", go_back, UiKit.SECONDARY, "back")
 	col.add_child(b)
 	return b
 

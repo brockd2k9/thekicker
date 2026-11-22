@@ -547,6 +547,15 @@ static func followers_lines(c: CareerData) -> Array:
 ## say): BENCHED (red), AUDITION THIS WEEK, or ON THIN ICE (the warning that
 ## always comes before a bench). Big and plain on purpose.
 static func bench_banner(c: CareerData, t: CareerTuning, week_start: bool) -> Control:
+	var b := bench_banner_text(c, t, week_start)
+	if b.is_empty():
+		return null
+	return banner_panel(b["title"], b["body"], UiKit.WARN if b["warn"] else UiKit.BAD, "whistle")
+
+
+## The bench banner's words: {title, body, warn (a warning; else a red
+## alert)}, or {} when there's nothing to say.
+static func bench_banner_text(c: CareerData, t: CareerTuning, week_start: bool) -> Dictionary:
 	var title := ""
 	var body := ""
 	var col: Color = UiKit.BAD
@@ -575,8 +584,8 @@ static func bench_banner(c: CareerData, t: CareerTuning, week_start: bool) -> Co
 			% [Relationships.name_of(c, "coach"), Bench.warn_reason(c), miss, backup]
 		col = UiKit.WARN
 	else:
-		return null
-	return banner_panel(title, body, col, "whistle")
+		return {}
+	return {"title": title, "body": body, "warn": col == UiKit.WARN}
 
 ## A big plain warning panel (bench, thin ice, running on empty): icon,
 ## title and body in one color.
@@ -613,9 +622,21 @@ static func banner_panel(title: String, body: String, col: Color, icon := "whist
 static func fatigue_banner(c: CareerData, t: CareerTuning) -> Control:
 	if not Fatigue.warned(c):
 		return null
-	return banner_panel("RUNNING ON EMPTY", "You ended last week exhausted (Energy under %d). Rest this week: " \
-		% roundi(t.exhausted_energy) + "light practice and rest choices. One more exhausted week costs " +
-		"%d Power and %d Toughness." % [roundi(t.fatigue_loss_points), roundi(t.fatigue_loss_points)], UiKit.WARN, "energy")
+	return banner_panel("RUNNING ON EMPTY", fatigue_text(t), UiKit.WARN, "energy")
+
+
+static func fatigue_text(t: CareerTuning) -> String:
+	return "You ended last week exhausted (Energy under %d). Rest this week: " % roundi(t.exhausted_energy) \
+		+ "light practice and rest choices. One more exhausted week costs " \
+		+ "%d Power and %d Toughness." % [roundi(t.fatigue_loss_points), roundi(t.fatigue_loss_points)]
+
+
+## What this week's practice intensity does (the Hub's practice selector).
+static func practice_text(c: CareerData, t: CareerTuning) -> String:
+	return {"light": "Light: +%d Energy, no practice skill points." % roundi(t.practice_light_energy),
+		"normal": "Normal: the usual week.",
+		"hard": "Hard: %d Energy, +%d skill point, a little more injury risk." % [roundi(t.practice_hard_energy),
+			t.practice_hard_sp]}[Fatigue.practice(c)]
 
 
 ## Weekly practice intensity (Hub): Light / Normal / Hard, with what each does.
