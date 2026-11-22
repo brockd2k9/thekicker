@@ -128,6 +128,27 @@ Stage 6: leadership leaners 1.1 by the end of high school (3% have none, was 28%
 Knobs: `personality_change_scale` (0.30), trait thresholds in `data/career/traits.json`,
 personality numbers in the scenario files.
 
+## Leveling: costs and stage caps
+
+Numbers: `tuning/leveling.tres` (`LevelingConfig`). Overall rating = the average of Power, Accuracy,
+Resilience and Toughness. An upgrade costs `ceil(cost_base + cost_scale * (L/100)^cost_exponent)`:
+the defaults 2 / 36 / 2.6 give 4 SP at 30, 8 at 50, 17 at 70, 30 at 90 (the old curve: 2 / 3 / 6 / 12).
+Caps (overall / one attribute): high school 55 / 65, college and JUCO 78 / 88, pro 100 / 100. They
+stop upgrades and every stat gain, and are clamped again at each season end. Saves over the caps are
+clamped when they load, the removed points are refunded at today's prices (`clamp_refund_mult`), and
+the Hub shows a notice. Grants all go through `SkillPoints.earn()` (`purchase()` for bought points);
+prices only through `SkillPoints.cost_at()`.
+
+Thresholds recentred for the lower stats (`career_tuning.tres`): `recruiting_leg_from` 50 -> 42 (new),
+`recruiting_range_from` 45 -> 41, `draft_leg_from` 50 -> 42, `draft_range_from` 50 -> 44,
+`draft_base` 9.5 -> 11, `retention_range_from` 55 -> 49, `retention_fg_ref` 0.66 -> 0.60. Draft
+rounds and `udfa_min` (`progression.json`) are unchanged.
+
+**Simulator (careers=20, seed=1), before -> after:** pro 69% -> 47%, drafted 33% -> 21%, pro
+seasons per pro career 6.8 -> 4.7, draft score at the end of college 52 -> ~45, FG range end of HS /
+college 49 / 54 -> 45 / 48.5, pro career FG% 61% -> 54%. Harder by design. If the pros feel out of
+reach, lower `cost_scale` first, then `draft_base` / the round minimums.
+
 ## Skill points, range and kick trust (Step 2)
 
 Built: skill points (earned on the field and in practice, spent on the Skills screen), field goal

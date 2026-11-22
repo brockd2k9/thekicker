@@ -93,6 +93,8 @@ func _sanitize() -> void:
 		_after_scenarios()
 	if data.schedule.is_empty() and in_season_loop() and data.phase != PHASE_OFFSEASON:
 		_start_season(true)
+	# Saves from before the attribute caps: clamp to this stage, refund the SP.
+	Leveling.fix_old_save(data, tuning)
 
 
 func save() -> bool:
@@ -756,6 +758,9 @@ func end_week() -> void:
 func end_season() -> void:
 	if data.phase != PHASE_SEASON_END:
 		return
+	# Stage caps (Leveling): every season, and so every stage, ends within them.
+	# Gains already stop at the caps; this is the hard guarantee.
+	Leveling.enforce(data)
 	var poor := Progression.is_poor_season(data, tuning)
 	data.poor_streak = data.poor_streak + 1 if poor else 0
 	# Pros who preserve their attributes (maintenance, from aging_start_age)
@@ -776,6 +781,7 @@ func end_season() -> void:
 		"year": class_year(), "team": data.team.get("name", ""), "age": data.age,
 		"record": data.record.duplicate(), "stats": data.season_stats.duplicate(),
 		"sp": data.sp_season, "sp_bonus": bonus, "aged": aged, "sp_sources": data.sp_sources.duplicate(),
+		"overall": snappedf(Leveling.overall(data), 0.1),
 		"fg_range": snappedf(KickRange.fg_range(data, tuning), 0.1),
 		"kickoff_range": snappedf(KickRange.kickoff_range(data, tuning), 0.1),
 		"followers": data.followers, "followers_gain": int(data.social.get("season_gain", 0)),

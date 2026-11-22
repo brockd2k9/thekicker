@@ -8,7 +8,8 @@ extends RefCounted
 ## Gain rules (numbers in CareerTuning "Stat Gains" / "Low Life Stats"):
 ##   Life:        raw change; trait "gains" boost increases; Fun and Social
 ##                increases are scaled by fun_social_gain_mult.
-##   Football:    increases shrink as the stat climbs (football_diminishing),
+##   Football:    increases stop at the stage caps (Leveling / LevelingConfig),
+##                shrink as the stat climbs (football_diminishing),
 ##                are boosted by traits (e.g. Driven), and Resilience increases
 ##                are cut while Fun is low. Decreases are raw.
 ##   Personality: every change is scaled by personality_change_scale (they move
@@ -37,6 +38,11 @@ static func _resolve(c: CareerData, changes: Dictionary, tuning: CareerTuning) -
 	for g in CareerData.GROUP_KEYS:
 		out[g] = {}
 	var flat := _flatten(changes)
+	# Football values as they'll be after the changes so far (stage caps:
+	# Leveling, the overall cap depends on all four).
+	var fb := {}
+	for k in Leveling.STATS:
+		fb[k] = c.stat(k)
 	for key in flat:
 		var raw: float = flat[key]
 		var g := CareerData.group_of(key)
@@ -47,7 +53,15 @@ static func _resolve(c: CareerData, changes: Dictionary, tuning: CareerTuning) -
 		var now := c.stat(key)
 		# Never past the 0..100 range, so the preview matches what happens.
 		delta = clampf(now + delta, 0.0, 100.0) - now
-		delta = snappedf(delta, 0.1)
+		# Football gains stop at the stage's caps (never lowers a stat that's over),
+		# rounded DOWN so rounding can't step past a cap.
+		if g == CareerData.FOOTBALL and delta > 0.0:
+			delta = maxf(minf(delta, Leveling.max_value(c, key, fb) - now), 0.0)
+			delta = floorf(delta * 10.0) / 10.0
+		else:
+			delta = snappedf(delta, 0.1)
+		if g == CareerData.FOOTBALL and absf(delta) >= 0.05:
+			fb[key] = now + delta
 		if absf(delta) >= 0.05:
 			out[g][key] = delta
 	return out

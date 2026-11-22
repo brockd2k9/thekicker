@@ -51,6 +51,9 @@ func _attributes(list: VBoxContainer) -> void:
 		list.add_child(UiKit.label("From age %d your attributes decline a little every season. "
 			% t.aging_start_age + "You'll be able to preserve them here (Maintenance).", 22, UiKit.WARN))
 	list.add_child(UiKit.section("ATTRIBUTES"))
+	# Overall rating and this stage's limit (Leveling / tuning/leveling.tres).
+	list.add_child(UiKit.stat_row("Overall", "%d  /  %d %s limit" % [roundi(Leveling.overall(c)),
+		roundi(Leveling.overall_cap(c.stage)), Leveling.stage_word(c.stage)], UiKit.ACCENT))
 	for s in STATS:
 		list.add_child(_card(s))
 		var lost := Fatigue.lost(c, s)
@@ -177,7 +180,7 @@ func _card(stat: String) -> PanelContainer:
 	v.add_child(bar)
 	var cost := SkillPoints.cost(c, stat, t)
 	if cost == 0:
-		v.add_child(UiKit.label("Maxed out.", 24, UiKit.MUTED))
+		v.add_child(UiKit.label(Leveling.cap_reason(c, stat), 24, UiKit.MUTED))
 		return parts[0]
 	for line in SkillPoints.preview(c, stat, t):
 		v.add_child(_preview_row(line))
@@ -229,16 +232,9 @@ func _ask(stat: String) -> void:
 	v.add_child(UiKit.button("Cancel", root.queue_free))
 
 
-## SP for the next n points (0 if it would pass the max).
+## SP for the next n points (0 if it would pass a cap).
 func _cost_of(stat: String, n: int) -> int:
-	var t := career.tuning
-	var lvl := career.data.stat(stat)
-	if lvl + n > t.attribute_max + 0.001:
-		return 0
-	var total := 0
-	for i in n:
-		total += SkillPoints.cost_at(lvl + i, t)
-	return total
+	return SkillPoints.cost_of_next(career.data, stat, n, career.tuning)
 
 
 func _buy(stat: String, n: int) -> void:

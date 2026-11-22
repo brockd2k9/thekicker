@@ -5,7 +5,13 @@ extends RefCounted
 ## winners, perfect games, good seasons) and in practice (every week, the
 ## offseason, scenario choices' "skill_points"); spent one attribute point at a
 ## time on the Skills screen. Each point costs more the higher the attribute is.
-## Numbers: CareerTuning "Skill Points".
+##
+## THE one place for skill point economy:
+##   granting:  earn() (and purchase() for bought points). Nothing else adds SP.
+##   costs:     cost_at() / cost() / cost_of_next(). Nothing else computes a price
+##              (aging maintenance and the Skills screen call these).
+## Earn amounts: CareerTuning "Skill Points". Cost curve and the per-stage caps
+## an upgrade can't pass: LevelingConfig (res://tuning/leveling.tres), Leveling.
 ##
 ## Upgrades bypass CareerStats' diminishing returns on purpose: the rising cost
 ## is the diminishing return. Scenario choices still change football stats
@@ -35,6 +41,12 @@ static func earn(c: CareerData, n: int, text: String) -> void:
 	c.sp_week.append({"text": text, "sp": n})
 
 
+## Skill points bought by the player (in-app purchase, later). The store only
+## calls this; the points count like any other grant (under `source`).
+static func purchase(c: CareerData, n: int, source: String = "Purchased") -> void:
+	earn(c, n, source)
+
+
 ## A scenario choice's skill points (negative = practice skipped). Returns the
 ## change applied.
 static func from_choice(c: CareerData, n: float, t: CareerTuning) -> int:
@@ -48,10 +60,13 @@ static func from_choice(c: CareerData, n: float, t: CareerTuning) -> int:
 	return v
 
 
-## Cost (SP) to raise an attribute from `level` to level + 1.
-static func cost_at(level: float, t: CareerTuning) -> int:
+## Cost (SP) to raise an attribute from `level` to level + 1 (LevelingConfig:
+## ceil(cost_base + cost_scale * (L/100)^cost_exponent)). `t` is unused (kept so
+## every caller stays the same).
+static func cost_at(level: float, _t: CareerTuning = null) -> int:
+	var g := Leveling.config()
 	var l := clampf(floorf(level), 0.0, 100.0)
-	return int(ceilf(t.upgrade_cost_base + t.upgrade_cost_scale * pow(l / 100.0, t.upgrade_cost_exp)))
+	return int(ceilf(g.cost_base + g.cost_scale * pow(l / 100.0, g.cost_exponent)))
 
 
 ## Cost of the next point of `stat` for this career (0 = maxed).
@@ -61,8 +76,21 @@ static func cost(c: CareerData, stat: String, t: CareerTuning) -> int:
 	return cost_at(c.stat(stat), t)
 
 
-static func can_raise(c: CareerData, stat: String, t: CareerTuning) -> bool:
-	return CareerData.group_of(stat) == CareerData.FOOTBALL and c.stat(stat) + 1.0 <= t.attribute_max + 0.001
+## False at the attribute max or the stage's caps (Leveling.cap_reason says which).
+static func can_raise(c: CareerData, stat: String, _t: CareerTuning = null) -> bool:
+	return CareerData.group_of(stat) == CareerData.FOOTBALL \
+		and c.stat(stat) + 1.0 <= Leveling.max_value(c, stat) + 0.001
+
+
+## SP for the next n points of `stat` (0 if any of them is past a cap).
+static func cost_of_next(c: CareerData, stat: String, n: int, t: CareerTuning = null) -> int:
+	var lvl := c.stat(stat)
+	if CareerData.group_of(stat) != CareerData.FOOTBALL or lvl + n > Leveling.max_value(c, stat) + 0.001:
+		return 0
+	var total := 0
+	for i in n:
+		total += cost_at(lvl + i, t)
+	return total
 
 
 static func affordable(c: CareerData, stat: String, t: CareerTuning) -> bool:
@@ -74,7 +102,7 @@ static func upgrade(c: CareerData, stat: String, t: CareerTuning) -> bool:
 	if not affordable(c, stat, t):
 		return false
 	c.skill_points -= cost(c, stat, t)
-	c.set_stat(stat, minf(c.stat(stat) + 1.0, t.attribute_max))
+	c.set_stat(stat, minf(c.stat(stat) + 1.0, Leveling.max_value(c, stat)))
 	c.sp_upgrades[stat] = float(c.sp_upgrades.get(stat, 0.0)) + 1.0
 	return true
 
@@ -86,7 +114,7 @@ static func preview(c: CareerData, stat: String, t: CareerTuning) -> Array:
 	if not can_raise(c, stat, t):
 		return out
 	var now := c.stat(stat)
-	var nxt := minf(now + 1.0, t.attribute_max)
+	var nxt := minf(now + 1.0, Leveling.max_value(c, stat))
 	match stat:
 		"power":
 			out.append(_line("FG range", "%.1f yd", KickRange.fg_range(c, t, now), KickRange.fg_range(c, t, nxt)))
