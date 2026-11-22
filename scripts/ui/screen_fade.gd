@@ -15,7 +15,7 @@ func _ready() -> void:
 	layer = 90
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_rect = ColorRect.new()
-	_rect.color = Color(0.01, 0.02, 0.05)
+	_rect.color = Brand.INK_0
 	_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_rect.modulate.a = 0.0

@@ -4,8 +4,6 @@ extends RefCounted
 ## and thumb-friendly heights). Used by the career screens and the debug screen.
 
 const SMALL := 24
-const GOOD_TEXT := Color(0.55, 1.0, 0.55)
-const BAD_TEXT := Color(1.0, 0.55, 0.45)
 
 
 ## "Energy   70" over a full-width slider. on_change(value) fires while dragging.
@@ -54,15 +52,11 @@ static func outlook_line(line: Dictionary, size: int = SMALL) -> Control:
 	var c: Color = UiKit.GOOD if good else UiKit.BAD
 	var p := PanelContainer.new()
 	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var box := UiKit.panel_box(Color(0, 0, 0, 0), Color(c, 0.12))
-	box.border_color = c
-	box.border_width_top = 0
-	box.border_width_right = 0
-	box.border_width_bottom = 0
-	box.border_width_left = 6
+	var box := UiKit.panel_box(Color(0, 0, 0, 0), Brand.INK_2)
+	box.stripe = Brand.WHITE if good else Brand.RED
+	box.content_margin_left += Brand.STRIPE
 	box.content_margin_top = 10
 	box.content_margin_bottom = 10
-	box.shadow_size = 0
 	p.add_theme_stylebox_override("panel", box)
 	var h := HBoxContainer.new()
 	h.add_theme_constant_override("separation", 12)
@@ -74,7 +68,7 @@ static func outlook_line(line: Dictionary, size: int = SMALL) -> Control:
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	h.add_child(v)
-	v.add_child(UiKit.label(str(line.get("label", "")), size + 2, c.lightened(0.2), UiTokens.FONT_DISPLAY))
+	v.add_child(UiKit.label(str(line.get("label", "")), size + 2, c, UiTokens.FONT_DISPLAY))
 	var detail := str(line.get("detail", ""))
 	if detail != "":
 		v.add_child(UiKit.label(detail, size - 2, UiKit.TEXT))
@@ -219,25 +213,20 @@ static func card(on_pick: Callable, enabled := true) -> Array:
 	p.mouse_filter = Control.MOUSE_FILTER_PASS
 	p.custom_minimum_size.y = UiTokens.TAP_MIN
 	var normal := UiKit.panel_box(Color(0, 0, 0, 0), UiKit.BUTTON)
-	normal.border_color = UiKit.ACCENT
-	normal.border_width_left = UiTokens.BUTTON_STRIPE + 2
-	normal.border_width_top = 0
-	normal.border_width_right = 0
-	normal.border_width_bottom = 0
+	normal.stripe = Brand.RED
+	normal.content_margin_left += Brand.STRIPE
 	normal.content_margin_top = 18
 	normal.content_margin_bottom = 18
 	var v := VBoxContainer.new()
 	v.add_theme_constant_override("separation", 10)
 	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	if not enabled:
-		var locked := UiKit.panel_box(Color(0, 0, 0, 0), Color(0.5, 0.5, 0.55, 0.12))
-		locked.border_color = Color(1, 1, 1, 0.12)
-		locked.set_border_width_all(2)
-		locked.shadow_size = 0
+		var locked := UiKit.panel_box()
+		locked.texture_color = Color(0, 0, 0, 0)
 		locked.content_margin_top = 18
 		locked.content_margin_bottom = 18
 		p.add_theme_stylebox_override("panel", locked)
-		p.modulate = Color(0.85, 0.85, 0.88, 0.8)
+		p.modulate = Color(1, 1, 1, 0.7)
 		var h := HBoxContainer.new()
 		h.add_theme_constant_override("separation", 14)
 		h.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -252,9 +241,7 @@ static func card(on_pick: Callable, enabled := true) -> Array:
 				for dx in [-8.0, 8.0, -5.0, 0.0]:
 					tw.tween_property(p, "position:x", p.position.x + dx, 0.04))
 		return [p, v]
-	var pressed := normal.duplicate()
-	pressed.bg_color = UiKit.BUTTON_PRESSED
-	pressed.shadow_size = 3
+	var pressed := normal.with({"bg": Brand.INK_3})
 	p.add_theme_stylebox_override("panel", normal)
 	var h2 := HBoxContainer.new()
 	h2.add_theme_constant_override("separation", 12)
@@ -311,20 +298,17 @@ static func html_color(s: String, fallback := Color.WHITE) -> Color:
 	return Color.from_string(s, fallback)
 
 
-## Team color stripe (school colors) as a skewed broadcast bar.
+## A team's color as a small accent block (the primary color only).
 static func team_stripe(t: Dictionary, width := 60.0, height := 8.0) -> HBoxContainer:
 	var h := HBoxContainer.new()
 	h.add_theme_constant_override("separation", 4)
 	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	for col in t.get("colors", []):
-		var r := Panel.new()
-		var b := StyleBoxFlat.new()
-		b.bg_color = Color.from_string(str(col), Color.GRAY)
-		b.skew = Vector2(UiTokens.SKEW * 2.0, 0)
-		r.add_theme_stylebox_override("panel", b)
-		r.custom_minimum_size = Vector2(width, height)
-		r.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		h.add_child(r)
+	var cols: Array = t.get("colors", [])
+	var r := ColorRect.new()
+	r.color = Brand.team_accent(Color.from_string(str(cols[0]) if not cols.is_empty() else "", Brand.GREY))
+	r.custom_minimum_size = Vector2(minf(width, 12.0) if height > width else width, height)
+	r.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	h.add_child(r)
 	return h
 
 
@@ -342,13 +326,13 @@ static func scoreboard(us: Dictionary, them: Dictionary, us_text: String, them_t
 	out["us"] = _score_block(root, us, us_text, value_size)
 	var mid := PanelContainer.new()
 	mid.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var mb := UiKit._box(Color(0.02, 0.03, 0.06, 0.95), 0)
+	var mb := UiKit._box(Brand.INK_0, 0)
 	mb.content_margin_left = 10
 	mb.content_margin_right = 10
 	mb.content_margin_top = 6
 	mb.content_margin_bottom = 6
-	mb.border_color = UiKit.ACCENT
-	mb.border_width_bottom = 5
+	mb.rule_bottom = Brand.RED
+	mb.rule_width = Brand.RULE
 	mid.add_theme_stylebox_override("panel", mb)
 	mid.custom_minimum_size.x = 150
 	var mv := VBoxContainer.new()
@@ -377,9 +361,9 @@ static func _score_block(parent: HBoxContainer, t: Dictionary, text: String, val
 	var p := PanelContainer.new()
 	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	p.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var b := UiKit._box(c1.darkened(0.25), 0)
-	b.border_color = c2
-	b.border_width_bottom = 5
+	var b := UiKit._box(Brand.INK_2, 0, Brand.LINE)
+	b.stripe = Brand.team_accent(c1)
+	b.stripe_width = Brand.STRIPE
 	b.content_margin_top = 6
 	b.content_margin_bottom = 4
 	b.content_margin_left = 12
@@ -406,14 +390,15 @@ static func result_banner(text: String, color: Color, size := 96) -> Control:
 	var row := HBoxContainer.new()
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var l := UiKit.line(text, size, UiKit.readable_on(color), UiTokens.FONT_BANNER)
-	var b := UiKit._skewed(UiKit._box(color, UiTokens.RADIUS_BUTTON))
+	var red := UiKit._text_color(color) == Brand.RED_HOT
+	var l := UiKit.line(text, size, Brand.WHITE if red else Brand.INK_0, UiTokens.FONT_BANNER)
+	var b := UiKit._box(Brand.RED if red else Brand.WHITE, 0)
+	b.cut_tl = Brand.CUT
+	b.cut_br = Brand.CUT
 	b.content_margin_left = 44
 	b.content_margin_right = 44
 	b.content_margin_top = 0
 	b.content_margin_bottom = 2
-	b.shadow_color = Color(color, 0.45)
-	b.shadow_size = 24
 	l.add_theme_stylebox_override("normal", b)
 	row.add_child(l)
 	var tw := l.create_tween().set_ignore_time_scale(true)
@@ -593,9 +578,13 @@ static func banner_panel(title: String, body: String, col: Color, icon := "whist
 	var p := PanelContainer.new()
 	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	p.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var box := UiKit.panel_box(col, Color(col.darkened(0.7), 0.95))
-	box.border_color = col
-	box.set_border_width_all(3)
+	var red := UiKit._text_color(col) == Brand.RED_HOT
+	var box := UiKit.panel_box(Color(0, 0, 0, 0), Brand.INK_2)
+	box.stripe = Brand.RED if red else Brand.WHITE
+	box.content_margin_left += Brand.STRIPE
+	if red:
+		box.stroke = Brand.RED_DEEP
+	col = Brand.RED_HOT if red else Brand.WHITE
 	p.add_theme_stylebox_override("panel", box)
 	var v := VBoxContainer.new()
 	v.add_theme_constant_override("separation", 4)

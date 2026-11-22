@@ -798,7 +798,7 @@ func _check(id: String, root: Node) -> void:
 				_add(id, "tap target %dx%d < %d: %s %s" % [roundi(r.size.x), roundi(r.size.y), MIN_TAP,
 					where, _text_of(c)])
 		# Off screen (unless it scrolls).
-		if not in_scroll and r.size.x > 1.0 and r.size.y > 1.0 and not (c is Backdrop) \
+		if not in_scroll and r.size.x > 1.0 and r.size.y > 1.0 \
 				and not c.get_parent() is CanvasLayer and _is_content(c):
 			if r.position.x < vp.position.x - 1.0 or r.end.x > vp.end.x + 1.0 \
 					or r.position.y < vp.position.y - 1.0 or r.end.y > vp.end.y + 1.0:

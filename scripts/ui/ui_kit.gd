@@ -1,16 +1,13 @@
 class_name UiKit
 extends RefCounted
-## Shared look and building blocks for menu screens and overlays, so every
-## screen scales and looks the same. Sizes are in the 720x1280 base viewport
-## (project stretch mode canvas_items + aspect expand), which Godot scales to
-## any phone. Buttons are >= 88 px tall (about 9 mm on a phone) for thumbs.
-## Landscape / Steam: content sits in a centered column of COLUMN_WIDTH, so a
-## wide window just gets more side margin.
+## Shared building blocks for screens and overlays (the older API the screens
+## use), drawn in the broadcast design system: every color, size and shape
+## comes from Brand / BrandTheme. Sizes are in the 720x1280 base viewport;
+## buttons are at least 88 px tall for thumbs. Landscape / Steam: content
+## sits in a centered column of COLUMN_WIDTH.
 ##
-## Look: tokens (colors, spacing, radii, fonts) live in UiTokens; fonts and
-## base font sizes live in the Theme resource assets/ui/kicker_theme.tres
-## (also the project's default theme). theme() adds the palette's styleboxes.
-## Career Mode switches the palette per stage with set_stage().
+## Labels snap to the type scale (Brand.TYPE; nothing under Brand.MIN_TEXT).
+## Panels, buttons and chips are ClippedBoxes (clipped corners, thin strokes).
 ##
 ## Sound / haptics: every button and key moment calls UiKit.feedback(event),
 ## which plays Sfx event `event` (if an audio file exists) and pulses
@@ -24,6 +21,8 @@ const MARGIN := UiTokens.MARGIN
 const PRIMARY := &"PrimaryButton"
 const SECONDARY := &"Button"
 const DANGER_KIND := &"DangerButton"
+## Button text longer than this uses the body size (Brand "Body") so it fits.
+const LONG_BUTTON := 20
 
 ## event -> haptic pulse in ms (0 = sound only). Sfx event names are the same.
 const FEEDBACK := {
@@ -33,24 +32,24 @@ const FEEDBACK := {
 	&"result_good": 30, &"result_miss": 60, &"game_winner": 140, &"week_result": 20,
 }
 
-# Palette colors. Static vars (not consts) so Career Mode can switch them by
-# stage; they keep the old names so screens can use UiKit.ACCENT etc.
-static var palette: Dictionary = UiTokens.NIGHT
-static var BG_TOP: Color = UiTokens.NIGHT["bg_top"]
-static var BG_BOTTOM: Color = UiTokens.NIGHT["bg_bottom"]
-static var TEXT: Color = UiTokens.NIGHT["text"]
-static var ACCENT: Color = UiTokens.NIGHT["accent"]
-static var ACCENT_TEXT: Color = UiTokens.NIGHT["accent_text"]
-static var ALT: Color = UiTokens.NIGHT["alt"]
-static var GOOD: Color = UiTokens.NIGHT["good"]
-static var BAD: Color = UiTokens.NIGHT["bad"]
-static var WARN: Color = UiTokens.NIGHT["warn"]
-static var MUTED: Color = UiTokens.NIGHT["muted"]
-static var PANEL: Color = UiTokens.NIGHT["panel"]
-static var BUTTON: Color = UiTokens.NIGHT["button"]
-static var BUTTON_HOVER: Color = (UiTokens.NIGHT["button"] as Color).lightened(0.1)
-static var BUTTON_PRESSED: Color = (UiTokens.NIGHT["button"] as Color).darkened(0.25)
-static var DANGER: Color = UiTokens.NIGHT["danger"]
+# Palette colors (the broadcast palette; static so older code keeps reading
+# UiKit.ACCENT etc.).
+static var palette: Dictionary = UiTokens.BROADCAST
+static var BG_TOP: Color = Brand.INK_0
+static var BG_BOTTOM: Color = Brand.INK_0
+static var TEXT: Color = Brand.WHITE
+static var ACCENT: Color = Brand.RED_HOT
+static var ACCENT_TEXT: Color = Brand.WHITE
+static var ALT: Color = Brand.WHITE
+static var GOOD: Color = Brand.WHITE
+static var BAD: Color = Brand.RED_HOT
+static var WARN: Color = Brand.RED_HOT
+static var MUTED: Color = Brand.GREY
+static var PANEL: Color = Brand.INK_1
+static var BUTTON: Color = Brand.INK_2
+static var BUTTON_HOVER: Color = Brand.INK_3
+static var BUTTON_PRESSED: Color = Brand.INK_1
+static var DANGER: Color = Brand.RED_DEEP
 ## Player's team colors in Career Mode: [primary, secondary], or empty.
 static var team: Array = []
 
@@ -60,8 +59,6 @@ static var _theme: Theme
 # --- palette ----------------------------------------------------------------------------
 
 static func use_palette(p: Dictionary) -> void:
-	if p == palette and _theme != null:
-		return
 	palette = p
 	BG_TOP = p["bg_top"]
 	BG_BOTTOM = p["bg_bottom"]
@@ -75,35 +72,33 @@ static func use_palette(p: Dictionary) -> void:
 	MUTED = p["muted"]
 	PANEL = p["panel"]
 	BUTTON = p["button"]
-	BUTTON_HOVER = BUTTON.lightened(0.1)
-	BUTTON_PRESSED = BUTTON.darkened(0.25)
 	DANGER = p["danger"]
-	_theme = null
 
 
-## Career Mode: palette for the stage, plus the team's colors as accents.
+## Career Mode: the team's colors, used only as small accents (stripes).
 static func set_stage(stage: String, team_colors: Array = []) -> void:
 	use_palette(UiTokens.for_stage(stage))
 	team = []
 	for c in team_colors:
-		team.append(Color.from_string(str(c), ACCENT) if not (c is Color) else c)
+		team.append(Brand.team_accent(Color.from_string(str(c), Brand.GREY) if not (c is Color) else c))
 
 
 ## Back to the default (menus outside Career Mode).
 static func reset_palette() -> void:
-	use_palette(UiTokens.NIGHT)
+	use_palette(UiTokens.BROADCAST)
 	team = []
 
 
-## Team primary color, readable on the dark panels (or the accent).
+## A team color as a small accent (or white when there's no team).
 static func team_color(i: int = 0) -> Color:
 	if team.size() <= i:
-		return ACCENT
+		return Brand.WHITE
 	return team[i]
 
 
+## Stat group color: white for every group (groups are told apart by name and icon).
 static func group_color(group: String) -> Color:
-	return palette.get(group, ACCENT)
+	return palette.get(group, Brand.WHITE)
 
 
 # --- theme -----------------------------------------------------------------------------
@@ -111,204 +106,129 @@ static func group_color(group: String) -> Color:
 static func theme() -> Theme:
 	if _theme != null:
 		return _theme
-	var base: Theme = load(UiTokens.THEME_PATH)
-	var t: Theme = base.duplicate() if base != null else Theme.new()
-	t.default_font_size = UiTokens.FONT_SIZE
-
-	t.set_color("font_color", "Label", TEXT)
-	t.set_constant("outline_size", "Label", 0)
-
-	_button_type(t, SECONDARY, BUTTON, TEXT, ACCENT)
-	t.set_type_variation(PRIMARY, "Button")
-	_button_type(t, PRIMARY, ACCENT, ACCENT_TEXT, Color(0, 0, 0, 0))
+	var t: Theme = BrandTheme.build()
+	# The plain Button type is the secondary button; DangerButton is a
+	# secondary button with a red stroke and red text (destructive actions).
+	for state in ["normal", "hover", "pressed", "hover_pressed", "focus", "disabled"]:
+		t.set_stylebox(state, "Button", t.get_stylebox(state, "SecondaryButton"))
+	t.set_font("font", "Button", t.get_font("font", "SecondaryButton"))
+	t.set_font_size("font_size", "Button", t.get_font_size("font_size", "SecondaryButton"))
+	for c in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color",
+			"font_disabled_color", "icon_normal_color", "icon_hover_color", "icon_pressed_color", "icon_focus_color",
+			"icon_hover_pressed_color", "icon_disabled_color"]:
+		t.set_color(c, "Button", t.get_color(c, "SecondaryButton"))
+	t.set_constant("h_separation", "Button", Brand.SPACE_3)
+	t.set_constant("icon_max_width", "Button", 40)
 	t.set_type_variation(DANGER_KIND, "Button")
-	_button_type(t, DANGER_KIND, DANGER, Color.WHITE, Color(0, 0, 0, 0))
-	for type in [SECONDARY, PRIMARY, DANGER_KIND]:
-		t.set_font_size("font_size", type, UiTokens.FONT_BUTTON)
-		t.set_constant("h_separation", type, 14)
-		t.set_constant("icon_max_width", type, 40)
+	for state in ["normal", "hover", "pressed", "hover_pressed", "disabled"]:
+		var b := (t.get_stylebox(state, "SecondaryButton") as ClippedBox).with({"stroke": Brand.RED_DEEP})
+		t.set_stylebox(state, DANGER_KIND, b)
+	for c in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color",
+			"icon_normal_color", "icon_hover_color", "icon_pressed_color", "icon_focus_color", "icon_hover_pressed_color"]:
+		t.set_color(c, DANGER_KIND, Brand.RED_HOT)
 
 	# Toggle rows are panels with a switch.
-	var row := _box(PANEL, UiTokens.RADIUS)
-	for s in ["normal", "hover", "pressed", "hover_pressed", "disabled"]:
-		t.set_stylebox(s, "CheckButton", row)
-	t.set_stylebox("focus", "CheckButton", _box(Color(0, 0, 0, 0), UiTokens.RADIUS, ACCENT))
-	t.set_constant("h_separation", "CheckButton", 16)
-	for c in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color",
-			"font_hover_pressed_color"]:
-		t.set_color(c, "CheckButton", TEXT)
+	var row := _box(Brand.INK_1, 0)
+	row.stroke = Brand.LINE
+	for st in ["normal", "hover", "pressed", "hover_pressed", "disabled"]:
+		t.set_stylebox(st, "CheckButton", row)
+	t.set_stylebox("focus", "CheckButton", _box(Color(0, 0, 0, 0), 0, Brand.WHITE))
+	t.set_constant("h_separation", "CheckButton", Brand.SPACE_3)
+	for c in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
+		t.set_color(c, "CheckButton", Brand.WHITE)
 	t.set_icon("checked", "CheckButton", _switch_texture(true))
 	t.set_icon("unchecked", "CheckButton", _switch_texture(false))
 
 	t.set_stylebox("panel", "PanelContainer", panel_box())
 
-	var track := _box(Color(0, 0, 0, 0.5), 8)
+	var track := _box(Brand.INK_3, 0)
 	track.content_margin_top = 8
 	track.content_margin_bottom = 8
 	t.set_stylebox("slider", "HSlider", track)
-	var fill := _box(ACCENT, 8)
+	var fill := _box(Brand.WHITE, 0)
 	t.set_stylebox("grabber_area", "HSlider", fill)
 	t.set_stylebox("grabber_area_highlight", "HSlider", fill)
-	var knob := _circle_texture(44, Color.WHITE)
+	var knob := _square_texture(40, Brand.RED)
 	t.set_icon("grabber", "HSlider", knob)
 	t.set_icon("grabber_highlight", "HSlider", knob)
 
-	var le := _box(Color(0, 0, 0, 0.45), UiTokens.RADIUS_BUTTON, palette["panel_edge"])
+	var le := _box(Brand.INK_2, 0, Brand.LINE)
 	t.set_stylebox("normal", "LineEdit", le)
-	t.set_stylebox("focus", "LineEdit", _box(Color(0, 0, 0, 0), UiTokens.RADIUS_BUTTON, ACCENT))
-	t.set_color("font_color", "LineEdit", TEXT)
-	t.set_color("font_placeholder_color", "LineEdit", MUTED)
-	t.set_color("caret_color", "LineEdit", ACCENT)
+	t.set_stylebox("focus", "LineEdit", _box(Color(0, 0, 0, 0), 0, Brand.WHITE))
+	t.set_color("font_color", "LineEdit", Brand.WHITE)
+	t.set_color("font_placeholder_color", "LineEdit", Brand.GREY)
+	t.set_color("caret_color", "LineEdit", Brand.RED_HOT)
 
-	var bar_bg := _box(Color(TEXT, 0.1), 6)
+	var bar_bg := _box(Brand.INK_3, 0)
 	bar_bg.set_content_margin_all(0)
 	t.set_stylebox("background", "ProgressBar", bar_bg)
-	var bar_fill := _box(ACCENT, 6)
+	var bar_fill := _box(Brand.WHITE, 0)
 	bar_fill.set_content_margin_all(0)
 	t.set_stylebox("fill", "ProgressBar", bar_fill)
-
-	# Thin scroll bar that doesn't fight the content.
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(TEXT, 0.06)
-	sb.set_corner_radius_all(4)
-	sb.content_margin_left = 3
-	sb.content_margin_right = 3
-	t.set_stylebox("scroll", "VScrollBar", sb)
-	var grab := StyleBoxFlat.new()
-	grab.bg_color = Color(TEXT, 0.3)
-	grab.set_corner_radius_all(4)
-	grab.content_margin_left = 3
-	grab.content_margin_right = 3
-	t.set_stylebox("grabber", "VScrollBar", grab)
-	t.set_stylebox("grabber_highlight", "VScrollBar", grab)
-	t.set_stylebox("grabber_pressed", "VScrollBar", grab)
 
 	t.set_constant("separation", "VBoxContainer", UiTokens.GAP)
 	_theme = t
 	return t
 
 
-## Normal / hover / pressed / disabled / focus boxes for one button kind.
-## stripe: the left broadcast stripe color (secondary buttons).
-static func _button_type(t: Theme, type: StringName, bg: Color, fg: Color, stripe: Color) -> void:
-	var r := UiTokens.RADIUS_BUTTON
-	var normal := _skewed(_box(bg, r))
-	var hover := _skewed(_box(bg.lightened(0.1), r))
-	var pressed := _skewed(_box(bg.darkened(0.18), r))
-	var disabled := _skewed(_box(Color(BUTTON, 0.55), r))
-	for b in [normal, hover, pressed]:
-		if stripe.a > 0.0:
-			b.border_color = stripe
-			b.border_width_left = UiTokens.BUTTON_STRIPE
-		else:
-			# Solid buttons: a darker bottom lip, like a pressed key.
-			b.border_color = bg.darkened(0.35)
-			b.border_width_bottom = 5
-		b.shadow_color = Color(0, 0, 0, 0.45)
-		b.shadow_size = 10
-		b.shadow_offset = Vector2(0, 5)
-	if type == PRIMARY:
-		# Floodlight glow around the main action.
-		for b in [normal, hover]:
-			b.shadow_color = Color(bg, float(palette.get("glow", 0.4)))
-			b.shadow_size = 20
-			b.shadow_offset = Vector2.ZERO
-	pressed.border_width_bottom = 2
-	pressed.shadow_size = 4
-	t.set_stylebox("normal", type, normal)
-	t.set_stylebox("hover", type, hover)
-	t.set_stylebox("pressed", type, pressed)
-	t.set_stylebox("hover_pressed", type, pressed)
-	t.set_stylebox("disabled", type, disabled)
-	var focus := _skewed(_box(Color(0, 0, 0, 0), r, Color.WHITE if type == PRIMARY else ACCENT))
-	t.set_stylebox("focus", type, focus)
-	for c in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color",
-			"font_hover_pressed_color"]:
-		t.set_color(c, type, fg)
-	t.set_color("font_disabled_color", type, Color(TEXT, 0.4))
-	for c in ["icon_normal_color", "icon_hover_color", "icon_pressed_color", "icon_focus_color",
-			"icon_hover_pressed_color"]:
-		t.set_color(c, type, Color.WHITE)
-	t.set_color("icon_disabled_color", type, Color(1, 1, 1, 0.4))
-
-
-static func _skewed(b: StyleBoxFlat) -> StyleBoxFlat:
-	b.skew = Vector2(UiTokens.SKEW, 0)
+## No slant in the broadcast system (kept for older callers).
+static func _skewed(b: StyleBox) -> StyleBox:
 	return b
 
 
-static func _box(color: Color, radius: int, border := Color(0, 0, 0, 0)) -> StyleBoxFlat:
-	var b := StyleBoxFlat.new()
-	b.bg_color = color
-	b.set_corner_radius_all(radius)
-	b.content_margin_left = UiTokens.PAD
-	b.content_margin_right = UiTokens.PAD
+## A flat clipped box: fill, optional stroke. radius: ignored (square,
+## Brand shapes), kept for older callers.
+static func _box(color: Color, _radius: int = 0, border := Color(0, 0, 0, 0)) -> ClippedBox:
+	var b := ClippedBox.new()
+	b.bg = color
+	b.stroke_width = Brand.STROKE
+	b.texture_step = Brand.TEXTURE_STEP
+	b.content_margin_left = Brand.PAD_X
+	b.content_margin_right = Brand.PAD_X
 	b.content_margin_top = 14
 	b.content_margin_bottom = 14
-	b.anti_aliasing = true
 	if border.a > 0.0:
-		b.border_color = border
-		b.set_border_width_all(3)
+		b.stroke = border
 	return b
 
 
-## Standard panel: palette panel color, thin edge, soft shadow. bar: optional
-## colored broadcast bar along the top.
-static func panel_box(bar := Color(0, 0, 0, 0), bg := Color(0, 0, 0, 0)) -> StyleBoxFlat:
-	var b := _box(PANEL if bg.a == 0.0 else bg, UiTokens.RADIUS)
-	b.content_margin_top = UiTokens.PAD_V
-	b.content_margin_bottom = UiTokens.PAD_V
-	b.border_color = palette["panel_edge"]
-	b.set_border_width_all(1)
+## Standard panel: black, a clipped corner, a hairline stroke and the faint
+## texture. bar: a rule along the top (red for the accent, else white).
+## bg: a different fill (raised panels).
+static func panel_box(bar := Color(0, 0, 0, 0), bg := Color(0, 0, 0, 0)) -> ClippedBox:
+	var b := _box(Brand.INK_1 if bg.a == 0.0 else Brand.INK_2, 0, Brand.LINE)
+	b.cut_tr = Brand.CUT
+	b.texture_color = Brand.TEXTURE
+	b.content_margin_top = Brand.PAD_Y
+	b.content_margin_bottom = Brand.PAD_Y
 	if bar.a > 0.0:
-		b.border_color = bar
-		b.border_width_left = 0
-		b.border_width_right = 0
-		b.border_width_bottom = 0
-		b.border_width_top = UiTokens.CARD_BAR
-		b.content_margin_top = UiTokens.PAD_V + 2
-	b.shadow_color = Color(0, 0, 0, 0.4)
-	b.shadow_size = 12
-	b.shadow_offset = Vector2(0, 6)
+		b.rule_top = Brand.RED if bar.is_equal_approx(ACCENT) or bar.is_equal_approx(Brand.RED) \
+			or bar.is_equal_approx(BAD) else Brand.WHITE
+		b.rule_width = Brand.RULE
+		b.content_margin_top = Brand.PAD_Y + 2
 	return b
 
 
-## Round medal: gold when unlocked, a dim grey ring when locked.
 static func badge_texture(unlocked: bool) -> Texture2D:
-	return UiIcons.texture("achievements", ACCENT if unlocked else Color(MUTED, 0.6), 56)
+	return UiIcons.texture("achievements", Brand.WHITE if unlocked else Brand.GREY_DIM, 56)
 
 
-## Pill-shaped on/off switch, big enough for a thumb.
+## A square on/off switch: red block right when on, grey block left when off.
 static func _switch_texture(on: bool) -> ImageTexture:
 	var w := 92
 	var h := 52
 	var img := Image.create(w, h, false, Image.FORMAT_RGBA8)
-	var r := h * 0.5
-	var knob_x := w - r if on else r
-	var track := ACCENT if on else Color(1, 1, 1, 0.22)
-	for y in h:
-		for x in w:
-			var px := Vector2(x + 0.5, y + 0.5)
-			var cx := clampf(px.x, r, w - r)
-			var d_track := px.distance_to(Vector2(cx, r))
-			var c := track
-			c.a *= clampf(r - d_track, 0.0, 1.0)
-			var d_knob := px.distance_to(Vector2(knob_x, r))
-			var k := clampf(r - 5.0 - d_knob, 0.0, 1.0)
-			c = c.blend(Color(1, 1, 1, k))
-			img.set_pixel(x, y, c)
+	img.fill(Brand.INK_3)
+	var knob := Rect2i(w - h + 6 if on else 6, 6, h - 12, h - 12)
+	if on:
+		img.fill_rect(Rect2i(0, 0, w, h), Brand.RED_DEEP)
+	img.fill_rect(knob, Brand.WHITE if on else Brand.GREY)
 	return ImageTexture.create_from_image(img)
 
 
-static func _circle_texture(size: int, color: Color) -> ImageTexture:
+static func _square_texture(size: int, color: Color) -> ImageTexture:
 	var img := Image.create(size, size, false, Image.FORMAT_RGBA8)
-	var r := size * 0.5
-	for y in size:
-		for x in size:
-			var d := Vector2(x + 0.5 - r, y + 0.5 - r).length()
-			var c := color
-			c.a = clampf(r - d, 0.0, 1.0)
-			img.set_pixel(x, y, c)
+	img.fill(color)
 	return ImageTexture.create_from_image(img)
 
 
@@ -331,52 +251,18 @@ static func feedback(event: StringName) -> void:
 
 # --- screen frame ----------------------------------------------------------------------
 
-## Fills `root` (a full-screen Control) with the backdrop and a
-## safe-area-aware centered column, and returns that column.
+## Fills `root` (a full-screen Control) with the background and a
+## safe-area-aware centered column, and returns that column (BrandUi.frame).
 static func build_frame(root: Control, title: String) -> VBoxContainer:
 	root.theme = theme()
-	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-
-	var bg := Backdrop.new()
-	bg.palette = palette
-	if not team.is_empty():
-		bg.team = team[0]
-	bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	root.add_child(bg)
-
-	var safe := MarginContainer.new()
-	safe.name = "Safe"
-	safe.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	safe.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	root.add_child(safe)
-	apply_safe_area(safe, MARGIN)
-
-	var row := HBoxContainer.new()
-	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	safe.add_child(row)
-	row.add_child(_spacer(true))
-	var col := VBoxContainer.new()
-	col.custom_minimum_size.x = COLUMN_WIDTH
-	col.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	col.add_theme_constant_override("separation", 18)
-	row.add_child(col)
-	row.add_child(_spacer(true))
-
-	if title != "":
-		col.add_child(title_block(title))
-	enter(safe)
+	var col := BrandUi.frame(root, title)
+	root.theme = theme()
 	return col
 
 
-## Short slide-up + fade-in for a screen's content (screen transitions).
+## Screen content arriving: a quick fade (Brand.T_BASE).
 static func enter(c: Control) -> void:
-	c.modulate.a = 0.0
-	var tw := c.create_tween().set_ignore_time_scale(true)
-	tw.set_parallel(true)
-	tw.tween_property(c, "modulate:a", 1.0, UiTokens.FADE_IN)
-	c.position.y = 26.0
-	tw.tween_property(c, "position:y", 0.0, UiTokens.FADE_IN + 0.08) \
-		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	BrandUi.enter(c)
 
 
 ## Same safe-area logic as the HUD: keep content clear of notches/rounded corners.
@@ -402,55 +288,53 @@ static func apply_safe_area(m: MarginContainer, base: int) -> void:
 	m.add_theme_constant_override("margin_bottom", bottom)
 
 
-## Broadcast lower-third screen title: big display text, a slanted accent
-## tag on the left and a rule underneath. kicker: small line above it.
+## Screen title: the broadcast header bar (eyebrow, title, red rule).
 static func title_block(text: String, kicker := "") -> Control:
-	var v := VBoxContainer.new()
-	v.add_theme_constant_override("separation", 2)
-	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	if kicker != "":
-		var k := label(kicker.to_upper(), UiTokens.FONT_SECTION, ACCENT, UiTokens.FONT_CONDENSED)
-		k.autowrap_mode = TextServer.AUTOWRAP_OFF
-		k.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-		v.add_child(k)
-	var t := label(text.to_upper(), UiTokens.FONT_TITLE, TEXT, UiTokens.FONT_DISPLAY)
-	v.add_child(t)
-	v.add_child(rule())
-	return v
+	return BrandUi.header(text, kicker)
 
 
-## Accent tag + thin line (under titles and section heads).
-static func rule(color := Color(0, 0, 0, 0)) -> Control:
-	var c: Color = ACCENT if color.a == 0.0 else color
-	var h := HBoxContainer.new()
-	h.add_theme_constant_override("separation", 0)
-	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var tag := Panel.new()
-	var tb := StyleBoxFlat.new()
-	tb.bg_color = c
-	tb.skew = Vector2(UiTokens.SKEW * 2.0, 0)
-	tag.add_theme_stylebox_override("panel", tb)
-	tag.custom_minimum_size = Vector2(110, 6)
-	tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	h.add_child(tag)
-	var line := ColorRect.new()
-	line.color = Color(TEXT, 0.14)
-	line.custom_minimum_size.y = 2
-	line.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	line.size_flags_vertical = Control.SIZE_SHRINK_END
-	line.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	h.add_child(line)
-	return h
+## A short red rule on a hairline (under titles).
+static func rule(_color := Color(0, 0, 0, 0)) -> Control:
+	var c := Control.new()
+	c.custom_minimum_size.y = Brand.RULE
+	c.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var hair := ColorRect.new()
+	hair.color = Brand.LINE
+	hair.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+	hair.offset_top = -1
+	hair.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	c.add_child(hair)
+	var red := ColorRect.new()
+	red.color = Brand.RED
+	red.size = Vector2(96, Brand.RULE)
+	red.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	c.add_child(red)
+	return c
 
 
 # --- widgets ---------------------------------------------------------------------------
 
+## The nearest size in the type scale (never under Brand.MIN_TEXT).
+static func type_size(px: int) -> int:
+	var sizes: Array = []
+	for k in Brand.TYPE:
+		if not (int(Brand.TYPE[k][1]) in sizes):
+			sizes.append(int(Brand.TYPE[k][1]))
+	sizes.sort()
+	var best: int = sizes[0]
+	for sz in sizes:
+		if absi(sz - px) < absi(best - px) or (absi(sz - px) == absi(best - px) and sz > best):
+			best = sz
+	return maxi(best, Brand.MIN_TEXT)
+
+
 ## font: UiTokens.FONT_BODY (default), FONT_DISPLAY, FONT_BANNER, FONT_CONDENSED.
+## size snaps to the type scale.
 static func label(text: String, size: int = 32, color := Color(0, 0, 0, 0),
 		font: StringName = UiTokens.FONT_BODY) -> Label:
 	var l := Label.new()
 	l.text = text
-	l.add_theme_font_size_override("font_size", size)
+	l.add_theme_font_size_override("font_size", type_size(size))
 	l.add_theme_color_override("font_color", TEXT if color.a == 0.0 else color)
 	if font != &"":
 		l.theme_type_variation = font
@@ -467,14 +351,15 @@ static func line(text: String, size: int = 32, color := Color(0, 0, 0, 0),
 	return l
 
 
-## kind: PRIMARY (main action, accent + glow), SECONDARY (default), DANGER_KIND;
-## or a Color for a one-off custom color. icon: a UiIcons id.
+## kind: PRIMARY (red), SECONDARY (default), DANGER_KIND; or a Color (a red
+## or white fill). icon: a UiIcons id.
 static func button(text: String, on_pressed: Callable, kind: Variant = SECONDARY,
 		icon := "") -> Button:
 	var b := Button.new()
-	b.text = text
+	b.text = text.to_upper()
 	b.custom_minimum_size.y = BUTTON_HEIGHT
-	# Long text (e.g. a player's name) ends in "..." instead of widening the column.
+	if text.length() > LONG_BUTTON:
+		b.add_theme_font_size_override("font_size", int(Brand.TYPE["Body"][1]))
 	b.clip_text = true
 	b.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	# Keyboard/gamepad focus on desktop (Steam); no lingering focus ring after taps on phones.
@@ -485,16 +370,9 @@ static func button(text: String, on_pressed: Callable, kind: Variant = SECONDARY
 		if StringName(kind) == PRIMARY:
 			event = &"ui_confirm"
 	elif kind is Color and (kind as Color).a > 0.0:
-		var c: Color = kind
-		if c.is_equal_approx(DANGER):
-			b.theme_type_variation = DANGER_KIND
-		else:
-			b.add_theme_stylebox_override("normal", _skewed(_box(c, UiTokens.RADIUS_BUTTON)))
-			b.add_theme_stylebox_override("hover", _skewed(_box(c.lightened(0.12), UiTokens.RADIUS_BUTTON)))
-			b.add_theme_stylebox_override("pressed", _skewed(_box(c.darkened(0.2), UiTokens.RADIUS_BUTTON)))
+		b.theme_type_variation = DANGER_KIND if (kind as Color).is_equal_approx(DANGER) else PRIMARY
 	if icon != "":
-		var ic_col := ACCENT_TEXT if b.theme_type_variation == PRIMARY else \
-			(Color.WHITE if b.theme_type_variation == DANGER_KIND else ACCENT)
+		var ic_col := Brand.RED_HOT if b.theme_type_variation == DANGER_KIND else Brand.WHITE
 		b.icon = UiIcons.texture(icon, ic_col, 40)
 	add_press_feedback(b)
 	b.pressed.connect(func() -> void:
@@ -511,108 +389,82 @@ static func danger(text: String, on_pressed: Callable, icon := "") -> Button:
 	return button(text, on_pressed, DANGER_KIND, icon)
 
 
-## Squeeze on press, spring back on release (any Button).
+## A quick dip on press (any Button), Brand.T_PRESS; no bounce.
 static func add_press_feedback(b: BaseButton) -> void:
-	b.resized.connect(func() -> void: b.pivot_offset = b.size * 0.5)
 	b.button_down.connect(func() -> void:
-		if b.disabled:
-			return
-		var tw := b.create_tween().set_ignore_time_scale(true)
-		tw.tween_property(b, "scale", Vector2.ONE * UiTokens.PRESS_SCALE, 0.06))
-	b.button_up.connect(func() -> void:
-		var tw := b.create_tween().set_ignore_time_scale(true)
-		tw.tween_property(b, "scale", Vector2.ONE, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT))
+		if not b.disabled:
+			BrandMotion.press(b))
 
 
-## A row with a name on the left and a value on the right. A long value
-## (Career Mode, e.g. "Pro, 6 seasons (Metro Monarchs)") wraps on the right
-## instead of squeezing the name; short values look exactly as before.
+## A row with a name on the left and a value on the right; a hairline under
+## it. A long value wraps on the right instead of squeezing the name.
 static func stat_row(name: String, value: String, value_color := Color(0, 0, 0, 0),
 		icon := "") -> PanelContainer:
 	var p := PanelContainer.new()
 	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var box := panel_box()
-	box.content_margin_top = 12
-	box.content_margin_bottom = 12
-	box.shadow_size = 6
-	box.shadow_offset = Vector2(0, 3)
+	var box := _box(Brand.INK_1, 0)
+	box.rule_bottom = Brand.LINE
+	box.rule_width = 1
+	box.content_margin_top = Brand.SPACE_3
+	box.content_margin_bottom = Brand.SPACE_3
 	p.add_theme_stylebox_override("panel", box)
 	var h := HBoxContainer.new()
 	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	h.add_theme_constant_override("separation", 12)
+	h.add_theme_constant_override("separation", Brand.SPACE_3)
 	p.add_child(h)
 	if icon != "":
-		h.add_child(UiIcons.rect(icon, ACCENT, 30))
-	var n := label(name, 28, TEXT)
+		h.add_child(UiIcons.rect(icon, Brand.GREY, 32))
+	var n := label(name, 32, Brand.WHITE)
 	n.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	h.add_child(n)
-	var v := label(value, 34, TEXT if value_color.a == 0.0 else value_color, UiTokens.FONT_DISPLAY)
+	var v := label(value, 40, Brand.WHITE if value_color.a == 0.0 else _text_color(value_color), UiTokens.FONT_DISPLAY)
 	v.autowrap_mode = TextServer.AUTOWRAP_OFF
 	v.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	if value.length() > 16:
-		n.autowrap_mode = TextServer.AUTOWRAP_OFF
-		n.size_flags_horizontal = Control.SIZE_FILL
+	if value.length() > 12:
+		n.size_flags_stretch_ratio = 0.6
 		v.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		v.add_theme_font_size_override("font_size", 30)
+		v.add_theme_font_size_override("font_size", type_size(32))
 	h.add_child(v)
 	return p
 
 
-## Section head: small accent tag + condensed caps.
-static func section(text: String, color := Color(0, 0, 0, 0)) -> Control:
-	var c: Color = ACCENT if color.a == 0.0 else color
-	var h := HBoxContainer.new()
-	h.add_theme_constant_override("separation", 10)
-	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var tag := Panel.new()
-	var tb := StyleBoxFlat.new()
-	tb.bg_color = c
-	tb.skew = Vector2(UiTokens.SKEW * 2.0, 0)
-	tag.add_theme_stylebox_override("panel", tb)
-	tag.custom_minimum_size = Vector2(8, 24)
-	tag.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	h.add_child(tag)
-	var l := label(text.to_upper(), UiTokens.FONT_SECTION + 2, Color(TEXT, 0.8), UiTokens.FONT_DISPLAY)
-	l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	h.add_child(l)
-	return h
+## Any color as text in the palette: red stays red (warnings, losses), grey
+## stays grey, everything else is white.
+static func _text_color(c: Color) -> Color:
+	if c.r > 0.6 and c.g < 0.35 and c.b < 0.35:
+		return Brand.RED_HOT
+	if absf(c.r - c.g) < 0.06 and absf(c.g - c.b) < 0.06 and c.v < 0.75:
+		return Brand.GREY
+	return Brand.WHITE
 
 
-## Small tag ("HOME", "+3 Accuracy", "SOCIAL"). filled: solid color, white text.
+## Section head: a short red tick and condensed caps.
+static func section(text: String, _color := Color(0, 0, 0, 0)) -> Control:
+	return BrandUi.section(text)
+
+
+## Small tag ("HOME", "+3 Accuracy"). filled: a solid block (red for red
+## colors, else black); otherwise outlined. Text stays readable either way.
 static func chip(text: String, color: Color, filled := false, icon := "", size := 22) -> PanelContainer:
-	var p := PanelContainer.new()
-	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var b := _skewed(_box(color if filled else Color(color, 0.18), UiTokens.RADIUS_CHIP))
-	b.content_margin_top = 3
-	b.content_margin_bottom = 3
-	b.content_margin_left = 14
-	b.content_margin_right = 14
-	if not filled:
-		b.border_color = Color(color, 0.45)
-		b.set_border_width_all(1)
-	p.add_theme_stylebox_override("panel", b)
-	p.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	var h := HBoxContainer.new()
-	h.add_theme_constant_override("separation", 6)
-	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	p.add_child(h)
-	var fg := readable_on(color) if filled else color.lightened(0.25)
-	if icon != "":
-		h.add_child(UiIcons.rect(icon, fg, size))
-	var l := label(text, size, fg, UiTokens.FONT_CONDENSED)
-	l.autowrap_mode = TextServer.AUTOWRAP_OFF
-	h.add_child(l)
-	return p
+	var red := _text_color(color) == Brand.RED_HOT
+	var kind := ("red" if red else "neutral") if filled else "outline"
+	var c := BrandUi.chip(text, kind, icon)
+	if not filled and red:
+		c.ready.connect(func() -> void:
+			for l in c.find_children("*", "Label", true, false):
+				(l as Label).add_theme_color_override("font_color", Brand.RED_HOT)
+			for r in c.find_children("*", "TextureRect", true, false):
+				(r as TextureRect).texture = UiIcons.texture(icon, Brand.RED_HOT, 30), CONNECT_ONE_SHOT)
+	return c
 
 
 ## Black or white text, whichever reads on `bg`.
 static func readable_on(bg: Color) -> Color:
-	return Color(0.06, 0.05, 0.03) if bg.get_luminance() > 0.55 else Color.WHITE
+	return Brand.INK_0 if bg.get_luminance() > 0.55 else Brand.WHITE
 
 
-## Panel with an optional top color bar; returns [panel, vbox].
+## Panel with an optional top rule; returns [panel, vbox].
 static func card(bar := Color(0, 0, 0, 0), separation := 8) -> Array:
 	var p := PanelContainer.new()
 	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -625,59 +477,61 @@ static func card(bar := Color(0, 0, 0, 0), separation := 8) -> Array:
 
 
 ## Big number over a small caption ("97 / 128" over "FIELD GOALS").
-static func stat_tile(value: String, caption: String, color := Color(0, 0, 0, 0)) -> PanelContainer:
-	var parts := card(ACCENT if color.a == 0.0 else color, 0)
-	var p: PanelContainer = parts[0]
+static func stat_tile(value: String, caption: String, _color := Color(0, 0, 0, 0)) -> PanelContainer:
+	var p := PanelContainer.new()
+	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	p.theme_type_variation = "Tile"
 	p.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var v: VBoxContainer = parts[1]
-	var n := line(value, 44, TEXT, UiTokens.FONT_BANNER)
+	var v := VBoxContainer.new()
+	v.add_theme_constant_override("separation", 0)
+	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	p.add_child(v)
+	var c := BrandTheme.label(caption, "Eyebrow")
+	c.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	c.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	v.add_child(c)
+	var n := BrandTheme.label(value, "Heading")
+	n.add_theme_font_override("font", BrandTheme.font(Brand.FONT_NUMBER))
 	n.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(n)
-	var c := line(caption.to_upper(), 20, MUTED, UiTokens.FONT_CONDENSED)
-	c.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	v.add_child(c)
 	return p
 
 
-## Broadcast ticker: red tag + white strip. Scrolls slowly only if it doesn't fit.
+## Broadcast ticker: a red tag and a dark strip. Scrolls slowly only if it doesn't fit.
 static func ticker(tag_text: String, text: String) -> Control:
 	var h := HBoxContainer.new()
 	h.add_theme_constant_override("separation", 0)
 	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var tag := PanelContainer.new()
-	var tb := _box(ALT if ALT.get_luminance() < 0.8 else ACCENT, 0)
+	var tb := _box(Brand.RED, 0)
 	tb.content_margin_top = 4
 	tb.content_margin_bottom = 4
-	tb.content_margin_left = 14
-	tb.content_margin_right = 14
+	tb.content_margin_left = Brand.SPACE_3
+	tb.content_margin_right = Brand.SPACE_3
 	tag.add_theme_stylebox_override("panel", tb)
 	tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var tl := label(tag_text.to_upper(), 26, readable_on(tb.bg_color), UiTokens.FONT_DISPLAY)
-	tl.autowrap_mode = TextServer.AUTOWRAP_OFF
-	tag.add_child(tl)
+	tag.add_child(BrandTheme.label(tag_text, "Eyebrow", Brand.WHITE))
 	h.add_child(tag)
 	var strip := Panel.new()
-	var sb := StyleBoxFlat.new()
-	sb.bg_color = Color(0.96, 0.96, 0.97)
-	strip.add_theme_stylebox_override("panel", sb)
+	strip.add_theme_stylebox_override("panel", _box(Brand.INK_2, 0, Brand.LINE))
 	strip.clip_contents = true
 	strip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	strip.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	h.add_child(strip)
-	var l := label(text.to_upper(), 26, Color(0.08, 0.09, 0.12), UiTokens.FONT_CONDENSED)
+	var l := BrandTheme.label(text, "Eyebrow", Brand.WHITE)
 	l.autowrap_mode = TextServer.AUTOWRAP_OFF
 	strip.add_child(l)
 	strip.resized.connect(func() -> void:
-		strip.custom_minimum_size.y = l.get_minimum_size().y + 6
-		l.position = Vector2(14, 3)
+		strip.custom_minimum_size.y = l.get_minimum_size().y + 8
+		l.position = Vector2(Brand.SPACE_3, 4)
 		var w := l.get_minimum_size().x
-		if w + 28 > strip.size.x and not strip.has_meta("tw"):
+		if w + 32 > strip.size.x and not strip.has_meta("tw"):
 			var tw := strip.create_tween().set_loops()
 			strip.set_meta("tw", tw)
 			tw.tween_interval(1.5)
-			tw.tween_property(l, "position:x", strip.size.x - w - 14, (w - strip.size.x) / 40.0 + 1.0)
+			tw.tween_property(l, "position:x", strip.size.x - w - Brand.SPACE_3, (w - strip.size.x) / 40.0 + 1.0)
 			tw.tween_interval(1.5)
-			tw.tween_property(l, "position:x", 14.0, 0.6))
+			tw.tween_property(l, "position:x", float(Brand.SPACE_3), Brand.T_BASE * 4.0))
 	return h
 
 
@@ -721,35 +575,30 @@ static func scroll_list(parent: Control) -> VBoxContainer:
 
 # --- motion ----------------------------------------------------------------------------
 
-## Pops a control in (scale + fade), e.g. trait unlocks and banners.
-static func pop_in(c: Control, delay := 0.0, from_scale := 0.6) -> void:
+## Brings a control in (fade + a small scale), e.g. trait unlocks: snappy, no bounce.
+static func pop_in(c: Control, delay := 0.0, _from_scale := 0.6) -> void:
 	c.modulate.a = 0.0
-	var start := func() -> void:
-		c.pivot_offset = c.size * 0.5
-		c.scale = Vector2.ONE * from_scale
-	if c.is_inside_tree():
-		start.call()
-	else:
-		c.ready.connect(start, CONNECT_ONE_SHOT)
 	var tw := c.create_tween().set_ignore_time_scale(true)
 	if delay > 0.0:
 		tw.tween_interval(delay)
-	tw.tween_callback(func() -> void: c.pivot_offset = c.size * 0.5)
+	tw.tween_callback(func() -> void:
+		c.pivot_offset = c.size * 0.5
+		c.scale = Vector2.ONE * 0.96)
 	tw.set_parallel(true)
-	tw.tween_property(c, "modulate:a", 1.0, 0.15)
-	tw.tween_property(c, "scale", Vector2.ONE, 0.35).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(c, "modulate:a", 1.0, Brand.T_FAST)
+	tw.tween_property(c, "scale", Vector2.ONE, Brand.T_BASE).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 
 
-## Staggered fade-up for a list of children (cards appearing one after another).
-static func stagger(parent: Control, step := 0.05) -> void:
+## Staggered fade-in for a list of children (quick).
+static func stagger(parent: Control, step := 0.03) -> void:
 	var i := 0
 	for ch in parent.get_children():
 		if ch is Control:
 			var c: Control = ch
 			c.modulate.a = 0.0
 			var tw := c.create_tween().set_ignore_time_scale(true)
-			tw.tween_interval(0.08 + i * step)
-			tw.tween_property(c, "modulate:a", 1.0, 0.2)
+			tw.tween_interval(minf(i * minf(step, 0.03), 0.24))
+			tw.tween_property(c, "modulate:a", 1.0, Brand.T_FAST)
 			i += 1
 
 
@@ -759,53 +608,7 @@ static func stagger(parent: Control, step := 0.05) -> void:
 ## nothing behind it (like a swipe-to-kick) reacts. Returns the panel's VBox;
 ## free the returned modal root with modal_root(vbox).queue_free().
 static func modal(host: Node, title: String) -> VBoxContainer:
-	var root := Control.new()
-	root.name = "Modal"
-	root.theme = theme()
-	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	root.mouse_filter = Control.MOUSE_FILTER_STOP
-	root.process_mode = Node.PROCESS_MODE_ALWAYS
-	var dim := ColorRect.new()
-	dim.color = Color(0, 0, 0, 0.66)
-	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	root.add_child(dim)
-	var center := CenterContainer.new()
-	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	root.add_child(center)
-	var panel := PanelContainer.new()
-	var box := panel_box(ACCENT, Color(BG_TOP.darkened(0.25), 0.98))
-	box.content_margin_left = 28
-	box.content_margin_right = 28
-	box.content_margin_top = 26
-	box.content_margin_bottom = 26
-	box.shadow_size = 30
-	box.shadow_color = Color(0, 0, 0, 0.6)
-	panel.add_theme_stylebox_override("panel", box)
-	panel.custom_minimum_size.x = minf(COLUMN_WIDTH - 40.0, 600.0)
-	center.add_child(panel)
-	var v := VBoxContainer.new()
-	v.add_theme_constant_override("separation", 18)
-	panel.add_child(v)
-	if title != "":
-		var l := label(title.to_upper(), 48, TEXT, UiTokens.FONT_DISPLAY)
-		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		v.add_child(l)
-	host.add_child(root)
-	# Fade the dim in and pop the panel.
-	dim.modulate.a = 0.0
-	var tw := root.create_tween().set_ignore_time_scale(true)
-	tw.tween_property(dim, "modulate:a", 1.0, 0.15)
-	panel.modulate.a = 0.0
-	var tw2 := root.create_tween().set_ignore_time_scale(true)
-	tw2.tween_callback(func() -> void:
-		panel.pivot_offset = panel.size * 0.5
-		panel.scale = Vector2.ONE * 0.9)
-	tw2.set_parallel(true)
-	tw2.tween_property(panel, "modulate:a", 1.0, 0.14)
-	tw2.tween_property(panel, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	return v
+	return BrandUi.modal(host, title)
 
 
 static func modal_root(content: Control) -> Control:
@@ -819,9 +622,7 @@ static func modal_root(content: Control) -> Control:
 static func confirm(host: Node, title: String, message: String, yes_text: String,
 		on_yes: Callable) -> void:
 	var v := modal(host, title)
-	var msg := label(message, 30)
-	msg.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	v.add_child(msg)
+	v.add_child(BrandUi.text(message))
 	var root := modal_root(v)
 	var yes := button(yes_text, func() -> void:
 		root.queue_free()

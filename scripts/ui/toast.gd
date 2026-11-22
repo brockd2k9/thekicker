@@ -79,21 +79,21 @@ func _next() -> void:
 	_title.text = item[0]
 	_body.text = item[1]
 	# Colors follow the current palette (Career stage or default).
-	var box := StyleBoxFlat.new()
-	box.bg_color = Color(UiKit.BG_TOP.darkened(0.3), 0.97)
-	box.border_color = UiKit.ACCENT
-	box.border_width_left = 10
-	box.skew = Vector2(UiTokens.SKEW * 0.5, 0)
-	box.set_corner_radius_all(UiTokens.RADIUS_BUTTON)
-	box.content_margin_left = 26
+	# Broadcast style: black, a red stripe, a clipped corner, white title.
+	var box := ClippedBox.new()
+	box.bg = Brand.INK_1
+	box.stroke = Brand.LINE
+	box.stroke_width = Brand.STROKE
+	box.stripe = Brand.RED
+	box.stripe_width = Brand.STRIPE * 2
+	box.cut_br = Brand.CUT
+	box.content_margin_left = 26 + Brand.STRIPE * 2
 	box.content_margin_right = 30
 	box.content_margin_top = 14
 	box.content_margin_bottom = 14
-	box.shadow_color = Color(UiKit.ACCENT, 0.35)
-	box.shadow_size = 18
 	_panel.add_theme_stylebox_override("panel", box)
-	_title.add_theme_color_override("font_color", UiKit.ACCENT)
-	_icon.texture = UiIcons.texture(str(item[2]) if item.size() > 2 else "info", UiKit.ACCENT, 64)
+	_title.add_theme_color_override("font_color", Brand.WHITE)
+	_icon.texture = UiIcons.texture(str(item[2]) if item.size() > 2 else "info", Brand.RED_HOT, 64)
 	_panel.visible = true
 	_panel.reset_size()
 	var vw := get_viewport().get_visible_rect().size.x

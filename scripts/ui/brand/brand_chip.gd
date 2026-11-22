@@ -10,6 +10,11 @@ extends PanelContainer
 @export var team_color := Color(0, 0, 0, 0)
 @export var disabled := false
 
+## Text longer than this wraps in a wide chip (WIDE px) instead of running
+## off the screen.
+const LONG := 30
+const WIDE := 460.0
+
 
 func _ready() -> void:
 	theme_type_variation = {"outline": "ChipOutline", "red": "ChipRed", "team": "ChipTeam"}.get(kind, "ChipNeutral")
@@ -30,4 +35,10 @@ func _ready() -> void:
 		h.add_child(ic)
 	var l := BrandTheme.label(text, "Eyebrow", fg)
 	l.autowrap_mode = TextServer.AUTOWRAP_OFF
+	if text.length() > LONG:
+		# A sentence, not a tag: a full-width block that wraps.
+		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		custom_minimum_size.x = WIDE
 	h.add_child(l)

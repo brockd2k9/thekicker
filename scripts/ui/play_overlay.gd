@@ -38,14 +38,14 @@ func _ready() -> void:
 	# Thumb-sized (88 px) but visually light: a dark slanted chip with a
 	# pause icon, centered between the HUD's score chips.
 	_pause_button = Button.new()
-	_pause_button.icon = UiIcons.texture("pause", Color.WHITE, 30)
+	_pause_button.icon = UiIcons.texture("pause", Brand.WHITE, 30)
 	_pause_button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_pause_button.custom_minimum_size = Vector2(UiTokens.TAP_MIN, UiTokens.TAP_MIN)
 	_pause_button.focus_mode = Control.FOCUS_NONE
-	var box := UiKit._skewed(UiKit._box(Color(0.03, 0.05, 0.1, 0.55), UiTokens.RADIUS_BUTTON))
+	var box := UiKit._box(Color(Brand.INK_0, 0.7), 0, Brand.LINE)
+	box.cut_br = Brand.CUT_SMALL
 	box.set_content_margin_all(8)
-	var down := box.duplicate()
-	down.bg_color = Color(0.03, 0.05, 0.1, 0.85)
+	var down := box.with({"bg": Brand.INK_3})
 	_pause_button.add_theme_stylebox_override("normal", box)
 	_pause_button.add_theme_stylebox_override("hover", box)
 	_pause_button.add_theme_stylebox_override("pressed", down)
