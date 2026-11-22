@@ -298,6 +298,40 @@ def main():
             f.write(json.dumps(doc, indent="\t", ensure_ascii=False) + "\n")
         print(f"wrote tools/authoring/{name}: {len(items)} scenarios")
     college_templates()
+    epilogue_template()
+
+
+EPILOGUE_SIGNALS = ("Set at retirement, before the first closing scene (docs/story_note_epilogue.md): "
+                    "hall_of_fame_earned, hof_first_ballot / hof_inducted / hof_finalist / hof_ring_of_honor "
+                    "(exactly one when there's a tier), retired_by_choice, retired_out_of_football, "
+                    "retired_released, retired_unsigned, was_dismissed.")
+
+
+def epilogue_template():
+    """tools/authoring/epilogue_template.json: the retirement closing scenes (PRO_E01-E12)."""
+    pro = load(os.path.join(ROOT, "data", "career", "scenarios_pro.json"))["scenarios"]
+    items = []
+    for s in pro:
+        if s.get("when") != ["epilogue"]:
+            continue
+        a = s.get("authoring", {})
+        blank = [{"label": "", "result": "", "stats": {"life": {}, "football": {}, "personality": {}}, "modifiers": []}
+                 for _ in range(3)]
+        items.append({
+            "id": s["id"], "title": s["title"], "category": s.get("category", ""),
+            "text": "" if s.get("draft") else s.get("text", ""),
+            "_info": {"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
+                      "order": s.get("order", 0), "requires": s.get("requires", {}),
+                      "must_set_flags": s.get("expected_flags", []), "premise": a.get("premise", ""),
+                      "note": a.get("note", ""), "signals": EPILOGUE_SIGNALS,
+                      "rules": "No follow-ups, kick challenges or suspensions. A flag set here can open a later "
+                               "closing scene."},
+            "choices": blank if s.get("draft") else s.get("choices", [])})
+    doc = {"_about": "Retirement epilogue: the closing scenes after the last snap (R10).", "_how": GUIDE_POINTER,
+           "scenarios": items}
+    with open(os.path.join(OUT_DIR, "epilogue_template.json"), "w", encoding="utf-8") as f:
+        f.write(json.dumps(doc, indent="\t", ensure_ascii=False) + "\n")
+    print(f"wrote tools/authoring/epilogue_template.json: {len(items)} scenarios")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,651 @@
+{
+	"_about": "Retirement epilogue: the closing scenes after the last snap (R10).",
+	"_how": "Fill in category, text and choices; leave _info alone (it's read-only). See tools/authoring/WRITING_GUIDE.md. Import: python3 tools/import_scenarios.py <this file> --dry-run",
+	"scenarios": [
+		{
+			"id": "PRO_E01",
+			"title": "The First Morning After",
+			"category": "",
+			"text": "",
+			"_info": {
+				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
+				"order": 0,
+				"requires": {
+					"any_flags": [
+						"retired_by_choice",
+						"retired_out_of_football",
+						"retired_released",
+						"retired_unsigned"
+					],
+					"min": {
+						"pro_seasons": 1
+					}
+				},
+				"must_set_flags": [],
+				"premise": "The first morning with nowhere to be. The way it ended decides how it feels.",
+				"note": "Versions by retirement reason (chose / forced out / dismissed).",
+				"signals": "Set at retirement, before the first closing scene (docs/story_note_epilogue.md): hall_of_fame_earned, hof_first_ballot / hof_inducted / hof_finalist / hof_ring_of_honor (exactly one when there's a tier), retired_by_choice, retired_out_of_football, retired_released, retired_unsigned, was_dismissed.",
+				"rules": "No follow-ups, kick challenges or suspensions. A flag set here can open a later closing scene."
+			},
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				}
+			]
+		},
+		{
+			"id": "PRO_E02",
+			"title": "The Phone Call From the Club",
+			"category": "",
+			"text": "",
+			"_info": {
+				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
+				"order": 0,
+				"requires": {
+					"min": {
+						"pro_seasons": 1
+					}
+				},
+				"must_set_flags": [
+					"coach_after_football",
+					"broadcaster_after_football"
+				],
+				"premise": "Your last club calls with an offer to stay connected.",
+				"note": "",
+				"signals": "Set at retirement, before the first closing scene (docs/story_note_epilogue.md): hall_of_fame_earned, hof_first_ballot / hof_inducted / hof_finalist / hof_ring_of_honor (exactly one when there's a tier), retired_by_choice, retired_out_of_football, retired_released, retired_unsigned, was_dismissed.",
+				"rules": "No follow-ups, kick challenges or suspensions. A flag set here can open a later closing scene."
+			},
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				}
+			]
+		},
+		{
+			"id": "PRO_E03",
+			"title": "Hall of Fame Eligibility",
+			"category": "",
+			"text": "",
+			"_info": {
+				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
+				"order": 0,
+				"requires": {
+					"any_flags": [
+						"hof_finalist",
+						"hof_inducted",
+						"hof_first_ballot"
+					]
+				},
+				"must_set_flags": [],
+				"premise": "Five years after your last kick, your name is on the list of eligible players.",
+				"note": "Only if the career earned it (engine formula, request R10).",
+				"signals": "Set at retirement, before the first closing scene (docs/story_note_epilogue.md): hall_of_fame_earned, hof_first_ballot / hof_inducted / hof_finalist / hof_ring_of_honor (exactly one when there's a tier), retired_by_choice, retired_out_of_football, retired_released, retired_unsigned, was_dismissed.",
+				"rules": "No follow-ups, kick challenges or suspensions. A flag set here can open a later closing scene."
+			},
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				}
+			]
+		},
+		{
+			"id": "PRO_E04",
+			"title": "The Nomination",
+			"category": "",
+			"text": "",
+			"_info": {
+				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
+				"order": 0,
+				"requires": {
+					"flags": [
+						"hall_of_fame_earned"
+					]
+				},
+				"must_set_flags": [],
+				"premise": "The Hall of Fame vote is in, and your name is on the list of new members.",
+				"note": "Hall of Fame earned.",
+				"signals": "Set at retirement, before the first closing scene (docs/story_note_epilogue.md): hall_of_fame_earned, hof_first_ballot / hof_inducted / hof_finalist / hof_ring_of_honor (exactly one when there's a tier), retired_by_choice, retired_out_of_football, retired_released, retired_unsigned, was_dismissed.",
+				"rules": "No follow-ups, kick challenges or suspensions. A flag set here can open a later closing scene."
+			},
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				}
+			]
+		},
+		{
+			"id": "PRO_E05",
+			"title": "The Call",
+			"category": "",
+			"text": "",
+			"_info": {
+				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
+				"order": 0,
+				"requires": {
+					"flags": [
+						"hall_of_fame_earned"
+					]
+				},
+				"must_set_flags": [],
+				"premise": "The call that changes your legacy.",
+				"note": "Hall of Fame earned.",
+				"signals": "Set at retirement, before the first closing scene (docs/story_note_epilogue.md): hall_of_fame_earned, hof_first_ballot / hof_inducted / hof_finalist / hof_ring_of_honor (exactly one when there's a tier), retired_by_choice, retired_out_of_football, retired_released, retired_unsigned, was_dismissed.",
+				"rules": "No follow-ups, kick challenges or suspensions. A flag set here can open a later closing scene."
+			},
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				}
+			]
+		},
+		{
+			"id": "PRO_E06",
+			"title": "The Call That Doesn't Come",
+			"category": "",
+			"text": "",
+			"_info": {
+				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
+				"order": 0,
+				"requires": {
+					"not_flags": [
+						"hall_of_fame_earned"
+					],
+					"min": {
+						"pro_seasons": 1
+					}
+				},
+				"must_set_flags": [],
+				"premise": "The finalists are announced, and you're not one of them.",
+				"note": "Not earned: a closing scene about what you built anyway.",
+				"signals": "Set at retirement, before the first closing scene (docs/story_note_epilogue.md): hall_of_fame_earned, hof_first_ballot / hof_inducted / hof_finalist / hof_ring_of_honor (exactly one when there's a tier), retired_by_choice, retired_out_of_football, retired_released, retired_unsigned, was_dismissed.",
+				"rules": "No follow-ups, kick challenges or suspensions. A flag set here can open a later closing scene."
+			},
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				}
+			]
+		},
+		{
+			"id": "PRO_E07",
+			"title": "The Speech of a Lifetime",
+			"category": "",
+			"text": "",
+			"_info": {
+				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
+				"order": 0,
+				"requires": {
+					"flags": [
+						"hall_of_fame_earned"
+					]
+				},
+				"must_set_flags": [],
+				"premise": "You write your induction speech and think about everyone who got you there.",
+				"note": "Versions keyed to family and wrong-path flags.",
+				"signals": "Set at retirement, before the first closing scene (docs/story_note_epilogue.md): hall_of_fame_earned, hof_first_ballot / hof_inducted / hof_finalist / hof_ring_of_honor (exactly one when there's a tier), retired_by_choice, retired_out_of_football, retired_released, retired_unsigned, was_dismissed.",
+				"rules": "No follow-ups, kick challenges or suspensions. A flag set here can open a later closing scene."
+			},
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				}
+			]
+		},
+		{
+			"id": "PRO_E08",
+			"title": "The Speech, Second Draft",
+			"category": "",
+			"text": "",
+			"_info": {
+				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
+				"order": 0,
+				"requires": {
+					"flags": [
+						"hall_of_fame_earned"
+					],
+					"any_flags": [
+						"made_long_distance_work",
+						"committed_to_relationship",
+						"new_partner",
+						"engaged",
+						"married"
+					]
+				},
+				"must_set_flags": [],
+				"premise": "You read the speech to {love_interest} and cross out half of it.",
+				"note": "Partner version.",
+				"signals": "Set at retirement, before the first closing scene (docs/story_note_epilogue.md): hall_of_fame_earned, hof_first_ballot / hof_inducted / hof_finalist / hof_ring_of_honor (exactly one when there's a tier), retired_by_choice, retired_out_of_football, retired_released, retired_unsigned, was_dismissed.",
+				"rules": "No follow-ups, kick challenges or suspensions. A flag set here can open a later closing scene."
+			},
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				}
+			]
+		},
+		{
+			"id": "PRO_E09",
+			"title": "The Look Back",
+			"category": "",
+			"text": "",
+			"_info": {
+				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
+				"order": 0,
+				"requires": {
+					"min": {
+						"pro_seasons": 1
+					}
+				},
+				"must_set_flags": [],
+				"premise": "A closing look at the whole career, from the first kick in the backyard.",
+				"note": "Closing summary scene.",
+				"signals": "Set at retirement, before the first closing scene (docs/story_note_epilogue.md): hall_of_fame_earned, hof_first_ballot / hof_inducted / hof_finalist / hof_ring_of_honor (exactly one when there's a tier), retired_by_choice, retired_out_of_football, retired_released, retired_unsigned, was_dismissed.",
+				"rules": "No follow-ups, kick challenges or suspensions. A flag set here can open a later closing scene."
+			},
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				}
+			]
+		},
+		{
+			"id": "PRO_E10",
+			"title": "The Kid With Your Number",
+			"category": "",
+			"text": "",
+			"_info": {
+				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
+				"order": 0,
+				"requires": {
+					"min": {
+						"pro_seasons": 1
+					}
+				},
+				"must_set_flags": [],
+				"premise": "Years later, a kid at a youth camp wears your number and doesn't know who you are.",
+				"note": "",
+				"signals": "Set at retirement, before the first closing scene (docs/story_note_epilogue.md): hall_of_fame_earned, hof_first_ballot / hof_inducted / hof_finalist / hof_ring_of_honor (exactly one when there's a tier), retired_by_choice, retired_out_of_football, retired_released, retired_unsigned, was_dismissed.",
+				"rules": "No follow-ups, kick challenges or suspensions. A flag set here can open a later closing scene."
+			},
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				}
+			]
+		},
+		{
+			"id": "PRO_E11",
+			"title": "Coach, Now",
+			"category": "",
+			"text": "",
+			"_info": {
+				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
+				"order": 0,
+				"requires": {
+					"flags": [
+						"coach_after_football"
+					]
+				},
+				"must_set_flags": [],
+				"premise": "Your first season coaching. The kickers call you 'Coach' and you keep looking behind you.",
+				"note": "If you took a coaching path.",
+				"signals": "Set at retirement, before the first closing scene (docs/story_note_epilogue.md): hall_of_fame_earned, hof_first_ballot / hof_inducted / hof_finalist / hof_ring_of_honor (exactly one when there's a tier), retired_by_choice, retired_out_of_football, retired_released, retired_unsigned, was_dismissed.",
+				"rules": "No follow-ups, kick challenges or suspensions. A flag set here can open a later closing scene."
+			},
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				}
+			]
+		},
+		{
+			"id": "PRO_E12",
+			"title": "In the Booth",
+			"category": "",
+			"text": "",
+			"_info": {
+				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
+				"order": 0,
+				"requires": {
+					"flags": [
+						"broadcaster_after_football"
+					]
+				},
+				"must_set_flags": [],
+				"premise": "Your first broadcast. Your old club is playing.",
+				"note": "If you took a broadcasting path.",
+				"signals": "Set at retirement, before the first closing scene (docs/story_note_epilogue.md): hall_of_fame_earned, hof_first_ballot / hof_inducted / hof_finalist / hof_ring_of_honor (exactly one when there's a tier), retired_by_choice, retired_out_of_football, retired_released, retired_unsigned, was_dismissed.",
+				"rules": "No follow-ups, kick challenges or suspensions. A flag set here can open a later closing scene."
+			},
+			"choices": [
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				},
+				{
+					"label": "",
+					"result": "",
+					"stats": {
+						"life": {},
+						"football": {},
+						"personality": {}
+					},
+					"modifiers": []
+				}
+			]
+		}
+	]
+}
