@@ -9,7 +9,7 @@
 			"text": "",
 			"_info": {
 				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
-				"order": 0,
+				"order": 10,
 				"requires": {
 					"any_flags": [
 						"retired_by_choice",
@@ -67,7 +67,7 @@
 			"text": "",
 			"_info": {
 				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
-				"order": 0,
+				"order": 20,
 				"requires": {
 					"min": {
 						"pro_seasons": 1
@@ -122,7 +122,7 @@
 			"text": "",
 			"_info": {
 				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
-				"order": 0,
+				"order": 30,
 				"requires": {
 					"any_flags": [
 						"hof_finalist",
@@ -176,7 +176,7 @@
 			"text": "",
 			"_info": {
 				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
-				"order": 0,
+				"order": 40,
 				"requires": {
 					"flags": [
 						"hall_of_fame_earned"
@@ -228,7 +228,7 @@
 			"text": "",
 			"_info": {
 				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
-				"order": 0,
+				"order": 50,
 				"requires": {
 					"flags": [
 						"hall_of_fame_earned"
@@ -280,14 +280,24 @@
 			"text": "",
 			"_info": {
 				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
-				"order": 0,
+				"order": 60,
 				"requires": {
 					"not_flags": [
 						"hall_of_fame_earned"
 					],
-					"min": {
-						"pro_seasons": 1
-					}
+					"any_of": [
+						{
+							"min": {
+								"pro_seasons": 8
+							}
+						},
+						{
+							"any_flags": [
+								"hof_finalist",
+								"hof_ring_of_honor"
+							]
+						}
+					]
 				},
 				"must_set_flags": [],
 				"premise": "The finalists are announced, and you're not one of them.",
@@ -335,7 +345,7 @@
 			"text": "",
 			"_info": {
 				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
-				"order": 0,
+				"order": 70,
 				"requires": {
 					"flags": [
 						"hall_of_fame_earned"
@@ -387,7 +397,7 @@
 			"text": "",
 			"_info": {
 				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
-				"order": 0,
+				"order": 80,
 				"requires": {
 					"flags": [
 						"hall_of_fame_earned"
@@ -446,7 +456,7 @@
 			"text": "",
 			"_info": {
 				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
-				"order": 0,
+				"order": 90,
 				"requires": {
 					"min": {
 						"pro_seasons": 1
@@ -498,7 +508,7 @@
 			"text": "",
 			"_info": {
 				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
-				"order": 0,
+				"order": 100,
 				"requires": {
 					"min": {
 						"pro_seasons": 1
@@ -550,7 +560,7 @@
 			"text": "",
 			"_info": {
 				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
-				"order": 0,
+				"order": 110,
 				"requires": {
 					"flags": [
 						"coach_after_football"
@@ -602,7 +612,7 @@
 			"text": "",
 			"_info": {
 				"when": "After the game: a closing scene after the last snap (plays once, by order then id)",
-				"order": 0,
+				"order": 120,
 				"requires": {
 					"flags": [
 						"broadcaster_after_football"

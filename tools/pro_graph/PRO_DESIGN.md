@@ -1797,7 +1797,7 @@ Era 5 counts the age-38 scenes as playable now (the cap retires a player after t
 | PRO_E03 | Hall of Fame Eligibility | any | epilogue | hof_finalist / hof_inducted / hof_first_ballot |  |  |  |
 | PRO_E04 | The Nomination | any | epilogue | hall_of_fame_earned |  |  |  |
 | PRO_E05 | The Call | any | epilogue | hall_of_fame_earned |  |  |  |
-| PRO_E06 | The Call That Doesn't Come | any | epilogue | not hall_of_fame_earned; pro_seasons 1+ |  |  |  |
+| PRO_E06 | The Call That Doesn't Come | any | epilogue | not hall_of_fame_earned |  |  |  |
 | PRO_E07 | The Speech of a Lifetime | any | epilogue | hall_of_fame_earned |  |  |  |
 | PRO_E08 | The Speech, Second Draft | any | epilogue | hall_of_fame_earned; made_long_distance_work / committed_to_relationship / new_partner / engaged / married |  |  |  |
 | PRO_E09 | The Look Back | any | epilogue | pro_seasons 1+ |  |  |  |

@@ -394,6 +394,14 @@ class EpilogueTests(unittest.TestCase):
             self.assertEqual(s["when"], ["epilogue"])
             self.assertEqual(s["stages"], ["retired"])
 
+    def test_coaching_and_booth_scenes_play_after_the_club_call(self):
+        # The engine plays closing scenes by order, then id; E02 sets the flags E11 / E12 require.
+        pro = json.load(open(os.path.join(ROOT, "data", "career", "scenarios_pro.json")))["scenarios"]
+        e = sorted((s for s in pro if s.get("when") == ["epilogue"]), key=lambda s: (s.get("order", 0), s["id"]))
+        ids = [s["id"] for s in e]
+        self.assertLess(ids.index("PRO_E02"), ids.index("PRO_E11"))
+        self.assertLess(ids.index("PRO_E02"), ids.index("PRO_E12"))
+
     def test_epilogue_rules(self):
         bad = {"scenarios": [{"id": "PRO_E10", "title": "x", "category": "career", "text": "A camp.",
                               "when": ["season"],

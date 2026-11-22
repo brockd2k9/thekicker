@@ -1,6 +1,6 @@
-# Retirement epilogue (dry run, not imported)
+# Retirement epilogue: the 12 closing scenes (imported on the branch)
 
-Dry run: 12 written, 0 errors, 0 warnings, 0 lint notes.
+Dry run and import: 12 written, 0 errors, 0 warnings, 0 lint notes. Order: E01=10 ... E12=120 (E02 before E11/E12). E06 needs 8+ pro seasons, or hof_finalist / hof_ring_of_honor, and not hall_of_fame_earned.
 
 
 ## Closing scenes
@@ -90,7 +90,7 @@ The call comes on a gray Tuesday afternoon: a polite voice from the Hall of Fame
 
 ### PRO_E06 The Call That Doesn't Come
 - **Category:** career  
-- **Window:** once, not `hall_of_fame_earned`, pro_seasons 1+  
+- **Window:** once, not `hall_of_fame_earned`  
 - **Cast:** {love_interest}, {parent}  
 - **Premise:** The finalists are announced, and you're not one of them.  
 - **Note:** Not earned: a closing scene about what you built anyway.

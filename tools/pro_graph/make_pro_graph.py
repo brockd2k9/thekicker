@@ -74,6 +74,8 @@ def build(design, existing_doc):
         for k in ("followers_tier", "max_followers_tier"):
             if src.get(k):
                 req[k] = src[k]
+        if src.get("any_of"):
+            req["any_of"] = src["any_of"]
         mn, mx = dict(src.get("min") or {}), dict(src.get("max") or {})
         if e.get("ages"):
             a = e["ages"]

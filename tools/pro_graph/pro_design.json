@@ -20228,7 +20228,8 @@
    "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": "Versions by retirement reason (chose / forced out / dismissed)."
+   "note": "Versions by retirement reason (chose / forced out / dismissed).",
+   "order": 10
   },
   {
    "id": "PRO_E02",
@@ -20257,7 +20258,8 @@
    "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": ""
+   "note": "",
+   "order": 20
   },
   {
    "id": "PRO_E03",
@@ -20285,7 +20287,8 @@
    "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": "Only if the career earned it (engine formula, request R10)."
+   "note": "Only if the career earned it (engine formula, request R10).",
+   "order": 30
   },
   {
    "id": "PRO_E04",
@@ -20311,7 +20314,8 @@
    "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": "Hall of Fame earned."
+   "note": "Hall of Fame earned.",
+   "order": 40
   },
   {
    "id": "PRO_E05",
@@ -20337,7 +20341,8 @@
    "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": "Hall of Fame earned."
+   "note": "Hall of Fame earned.",
+   "order": 50
   },
   {
    "id": "PRO_E06",
@@ -20353,9 +20358,19 @@
     "not_flags": [
      "hall_of_fame_earned"
     ],
-    "min": {
-     "pro_seasons": 1
-    }
+    "any_of": [
+     {
+      "min": {
+       "pro_seasons": 8
+      }
+     },
+     {
+      "any_flags": [
+       "hof_finalist",
+       "hof_ring_of_honor"
+      ]
+     }
+    ]
    },
    "sets": [],
    "people": [
@@ -20366,7 +20381,8 @@
    "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": "Not earned: a closing scene about what you built anyway."
+   "note": "Not earned: a closing scene about what you built anyway.",
+   "order": 60
   },
   {
    "id": "PRO_E07",
@@ -20392,7 +20408,8 @@
    "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": "Versions keyed to family and wrong-path flags."
+   "note": "Versions keyed to family and wrong-path flags.",
+   "order": 70
   },
   {
    "id": "PRO_E08",
@@ -20425,7 +20442,8 @@
    "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": "Partner version."
+   "note": "Partner version.",
+   "order": 80
   },
   {
    "id": "PRO_E09",
@@ -20451,7 +20469,8 @@
    "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": "Closing summary scene."
+   "note": "Closing summary scene.",
+   "order": 90
   },
   {
    "id": "PRO_E10",
@@ -20477,7 +20496,8 @@
    "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": ""
+   "note": "",
+   "order": 100
   },
   {
    "id": "PRO_E11",
@@ -20503,7 +20523,8 @@
    "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": "If you took a coaching path."
+   "note": "If you took a coaching path.",
+   "order": 110
   },
   {
    "id": "PRO_E12",
@@ -20529,7 +20550,8 @@
    "waits_on": [],
    "callbacks": [],
    "era": "E",
-   "note": "If you took a broadcasting path."
+   "note": "If you took a broadcasting path.",
+   "order": 120
   }
  ],
  "relationship_strike_flags": [

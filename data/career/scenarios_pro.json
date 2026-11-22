@@ -73760,15 +73760,15 @@
 		{
 			"id": "PRO_E01",
 			"title": "The First Morning After",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "The first morning with nowhere to be. No meeting at eight, no tape on your ankle, no film in your bag. The coffee tastes the same, and the house is so quiet you can hear the clock in the hallway.",
 			"stages": [
 				"retired"
 			],
 			"when": [
 				"epilogue"
 			],
+			"order": 10,
 			"once": true,
 			"requires": {
 				"any_flags": [
@@ -73793,20 +73793,94 @@
 				"kind": "epilogue",
 				"note": "Versions by retirement reason (chose / forced out / dismissed)."
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Sleep until noon",
+					"result": "You go back to bed and sleep until noon, for the first time since you were a teenager. When you wake up, nobody needs you anywhere, and it's terrifying and wonderful at once.",
+					"stats": {
+						"life": {
+							"energy": 3,
+							"health": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Go for a walk with no plan",
+					"result": "A long walk with no destination, past the park where kids are kicking a ball badly. You stop and watch for a while, and nobody recognizes you, and that's fine.",
+					"stats": {
+						"life": {
+							"fun": 1
+						},
+						"football": {
+							"resilience": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Hang the cleats on the wall",
+					"result": "The last pair of cleats goes on a nail in the garage, laces tied together. You chose this ending yourself, and standing in front of them, you're glad you did it on your own terms.",
+					"requires": {
+						"flags": [
+							"retired_by_choice"
+						]
+					},
+					"lock_text": "having chosen when to stop",
+					"stats": {
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Sit with how it ended",
+					"result": "You sit on the back step with the coffee and let yourself be angry about how it ended, then sad, then something quieter. By lunch you can say it out loud: it's over, and you were good.",
+					"requires": {
+						"any_flags": [
+							"retired_released",
+							"retired_unsigned",
+							"retired_out_of_football",
+							"was_dismissed"
+						]
+					},
+					"lock_text": "if the game ended it for you",
+					"stats": {
+						"life": {
+							"social": -1
+						},
+						"football": {
+							"resilience": 3
+						}
+					},
+					"modifiers": [
+						"drained"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_E02",
 			"title": "The Phone Call From the Club",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "Your last club calls a month after the end, the general manager and the special teams coach on speaker together. They want you to stay connected, and they've each brought a different idea.",
 			"stages": [
 				"retired"
 			],
 			"when": [
 				"epilogue"
 			],
+			"order": 20,
 			"once": true,
 			"requires": {
 				"min": {
@@ -73827,20 +73901,73 @@
 				],
 				"kind": "epilogue"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Take the coaching idea",
+					"result": "The coaching idea: assistant special teams coach, starting in the spring, with an office down the hall from where your locker used to be. You say yes before they finish describing the parking space.",
+					"stats": {
+						"personality": {
+							"leadership": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"set_flags": {
+						"coach_after_football": true
+					}
+				},
+				{
+					"label": "Take the broadcast idea",
+					"result": "The broadcast idea: the club's radio booth, twelve games a year, beside an announcer who has been calling games since before you were born. You say yes, and start practicing in the car.",
+					"stats": {
+						"life": {
+							"fun": 1
+						},
+						"personality": {
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"spotlight"
+					],
+					"set_flags": {
+						"broadcaster_after_football": true
+					}
+				},
+				{
+					"label": "Thank them and go home",
+					"result": "No to both, with real thanks. You want to find out who you are without a team first, and the general manager says the door stays open, and you believe it.",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"football": {
+							"resilience": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"rel": {
+						"parent": 2
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_E03",
 			"title": "Hall of Fame Eligibility",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "Your name goes on the list of players eligible for the Hall of Fame. A reporter calls for a comment, an old teammate texts a row of trophies, and you find yourself checking the news more than you'd like.",
 			"stages": [
 				"retired"
 			],
 			"when": [
 				"epilogue"
 			],
+			"order": 30,
 			"once": true,
 			"requires": {
 				"any_flags": [
@@ -73861,20 +73988,68 @@
 				"kind": "epilogue",
 				"note": "Only if the career earned it (engine formula, request R10)."
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Turn off your phone",
+					"result": "The phone goes in a drawer until the vote is done. The waiting is easier without the noise, and you spend the weeks fixing the fence and cooking long dinners.",
+					"stats": {
+						"life": {
+							"energy": 1
+						},
+						"football": {
+							"resilience": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				},
+				{
+					"label": "Call the people who got you there",
+					"result": "One by one, the people who got you there get a call: old coaches, a holder, the trainer who taped your ankle. Whatever the vote says, the calls are the part you'll keep.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"holder": 2
+					}
+				},
+				{
+					"label": "Give the reporter something honest",
+					"result": "A comment for the reporter: you'd be honored, and you'd be fine either way, because the career already happened. It's the truest thing you've said in a long time.",
+					"stats": {
+						"personality": {
+							"charisma": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					],
+					"followers": 1
+				}
+			]
 		},
 		{
 			"id": "PRO_E04",
 			"title": "The Nomination",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "The Hall of Fame vote is in, and your name is on the list of new members. The list goes up on the league's website at noon, and by five past your phone has a hundred messages.",
 			"stages": [
 				"retired"
 			],
 			"when": [
 				"epilogue"
 			],
+			"order": 40,
 			"once": true,
 			"requires": {
 				"flags": [
@@ -73893,20 +74068,71 @@
 				"kind": "epilogue",
 				"note": "Hall of Fame earned."
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Read every message",
+					"result": "You read every message, all hundred and then two hundred more, sitting on the kitchen floor. Old teammates, rivals, a kid from a clinic years ago: the whole career, in one afternoon.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"charisma": 1,
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Call {parent} first",
+					"result": "Before anyone else, you call {parent}. There's a long silence on the line, and then a sound you've never heard {parent} make, and you both laugh at it for a long time.",
+					"stats": {
+						"life": {
+							"social": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"parent": 4
+					}
+				},
+				{
+					"label": "Go to the old field",
+					"result": "The field where you first kicked a ball is a short drive away, and you stand on the old hash mark for a while. Nobody is there, and it's exactly where you wanted to be.",
+					"stats": {
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_E05",
 			"title": "The Call",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "The call comes on a gray Tuesday afternoon: a polite voice from the Hall of Fame, a few formal sentences, and then a pause while the person on the other end waits for you to say anything at all.",
 			"stages": [
 				"retired"
 			],
 			"when": [
 				"epilogue"
 			],
+			"order": 50,
 			"once": true,
 			"requires": {
 				"flags": [
@@ -73925,28 +74151,88 @@
 				"kind": "epilogue",
 				"note": "Hall of Fame earned."
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Say thank you, twice",
+					"result": "You say thank you twice, because the first one came out as a whisper. The voice on the phone laughs kindly and says almost everyone does that.",
+					"stats": {
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Ask who else is going in",
+					"result": "You ask who else is going in with you, and two of the names are people you played against. You call them both that evening, and the three of you talk past midnight.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"rival": 2
+					}
+				},
+				{
+					"label": "Hand the phone to {sibling}",
+					"result": "You hand the phone to {sibling} without a word, because you can't speak. {sibling} handles the rest of the call like a professional and then hugs you so hard it hurts.",
+					"stats": {
+						"life": {
+							"social": 2,
+							"fun": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"sibling": 4
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_E06",
 			"title": "The Call That Doesn't Come",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "The finalists are announced, and you're not one of them. The list is on your phone, the names you know and the names you'd expected, and yours isn't there. The house is quiet around it.",
 			"stages": [
 				"retired"
 			],
 			"when": [
 				"epilogue"
 			],
+			"order": 60,
 			"once": true,
 			"requires": {
 				"not_flags": [
 					"hall_of_fame_earned"
 				],
-				"min": {
-					"pro_seasons": 1
-				}
+				"any_of": [
+					{
+						"min": {
+							"pro_seasons": 8
+						}
+					},
+					{
+						"any_flags": [
+							"hof_finalist",
+							"hof_ring_of_honor"
+						]
+					}
+				]
 			},
 			"expected_flags": [],
 			"authoring": {
@@ -73960,20 +74246,95 @@
 				"kind": "epilogue",
 				"note": "Not earned: a closing scene about what you built anyway."
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Count what you built anyway",
+					"result": "A legal pad and an hour at the kitchen table, writing down what you built anyway: the people you helped, the habits you kept, the kids at the clinics. The list is longer than you expected.",
+					"stats": {
+						"football": {
+							"resilience": 3
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"drained"
+					]
+				},
+				{
+					"label": "Call someone who knows",
+					"result": "You call an old teammate who never got in either. He laughs, then gets serious, and says the best thing anyone says to you all year: the vote isn't the career.",
+					"stats": {
+						"life": {
+							"social": 2,
+							"fun": 1
+						},
+						"football": {
+							"resilience": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Be proud of the finalist year",
+					"result": "You remember the year your name made the final list and decide that will do. A finalist is a career most kickers would trade for, and you say so out loud, to nobody, in the kitchen.",
+					"requires": {
+						"flags": [
+							"hof_finalist"
+						]
+					},
+					"lock_text": "having made the finalists before",
+					"stats": {
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Visit the Ring of Honor",
+					"result": "At the stadium, you look up at your name in the Ring of Honor, painted above the seats where the fans who knew you best used to sit. That's where you belong, and it's enough.",
+					"requires": {
+						"flags": [
+							"hof_ring_of_honor"
+						]
+					},
+					"lock_text": "with your name in your club's Ring of Honor",
+					"stats": {
+						"life": {
+							"fun": 1
+						},
+						"football": {
+							"resilience": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"followers": 1
+				}
+			]
 		},
 		{
 			"id": "PRO_E07",
 			"title": "The Speech of a Lifetime",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "You start writing your induction speech at the kitchen table, and the first draft is forty names long. Every person who got you there wants a line, and you have eight minutes on the stage.",
 			"stages": [
 				"retired"
 			],
 			"when": [
 				"epilogue"
 			],
+			"order": 70,
 			"once": true,
 			"requires": {
 				"flags": [
@@ -73992,20 +74353,92 @@
 				"kind": "epilogue",
 				"note": "Versions keyed to family and wrong-path flags."
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Keep every name",
+					"result": "Every name stays, read quickly, with one sentence each. It runs long, the organizers frown, and every person on the list hears their name in that hall.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Tell one story instead",
+					"result": "One story, about the first person who believed in you, and a thank-you to everyone else in a single line. It's shorter, and it lands harder than any list could.",
+					"stats": {
+						"personality": {
+							"charisma": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Write it for your kids",
+					"result": "You write the whole speech for your kids, about what the years cost them and what you hope they took from it. They sit in the front row, and they hear every word.",
+					"requires": {
+						"flags": [
+							"became_parent"
+						]
+					},
+					"lock_text": "with kids of your own",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"football": {
+							"resilience": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Tell them about the fall",
+					"result": "You put the worst part in the speech, the fall and the long way back, because leaving it out would be a lie. The hall goes completely quiet, and then it stands.",
+					"requires": {
+						"any_flags": [
+							"was_dismissed",
+							"pro_character_concerns"
+						]
+					},
+					"lock_text": "having fallen and come back",
+					"stats": {
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"leadership": 2
+						}
+					},
+					"modifiers": [
+						"drained"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_E08",
 			"title": "The Speech, Second Draft",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "family",
+			"text": "You read the speech to {love_interest} at the kitchen table the night before the ceremony, and they listen all the way through, and then reach for a pen and cross out half of it.",
 			"stages": [
 				"retired"
 			],
 			"when": [
 				"epilogue"
 			],
+			"order": 80,
 			"once": true,
 			"requires": {
 				"flags": [
@@ -74031,20 +74464,78 @@
 				"kind": "epilogue",
 				"note": "Partner version."
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Let them cut it",
+					"result": "You let them cut it, every line they want. What's left is shorter and truer, and it sounds like you, which the first draft somehow didn't.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"football": {
+							"resilience": 1
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"love_interest": 4
+					}
+				},
+				{
+					"label": "Argue for one line",
+					"result": "You argue for one line, the one about the bad years, and win. {love_interest} puts the pen down and says it's the best line in the speech, and you both laugh.",
+					"stats": {
+						"life": {
+							"fun": 1
+						},
+						"personality": {
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"love_interest": 3
+					}
+				},
+				{
+					"label": "Add a line about them",
+					"result": "The pen comes back to you, and you add a line about {love_interest}, near the end, without telling them. They hear it for the first time in the hall, in the second row.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"love_interest": 5
+					}
+				}
+			]
 		},
 		{
 			"id": "PRO_E09",
 			"title": "The Look Back",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "family",
+			"text": "A closing look at the whole career, from the first kick in the backyard: the box of old programs {parent} kept, the cleats, the jerseys, a newspaper clipping from a high school game you'd forgotten.",
 			"stages": [
 				"retired"
 			],
 			"when": [
 				"epilogue"
 			],
+			"order": 90,
 			"once": true,
 			"requires": {
 				"min": {
@@ -74063,20 +74554,93 @@
 				"kind": "epilogue",
 				"note": "Closing summary scene."
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Go through the box slowly",
+					"result": "Every program, every clipping, every photo, one evening at a time over a week. By the end you understand the whole thing a little better, and you're kinder to the kid in the pictures.",
+					"stats": {
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"rested"
+					],
+					"rel": {
+						"parent": 2
+					}
+				},
+				{
+					"label": "Give most of it away",
+					"result": "Most of it goes to the youth league and the high school, the jerseys framed for their hallways. The box gets lighter, and so do you.",
+					"stats": {
+						"life": {
+							"social": 1
+						},
+						"personality": {
+							"leadership": 2,
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Make a book for the family",
+					"result": "A photo book for the family, built over a month, with captions {sibling} insists on rewriting. Everyone gets a copy, and the arguments about the captions are the best part.",
+					"stats": {
+						"life": {
+							"fun": 2,
+							"social": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					],
+					"rel": {
+						"sibling": 2
+					}
+				},
+				{
+					"label": "Find the first paycheck stub",
+					"result": "At the bottom of the box is the stub from your first pro paycheck, and the note you wrote yourself about saving it. You laugh, then frame it for the hallway.",
+					"requires": {
+						"any_flags": [
+							"saved_rookie_check",
+							"lived_modestly"
+						]
+					},
+					"lock_text": "having kept your rookie habits",
+					"stats": {
+						"life": {
+							"fun": 1
+						},
+						"football": {
+							"resilience": 2
+						}
+					},
+					"modifiers": [
+						"rested"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_E10",
 			"title": "The Kid With Your Number",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "social",
+			"text": "Years later, at a youth camp, a kid is wearing your old number on a homemade shirt. You ask why that number, and the kid shrugs and says it's just a lucky one. They have no idea who you are.",
 			"stages": [
 				"retired"
 			],
 			"when": [
 				"epilogue"
 			],
+			"order": 100,
 			"once": true,
 			"requires": {
 				"min": {
@@ -74094,20 +74658,66 @@
 				],
 				"kind": "epilogue"
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Don't tell them",
+					"result": "You don't tell them. You just help with their plant foot, and the kid gets better by lunch, wearing your number, and that's the whole thing you ever wanted.",
+					"stats": {
+						"football": {
+							"resilience": 2
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				},
+				{
+					"label": "Tell them, later",
+					"result": "At the end of camp you tell them, quietly, and the kid's mouth falls open. They ask for an autograph on the homemade shirt, right across your old number.",
+					"stats": {
+						"life": {
+							"fun": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					]
+				},
+				{
+					"label": "Ask them about their kicking",
+					"result": "You ask about their kicking instead, and listen for twenty minutes. The kid talks like you used to, all hope and no doubt, and you drive home smiling.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_E11",
 			"title": "Coach, Now",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "career",
+			"text": "Your first season coaching. The kickers call you 'Coach', and every time they do, you turn around to see who they mean. Your office has a window over the field, and the whistle is still new.",
 			"stages": [
 				"retired"
 			],
 			"when": [
 				"epilogue"
 			],
+			"order": 110,
 			"once": true,
 			"requires": {
 				"flags": [
@@ -74126,20 +74736,67 @@
 				"kind": "epilogue",
 				"note": "If you took a coaching path."
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Coach the way you were coached",
+					"result": "The way you were coached at your best: honest, patient, a little funny. The young kickers improve, and one of them asks you, in October, how you knew so much.",
+					"stats": {
+						"personality": {
+							"leadership": 2,
+							"intelligence": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"rel": {
+						"team": 2
+					}
+				},
+				{
+					"label": "Learn from the kickers",
+					"result": "The first month is for listening more than talking, asking the young kickers what they need. It's the best coaching decision you make all year.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"football": {
+							"resilience": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Kick with them, once",
+					"result": "On the last day of camp, in your old cleats, one kick with them, just for fun. It goes where it wants to go, and the kickers cheer anyway, and you never do it again.",
+					"stats": {
+						"life": {
+							"fun": 2
+						},
+						"personality": {
+							"charisma": 1
+						}
+					},
+					"modifiers": [
+						"loose"
+					]
+				}
+			]
 		},
 		{
 			"id": "PRO_E12",
 			"title": "In the Booth",
-			"draft": true,
-			"category": "",
-			"text": "",
+			"category": "media",
+			"text": "Your first broadcast, in a booth high above the field. Your old club is playing, the producer is counting down in your headphones, and the veteran announcer beside you winks and says, 'Just talk.'",
 			"stages": [
 				"retired"
 			],
 			"when": [
 				"epilogue"
 			],
+			"order": 120,
 			"once": true,
 			"requires": {
 				"flags": [
@@ -74158,7 +74815,53 @@
 				"kind": "epilogue",
 				"note": "If you took a broadcasting path."
 			},
-			"choices": []
+			"choices": [
+				{
+					"label": "Just talk",
+					"result": "You just talk: about the kickers, the wind, the snapper's timing. It's easy once it starts, and the producer says in your ear that you're a natural.",
+					"stats": {
+						"life": {
+							"fun": 1
+						},
+						"personality": {
+							"charisma": 2
+						}
+					},
+					"modifiers": [
+						"spotlight"
+					],
+					"followers": 2
+				},
+				{
+					"label": "Prepare like a game",
+					"result": "You prepare like it's a game: notes, charts, the stadium's wind. You're the best-prepared voice in the booth, and the veteran announcer borrows your notes at halftime.",
+					"stats": {
+						"personality": {
+							"intelligence": 2,
+							"ambition": 1
+						}
+					},
+					"modifiers": [
+						"focused"
+					]
+				},
+				{
+					"label": "Talk about your old teammates",
+					"result": "You talk about the old teammates still on the field, what they were like on the hard days. Fans write in for a week to say it was the best broadcast all season.",
+					"stats": {
+						"life": {
+							"social": 2
+						},
+						"personality": {
+							"leadership": 1
+						}
+					},
+					"modifiers": [
+						"inspired"
+					],
+					"followers": 1
+				}
+			]
 		}
 	]
 }
