@@ -93,6 +93,8 @@ func _sanitize() -> void:
 		_after_scenarios()
 	if data.schedule.is_empty() and in_season_loop() and data.phase != PHASE_OFFSEASON:
 		_start_season(true)
+	# Saves from before leagues: a league fitted around this season's schedule.
+	League.migrate(data, tuning)
 	# Saves from before the attribute caps: clamp to this stage, refund the SP.
 	Leveling.fix_old_save(data, tuning)
 
@@ -221,8 +223,14 @@ func _start_season(continuing: bool) -> void:
 	if continuing:
 		data.team["strength"] = clampf(float(data.team.get("strength", 50)) +
 			rng.randf_range(-tuning.team_strength_drift, tuning.team_strength_drift), 20.0, 90.0)
-	data.schedule = build_schedule(data, tuning, rng)
-	Relationships.schedule_tyler(data, data.schedule)
+	# The stage's league (League): every team's schedule; yours is taken from it.
+	if League.prepare_season(data, tuning):
+		data.schedule = League.player_schedule(data)
+		Relationships.schedule_tyler(data, data.schedule)
+		League.align_to_schedule(data)
+	else:
+		data.schedule = build_schedule(data, tuning, rng)
+		Relationships.schedule_tyler(data, data.schedule)
 	data.retention_bonus = 0.0
 	data.week = 1
 	data.record = {"w": 0, "l": 0, "t": 0}
@@ -267,6 +275,8 @@ func _sync_flags() -> void:
 ## games_per_season games + byes_per_season byes against this stage's teams
 ## (colleges: your own tier first). Entries are typed ("regular" / "bye");
 ## postseason weeks ("playoff") are appended by Postseason.advance().
+## Only for stages without a league: seasons with one take the player's
+## schedule from the league's (League.player_schedule).
 static func build_schedule(c: CareerData, t: CareerTuning, r: RandomNumberGenerator) -> Array:
 	var others := Progression.opponents(c)
 	Progression.shuffle(others, r)
@@ -780,6 +790,8 @@ func end_week() -> void:
 	# Bye-week choices' game-day modifiers carry into next week's game.
 	if not is_bye():
 		data.week_modifiers.clear()
+	# The league's other games this week (League): simulated around yours.
+	League.after_week(data, data.week)
 	data.week_index += 1
 	data.week += 1
 	# Past the schedule: the postseason decides (another game is appended, or

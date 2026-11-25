@@ -11,6 +11,13 @@ extends RefCounted
 ## scene, Results), with more pressure and no ties. Win and the next round is
 ## appended; lose and the season ends (PHASE_SEASON_END).
 ##
+## Who gets in is decided by the league (League.qualification): the standings
+## against every other team, seeds, a limited number of spots, and (college)
+## conference title games first. Without a league or league results (a test
+## that sets the record by hand) the record decides, as below (qualify()).
+## Opponents come from the seeded bracket (League.bracket_opponent) when there
+## is one.
+##
 ## Postseason games don't count in the regular-season record (CareerData.record,
 ## which recruiting / draft / qualifying read): they're counted in
 ## CareerData.postseason (this season) and postseason_career (career). Kicks
@@ -25,11 +32,15 @@ extends RefCounted
 ##   missed_postseason  the regular season wasn't good enough
 ##   won_championship   won the bracket's final this season (kept through the
 ##                      offseason after it)
+##   division_champion  finished first in the division (league standings)
+##   conference_champion  won the college conference title game
+##   conference_title_game  this week's game is a college conference title game
 ## Career-long metrics: playoff_appearances, championships, postseason_wins.
 
 const PATH := "res://tuning/postseason.tres"
 const SEASON_FLAGS := ["made_playoffs", "bowl_game", "in_postseason", "championship_game",
-	"eliminated", "missed_postseason", "won_championship"]
+	"eliminated", "missed_postseason", "won_championship", "division_champion", "conference_champion",
+	"conference_title_game"]
 
 static var _cached: PostseasonConfig
 
@@ -65,7 +76,8 @@ static func win_share(record: Dictionary) -> float:
 	return (int(record.get("w", 0)) + 0.5 * int(record.get("t", 0))) / float(g)
 
 
-## What this regular season earns: "playoff", "bowl" or "" (season over).
+## By the record only (the fallback when there's no league decision, see
+## League.qualification): "playoff", "bowl" or "" (season over).
 static func qualify(c: CareerData) -> String:
 	var g := config()
 	var share := win_share(c.record)
@@ -134,6 +146,8 @@ static func advance(c: CareerData, rng: RandomNumberGenerator, t: CareerTuning) 
 	if not is_postseason(last) or not (res is Dictionary):
 		return {"event": "", "text": ""}
 	var kind := str(ps.get("kind", "playoff"))
+	if kind == "conference":
+		return _after_conference_game(c, rng, last, res)
 	var name := str(last.get("round_name", ""))
 	var opp: Dictionary = last.get("opponent", {})
 	var won := str(res.get("outcome", "L")) == "W"  # (a tie can't happen; it would count as a loss)
@@ -150,6 +164,7 @@ static func advance(c: CareerData, rng: RandomNumberGenerator, t: CareerTuning) 
 		var txt := "Season over: lost the %s to %s, %d-%d." % [name, opp.get("name", "them"),
 			int(res.get("us", 0)), int(res.get("them", 0))]
 		ps["text"] = txt
+		League.finish(c)
 		return {"event": ps["status"], "text": txt}
 	ps["w"] = int(ps.get("w", 0)) + 1
 	car["wins"] = int(car["wins"]) + 1
@@ -171,6 +186,7 @@ static func advance(c: CareerData, rng: RandomNumberGenerator, t: CareerTuning) 
 			txt = "CHAMPIONS! You won the %s, %d-%d over %s." % [name, int(res.get("us", 0)),
 				int(res.get("them", 0)), opp.get("name", "them")]
 		ps["text"] = txt
+		League.finish(c)
 		return {"event": ps["status"], "text": txt}
 	var nxt := _append(c, int(last.get("round", 0)) + 1, rng)
 	return {"event": "advanced", "text": "You won! Next: the %s against %s." % [nxt.get("round_name", ""),
@@ -178,14 +194,36 @@ static func advance(c: CareerData, rng: RandomNumberGenerator, t: CareerTuning) 
 
 
 static func _start(c: CareerData, rng: RandomNumberGenerator) -> Dictionary:
-	var kind := qualify(c)
+	var q := League.qualification(c)
+	if q.is_empty():
+		return _begin(c, rng, qualify(c), {})
+	_league_flags(c, q)
+	if str(q.get("kind", "")) == "conference":
+		return _conference_week(c, q)
+	return _begin(c, rng, str(q.get("kind", "")), q)
+
+
+## The postseason starts (or, after a conference title game, goes on): kind
+## "playoff" / "bowl" / "" (missed). q: League.qualification() ({} = by record).
+static func _begin(c: CareerData, rng: RandomNumberGenerator, kind: String, q: Dictionary) -> Dictionary:
 	var car := career(c)
+	var prev := c.postseason
+	var games: Array = prev.get("games", []) if prev.get("games") is Array else []
+	var w := int(prev.get("w", 0))
+	var l := int(prev.get("l", 0))
 	if kind == "":
-		c.postseason = {"kind": "none", "status": "missed", "w": 0, "l": 0, "games": [],
-			"text": "No postseason this year (%s)." % _rec(c.record)}
+		var why := _rec(c.record)
+		if str(q.get("reason", "")) != "":
+			why += ", " + str(q["reason"])
+		c.postseason = {"kind": "none", "status": "missed", "w": w, "l": l, "games": games,
+			"text": "No postseason this year (%s)." % why}
 		c.flags["missed_postseason"] = true
+		c.flags["in_postseason"] = false
+		League.finish(c)
 		return {"event": "missed", "text": str(c.postseason["text"])}
-	c.postseason = {"kind": kind, "status": "alive", "w": 0, "l": 0, "games": []}
+	c.postseason = {"kind": kind, "status": "alive", "w": w, "l": l, "games": games}
+	if q.has("seed"):
+		c.postseason["seed"] = int(q["seed"])
 	if kind == "bowl":
 		var names := config().bowl_names
 		c.postseason["name"] = names[rng.randi_range(0, names.size() - 1)] if not names.is_empty() else "Bowl Game"
@@ -197,20 +235,96 @@ static func _start(c: CareerData, rng: RandomNumberGenerator) -> Dictionary:
 		by[c.stage] = int(by.get(c.stage, 0)) + 1
 		c.flags["made_playoffs"] = true
 	c.flags["in_postseason"] = true
-	var e := _append(c, 0, rng)
+	var e := _append(c, int(q.get("start_round", 0)), rng, q.get("opponent", {}) if kind == "bowl" else {})
 	var txt := ("Bowl bound! %s vs %s." if kind == "bowl" else "You made the playoffs! %s vs %s.") % [
 		e.get("round_name", ""), e.get("opponent", {}).get("name", "")]
+	if q.has("seed"):
+		txt = "You made the playoffs as the #%d seed%s! %s vs %s." % [int(q["seed"]),
+			" with a first-round bye" if bool(q.get("bye", false)) else "", e.get("round_name", ""),
+			e.get("opponent", {}).get("name", "")]
 	c.postseason["text"] = txt
 	return {"event": "qualified", "text": txt}
 
 
+## Division winners first play for the conference title (college): one more
+## week before the playoff field and the bowls are picked.
+static func _conference_week(c: CareerData, q: Dictionary) -> Dictionary:
+	var name := str(q.get("name", "Conference Championship"))
+	c.postseason = {"kind": "conference", "status": "alive", "w": 0, "l": 0, "games": [], "name": name}
+	var opp: Dictionary = q.get("opponent", {})
+	c.schedule.append({"week": c.schedule.size() + 1, "type": "playoff", "postseason": "conference", "round": 0,
+		"round_name": name, "final": false, "home": bool(q.get("home", true)), "opponent": opp, "result": null})
+	c.flags["in_postseason"] = true
+	c.flags["conference_title_game"] = true
+	c.flags["championship_game"] = false
+	var txt := "Division champions! Next: the %s against %s." % [name, opp.get("name", "")]
+	c.postseason["text"] = txt
+	return {"event": "conference", "text": txt}
+
+
+## The conference title game is over: count it, then the playoff field / bowls.
+static func _after_conference_game(c: CareerData, rng: RandomNumberGenerator, last: Dictionary,
+		res: Dictionary) -> Dictionary:
+	var ps := c.postseason
+	var car := career(c)
+	var won := str(res.get("outcome", "L")) == "W"
+	var name := str(last.get("round_name", ""))
+	var opp: Dictionary = last.get("opponent", {})
+	ps["games"].append({"round": 0, "name": name, "opponent": opp.get("name", ""), "us": int(res.get("us", 0)),
+		"them": int(res.get("them", 0)), "outcome": "W" if won else "L"})
+	if won:
+		ps["w"] = int(ps.get("w", 0)) + 1
+		car["wins"] = int(car["wins"]) + 1
+	else:
+		ps["l"] = int(ps.get("l", 0)) + 1
+		car["losses"] = int(car["losses"]) + 1
+	c.flags["conference_title_game"] = false
+	c.flags["in_postseason"] = false
+	var q := League.qualification(c)
+	_league_flags(c, q)
+	var out := _begin(c, rng, str(q.get("kind", "")), q)
+	var pre := ("%s champions! " % name.trim_suffix(" Championship")) if won else \
+		("Lost the %s, %d-%d. " % [name, int(res.get("us", 0)), int(res.get("them", 0))])
+	out["text"] = pre + str(out["text"])
+	c.postseason["text"] = out["text"]
+	return out
+
+
+static func _league_flags(c: CareerData, q: Dictionary) -> void:
+	c.flags["division_champion"] = bool(q.get("division_champion", false))
+	if bool(q.get("conference_champion", false)):
+		c.flags["conference_champion"] = true
+
+
 ## Appends postseason round `i` to the schedule and returns the entry.
-static func _append(c: CareerData, i: int, rng: RandomNumberGenerator) -> Dictionary:
+## The opponent: the bracket's (League.bracket_opponent), or the bowl
+## partner given, or (no league) a strong team as before.
+static func _append(c: CareerData, i: int, rng: RandomNumberGenerator, given := {}) -> Dictionary:
 	var g := config()
 	var kind := str(c.postseason.get("kind", "playoff"))
-	var names := rounds(c, kind)
+	var names := League.round_names(c) if kind == "playoff" else rounds(c, kind)
 	i = clampi(i, 0, names.size() - 1)
 	var final := i == names.size() - 1
+	var league_opp: Dictionary = given if not given.is_empty() else \
+		(League.bracket_opponent(c, i) if kind == "playoff" else {})
+	if not league_opp.is_empty():
+		var lo := league_opp.duplicate(true)
+		var roll := rng.randf() < g.home_chance
+		var seeded := lo.has("seed") and lo.has("my_seed") and not final
+		var my_seed := int(lo.get("my_seed", 0))
+		var their_seed := int(lo.get("seed", 0))
+		lo.erase("seed")
+		lo.erase("my_seed")
+		lo["strength"] = clampf(float(lo.get("strength", 50)) + g.opponent_strength_bonus
+			+ g.opponent_strength_per_round * i, 20.0, 95.0)
+		var le := {"week": c.schedule.size() + 1, "type": "playoff", "postseason": kind, "round": i,
+			"round_name": names[i], "final": final, "home": my_seed < their_seed if seeded else roll,
+			"opponent": lo, "result": null}
+		if seeded:
+			le["seeds"] = [my_seed, their_seed]
+		c.schedule.append(le)
+		c.flags["championship_game"] = final
+		return le
 	# A strong opponent you haven't met this postseason.
 	var met := {}
 	for e in c.schedule:

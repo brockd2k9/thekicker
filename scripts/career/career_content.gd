@@ -409,6 +409,8 @@ const ENGINE_FLAGS := ["walk_on", "juco", "failed_tryouts", "fa_attempts", "recr
 	# Postseason (Postseason): reset each season.
 	"made_playoffs", "bowl_game", "in_postseason", "championship_game", "eliminated", "missed_postseason",
 	"won_championship",
+	# League (League.qualification): reset each season.
+	"division_champion", "conference_champion", "conference_title_game",
 	# Set at retirement for the closing scenes (CareerManager._retirement_flags, HallOfFame.set_flags).
 	"retired_by_choice", "retired_out_of_football", "retired_released", "retired_unsigned",
 	"hall_of_fame_earned", "hall_of_fame_tier", "hof_ring_of_honor", "hof_finalist", "hof_inducted",

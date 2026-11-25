@@ -76,6 +76,11 @@ var postseason: Dictionary = {}
 ## Career postseason totals: appearances, bowls, bowl_wins, titles, wins,
 ## losses, by_stage {stage: appearances}, title_list [{stage, season, name, team}].
 var postseason_career: Dictionary = {}
+## The league around the team (League): conferences, divisions, every team's
+## strength, this season's full schedule and scores, the postseason field.
+## {} for stages without one. An optional field (no save version bump): saves
+## without it get one on load (CareerManager._sanitize -> League.migrate).
+var league: Dictionary = {}
 ## This season: fg_att, fg_made, pat_att, pat_made, long, game_winners, points.
 var season_stats: Dictionary = {}
 ## Same keys, whole career.
@@ -433,6 +438,7 @@ func to_dict() -> Dictionary:
 		"draft_result": draft_result.duplicate(true),
 		"postseason": postseason.duplicate(true),
 		"postseason_career": postseason_career.duplicate(true),
+		"league": league.duplicate(true),
 		"route": route.duplicate(true),
 		"retirement": retirement.duplicate(true),
 		"last_week": last_week.duplicate(true),
@@ -536,6 +542,7 @@ static func from_dict(d: Dictionary) -> CareerData:
 	c.draft_result = _dict(d, "draft_result")
 	c.postseason = _dict(d, "postseason")
 	c.postseason_career = _dict(d, "postseason_career")
+	c.league = _dict(d, "league")
 	c.route = _array(d, "route")
 	c.retirement = _dict(d, "retirement")
 	c.last_week = _dict(d, "last_week")
