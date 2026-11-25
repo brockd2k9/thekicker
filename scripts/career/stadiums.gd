@@ -10,7 +10,7 @@ extends RefCounted
 ##                games (college_night_share), prime time
 ##   pro:         strength bands (stadium_pro_strength) -> pro_1 / pro_2 / pro_3;
 ##                night for pro_night_share of games
-## A team with "capacity" in world.json is placed by capacity instead
+## A team with a stadium capacity (team database: stadium.capacity) is placed by capacity instead
 ## (stadium_*_capacity bands). The night pick is a hash of the season, week
 ## and teams, so it never changes on resume.
 ## Kick challenges are at a neutral site: high school showcases and camps at a
@@ -62,7 +62,7 @@ static func for_tryout(c: CareerData, tr: Dictionary, t: CareerTuning) -> Stadiu
 		id = neutral_site(str(tr.get("kind", "")), stage)
 	if id != "":
 		return StadiumSpec.preset(id)
-	var team := CareerContent.team_by_id(str(tr.get("team", "")))
+	var team: Dictionary = TeamDatabase.team(str(tr.get("team", "")))
 	var as_stage := CareerData.STAGE_PRO
 	if stage == "high_school":
 		as_stage = CareerData.STAGE_HIGH_SCHOOL
@@ -112,10 +112,16 @@ static func _dress(st: StadiumSpec, host: Dictionary) -> void:
 static func _capacity(team: Dictionary) -> int:
 	if team.has("capacity"):
 		return int(team["capacity"])
+	# Team database records: stadium {name, capacity}.
+	if team.get("stadium") is Dictionary and int(team["stadium"].get("capacity", 0)) > 0:
+		return int(team["stadium"]["capacity"])
 	var id := str(team.get("id", ""))
 	if id == "":
 		return 0
-	return int(CareerContent.team_by_id(id).get("capacity", 0))
+	var rec: Dictionary = TeamDatabase.team(id)
+	if rec.get("stadium") is Dictionary:
+		return int(rec["stadium"].get("capacity", 0))
+	return int(rec.get("capacity", 0))
 
 
 ## 0, 1 or 2: below bands.x, below bands.y, or above.

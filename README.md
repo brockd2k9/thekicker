@@ -408,15 +408,17 @@ dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career
 | Skill points, attribute upgrades (Skills screen) | `scripts/career/skill_points.gd` (earn amounts: `career_tuning.tres` "Skill Points"; cost curve: `tuning/leveling.tres`) |
 | Leveling: overall rating, upgrade cost curve, per-stage caps (HS overall 55) | `tuning/leveling.tres` (defaults + docs in `scripts/config/leveling_config.gd`; rules: `scripts/career/leveling.gd`) |
 | Postseason: rounds, bowl names, opponent strength, pressure, rewards (and the record-only fallback) | `tuning/postseason.tres` (defaults + docs in `scripts/config/postseason_config.gd`; rules: `scripts/career/postseason.gd`) |
-| Leagues: conferences, divisions, teams per division, division / conference games, playoff spots, wild cards, college title games / field / bowls, simulated games, strength drift, playoff picture week | `tuning/league.tres` (defaults + docs in `scripts/config/league_config.gd`; rules: `scripts/career/league.gd`) |
-| League team names (fictional), conference and division names | `data/career/league_teams.json` (every `world.json` team of a stage is always in its league; these fill the rest) |
+| Leagues: division / conference games, playoff spots, wild cards, college title games / field / bowls, simulated games, strength drift, playoff picture week | `tuning/league.tres` (defaults + docs in `scripts/config/league_config.gd`; rules: `scripts/career/league.gd`). The teams, conferences and divisions are the team database's (`data/teams/`, see `DATA_FORMAT.md`) |
 | Field goal / kickoff range, game-day range, range -> launch speed | `scripts/career/kick_range.gd`, `kick_profile.gd` (numbers: "Power -> Range", "Game Day Range") |
 | Kick results -> Coach / Team, coach doubt ("too many misses") | `scripts/career/kick_trust.gd` (numbers: "Relationships", kick results + too many misses) |
 | Perks (15): cost, prerequisites, effects | `data/career/perks.json` (rules: `scripts/career/perks.gd`) |
 | Aging and maintenance (from 30) | `scripts/career/aging.gd` (numbers: `career_tuning.tres` "Aging") |
 | Cold and snow games (late season) | `career_manager.gd` `_roll_cold()`, `kick_profile.gd` (numbers: "Weather") |
 | Traits (8), game-day modifiers (19), stat descriptions | `data/career/traits.json`, `modifiers.json`, `stats_info.json` |
-| Schools (16 HS, 18 colleges in 3 tiers, 6 junior colleges), 12 pro clubs, names, play-by-play | `data/career/world.json`, `game_day.json` |
+| Teams: 21 high schools (every career starts at Hoboken High School), 426 colleges (FBS / FCS / D2 = top / mid / small tier), 6 junior colleges (placeholders) and 32 pro clubs (AFC / NFC, 8 divisions) | `data/teams/` via the `TeamDatabase` autoload; format, import and validator: [DATA_FORMAT.md](DATA_FORMAT.md) |
+| All-time records: fictional record books (league / conference / division / team, single season and career, 11 categories) and your kicker's records, NEW RECORD events (`CareerManager.records_set`) | `data/records/record_book.json` (made once by `tools/records/generate_records.py`, fixed seed), `scripts/records/record_book.gd` (`RecordBook`), saved events: `CareerData.records` |
+| Season length: high school 10, college 12, pro 17 regular-season games (+1 bye). Per-game and per-week amounts tuned on 10 games are scaled so a season is worth the same (`season_scale` = 10 / games: skill points from games, practice and choices; Coach / Team trust per kick; win-loss and game-winner terms of the recruiting, draft and retention scores), "this season, after N attempts" thresholds grow with it (`season_attempts`), the season FG% weighs sqrt(games / 10) in the pro retention score (`season_pct_weight`, with `retention_fg_ref` 0.67), a bench can start in the last 8 weeks (`Bench.min_week`) and lasts the same share of the season (pro 2-3 weeks), and in-season choices' recruiting / draft / retention / GPA progress counts `season_scale` as much | `career_tuning.tres` "Seasons" (`games_for`, `season_scale`) |
+| Names, play-by-play, player looks | `data/career/world.json`, `game_day.json` |
 | Progression tables: college tiers, offers, draft rounds, tryouts, contracts | `data/career/progression.json` (weights in `career_tuning.tres`) |
 | Recruiting / draft / retention / academics rules | `scripts/career/progression.gd` |
 | Content word check (teen audience) | `data/career/content_rules.json` |
@@ -424,6 +426,7 @@ dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career
 | Stats + traits -> kick | `scripts/career/kick_profile.gd` (`KickProfile.build()` -> `KickModifiers`) |
 | Scenario engine | `scripts/career/scenario_engine.gd` |
 | Hub → **Stats** (kicking record: Season view; Career view with HS / College / Pro / Career Total tabs, season rows and totals; distance, extra point, streak and misc sections; per-kick log `CareerData.kick_log`) and Hub → **Recruiting** (recruiting points, interested colleges with interest level and offers) | `scripts/career/career_records.gd` (`CareerRecords`, read-only), screens `career_kicking.gd`, `career_recruiting_board.gd` |
+| Hub → **Records** (Records Book: High School / College / Pro, then League / Conference / Division / Team with a team picker, Single Season / Career, ◀ category ▶; your entries highlighted and "Your best" with the gap to the next rank and to #1). New records, ties and lists entered show on the Results and Season screens | `scripts/ui/screens/career_records.gd`, row scene `scenes/ui/record_row.tscn`, `CareerUi.record_events` |
 
 Goalposts and uniforms: `field_goal_game.gd` `set_look()` (called before the scene enters the
 tree) picks the posts style per stage (high school plain H-frame and wide, college gooseneck

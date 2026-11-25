@@ -101,6 +101,7 @@ func _school_row(e: Dictionary) -> PanelContainer:
 	v.add_child(chips)
 	chips.add_child(UiKit.chip(str(e["word"]), col, false, "", 22))
 	chips.add_child(UiKit.chip(str(Progression.tier(str(s.get("tier", ""))).get("name", "")), UiKit.MUTED, false, "", 22))
+	chips.add_child(UiKit.chip(CareerUi.league_line(s), UiKit.MUTED, false, "", 22))
 	var off: Dictionary = e["offer"]
 	if not off.is_empty():
 		chips.add_child(UiKit.chip("OFFER: " + str(Progression.OFFER_NAMES.get(str(off.get("type", "")), "Offer")),

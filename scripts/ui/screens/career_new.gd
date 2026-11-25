@@ -18,7 +18,6 @@ var _hair := 0
 var _school := ""
 var _number_label: Label
 var _face: AppearancePreview
-var _school_buttons: Dictionary = {}
 var _start: Button
 
 
@@ -97,18 +96,17 @@ func _build(col: VBoxContainer) -> void:
 		b.add_theme_font_size_override("font_size", 28)
 	opts.add_child(CareerUi.button_row([skin_b, hair_b]))
 
-	col.add_child(UiKit.section("STARTING SCHOOL"))
-	var list := UiKit.scroll_list(col)
-	var confs: Array = CareerContent.world().get("high_school", {}).get("conferences", [])
-	for s in CareerContent.high_schools():
-		var id := str(s["id"])
-		var conf := str(confs[int(s.get("conference", 0))]) if confs.size() > int(s.get("conference", 0)) else ""
-		var b := UiKit.button("%s %s\n%s  -  %s" % [s["name"], s.get("mascot", ""),
-			CareerScreen.strength_word(float(s.get("strength", 50))), conf], _pick_school.bind(id))
-		b.add_theme_font_size_override("font_size", 26)
-		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		list.add_child(b)
-		_school_buttons[id] = b
+	# Every career starts at Hoboken High School (TeamDatabase.start_team).
+	col.add_child(UiKit.section("YOUR SCHOOL"))
+	var s := TeamDatabase.start_team()
+	var parts := UiKit.card(CareerUi.html_color(str(s.get("colors", ["#7d838c"])[0])), 4)
+	(parts[0] as Control).size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var v: VBoxContainer = parts[1]
+	v.add_child(UiKit.label("%s %s" % [s.get("name", ""), s.get("nickname", "")], 30))
+	v.add_child(UiKit.label("%s  -  %s" % [s.get("city", ""), s.get("conference", "")], 22, UiKit.MUTED))
+	v.add_child(UiKit.label("Every career starts here: freshman kicker at %s." % s.get("name", ""), 22, UiKit.MUTED))
+	col.add_child(parts[0])
+	_school = str(s.get("id", ""))
 	_start = UiKit.button("Start Career", _create, UiKit.PRIMARY)
 	col.add_child(CareerUi.button_row([UiKit.button("Back", go_back), _start]))
 	if uses_name_chooser():
@@ -150,25 +148,11 @@ func _refresh_look() -> void:
 	_face.skin = CareerUi.html_color(str(look.get("skin", ["#e0ac7e"])[_skin]))
 	_face.hair = CareerUi.html_color(str(look.get("hair", ["#2b1d0e"])[_hair]))
 	_face.number = _number
-	var s := CareerContent.school(_school)
+	var s := TeamDatabase.team(_school)
 	if not s.is_empty():
 		_face.jersey = CareerUi.html_color(str(s["colors"][0]))
 	_face.queue_redraw()
 	_number_label.text = "Jersey  #%d" % _number
-
-
-func _pick_school(id: String) -> void:
-	_name.release_focus()  # closes the keyboard so the list and Start show
-	_school = id
-	for k in _school_buttons:
-		var b: Button = _school_buttons[k]
-		if k == id:
-			b.add_theme_stylebox_override("normal", (b.get_theme_stylebox("normal") as ClippedBox).with(
-				{"bg": Brand.INK_3, "stroke": Brand.WHITE, "stripe": Brand.RED, "stripe_width": Brand.STRIPE}))
-		else:
-			b.remove_theme_stylebox_override("normal")
-	_refresh_look()
-	_update_start()
 
 
 # --- name chooser (web build on touch devices) -----------------------------------------
@@ -250,12 +234,11 @@ func _open_name_chooser() -> void:
 func _update_start() -> void:
 	_start.disabled = _school == "" or _name.text.strip_edges() == ""
 	_start.text = "Start Career" if not _start.disabled else \
-		("Pick a School" if _name.text.strip_edges() != "" else
-			("Pick a Name" if uses_name_chooser() else "Enter a Name"))
+		("Pick a Name" if uses_name_chooser() else "Enter a Name")
 
 
 func _create() -> void:
 	var m := CareerManager.create(slot, _name.text.strip_edges(), _number,
-		{"skin": _skin, "hair": _hair}, _school)
+		{"skin": _skin, "hair": _hair})
 	GameState.career = m
 	Screens.go(Screens.CAREER_HUB)

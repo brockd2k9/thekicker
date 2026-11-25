@@ -13,13 +13,13 @@ func _career(stage := CareerData.STAGE_HIGH_SCHOOL) -> CareerManager:
 	var c := CareerData.create("Challenge Test", t)
 	c.created = 1794983149
 	c.slot = 0
-	c.team = Progression.team_from(CareerContent.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
+	c.team = Progression.team_from(TeamDatabase.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
 	var m := CareerManager.new(c, t)
 	m.rng.seed = 3
 	m._start_season(false)
 	if stage != CareerData.STAGE_HIGH_SCHOOL:
 		c.stage = stage
-		c.team = Progression.team_from(CareerContent.colleges()[0], stage)
+		c.team = Progression.team_from(TeamDatabase.colleges()[0], stage)
 		Relationships.enter_stage(c, t)
 	c.set_stat("power", 80.0)  # a range past every proposed distance
 	return m
@@ -211,7 +211,7 @@ func test_audition_and_tryouts_resume_too() -> void:
 	m.finish_tryout(0)  # the screen's count is ignored: the saved kicks decide
 	eq(str(c.bench["last_audition"]["result"]), "passed", "4 of 5 made")
 	var w := _career()
-	w.start_tryout("walk_on", str(CareerContent.colleges()[0]["id"]))
+	w.start_tryout("walk_on", str(TeamDatabase.colleges()[0]["id"]))
 	w.tryout_kick(false)
 	w.tryout_struck()
 	w.tryout_resume()

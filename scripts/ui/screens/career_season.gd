@@ -19,6 +19,10 @@ func _build(col: VBoxContainer) -> void:
 		list.add_child(UiKit.stat_row("Postseason", post + rec,
 			UiKit.GOOD if str(ps.get("status", "")) in ["champion", "bowl_won"] else UiKit.MUTED))
 	_stat_rows(list, c.season_stats)
+	var rec := CareerUi.record_events(c)
+	if rec != null:
+		list.add_child(rec)
+		career.save()
 	if Reputation.is_dismissed(c):
 		list.add_child(UiKit.label(Reputation.dismissed_text(c), 26, UiKit.BAD))
 	if Progression.is_poor_season(c, career.tuning):

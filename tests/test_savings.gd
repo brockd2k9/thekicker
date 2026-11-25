@@ -116,4 +116,4 @@ func test_migration_to_v8() -> void:
 	var again := CareerData.from_dict(CareerSave._migrate(p.to_dict()))
 	eq(again.savings, p.savings, "saved and loaded")
 	eq(JSON.stringify(again.money_log), JSON.stringify(p.money_log), "the log too")
-	eq(int(p.to_dict()["career_version"]), 8, "version 8")
+	eq(int(p.to_dict()["career_version"]), CareerData.VERSION, "current version")

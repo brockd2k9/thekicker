@@ -86,7 +86,7 @@ func _show() -> void:
 # --- standings -------------------------------------------------------------------------
 
 func _standings() -> void:
-	var n := int(_lg["n"])
+	var n := League.conference_count(_lg)
 	var conf := conf_shown if conf_shown >= 0 and conf_shown < n else League.conf_of(_lg, maxi(_p, 0))
 	if n > 1:
 		_body.add_child(_stepper(League.conference_name(_lg, conf), func(step: int) -> void:
@@ -101,20 +101,22 @@ func _standings() -> void:
 	var played := int(pic.get("played", 0))
 	list.add_child(BrandUi.text("%s  ·  after week %d of %d" % [_season_word(), played, regular] if played > 0
 		else "%s  ·  no games yet" % _season_word(), "Caption", Brand.GREY))
-	var m := int(_lg["m"])
-	for v in m:
-		var div := conf * m + v
-		list.add_child(BrandUi.section(League.division_name(_lg, div)))
+	var flat := League.flat(_lg)
+	for div in League.conference_divisions(_lg, conf):
+		# High school and college: the conference is the division (one table).
+		list.add_child(BrandUi.section(League.conference_name(_lg, conf) if flat and n == 1
+			else League.division_name(_lg, div)) if not (flat and n > 1) else Control.new())
 		list.add_child(_table_head())
 		var order := League.division_order(_lg, _st, div)
 		for k in order.size():
 			list.add_child(_team_row(order[k], seeds.get(order[k], 0)))
 			if q > 0 and k == q - 1 and k < order.size() - 1:
 				list.add_child(_line("Playoff line"))
-	var legend := "Red line: the top %d in each %s get in." % [q, League.word(_lg, "division").to_lower()] if q > 0 \
-		else "No automatic spots by %s." % League.word(_lg, "division").to_lower()
+	var group := "conference" if flat else "division"
+	var legend := ("Red line: the top %d in the %s get in." if flat and n == 1 else "Red line: the top %d in each %s get in.") \
+		% [q, group] if q > 0 else "Playoff spots go by the national ranking (see the playoff picture)."
 	if int(s.get("wildcards", 0)) > 0:
-		legend += " Then %d wild cards per %s." % [int(s["wildcards"]), League.word(_lg, "conference").to_lower()]
+		legend += " Then %d wild cards per conference." % int(s["wildcards"])
 	list.add_child(BrandUi.text(legend + " The number before a team is its seed in the playoff picture.", "Caption",
 		Brand.GREY))
 	_picture(list, pic)
@@ -505,7 +507,7 @@ func _pick_team() -> void:
 	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	list.add_theme_constant_override("separation", 0)
 	sc.add_child(list)
-	for div in int(_lg["n"]) * int(_lg["m"]):
+	for div in League.division_count(_lg):
 		list.add_child(BrandUi.section(League.division_name(_lg, div)))
 		for i in League.division_order(_lg, _st, div):
 			var r: BrandListRow = load("res://scenes/ui/brand/list_row.tscn").instantiate()
@@ -527,14 +529,13 @@ func _divisions() -> void:
 	card.content.add_child(BrandUi.text("How it works", "Subhead"))
 	card.content.add_child(BrandUi.text(_format_text(), "Body"))
 	list.add_child(card)
-	var n := int(_lg["n"])
-	var m := int(_lg["m"])
-	for c in n:
+	var flat := League.flat(_lg)
+	for c in League.conference_count(_lg):
 		list.add_child(BrandUi.section(League.conference_name(_lg, c)))
-		for v in m:
-			var div := c * m + v
+		for div in League.conference_divisions(_lg, c):
 			var dc := BrandUi.card("raised" if div == League.div_of(_lg, maxi(_p, 0)) else "card")
-			dc.content.add_child(BrandUi.text(League.division_name(_lg, div), "Eyebrow", Brand.GREY))
+			if not flat:
+				dc.content.add_child(BrandUi.text(League.division_name(_lg, div), "Eyebrow", Brand.GREY))
 			for i in League.division_teams(_lg, div):
 				var r: BrandListRow = load("res://scenes/ui/brand/list_row.tscn").instantiate()
 				r.title = CareerScreen.team_name(League.team(_lg, i)) + ("  (you)" if i == _p else "")
@@ -549,55 +550,74 @@ func _divisions() -> void:
 			list.add_child(dc)
 
 
-## The league's shape and who gets in, from the numbers in league.tres.
+## The league's shape and who gets in, from the team database and league.tres.
 func _format_text() -> String:
 	var s := League.config().structure(career.data.stage)
 	var t := career.tuning
-	var n := int(_lg["n"])
-	var m := int(_lg["m"])
-	var d := int(_lg["d"])
-	var cw := League.word(_lg, "conference").to_lower()
-	var dw := League.word(_lg, "division").to_lower()
+	var n := League.conference_count(_lg)
+	var flat := League.flat(_lg)
+	var games := t.games_for(career.data.stage)
 	var lines := PackedStringArray()
-	lines.append("%d teams: %d %s%s of %d %s%s, %d teams each." % [n * m * d, n, cw, "s" if n != 1 else "", m, dw,
-		"s" if m != 1 else "", d])
+	var who := "%d teams" % League.size(_lg)
+	if career.data.stage == CareerData.STAGE_COLLEGE and str(_lg.get("scope", "")) != "":
+		who += " (%s)" % str(TeamDatabase.division_info("college", str(_lg["scope"])).get("name", _lg["scope"]))
+	if flat:
+		who += " in %d conference%s." % [n, "" if n == 1 else "s"] if n > 1 else \
+			" in the %s." % League.conference_name(_lg, 0)
+	else:
+		who += ": %d conferences of %d divisions." % [n, League.division_count(_lg) / maxi(n, 1)]
+	lines.append(who)
 	var div_g := int(s.get("division_games", 0))
 	var conf_g := int(s.get("conference_games", 0))
-	lines.append("%d games: %d in the %s, %d against the rest of the %s, %d outside it; %d bye week%s." % [
-		t.games_per_season, div_g, dw, conf_g, cw, maxi(t.games_per_season - div_g - conf_g, 0), t.byes_per_season,
-		"" if t.byes_per_season == 1 else "s"])
+	if flat:
+		lines.append("%d games: up to %d in the conference, the rest outside it; %d bye week%s (more for some teams when the numbers are odd)." % [
+			games, div_g, t.byes_per_season, "" if t.byes_per_season == 1 else "s"])
+	else:
+		lines.append("%d games: %d in the division, %d against the rest of the conference, %d outside it; %d bye week%s." % [
+			games, div_g, conf_g, maxi(games - div_g - conf_g, 0), t.byes_per_season, "" if t.byes_per_season == 1 else "s"])
+	var per := 0
 	if career.data.stage == CareerData.STAGE_COLLEGE:
 		if bool(s.get("title_game", false)):
-			lines.append("The two %s winners in each %s play for the %s title." % [dw, cw, cw])
-		lines.append("Playoff: %d teams by ranking (record, schedule strength, %s champions first); the best %d %s champions are in for sure. The top seeds get first-round byes." % [
-			int(s.get("field", 12)), cw, int(s.get("auto_bids", 0)), cw])
+			lines.append("The top two in each conference (%d+ teams) play for its title." % int(s.get("title_min", 6)))
+		lines.append("Playoff: %d teams by ranking (record, schedule strength, conference champions first); the best %d conference champions are in for sure." % [
+			int(s.get("field", 12)), int(s.get("auto_bids", 0))])
 		lines.append("Bowl games: the next %d teams with a record of .500 or better." % int(s.get("bowl_slots", 0)))
+		per = int(s.get("field", 12))
 	else:
 		var q := int(s.get("qualifiers_per_division", 0))
 		var wc := int(s.get("wildcards", 0))
-		var per := q * m + wc
-		var txt := "Playoffs: the top %d in each %s" % [q, dw] if q > 1 else "Playoffs: every %s winner" % dw
-		if wc > 0:
-			txt += " plus %d wild card%s" % [wc, "s" if wc != 1 else ""]
-		if bool(s.get("by_conference", false)) and n > 1:
-			txt += " per %s (%d each, a bracket per %s; the champions meet in the final)." % [cw, per, cw]
+		var by_conf := bool(s.get("by_conference", false)) and n > 1
+		var divs_per_side := League.division_count(_lg) / maxi(n, 1) if by_conf else League.division_count(_lg)
+		per = q * divs_per_side + wc
+		var txt := ""
+		if flat and n == 1:
+			txt = "Playoffs: the top %d." % q
 		else:
-			txt += " (%d teams)." % (per * n)
+			txt = "Playoffs: the top %d in each %s" % [q, "conference" if flat else "division"] if q > 1 \
+				else "Playoffs: every %s winner" % ("conference" if flat else "division")
+			if wc > 0:
+				txt += " plus %d wild card%s" % [wc, "s" if wc != 1 else ""]
+			txt += " per conference (%d each, a bracket per conference; the champions meet in the final)." % per \
+				if by_conf else " (%d teams)." % per
 		lines.append(txt)
-		if League._pow2(per) != per and per > 0:
-			lines.append("The top seed%s get%s a first-round bye." % ["s" if League._pow2(per) - per > 1 else "",
-				"" if League._pow2(per) - per > 1 else "s"])
-	lines.append("Ties in the standings: head-to-head, then %s record, then %s record, then point differential." % [dw, cw])
+	if per > 0 and League._pow2(per) != per:
+		lines.append("The top seeds get first-round byes.")
+	lines.append("Ties in the standings: head-to-head, then division record, then conference record, then point differential.")
 	return "\n".join(lines)
 
 
 # --- shared ----------------------------------------------------------------------------
 
-## A short team name for tables: the town (or the school name).
+## A team name for tables: pro "Boston Rebels", high school "Ashford Ridge",
+## college the school's name (cities repeat across schools).
 func _short(i: int) -> String:
 	var t := League.team(_lg, i)
-	var town := str(t.get("town", ""))
-	return town if town != "" else str(t.get("name", ""))
+	match career.data.stage:
+		CareerData.STAGE_PRO:
+			return CareerScreen.team_name(t)
+		CareerData.STAGE_HIGH_SCHOOL:
+			return str(t.get("name", "")).trim_suffix(" High School").trim_suffix(" High")
+	return str(t.get("name", ""))
 
 
 func _reselect_tab() -> void:

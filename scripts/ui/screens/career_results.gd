@@ -77,6 +77,10 @@ func _build(col: VBoxContainer) -> void:
 			for x in warm:
 				parts.append(str(words.get(str(x), x)))
 			list.add_child(UiKit.stat_row("Sideline warmups", ", ".join(parts), Color(0, 0, 0, 0), "toughness"))
+	var rec := CareerUi.record_events(c)
+	if rec != null:
+		list.add_child(rec)
+		career.save()
 	list.add_child(UiKit.section("THIS WEEK'S CHANGES"))
 	var changes: Dictionary = w.get("changes", {})
 	list.add_child(CareerUi.change_chips(changes))

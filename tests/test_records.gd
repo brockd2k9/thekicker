@@ -67,7 +67,7 @@ func test_played_career_levels_add_up_to_career_totals() -> void:
 	sim._kt = load("res://tuning/kick_tuning.tres")
 	sim._rng.seed = 3
 	var c := CareerData.create("Records Test", CareerTuning.get_default())
-	c.team = Progression.team_from(CareerContent.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
+	c.team = Progression.team_from(TeamDatabase.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
 	var m := CareerManager.new(c)
 	m.rng.seed = 9
 	m._start_season(false)
@@ -109,7 +109,7 @@ func test_interest_follows_recruiting_points() -> void:
 	var c := _load("career_v2_hs_junior.json")
 	c.offers.clear()
 	c.gpa = 4.0
-	var s: Dictionary = CareerContent.colleges()[0]
+	var s: Dictionary = TeamDatabase.colleges()[0]
 	c.recruiting_score = 10.0
 	var low := CareerRecords.school_interest(c, s)
 	c.recruiting_score = 90.0
@@ -125,7 +125,7 @@ func test_interest_follows_recruiting_points() -> void:
 func test_offers_and_gpa_shape_interest() -> void:
 	var c := _load("career_v2_hs_junior.json")
 	c.recruiting_score = 0.0
-	var s: Dictionary = CareerContent.colleges()[0]
+	var s: Dictionary = TeamDatabase.colleges()[0]
 	c.offers = [{"school": str(s["id"]), "name": str(s["name"]), "tier": str(s["tier"]), "type": "full",
 		"season": c.season}]
 	check(CareerRecords.school_interest(c, s) >= 85.0, "a full offer means top interest")

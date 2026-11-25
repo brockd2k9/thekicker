@@ -11,13 +11,13 @@ func _career(stage := CareerData.STAGE_HIGH_SCHOOL) -> CareerManager:
 	var c := CareerData.create("Rep Test", t)
 	c.created = 1794983149
 	c.slot = 0
-	c.team = Progression.team_from(CareerContent.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
+	c.team = Progression.team_from(TeamDatabase.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
 	var m := CareerManager.new(c, t)
 	m.rng.seed = 5
 	m._start_season(false)
 	if stage != CareerData.STAGE_HIGH_SCHOOL:
 		c.stage = stage
-		c.team = Progression.team_from(CareerContent.colleges()[0], stage)
+		c.team = Progression.team_from(TeamDatabase.colleges()[0], stage)
 		Relationships.enter_stage(c, t)
 	return m
 
@@ -129,7 +129,7 @@ func test_suspension_cap_and_stage_change() -> void:
 	eq(int(c.suspension["weeks_left"]), t.suspend_max_weeks, "capped at 3")
 	Reputation.suspend(c, 1, "Again", t)
 	eq(int(c.suspension["weeks_left"]), t.suspend_max_weeks, "never past the cap")
-	m._enter_stage(CareerData.STAGE_COLLEGE, Progression.team_from(CareerContent.colleges()[0], CareerData.STAGE_COLLEGE), "x")
+	m._enter_stage(CareerData.STAGE_COLLEGE, Progression.team_from(TeamDatabase.colleges()[0], CareerData.STAGE_COLLEGE), "x")
 	check(not Reputation.suspended(c), "a new stage starts clean")
 
 

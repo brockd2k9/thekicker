@@ -24,6 +24,7 @@ const CAREER_RECRUITING_BOARD := "res://scenes/screens/career_recruiting_board.t
 const CAREER_STANDINGS := "res://scenes/screens/career_standings.tscn"
 const CAREER_SCHEDULE := "res://scenes/screens/career_schedule.tscn"
 const CAREER_DIVISIONS := "res://scenes/screens/career_divisions.tscn"
+const CAREER_RECORDS := "res://scenes/screens/career_records.tscn"
 const CAREER_RECRUITING := "res://scenes/screens/career_recruiting.tscn"
 const CAREER_TRYOUT := "res://scenes/screens/career_tryout.tscn"
 const CAREER_DRAFT := "res://scenes/screens/career_draft.tscn"

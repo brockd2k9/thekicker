@@ -130,9 +130,9 @@ func _ready() -> void:
 # --- one career -----------------------------------------------------------------------
 
 func _play_career(strat: String, n: int) -> Dictionary:
-	var schools := CareerContent.high_schools()
+	# Every career starts at Hoboken High School, as in the game.
 	var c := CareerData.create("Sim %d" % n, CareerTuning.get_default())
-	c.team = Progression.team_from(schools[_rng.randi_range(0, schools.size() - 1)], CareerData.STAGE_HIGH_SCHOOL)
+	c.team = Progression.team_from(TeamDatabase.start_team(), CareerData.STAGE_HIGH_SCHOOL)
 	var m := CareerManager.new(c)
 	m.rng.seed = _rng.randi()
 	m._start_season(false)

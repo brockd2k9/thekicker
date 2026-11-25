@@ -8,7 +8,7 @@ var t := CareerTuning.get_default()
 func _career() -> CareerData:
 	var c := CareerData.create("Skills Test", t)
 	c.created = 1794983149
-	c.team = Progression.team_from(CareerContent.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
+	c.team = Progression.team_from(TeamDatabase.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
 	c.set_stat("energy", 60.0)  # no rested / tired yards
 	c.set_stat("health", 60.0)
 	return c
@@ -201,7 +201,7 @@ func test_no_automatic_football_growth() -> void:
 			"good_kickoff_power_gain", "good_kickoff_toughness_gain"]:
 		check(not (knob in t), "%s removed" % knob)
 	var c := CareerData.create("Growth", t)
-	c.team = Progression.team_from(CareerContent.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
+	c.team = Progression.team_from(TeamDatabase.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
 	var m := CareerManager.new(c, t)
 	var ch := m.game_changes({"outcome": "W", "warmups": ["pure", "skipped"], "kicks": [
 		{"kind": "fg", "made": true, "yards": 50, "pressure": 0.9}, {"kind": "fg", "made": false, "yards": 30},
@@ -388,7 +388,7 @@ func test_frozen_v4_save_loads_unchanged() -> void:
 	var people: Dictionary = c.to_dict()["people"]
 	check(people.has(Bench.BACKUP) and not bool(people[Bench.BACKUP]["known"]), "v5 adds the backup kicker, hidden")
 	people.erase(Bench.BACKUP)
-	eq(JSON.stringify(people), JSON.stringify(raw["people"]), "people kept exactly")
+	eq(people_json(people), people_json(raw["people"]), "people kept exactly")
 	eq(JSON.stringify(c.to_dict()["sp_upgrades"]), JSON.stringify(raw["sp_upgrades"]), "upgrades kept")
 	var again := CareerData.from_dict(CareerSave._migrate(c.to_dict()))
 	eq(JSON.stringify(again.to_dict()), JSON.stringify(c.to_dict()), "v4 round trip")
@@ -399,7 +399,7 @@ func test_frozen_v4_save_loads_unchanged() -> void:
 func test_game_sim_respects_the_coach_limit() -> void:
 	var c := _career()
 	var e := {"week": 1, "type": "regular", "home": true, "weather": {"wind": 0},
-		"opponent": Progression.team_from(CareerContent.high_schools()[1], "high_school")}
+		"opponent": Progression.team_from(TeamDatabase.high_schools()[1], "high_school")}
 	var longest := 0
 	var fgs := 0
 	for seed in 60:

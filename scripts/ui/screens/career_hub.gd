@@ -63,6 +63,7 @@ func _build(col: VBoxContainer) -> void:
 			["Kicking stats", "This season, career and records", "FG %d/%d" % [int(st["fg_made"]), int(st["fg_att"])],
 				"football", Screens.CAREER_KICKING],
 			["Recruiting", "Who's watching, offers", "", "school", Screens.CAREER_RECRUITING_BOARD],
+			["Record book", "All-time records you can chase", "", "medal", Screens.CAREER_RECORDS],
 			["Stats & traits", "Every attribute and trait", "", "star", Screens.CAREER_STATS],
 			["People", "Coach, team, family and friends", "", "team", Screens.CAREER_PEOPLE]]:
 		nav.add_child(_nav_row(r[0], r[1], r[2], r[3], r[4]))

@@ -1,14 +1,17 @@
 class_name League
 extends RefCounted
 ## The league around the player's team (numbers: LeagueConfig,
-## res://tuning/league.tres; names: res://data/career/league_teams.json).
+## res://tuning/league.tres). The teams are the team database's
+## (TeamDatabase, data/teams) and nothing else.
 ##
 ## One league per stage (high school, junior college, college, pro), stored in
-## CareerData.league and made new when the stage changes. Every team has a slot
-## (conference, division) and a strength rating that drifts between seasons.
-## Each season every team gets a full schedule (division, conference,
-## nonconference games and byes). The player's games are the real ones (the
-## kick scene / GameSim); every other game is simulated at the end of its week
+## CareerData.league and made new when the stage changes (or a college player
+## moves to another level, FBS / FCS / D2). Every team has a conference and a
+## division (high school and college: the conference is the division; pro:
+## AFC / NFC and "AFC East") and a strength rating that drifts between
+## seasons. Each season every team gets a full schedule (division, conference
+## and outside games, byes). The player's games are the real ones (the kick
+## scene / GameSim); every other game is simulated at the end of its week
 ## (after_week) from the two teams' strength plus randomness.
 ##
 ## Standings (wins, losses, ties, division / conference records, points,
@@ -19,16 +22,16 @@ extends RefCounted
 ## standings (qualification()), and the playoff bracket's other games are
 ## simulated as the player's postseason goes on (bracket_opponent(), finish()).
 ##
-## Save layout (compact; team details come from world.json / league_teams.json):
-##   {v, stage, seed, season, n, m, d,          conferences, divisions per conference, teams per division
-##    ids: [team id per slot], str: [strength per slot], custom: {id: team} (made-up names only),
+## Save layout (team details come from the team database by id):
+##   {v, stage, scope (college: "FBS" ...), seed, season,
+##    ids: [team id per slot], str: [strength per slot], div: [division per slot],
+##    divs: [[division name, conference index], ...], confs: [conference name, ...],
+##    custom: {id: team} (a team the database doesn't have: an old save's),
 ##    weeks: [[home, away, home, away, ...] per week], scores: [[home pts, away pts, ...] or [] per week],
 ##    post: {season, ccg, field, bracket, bowls}}
-## Slot i is conference i / (m*d), division i / d (counted across the league).
 
 const PATH := "res://tuning/league.tres"
-const DATA := "league_teams.json"
-const VERSION := 1
+const VERSION := 2
 
 static var _cached: LeagueConfig
 
@@ -45,96 +48,41 @@ static func use_config(cfg: LeagueConfig) -> void:
 	_cached = cfg
 
 
-## This stage's names and filler teams from league_teams.json.
-static func stage_data(stage: String) -> Dictionary:
-	var d: Variant = CareerContent.file(DATA).get(stage, {})
-	return d if d is Dictionary else {}
-
-
 static func has_league(stage: String) -> bool:
 	return not config().structure(stage).is_empty()
 
 
 # --- the league -------------------------------------------------------------------------
 
-## A new league for the career's stage, with the player's team and every
-## world.json team of the stage in it. No schedule yet (prepare_season).
+## A new league for the career's stage from the team database (college: the
+## player's level only). No schedule yet (prepare_season).
 static func create(c: CareerData) -> Dictionary:
-	var st := config().structure(c.stage)
-	var n := int(st["conferences"])
-	var m := int(st["divisions"])
-	var d := int(st["teams"])
-	var cap := m * d
-	var seed := hash("%s|%s|%d|%s|%d" % [str(c.player.get("name", "")), c.stage, c.season,
-		str(c.team.get("id", "")), c.created])
-	var rng := RandomNumberGenerator.new()
-	rng.seed = seed
-	var lg := {"v": VERSION, "stage": c.stage, "seed": seed, "season": 0, "n": n, "m": m, "d": d,
-		"ids": [], "str": [], "custom": {}, "weeks": [], "scores": [], "post": {}}
-	# Candidates: the player's team, then world.json, then the filler teams.
-	var world := _world_pool(c.stage)
 	var pid := str(c.team.get("id", ""))
-	var player_info := {}
-	for s in world:
-		if str(s.get("id", "")) == pid:
-			player_info = s
-	if player_info.is_empty():
-		player_info = c.team.duplicate(true)
-		lg["custom"][pid] = _slim(player_info)
-	var firsts: Array = [player_info]
-	var others: Array = world.filter(func(s: Dictionary) -> bool: return str(s.get("id", "")) != pid)
-	Progression.shuffle(others, rng)
-	firsts.append_array(others)
-	firsts = firsts.slice(0, n * cap)
-	var taken := {}
-	for s in firsts:
-		taken[str(s.get("id", ""))] = true
-	var fill: Array = []
-	for s in stage_data(c.stage).get("teams", []):
-		if s is Dictionary and not taken.has(str(s.get("id", ""))):
-			fill.append(s)
-	# Into conferences: preferred conference while there's room, then the emptiest.
-	var confs: Array = []
-	for i in n:
-		confs.append([])
-	var floating: Array = []
-	for group in [firsts, fill]:
-		floating.clear()
-		for s in group:
-			var pref := int(s.get("conference", -1))
-			if pref >= 0 and pref < n and (confs[pref] as Array).size() < cap:
-				confs[pref].append(s)
-			else:
-				floating.append(s)
-		for s in floating:
-			var best := -1
-			for i in n:
-				if (confs[i] as Array).size() < cap and (best < 0 or (confs[i] as Array).size() < (confs[best] as Array).size()):
-					best = i
-			if best >= 0:
-				confs[best].append(s)
-	# Still short: made-up teams from the name pools.
-	var made := 0
-	for i in n:
-		while (confs[i] as Array).size() < cap:
-			var t := _pool_team(c.stage, made, rng, lg)
-			made += 1
-			lg["custom"][str(t["id"])] = t
-			confs[i].append(t)
-	# Deal each conference into its divisions (world teams spread out first).
-	for i in n:
-		var members: Array = confs[i]
-		var divs: Array = []
-		for v in m:
-			divs.append([])
-		for k in members.size():
-			divs[k % m].append(members[k])
-		for v in m:
-			var dv: Array = divs[v]
-			Progression.shuffle(dv, rng)
-			for s in dv:
-				lg["ids"].append(str(s.get("id", "")))
-				lg["str"].append(snappedf(float(s.get("strength", 50.0)), 0.1))
+	var seed := hash("%s|%s|%d|%s|%d" % [str(c.player.get("name", "")), c.stage, c.season, pid, c.created])
+	var scope := _scope(c)
+	var lg := {"v": VERSION, "stage": c.stage, "scope": scope, "seed": seed, "season": 0,
+		"ids": [], "str": [], "div": [], "divs": [], "confs": [], "custom": {}, "weeks": [], "scores": [], "post": {}}
+	var pool := _pool(c.stage, scope)
+	var known := pool.any(func(s: Dictionary) -> bool: return str(s.get("id", "")) == pid)
+	if not known and pid != "":
+		# A team the database doesn't have (an old save): it joins the league.
+		var own := _slim(c.team)
+		lg["custom"][pid] = own
+		pool.append(own)
+	var conf_index := {}
+	var div_index := {}
+	for s in pool:
+		var g := _groups(s, c.stage)
+		if not conf_index.has(g[0]):
+			conf_index[g[0]] = (lg["confs"] as Array).size()
+			lg["confs"].append(g[0])
+		var dkey := "%s|%s" % [g[0], g[1]]
+		if not div_index.has(dkey):
+			div_index[dkey] = (lg["divs"] as Array).size()
+			lg["divs"].append([g[1], conf_index[g[0]]])
+		lg["ids"].append(str(s.get("id", "")))
+		lg["str"].append(snappedf(float(s.get("strength", 50.0)), 0.1))
+		lg["div"].append(div_index[dkey])
 	var p := index_of(lg, pid)
 	if p >= 0:
 		lg["str"][p] = snappedf(float(c.team.get("strength", lg["str"][p])), 0.1)
@@ -142,13 +90,14 @@ static func create(c: CareerData) -> Dictionary:
 
 
 ## Start of a season (CareerManager._start_season): a league for this stage
-## (new when the stage changed), strengths drifted for a new season, the
-## player's team in it, and a fresh schedule. False when the stage has no league.
+## (new when the stage or college level changed), strengths drifted for a new
+## season, the player's team in it, and a fresh schedule. False when the stage
+## has no league.
 static func prepare_season(c: CareerData, t: CareerTuning) -> bool:
 	if not has_league(c.stage):
 		return false
 	var lg := c.league
-	if not valid(lg, c.stage):
+	if not valid(lg, c.stage) or str(lg.get("scope", "")) != _scope(c):
 		lg = create(c)
 		c.league = lg
 	elif int(lg["season"]) != c.season and int(lg["season"]) > 0:
@@ -178,9 +127,9 @@ static func player_schedule(c: CareerData) -> Array:
 	return out
 
 
-## A save without a league (made before leagues, or a hand-edited file): make
-## one for this stage and fit it around the schedule already being played
-## (same opponents, same byes), with the weeks already finished simulated.
+## A save without a league (made before leagues): make one for this stage and
+## fit it around the schedule already being played (same opponents where
+## they're in the league, same byes), with the weeks already finished simulated.
 static func migrate(c: CareerData, t: CareerTuning) -> void:
 	if not has_league(c.stage) or valid(c.league, c.stage):
 		return
@@ -212,9 +161,10 @@ static func migrate(c: CareerData, t: CareerTuning) -> void:
 static func valid(lg: Dictionary, stage: String) -> bool:
 	if lg.is_empty() or str(lg.get("stage", "")) != stage or int(lg.get("v", 0)) != VERSION:
 		return false
-	var size := int(lg.get("n", 0)) * int(lg.get("m", 0)) * int(lg.get("d", 0))
-	return size > 0 and lg.get("ids") is Array and (lg["ids"] as Array).size() == size \
-		and lg.get("str") is Array and (lg["str"] as Array).size() == size \
+	var n := (lg.get("ids", []) as Array).size() if lg.get("ids") is Array else 0
+	return n > 1 and lg.get("str") is Array and (lg["str"] as Array).size() == n \
+		and lg.get("div") is Array and (lg["div"] as Array).size() == n \
+		and lg.get("divs") is Array and lg.get("confs") is Array \
 		and lg.get("weeks") is Array and lg.get("scores") is Array
 
 
@@ -246,7 +196,42 @@ static func drift(lg: Dictionary, season: int) -> void:
 		strs[i] = snappedf(clampf(s, g.strength_min, g.strength_max), 0.1)
 
 
-# --- teams ------------------------------------------------------------------------------
+## The league for the save file: weeks and scores as base64 bytes (every
+## team slot and score fits in a byte), which keeps a 160-team college league
+## to about half the size. unpack() reverses it; anything else is kept as is.
+static func pack(lg: Dictionary) -> Dictionary:
+	if lg.is_empty() or size(lg) > 255:
+		return lg.duplicate(true)
+	var out := lg.duplicate(true)
+	for k in ["weeks", "scores"]:
+		var rows: Array = []
+		for row in lg.get(k, []):
+			var bytes := PackedByteArray()
+			for v in row:
+				bytes.append(clampi(int(v), 0, 255))
+			rows.append(Marshalls.raw_to_base64(bytes))
+		out[k] = rows
+	out["packed"] = 1
+	return out
+
+
+static func unpack(d: Dictionary) -> Dictionary:
+	if int(d.get("packed", 0)) != 1:
+		return d
+	var out := d.duplicate(true)
+	out.erase("packed")
+	for k in ["weeks", "scores"]:
+		var rows: Array = []
+		for row in d.get(k, []):
+			var arr: Array = []
+			for b in Marshalls.base64_to_raw(str(row)):
+				arr.append(int(b))
+			rows.append(arr)
+		out[k] = rows
+	return out
+
+
+# --- teams and groups -------------------------------------------------------------------
 
 static func size(lg: Dictionary) -> int:
 	return (lg.get("ids", []) as Array).size()
@@ -260,23 +245,54 @@ static func player_index(c: CareerData) -> int:
 	return index_of(c.league, str(c.team.get("id", "")))
 
 
-static func conf_of(lg: Dictionary, i: int) -> int:
-	return i / (int(lg["m"]) * int(lg["d"]))
-
-
-## Division across the whole league (0 .. n*m-1).
+## Division of a slot (an index into lg.divs).
 static func div_of(lg: Dictionary, i: int) -> int:
-	return i / int(lg["d"])
+	return int(lg["div"][i])
+
+
+static func conf_of(lg: Dictionary, i: int) -> int:
+	return int(lg["divs"][div_of(lg, i)][1])
+
+
+static func division_count(lg: Dictionary) -> int:
+	return (lg["divs"] as Array).size()
+
+
+static func conference_count(lg: Dictionary) -> int:
+	return (lg["confs"] as Array).size()
 
 
 static func division_teams(lg: Dictionary, div: int) -> Array:
-	var d := int(lg["d"])
-	return range(div * d, div * d + d)
+	var out: Array = []
+	for i in size(lg):
+		if int(lg["div"][i]) == div:
+			out.append(i)
+	return out
 
 
 static func conference_teams(lg: Dictionary, conf: int) -> Array:
-	var k := int(lg["m"]) * int(lg["d"])
-	return range(conf * k, conf * k + k)
+	var out: Array = []
+	for i in size(lg):
+		if conf_of(lg, i) == conf:
+			out.append(i)
+	return out
+
+
+## The divisions of a conference, in order.
+static func conference_divisions(lg: Dictionary, conf: int) -> Array:
+	var out: Array = []
+	for d in division_count(lg):
+		if int(lg["divs"][d][1]) == conf:
+			out.append(d)
+	return out
+
+
+## True when divisions are whole conferences (high school, college).
+static func flat(lg: Dictionary) -> bool:
+	for d in division_count(lg):
+		if str(lg["divs"][d][0]) != str(lg["confs"][int(lg["divs"][d][1])]):
+			return false
+	return true
 
 
 ## A team as a schedule opponent (Progression.team_from) with its league strength.
@@ -287,120 +303,110 @@ static func team(lg: Dictionary, i: int) -> Dictionary:
 	return out
 
 
+## "American Football Conference" / "AFC"; college: "Great Lakes Conference" /
+## "Great Lakes".
 static func conference_name(lg: Dictionary, conf: int, short := false) -> String:
-	var list: Array = stage_data(str(lg["stage"])).get("conferences", [])
-	if conf < list.size() and list[conf] is Dictionary:
-		var e: Dictionary = list[conf]
-		return str(e.get("short" if short else "name", e.get("name", "")))
-	return "%s %d" % [_word(lg, "conference_word", "Conference"), conf + 1]
+	var name := str(lg["confs"][conf]) if conf >= 0 and conf < conference_count(lg) else "Conference %d" % (conf + 1)
+	if str(lg["stage"]) == CareerData.STAGE_PRO:
+		return name if short else str(TeamDatabase.division_info("pro", name).get("name", name))
+	if short:
+		for suffix in [" Conference", " League", " Collegiate", " Division", " Association"]:
+			if name.ends_with(suffix) and name.length() > suffix.length() + 3:
+				return name.trim_suffix(suffix)
+	return name
 
 
 static func division_name(lg: Dictionary, div: int) -> String:
-	var m := int(lg["m"])
-	var list: Array = stage_data(str(lg["stage"])).get("divisions", [])
-	var c := div / m
-	if c < list.size() and list[c] is Array and div % m < (list[c] as Array).size():
-		return str(list[c][div % m])
-	return "%s %d" % [_word(lg, "division_word", "Division"), div + 1]
+	return str(lg["divs"][div][0]) if div >= 0 and div < division_count(lg) else "Division %d" % (div + 1)
 
 
-## "Region" / "Conference", "District" / "Division".
-static func word(lg: Dictionary, key: String) -> String:
-	return _word(lg, key + "_word", "Conference" if key == "conference" else "Division")
+## Which teams a career's league holds: "" (the whole stage) or the college
+## level ("FBS", "FCS", "D2").
+static func _scope(c: CareerData) -> String:
+	if c.stage != CareerData.STAGE_COLLEGE:
+		return ""
+	var d := str(c.team.get("division", ""))
+	if d == "":
+		d = str(TeamDatabase.team(str(c.team.get("id", ""))).get("division", ""))
+	return d if d != "" else "FBS"
 
 
-static func _word(lg: Dictionary, key: String, fallback: String) -> String:
-	return str(stage_data(str(lg.get("stage", ""))).get(key, fallback))
-
-
-static func _world_pool(stage: String) -> Array:
+static func _pool(stage: String, scope: String) -> Array:
 	match stage:
 		CareerData.STAGE_COLLEGE:
-			return CareerContent.colleges()
+			var all: Array = TeamDatabase.colleges()
+			var mine := all.filter(func(s: Dictionary) -> bool: return str(s.get("division", "")) == scope)
+			return mine if mine.size() >= 2 else all
 		CareerData.STAGE_JUCO:
-			return CareerContent.jucos()
+			return TeamDatabase.jucos()
 		CareerData.STAGE_PRO:
-			return CareerContent.pro_clubs()
-	return CareerContent.high_schools()
+			return TeamDatabase.pro_teams()
+	return TeamDatabase.high_schools()
+
+
+## [conference, division] of a team record. Pro: the data's division is the
+## conference (AFC) and its conference the division (AFC East).
+static func _groups(s: Dictionary, stage: String) -> Array:
+	var conf := str(s.get("conference", ""))
+	if stage == CareerData.STAGE_PRO:
+		var big := str(s.get("division", ""))
+		return [big if big != "" else "League", conf if conf != "" else "Division"]
+	if conf == "":
+		conf = "Independents"
+	return [conf, conf]
 
 
 static func _info(lg: Dictionary, id: String) -> Dictionary:
 	var custom: Dictionary = lg.get("custom", {})
 	if custom.has(id):
 		return custom[id]
-	for s in _world_pool(str(lg["stage"])):
-		if str(s.get("id", "")) == id:
-			return s
-	for s in stage_data(str(lg["stage"])).get("teams", []):
-		if s is Dictionary and str(s.get("id", "")) == id:
-			return s
+	var t: Dictionary = TeamDatabase.team(id)
+	if not t.is_empty():
+		return t
 	return {"id": id, "name": id.capitalize(), "town": id.capitalize(), "mascot": "", "short": id.left(3).to_upper()}
 
 
 static func _slim(t: Dictionary) -> Dictionary:
 	var out := {}
-	for k in ["id", "name", "mascot", "short", "town", "colors", "strength", "tier"]:
+	for k in ["id", "name", "mascot", "short", "town", "colors", "strength", "tier", "division", "conference"]:
 		if t.has(k):
 			out[k] = t[k]
 	return out
 
 
-## A made-up team from the name pools (when league_teams.json runs out).
-static func _pool_team(stage: String, k: int, rng: RandomNumberGenerator, lg: Dictionary) -> Dictionary:
-	var all := CareerContent.file(DATA)
-	var towns: Array = all.get("town_pool", ["Springfield"])
-	var mascots: Array = all.get("mascot_pool", ["Tigers"])
-	var town := str(towns[k % towns.size()])
-	var mascot := str(mascots[(k * 7 + 3) % mascots.size()])
-	if k >= towns.size():
-		town += " " + str(k / towns.size() + 1)
-	var id := "pool_%s_%d" % [stage, k]
-	var suffix: String = {CareerData.STAGE_HIGH_SCHOOL: " High", CareerData.STAGE_JUCO: " Community College",
-		CareerData.STAGE_COLLEGE: " University"}.get(stage, "")
-	var base: float = {CareerData.STAGE_PRO: 62.0, CareerData.STAGE_COLLEGE: 55.0, CareerData.STAGE_JUCO: 44.0}.get(stage, 50.0)
-	var t := {"id": id, "name": (town + suffix) if suffix != "" else "%s %s" % [town, mascot], "mascot": mascot,
-		"short": town.left(3).to_upper(), "town": town, "strength": snappedf(base + rng.randf_range(-10, 10), 0.1),
-		"colors": ["#%06x" % (rng.randi() & 0xffffff), "#%06x" % (rng.randi() & 0xffffff)]}
-	if stage == CareerData.STAGE_COLLEGE:
-		t["tier"] = "mid"
-	elif stage == CareerData.STAGE_JUCO:
-		t["tier"] = "juco"
-	return t
-
-
-## The player's team joined a club outside the league (or a hand-edited save):
-## it takes the slot of a filler team (a world.json team only if it must).
+## The player's team isn't in the league (it joined from outside it): it
+## joins, in the division whose name it carries (else the first).
 static func _ensure_player(c: CareerData, lg: Dictionary) -> void:
 	var pid := str(c.team.get("id", ""))
-	if index_of(lg, pid) >= 0:
+	if pid == "" or index_of(lg, pid) >= 0:
 		return
-	var world := {}
-	for s in _world_pool(c.stage):
-		world[str(s.get("id", ""))] = true
-	var slot := -1
-	for i in size(lg):
-		if not world.has(str(lg["ids"][i])):
-			slot = i
-			break
-	if slot < 0:
-		slot = 0
-	var known := false
-	for s in _world_pool(c.stage):
-		known = known or str(s.get("id", "")) == pid
-	if not known:
-		lg["custom"][pid] = _slim(c.team)
-	lg["ids"][slot] = pid
-	lg["str"][slot] = snappedf(float(c.team.get("strength", 50.0)), 0.1)
+	var info: Dictionary = TeamDatabase.team(pid)
+	if info.is_empty():
+		info = _slim(c.team)
+		lg["custom"][pid] = info
+	var g := _groups(info, c.stage)
+	var div := 0
+	for d in division_count(lg):
+		if str(lg["divs"][d][0]) == str(g[1]):
+			div = d
+	lg["ids"].append(pid)
+	lg["str"].append(snappedf(float(c.team.get("strength", 50.0)), 0.1))
+	lg["div"].append(div)
 
 
 # --- the schedule ----------------------------------------------------------------------
 
 static func _build_season(lg: Dictionary, t: CareerTuning) -> void:
 	var st := config().structure(str(lg["stage"]))
-	var rng := _rng(lg, "schedule%d" % int(lg["season"]))
-	lg["weeks"] = generate_schedule(int(lg["n"]), int(lg["m"]), int(lg["d"]), int(st.get("division_games", 0)),
-		int(st.get("conference_games", 0)), t.games_per_season, t.byes_per_season, t.bye_week_earliest,
-		t.bye_week_latest, rng, int(lg["season"]))
+	var rng := _rng(lg, "schedule")
+	var divs: Array = []
+	var confs: Array = []
+	for i in size(lg):
+		divs.append(div_of(lg, i))
+		confs.append(conf_of(lg, i))
+	lg["weeks"] = generate_schedule(divs, confs, t.games_for(str(lg["stage"])), int(st.get("division_games", 0)),
+		bool(st.get("rematches", false)), int(st.get("conference_games", 0)), t.byes_per_season,
+		t.bye_week_earliest, t.bye_week_latest, rng)
 	var scores: Array = []
 	for w in (lg["weeks"] as Array).size():
 		scores.append([])
@@ -408,105 +414,336 @@ static func _build_season(lg: Dictionary, t: CareerTuning) -> void:
 
 
 ## Every team's games, week by week: an Array (one per week) of flat
-## [home, away, home, away, ...] team slots. n conferences x m divisions x d
-## teams (d even). Each team plays `games` games: div_games in its division
-## (round robin, again with home and away swapped if more), conf_games against
-## the conference's other divisions, the rest against other conferences.
-## Each team has `byes` byes, a division at a time, in weeks earliest..latest
-## (division games moved to the last weeks of the season).
-static func generate_schedule(n: int, m: int, d: int, div_games: int, conf_games: int, games: int, byes: int,
-		earliest: int, latest: int, rng: RandomNumberGenerator, season := 0) -> Array:
-	d += d % 2
-	div_games = clampi(div_games, 0, games)
-	conf_games = clampi(conf_games, 0, games - div_games)
-	var non_games := games - div_games - conf_games
-	# Turn impossible kinds into possible ones.
-	if non_games > 0 and n < 2:
-		conf_games += non_games
-		non_games = 0
-	if conf_games > 0 and m < 2:
-		if n >= 2:
-			non_games += conf_games
-		else:
-			div_games += conf_games
-		conf_games = 0
-	var shift := absi(season)
-	var rounds_div: Array = []
-	for k in div_games:
-		rounds_div.append(_div_round(n, m, d, k))
-	var rounds_conf: Array = []
-	for k in conf_games:
-		rounds_conf.append(_conf_round(n, m, d, k, shift, rng))
-	var rounds_non: Array = []
-	for k in non_games:
-		rounds_non.append(_non_round(n, m, d, k, shift, rng))
-	# Weeks 1..games: division rounds in the bye window (so byes can take
-	# them), nonconference first, conference games in between.
-	var pos := {}
-	var free: Array = range(1, games + 1)
-	var lo := clampi(earliest, 1, maxi(games, 1))
-	var hi := clampi(latest, lo, maxi(games, 1))
-	var window: Array = range(lo, hi + 1)
-	var div_pos: Array = []
-	if not rounds_div.is_empty():
-		var want := mini(rounds_div.size(), window.size())
-		for j in want:
-			div_pos.append(window[roundi(float(j) * (window.size() - 1) / maxf(want - 1, 1)) if want > 1 else window.size() / 2])
-		var uniq: Array = []
-		for p in div_pos:
-			if not (p in uniq):
-				uniq.append(p)
-		div_pos = uniq
-		var back := games
-		while div_pos.size() < rounds_div.size() and back >= 1:
-			if not (back in div_pos):
-				div_pos.append(back)
-			back -= 1
-		div_pos.sort()
-	for p in div_pos:
-		free.erase(p)
+## [home, away, home, away, ...] team slots. divs / confs: each team's
+## division and conference. Each team plays `games` games: div_games in its
+## division (again, home and away swapped, only with rematches), conf_games
+## against its conference's other divisions, the rest against anyone else it
+## hasn't played. The season is games + byes weeks (a week more only if no
+## schedule fits); teams sit in their bye weeks, mostly between earliest and
+## latest. An odd team count, or a group too small for its games, leaves a
+## team a game short (one more bye).
+static func generate_schedule(divs: Array, confs: Array, games: int, div_games: int, rematches: bool,
+		conf_games: int, byes: int, earliest: int, latest: int, rng: RandomNumberGenerator) -> Array:
+	var n := divs.size()
+	var div_size := {}
+	for d in divs:
+		div_size[d] = int(div_size.get(d, 0)) + 1
+	var edges: Array = []
+	var met := {}
+	var deg: Array = []
+	deg.resize(n)
+	deg.fill(0)
+	# 1. Division games.
+	var need: Array = []
+	for i in n:
+		var others := int(div_size[divs[i]]) - 1
+		need.append(mini(games, div_games if rematches else mini(div_games, others)) if others > 0 else 0)
+	var same_div := func(a: int, b: int) -> bool: return divs[a] == divs[b]
+	var div_meet := func(a: int, _b: int) -> int:
+		if not rematches:
+			return 1
+		return maxi(ceili(float(div_games) / maxf(float(div_size[divs[a]]) - 1.0, 1.0)), 1)
+	var once := func(_a: int, _b: int) -> int: return 1
+	var thrice := func(_a: int, _b: int) -> int: return 3
+	var same_conf := func(a: int, b: int) -> bool: return confs[a] == confs[b] and divs[a] != divs[b]
+	var other_conf := func(a: int, b: int) -> bool: return confs[a] != confs[b]
+	var anyone := func(_a: int, _b: int) -> bool: return true
+	# Whole round robins first (pro: twice through the division), then the rest.
+	var members := {}
+	for i in n:
+		if not members.has(divs[i]):
+			members[divs[i]] = []
+		members[divs[i]].append(i)
+	for d in members:
+		var team_list: Array = members[d]
+		var others := team_list.size() - 1
+		if others <= 0:
+			continue
+		var legs := mini(int(need[team_list[0]]) / others, 1 if not rematches else 99)
+		for leg in legs:
+			for x in team_list.size():
+				for y in range(x + 1, team_list.size()):
+					var a: int = team_list[x]
+					var b: int = team_list[y]
+					edges.append([a, b])
+					var key := mini(a, b) * n + maxi(a, b)
+					met[key] = int(met.get(key, 0)) + 1
+					deg[a] = int(deg[a]) + 1
+					deg[b] = int(deg[b]) + 1
+		for i in team_list:
+			need[i] = int(need[i]) - legs * others
+	_phase(n, need, deg, edges, met, rng, same_div, div_meet)
+	# 2. The conference's other divisions.
+	need = []
+	for i in n:
+		need.append(mini(conf_games, games - int(deg[i])))
+	_phase(n, need, deg, edges, met, rng, same_conf, once)
+	# 3. Outside the conference, then anyone not met yet; then trade games
+	# around so the last teams short of games get new opponents; then
+	# anyone (rematches) as a last resort.
+	for step in [[other_conf, once], [anyone, once]]:
+		need = []
+		for i in n:
+			need.append(games - int(deg[i]))
+		_phase(n, need, deg, edges, met, rng, step[0], step[1])
+	_repair(n, games, deg, edges, met, divs)
+	need = []
+	for i in n:
+		need.append(games - int(deg[i]))
+	_phase(n, need, deg, edges, met, rng, anyone, thrice)
+	# Weeks: games + byes, more only if nothing fits.
+	var w_count := games + maxi(byes, 0)
+	var maxdeg := 0
+	for d in deg:
+		maxdeg = maxi(maxdeg, int(d))
+	w_count = maxi(w_count, maxdeg + (1 if n % 2 == 1 else 0))
+	var weeks_of: PackedInt32Array
+	for attempt in 4:
+		weeks_of = _color(edges, n, w_count, earliest - 1, latest - 1, rng)
+		if not weeks_of.is_empty() or edges.is_empty():
+			break
+		w_count += 1
+		push_warning("League: no %d-week schedule found, trying %d weeks" % [w_count - 1, w_count])
 	var weeks: Array = []
-	weeks.resize(games)
-	for j in div_pos.size():
-		weeks[int(div_pos[j]) - 1] = rounds_div[j]
-	var j := 0
-	for r in rounds_non + rounds_conf:
-		weeks[int(free[j]) - 1] = r
-		j += 1
-	for w in games:
-		if weeks[w] == null:
-			weeks[w] = []
-	# Byes: each division gives up `byes` of its division weeks (in the window)
-	# and plays those games in the weeks added at the end.
-	if byes > 0:
-		var cands: Array = div_pos.filter(func(p: int) -> bool: return p >= lo and p <= hi)
-		if cands.size() < byes:
-			cands = div_pos.duplicate()
-		if cands.size() < byes:
-			# No division weeks to spare: everybody gets the same week off.
-			for b in byes:
-				weeks.insert(clampi((lo + hi) / 2 - 1 + b, 0, weeks.size()), [])
-		else:
-			var extra: Array = []
-			for b in byes:
-				extra.append([])
-			for div in n * m:
-				var start := (div * byes + shift) % cands.size()
-				for b in byes:
-					var w := int(cands[(start + b) % cands.size()]) - 1
-					var keep: Array = []
-					var moved: Array = []
-					var pairs: Array = weeks[w]
-					for q in range(0, pairs.size(), 2):
-						if int(pairs[q]) / d == div:
-							moved.append_array([pairs[q], pairs[q + 1]])
-						else:
-							keep.append_array([pairs[q], pairs[q + 1]])
-					weeks[w] = keep
-					extra[b].append_array(moved)
-			weeks.append_array(extra)
-	_balance_homes(weeks, n * m * d)
+	for w in w_count:
+		weeks.append([])
+	for e in edges.size():
+		weeks[weeks_of[e]].append_array([int(edges[e][0]), int(edges[e][1])])
+	_balance_homes(weeks, n)
 	return weeks
+
+
+## One pairing phase: the team with the most games still to place plays the
+## allowed team with the most still to place (Havel-Hakimi; random ties), up
+## to max_meet games between two teams. A team nobody can take gives up the
+## rest of this phase (later phases pick it up).
+static func _phase(n: int, need: Array, deg: Array, edges: Array, met: Dictionary, rng: RandomNumberGenerator,
+		allowed: Callable, max_meet: Callable) -> void:
+	while true:
+		var a := -1
+		var start := rng.randi_range(0, n - 1)
+		for k in n:
+			var i := (start + k) % n
+			if int(need[i]) > 0 and (a < 0 or int(need[i]) > int(need[a])):
+				a = i
+		if a < 0:
+			return
+		var b := -1
+		var b_met := 0
+		start = rng.randi_range(0, n - 1)
+		for k in n:
+			var j := (start + k) % n
+			if j == a or int(need[j]) <= 0 or not allowed.call(a, j):
+				continue
+			var m := int(met.get(mini(a, j) * n + maxi(a, j), 0))
+			if m >= int(max_meet.call(a, j)):
+				continue
+			if b < 0 or m < b_met or (m == b_met and int(need[j]) > int(need[b])):
+				b = j
+				b_met = m
+		if b < 0:
+			need[a] = 0
+			continue
+		edges.append([a, b])
+		var key := mini(a, b) * n + maxi(a, b)
+		met[key] = int(met.get(key, 0)) + 1
+		need[a] = int(need[a]) - 1
+		need[b] = int(need[b]) - 1
+		deg[a] = int(deg[a]) + 1
+		deg[b] = int(deg[b]) + 1
+
+
+## Teams still short of games, whose possible opponents are all used up:
+## break an existing non-division game c-d and pair a-c, b-d (or a-c, a-d) with teams
+## they haven't met.
+static func _repair(n: int, games: int, deg: Array, edges: Array, met: Dictionary, divs: Array) -> void:
+	var key := func(x: int, y: int) -> int: return mini(x, y) * n + maxi(x, y)
+	for guard in n * games:
+		var short: Array = []
+		for i in n:
+			if int(deg[i]) < games:
+				short.append(i)
+		if short.is_empty():
+			return
+		var a: int = short[0]
+		var b: int = short[1] if short.size() > 1 else a
+		if a == b and games - int(deg[a]) < 2:
+			return
+		var done := false
+		for k in edges.size():
+			var c := int(edges[k][0])
+			var d := int(edges[k][1])
+			if c in [a, b] or d in [a, b] or divs[c] == divs[d]:
+				continue  # (division games stay)
+			for pair in [[c, d], [d, c]]:
+				var x: int = pair[0]
+				var y: int = pair[1]
+				if met.has(key.call(a, x)) or met.has(key.call(b, y)):
+					continue
+				edges.remove_at(k)
+				met[key.call(c, d)] = int(met[key.call(c, d)]) - 1
+				if int(met[key.call(c, d)]) <= 0:
+					met.erase(key.call(c, d))
+				for pr in [[a, x], [b, y]]:
+					edges.append(pr)
+					met[key.call(pr[0], pr[1])] = int(met.get(key.call(pr[0], pr[1]), 0)) + 1
+				deg[a] = int(deg[a]) + 1
+				deg[b] = int(deg[b]) + 1
+				done = true
+				break
+			if done:
+				break
+		if not done:
+			return
+
+
+## Puts every game in a week so no team plays twice in a week (min-conflicts
+## search), preferring weeks lo..hi for the weeks a team sits out. Returns
+## the week of each game, or empty if it found nothing.
+static func _color(edges: Array, n: int, w_count: int, lo: int, hi: int, rng: RandomNumberGenerator) -> PackedInt32Array:
+	var e_count := edges.size()
+	var occ := PackedInt32Array()
+	occ.resize(n * w_count)
+	var at: Array = []  # n * w_count lists of game indexes
+	for k in n * w_count:
+		at.append([])
+	var wk := PackedInt32Array()
+	wk.resize(e_count)
+	var cost := func(o: int, w: int) -> int:
+		return maxi(o - 1, 0) * 20 + (1 if o == 0 and (w < lo or w > hi) else 0)
+	var delta := func(e: int, w2: int) -> int:
+		var w1 := wk[e]
+		if w1 == w2:
+			return 0
+		var d := 0
+		for x in edges[e]:
+			var o1 := occ[int(x) * w_count + w1]
+			var o2 := occ[int(x) * w_count + w2]
+			d += cost.call(o1 - 1, w1) - cost.call(o1, w1) + cost.call(o2 + 1, w2) - cost.call(o2, w2)
+		return d
+	var place := func(e: int, w: int) -> void:
+		for x in edges[e]:
+			occ[int(x) * w_count + w] += 1
+			(at[int(x) * w_count + w] as Array).append(e)
+		wk[e] = w
+	var lift := func(e: int) -> void:
+		var w := wk[e]
+		for x in edges[e]:
+			occ[int(x) * w_count + w] -= 1
+			(at[int(x) * w_count + w] as Array).erase(e)
+	var clash := func(e: int) -> bool:
+		var w := wk[e]
+		return occ[int(edges[e][0]) * w_count + w] > 1 or occ[int(edges[e][1]) * w_count + w] > 1
+	# Greedy start: each game in its cheapest week.
+	var order: Array = range(e_count)
+	Progression.shuffle(order, rng)
+	for e in order:
+		var best := -1
+		var best_c := 0
+		for w in w_count:
+			var c := 0
+			for x in edges[e]:
+				var o := occ[int(x) * w_count + w]
+				c += cost.call(o + 1, w) - cost.call(o, w)
+			if best < 0 or c < best_c or (c == best_c and rng.randf() < 0.3):
+				best = w
+				best_c = c
+		place.call(e, best)
+	var bad := {}
+	for e in e_count:
+		if clash.call(e):
+			bad[e] = true
+	var it := 0
+	var limit := 400 * maxi(e_count, 1)
+	while not bad.is_empty() and it < limit:
+		it += 1
+		var keys := bad.keys()
+		var e: int = keys[rng.randi_range(0, keys.size() - 1)]
+		var w1 := wk[e]
+		var target := -1
+		if rng.randf() < 0.08:
+			target = rng.randi_range(0, w_count - 1)
+		else:
+			var best_d := 0
+			for w in w_count:
+				if w == w1:
+					continue
+				var d: int = delta.call(e, w)
+				if target < 0 or d < best_d or (d == best_d and rng.randf() < 0.4):
+					target = w
+					best_d = d
+		if target == w1 or target < 0:
+			continue
+		lift.call(e)
+		place.call(e, target)
+		for x in edges[e]:
+			for w in [w1, target]:
+				for g in at[int(x) * w_count + w]:
+					if clash.call(g):
+						bad[g] = true
+					else:
+						bad.erase(g)
+	if not bad.is_empty():
+		return PackedInt32Array()
+	# Byes into lo..hi: swap two weeks along the chain of games starting at a
+	# team that sits outside the window (a Kempe chain: still one game a week).
+	if lo <= hi and lo < w_count:
+		for k in 60 * n:
+			var x := rng.randi_range(0, n - 1)
+			var a := -1
+			for w in w_count:
+				if occ[x * w_count + w] == 0 and (w < lo or w > hi):
+					a = w
+					break
+			if a < 0:
+				continue
+			var b := rng.randi_range(lo, mini(hi, w_count - 1))
+			if occ[x * w_count + b] == 0:
+				continue
+			var chain := _chain(edges, at, w_count, x, a, b)
+			var touched := {}
+			for e in chain:
+				for t in edges[e]:
+					touched[int(t)] = true
+			var before := 0
+			for t in touched:
+				for w in [a, b]:
+					before += cost.call(occ[int(t) * w_count + w], w)
+			for e in chain:
+				var w := wk[e]
+				lift.call(e)
+				place.call(e, b if w == a else a)
+			var after := 0
+			for t in touched:
+				for w in [a, b]:
+					after += cost.call(occ[int(t) * w_count + w], w)
+			if after > before:
+				for e in chain:
+					var w := wk[e]
+					lift.call(e)
+					place.call(e, b if w == a else a)
+	return wk
+
+
+## The games in weeks a and b linked to team x (each team plays at most once
+## a week, so it's a path): swapping their weeks keeps the schedule valid.
+static func _chain(edges: Array, at: Array, w_count: int, x: int, a: int, b: int) -> Array:
+	var out: Array = []
+	var seen := {}
+	var team := x
+	var w := b
+	while true:
+		var games: Array = at[team * w_count + w]
+		if games.is_empty():
+			break
+		var e: int = games[0]
+		if seen.has(e):
+			break
+		seen[e] = true
+		out.append(e)
+		team = int(edges[e][1]) if int(edges[e][0]) == team else int(edges[e][0])
+		w = a if w == b else b
+	return out
 
 
 ## Home and away: a rematch swaps the host; otherwise the team with fewer
@@ -530,100 +767,23 @@ static func _balance_homes(weeks: Array, count: int) -> void:
 			pairs[q] = host
 			pairs[q + 1] = b if host == a else a
 			homes[host] = int(homes[host]) + 1
-
-
-## Round robin (circle method) of d positions: round r's pairs [[a, b], ...].
-static func _rr(d: int, r: int) -> Array:
-	var out: Array = []
-	var rot: Array = []
-	for i in d - 1:
-		rot.append((i + r) % (d - 1))
-	out.append([d - 1, rot[0]] if r % 2 == 0 else [rot[0], d - 1])
-	for i in range(1, d / 2):
-		var a: int = rot[i]
-		var b: int = rot[d - 1 - i]
-		out.append([a, b] if (i + r) % 2 == 0 else [b, a])
-	return out
-
-
-static func _div_round(n: int, m: int, d: int, k: int) -> Array:
-	var r := k % (d - 1)
-	var flip := (k / (d - 1)) % 2 == 1
-	var out: Array = []
-	for div in n * m:
-		for pr in _rr(d, r):
-			var a: int = div * d + int(pr[0])
-			var b: int = div * d + int(pr[1])
-			out.append_array([b, a] if flip else [a, b])
-	return out
-
-
-static func _conf_round(n: int, m: int, d: int, k: int, shift: int, rng: RandomNumberGenerator) -> Array:
-	if m % 2 == 1:
-		return _random_round(n * m * d, func(a: int, b: int) -> bool:
-			return a / (m * d) == b / (m * d) and a / d != b / d, rng)
-	var pattern := (k / d + shift) % (m - 1)
-	var off := (k + shift) % d
-	var out: Array = []
-	for c in n:
-		for pr in _rr(m, pattern):
-			var va: int = c * m + int(pr[0])
-			var vb: int = c * m + int(pr[1])
-			for s in d:
-				var a := va * d + s
-				var b := vb * d + (s + off) % d
-				out.append_array([a, b] if (s + k) % 2 == 0 else [b, a])
-	return out
-
-
-static func _non_round(n: int, m: int, d: int, k: int, shift: int, rng: RandomNumberGenerator) -> Array:
-	if n % 2 == 1:
-		return _random_round(n * m * d, func(a: int, b: int) -> bool: return a / (m * d) != b / (m * d), rng)
-	var per := m * d
-	var pattern := (k / per + shift) % (n - 1)
-	var rem := k % per
-	var dshift := (rem / d + shift) % m
-	var off := rem % d
-	var out: Array = []
-	for pr in _rr(n, pattern):
-		var ca: int = int(pr[0])
-		var cb: int = int(pr[1])
-		for v in m:
-			var va := ca * m + v
-			var vb := cb * m + (v + dshift) % m
-			for s in d:
-				var a := va * d + s
-				var b := vb * d + (s + off) % d
-				out.append_array([a, b] if (s + v + k) % 2 == 0 else [b, a])
-	return out
-
-
-## Everybody paired once, pairs allowed by `ok` (random; a fallback for odd
-## numbers of conferences or divisions).
-static func _random_round(count: int, ok: Callable, rng: RandomNumberGenerator) -> Array:
-	for attempt in 200:
-		var order: Array = range(count)
-		Progression.shuffle(order, rng)
-		var used := {}
-		var out: Array = []
-		var good := true
-		for a in order:
-			if used.has(a):
-				continue
-			var found := -1
-			for b in order:
-				if b != a and not used.has(b) and (attempt > 150 or ok.call(a, b)):
-					found = b
-					break
-			if found < 0:
-				good = false
-				break
-			used[a] = true
-			used[found] = true
-			out.append_array([a, found])
-		if good:
-			return out
-	return []
+	# Then swap single meetings where the host has 2+ more home games.
+	var meetings := {}
+	for pairs in weeks:
+		for q in range(0, (pairs as Array).size(), 2):
+			var key := mini(int(pairs[q]), int(pairs[q + 1])) * count + maxi(int(pairs[q]), int(pairs[q + 1]))
+			meetings[key] = int(meetings.get(key, 0)) + 1
+	for pass_i in 4:
+		for pairs in weeks:
+			for q in range(0, (pairs as Array).size(), 2):
+				var h := int(pairs[q])
+				var v := int(pairs[q + 1])
+				var key := mini(h, v) * count + maxi(h, v)
+				if int(meetings[key]) == 1 and int(homes[h]) - int(homes[v]) >= 2:
+					pairs[q] = v
+					pairs[q + 1] = h
+					homes[h] = int(homes[h]) - 1
+					homes[v] = int(homes[v]) + 1
 
 
 static func _game_of(lg: Dictionary, w: int, i: int) -> Array:
@@ -944,18 +1104,16 @@ static func division_order(lg: Dictionary, st: Array, div: int) -> Array:
 ## champions: college conference champions already decided (else projected).
 static func field(lg: Dictionary, st: Array, champions := {}) -> Dictionary:
 	var s := config().structure(str(lg["stage"]))
-	var n := int(lg["n"])
-	var m := int(lg["m"])
 	if str(lg["stage"]) == CareerData.STAGE_COLLEGE:
 		return _college_field(lg, st, s, champions)
+	var groups: Array = []
+	if bool(s.get("by_conference", true)) and conference_count(lg) > 1:
+		for c in conference_count(lg):
+			groups.append(conference_divisions(lg, c))
+	else:
+		groups.append(range(division_count(lg)))
 	var sides: Array = []
 	var outs: Array = []
-	var groups: Array = []
-	if bool(s.get("by_conference", true)):
-		for c in n:
-			groups.append(range(c * m, c * m + m))
-	else:
-		groups.append(range(0, n * m))
 	var q := int(s.get("qualifiers_per_division", 1))
 	var wc := int(s.get("wildcards", 0))
 	for divs in groups:
@@ -980,18 +1138,25 @@ static func field(lg: Dictionary, st: Array, champions := {}) -> Dictionary:
 	return {"sides": sides, "out": outs, "bowls": [], "champions": {}}
 
 
-static func _college_field(lg: Dictionary, st: Array, s: Dictionary, champions: Dictionary) -> Dictionary:
-	var n := int(lg["n"])
-	var m := int(lg["m"])
+## College conference champions: the title game winners where there was one
+## (`champions`), else the conference's best team; independents have none.
+static func _college_champions(lg: Dictionary, st: Array, s: Dictionary, champions: Dictionary) -> Dictionary:
 	var champs := {}
-	for c in n:
+	for c in conference_count(lg):
 		if champions.has(c):
 			champs[c] = int(champions[c])
-		else:
-			var winners: Array = []
-			for v in m:
-				winners.append(division_order(lg, st, c * m + v)[0])
-			champs[c] = rank(lg, st, winners)[0]
+		elif not _independent(lg, c, s):
+			champs[c] = rank(lg, st, conference_teams(lg, c))[0]
+	return champs
+
+
+static func _independent(lg: Dictionary, conf: int, s: Dictionary) -> bool:
+	var suffix := str(s.get("independent", ""))
+	return suffix != "" and str(lg["confs"][conf]).ends_with(suffix)
+
+
+static func _college_field(lg: Dictionary, st: Array, s: Dictionary, champions: Dictionary) -> Dictionary:
+	var champs := _college_champions(lg, st, s, champions)
 	var poll := poll_order(lg, st, champs.values())
 	var auto := poll.filter(func(i: int) -> bool: return i in champs.values()).slice(0, int(s.get("auto_bids", 0)))
 	var size_f := mini(int(s.get("field", 12)), poll.size())
@@ -1064,7 +1229,7 @@ static func qualification(c: CareerData) -> Dictionary:
 	var div_champ: bool = division_order(lg, st, div_of(lg, p))[0] == p
 	var base := {"division_champion": div_champ, "conference_champion": false}
 	var champions := {}
-	if c.stage == CareerData.STAGE_COLLEGE and bool(s.get("title_game", false)) and int(lg["m"]) >= 2:
+	if c.stage == CareerData.STAGE_COLLEGE and bool(s.get("title_game", false)):
 		if not post.has("ccg"):
 			post["ccg"] = _title_pairs(lg, st)
 		for g in post["ccg"]:
@@ -1124,18 +1289,18 @@ static func ordinal(n: int) -> String:
 	return "%d%s" % [n, suf]
 
 
-## College conference title games: [[conf, home (better), away], ...]
-## (results appended as [.., home pts, away pts] once played).
+## College conference title games: [[conf, home (better), away], ...] for
+## each conference with at least title_min teams (not independents): its top
+## two (results appended as [.., home pts, away pts] once played).
 static func _title_pairs(lg: Dictionary, st: Array) -> Array:
+	var s := config().structure(str(lg["stage"]))
 	var out: Array = []
-	var m := int(lg["m"])
-	for c in int(lg["n"]):
-		var winners: Array = []
-		for v in m:
-			winners.append(division_order(lg, st, c * m + v)[0])
-		var top := rank(lg, st, winners)
-		if top.size() >= 2:
-			out.append([c, top[0], top[1]])
+	for c in conference_count(lg):
+		var teams := conference_teams(lg, c)
+		if teams.size() < int(s.get("title_min", 6)) or _independent(lg, c, s):
+			continue
+		var top := rank(lg, st, teams)
+		out.append([c, top[0], top[1]])
 	return out
 
 
@@ -1382,7 +1547,7 @@ static func picture(c: CareerData) -> Dictionary:
 	var s := config().structure(c.stage)
 	for k in (f["sides"] as Array).size():
 		var name := "Playoff field"
-		if bool(s.get("by_conference", false)) and c.stage != CareerData.STAGE_COLLEGE:
+		if bool(s.get("by_conference", false)) and c.stage != CareerData.STAGE_COLLEGE and conference_count(lg) > 1:
 			name = conference_name(lg, k)
 		var outs: Array = f["out"][k] if k < (f["out"] as Array).size() else []
 		sides.append({"name": name, "in": f["sides"][k], "out": outs.slice(0, g.playoff_picture_bubble)})

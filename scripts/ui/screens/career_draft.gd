@@ -24,7 +24,7 @@ func _build(col: VBoxContainer) -> void:
 	col.add_child(UiKit.label("%s  -  Draft stock %d" % [CareerScreen.team_name(c.team), roundi(c.draft_score)],
 		26, UiKit.MUTED))
 	list = UiKit.scroll_list(col)
-	var team := CareerContent.team_by_id(str(d.get("team", "")))
+	var team := TeamDatabase.team(str(d.get("team", "")))
 	if d.get("dismissed", false):
 		list.add_child(UiKit.label("Dismissed from the program: no team drafts you. Your way in is an open tryout.",
 			26, UiKit.BAD))

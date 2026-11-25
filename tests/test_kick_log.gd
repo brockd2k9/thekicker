@@ -188,8 +188,8 @@ func test_most_interested_school_in_a_tier_offers() -> void:
 		check(not c.offers.is_empty(), "offers made (seed %d)" % seed_n)
 		for off in c.offers:
 			var tier_id := str(off["tier"])
-			var offered := CareerContent.team_by_id(str(off["school"]))
-			for s in CareerContent.colleges():
+			var offered := TeamDatabase.team(str(off["school"]))
+			for s in TeamDatabase.colleges():
 				if str(s["tier"]) != tier_id or CareerRecords.offer_from(c, str(s["id"])).size() > 0:
 					continue
 				check(Progression.school_lean(c, str(s["id"])) <= Progression.school_lean(c, str(offered.get("id", ""))),

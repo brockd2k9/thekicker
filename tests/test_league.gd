@@ -9,15 +9,24 @@ var t := CareerTuning.get_default()
 
 # --- helpers -----------------------------------------------------------------------------
 
-## A hand-made league: n conferences x m divisions x d teams, no games yet.
+## A hand-made league: n conferences x m divisions x d teams, no games yet
+## (team i is in division i / d, conference i / (m * d)).
 func _lg(n: int, m: int, d: int, stage := CareerData.STAGE_PRO) -> Dictionary:
 	var ids: Array = []
 	var strs: Array = []
+	var div: Array = []
+	var divs: Array = []
+	var confs: Array = []
+	for c in n:
+		confs.append("Conf %d" % c)
+		for v in m:
+			divs.append(["Div %d-%d" % [c, v], c])
 	for i in n * m * d:
 		ids.append("t%d" % i)
 		strs.append(50.0)
-	return {"v": League.VERSION, "stage": stage, "seed": 1, "season": 1, "n": n, "m": m, "d": d,
-		"ids": ids, "str": strs, "custom": {}, "weeks": [], "scores": [], "post": {}}
+		div.append(i / d)
+	return {"v": League.VERSION, "stage": stage, "scope": "", "seed": 1, "season": 1, "ids": ids, "str": strs,
+		"div": div, "divs": divs, "confs": confs, "custom": {}, "weeks": [], "scores": [], "post": {}}
 
 
 ## One played game in a week of its own.
@@ -28,14 +37,24 @@ func _game(lg: Dictionary, home: int, away: int, hs: int, as_: int) -> void:
 
 func _manager(stage: String, team_i := 0) -> CareerManager:
 	var c := CareerData.create("League Test", t)
-	var pool: Array = {CareerData.STAGE_COLLEGE: CareerContent.colleges(), CareerData.STAGE_PRO: CareerContent.pro_clubs(),
-		CareerData.STAGE_JUCO: CareerContent.jucos()}.get(stage, CareerContent.high_schools())
+	var pool: Array = {CareerData.STAGE_COLLEGE: _fbs(), CareerData.STAGE_PRO: TeamDatabase.pro_teams(),
+		CareerData.STAGE_JUCO: TeamDatabase.jucos()}.get(stage, TeamDatabase.high_schools())
 	c.team = Progression.team_from(pool[team_i], stage)
 	c.stage = stage
 	var m := CareerManager.new(c)
 	m.rng.seed = 7
 	m._start_season(false)
 	return m
+
+
+## FBS colleges, biggest conferences first (title games need 6+ teams).
+func _fbs() -> Array:
+	var all: Array = TeamDatabase.colleges().filter(func(s: Dictionary) -> bool: return s["division"] == "FBS")
+	var count := {}
+	for s in all:
+		count[s["conference"]] = int(count.get(s["conference"], 0)) + 1
+	all.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(count[a["conference"]]) > int(count[b["conference"]]))
+	return all
 
 
 ## Plays the regular season on paper: the player's games get `outcome(week)`,
@@ -45,13 +64,13 @@ func _play_regular(m: CareerManager, outcome: Callable) -> void:
 	for e in c.schedule:
 		if str(e["type"]) == "regular":
 			var o: String = outcome.call(int(e["week"]))
-			e["result"] = {"us": 24 if o == "W" else 10, "them": 10 if o == "W" else 24, "outcome": o}
+			e["result"] = {"us": 45 if o == "W" else 10, "them": 3 if o == "W" else 24, "outcome": o}
 			c.record[o.to_lower()] += 1
 		League.after_week(c, int(e["week"]))
 	c.week = m.weeks_in_season() + 1
 
 
-func _check_schedule(weeks: Array, count: int, games: int, byes: int, msg: String) -> void:
+func _check_schedule(weeks: Array, count: int, games: int, msg: String, short_ok := 1) -> void:
 	var per := {}
 	for w in weeks.size():
 		var seen := {}
@@ -62,100 +81,104 @@ func _check_schedule(weeks: Array, count: int, games: int, byes: int, msg: Strin
 				seen[x] = true
 				per[x] = int(per.get(x, 0)) + 1
 			check(int(pairs[q]) != int(pairs[q + 1]), "%s: a team plays itself" % msg)
+	var short := 0
 	for i in count:
-		eq(int(per.get(i, 0)), games, "%s: team %d games" % [msg, i])
-	eq(weeks.size(), games + byes, "%s: weeks" % msg)
+		check(int(per.get(i, 0)) <= games, "%s: team %d too many games" % [msg, i])
+		if int(per.get(i, 0)) < games:
+			short += 1
+	check(short <= short_ok, "%s: %d teams short of %d games" % [msg, short, games])
 
 
 # --- schedule ----------------------------------------------------------------------------
 
+## Every stage's real league: full schedules, division games, byes.
 func test_schedule_every_stage() -> void:
 	for stage in [CareerData.STAGE_HIGH_SCHOOL, CareerData.STAGE_JUCO, CareerData.STAGE_COLLEGE, CareerData.STAGE_PRO]:
-		var s := League.config().structure(stage)
-		var n: int = s["conferences"]
-		var m: int = s["divisions"]
-		var d: int = s["teams"]
-		for season in [1, 2, 5]:
-			var rng := RandomNumberGenerator.new()
-			rng.seed = season
-			var weeks := League.generate_schedule(n, m, d, s["division_games"], s["conference_games"],
-				t.games_per_season, t.byes_per_season, t.bye_week_earliest, t.bye_week_latest, rng, season)
-			var msg := "%s season %d" % [stage, season]
-			_check_schedule(weeks, n * m * d, t.games_per_season, t.byes_per_season, msg)
-			var div_games := {}
-			var conf_games := {}
-			var met := {}
-			var homes := {}
-			var bye_week := {}
-			for w in weeks.size():
-				var pairs: Array = weeks[w]
-				var playing := {}
-				for q in range(0, pairs.size(), 2):
-					var a := int(pairs[q])
-					var b := int(pairs[q + 1])
-					playing[a] = true
-					playing[b] = true
-					homes[a] = int(homes.get(a, 0)) + 1
-					if a / d == b / d:
-						div_games[a] = int(div_games.get(a, 0)) + 1
-						div_games[b] = int(div_games.get(b, 0)) + 1
-					elif a / (m * d) == b / (m * d):
-						conf_games[a] = int(conf_games.get(a, 0)) + 1
-						conf_games[b] = int(conf_games.get(b, 0)) + 1
-						var key := "%d-%d" % [mini(a, b), maxi(a, b)]
-						check(not met.has(key), "%s: conference opponents meet twice" % msg)
-						met[key] = true
-					else:
-						var key := "%d-%d" % [mini(a, b), maxi(a, b)]
-						check(not met.has(key), "%s: nonconference opponents meet twice" % msg)
-						met[key] = true
-				for i in n * m * d:
-					if not playing.has(i):
-						bye_week[i] = w + 1
-			for i in n * m * d:
-				eq(int(div_games.get(i, 0)), int(s["division_games"]), "%s: division games" % msg)
-				eq(int(conf_games.get(i, 0)), int(s["conference_games"]), "%s: conference games" % msg)
-				check(int(homes.get(i, 0)) >= 4 and int(homes.get(i, 0)) <= 6, "%s: home games %d" % [msg, int(homes.get(i, 0))])
-				var bw := int(bye_week.get(i, 0))
-				check(bw >= t.bye_week_earliest and bw <= t.bye_week_latest, "%s: bye in week %d" % [msg, bw])
-			# A whole division is off together.
-			for div in n * m:
-				eq(int(bye_week.get(div * d, 0)), int(bye_week.get(div * d + d - 1, 0)), "%s: division bye together" % msg)
-
-
-## Shapes the structured rounds can't make (odd numbers of conferences and
-## divisions, one conference) still give everyone a full schedule.
-func test_schedule_odd_shapes() -> void:
-	for shape in [[3, 3, 4, 3, 2], [1, 1, 6, 5, 0], [1, 3, 4, 3, 4], [3, 2, 4, 3, 2], [1, 2, 4, 3, 4]]:
-		var rng := RandomNumberGenerator.new()
-		rng.seed = 3
-		var weeks := League.generate_schedule(shape[0], shape[1], shape[2], shape[3], shape[4], 10, 1, 4, 8, rng, 1)
-		_check_schedule(weeks, shape[0] * shape[1] * shape[2], 10, 1, "shape %s" % str(shape))
-	var rng := RandomNumberGenerator.new()
-	var none := League.generate_schedule(2, 2, 4, 3, 4, 10, 0, 4, 8, rng, 1)
-	_check_schedule(none, 16, 10, 0, "no byes")
-	var two := League.generate_schedule(2, 2, 4, 3, 4, 10, 2, 4, 8, rng, 1)
-	_check_schedule(two, 16, 10, 2, "two byes")
-
-
-func test_league_has_every_world_team_and_the_player() -> void:
-	for stage in [CareerData.STAGE_HIGH_SCHOOL, CareerData.STAGE_JUCO, CareerData.STAGE_COLLEGE, CareerData.STAGE_PRO]:
-		var m := _manager(stage, 1)
+		var m := _manager(stage)
 		var lg := m.data.league
 		var s := League.config().structure(stage)
-		eq(League.size(lg), int(s["conferences"]) * int(s["divisions"]) * int(s["teams"]), stage + ": team count")
-		check(League.player_index(m.data) >= 0, stage + ": the player's team is in it")
-		var pool: Array = League._world_pool(stage)
-		for w in pool:
-			check(League.index_of(lg, str(w["id"])) >= 0, "%s: %s in the league" % [stage, w["id"]])
-		var uniq := {}
+		var games := t.games_for(stage)
+		var weeks: Array = lg["weeks"]
+		_check_schedule(weeks, League.size(lg), games, stage)
+		eq(weeks.size(), games + t.byes_per_season, stage + ": weeks")
+		var div_games := {}
+		var met := {}
+		var homes := {}
+		var played := {}
+		var outside_window := 0
+		for w in weeks.size():
+			var pairs: Array = weeks[w]
+			var busy := {}
+			for q in range(0, pairs.size(), 2):
+				var a := int(pairs[q])
+				var b := int(pairs[q + 1])
+				busy[a] = true
+				busy[b] = true
+				homes[a] = int(homes.get(a, 0)) + 1
+				played[a] = int(played.get(a, 0)) + 1
+				played[b] = int(played.get(b, 0)) + 1
+				var key := "%d-%d" % [mini(a, b), maxi(a, b)]
+				met[key] = int(met.get(key, 0)) + 1
+				if League.div_of(lg, a) == League.div_of(lg, b):
+					div_games[a] = int(div_games.get(a, 0)) + 1
+					div_games[b] = int(div_games.get(b, 0)) + 1
+				else:
+					check(int(met[key]) == 1, "%s: a non-division rematch" % stage)
+			for i in League.size(lg):
+				if not busy.has(i) and (w + 1 < t.bye_week_earliest or w + 1 > t.bye_week_latest):
+					outside_window += 1
+		for i in League.size(lg):
+			var size := League.division_teams(lg, League.div_of(lg, i)).size()
+			var want := int(s["division_games"]) if bool(s["rematches"]) else mini(int(s["division_games"]), size - 1)
+			want = mini(want, games)
+			check(int(div_games.get(i, 0)) >= want - 1, "%s: %s division games %d of %d" % [stage, lg["ids"][i],
+				int(div_games.get(i, 0)), want])
+			var h := int(homes.get(i, 0))
+			var g := int(played.get(i, 0))
+			check(absi(2 * h - g) <= 2, "%s: home games %d of %d" % [stage, h, g])
+		# Byes mostly in the window (odd team counts force a few outside it).
+		check(outside_window <= League.size(lg) / 2 + 1, "%s: %d byes outside weeks %d-%d" % [stage, outside_window,
+			t.bye_week_earliest, t.bye_week_latest])
+		if stage == CareerData.STAGE_PRO:
+			for i in League.size(lg):
+				eq(int(played.get(i, 0)), games, "pro: every club plays 17")
+				eq(int(div_games.get(i, 0)), 6, "pro: 6 division games (home and away)")
+
+
+## Shapes like the team data's: odd counts, uneven conferences, a tiny league.
+func test_schedule_odd_shapes() -> void:
+	var shapes := {
+		"21 in one group": [Array(range(21)).map(func(_i: int) -> int: return 0), 10, 10, false, 0],
+		"uneven conferences": [[0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3], 12, 8, false, 0],
+		"6 teams, 10 games": [[0, 0, 0, 0, 0, 0], 10, 10, true, 0],
+	}
+	for name in shapes:
+		var sh: Array = shapes[name]
+		var rng := RandomNumberGenerator.new()
+		rng.seed = 5
+		var weeks := League.generate_schedule(sh[0], sh[0], sh[1], sh[2], sh[3], sh[4], 1, 4, 8, rng)
+		_check_schedule(weeks, (sh[0] as Array).size(), sh[1], name)
+		eq(weeks.size(), int(sh[1]) + 1, name + ": weeks")
+	var rng := RandomNumberGenerator.new()
+	var none := League.generate_schedule([0, 0, 1, 1, 2, 2, 3, 3], [0, 0, 0, 0, 1, 1, 1, 1], 6, 1, false, 2, 0, 4, 8, rng)
+	_check_schedule(none, 8, 6, "no byes", 0)
+
+
+## The league is the team database's teams and nothing else.
+func test_league_is_the_team_database() -> void:
+	var expect := {CareerData.STAGE_HIGH_SCHOOL: TeamDatabase.high_schools().size(),
+		CareerData.STAGE_JUCO: TeamDatabase.jucos().size(), CareerData.STAGE_PRO: TeamDatabase.pro_teams().size(),
+		CareerData.STAGE_COLLEGE: _fbs().size()}
+	eq(int(expect[CareerData.STAGE_HIGH_SCHOOL]), 21, "21 high schools")
+	eq(int(expect[CareerData.STAGE_PRO]), 32, "32 pro clubs")
+	for stage in expect:
+		var m := _manager(stage)
+		var lg := m.data.league
+		eq(League.size(lg), int(expect[stage]), stage + ": every database team, nothing else")
+		eq((lg["custom"] as Dictionary).size(), 0, stage + ": no made-up teams")
 		for id in lg["ids"]:
-			uniq[id] = true
-		eq(uniq.size(), League.size(lg), stage + ": no team twice")
-		# World conferences are kept (high school and college).
-		if stage == CareerData.STAGE_HIGH_SCHOOL:
-			for w in pool:
-				eq(League.conf_of(lg, League.index_of(lg, str(w["id"]))), int(w["conference"]), "HS conference kept")
+			check(TeamDatabase.has_team(str(id)), "%s: %s is a database team" % [stage, id])
+		check(League.player_index(m.data) >= 0, stage + ": the player's team is in it")
 		# The player's schedule is the league's.
 		var p := League.player_index(m.data)
 		var ts := League.team_schedule(lg, p)
@@ -166,39 +189,18 @@ func test_league_has_every_world_team_and_the_player() -> void:
 			else:
 				eq(str(e["opponent"]["id"]), str(lg["ids"][int(ts[i]["opp"])]), stage + ": opponent matches")
 				eq(bool(e["home"]), bool(ts[i]["home"]), stage + ": home matches")
-
-
-func test_team_data_file() -> void:
-	var ids := {}
-	for list in [CareerContent.high_schools(), CareerContent.colleges(), CareerContent.jucos(), CareerContent.pro_clubs()]:
-		for s in list:
-			ids[str(s["id"])] = true
-	for stage in [CareerData.STAGE_HIGH_SCHOOL, CareerData.STAGE_JUCO, CareerData.STAGE_COLLEGE, CareerData.STAGE_PRO]:
-		var d := League.stage_data(stage)
-		check(not d.is_empty(), stage + ": names in league_teams.json")
-		for s in d.get("teams", []):
-			var id := str(s.get("id", ""))
-			check(id != "" and not ids.has(id), "%s: team id '%s' is unique" % [stage, id])
-			ids[id] = true
-			for k in ["name", "mascot", "short", "town", "strength", "colors"]:
-				check(s.has(k), "%s: %s has %s" % [stage, id, k])
-		# Enough named teams for the default league (no made-up pool names).
-		var st := League.config().structure(stage)
-		var need := int(st["conferences"]) * int(st["divisions"]) * int(st["teams"])
-		check(League._world_pool(stage).size() + (d.get("teams", []) as Array).size() >= need,
-			stage + ": enough teams for the default league")
-
-
-## A league bigger than the named teams still fills up (pool names).
-func test_pool_teams_fill_a_big_league() -> void:
-	var cfg := LeagueConfig.new()
-	cfg.pro_teams_per_division = 8
-	League.use_config(cfg)
-	var m := _manager(CareerData.STAGE_PRO)
-	eq(League.size(m.data.league), 64, "64 teams")
-	check(not (m.data.league["custom"] as Dictionary).is_empty(), "some made-up teams")
-	_check_schedule(m.data.league["weeks"], 64, t.games_per_season, t.byes_per_season, "big league")
-	League.use_config(null)
+	# Pro: AFC / NFC, four divisions of four; college: one level, its conferences.
+	var pro := _manager(CareerData.STAGE_PRO).data.league
+	eq(League.conference_count(pro), 2, "AFC and NFC")
+	eq(League.division_count(pro), 8, "8 divisions")
+	for d in 8:
+		eq(League.division_teams(pro, d).size(), 4, "4 per division")
+	var col := _manager(CareerData.STAGE_COLLEGE).data.league
+	eq(str(col["scope"]), "FBS", "an FBS player's league is FBS")
+	check(League.flat(col), "college conferences are the divisions")
+	for i in League.size(col):
+		eq(str(TeamDatabase.team(str(col["ids"][i]))["conference"]), League.conference_name(col, League.conf_of(col, i)),
+			"conference from the data")
 
 
 # --- standings and tiebreakers -----------------------------------------------------------
@@ -314,9 +316,6 @@ func test_tiebreak_coin_flip_is_stable() -> void:
 ## team with a winning record can miss; a 1-2 team can get in.
 func test_seeding_division_winners_and_wild_cards() -> void:
 	var cfg := LeagueConfig.new()
-	cfg.pro_conferences = 1
-	cfg.pro_divisions_per_conference = 2
-	cfg.pro_teams_per_division = 2
 	cfg.pro_wildcards_per_conference = 1
 	League.use_config(cfg)
 	var lg := _lg(1, 2, 2)  # division 0: t0 t1, division 1: t2 t3
@@ -338,9 +337,6 @@ func test_seeding_division_winners_and_wild_cards() -> void:
 
 func test_qualifying_from_the_standings() -> void:
 	var cfg := LeagueConfig.new()
-	cfg.pro_conferences = 1
-	cfg.pro_divisions_per_conference = 2
-	cfg.pro_teams_per_division = 2
 	cfg.pro_wildcards_per_conference = 0
 	League.use_config(cfg)
 	var lg := _lg(1, 2, 2)
@@ -353,8 +349,8 @@ func test_qualifying_from_the_standings() -> void:
 	# The player is t1: 2-1 and out. Their record would have qualified before.
 	var c := CareerData.create("Q", t)
 	c.stage = CareerData.STAGE_PRO
-	lg["ids"][1] = "metro_monarchs"
-	c.team = Progression.team_from(CareerContent.pro_clubs()[0], CareerData.STAGE_PRO)
+	lg["ids"][1] = str(TeamDatabase.pro_teams()[0]["id"])
+	c.team = Progression.team_from(TeamDatabase.pro_teams()[0], CareerData.STAGE_PRO)
 	c.league = lg
 	c.season = 1
 	c.record = {"w": 2, "l": 1, "t": 0}
@@ -372,7 +368,7 @@ func test_qualifying_from_the_standings() -> void:
 	c2.stage = CareerData.STAGE_PRO
 	var lg2 := lg.duplicate(true)
 	lg2["ids"][1] = "t1"
-	lg2["ids"][2] = "metro_monarchs"
+	lg2["ids"][2] = str(TeamDatabase.pro_teams()[0]["id"])
 	lg2["post"] = {}
 	c2.team = c.team.duplicate()
 	c2.league = lg2
@@ -511,9 +507,12 @@ func test_college_field_and_bowls() -> void:
 	for b in f["bowls"]:
 		check(League.pct(st[b]) >= float(s["bowl_min"]) - 0.001, "bowl teams are .500 or better")
 		check(not (b in f["sides"][0]), "not in the playoff")
-	# Every conference champion is among the auto bids.
-	for ch in (f["champions"] as Dictionary).values():
+	# The best auto_bids conference champions (by the ranking) are in.
+	var champs: Array = (f["champions"] as Dictionary).values()
+	var best := League.poll_order(lg, st, champs).filter(func(i: int) -> bool: return i in champs)
+	for ch in best.slice(0, int(s["auto_bids"])):
 		check(ch in f["sides"][0], "conference champion %d in the field" % ch)
+	check(not (f["champions"] as Dictionary).is_empty(), "conferences have champions")
 
 
 # --- the season loop, saves -------------------------------------------------------------
@@ -542,8 +541,16 @@ func test_weeks_simulate_and_save_mid_season() -> void:
 	League.after_week(c, 4)
 	League.after_week(back, 4)
 	eq(JSON.stringify(back.league["scores"][3]), JSON.stringify(c.league["scores"][3]), "same simulated week after a load")
+	# Packed in the save (weeks and scores as bytes), the same after loading.
+	var packed: Dictionary = c.to_dict()["league"]
+	eq(int(packed.get("packed", 0)), 1, "packed")
+	eq(JSON.stringify(League.unpack(JSON.parse_string(JSON.stringify(packed)))["scores"]),
+		JSON.stringify(c.league["scores"]), "unpacks to the same scores")
 	# Compact: a few KB.
-	check(JSON.stringify(c.league).length() < 8000, "league save is small (%d chars)" % JSON.stringify(c.league).length())
+	check(JSON.stringify(packed).length() < 3000, "league save is small (%d chars)" % JSON.stringify(packed).length())
+	var col := _manager(CareerData.STAGE_COLLEGE).data
+	var big := JSON.stringify(col.to_dict()["league"]).length()
+	check(big < 12000, "a 138-team college league saves small (%d chars)" % big)
 
 
 func test_end_week_simulates_the_league() -> void:
@@ -609,8 +616,9 @@ func test_align_to_schedule() -> void:
 		if str(c.schedule[i]["type"]) == "regular":
 			last = i
 	var want := -1
+	var current := int(League.team_schedule(lg, p)[last]["opp"])
 	for i in League.size(lg):
-		if i != p and League.conf_of(lg, i) != League.conf_of(lg, p):
+		if i != p and i != current:
 			want = i
 			break
 	c.schedule[last]["opponent"] = League.team(lg, want)
@@ -653,7 +661,7 @@ func test_new_stage_new_league() -> void:
 	var c := m.data
 	var hs_ids: Array = (c.league["ids"] as Array).duplicate()
 	c.stage = CareerData.STAGE_COLLEGE
-	c.team = Progression.team_from(CareerContent.colleges()[2], CareerData.STAGE_COLLEGE)
+	c.team = Progression.team_from(_fbs()[2], CareerData.STAGE_COLLEGE)
 	c.season += 1
 	m._start_season(true)
 	eq(str(c.league["stage"]), CareerData.STAGE_COLLEGE, "a college league")
@@ -676,8 +684,8 @@ func test_hub_line_and_picture() -> void:
 		League.after_week(c, w + 1)
 	var pic := League.picture(c)
 	check(bool(pic["show"]), "shown from week %d" % from)
-	eq((pic["sides"] as Array).size(), 2, "two regions")
+	eq((pic["sides"] as Array).size(), 1, "one state bracket")
 	for sd in pic["sides"]:
-		eq((sd["in"] as Array).size(), 8, "8 per region")
+		eq((sd["in"] as Array).size(), 8, "the top 8")
 		eq((sd["out"] as Array).size(), League.config().playoff_picture_bubble, "the bubble")
 	check(League.picture_line(c).begins_with("Playoff picture: in"), League.picture_line(c))

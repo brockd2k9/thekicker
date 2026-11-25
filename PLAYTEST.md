@@ -148,40 +148,44 @@ week). Metrics (career): `playoff_appearances`, `championships`, `postseason_win
 
 ## Leagues
 
-Numbers: `tuning/league.tres` (`LeagueConfig`); names: `data/career/league_teams.json` (all
-fictional; every `world.json` team of the stage is always in, these fill the rest, then made-up
-names from the pools). Rules: `scripts/career/league.gd`. One league per stage, made new when the
-stage changes; team strength drifts up to 4 a season (and 10% back toward the average).
+Numbers: `tuning/league.tres` (`LeagueConfig`). Rules: `scripts/career/league.gd`. The teams are
+the team database's only (`data/teams/`, `TeamDatabase`): no made-up teams. One league per stage,
+made new when the stage changes (or a college player moves to another level); team strength
+drifts up to 4 a season (and 10% back toward the average).
 
-| Stage | Shape | Schedule (10 games, 1 bye) | Who gets in |
+| Stage | Teams | Schedule (games + 1 bye) | Who gets in |
 |---|---|---|---|
-| High school | 2 regions x 4 districts x 6 = 48 | 5 district, 3 region, 2 outside | top 2 per district: 8 per region, region brackets, State Championship between region champions |
-| Junior college | 2 regions x 2 divisions x 4 = 16 | 3 division, 4 region, 3 outside | division winners: 2 per region |
-| College | 4 conferences x 2 divisions x 6 = 48 | 5 division, 3 conference, 2 outside | division winners play the conference title game; 12-team playoff (best 4 conference champions guaranteed, top 4 seeds get byes); bowls for the next 16 at .500+ |
-| Pro | 2 conferences x 4 divisions x 4 = 32 | 6 division, 2 conference, 2 outside | 4 division winners + 3 wild cards per conference; #1 seed gets a bye |
+| High school | your 21 schools, one conference | 10 games, all in the conference (21 is odd: one school sits each week) | top 8: state quarterfinal, semifinal, State Championship |
+| Junior college | the 6 junior colleges | 10 games: twice through the other five | top 4: Region Playoff, Junior College Championship |
+| College | the player's level only: FBS 138, FCS 128 or D2 160, in its conferences (the conference is the division) | 12 games: 8 in the conference (fewer in small ones), the rest outside it | top two of each conference (6+ teams, not "Independents") play its title game; 12-team playoff (the best 5 conference champions guaranteed, top 4 seeds get byes); bowls for the next 32 at .500+ |
+| Pro | the 32 clubs: AFC / NFC, 8 divisions of 4 | 17 games: 6 in the division (home and away), 6 in the conference, 5 outside | 4 division winners + 3 wild cards per conference; #1 seed gets a bye |
 
-Every other game is simulated at the end of its week from the two strengths (`sim_*`: about 7
-points of margin per 10 strength, 9-point spread, home edge 2, a level game stays tied 30% of the
-time where ties exist). Tiebreakers (one function, `League.break_tie`): head-to-head (only if every
-tied team played one of the others), division record (same division), conference record (same
-conference), point differential, then a fixed coin flip; once a step splits a group, each part
-starts again from head-to-head. College ranking: win share x 100 + 0.6 per point of average opponent
-strength above 50 + 5 for conference champions.
+Schedules are built each season for every team: division round robins first, then pairings by need
+(no repeat opponents outside the division), then weeks found by a min-conflicts search that also
+moves byes into weeks 4-8 (Kempe-chain swaps). Every other game is simulated at the end of its week
+from the two strengths (`sim_*`: about 7 points of margin per 10 strength, 9-point spread, home edge
+2, a level game stays tied 30% of the time where ties exist). Tiebreakers (one function,
+`League.break_tie`): head-to-head (only if every tied team played one of the others), division
+record (same division), conference record (same conference), point differential, then a fixed coin
+flip; once a step splits a group, each part starts again from head-to-head. College ranking: win
+share x 100 + 0.6 per point of average opponent strength above 50 + 5 for conference champions.
 
 Screens: Hub -> League (Standings, Schedule, Divisions) and Results -> Standings. The playoff
 picture (seeds, the line, the first 3 out) shows from week 6. The save keeps only the schedule and
-scores (2-5 KB); standings are worked out from them. Saves from before leagues get one on load,
-fitted around the schedule being played (same opponents and byes, finished weeks simulated).
+scores, packed as base64 bytes (high school about 1 KB, pro about 3 KB, a 160-team D2 league about
+10 KB); standings are worked out from them. Saves from before leagues get one on load, fitted
+around the schedule being played (same opponents and byes, finished weeks simulated).
 
-**Simulator (careers=12, seed=1), share of seasons:** high school 36% playoffs; college 17% playoff +
-29% bowl; pro 43% playoffs (the field sizes: 16/48, 12/48 + 16/48, 14/32).
+**Simulator (careers=8, seed=1), share of seasons:** high school 24% playoffs; college 10% playoff +
+18% bowl; pro 32% playoffs.
 
 To playtest:
-- Does the playoff picture feel fair late in the season? A winning record can miss (3rd in a strong
-  district, a pro wild-card race); a weak division can let a .500 team in. That's intended.
-- Is 6 the right week for the playoff picture (`playoff_picture_from_week`)?
+- Does the playoff picture feel fair late in the season? A winning record can miss (a strong
+  conference, a pro wild-card race); a weak division can let a .500 team in. That's intended.
+- High school: is top 8 of 21 the right size for the state playoffs (`hs_qualifiers_per_division`)?
+- Junior college: 4 of 6 teams make it; 2 (a final only) may be better (`juco_qualifiers_per_division`).
+- College: 32 bowl slots per level, and the 5 auto bids, are first guesses.
 - Pro top seed bye: the first postseason game is the Divisional Round (no idle week).
-- College: does a conference title game loss that still sends you to the playoff (on ranking) read well?
 
 ## Leveling: costs and stage caps
 

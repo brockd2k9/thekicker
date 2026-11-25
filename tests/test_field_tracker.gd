@@ -136,7 +136,7 @@ func test_late_timeout_only_when_trailing() -> void:
 
 func _sim(seed_n: int) -> GameSim:
 	var c := CareerData.create("Field Test", CareerTuning.get_default())
-	c.team = Progression.team_from(CareerContent.high_schools()[seed_n % 4], CareerData.STAGE_HIGH_SCHOOL)
+	c.team = Progression.team_from(TeamDatabase.high_schools()[seed_n % 4], CareerData.STAGE_HIGH_SCHOOL)
 	var mgr := CareerManager.new(c)
 	mgr.rng.seed = seed_n
 	mgr._start_season(false)

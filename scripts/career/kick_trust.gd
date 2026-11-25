@@ -26,7 +26,7 @@ static func view(c: CareerData) -> Dictionary:
 		"made": int(c.season_stats.get("fg_made", 0)), "doubt": not c.coach_doubt.is_empty(),
 		"slump": false, "res": c.stat("resilience"), "lead": c.stat("leadership"),
 		"miss_mult": maxf(1.0 + Perks.total(c, "trust_miss"), 0.0),
-		"team_mult": maxf(1.0 + Perks.total(c, "team_miss"), 0.0)}
+		"team_mult": maxf(1.0 + Perks.total(c, "team_miss"), 0.0), "stage": c.stage}
 
 
 ## One kick. Updates `v` and returns {coach, team, reason, slump} (changes as
@@ -64,6 +64,12 @@ static func step(v: Dictionary, k: Dictionary, range: float, t: CareerTuning) ->
 		coach = t.kick_miss_coach * m * soft
 		team = t.kick_miss_team * m * soft * (1.0 - t.kick_leadership_soften * float(v["lead"]) / 100.0) \
 			* float(v.get("team_mult", 1.0))
+	# A season of kicks moves trust as much as a 10-game one did
+	# (CareerTuning.season_scale: 10/12 in college, 10/17 in pro). A slump's
+	# cost below is one event, not scaled.
+	var sc := t.season_scale(str(v.get("stage", "")))
+	coach *= sc
+	team *= sc
 	out["reason"] = reason(k, made, sit, easy, edge)
 	if kind == "fg":
 		var recent: Array = v["recent"]
@@ -72,7 +78,7 @@ static func step(v: Dictionary, k: Dictionary, range: float, t: CareerTuning) ->
 			recent.pop_front()
 		v["att"] = int(v["att"]) + 1
 		v["made"] = int(v["made"]) + (1 if made else 0)
-		if not v["doubt"] and is_slump(recent, int(v["att"]), int(v["made"]), t):
+		if not v["doubt"] and is_slump(recent, int(v["att"]), int(v["made"]), t, str(v.get("stage", ""))):
 			out["slump"] = true
 			v["slump"] = true
 			v["doubt"] = true
@@ -151,11 +157,12 @@ static func misses(recent: Array) -> int:
 	return recent.filter(func(b: bool) -> bool: return not b).size()
 
 
-## Too many misses: the recent window, or the season FG%.
-static func is_slump(recent: Array, att: int, made: int, t: CareerTuning) -> bool:
+## Too many misses: the recent window, or the season FG% (after
+## kick_season_min_att attempts, more in longer seasons: season_attempts).
+static func is_slump(recent: Array, att: int, made: int, t: CareerTuning, stage := "") -> bool:
 	if recent.size() >= t.kick_window and misses(recent) >= t.kick_window_misses:
 		return true
-	return att >= t.kick_season_min_att and float(made) / att < t.kick_season_pct
+	return att >= t.season_attempts(t.kick_season_min_att, stage) and float(made) / att < t.kick_season_pct
 
 
 ## "Coach -4, Team -3" (changes rounded; zero parts left out).

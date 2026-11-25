@@ -10,7 +10,7 @@ func _career(name := "Rel Test") -> CareerData:
 	c.created = 1794983149
 	c.people.clear()
 	Relationships.seed_cast(c, t)
-	c.team = Progression.team_from(CareerContent.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
+	c.team = Progression.team_from(TeamDatabase.high_schools()[0], CareerData.STAGE_HIGH_SCHOOL)
 	return c
 
 
@@ -107,14 +107,14 @@ func test_tyler_path_and_schedule() -> void:
 	var c := _career()
 	Relationships.advance_tyler(c, CareerData.STAGE_COLLEGE)
 	var tt := Relationships.tyler_team(c)
-	check(not CareerContent.team_by_id(str(tt["id"])).is_empty(), "Tyler signed with a real college")
+	check(not TeamDatabase.team(str(tt["id"])).is_empty(), "Tyler signed with a real college")
 	eq(tt["stage"], "college", "college")
 	var again := _career()
 	Relationships.advance_tyler(again, CareerData.STAGE_COLLEGE)
 	eq(Relationships.tyler_team(again)["id"], tt["id"], "same career, same school")
 	# Meet him, then play college ball elsewhere: his team gets on the schedule.
 	c.stage = CareerData.STAGE_COLLEGE
-	var other: Dictionary = CareerContent.colleges().filter(func(s: Dictionary) -> bool:
+	var other: Dictionary = TeamDatabase.colleges().filter(func(s: Dictionary) -> bool:
 		return s["id"] != tt["id"])[0]
 	c.team = Progression.team_from(other, CareerData.STAGE_COLLEGE)
 	var sched := CareerManager.build_schedule(c, t, RandomNumberGenerator.new())
