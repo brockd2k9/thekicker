@@ -21,6 +21,7 @@ extends RefCounted
 ##   night        night sky, darker ambient light, brighter light panels
 ##                (no real-time lights added)
 ##   hash_x       hash marks' distance from the middle of the field (m) by stage
+##   endzone_text the lettering across the end zone (the home team's nickname)
 ##   crowd_level  0-1, how loud the crowd is: a hook for crowd sound later
 ##                (FieldBuilder.crowd_level(); nothing plays it yet)
 
@@ -49,6 +50,8 @@ var crowd_level := 0.8
 ## orange) and the end zone color (alpha 0: the default navy).
 var crowd_colors: Array = []
 var endzone := Color(0, 0, 0, 0)
+## End zone lettering (the home team's nickname; drawn with the full field paint).
+var endzone_text := "KICKER"
 
 
 ## Every tier by id (the night flag is set per game by Stadiums).

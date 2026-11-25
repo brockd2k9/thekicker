@@ -98,8 +98,11 @@ static func night_game(stage: String, season: int, week: int, key: String, t: Ca
 	return false
 
 
-## The host's crowd colors and end zone color.
+## The host's crowd colors, end zone color and end zone lettering.
 static func _dress(st: StadiumSpec, host: Dictionary) -> void:
+	var nickname := str(host.get("mascot", ""))
+	if nickname != "":
+		st.endzone_text = nickname
 	var colors: Array = host.get("colors", [])
 	if colors.size() < 2:
 		return

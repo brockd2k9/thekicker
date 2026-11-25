@@ -43,7 +43,7 @@ aspect ratio works.
 | Practice | The original Phase 1 loop: random kicks forever (not in the original menu spec, added so the existing mode is still reachable) |
 | My Stats | Session accuracy, all-time accuracy, longest make/miss streaks, longest field goal, misses by type, best Challenge run, and a CAREER section (careers started / completed, best career, longest career, career kicks) |
 | Achievements | Locked/unlocked list with unlock dates. A toast slides in when one unlocks |
-| Settings | Sound volume, music volume, haptics, aim assist, Reset Stats (with confirmation) |
+| Settings | Sound volume, music volume, haptics, aim assist, graphics (Low / High quality, a switch per visual feature, frame-rate readout, benchmark), Reset Stats (with confirmation) |
 
 Challenge difficulty numbers are constants at the top of `scripts/modes/challenge_rules.gd`.
 **Aim assist** = the white aim ring above the crossbar. It is visual only and never
@@ -209,11 +209,14 @@ Uprights are 2.82 m either side of center. More power means less hang time and t
 ## Look (no art files)
 
 Everything is drawn with primitives plus procedural shaders in `shaders/`:
-- `field.gdshader`: grass grain, mowing stripes, yard lines, hash marks, end zone
+- `turf.gdshaderinc`: the field (see "Graphics quality" below): mowing stripes, color variation,
+  wind, yard lines, hash marks, yard numbers, end zone paint. `field.gdshader` is the old flat
+  field, still used when Grass Shader and Field Paint are both switched off
 - `ball.gdshader`: pebbled leather, seams, worn tips, white stripes (`stripes` toggle).
   The pointed ball mesh and laces are generated in `ball.gd`
 - `crowd.gdshader`: seats full of swaying fans behind the posts
-- `sky.gdshader`: gradient sky with clouds
+- `sky_broadcast.gdshader`: sun-lit sky with shaded clouds (lights the scene too).
+  `sky.gdshader` is the old gradient sky (Sky Lighting off)
 - `jersey.gdshader`: block numbers front and back with outline, side panels, fabric texture
 
 Colors are shader uniforms. Click the mesh or material in the running scene's Remote tree,
@@ -274,6 +277,71 @@ margin: "Cleared the bar by 4 ft", "Under the bar by 1 ft", "Wide by 2 ft", "3 y
 Vibration: `Haptics.pulse()` on contact (stronger with more power) and on a block.
 Tunables: `kick_vibration_ms`, `block_vibration_ms` (0 = off).
 
+## Graphics quality (visual upgrade, stage 1)
+
+**Settings → Graphics.** Two presets, and one switch per feature so each can be checked on its
+own. Low is the default on phones and in the browser, High on desktop. Changes show the next
+time a kick scene opens. None of it touches the kick: only how the scene is drawn.
+
+| Feature | Off | Low | High |
+|---|---|---|---|
+| Sun Shadows | no shadows | one 2048 shadow map over the first 60 m, hard edges | 4 blended splits to 150 m, 4096 map, soft edges |
+| Sky Lighting | old gradient sky, flat ambient color | sun-lit sky with clouds; the sky lights and reflects on the scene (64 px cubemap) | same with sun-shaded clouds and a 256 px cubemap |
+| Distance Haze | none | depth fog tinted by the sky, a little sun scatter | same |
+| Color Grading | none | filmic tonemap (runs inside each material: no extra pass) | + contrast and saturation (one full-screen pass) |
+| Bloom | none | none | glow on the light banks, scoreboards and white paint |
+| Grass Shader | old flat field | mowing stripes that follow the sun, color variation, blade grain, wind gusts that follow the real wind | + worn turf between the hashes, fine blade detail, blade normals |
+| Field Paint | old thin lines | 6 ft white border, 4 in yard lines, 8 in goal lines, inbound and sideline hash marks, yard numbers with arrows, try line, end zone color with the home team's nickname, pylons | same |
+
+How it is built:
+- `scripts/systems/visual_quality.gd` (VisualQuality): the preset, the switches, the FPS
+  readout flag; saved inside the settings. `VisualQuality.active()` is what the scene draws with.
+- `scripts/visual/stage_look.gd` (StageLook, a node in `field_goal.tscn`): the sun or the
+  stadium lights, shadows, sky, haze, grading and bloom for the active options. Sun direction:
+  `SUN_DAY` / `SUN_NIGHT` at the top of the file.
+- `shaders/turf.gdshaderinc` + `scripts/visual/turf_shader.gd`: the field, compiled in variants
+  so a feature that is off costs nothing. Colors are set in `FieldBuilder._build_ground()`.
+  The big bowls (stadiums with sideline stands) mow a checkerboard.
+- `scripts/visual/field_paint.gd`: draws the yard-number digits and the end zone lettering
+  once with the display font (no texture files). `scripts/visual/noise_texture.gd`: the one
+  small noise texture the grass and sky sample.
+- With Grass Shader and Field Paint both off the field is `field.gdshader`, untouched.
+
+**Frame rate.** Settings → Show Frame Rate puts fps / ms in the corner on every screen.
+Settings → **Graphics Benchmark** times every feature on the device (about a minute), shows
+the table, saves it to `user://graphics_benchmark.txt` and can copy it. Phones lock the frame
+rate to the screen, so when everything fits in a frame it says so and runs a second pass at four
+times the pixels to rank the features. From the command line:
+`godot --path . res://scenes/screens/graphics_benchmark.tscn -- auto=1 seconds=6`.
+
+Measured so far only on a **software renderer** (Mesa llvmpipe, 720x1280, no GPU), which
+overstates per-pixel work and says nothing about a phone's absolute numbers. Use it for the
+order of the costs; run the benchmark on the phone for the real ones.
+
+| Row | ms / frame | vs. everything off | Share of the old frame |
+|---|---|---|---|
+| Before the upgrade (old look: 4 shadow splits) | 166 | +106 | 100% |
+| Everything off | 60 | | 36% |
+| + Sun Shadows, Low / High | 87 / 173 | +27 / +113 | 16% / 68% |
+| + Sky Lighting, Low / High | 60 / 64 | 0 / +4 | 0% / 2% |
+| + Distance Haze | 68 | +8 | 5% |
+| + Color Grading, Low / High | 61 / 71 | +1 / +10 | 1% / 6% |
+| + Bloom (High only) | 81 | +21 | 13% |
+| + Grass Shader, Low / High | 74 / 75 | +14 / +15 | 8% / 9% |
+| + Field Paint | 62 | +2 | 1% |
+| **LOW preset** | 93 | +33 | 56% |
+| **HIGH preset** | 201 | +141 | 121% |
+
+Run-to-run noise is a few ms. Low draws faster than the old look because the old scene used
+the engine's default four shadow splits; Low uses one.
+
+Screenshots with chosen options (dev tool): `godot --path . --resolution 720x1280
+res://tools/visual_shot.tscn -- out=/tmp/high.png preset=high off=bloom night=1 tier=pro_3`.
+
+Not in stage 1: no HDRI file (the sky is procedural, so the build stays free of texture
+assets and the lighting cubemap is made once at load), no 3D grass blades, no midfield logo,
+no extra real-time lights at night.
+
 ## UI look: the broadcast design system
 
 Every menu, career screen and overlay uses one look: modern TV sports broadcast graphics,
@@ -325,7 +393,7 @@ scenes/screens/               main menu, practice, challenge, stats, achievement
                               settings, career placeholder (thin scenes; UI built in code)
 scenes/ball.tscn              football model + ground shadow
 scenes/ui/hud.tscn            HUD layout
-shaders/                      procedural field, ball, crowd, sky
+shaders/                      procedural field (turf), ball, crowd, sky
 audio/                        optional sounds (see "Sound")
 scripts/
   autoload/game_state.gd      GameState: THE service. kick_resolved event, session stats,
@@ -337,7 +405,12 @@ scripts/
   systems/kick_stats.gd       all-time stats (streaks, longest FG, misses by type, best streak)
   systems/achievement_defs.gd achievements as data
   systems/achievement_tracker.gd  unlock state + condition checks
-  systems/game_settings.gd    volumes, haptics, aim assist; creates SFX/Music buses
+  systems/game_settings.gd    volumes, haptics, aim assist, graphics; creates SFX/Music buses
+  systems/visual_quality.gd   graphics preset (Low / High) + one switch per visual feature
+  visual/stage_look.gd        sun, shadows, sky, haze, grading, bloom for the active options
+  visual/turf_shader.gd       field shader variants (grass / paint compiled in or out)
+  visual/field_paint.gd       yard-number digits and end zone lettering textures
+  visual/noise_texture.gd     shared tiling noise for the grass and sky
   systems/save_store.gd       JSON save file, version + migrations
   modes/kick_mode.gd          KickMode: how a mode plugs into the kick scene
   modes/challenge_rules.gd    Challenge difficulty ramp + 3-miss rule
@@ -384,6 +457,7 @@ scripts/
   ui/menu_screen.gd           base for menu screens (Back / Esc / Android back)
   ui/play_overlay.gd          pause button + pause menu over the kick scene
   ui/toast.gd                 Toast autoload: achievement banners
+  ui/perf_overlay.gd          PerfOverlay autoload: the frame-rate readout
   ui/screens/*.gd             one script per screen
 ```
 
