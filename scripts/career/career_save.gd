@@ -149,30 +149,35 @@ static func _migrate(d: Dictionary) -> Dictionary:
 		d["savings"] = int(d.get("savings", est))
 		d["money_log"] = {"salary": est, "peak": est}
 		v = 8
-	# Version 8 -> 9: the team database (data/teams, TeamDatabase). The old
+	# Version 8 -> 9: Daily Challenge claim ids (CareerData.daily_claims). No
+	# daily reward was ever added to an older career, so it starts empty.
+	if v < 9:
+		d["daily_claims"] = []
+		v = 9
+	# Version 9 -> 10: the team database (data/teams, TeamDatabase). The old
 	# built-in teams are gone: the player's high school becomes Hoboken High
 	# School (every career starts there now), and other old team ids map to
 	# database teams by data/teams/legacy_ids.json (_migrate_teams).
 	# (The team database was developed as save version 8 on its own branch;
-	# savings took 8 first, so the database steps are 9-11.)
-	if v < 9:
-		_migrate_teams(d)
-		v = 9
-	# Version 9 -> 10: the pro league (32 clubs) replaced the 12 placeholder
-	# clubs; their ids map by legacy_ids.json "pro" (_migrate_pro_teams).
+	# savings and the Daily Challenge took 8 and 9 first, so its steps are 10-12.)
 	if v < 10:
-		_migrate_pro_teams(d)
+		_migrate_teams(d)
 		v = 10
-	# Version 10 -> 11: all-time records (CareerData.records starts empty) and
+	# Version 10 -> 11: the pro league (32 clubs) replaced the 12 placeholder
+	# clubs; their ids map by legacy_ids.json "pro" (_migrate_pro_teams).
+	if v < 11:
+		_migrate_pro_teams(d)
+		v = 11
+	# Version 11 -> 12: all-time records (CareerData.records starts empty) and
 	# each season's team id in history, for the record books: found by the
 	# saved team name (seasons played before the team database keep "").
-	if v < 11:
+	if v < 12:
 		var hist: Variant = d.get("history", [])
 		if hist is Array:
 			for h in hist:
 				if h is Dictionary and str(h.get("team_id", "")) == "":
 					h["team_id"] = RecordBook.team_id_by_name(str(h.get("team", "")))
-		v = 11
+		v = 12
 	if v > CareerData.VERSION:
 		push_warning("CareerSave: career is from a newer version (%d)" % v)
 	d["career_version"] = CareerData.VERSION

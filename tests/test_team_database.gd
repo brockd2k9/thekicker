@@ -1,6 +1,6 @@
 extends "res://tests/test_case.gd"
 ## The team database (TeamDatabase, data/teams): loading, the validator,
-## Hoboken as every career's start, old-save team migration (save versions 9 and 10),
+## Hoboken as every career's start, old-save team migration (save versions 10 and 11),
 ## and a full career on the database teams.
 
 const SIM := preload("res://tools/career_sim.gd")
@@ -269,7 +269,7 @@ static func _old_pro_save(version: int) -> Dictionary:
 
 func test_placeholder_pro_ids_migrate() -> void:
 	TeamDatabase.load_files()
-	for version in [7, 8, 9]:
+	for version in [7, 8, 9, 10]:
 		var d := CareerSave._migrate(_old_pro_save(version))
 		var who := "v%d save" % version
 		eq(int(d["career_version"]), CareerData.VERSION, who + " version")

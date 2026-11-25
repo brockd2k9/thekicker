@@ -11,6 +11,7 @@ func _uses_brand() -> bool:
 
 
 func _build(col: VBoxContainer) -> void:
+	GameState.daily_refresh()  # a waiting Daily Challenge reward lands before the tiles show
 	var c := career.data
 	var t := career.tuning
 	# Everything scrolls; only the action row stays put (thumb reach).
@@ -59,6 +60,7 @@ func _build(col: VBoxContainer) -> void:
 	nav.add_theme_constant_override("separation", 0)
 	list.add_child(nav)
 	var st := CareerRecords.this_season(c)
+	nav.add_child(_daily_row())
 	for r in [["Skills", "%d skill points to spend" % c.skill_points, "", "trend", Screens.CAREER_SKILLS],
 			["Kicking stats", "This season, career and records", "FG %d/%d" % [int(st["fg_made"]), int(st["fg_att"])],
 				"football", Screens.CAREER_KICKING],
@@ -195,6 +197,17 @@ func _league_rows(list: VBoxContainer) -> void:
 	nav.add_child(_nav_row("Schedule", "Every week, every team", "", "calendar", Screens.CAREER_SCHEDULE))
 	nav.add_child(_nav_row("Divisions", "%s and who gets in" % League.conference_name(lg, League.conf_of(lg, p)),
 		"", "flag", Screens.CAREER_DIVISIONS))
+## Daily Challenge: skill points for this career every day ("NEW" until
+## today's kick is tried, otherwise the streak).
+func _daily_row() -> BrandListRow:
+	var d := GameState.daily
+	var sub := "One kick a day for skill points"
+	if d.status() == "done":
+		sub = "Done today: +%d skill points" % int(d.today.get("reward", 0))
+	var r := _nav_row("Daily Challenge", sub, "NEW" if d.is_new() else ("Streak %d" % d.streak if d.streak > 0 else ""),
+		"calendar", Screens.DAILY)
+	r.pressed.connect(func() -> void: DailyScreen.return_to = Screens.CAREER_HUB, CONNECT_ONE_SHOT)
+	return r
 
 
 func _nav_row(title: String, sub: String, value: String, icon: String, path: String) -> BrandListRow:

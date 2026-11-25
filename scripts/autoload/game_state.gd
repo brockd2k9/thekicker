@@ -41,11 +41,15 @@ var save_store := SaveStore.new()
 var career_data: Dictionary = {"last_slot": 0}
 ## The career being played (null when none is open). Set by the Career menu.
 var career: CareerManager = null
+## The Daily Challenge (streak, today's kick, rewards). Saved under "daily".
+## Screens call daily_refresh() before showing it.
+var daily := DailyChallenge.new()
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	load_game()
+	daily_refresh()
 	# Deferred: the Haptics/Sfx autoloads are added after this one.
 	settings.apply.call_deferred()
 	# Built-in listeners run first (connected before any scene exists), so
@@ -82,10 +86,11 @@ func report_career_event(e: Dictionary) -> void:
 	save_game()
 
 
-## Kick modes that are measurements, not play: the Thumb Drill and the
-## real-swipe sample tool. Their kicks still go out on kick_resolved (the drill
-## records them) but never count in My Stats, the session streak or achievements.
-const UNRECORDED_MODES := [&"thumb_drill", &"kick_sample"]
+## Kick modes that don't count: the Thumb Drill and the real-swipe sample tool
+## (measurements), and the Daily Challenge (kept apart from every stat). Their
+## kicks still go out on kick_resolved (their screens listen) but never count
+## in My Stats, the session streak, records or achievements.
+const UNRECORDED_MODES := [&"thumb_drill", &"kick_sample", DailyChallenge.MODE]
 
 
 func _on_kick_resolved(r: KickReport) -> void:
@@ -168,6 +173,7 @@ func load_game() -> void:
 	settings.from_dict(d["settings"])
 	var c: Variant = d.get("career")
 	career_data = c if c is Dictionary else {"last_slot": 0}
+	daily.from_dict(d.get("daily", {}) if d.get("daily") is Dictionary else {})
 
 
 func save_game() -> void:
@@ -176,4 +182,73 @@ func save_game() -> void:
 		"achievements": achievements.to_dict(),
 		"settings": settings.to_dict(),
 		"career": career_data,
+		"daily": daily.to_dict(),
 	})
+
+
+# --- Daily Challenge -------------------------------------------------------------
+
+## New day, a kick left mid-flight, the clock guard; then any claimed skill
+## points go to the career. Saves if anything changed.
+func daily_refresh() -> void:
+	if daily.refresh(daily_tier()):
+		save_game()
+	daily_deliver()
+
+
+## The player's skill tier for a new day's challenge (DailyScenario.TIERS):
+## from the career's field goal range when there is one, else from all-time
+## accuracy (no career yet: Rookie or better by accuracy).
+func daily_tier() -> int:
+	var t := daily.tuning
+	var c := _daily_career()
+	if c != null:
+		var r := KickRange.fg_range(c, CareerTuning.get_default())
+		var tier := 0
+		for i in t.tier_range_yards.size():
+			if r >= t.tier_range_yards[i]:
+				tier = i + 1
+		return tier
+	if stats.attempts < t.tier_min_kicks:
+		return 0
+	var tier := 0
+	for i in t.tier_accuracy.size():
+		if stats.accuracy_percent() >= t.tier_accuracy[i]:
+			tier = i + 1
+	return tier
+
+
+## The career daily rewards go to: the open career, else the last-played slot;
+## never a retired one. null = none (rewards wait, banked).
+func _daily_career() -> CareerData:
+	if career != null and career.data.slot > 0:
+		return career.data if career.data.stage != CareerData.STAGE_RETIRED else null
+	var slot := CareerSave.last_slot()
+	if slot == 0:
+		return null
+	var c := CareerSave.load_slot(slot)
+	return c if c != null and c.stage != CareerData.STAGE_RETIRED else null
+
+
+## Adds waiting daily rewards to the career (once per claim: the career keeps
+## the claim ids), saves the career, then drops them from the main save.
+## Returns {"sp": added, "name": career name} ({} = nothing to deliver).
+func daily_deliver() -> Dictionary:
+	if daily.pending.is_empty():
+		return {}
+	var c := _daily_career()
+	if c == null:
+		return {}
+	var n := daily.deliver_to(c)
+	var ok := career.save() if career != null and career.data == c else CareerSave.save(c)
+	if not ok:
+		return {}
+	daily.clear_delivered(c)
+	save_game()
+	return {"sp": n, "name": c.display_name()}
+
+
+## Name of the career daily rewards would go to ("" = banked for the next one).
+func daily_reward_target() -> String:
+	var c := _daily_career()
+	return c.display_name() if c != null else ""

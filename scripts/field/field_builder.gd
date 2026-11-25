@@ -55,6 +55,8 @@ const HOLDER_POS := Vector3(-0.8, 0.0, 0.3)
 const STRIDE_LENGTH := 2.6
 
 var _field_mat: ShaderMaterial
+## The field is drawn by the turf shader (false: the old field shader).
+var _turf := false
 var _ol: Array[PlayerFigure] = []
 var _ol_home: Array[Vector3] = []
 var _dl: Array[PlayerFigure] = []
@@ -112,6 +114,7 @@ func _ready() -> void:
 	elif KickSituation.is_tee_type(kick_type):
 		_rng.randomize()
 		kickoff = KickoffFormation.new()
+		kickoff.paint_numbers = not VisualQuality.active().enabled(VisualQuality.PAINT)
 		add_child(kickoff)
 		kickoff.build(kick_type, _home_kit, _away_kit, _rng, tee_height, tee_ball_scale)
 	else:
@@ -130,6 +133,10 @@ func crowd_level() -> float:
 
 func set_wind(mph: float, max_mph: float, along: float = 0.0) -> void:
 	goal_posts.set_wind(mph, max_mph, along)
+	if _turf:
+		# The grass leans with it: crosswind (+ = toward +X) and tailwind (+ = toward -Z).
+		var v := Vector2(mph, -along)
+		_field_mat.set_shader_parameter("wind_vec", v.normalized() * clampf(v.length() / maxf(max_mph, 1.0), 0.0, 1.0))
 
 
 ## Where the holder puts the tip of the ball.
@@ -359,20 +366,66 @@ static func _along(points: Array, d: float) -> Vector3:
 # --- building -------------------------------------------------------------------
 
 func _build_ground() -> void:
+	var q := VisualQuality.active()
 	var plane := PlaneMesh.new()
 	plane.size = Vector2(240.0, 360.0)
 	plane.subdivide_width = 8
 	plane.subdivide_depth = 8
 	_field_mat = ShaderMaterial.new()
-	_field_mat.shader = FIELD_SHADER
+	var grass := q.level(VisualQuality.GRASS)
+	var paint := q.enabled(VisualQuality.PAINT)
+	_turf = grass > 0 or paint
+	# Neither the new grass nor the new paint: the field exactly as it was.
+	_field_mat.shader = TurfShader.variant(grass, paint) if _turf else FIELD_SHADER
 	plane.material = _field_mat
 	_field_mat.set_shader_parameter("hash_x", _stadium.hash_x)
 	if _stadium.endzone.a > 0.0:
 		_field_mat.set_shader_parameter("endzone_color", _stadium.endzone)
+	if _turf:
+		_field_mat.set_shader_parameter("noise_tex", NoiseTexture.get_texture())
+	if grass > 0:
+		_field_mat.set_shader_parameter("grass_light", Color(0.27, 0.5, 0.16))
+		_field_mat.set_shader_parameter("grass_dark", Color(0.18, 0.4, 0.12))
+		_field_mat.set_shader_parameter("outside_color", Color(0.16, 0.36, 0.12))
+		_field_mat.set_shader_parameter("grain_strength", 0.42)
+		var sun := get_node_or_null("../Sun") as DirectionalLight3D
+		if sun != null:
+			var to_sun := sun.global_basis.z
+			_field_mat.set_shader_parameter("stripe_tilt", Vector2(to_sun.x, to_sun.z).normalized() * 0.17)
+		# The big bowls mow a checkerboard.
+		_field_mat.set_shader_parameter("checker", 1.0 if _stadium.wings else 0.0)
+	if paint:
+		_field_mat.set_shader_parameter("try_yd", 2.0 if is_equal_approx(_stadium.hash_x, StadiumSpec.HASH_PRO) else 3.0)
+		FieldPaint.attach(self, _field_mat, _stadium.endzone_text)
 	var mi := MeshInstance3D.new()
 	mi.mesh = plane
 	mi.position = Vector3(0.0, 0.0, -120.0)
 	add_child(mi)
+	if paint:
+		_build_pylons()
+
+
+## Orange pylons at the corners of the near end zone (one draw call).
+func _build_pylons() -> void:
+	var box := BoxMesh.new()
+	box.size = Vector3(0.1, 0.46, 0.1)
+	var m := StandardMaterial3D.new()
+	m.albedo_color = Color(1.0, 0.36, 0.05)
+	m.roughness = 0.6
+	box.material = m
+	var mm := MultiMesh.new()
+	mm.transform_format = MultiMesh.TRANSFORM_3D
+	mm.mesh = box
+	mm.instance_count = 4
+	var half := 24.38 + 0.05
+	var i := 0
+	for z in [0.0, 10.0 * YARD]:
+		for side in [-1.0, 1.0]:
+			mm.set_instance_transform(i, Transform3D(Basis.IDENTITY, Vector3(float(side) * half, 0.23, float(z))))
+			i += 1
+	var mmi := MultiMeshInstance3D.new()
+	mmi.multimesh = mm
+	goal_end.add_child(mmi)
 
 
 func _build_formation() -> void:

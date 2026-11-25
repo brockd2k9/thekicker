@@ -38,6 +38,8 @@ const ON_SECOND := [[-10.0, 16.0], [-3.5, 17.0], [3.5, 17.0], [10.0, 16.0]]
 const ON_DEEP := [[-5.0, 25.0], [5.0, 25.0]]
 
 var onside := false
+## false when the field's own paint already has the yard numbers (full Field Paint).
+var paint_numbers := true
 
 var _cover: Array[PlayerFigure] = []
 var _cover_home: Array[Vector3] = []
@@ -88,6 +90,8 @@ func set_spot(spot_yards: int) -> void:
 		n.queue_free()
 	_numbers.clear()
 	for yl in range(10, 100, 10):
+		if not paint_numbers:
+			break
 		var z := -float(yl - spot_yards) * YARD
 		var shown := yl if yl <= 50 else 100 - yl
 		for side in [-1.0, 1.0]:

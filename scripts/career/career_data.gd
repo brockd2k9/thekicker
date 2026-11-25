@@ -8,7 +8,7 @@ extends RefCounted
 ## Stats are floats 0..100 (gains can be fractional); screens show them rounded.
 ## When the layout changes: bump VERSION and add a step to CareerSave._migrate().
 
-const VERSION := 11
+const VERSION := 12
 
 const STAGE_HIGH_SCHOOL := "high_school"
 const STAGE_JUCO := "juco"
@@ -183,6 +183,9 @@ var stretch_cooldown: int = 0
 ## This season's skill points by source ("Field goals made", "Practice", ...),
 ## saved into each season's history (balance simulator).
 var sp_sources: Dictionary = {}
+## Daily Challenge rewards already added to this career (claim ids, newest
+## last): a reward can never be paid twice, even after a crash (save v9).
+var daily_claims: Array = []
 ## Coach doubt after a slump: {weeks_left, reason}. Empty = none.
 var coach_doubt: Dictionary = {}
 ## This week's Coach / Team changes from your kicks: {coach, team, lines: [text]}.
@@ -462,6 +465,7 @@ func to_dict() -> Dictionary:
 		"fg_history": fg_history.duplicate(),
 		"stretch_cooldown": stretch_cooldown,
 		"sp_sources": sp_sources.duplicate(),
+		"daily_claims": daily_claims.duplicate(),
 		"coach_doubt": coach_doubt.duplicate(),
 		"trust_week": trust_week.duplicate(true),
 		"bench": bench.duplicate(true),
@@ -574,6 +578,8 @@ static func from_dict(d: Dictionary) -> CareerData:
 	var src := _dict(d, "sp_sources")
 	for k in src:
 		c.sp_sources[str(k)] = _num(src, k)
+	for id in _array(d, "daily_claims"):
+		c.daily_claims.append(str(id))
 	c.coach_doubt = _dict(d, "coach_doubt")
 	c.trust_week = _dict(d, "trust_week")
 	c.bench = _dict(d, "bench")

@@ -116,24 +116,10 @@ func set_look(look: Dictionary) -> void:
 			_set_night()
 
 
-## Night games: a dark sky with stars, less ambient light, a cooler key light
-## (the stadium lights). No real-time lights are added.
+## Night games: StageLook lights the scene (a dark sky with stars, the stadium
+## lights as the key light). No real-time lights are added.
 func _set_night() -> void:
-	var we := get_node("WorldEnvironment") as WorldEnvironment
-	var env := we.environment.duplicate(true) as Environment
-	var sky_mat := env.sky.sky_material as ShaderMaterial
-	sky_mat.set_shader_parameter("top_color", Color(0.01, 0.02, 0.06))
-	sky_mat.set_shader_parameter("horizon_color", Color(0.09, 0.11, 0.2))
-	sky_mat.set_shader_parameter("cloud_color", Color(0.1, 0.11, 0.16))
-	sky_mat.set_shader_parameter("cloud_cover", 0.25)
-	sky_mat.set_shader_parameter("stars", 1.0)
-	env.ambient_light_color = Color(0.7, 0.76, 0.95)
-	env.ambient_light_energy = 0.42
-	env.fog_light_color = Color(0.08, 0.1, 0.17)
-	we.environment = env
-	var sun := get_node("Sun") as DirectionalLight3D
-	sun.light_color = Color(0.96, 0.97, 1.0)
-	sun.light_energy = 1.05
+	(get_node("StageLook") as StageLook).night = true
 
 
 ## Tee kicks need their formation built before the field's _ready().
@@ -256,7 +242,9 @@ func _start_attempt() -> void:
 	_fg_flight_t = 0.0
 	last_shot_penalty = 0.0
 	# Field goals on windy days also get a headwind or tailwind.
-	if difficulty.enabled and not KickSituation.is_off_tee(situation.kick_type) \
+	if situation.along_preset:
+		wind.set_along(situation.wind_along_mph)
+	elif difficulty.enabled and not KickSituation.is_off_tee(situation.kick_type) \
 			and absf(situation.wind_mph) >= 0.5 and difficulty.max_head_tail_mph > 0.0:
 		situation.wind_along_mph = roundf(_rng.randf_range(-1.0, 1.0) * difficulty.max_head_tail_mph)
 		wind.set_along(situation.wind_along_mph)

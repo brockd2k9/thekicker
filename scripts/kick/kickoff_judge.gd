@@ -9,7 +9,8 @@ extends RefCounted
 ## "text" is the play-by-play sentence; "detail" is the short line under the banner.
 ##   kickoff: {result, banner, detail, good, quality, carry, start_spot, text}
 ##     result: "touchback" / "deep" / "returned" / "short" / "out_of_bounds"
-##   onside:  {result, banner, detail, good, recovered, carry, text}
+##   onside:  {result, banner, detail, good, recovered, hop, carry, text}
+##     hop: the kick itself was good (right distance and aim), recovered or not
 ##     result: "recovered" / "lost" / "out_of_bounds"
 
 const YARD := 0.9144
@@ -63,7 +64,7 @@ static func onside(rest: Vector3, aim_deg: float, r: KickoffRules,
 	var carry := maxf(-rest.z / YARD, 0.0)
 	if absf(rest.x) > FIELD_HALF_WIDTH:
 		return {"result": "out_of_bounds", "banner": "OUT OF BOUNDS", "good": false, "recovered": false,
-			"carry": carry, "detail": "Out after %d yards" % roundi(carry), "text": "Onside kick rolls out of bounds after %d yards. Their ball." % roundi(carry)}
+			"hop": false, "carry": carry, "detail": "Out after %d yards" % roundi(carry), "text": "Onside kick rolls out of bounds after %d yards. Their ball." % roundi(carry)}
 	# Same risk / reward as the old sideline pad.
 	var good := carry >= r.onside_min_yards and carry <= r.onside_max_yards \
 		and absf(aim_deg) <= r.onside_aim_deg
@@ -73,7 +74,7 @@ static func onside(rest: Vector3, aim_deg: float, r: KickoffRules,
 	text += ", a perfect hop!" if good else (", too far." if carry > r.onside_max_yards else ".")
 	return {"result": "recovered" if recovered else "lost",
 		"banner": "RECOVERED!" if recovered else "THEIR BALL", "good": recovered,
-		"recovered": recovered, "carry": carry, "text": text,
+		"recovered": recovered, "hop": good, "carry": carry, "text": text,
 		"detail": "%d yards%s" % [roundi(carry), "  -  a perfect hop!" if good else ""]}
 
 

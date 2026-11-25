@@ -80,6 +80,13 @@ Things that are built but **untuned**. Every value named here is in `tuning/kick
 33. **Volume sliders** work once real sounds/music are in `audio/` (`music.ogg` loops on the Music bus).
 34. **Touch targets.** Buttons are 96 px in the 720-wide layout. Check on the smallest phone you have.
 
+35. **Daily Challenge.** Numbers in `tuning/daily_tuning.tres`. Rewards: 2 SP a day; streak
+    bonuses day 3 +2, day 7 +5, day 14 +8, day 30 +12, then +5 every 7th day and +12 every 30th
+    (cap 14 a day): a perfect week 21 SP, a perfect 30 days 97 SP (a career season earns ~45).
+    Check: the popup shows once a day; NEW goes away after the first kick; a miss offers the ad
+    retry once; a second miss ends the day; force-close mid-flight = a miss; Next Day keeps the
+    streak, Next Day twice offers the streak saver, Prev Day after playing locks the challenge.
+    Are Monday kicks easy enough for a new player and Saturday's boss kick hard but fair?
 
 # Career Mode tuning notes
 

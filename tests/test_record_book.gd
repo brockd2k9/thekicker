@@ -327,12 +327,12 @@ func test_save_keeps_records_and_team_ids() -> void:
 	var again := CareerData.from_dict(CareerSave._migrate(c.to_dict()))
 	eq(JSON.stringify(again.records), JSON.stringify(c.records), "records saved")
 	var old := c.to_dict()
-	old["career_version"] = 10
+	old["career_version"] = 11
 	old.erase("records")
 	for h in old["history"]:
 		h.erase("team_id")
 	var m := CareerData.from_dict(CareerSave._migrate(old))
-	eq(str(m.history[0]["team_id"]), "buffalo_bisons", "v11 finds the team id by name")
+	eq(str(m.history[0]["team_id"]), "buffalo_bisons", "v12 finds the team id by name")
 	eq(m.records, {}, "old saves start with no records")
 
 
