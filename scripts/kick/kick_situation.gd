@@ -32,6 +32,9 @@ var wind_mph: float = 0.0
 var wind_gust_mph: float = 0.0
 ## Head / tailwind (signed mph, + = tailwind). Field goals only (KickDifficulty).
 var wind_along_mph: float = 0.0
+## The mode set wind_along_mph itself (Daily Challenge: the same for every
+## player); the kick scene then doesn't roll a random head / tailwind.
+var along_preset: bool = false
 var pressure: float = 0.0
 var label: String = ""
 

@@ -1,5 +1,7 @@
 extends MenuScreen
 ## Main menu. Back on the main menu quits (Android back / Esc).
+## The Daily Challenge has its own entry (with a NEW badge until today's kick
+## is tried) and a popup the first time the menu opens each day.
 
 
 func _build(col: VBoxContainer) -> void:
@@ -10,6 +12,8 @@ func _build(col: VBoxContainer) -> void:
 	var first := UiKit.primary("Career Mode", Screens.go.bind(Screens.CAREER), "career")
 	first.custom_minimum_size.y = 108
 	col.add_child(first)
+	GameState.daily_refresh()
+	col.add_child(_daily_button())
 	var items := [
 		["Challenge Mode", Screens.CHALLENGE, "challenge"],
 		["Practice", Screens.PRACTICE, "practice"],
@@ -36,6 +40,38 @@ func _build(col: VBoxContainer) -> void:
 	# Keyboard / gamepad focus for desktop (Steam later). Harmless on touch.
 	if not OS.has_feature("mobile"):
 		first.grab_focus.call_deferred()
+	if GameState.daily.wants_popup():
+		DailyUi.popup.call_deferred(self, GameState.daily, _open_daily.bind(Screens.DAILY_KICK))
+
+
+## Daily Challenge: the button, with a NEW badge (today's kick not tried yet)
+## or the current streak on its right.
+func _daily_button() -> Button:
+	var d := GameState.daily
+	var b := UiKit.button("Daily Challenge", _open_daily.bind(Screens.DAILY), UiKit.SECONDARY, "calendar")
+	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	b.custom_minimum_size.y = 96
+	var tag := ""
+	if d.is_new():
+		tag = "New"
+	elif d.status() == "done":
+		tag = "Done"
+	if d.streak > 0:
+		tag = ("%s  ·  " % tag if tag != "" else "") + "Streak %d" % d.streak
+	if tag != "":
+		var chip := DailyUi.new_badge() if d.is_new() else BrandUi.chip(tag, "outline", "flame")
+		chip.text = tag
+		chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		chip.set_anchors_and_offsets_preset(Control.PRESET_CENTER_RIGHT, Control.PRESET_MODE_MINSIZE, Brand.SPACE_3)
+		chip.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+		chip.grow_vertical = Control.GROW_DIRECTION_BOTH
+		b.add_child(chip)
+	return b
+
+
+func _open_daily(path: String) -> void:
+	DailyScreen.return_to = Screens.MAIN_MENU
+	Screens.go(path)
 
 
 ## "KICKER" in the banner font with a floodlight glow, over a broadcast tag line.

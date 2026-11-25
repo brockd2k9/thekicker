@@ -31,7 +31,9 @@ const ALL := ["main", "career_menu", "tutorial", "new", "new_web", "name_chooser
 	"hud", "hud_result", "results", "stats", "achievements", "settings", "career_stats", "people", "debug",
 	"challenge", "season", "recruiting", "recruiting_board", "recruiting_board_senior", "college_choice", "hub_college", "draft",
 	"hub_pro", "kicking_season", "kicking_hs", "kicking_total",
-	"kicking_total_sections", "kicking_season_sections", "kicking_season_misc", "contract", "hall_of_fame", "retired", "pause", "toast", "gallery"]
+	"kicking_total_sections", "kicking_season_sections", "kicking_season_misc", "contract", "hall_of_fame", "retired", "pause", "toast", "gallery",
+	"daily", "daily_popup", "daily_intro", "daily_kick", "daily_result", "daily_done", "daily_miss", "daily_missed",
+	"daily_miss_no_ad", "daily_failed", "daily_saver", "daily_locked"]
 
 var _out := ""
 var _tag := ""
@@ -89,6 +91,8 @@ func _capture_all() -> void:
 	_m.rng.seed = 5
 	GameState.career = _m
 	var c := _m.data
+	# The Daily Challenge popup only in its own shot ("daily_popup").
+	GameState.daily.mark_popup()
 
 	await _shot("main", Screens.MAIN_MENU)
 	await _shot("career_menu", Screens.CAREER)
@@ -186,6 +190,7 @@ func _capture_all() -> void:
 	await _money_shots()
 	await _drill_shots()
 	await _gallery_shots()
+	await _daily_shots()
 	await _shot("debug", Screens.CAREER_DEBUG)
 	await _shot("challenge", Screens.CHALLENGE, Callable(), Callable(), 2.0)
 	if _want("pause"):
@@ -1047,6 +1052,87 @@ func _drill_shots() -> void:
 
 ## The UI Gallery (the broadcast design system), page by page: gallery_1 ...
 ## gallery_N, scrolling one screen at a time to the end.
+## Daily Challenge on a fixed clock (Wed Nov 25 2026, 3 pm) with the stub ad:
+## the streak screen, the main menu popup, the intro card, the kick, the
+## success and miss cards, the screen after a miss / both misses / success,
+## the streak saver and a clock that moved backward.
+func _daily_shots() -> void:
+	var ids := ["daily", "daily_popup", "daily_intro", "daily_kick", "daily_result", "daily_done", "daily_miss",
+		"daily_missed", "daily_miss_no_ad", "daily_failed", "daily_saver", "daily_locked"]
+	if not ids.any(_want):
+		return
+	var d := GameState.daily
+	var keep := {"data": d.to_dict(), "clock": d.clock, "ads": d.ads}
+	var clock := ManualDateSource.new(0, 0)
+	clock.set_local(2026, 11, 25, 15)
+	var ads := StubAdService.new(d.tuning)
+	ads.seconds = 0.0
+	d.clock = clock
+	d.ads = ads
+	var today := d.current_day()
+	var base := {"streak": 5, "longest": 9, "last_completed_day": today - 1, "popup_day": today,
+		"stats": {"played": 14, "completed": 12, "kicks": 16, "makes": 12, "sp": 41}}
+	var reset := func(extra: Dictionary) -> void:
+		var dd := base.duplicate(true)
+		dd.merge(extra, true)
+		d.from_dict(dd)
+		d.refresh(GameState.daily_tier())
+	reset.call({})
+	await _shot("daily", Screens.DAILY)
+	if _want("daily_popup"):
+		d.popup_day = DailyChallenge.NO_DAY
+		await _open(Screens.MAIN_MENU, 1.2)
+		await _capture("daily_popup")
+		d.mark_popup()
+	await _shot("daily_intro", Screens.DAILY_KICK)
+	if _want("daily_kick"):
+		await _open(Screens.DAILY_KICK)
+		get_tree().current_scene._start_kick()
+		await _wait(2.6)
+		await _capture("daily_kick")
+	if _want("daily_result") or _want("daily_done"):
+		await _open(Screens.DAILY_KICK)
+		var scr := get_tree().current_scene
+		scr._start_kick()
+		await _wait(0.5)
+		scr._on_struck()
+		scr._made = true
+		scr._on_attempt_finished(KickResult.Outcome.GOOD)
+		await _wait(1.0)
+		await _capture("daily_result")
+		await _shot("daily_done", Screens.DAILY)
+	reset.call({})
+	if _want("daily_miss") or _want("daily_missed") or _want("daily_failed"):
+		await _open(Screens.DAILY_KICK)
+		var scr := get_tree().current_scene
+		scr._start_kick()
+		await _wait(0.5)
+		scr._on_struck()
+		scr._made = false
+		scr._on_attempt_finished(KickResult.Outcome.WIDE_LEFT)
+		await _wait(0.6)
+		await _capture("daily_miss")
+		await _shot("daily_missed", Screens.DAILY)
+		if _want("daily_miss_no_ad"):
+			ads.fill = false
+			await _open(Screens.DAILY)
+			await _capture("daily_miss_no_ad")
+			ads.fill = true
+		d.grant_retry()
+		d.begin_kick()
+		d.finish_kick(false)
+		await _shot("daily_failed", Screens.DAILY)
+	reset.call({"streak": 4, "last_completed_day": today - 2})
+	await _shot("daily_saver", Screens.DAILY)
+	reset.call({"max_day_seen": today + 1, "last_seen_unix": clock.unix + 86400})
+	d.clock_back = true
+	await _shot("daily_locked", Screens.DAILY)
+	d.clock = keep["clock"]
+	d.ads = keep["ads"]
+	d.from_dict(keep["data"])
+	d.clock_back = false
+
+
 func _gallery_shots() -> void:
 	if not (_want("gallery") or _want("gallery_1")):
 		return

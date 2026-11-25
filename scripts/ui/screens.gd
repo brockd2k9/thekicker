@@ -35,6 +35,9 @@ const CAREER_DEBUG_KICKS := "res://scenes/screens/career_debug_kicks.tscn"
 const CAREER_DRILL := "res://scenes/screens/career_drill.tscn"
 const CAREER_HALL := "res://scenes/screens/career_hall.tscn"
 const UI_GALLERY := "res://scenes/screens/ui_gallery.tscn"
+## Daily Challenge: streak, reward track and today's kick; and the kick itself.
+const DAILY := "res://scenes/screens/daily_challenge.tscn"
+const DAILY_KICK := "res://scenes/screens/daily_kick.tscn"
 
 
 static func go(path: String) -> void:

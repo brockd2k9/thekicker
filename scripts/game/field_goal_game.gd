@@ -256,7 +256,9 @@ func _start_attempt() -> void:
 	_fg_flight_t = 0.0
 	last_shot_penalty = 0.0
 	# Field goals on windy days also get a headwind or tailwind.
-	if difficulty.enabled and not KickSituation.is_off_tee(situation.kick_type) \
+	if situation.along_preset:
+		wind.set_along(situation.wind_along_mph)
+	elif difficulty.enabled and not KickSituation.is_off_tee(situation.kick_type) \
 			and absf(situation.wind_mph) >= 0.5 and difficulty.max_head_tail_mph > 0.0:
 		situation.wind_along_mph = roundf(_rng.randf_range(-1.0, 1.0) * difficulty.max_head_tail_mph)
 		wind.set_along(situation.wind_along_mph)
