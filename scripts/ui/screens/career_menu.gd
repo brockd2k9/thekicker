@@ -63,6 +63,7 @@ func _play(slot: int) -> void:
 		Toast.show_message("Can't open slot %d" % slot, "The save file could not be read.")
 		return
 	GameState.career = m
+	GameState.store_deliver()  # skill points bought before this career existed
 	Screens.go(Screens.CAREER_HUB)
 
 

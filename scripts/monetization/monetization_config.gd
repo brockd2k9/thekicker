@@ -137,6 +137,51 @@ const FORCED_AD_EVERY_N_GAMES := 3
 ## lost-game replay offer.
 const FORCED_AD_SKIP_AFTER_ANY_DECLINE := true
 
+# --- store (Stage 3) ---------------------------------------------------------------------
+
+## Products: ids, kinds, pack sizes and reference prices in ONE place.
+## "id" is the product id in Google Play Console / App Store Connect (both
+## stores; "store_ids" can override it per platform). "price_usd" is only the
+## fallback shown before the store returns its localized price, and the price
+## to set in the consoles. Set "enabled" to sell a pack.
+##
+## Pricing (see the README, "Store"): players earn about 45 skill points a
+## season (tools/career_sim_baseline.md) and an attribute point costs 2-3 SP
+## at 40-50, 9 at 80, 15 near 100. So the 50-point pack is about one season
+## of play for $4.99, a fair "skip a season's grind" price. Bigger packs give
+## more points per dollar (+11%, +25%, +43%) on standard store price points.
+const STORE_PRODUCTS: Array[Dictionary] = [
+	{"id": "remove_ads", "kind": "non_consumable", "enabled": true,
+		"title": "Remove Forced Ads", "price_usd": 9.99,
+		"description": "No more ads after games. Optional ads (retries and replays) stay available "
+			+ "if you want them, and you get 1 free retry or replay every game."},
+	{"id": "skill_points_50", "kind": "consumable", "enabled": true, "skill_points": 50,
+		"title": "50 Skill Points", "price_usd": 4.99,
+		"description": "About one season of training, right away."},
+	{"id": "skill_points_100", "kind": "consumable", "enabled": false, "skill_points": 100,
+		"title": "100 Skill Points", "price_usd": 8.99,
+		"description": "About two seasons of training."},
+	{"id": "skill_points_250", "kind": "consumable", "enabled": false, "skill_points": 250,
+		"title": "250 Skill Points", "price_usd": 19.99,
+		"description": "About five seasons of training."},
+	{"id": "skill_points_500", "kind": "consumable", "enabled": false, "skill_points": 500,
+		"title": "500 Skill Points", "price_usd": 34.99,
+		"description": "About ten seasons of training."},
+]
+
+## Debug builds only: purchases go through the test store (a confirmation,
+## then the item, no payment) on every platform, phones included. Release
+## builds never grant without payment, whatever this says.
+const STORE_DEBUG_GRANTS := true
+## "" = automatic; "mock" / "none" / "google_play" / "app_store" force one.
+const STORE_BACKEND_OVERRIDE := ""
+## Steam builds: the ad-free product is always hidden. The skill point store:
+## "off" (hidden) or "steam" (Steam's own in-game purchases, not built yet:
+## stays hidden until a Steam store backend exists).
+const STEAM_SKILL_POINT_STORE := "off"
+## Show "Restore Purchases" on Android too (iOS always shows it: required).
+const RESTORE_BUTTON_ON_ANDROID := true
+
 # --- ads: debug ---------------------------------------------------------------------
 
 ## Print "[AdManager] ..." lines (always on in debug builds).

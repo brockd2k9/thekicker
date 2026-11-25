@@ -60,6 +60,9 @@ func _attributes(list: VBoxContainer) -> void:
 	list.add_child(UiKit.label("Earn skill points by making kicks (long, clutch and game-winning ones "
 		+ "earn more), practicing every week, training in the offseason, good seasons, and choices "
 		+ "that work on your game. Each point costs more as an attribute climbs.", 22, UiKit.MUTED))
+	if StoreManager.is_available() and StoreManager.skill_point_store_enabled():
+		list.add_child(UiKit.button("Get Skill Points (Store)", StoreScreen.open.bind(Screens.CAREER_SKILLS),
+			UiKit.SECONDARY, "skill"))
 
 
 ## Aging: what each attribute loses at the end of this season, and preserving it.

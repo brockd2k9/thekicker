@@ -122,6 +122,15 @@ func _build_ads_debug(list: VBoxContainer) -> void:
 		list.add_child(_toggle_plain("Mock: Ad Available", mock.fill, func(on: bool) -> void:
 			mock.fill = on
 			AdManager.ads_changed.emit()))
+	list.add_child(UiKit.section("STORE (DEBUG)"))
+	var store_status := UiKit.label(StoreManager.status_text(), 24, UiKit.MUTED)
+	list.add_child(store_status)
+	list.add_child(UiKit.button("Forget Local Purchases (test Restore)", func() -> void:
+		StoreManager.owned.clear()
+		AdManager.set_ads_removed(false)
+		GameState.save_game()
+		store_status.text = StoreManager.status_text()
+		Toast.show_message("STORE", "Local purchases cleared. Use Restore Purchases in the Store.")))
 	list.add_child(UiKit.button("Reset Ad Consent", func() -> void:
 		AdManager.backend.reset_consent()
 		Toast.show_message("ADS", "Consent reset. Restart the app to see the form.")))

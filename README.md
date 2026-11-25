@@ -248,6 +248,46 @@ Google's consent SDK requires it (EEA / UK).
   themselves when one loads. Debug panel extras: **Make Forced Ad Due After Next Game**, **Mock: Ad
   Available** (test the no-ad paths).
 
+## Store (StoreManager)
+
+Game code never calls a billing SDK. It calls the **StoreManager** autoload
+(`scripts/autoload/store_manager.gd`): `is_available()`, `products()`, `await purchase(id)`,
+`await restore_purchases()`. Screens: **Store** (main menu, and "Get Skill Points" on the Career
+Skills screen), with **Restore Purchases** (required on iOS).
+
+**Products, one file:** `MonetizationConfig.STORE_PRODUCTS` (ids, kinds, pack sizes, reference prices,
+`enabled`). The id is the Play Console / App Store Connect product id (`store_ids` overrides per platform).
+
+| Product | Kind | Price | Gives | On sale |
+|---|---|---|---|---|
+| `remove_ads` "Remove Forced Ads" | non-consumable | $9.99 | no forced ads; rewarded ads stay optional; 1 free redo per game | yes |
+| `skill_points_50` | consumable | $4.99 | 50 SP (about one season of play) | yes |
+| `skill_points_100` | consumable | $8.99 | 100 SP (+11% per dollar) | `enabled: false` |
+| `skill_points_250` | consumable | $19.99 | 250 SP (+25%) | `enabled: false` |
+| `skill_points_500` | consumable | $34.99 | 500 SP (+43%) | `enabled: false` |
+
+**Why these prices:** players earn about 45 SP a season (`tools/career_sim_baseline.md`), an attribute
+point costs 2-3 SP at 40-50 and 9-15 SP from 80 up, perks 12-60 SP. So $4.99 buys about one season's
+grind: worth it early (about 15-20 attribute points in high school) and a smaller boost late (4-5 points
+at 90+), never a requirement. Bigger packs give more per dollar on standard store price points.
+
+**Bought skill points** go to the open career, else the last-played one (`GameState.store_grant_skill_points`;
+source "Store", not counted as earned in season / career totals); with no career they're banked and added
+when one opens. Each grant is keyed by its transaction id (never twice), and the store transaction is
+finished only after the grant is saved. Saved in the main save: `"monetization" > "store"`.
+
+**Backends** (`scripts/monetization/store/`): `MockStoreBackend` (debug builds while `STORE_DEBUG_GRANTS`:
+a "Test purchase" card, then the item, no payment; Restore works from a test ledger),
+`GooglePlayStoreBackend` and `AppStoreStoreBackend` (**not wired yet**: they report unavailable, so a
+release build hides the store; `TODO(billing)` marks each plugin call), `NoneStoreBackend` (Steam: the
+ad-free product is never listed; the skill point store follows `STEAM_SKILL_POINT_STORE`, `"off"`).
+Release builds never grant without payment. No external payment links anywhere (Apple's rule for iOS).
+
+**Billing plugins to wire later:** Android: **GodotGooglePlayBilling 3.3.0** (official, Play Billing Library
+9.1.0, one build for Godot 4.2+, Gradle build). iOS: **hrk4649/godot_ios_plugin_iap** 0.4.0+ (StoreKit 2,
+confirmed on Godot 4.7, rebuilt per Godot version). One API for both: **godot-iap** (OpenIAP, StoreKit 2,
+iOS 17+). Debug panel: **Settings > STORE (DEBUG) > Forget Local Purchases** to test Restore.
+
 **Godot 4.7.2 crash to know about:** calling a method that `await`s through a variable typed as a
 base class whose own version doesn't `await` corrupts the caller's locals after the await (segfault).
 AdManager calls its backend's async methods through an untyped reference (`_async_backend()`) for
