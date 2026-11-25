@@ -225,6 +225,29 @@ Google's consent SDK requires it (EEA / UK).
    **Application > Additional Plist Content** (the App Tracking Transparency text). The plugin adds
    `GADApplicationIdentifier` and Google's `SKAdNetworkItems` itself. iOS 15+, Xcode 15+.
 
+**Career placements (Stage 2).** Every number is in `MonetizationConfig` ("Career Mode ad placements").
+- **Missed kick** (field goal / extra point): "No good" card with **Watch an Ad to Retry** /
+  **Accept the Miss**. A retry kicks the same call again in the kick scene; the miss is taken back
+  from the score bug and never reaches the game sim (it still counts in My Stats, like any kick).
+- **Lost game:** the Final card offers **Watch an Ad to Replay** / **Accept the Loss**. The loss is
+  saved as pending first (`CareerManager.set_pending_final`), so closing the app on the offer brings
+  the offer back instead of a free replay. A replay restarts the game from the same checkpoint.
+- **Caps:** `MAX_REDOS_PER_GAME` (2) kick retries + replays together, `MAX_GAME_REPLAYS_PER_GAME` (1);
+  counted per game in the career's game checkpoint (`CareerManager.game_redos()`), so leaving or
+  replaying doesn't reset them. Ad-free buyers get `FREE_REDOS_PER_GAME_AD_FREE` (1) without an ad.
+  Steam: `REDOS_ON_NO_ADS_PLATFORM` (`"none"`).
+- **"Stay for all 50"** (`PRACTICE_50_CHOICES`: scenario `hs_extra_practice`, choice 0): the card says
+  **WATCH AN AD TO CHOOSE THIS**, tapping it asks first, and the choice is applied only when the reward
+  is earned. No ad available (decided when the screen opens, or the ad can't play) -> free
+  (`PRACTICE_50_FREE_IF_NO_AD`). Closing the ad early chooses nothing.
+- **Forced ad:** leaving a game's Final card calls `AdManager.after_career_game()`: one interstitial
+  every `FORCED_AD_EVERY_N_GAMES` (3) games (counter in the main save). Skipped silently when
+  ad-free, none loaded, within `MIN_SECONDS_BETWEEN_ADS` of another ad, or after a declined redo offer
+  in that game (`FORCED_AD_SKIP_AFTER_ANY_DECLINE`); it then stays due for the next game.
+- Ad buttons are disabled with "No ad is available right now..." while no ad is loaded, and enable
+  themselves when one loads. Debug panel extras: **Make Forced Ad Due After Next Game**, **Mock: Ad
+  Available** (test the no-ad paths).
+
 **Godot 4.7.2 crash to know about:** calling a method that `await`s through a variable typed as a
 base class whose own version doesn't `await` corrupts the caller's locals after the await (segfault).
 AdManager calls its backend's async methods through an untyped reference (`_async_backend()`) for

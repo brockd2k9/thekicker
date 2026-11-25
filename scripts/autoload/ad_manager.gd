@@ -18,8 +18,10 @@ extends Node
 ##   - real ad IDs are never used while USE_TEST_IDS is on; real mode is
 ##     refused when the platform's real IDs are missing (iOS for now)
 ## All numbers and IDs: MonetizationConfig (scripts/monetization/monetization_config.gd).
-## Saved state ({"ads_removed": bool}) lives in the main save under
-## "monetization" (GameState loads / saves it through from_dict / to_dict).
+## Saved state ({"ads_removed": bool, "games_since_forced_ad": int}) lives in
+## the main save under "monetization" (GameState loads / saves it through
+## from_dict / to_dict). Career placements (redo offers, the practice choice,
+## the forced ad every N games) are decided here too: see "Career placements".
 
 ## The player earned the reward of a rewarded ad.
 signal ad_rewarded(placement: String)
@@ -55,6 +57,10 @@ var blocked_reason := ""
 ## rewarded ads stay available as an opt-in.
 var ads_removed := false
 var backend: AdBackend = NoneAdBackend.new()
+## How the last show_rewarded() ended: AdBackend.REWARDED / DISMISSED / FAILED.
+var last_rewarded_result := ""
+## Career games finished since the last forced ad (saved).
+var games_since_forced_ad := 0
 ## Time.get_ticks_msec() when the last ad closed (-1 = none yet).
 var last_ad_end_msec := -1
 
@@ -162,16 +168,19 @@ func is_rewarded_ready() -> bool:
 func show_rewarded(placement: String) -> bool:
 	if not placement in REWARDED_PLACEMENTS:
 		push_error(LOG_PREFIX + "show_rewarded(%s): not an opt-in placement" % placement)
+		last_rewarded_result = AdBackend.FAILED
 		ad_failed.emit(placement)
 		return false
 	if not is_rewarded_ready():
 		debug_log("%s: no rewarded ad ready (%s)" % [placement, backend.status_text()])
+		last_rewarded_result = AdBackend.FAILED
 		ad_failed.emit(placement)
 		return false
 	debug_log("%s: showing rewarded ad" % placement)
 	_begin_show()
 	var result: String = await _async_backend().show_rewarded(placement)
 	_end_show()
+	last_rewarded_result = result if result in [AdBackend.REWARDED, AdBackend.DISMISSED] else AdBackend.FAILED
 	if result == AdBackend.REWARDED:
 		debug_log("%s: reward earned" % placement)
 		ad_rewarded.emit(placement)
@@ -237,6 +246,118 @@ func show_privacy_options() -> void:
 	await _async_backend().show_privacy_options()
 
 
+# --- Career placements (Stage 2) --------------------------------------------------------------
+# The game keeps one game's redo counters in a Dictionary it saves with the
+# game (CareerManager.game_redos()): {"total", "kick", "game", "free",
+# "declined"}. These functions read and update it; the game never counts.
+
+## Should a redo be offered, and how. kind: "kick" / "game". Returns
+## {"show": offer at all, "free": no ad needed, "enabled": can be taken now,
+##  "left": redos left this game, "button": button text, "note": line under it}.
+func redo_offer(kind: String, used: Dictionary) -> Dictionary:
+	var out := {"show": false, "free": false, "enabled": false, "left": 0, "button": "", "note": ""}
+	var on := MonetizationConfig.REDO_KICK_ENABLED if kind == "kick" else MonetizationConfig.REDO_GAME_ENABLED
+	if not on:
+		return out
+	var total := int(used.get("total", 0))
+	var left := MonetizationConfig.MAX_REDOS_PER_GAME - total
+	if left <= 0:
+		return out
+	if kind == "game" and int(used.get("game", 0)) >= MonetizationConfig.MAX_GAME_REPLAYS_PER_GAME:
+		return out
+	var what := "retry this kick" if kind == "kick" else "replay this game"
+	out["show"] = true
+	out["left"] = left
+	if not platform_has_ads():
+		if MonetizationConfig.REDOS_ON_NO_ADS_PLATFORM != "free":
+			out["show"] = false
+			return out
+		out["free"] = true
+	elif ads_removed and int(used.get("free", 0)) < MonetizationConfig.FREE_REDOS_PER_GAME_AD_FREE:
+		out["free"] = true
+	if out["free"]:
+		out["enabled"] = true
+		out["button"] = what.capitalize()
+		if platform_has_ads():
+			out["note"] = "Ad-free: no ad needed (%d free left this game)." % (
+				MonetizationConfig.FREE_REDOS_PER_GAME_AD_FREE - int(used.get("free", 0)))
+		else:
+			out["note"] = "%d left this game." % left
+		return out
+	out["enabled"] = is_rewarded_ready()
+	# Short enough to show in full on a phone button; the offer's text says
+	# what is retried / replayed.
+	out["button"] = "Watch an Ad to Retry" if kind == "kick" else "Watch an Ad to Replay"
+	out["note"] = ("Optional. %d left this game." % left) if out["enabled"] else unavailable_text()
+	return out
+
+
+## Takes the redo the player chose: free when redo_offer() said so, else a
+## rewarded ad. Returns (await it) true if the redo happens; then `used` is
+## updated and the game must save it.
+func claim_redo(kind: String, used: Dictionary) -> bool:
+	var offer := redo_offer(kind, used)
+	if not offer["show"]:
+		return false
+	if not offer["free"]:
+		if not await show_rewarded(REDO_KICK if kind == "kick" else REDO_GAME):
+			return false
+	else:
+		used["free"] = int(used.get("free", 0)) + 1
+		debug_log("%s: free redo (%s)" % [REDO_KICK if kind == "kick" else REDO_GAME,
+			"ad-free" if platform_has_ads() else "no-ads build"])
+	used["total"] = int(used.get("total", 0)) + 1
+	used[kind] = int(used.get(kind, 0)) + 1
+	return true
+
+
+## The player turned down a redo offer they could have taken.
+func decline_redo(kind: String, used: Dictionary) -> void:
+	if kind == "game" or MonetizationConfig.FORCED_AD_SKIP_AFTER_ANY_DECLINE:
+		used["declined"] = true
+	debug_log("redo offer declined (%s)" % kind)
+
+
+## How a scenario choice is gated by an ad: "" (not gated), "ad" (watch an
+## ad to pick it), "free" (gated choice, free right now: no ad / ad-free /
+## no-ads build), "unavailable" (no ad and no free fallback).
+func choice_gate(scenario_id: String, index: int) -> String:
+	if not MonetizationConfig.PRACTICE_50_ENABLED:
+		return ""
+	if int(MonetizationConfig.PRACTICE_50_CHOICES.get(scenario_id, -1)) != index:
+		return ""
+	if not platform_has_ads():
+		return "free" if MonetizationConfig.PRACTICE_50_FREE_ON_NO_ADS_PLATFORM else "unavailable"
+	if ads_removed and MonetizationConfig.PRACTICE_50_FREE_FOR_AD_FREE:
+		return "free"
+	if is_rewarded_ready():
+		return "ad"
+	return "free" if MonetizationConfig.PRACTICE_50_FREE_IF_NO_AD else "unavailable"
+
+
+## A career game is over (call when leaving its result screen). Counts it and
+## shows the forced ad when one is due and the rules allow. `used`: that
+## game's redo counters. Returns (await it) true if an ad was shown.
+func after_career_game(used: Dictionary) -> bool:
+	games_since_forced_ad += 1
+	_save()
+	if not MonetizationConfig.FORCED_ADS_ENABLED:
+		return false
+	if games_since_forced_ad < MonetizationConfig.FORCED_AD_EVERY_N_GAMES:
+		debug_log("game counted (%d of %d before a forced ad)" % [games_since_forced_ad,
+			MonetizationConfig.FORCED_AD_EVERY_N_GAMES])
+		return false
+	if bool(used.get("declined", false)):
+		debug_log("%s: skipped (a redo offer was just declined); due after the next game" % POST_GAME_FORCED)
+		interstitial_finished.emit(POST_GAME_FORCED, false)
+		return false
+	var shown: bool = await show_interstitial(POST_GAME_FORCED)
+	if shown:
+		games_since_forced_ad = 0
+		_save()
+	return shown
+
+
 # --- ad-free flag (saved) ---------------------------------------------------------------------
 
 func set_ads_removed(on: bool) -> void:
@@ -246,22 +367,28 @@ func set_ads_removed(on: bool) -> void:
 	debug_log("ads_removed = %s (forced ads %s)" % [on, "off" if on else "on"])
 	_refresh_badge()
 	ads_changed.emit()
-	var gs := get_node_or_null("/root/GameState") if is_inside_tree() else null
-	if gs != null:
-		gs.save_game()
+	_save()
 
 
 func to_dict() -> Dictionary:
-	return {"ads_removed": ads_removed}
+	return {"ads_removed": ads_removed, "games_since_forced_ad": games_since_forced_ad}
 
 
 func from_dict(d: Dictionary) -> void:
 	ads_removed = bool(d.get("ads_removed", false)) if d.get("ads_removed") is bool else false
+	var g: Variant = d.get("games_since_forced_ad", 0)
+	games_since_forced_ad = maxi(int(g), 0) if (g is int or g is float) else 0
 	_refresh_badge()
 	ads_changed.emit()
 
 
-# --- internals ------------------------------------------------------------------------------
+# --- internals ---
+
+func _save() -> void:
+	var gs := get_node_or_null("/root/GameState") if is_inside_tree() else null
+	if gs != null:
+		gs.save_game()
+
 
 ## The backend as a plain Object, for every call that may `await`. Godot 4.7.2
 ## crashes (corrupted locals after the await) when a coroutine is called through

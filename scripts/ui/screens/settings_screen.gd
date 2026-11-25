@@ -95,9 +95,10 @@ func _build_ads_debug(list: VBoxContainer) -> void:
 	var status := UiKit.label("", 24, UiKit.MUTED)
 	list.add_child(status)
 	var refresh := func() -> void:
-		status.text = "%s\nRewarded ready: %s\nForced ad: %s" % [AdManager.status_text(),
-			"yes" if AdManager.is_rewarded_ready() else "no",
-			AdManager.forced_skip_reason() if AdManager.forced_skip_reason() != "" else "would show"]
+		status.text = "%s\nRewarded ready: %s\nForced ad: %s\nGames toward the next forced ad: %d of %d" % [
+			AdManager.status_text(), "yes" if AdManager.is_rewarded_ready() else "no",
+			AdManager.forced_skip_reason() if AdManager.forced_skip_reason() != "" else "would show",
+			AdManager.games_since_forced_ad, MonetizationConfig.FORCED_AD_EVERY_N_GAMES]
 	refresh.call()
 	AdManager.ads_changed.connect(refresh)
 	tree_exiting.connect(func() -> void:
@@ -110,7 +111,17 @@ func _build_ads_debug(list: VBoxContainer) -> void:
 		AdManager.last_ad_end_msec = -1
 		var shown: bool = await AdManager.show_interstitial(AdManager.POST_GAME_FORCED)
 		Toast.show_message("ADS", "Forced ad shown" if shown else "Forced ad skipped: see log")))
+	list.add_child(UiKit.button("Make Forced Ad Due After Next Game", func() -> void:
+		AdManager.games_since_forced_ad = MonetizationConfig.FORCED_AD_EVERY_N_GAMES - 1
+		AdManager.last_ad_end_msec = -1
+		AdManager.ads_changed.emit()
+		Toast.show_message("ADS", "The next finished career game shows the forced ad")))
 	list.add_child(_toggle_plain("Ads Removed (debug)", AdManager.ads_removed, AdManager.set_ads_removed))
+	if AdManager.backend is MockAdBackend:
+		var mock: MockAdBackend = AdManager.backend
+		list.add_child(_toggle_plain("Mock: Ad Available", mock.fill, func(on: bool) -> void:
+			mock.fill = on
+			AdManager.ads_changed.emit()))
 	list.add_child(UiKit.button("Reset Ad Consent", func() -> void:
 		AdManager.backend.reset_consent()
 		Toast.show_message("ADS", "Consent reset. Restart the app to see the form.")))

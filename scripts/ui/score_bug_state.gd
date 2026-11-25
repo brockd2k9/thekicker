@@ -120,6 +120,13 @@ func add_kick(kind: String, yards: int, made: bool, we_scored := true) -> void:
 		set_score(us_score, away_score if we_are_home else home_score)
 
 
+## Takes back a missed kick's attempt (the player retries the same kick).
+func undo_missed_kick(kind: String) -> void:
+	var s := stats.duplicate()
+	s[kind + "_att"] = maxi(int(s[kind + "_att"]) - 1, 0)
+	set_stats(s)
+
+
 # --- text --------------------------------------------------------------------------------
 
 ## "1ST 13:56", "4TH 0:09", "FINAL".

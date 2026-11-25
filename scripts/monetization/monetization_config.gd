@@ -37,9 +37,9 @@ const IOS_TEST_INTERSTITIAL := "ca-app-pub-3940256099942544/4411468910"
 
 const ANDROID_REAL_APP_ID := "ca-app-pub-3315717237019806~6775531912"
 const ANDROID_REAL_REWARDED := "ca-app-pub-3315717237019806/5522159998"
-## TODO: create an Interstitial ad unit in AdMob for the post-game ad. While
-## empty, real mode runs rewarded ads only (forced ads are switched off).
-const ANDROID_REAL_INTERSTITIAL := ""
+## Ad unit "Interstitial_PostGame" (the forced post-game ad). An empty
+## interstitial ID switches forced ads off in real mode (rewarded still work).
+const ANDROID_REAL_INTERSTITIAL := "ca-app-pub-3315717237019806/4720214210"
 
 ## TODO: create the iOS app in AdMob. Real mode on iOS is refused while the
 ## app ID or rewarded unit is empty.
@@ -92,6 +92,50 @@ const SHOW_START_TIMEOUT_SECONDS := 10.0
 ## the max.
 const LOAD_RETRY_SECONDS := 15.0
 const LOAD_RETRY_MAX_SECONDS := 300.0
+
+# --- Career Mode ad placements (Stage 2) -----------------------------------------------
+
+## Switch each placement on / off.
+const REDO_KICK_ENABLED := true
+const REDO_GAME_ENABLED := true
+const PRACTICE_50_ENABLED := true
+const FORCED_ADS_ENABLED := true
+
+## Redos (kick retries + game replays together) allowed per game, so a loss
+## still feels like a loss. Counted per game and saved with it (closing the
+## app doesn't reset them; a game replay keeps the count).
+const MAX_REDOS_PER_GAME := 2
+## Of those, game replays allowed per game.
+const MAX_GAME_REPLAYS_PER_GAME := 1
+## Which missed kicks can be retried: "fg" field goals, "pat" extra points.
+const REDO_KICK_KINDS: Array[String] = ["fg", "pat"]
+## Offer a replay after a tie too (false = losses only).
+const REDO_GAME_ON_TIE := false
+## Ad-free buyers: this many redos per game without an ad (counted inside
+## MAX_REDOS_PER_GAME); after that they can still watch an ad.
+const FREE_REDOS_PER_GAME_AD_FREE := 1
+## Builds without ads (Steam): "none" = no redo offers, "free" = offered free.
+const REDOS_ON_NO_ADS_PLATFORM := "none"
+
+## The "stay for 50 kicks" practice choice: scenario id -> choice index that
+## needs a rewarded ad (scenario text and effects are unchanged).
+const PRACTICE_50_CHOICES := {"hs_extra_practice": 0}
+## No ad available (not loaded, failed): let the player pick it for free, so
+## a failed ad load never blocks progress. false = the choice is disabled.
+const PRACTICE_50_FREE_IF_NO_AD := true
+## Ad-free buyers pick it without an ad (false = they watch one like everyone).
+const PRACTICE_50_FREE_FOR_AD_FREE := false
+## Builds without ads (Steam): the choice is free.
+const PRACTICE_50_FREE_ON_NO_ADS_PLATFORM := true
+
+## Forced post-game ad: one every N career games (counted in the main save).
+## Skipped silently when ad-free or none is loaded; it then stays due and is
+## tried after the next game, so it's never more often than every N games.
+const FORCED_AD_EVERY_N_GAMES := 3
+## Never right after the player declined a redo offer: true = any offer
+## declined during that game (a declined kick retry too); false = only the
+## lost-game replay offer.
+const FORCED_AD_SKIP_AFTER_ANY_DECLINE := true
 
 # --- ads: debug ---------------------------------------------------------------------
 
