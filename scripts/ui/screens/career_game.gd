@@ -11,6 +11,16 @@ extends Node
 ## your next kick, skipping it leaves your leg cold.
 ## Quitting (pause -> Leave Game) goes back to the Hub; the game then restarts
 ## from its first kick. Kicks already taken still count in My Stats.
+## Ads (opt-in, through AdManager; rules and numbers in MonetizationConfig):
+##   missed field goal / extra point -> "Watch an Ad to Retry This Kick": the
+##       same call again in the kick scene (the miss is taken back from the
+##       score bug and never reaches the game sim; it still counts in My Stats);
+##   lost game -> "Watch an Ad to Replay This Game": the game starts over from
+##       the same checkpoint. The loss is saved as pending first, so closing
+##       the app on the offer brings the offer back, not a free replay.
+##   Redo counters are saved with the game (CareerManager.game_redos()).
+##   Leaving the result screen counts the game for the forced post-game ad
+##   (AdManager.after_career_game).
 ## Score bug: one ScoreBugState, set from every sim event, drives the
 ## BrandScoreBug (scenes/ui/brand/score_bug.tscn) on this bench screen and the
 ## compact one over the kick scene, so both always show the same score and clock.
@@ -52,6 +62,10 @@ var _kick_overlay: PlayOverlay
 var _kick_made := false
 var _kick_kind := ""
 var _kick_yards := 0
+## The coach call being kicked (a retry kicks it again) and its last result.
+var _last_call: Dictionary = {}
+var _last_penalty := 0.0
+var _leaving := false
 ## KickTrust working copy: each kick's Coach / Team change, shown as it
 ## happens (finish_game applies the same steps to the save).
 var _trust_view: Dictionary = {}
@@ -80,6 +94,15 @@ func _ready() -> void:
 	_build_ui()
 	_set_score(0, 0, 0.0)
 	_timer = 0.6
+	# A loss left on its replay offer: show that offer again (no replay).
+	var pending := career.pending_final()
+	if not pending.is_empty():
+		_busy = true
+		_set_score(int(pending.get("us", 0)), int(pending.get("them", 0)),
+			4.0 * career.tuning.quarter_minutes * 60.0)
+		bug.set_final()
+		_add_line("Final.")
+		_show_final(pending)
 
 
 func _exit_tree() -> void:
@@ -286,6 +309,7 @@ func _launch_kick(e: Dictionary) -> void:
 	var prof := career.profile({"miss_streak": sim.miss_streak, "extra_modifiers": _warm()})
 	_kick_kind = str(e.get("kind", "fg"))
 	_kick_yards = int(e.get("yards", 0))
+	_last_call = e
 	var rules: KickoffRules = null
 	if _kick_kind in ["kickoff", "onside"]:
 		rules = CareerGameMode.kickoff_rules_for(career.tuning, Progression.game_params(career.data, career.tuning), prof)
@@ -356,7 +380,7 @@ func _on_attempt_finished(_outcome: KickResult.Outcome) -> void:
 	if GameState.kick_resolved.is_connected(_on_kick_resolved):
 		GameState.kick_resolved.disconnect(_on_kick_resolved)
 	var tee_result: Dictionary = _kick_scene.tee_result
-	var last_penalty: float = _kick_scene.last_shot_penalty
+	_last_penalty = _kick_scene.last_shot_penalty
 	_kick_overlay.queue_free()
 	_kick_scene.queue_free()
 	_kick_scene = null
@@ -367,13 +391,85 @@ func _on_attempt_finished(_outcome: KickResult.Outcome) -> void:
 		return
 	if _kick_kind in ["kickoff", "onside"]:
 		sim.resolve_call(tee_result)
-	else:
-		sim.resolve_call({"made": _kick_made,
-			"straight": last_penalty <= career.tuning.nerves_straight_penalty})
-		_show_trust(sim.kicks[sim.kicks.size() - 1] if not sim.kicks.is_empty() else {})
+		_resume_play()
+		return
+	if not _kick_made and _kick_kind in MonetizationConfig.REDO_KICK_KINDS \
+			and AdManager.redo_offer("kick", career.game_redos())["show"]:
+		_offer_kick_retry()
+		return
+	_resolve_kick()
+
+
+## A field goal / extra point result goes to the game sim (the same as before ads).
+func _resolve_kick() -> void:
+	sim.resolve_call({"made": _kick_made,
+		"straight": _last_penalty <= career.tuning.nerves_straight_penalty})
+	_show_trust(sim.kicks[sim.kicks.size() - 1] if not sim.kicks.is_empty() else {})
+	_resume_play()
+
+
+func _resume_play() -> void:
 	_update_status()
 	_busy = false
 	_timer = 0.3
+
+
+# --- ad offers (redos) ------------------------------------------------------------------
+
+## After a missed field goal / extra point: retry the same kick (opt-in ad).
+func _offer_kick_retry() -> void:
+	var used := career.game_redos()
+	var what := "%d-yard field goal" % _kick_yards if _kick_kind == "fg" else "extra point"
+	var v := BrandUi.modal(_root, "No good")
+	v.add_child(BrandUi.text("Want another shot at the %s? Same kick, same situation." % what))
+	var modal := UiKit.modal_root(v)
+	_redo_controls(v, "kick", func() -> void:
+		modal.queue_free()
+		bug.undo_missed_kick(_kick_kind)
+		_add_line("Second chance: lining up the %s again." % what)
+		_launch_kick(_last_call),
+		func() -> void:
+			modal.queue_free()
+			AdManager.decline_redo("kick", used)
+			_resolve_kick(),
+		"Accept the Miss")
+
+
+## The redo button (opt-in ad, or free for ad-free buyers), its note, and the
+## decline button. The ad button follows AdManager's readiness while shown.
+## on_take runs only after the redo was granted (and saved).
+func _redo_controls(v: VBoxContainer, kind: String, on_take: Callable, on_decline: Callable,
+		decline_text: String) -> void:
+	var used := career.game_redos()
+	var offer := AdManager.redo_offer(kind, used)
+	var take := BrandUi.button(str(offer["button"]), func() -> void: pass, "primary",
+		"play" if not offer["free"] else "next")
+	var note := BrandUi.text(str(offer["note"]), "Caption", Brand.GREY)
+	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var decline := BrandUi.button(decline_text, on_decline, "secondary", "close")
+	var refresh := func() -> void:
+		var o := AdManager.redo_offer(kind, used)
+		take.disabled = not o["enabled"]
+		note.text = str(o["note"])
+	refresh.call()
+	AdManager.ads_changed.connect(refresh)
+	take.tree_exiting.connect(func() -> void:
+		if AdManager.ads_changed.is_connected(refresh):
+			AdManager.ads_changed.disconnect(refresh))
+	take.pressed.connect(func() -> void:
+		take.disabled = true
+		decline.disabled = true
+		var ok: bool = await AdManager.claim_redo(kind, used)
+		if ok:
+			career.save()
+			on_take.call()
+			return
+		decline.disabled = false
+		refresh.call()
+		note.text = "No reward this time (the ad was closed early or couldn't play). " + note.text)
+	v.add_child(take)
+	v.add_child(note)
+	v.add_child(decline)
 
 
 ## "Coach -4, Team -3 · Missed a go-ahead kick." under the kick's line.
@@ -401,9 +497,21 @@ func _end_game() -> void:
 	_set_score(sim.score_us, sim.score_them, 4.0 * career.tuning.quarter_minutes * 60.0)
 	bug.set_possession("")
 	bug.set_final()
-	var summary := sim.summary()
-	career.finish_game(summary)
+	_show_final(sim.summary())
+
+
+## The Final card. A loss with a replay offer is saved as pending (not
+## finished) until the player replays it or accepts it.
+func _show_final(summary: Dictionary) -> void:
 	var o := str(summary["outcome"])
+	var used := career.game_redos()
+	var replay := false
+	if o == "L" or (o == "T" and MonetizationConfig.REDO_GAME_ON_TIE):
+		replay = AdManager.redo_offer("game", used)["show"]
+	if replay:
+		career.set_pending_final(summary)
+	else:
+		career.finish_game(summary)
 	var v := BrandUi.modal(_root, "Final")
 	var res := BrandTheme.label({"W": "Win", "L": "Loss", "T": "Tie"}[o], "Display", Brand.RED_HOT if o == "L" else Brand.WHITE)
 	res.uppercase = true
@@ -412,7 +520,7 @@ func _end_game() -> void:
 	var score := HBoxContainer.new()
 	score.add_theme_constant_override("separation", Brand.SPACE_3)
 	v.add_child(score)
-	for side in [[career.data.team, sim.score_us], [opp, sim.score_them]]:
+	for side in [[career.data.team, int(summary.get("us", 0))], [opp, int(summary.get("them", 0))]]:
 		var cell := VBoxContainer.new()
 		cell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		cell.add_child(BrandUi.text(CareerScreen.team_name(side[0]), "Eyebrow"))
@@ -420,10 +528,37 @@ func _end_game() -> void:
 		cell.add_child(n)
 		score.add_child(cell)
 	UiKit.feedback(&"week_result")
-	var b := BrandUi.button("Week Results", Screens.go.bind(Screens.CAREER_RESULTS), "primary", "next")
+	if replay:
+		var t := BrandUi.text("Replay this game from the opening kickoff? If you replay, this %s doesn't count."
+			% ("loss" if o == "L" else "tie"))
+		t.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		v.add_child(t)
+		_redo_controls(v, "game", _replay_game, func() -> void:
+			if _leaving:
+				return  # a second tap must not record the loss twice
+			AdManager.decline_redo("game", used)
+			career.finish_game(summary)
+			_to_results(used), "Accept the Loss" if o == "L" else "Accept the Tie")
+		return
+	var b := BrandUi.button("Week Results", func() -> void: _to_results(used), "primary", "next")
 	v.add_child(b)
 	if not OS.has_feature("mobile"):
 		b.grab_focus.call_deferred()
+
+
+## Leaving the result: count the game for the forced ad (shown here when due
+## and allowed), then this week's results.
+func _to_results(used: Dictionary) -> void:
+	if _leaving:
+		return
+	_leaving = true
+	await AdManager.after_career_game(used)
+	Screens.go(Screens.CAREER_RESULTS)
+
+
+func _replay_game() -> void:
+	career.replay_game()
+	Screens.go(Screens.CAREER_GAME)
 
 
 func _pause() -> void:

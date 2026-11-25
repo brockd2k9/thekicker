@@ -16,6 +16,8 @@ config/quit_on_go_back=false
 [autoload]
 
 TeamDatabase="*res://scripts/teams/team_database.gd"
+AdManager="*res://scripts/autoload/ad_manager.gd"
+StoreManager="*res://scripts/autoload/store_manager.gd"
 GameState="*res://scripts/autoload/game_state.gd"
 Sfx="*res://scripts/autoload/sfx.gd"
 Haptics="*res://scripts/autoload/haptics.gd"
@@ -23,6 +25,14 @@ Music="*res://scripts/autoload/music.gd"
 Toast="*res://scripts/ui/toast.gd"
 ScreenFade="*res://scripts/ui/screen_fade.gd"
 PerfOverlay="*res://scripts/ui/perf_overlay.gd"
+
+[admob]
+
+; Read by the AdMob plugin (Poing Studios) at export: written into the Android
+; manifest / iOS Info.plist. Must match MonetizationConfig (test app IDs while
+; USE_TEST_IDS is true). AdManager refuses real mode if these don't match.
+general/android/app_id="ca-app-pub-3940256099942544~3347511713"
+general/ios/app_id="ca-app-pub-3940256099942544~1458002511"
 
 [display]
 

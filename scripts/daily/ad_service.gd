@@ -9,10 +9,11 @@ extends RefCounted
 ## "no reward this time".
 ##
 ## Implementations (AdService.create picks one from DailyTuning.ad_mode):
-##   NoAdService      platforms without ads (Steam, ad_mode "none")
-##   StubAdService    desktop / debug: a placeholder screen, then success
-##   MobileAdService  phones: PLUG THE REAL AD SDK IN THERE (scripts/daily/
-##                    mobile_ad_service.gd). Until then it reports "not ready".
+##   ManagedAdService  the game (ad_mode "auto"): everything goes through the
+##                     AdManager autoload, which picks AdMob (phones), Mock
+##                     (editor / desktop debug) or None (Steam / desktop release)
+##   NoAdService       ad_mode "none" or no_ads_platform: never ads
+##   StubAdService     ad_mode "stub" and the tests: instant placeholder, no AdManager
 ##
 ## Placements used: "daily_retry" (one retry after a miss), "streak_saver".
 
@@ -58,10 +59,7 @@ static func create(t: DailyTuning) -> AdService:
 			return NoAdService.new()
 		"stub":
 			return StubAdService.new(t)
-	if t.no_ads_platform or OS.has_feature("steam"):
+	if t.no_ads_platform:
 		return NoAdService.new()
-	if OS.has_feature("mobile"):
-		return MobileAdService.new()
-	if OS.is_debug_build():
-		return StubAdService.new(t)
-	return NoAdService.new()
+	# Platform choice (Steam, phones, desktop) is AdManager's.
+	return ManagedAdService.new()

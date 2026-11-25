@@ -134,12 +134,13 @@ the first time the menu opens each day). Code: `scripts/daily/`; screens:
   already seen locks the challenge (no kicks, no claims) until it catches up.
 - **Kept apart:** daily kicks report with mode `daily`, in `GameState.UNRECORDED_MODES`: never in
   My Stats, career stats, records, streaks of made kicks or achievements.
-- **Ads:** `AdService` (`scripts/daily/ad_service.gd`): `is_ready(placement)`,
-  `await show_rewarded(placement) -> bool`. `StubAdService` (desktop / debug: a placeholder screen,
-  then success), `NoAdService` (Steam: feature tag `steam` or `no_ads_platform`), `MobileAdService`
-  (**plug the real SDK in here**; until then it reports "not ready" and the game shows a friendly
-  message instead of the button). On a no-ads platform `no_ads_rule` decides: `"none"` (default: no
-  retry, no saver) or `"free"` (both without an ad).
+- **Ads:** the Daily Challenge's `AdService` (`scripts/daily/ad_service.gd`: `is_ready(placement)`,
+  `await show_rewarded(placement) -> bool`) goes through the **AdManager** autoload
+  (`ManagedAdService`, placements `DAILY_RETRY` / `STREAK_SAVER`), so it follows the same rules as
+  every other ad (see "Ads" below). `StubAdService` (instant, no AdManager) is for tests and
+  `ad_mode = "stub"`; `NoAdService` for `ad_mode = "none"` / `no_ads_platform`. On a platform
+  without ads `no_ads_rule` decides: `"none"` (default: no retry, no saver) or `"free"` (both
+  without an ad).
 - **Debug:** in debug builds the Daily Challenge screen has **Prev Day / Next Day** (shifts the
   clock a day; Prev after playing shows the clock-moved-back lock) and **Reset Daily Data**.
 
@@ -155,10 +156,12 @@ One JSON file in the user data folder: **`user://kicker_save.json`**
 | Linux | `~/.local/share/godot/app_userdata/Kicker/` |
 
 ```json
-{ "version": 3, "stats": {...}, "achievements": {"unlocked": {"first_make": 1794983149}},
-  "settings": {...}, "career": {"last_slot": 1}, "daily": {...} }
+{ "version": 4, "stats": {...}, "achievements": {"unlocked": {"first_make": 1794983149}},
+  "settings": {...}, "career": {"last_slot": 1}, "daily": {...},
+  "monetization": {"ads_removed": false} }
 ```
 `"daily"` is the Daily Challenge (version 3; older saves get an empty one).
+`"monetization"` is app-wide ad / purchase state (version 4; AdManager.to_dict()).
 Career Mode saves each career in its own file, **`user://career_slot_1.json`** .. `_3.json`
 (same folder, same temp-file safety, own `"career_version"`; see `scripts/career/career_save.gd`).
 The main save only remembers the last career slot, so a broken career file can't touch
@@ -167,6 +170,128 @@ Saved after every kick, run and settings change, and when the app is paused/clos
 Writes go to a temp file first and are then swapped in. A corrupt file is copied to
 `kicker_save.json.bad` and the game starts fresh. To change the layout, bump
 `SaveStore.VERSION` and add a step in `SaveStore._migrate()`. Delete the file to start over.
+
+## Ads (AdManager)
+
+Game code never calls an ad SDK. It calls the **AdManager** autoload (`scripts/autoload/ad_manager.gd`):
+
+| Call | What it does |
+|---|---|
+| `AdManager.is_rewarded_ready()` | enable / disable an ad button |
+| `await AdManager.show_rewarded(placement)` | opt-in rewarded ad; `true` only if the reward was earned |
+| `await AdManager.show_interstitial(placement)` | the forced post-game ad; skipped silently when the rules say no |
+| `AdManager.platform_has_ads()` | `false` on Steam: hide ad offers |
+| signals | `ad_rewarded`, `ad_dismissed_without_reward`, `ad_failed` (exactly one per rewarded call), `interstitial_finished`, `ads_changed` |
+
+Placements: rewarded (opt-in only) `REDO_KICK`, `REDO_GAME`, `PRACTICE_50`, `DAILY_RETRY`, `STREAK_SAVER`;
+forced (interstitial only) `POST_GAME_FORCED`. A forced placement can't be shown as a rewarded ad
+(AdMob policy: rewarded ads must be opt-in).
+
+**Rules (every placement):** forced ads never show when `ads_removed`, within
+`MIN_SECONDS_BETWEEN_ADS` of the end of any ad, while another ad shows, or when none is loaded.
+Rewarded ads stay available to ad-free buyers. Game audio is muted while an ad plays.
+
+**Backends** (`scripts/monetization/ads/`, chosen by `AdManager.pick_mode()`):
+- `AdMobAdBackend`: Android + iOS through the Poing Studios AdMob plugin **v5.1.0**. Consent first
+  (Google UMP: consent form if required; on iOS Google's IDFA explainer + the App Tracking
+  Transparency prompt come from this flow when the IDFA message is set up in AdMob > Privacy &
+  messaging), then SDK init, then one rewarded + one interstitial preloaded, reloaded after each
+  show and retried with backoff after a failed load. The plugin's classes are looked up at runtime,
+  so the project runs without the plugin installed.
+- `MockAdBackend`: editor / desktop debug. Full-screen "Ad playing..." for 3 s, then the reward;
+  **Skip (No Reward)** tests the no-reward path.
+- `NoneAdBackend`: Steam (export feature tag `steam`) and desktop release builds: no SDK, no ad UI.
+
+**Config, one file:** `scripts/monetization/monetization_config.gd` (`MonetizationConfig`): `USE_TEST_IDS`
+(default `true`; real IDs are never read while it's on, and test slots must hold Google test IDs),
+test and real IDs per platform, mock timings, consent debug geography, the ad rules. Real mode is
+refused (badge **ADS: BLOCKED**, error in the log) while a platform's real app ID / rewarded unit is
+empty (iOS today) or Project Settings `admob/general/<platform>/app_id` doesn't match.
+
+**Seeing the mode:** a small top-right badge, **ADS: MOCK / TEST IDS / REAL / BLOCKED** (debug builds
+and any test-ID build; never a release build with real ads). Log lines start with `[AdManager]`.
+Debug builds also get **Settings > ADS (DEBUG)**: status, Test Rewarded Ad, Test Forced Ad, an
+Ads Removed switch and Reset Ad Consent. **Settings > PRIVACY > Privacy Options** appears when
+Google's consent SDK requires it (EEA / UK).
+
+**Setup on your machine (not in the repo):**
+1. Install the plugin: AssetLib "AdMob" by Poing Studios v5.1.0 (or the release zip from
+   github.com/poingstudios/godot-admob-plugin) into `res://addons/admob`, enable it in Project
+   Settings > Plugins; it downloads the Android / iOS binaries for your exact Godot version (4.7.0-4.7.2).
+2. The app IDs are already in `project.godot` (`[admob]`, the test app IDs); the plugin writes them into
+   the Android manifest / iOS Info.plist at export. Change them together with `USE_TEST_IDS`.
+3. Android: Project > Install Android Build Template, export preset > Use Gradle Build, min SDK 24.
+4. iOS: paste `platform/ios/additional_plist_content.xml` into the iOS export preset's
+   **Application > Additional Plist Content** (the App Tracking Transparency text). The plugin adds
+   `GADApplicationIdentifier` and Google's `SKAdNetworkItems` itself. iOS 15+, Xcode 15+.
+
+**Career placements (Stage 2).** Every number is in `MonetizationConfig` ("Career Mode ad placements").
+- **Missed kick** (field goal / extra point): "No good" card with **Watch an Ad to Retry** /
+  **Accept the Miss**. A retry kicks the same call again in the kick scene; the miss is taken back
+  from the score bug and never reaches the game sim (it still counts in My Stats, like any kick).
+- **Lost game:** the Final card offers **Watch an Ad to Replay** / **Accept the Loss**. The loss is
+  saved as pending first (`CareerManager.set_pending_final`), so closing the app on the offer brings
+  the offer back instead of a free replay. A replay restarts the game from the same checkpoint.
+- **Caps:** `MAX_REDOS_PER_GAME` (2) kick retries + replays together, `MAX_GAME_REPLAYS_PER_GAME` (1);
+  counted per game in the career's game checkpoint (`CareerManager.game_redos()`), so leaving or
+  replaying doesn't reset them. Ad-free buyers get `FREE_REDOS_PER_GAME_AD_FREE` (1) without an ad.
+  Steam: `REDOS_ON_NO_ADS_PLATFORM` (`"none"`).
+- **"Stay for all 50"** (`PRACTICE_50_CHOICES`: scenario `hs_extra_practice`, choice 0): the card says
+  **WATCH AN AD TO CHOOSE THIS**, tapping it asks first, and the choice is applied only when the reward
+  is earned. No ad available (decided when the screen opens, or the ad can't play) -> free
+  (`PRACTICE_50_FREE_IF_NO_AD`). Closing the ad early chooses nothing.
+- **Forced ad:** leaving a game's Final card calls `AdManager.after_career_game()`: one interstitial
+  every `FORCED_AD_EVERY_N_GAMES` (3) games (counter in the main save). Skipped silently when
+  ad-free, none loaded, within `MIN_SECONDS_BETWEEN_ADS` of another ad, or after a declined redo offer
+  in that game (`FORCED_AD_SKIP_AFTER_ANY_DECLINE`); it then stays due for the next game.
+- Ad buttons are disabled with "No ad is available right now..." while no ad is loaded, and enable
+  themselves when one loads. Debug panel extras: **Make Forced Ad Due After Next Game**, **Mock: Ad
+  Available** (test the no-ad paths).
+
+## Store (StoreManager)
+
+Game code never calls a billing SDK. It calls the **StoreManager** autoload
+(`scripts/autoload/store_manager.gd`): `is_available()`, `products()`, `await purchase(id)`,
+`await restore_purchases()`. Screens: **Store** (main menu, and "Get Skill Points" on the Career
+Skills screen), with **Restore Purchases** (required on iOS).
+
+**Products, one file:** `MonetizationConfig.STORE_PRODUCTS` (ids, kinds, pack sizes, reference prices,
+`enabled`). The id is the Play Console / App Store Connect product id (`store_ids` overrides per platform).
+
+| Product | Kind | Price | Gives | On sale |
+|---|---|---|---|---|
+| `remove_ads` "Remove Forced Ads" | non-consumable | $9.99 | no forced ads; rewarded ads stay optional; 1 free redo per game | yes |
+| `skill_points_50` | consumable | $4.99 | 50 SP (about one season of play) | yes |
+| `skill_points_100` | consumable | $8.99 | 100 SP (+11% per dollar) | `enabled: false` |
+| `skill_points_250` | consumable | $19.99 | 250 SP (+25%) | `enabled: false` |
+| `skill_points_500` | consumable | $34.99 | 500 SP (+43%) | `enabled: false` |
+
+**Why these prices:** players earn about 45 SP a season (`tools/career_sim_baseline.md`), an attribute
+point costs 2-3 SP at 40-50 and 9-15 SP from 80 up, perks 12-60 SP. So $4.99 buys about one season's
+grind: worth it early (about 15-20 attribute points in high school) and a smaller boost late (4-5 points
+at 90+), never a requirement. Bigger packs give more per dollar on standard store price points.
+
+**Bought skill points** go to the open career, else the last-played one (`GameState.store_grant_skill_points`;
+source "Store", not counted as earned in season / career totals); with no career they're banked and added
+when one opens. Each grant is keyed by its transaction id (never twice), and the store transaction is
+finished only after the grant is saved. Saved in the main save: `"monetization" > "store"`.
+
+**Backends** (`scripts/monetization/store/`): `MockStoreBackend` (debug builds while `STORE_DEBUG_GRANTS`:
+a "Test purchase" card, then the item, no payment; Restore works from a test ledger),
+`GooglePlayStoreBackend` and `AppStoreStoreBackend` (**not wired yet**: they report unavailable, so a
+release build hides the store; `TODO(billing)` marks each plugin call), `NoneStoreBackend` (Steam: the
+ad-free product is never listed; the skill point store follows `STEAM_SKILL_POINT_STORE`, `"off"`).
+Release builds never grant without payment. No external payment links anywhere (Apple's rule for iOS).
+
+**Billing plugins to wire later:** Android: **GodotGooglePlayBilling 3.3.0** (official, Play Billing Library
+9.1.0, one build for Godot 4.2+, Gradle build). iOS: **hrk4649/godot_ios_plugin_iap** 0.4.0+ (StoreKit 2,
+confirmed on Godot 4.7, rebuilt per Godot version). One API for both: **godot-iap** (OpenIAP, StoreKit 2,
+iOS 17+). Debug panel: **Settings > STORE (DEBUG) > Forget Local Purchases** to test Restore.
+
+**Godot 4.7.2 crash to know about:** calling a method that `await`s through a variable typed as a
+base class whose own version doesn't `await` corrupts the caller's locals after the await (segfault).
+AdManager calls its backend's async methods through an untyped reference (`_async_backend()`) for
+this reason; keep that pattern when adding a backend.
 
 ## Achievements (data)
 

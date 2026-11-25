@@ -445,11 +445,58 @@ func profile(ctx: Dictionary = {}) -> KickProfile:
 ## Outlook "Play Game": checkpoint the game. Returns the game's seed; the
 ## same seed is reused if the game is restarted after a quit.
 func start_game() -> int:
-	if data.game_checkpoint.is_empty():
-		data.game_checkpoint = {"seed": rng.randi(), "week": data.week}
+	if not data.game_checkpoint.has("seed"):
+		data.game_checkpoint["seed"] = rng.randi()
+		data.game_checkpoint["week"] = data.week
 	data.phase = PHASE_GAME
 	save()
 	return int(data.game_checkpoint["seed"])
+
+
+## This game's redo counters (AdManager.redo_offer / claim_redo read and
+## update them). Kept in the game checkpoint, so they're saved with the game:
+## leaving, or replaying the game, doesn't reset them. Cleared by finish_game.
+func game_redos() -> Dictionary:
+	if not (data.game_checkpoint.get("redos") is Dictionary):
+		data.game_checkpoint["redos"] = {}
+	return data.game_checkpoint["redos"]
+
+
+## A lost game whose replay offer is still open: its GameSim summary ({} =
+## none). Saved, so closing the app on the offer brings the same offer back
+## instead of restarting the game for free.
+func pending_final() -> Dictionary:
+	var f: Variant = data.game_checkpoint.get("final")
+	return _whole_numbers(f) if f is Dictionary else {}
+
+
+func set_pending_final(summary: Dictionary) -> void:
+	data.game_checkpoint["final"] = summary.duplicate(true)
+	save()
+
+
+## The player replays the game: same checkpoint seed, redo counters kept.
+func replay_game() -> void:
+	data.game_checkpoint.erase("final")
+	save()
+
+
+## JSON stores every number as a float; a saved summary gets its whole
+## numbers back as ints (scores, yards), as GameSim made them.
+static func _whole_numbers(v: Variant) -> Variant:
+	if v is float and is_equal_approx(v, roundf(v)) and absf(v) < 1e15:
+		return int(v)
+	if v is Dictionary:
+		var d := {}
+		for k in v:
+			d[k] = _whole_numbers(v[k])
+		return d
+	if v is Array:
+		var a := []
+		for x in v:
+			a.append(_whole_numbers(x))
+		return a
+	return v
 
 
 ## A GameSim for this week's game (fresh, from the checkpoint seed).
