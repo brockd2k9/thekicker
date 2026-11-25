@@ -146,6 +146,11 @@ static func _migrate(d: Dictionary) -> Dictionary:
 		d["savings"] = int(d.get("savings", est))
 		d["money_log"] = {"salary": est, "peak": est}
 		v = 8
+	# Version 8 -> 9: Daily Challenge claim ids (CareerData.daily_claims). No
+	# daily reward was ever added to an older career, so it starts empty.
+	if v < 9:
+		d["daily_claims"] = []
+		v = 9
 	if v > CareerData.VERSION:
 		push_warning("CareerSave: career is from a newer version (%d)" % v)
 	d["career_version"] = CareerData.VERSION

@@ -38,6 +38,7 @@ aspect ratio works.
 | Menu item | What it does |
 |---|---|
 | Career Mode | Freshman year to retirement: 3 save slots, a skippable first-time tutorial, week-by-week seasons (off-field scenarios, Game Day Outlook, games from the bench), recruiting and signing day, college, the draft and tryouts, pro contracts, and a career summary. See "Career Mode" below |
+| Daily Challenge | One kick a day, the same for every player (seeded by the date), with a streak, a 7-day reward track and skill points for Career Mode. A popup the first time the menu opens each day, a NEW badge on the menu and the Career hub. See "Daily Challenge" below |
 | Challenge Mode | A run of kicks that get longer (25 yd → 60), windier (calm → 20 mph + gusts) and more pressured (none → clutch). **3 misses and the run ends** (blocks count). Results screen: Play Again / Main Menu |
 | Practice | The original Phase 1 loop: random kicks forever (not in the original menu spec, added so the existing mode is still reachable) |
 | My Stats | Session accuracy, all-time accuracy, longest make/miss streaks, longest field goal, misses by type, best Challenge run, and a CAREER section (careers started / completed, best career, longest career, career kicks) |
@@ -101,6 +102,47 @@ next kick. It never touches the kicking mechanic. `mode = null` is free practice
   group "Kickoff", with the launch angles and coverage speed). Same shake, slow-motion beat and
   banner as a field goal.
 
+## Daily Challenge
+
+One kick a day. Main menu -> **Daily Challenge** (or Career hub -> Daily Challenge, or the popup
+the first time the menu opens each day). Code: `scripts/daily/`; screens:
+`scripts/ui/screens/daily_screen.gd` (streak, reward track, stats, today's kick),
+`daily_kick_screen.gd` (intro card -> kick -> result card), shared pieces `scripts/ui/daily_ui.gd`.
+**Every number is in `tuning/daily_tuning.tres`** (defaults and docs: `scripts/daily/daily_tuning.gd`).
+
+- **The day:** `DailyClock.day_number()` is the only definition (local midnight; `day_start_hour`
+  moves it). Time comes from a `DateSource` (`scripts/daily/date_source.gd`): the device clock now;
+  subclass it for server time and assign it to `GameState.daily.clock`.
+- **The kick:** `DailyScenario.generate(day, tier)` builds it from the date alone (seeded, so the
+  same for everyone and it can't be re-rolled): kick type (field goal, extra point, kickoff, onside),
+  situation (game winner, down 1, icing, overtime...), wind / gusts / head-tailwind, weather (seasonal)
+  and field condition (small kick modifiers). Difficulty follows the week (easy Monday, harder each
+  day, a **boss kick on Saturday**, easier Sunday). Your skill tier (Rookie / Varsity / College / Pro,
+  from your career's FG range, or your all-time accuracy without a career; locked for the day) only
+  sets the distances and how much the weather bites, so everyone shares the same situation. Daily kicks
+  use Challenge Mode's physics (not a career's range). Goals: field goal / extra point made; kickoff
+  in play (easy days) or deep (touchback / inside the 10); onside: a perfect hop (10-18 yd, straight).
+- **Attempts:** one kick. A miss offers one retry per day with a rewarded ad (optional). A kick
+  counts the moment it's struck (saved), so closing the game mid-flight is a miss.
+- **Streak and rewards:** consecutive days with a success. Success claims the day's skill points at
+  once (same save write as the result; `claimed_days` + per-career claim ids mean a day can never pay
+  twice). Skill points go to the last-played career (the same balance as the Skills screen, source
+  "Daily Challenge"); with no active career they're banked and added when one opens. A missed day
+  resets the streak; after exactly one missed day the **streak saver** (rewarded ad, once per streak,
+  only that day) restores it.
+- **Clock guard:** the last time seen and highest day seen are saved. A clock set back to a day
+  already seen locks the challenge (no kicks, no claims) until it catches up.
+- **Kept apart:** daily kicks report with mode `daily`, in `GameState.UNRECORDED_MODES`: never in
+  My Stats, career stats, records, streaks of made kicks or achievements.
+- **Ads:** `AdService` (`scripts/daily/ad_service.gd`): `is_ready(placement)`,
+  `await show_rewarded(placement) -> bool`. `StubAdService` (desktop / debug: a placeholder screen,
+  then success), `NoAdService` (Steam: feature tag `steam` or `no_ads_platform`), `MobileAdService`
+  (**plug the real SDK in here**; until then it reports "not ready" and the game shows a friendly
+  message instead of the button). On a no-ads platform `no_ads_rule` decides: `"none"` (default: no
+  retry, no saver) or `"free"` (both without an ad).
+- **Debug:** in debug builds the Daily Challenge screen has **Prev Day / Next Day** (shifts the
+  clock a day; Prev after playing shows the clock-moved-back lock) and **Reset Daily Data**.
+
 ## Saves
 
 One JSON file in the user data folder: **`user://kicker_save.json`**
@@ -113,9 +155,10 @@ One JSON file in the user data folder: **`user://kicker_save.json`**
 | Linux | `~/.local/share/godot/app_userdata/Kicker/` |
 
 ```json
-{ "version": 2, "stats": {...}, "achievements": {"unlocked": {"first_make": 1794983149}},
-  "settings": {...}, "career": {"last_slot": 1} }
+{ "version": 3, "stats": {...}, "achievements": {"unlocked": {"first_make": 1794983149}},
+  "settings": {...}, "career": {"last_slot": 1}, "daily": {...} }
 ```
+`"daily"` is the Daily Challenge (version 3; older saves get an empty one).
 Career Mode saves each career in its own file, **`user://career_slot_1.json`** .. `_3.json`
 (same folder, same temp-file safety, own `"career_version"`; see `scripts/career/career_save.gd`).
 The main save only remembers the last career slot, so a broken career file can't touch

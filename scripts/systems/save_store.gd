@@ -6,16 +6,18 @@ extends RefCounted
 ##  Linux: ~/.local/share/godot/app_userdata/Kicker. macOS: ~/Library/Application
 ##  Support/Godot/app_userdata/Kicker.)
 ##
-## Layout (version 2):
-##   { "version": 2, "stats": {...}, "achievements": {...}, "settings": {...},
-##     "career": {"last_slot": 0} }
+## Layout (version 3):
+##   { "version": 3, "stats": {...}, "achievements": {...}, "settings": {...},
+##     "career": {"last_slot": 0}, "daily": {...} }
+## "daily" is the Daily Challenge (streak, today's attempt, claimed days,
+## rewards waiting for a career, clock guard; see DailyChallenge.to_dict()).
 ## "career" only remembers the last-played career slot (for "Continue Career").
 ## Each career is its own file, user://career_slot_N.json (see CareerSave), so
 ## a broken career file can never touch these all-time stats.
 ## When the layout changes: bump VERSION and add a step to _migrate().
 ## read_json() / write_json() are shared with CareerSave.
 
-const VERSION := 2
+const VERSION := 3
 const PATH := "user://kicker_save.json"
 
 
@@ -66,7 +68,7 @@ static func write_json(path: String, data: Dictionary) -> bool:
 
 func _empty() -> Dictionary:
 	return {"version": VERSION, "stats": {}, "achievements": {}, "settings": {},
-		"career": {"last_slot": 0}}
+		"career": {"last_slot": 0}, "daily": {}}
 
 
 func _migrate(d: Dictionary) -> Dictionary:
@@ -78,9 +80,15 @@ func _migrate(d: Dictionary) -> Dictionary:
 		if not (d.get("career") is Dictionary):
 			d["career"] = {"last_slot": 0}
 		v = 2
+	# Version 2 -> 3: the Daily Challenge ("daily"). Older saves start with no
+	# streak and nothing claimed (DailyChallenge.from_dict fills the defaults).
+	if v < 3:
+		if not (d.get("daily") is Dictionary):
+			d["daily"] = {}
+		v = 3
 	if v > VERSION:
 		push_warning("SaveStore: save is from a newer version (%d)" % v)
-	for key in ["stats", "achievements", "settings"]:
+	for key in ["stats", "achievements", "settings", "daily"]:
 		if not (d.get(key) is Dictionary):
 			d[key] = {}
 	if not (d.get("career") is Dictionary):
