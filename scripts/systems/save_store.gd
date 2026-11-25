@@ -6,8 +6,8 @@ extends RefCounted
 ##  Linux: ~/.local/share/godot/app_userdata/Kicker. macOS: ~/Library/Application
 ##  Support/Godot/app_userdata/Kicker.)
 ##
-## Layout (version 3):
-##   { "version": 3, "stats": {...}, "achievements": {...}, "settings": {...},
+## Layout (version 4):
+##   { "version": 4, "stats": {...}, "achievements": {...}, "settings": {...},
 ##     "career": {"last_slot": 0}, "daily": {...} }
 ## "daily" is the Daily Challenge (streak, today's attempt, claimed days,
 ## rewards waiting for a career, clock guard; see DailyChallenge.to_dict()).
@@ -17,7 +17,7 @@ extends RefCounted
 ## When the layout changes: bump VERSION and add a step to _migrate().
 ## read_json() / write_json() are shared with CareerSave.
 
-const VERSION := 3
+const VERSION := 4
 const PATH := "user://kicker_save.json"
 
 
@@ -86,6 +86,16 @@ func _migrate(d: Dictionary) -> Dictionary:
 		if not (d.get("daily") is Dictionary):
 			d["daily"] = {}
 		v = 3
+	# Version 3 -> 4: Daily Challenge rewards became weekly (one payout on the
+	# 7th successful day in a row). The week is the streak mod 7, so a streak in
+	# progress lands on its day of the week with nothing to convert; earlier
+	# per-day rewards still waiting in "pending" still pay out (by claim id).
+	# New: "payout_days" (weeks paid), empty for old saves.
+	if v < 4:
+		var dd: Variant = d.get("daily")
+		if dd is Dictionary and not (dd.get("payout_days") is Array):
+			dd["payout_days"] = []
+		v = 4
 	if v > VERSION:
 		push_warning("SaveStore: save is from a newer version (%d)" % v)
 	for key in ["stats", "achievements", "settings", "daily"]:

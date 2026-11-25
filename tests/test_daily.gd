@@ -1,7 +1,7 @@
 extends "res://tests/test_case.gd"
-## Daily Challenge: the day function, streaks, the clock guard, deterministic
-## scenarios, one claim per day, ad retry limits, ads unavailable, saves and
-## migration, and that daily kicks stay out of every stat.
+## Daily Challenge: the day function, streaks, the weekly payout (day 7 only,
+## once), the clock guard, deterministic scenarios, ad retry limits, ads
+## unavailable, saves and migration, and that daily kicks stay out of every stat.
 
 const DAY := 86400
 
@@ -74,20 +74,113 @@ func test_streak_grows_on_consecutive_days() -> void:
 	var r := _daily()
 	var d: DailyChallenge = r[0]
 	var clock: ManualDateSource = r[1]
-	eq(_kick(d, true), 2, "day 1 pays sp_daily")
+	eq(_kick(d, true), 0, "day 1 pays nothing")
 	eq(d.streak, 1, "streak 1")
 	eq(d.status(), "done", "done")
+	check(bool(d.today["claimed"]), "the day is claimed")
 	check(not d.can_kick(), "one kick a day")
 	_next_day(d, clock)
 	eq(d.status(), "ready", "a new challenge the next day")
 	eq(d.streak, 1, "streak alive overnight")
 	_kick(d, true)
-	_next_day(d, clock)
-	eq(_kick(d, true), d.tuning.sp_daily + d.tuning.bonus_for(3), "day 3 pays the milestone bonus")
-	eq(d.streak, 3, "streak 3")
-	eq(d.longest, 3, "longest 3")
-	eq(int(d.stats["completed"]), 3, "3 completed")
+	eq(d.streak, 2, "streak 2")
+	eq(d.longest, 2, "longest 2")
+	eq(int(d.stats["completed"]), 2, "2 completed")
 	eq(d.success_rate(), 100, "100%")
+
+
+func _run_days(d: DailyChallenge, clock: ManualDateSource, n: int) -> Array:
+	var paid: Array = []
+	for i in n:
+		paid.append(_kick(d, true))
+		_next_day(d, clock)
+	return paid
+
+
+func test_days_one_to_six_pay_nothing_day_seven_pays_once() -> void:
+	var r := _daily()
+	var d: DailyChallenge = r[0]
+	var clock: ManualDateSource = r[1]
+	var paid := _run_days(d, clock, 6)
+	eq(paid, [0, 0, 0, 0, 0, 0], "days 1-6 pay nothing")
+	eq(d.pending.size(), 0, "nothing queued")
+	eq(d.week_progress(), 6, "6 of 7")
+	eq(d.days_to_payout(), 1, "one more day")
+	eq(d.week_day_today(), 7, "today is day 7")
+	eq(_kick(d, true), 10, "day 7 pays the week (default 10)")
+	check(d.week_paid_today(), "week paid today")
+	eq(int(d.today["reward"]), 10, "today's reward")
+	eq(d.pending.size(), 1, "one payout queued")
+	eq(d.claim(), 0, "claiming again pays nothing")
+	eq(d.week_day_today(), 7, "today shows as day 7")
+	eq(d.week_progress(), 0, "the track resets to a new week")
+	eq(d.days_to_payout(), 7, "7 more days to the next payout")
+	_next_day(d, clock)
+	eq(d.week_day_today(), 1, "tomorrow is day 1 of the new week")
+	eq(d.streak, 7, "the overall streak keeps counting")
+	paid = _run_days(d, clock, 7)
+	eq(paid, [0, 0, 0, 0, 0, 0, 10], "the second week pays on its day 7 too")
+	eq(d.streak, 14, "streak 14")
+	eq(d.longest, 14, "longest across weeks")
+	eq(int(d.stats["weeks"]), 2, "2 weeks")
+	eq(int(d.stats["sp"]), 20, "20 skill points")
+
+
+func test_consecutive_week_bonus() -> void:
+	var r := _daily()
+	var d: DailyChallenge = r[0]
+	var clock: ManualDateSource = r[1]
+	d.tuning.consecutive_week_bonus = 3
+	var paid := _run_days(d, clock, 21)
+	eq([paid[6], paid[13], paid[20]], [10, 13, 16], "+3 for each consecutive week")
+	eq(d.tuning.week_reward(1), 10, "week 1")
+
+
+func test_a_miss_resets_the_week() -> void:
+	var r := _daily()
+	var d: DailyChallenge = r[0]
+	var clock: ManualDateSource = r[1]
+	_run_days(d, clock, 4)
+	eq(d.week_progress(), 4, "4 of 7")
+	_kick(d, false)
+	d.grant_retry()
+	_kick(d, false)
+	eq(d.status(), "failed", "both kicks missed")
+	_next_day(d, clock)
+	eq(d.streak, 0, "streak reset")
+	eq(d.week_progress(), 0, "week progress back to 0")
+	eq(d.week_day_today(), 1, "today is day 1")
+	var paid := _run_days(d, clock, 7)
+	eq(paid, [0, 0, 0, 0, 0, 0, 10], "a fresh 7 days pays")
+
+
+func test_streak_saver_keeps_the_week() -> void:
+	var r := _daily()
+	var d: DailyChallenge = r[0]
+	var clock: ManualDateSource = r[1]
+	_run_days(d, clock, 5)
+	_next_day(d, clock)  # skipped a day
+	eq(d.week_progress(), 0, "the miss reset the week")
+	check(d.saver_offered(), "saver offered")
+	d.restore_streak()
+	eq(d.week_progress(), 5, "the saver brings the week back to 5 of 7")
+	eq(_kick(d, true), 0, "day 6")
+	_next_day(d, clock)
+	eq(_kick(d, true), 10, "day 7 pays")
+
+
+func test_saver_after_todays_success_pays_a_completed_week() -> void:
+	var r := _daily()
+	var d: DailyChallenge = r[0]
+	var clock: ManualDateSource = r[1]
+	_run_days(d, clock, 6)
+	_next_day(d, clock)  # skipped a day
+	eq(_kick(d, true), 0, "today alone is day 1 of a new streak")
+	eq(d.restore_streak(), 7, "restored 6 + today")
+	check(d.week_paid_today(), "that completes the week: paid")
+	eq(d.pending_sp(), 10, "10 queued")
+	eq(d.restore_streak(), 0, "no second restore")
+	eq(d.pending_sp(), 10, "still 10")
 
 
 func test_missed_day_resets_streak_and_offers_saver_once() -> void:
@@ -160,7 +253,7 @@ func test_kick_struck_before_midnight_and_judged_after_counts_for_its_day() -> v
 	d.refresh(1)
 	check(d.begin_kick(), "struck at 23:59")
 	clock.unix += 120  # result at 00:01
-	eq(d.finish_kick(true), d.tuning.reward_for(2), "judged after midnight, paid for its day")
+	eq(d.finish_kick(true), 0, "judged after midnight (day 2 pays nothing)")
 	eq(d.last_completed_day, day, "counts for the day it was struck")
 	d.refresh(1)
 	eq(d.status(), "ready", "the new day's challenge is up")
@@ -213,7 +306,9 @@ func test_clock_moved_backward_locks_and_never_reclaims() -> void:
 func test_one_claim_per_day() -> void:
 	var r := _daily()
 	var d: DailyChallenge = r[0]
-	eq(_kick(d, true), 2, "first claim")
+	var clock: ManualDateSource = r[1]
+	_run_days(d, clock, 6)
+	eq(_kick(d, true), 10, "the week's payout")
 	eq(d.claim(), 0, "claim again: nothing")
 	eq(d.pending.size(), 1, "one reward queued")
 	# Even if today's record were lost (e.g. edited), the day stays claimed.
@@ -222,7 +317,26 @@ func test_one_claim_per_day() -> void:
 	eq(d.status(), "ready", "a fresh record for the same day")
 	eq(_kick(d, true), 0, "but the day can't pay twice")
 	eq(d.pending.size(), 1, "still one reward")
-	eq(d.streak, 1, "streak not double counted")
+	eq(d.streak, 7, "streak not double counted")
+
+
+func test_no_double_claim_across_restarts() -> void:
+	var r := _daily()
+	var d: DailyChallenge = r[0]
+	var clock: ManualDateSource = r[1]
+	_run_days(d, clock, 6)
+	check(d.begin_kick(), "day 7 struck")
+	eq(d.finish_kick(true), 10, "paid")
+	# Restart: the saved data is loaded and refreshed, several times.
+	for i in 3:
+		var raw: Dictionary = JSON.parse_string(JSON.stringify(d.to_dict()))
+		d = DailyChallenge.new(d.tuning, clock, d.ads)
+		d.from_dict(raw)
+		d.refresh(1)
+		eq(d.claim(), 0, "restart %d: nothing more to claim" % i)
+		check(not d.can_kick(), "restart %d: no kick" % i)
+		check(d.week_paid_today(), "restart %d: still shows Claimed" % i)
+	eq(d.pending_sp(), 10, "one payout in total")
 
 
 # --- scenarios -------------------------------------------------------------------------------
@@ -331,53 +445,54 @@ func test_daily_mode_builds_the_situation() -> void:
 
 func test_reward_numbers() -> void:
 	var t := DailyTuning.new()
-	eq(t.reward_for(1), 2, "day 1")
-	eq(t.reward_for(3), 4, "day 3 milestone")
-	eq(t.reward_for(7), 7, "day 7 milestone")
+	for n in range(1, 7):
+		eq(t.reward_for(n), 0, "day %d pays nothing" % n)
+	eq(t.reward_for(7), 10, "day 7 pays 10")
+	eq(t.reward_for(8), 0, "day 8 starts a new week")
 	eq(t.reward_for(14), 10, "day 14")
-	eq(t.reward_for(21), 7, "every 7th day after the milestones")
-	eq(t.reward_for(30), 14, "day 30")
-	eq(t.reward_for(60), 14, "every 30th day")
-	eq(t.total_for(7), 21, "a perfect week")
-	eq(t.total_for(30), 97, "a perfect month")
-	for n in range(1, 400):
-		check(t.reward_for(n) <= t.max_reward_per_day, "capped on day %d" % n)
+	eq(t.total_for(7), 10, "a perfect week")
+	eq(t.total_for(30), 40, "a perfect 30 days (4 weeks)")
+	check(load("res://tuning/daily_tuning.tres").sp_weekly == 10, "weekly amount in the tuning file")
+	eq(t.consecutive_week_bonus, 0, "the consecutive-week bonus is off by default")
 
 
-func test_track_shows_claimed_today_and_next() -> void:
+func test_track_shows_done_today_and_prize() -> void:
 	var r := _daily()
 	var d: DailyChallenge = r[0]
 	var clock: ManualDateSource = r[1]
 	var tr := d.track()
-	eq(tr.size(), 7, "7 days")
+	eq(tr.size(), 7, "7 slots")
 	eq(str(tr[0]["state"]), "today", "day 1 is today")
-	_kick(d, true)
-	_next_day(d, clock)
+	check(bool(tr[6]["prize"]) and int(tr[6]["sp"]) == 10, "the prize sits on day 7")
+	_run_days(d, clock, 2)
 	_kick(d, true)
 	tr = d.track()
-	eq(str(tr[1]["state"]), "claimed", "day 2 claimed")
-	eq(str(tr[2]["state"]), "next", "day 3 to come")
-	eq(int(tr[2]["bonus"]), 2, "day 3 shows its bonus")
-	eq(int(d.next_milestone()["n"]), 3, "next milestone day 3")
+	eq(str(tr[2]["state"]), "done", "day 3 made")
+	eq(str(tr[3]["state"]), "next", "day 4 to come")
+	eq(d.days_to_payout(), 4, "4 more days")
+	_next_day(d, clock)
+	eq(str(d.track()[3]["state"]), "today", "day 4 is today")
+	_run_days(d, clock, 3)  # days 4-6, now day 7 is up
+	_kick(d, true)
+	tr = d.track()
+	check(tr.all(func(c: Dictionary) -> bool: return c["state"] == "next"), "after the payout: a fresh week")
 
 
 func test_rewards_reach_the_career_once() -> void:
 	var r := _daily()
 	var d: DailyChallenge = r[0]
 	var clock: ManualDateSource = r[1]
-	_kick(d, true)
-	_next_day(d, clock)
-	_kick(d, true)
+	_run_days(d, clock, 14)
 	var c := CareerData.from_dict(CareerSave._migrate(fixture("career_v8_pre_daily.json")))
 	var sp0 := c.skill_points
-	eq(d.deliver_to(c), 4, "two days delivered")
-	eq(c.skill_points, sp0 + 4, "added to the Skills balance")
-	eq(int(c.sp_sources.get("Daily Challenge", 0)), 4, "own source line")
+	eq(d.deliver_to(c), 20, "two weeks delivered")
+	eq(c.skill_points, sp0 + 20, "added to the Skills balance")
+	eq(int(c.sp_sources.get("Daily Challenge", 0)), 20, "own source line")
 	# Crash after the career save, before the main save drops them: pending
 	# is still there, but the career knows the claims.
 	var c2 := CareerData.from_dict(JSON.parse_string(JSON.stringify(c.to_dict())))
 	eq(d.deliver_to(c2), 0, "never paid twice")
-	eq(c2.skill_points, sp0 + 4, "balance unchanged")
+	eq(c2.skill_points, sp0 + 20, "balance unchanged")
 	d.clear_delivered(c2)
 	eq(d.pending.size(), 0, "pending cleared")
 
@@ -407,7 +522,9 @@ func test_ad_retry_once_per_day() -> void:
 	_kick(d, false)
 	check(d.retry_offered(), "and a new retry")
 	d.grant_retry()
-	eq(_kick(d, true), 2, "a made retry pays the full reward")
+	_kick(d, true)
+	eq(d.status(), "done", "a made retry counts as the day's success")
+	eq(d.streak, 1, "and starts the week")
 
 
 func test_ads_unavailable() -> void:
@@ -484,6 +601,32 @@ func test_old_main_saves_get_daily_defaults() -> void:
 	var v2: Dictionary = SaveStore.new()._migrate(fixture("main_save_v2.json"))
 	eq(int(v2["stats"]["makes"]), 12, "v2 stats kept")
 	eq(int(v2["career"]["last_slot"]), 1, "v2 career slot kept")
+
+
+## A version 3 save (per-day rewards): a 9-day streak, 2 SP still waiting.
+func test_v3_daily_save_maps_onto_the_week() -> void:
+	var raw: Dictionary = SaveStore.new()._migrate(fixture("main_save_v3_daily.json"))
+	eq(int(raw["version"]), SaveStore.VERSION, "upgraded")
+	check(raw["daily"]["payout_days"] is Array, "payout_days added")
+	var clock := ManualDateSource.new(0, 0)
+	clock.set_local(2026, 11, 11, 12)  # the day the save was made
+	var stub := StubAdService.new(DailyTuning.new())
+	stub.seconds = 0.0
+	var d := DailyChallenge.new(DailyTuning.new(), clock, stub)
+	d.from_dict(raw["daily"])
+	d.refresh(1)
+	eq(d.streak, 9, "streak kept")
+	eq(d.week_progress(), 2, "9 days = day 2 of the second week (9 mod 7)")
+	eq(d.week_day_today(), 3, "today is day 3")
+	eq(d.status(), "ready", "today's kick is up")
+	eq(d.pending_sp(), 2, "the old unclaimed reward is still there")
+	var c := CareerData.from_dict(CareerSave._migrate(fixture("career_v8_pre_daily.json")))
+	eq(d.deliver_to(c), 2, "and still pays out")
+	d.clear_delivered(c)
+	eq(d.deliver_to(c), 0, "once")
+	# The old claimed days stay claimed; the new week pays on its day 7.
+	var paid := _run_days(d, clock, 5)
+	eq(paid, [0, 0, 0, 0, 10], "days 3-7 of the week: day 7 (streak 14) pays")
 
 
 func test_career_v8_upgrades_to_v9() -> void:

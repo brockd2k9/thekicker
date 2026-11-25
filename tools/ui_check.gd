@@ -33,7 +33,7 @@ const ALL := ["main", "career_menu", "tutorial", "new", "new_web", "name_chooser
 	"hub_pro", "kicking_season", "kicking_hs", "kicking_total",
 	"kicking_total_sections", "kicking_season_sections", "kicking_season_misc", "contract", "hall_of_fame", "retired", "pause", "toast", "gallery",
 	"daily", "daily_popup", "daily_intro", "daily_kick", "daily_result", "daily_done", "daily_miss", "daily_missed",
-	"daily_miss_no_ad", "daily_failed", "daily_saver", "daily_locked"]
+	"daily_miss_no_ad", "daily_failed", "daily_saver", "daily_locked", "daily_week", "daily_week_done"]
 
 var _out := ""
 var _tag := ""
@@ -1054,11 +1054,11 @@ func _drill_shots() -> void:
 ## gallery_N, scrolling one screen at a time to the end.
 ## Daily Challenge on a fixed clock (Wed Nov 25 2026, 3 pm) with the stub ad:
 ## the streak screen, the main menu popup, the intro card, the kick, the
-## success and miss cards, the screen after a miss / both misses / success,
+## day 1-6 success card, the day 7 payout card and its streak screen, the miss cards, the screen after a miss / both misses / success,
 ## the streak saver and a clock that moved backward.
 func _daily_shots() -> void:
 	var ids := ["daily", "daily_popup", "daily_intro", "daily_kick", "daily_result", "daily_done", "daily_miss",
-		"daily_missed", "daily_miss_no_ad", "daily_failed", "daily_saver", "daily_locked"]
+		"daily_missed", "daily_miss_no_ad", "daily_failed", "daily_saver", "daily_locked", "daily_week", "daily_week_done"]
 	if not ids.any(_want):
 		return
 	var d := GameState.daily
@@ -1122,6 +1122,19 @@ func _daily_shots() -> void:
 		d.begin_kick()
 		d.finish_kick(false)
 		await _shot("daily_failed", Screens.DAILY)
+	# Day 7 of the week: the payout celebration.
+	reset.call({"streak": 6, "longest": 9})
+	if _want("daily_week") or _want("daily_week_done"):
+		await _open(Screens.DAILY_KICK)
+		var scr := get_tree().current_scene
+		scr._start_kick()
+		await _wait(0.5)
+		scr._on_struck()
+		scr._made = true
+		scr._on_attempt_finished(KickResult.Outcome.GOOD)
+		await _wait(1.0)
+		await _capture("daily_week")
+		await _shot("daily_week_done", Screens.DAILY)
 	reset.call({"streak": 4, "last_completed_day": today - 2})
 	await _shot("daily_saver", Screens.DAILY)
 	reset.call({"max_day_seen": today + 1, "last_seen_unix": clock.unix + 86400})

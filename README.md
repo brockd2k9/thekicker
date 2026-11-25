@@ -38,7 +38,7 @@ aspect ratio works.
 | Menu item | What it does |
 |---|---|
 | Career Mode | Freshman year to retirement: 3 save slots, a skippable first-time tutorial, week-by-week seasons (off-field scenarios, Game Day Outlook, games from the bench), recruiting and signing day, college, the draft and tryouts, pro contracts, and a career summary. See "Career Mode" below |
-| Daily Challenge | One kick a day, the same for every player (seeded by the date), with a streak, a 7-day reward track and skill points for Career Mode. A popup the first time the menu opens each day, a NEW badge on the menu and the Career hub. See "Daily Challenge" below |
+| Daily Challenge | One kick a day, the same for every player (seeded by the date), with a streak and a 7-day track: 7 successful days in a row pay skill points for Career Mode. A popup the first time the menu opens each day, a NEW badge on the menu and the Career hub. See "Daily Challenge" below |
 | Challenge Mode | A run of kicks that get longer (25 yd → 60), windier (calm → 20 mph + gusts) and more pressured (none → clutch). **3 misses and the run ends** (blocks count). Results screen: Play Again / Main Menu |
 | Practice | The original Phase 1 loop: random kicks forever (not in the original menu spec, added so the existing mode is still reachable) |
 | My Stats | Session accuracy, all-time accuracy, longest make/miss streaks, longest field goal, misses by type, best Challenge run, and a CAREER section (careers started / completed, best career, longest career, career kicks) |
@@ -107,7 +107,8 @@ next kick. It never touches the kicking mechanic. `mode = null` is free practice
 One kick a day. Main menu -> **Daily Challenge** (or Career hub -> Daily Challenge, or the popup
 the first time the menu opens each day). Code: `scripts/daily/`; screens:
 `scripts/ui/screens/daily_screen.gd` (streak, reward track, stats, today's kick),
-`daily_kick_screen.gd` (intro card -> kick -> result card), shared pieces `scripts/ui/daily_ui.gd`.
+`daily_kick_screen.gd` (intro card -> kick -> result card), shared pieces `scripts/ui/daily_ui.gd`
+(the week track: 7 slots, the prize on day 7, made days filled red).
 **Every number is in `tuning/daily_tuning.tres`** (defaults and docs: `scripts/daily/daily_tuning.gd`).
 
 - **The day:** `DailyClock.day_number()` is the only definition (local midnight; `day_start_hour`
@@ -124,12 +125,16 @@ the first time the menu opens each day). Code: `scripts/daily/`; screens:
   in play (easy days) or deep (touchback / inside the 10); onside: a perfect hop (10-18 yd, straight).
 - **Attempts:** one kick. A miss offers one retry per day with a rewarded ad (optional). A kick
   counts the moment it's struck (saved), so closing the game mid-flight is a miss.
-- **Streak and rewards:** consecutive days with a success. Success claims the day's skill points at
-  once (same save write as the result; `claimed_days` + per-career claim ids mean a day can never pay
-  twice). Skill points go to the last-played career (the same balance as the Skills screen, source
-  "Daily Challenge"); with no active career they're banked and added when one opens. A missed day
-  resets the streak; after exactly one missed day the **streak saver** (rewarded ad, once per streak,
-  only that day) restores it.
+- **Streak and the weekly payout:** the streak is consecutive days with a success; the week is the
+  streak mod 7. Days 1-6 pay nothing ("Day X of 7 complete"). The 7th success in a row pays
+  `sp_weekly` skill points (default 10) the moment that kick is made, claimed in the same save write
+  as the result (`payout_days` + per-career claim ids: never paid twice), with an optional
+  `consecutive_week_bonus` per consecutive week (default 0, off). Then the track starts a new week at
+  day 1; the streak and longest streak keep counting. Skill points go to the last-played career (the
+  same balance as the Skills screen, source "Daily Challenge"); with no active career they're banked
+  and added when one opens. A missed day resets the streak and the week; after exactly one missed
+  day the **streak saver** (rewarded ad, or free on a no-ads platform with the "free" rule; once per
+  streak, only that day) restores both.
 - **Clock guard:** the last time seen and highest day seen are saved. A clock set back to a day
   already seen locks the challenge (no kicks, no claims) until it catches up.
 - **Kept apart:** daily kicks report with mode `daily`, in `GameState.UNRECORDED_MODES`: never in
@@ -155,10 +160,12 @@ One JSON file in the user data folder: **`user://kicker_save.json`**
 | Linux | `~/.local/share/godot/app_userdata/Kicker/` |
 
 ```json
-{ "version": 3, "stats": {...}, "achievements": {"unlocked": {"first_make": 1794983149}},
+{ "version": 4, "stats": {...}, "achievements": {"unlocked": {"first_make": 1794983149}},
   "settings": {...}, "career": {"last_slot": 1}, "daily": {...} }
 ```
-`"daily"` is the Daily Challenge (version 3; older saves get an empty one).
+`"daily"` is the Daily Challenge (version 3; older saves get an empty one). Version 4 made its
+rewards weekly: a streak in progress lands on its day of the week (streak mod 7), and per-day
+rewards from version 3 that were still waiting still pay out.
 Career Mode saves each career in its own file, **`user://career_slot_1.json`** .. `_3.json`
 (same folder, same temp-file safety, own `"career_version"`; see `scripts/career/career_save.gd`).
 The main save only remembers the last career slot, so a broken career file can't touch

@@ -80,13 +80,14 @@ Things that are built but **untuned**. Every value named here is in `tuning/kick
 33. **Volume sliders** work once real sounds/music are in `audio/` (`music.ogg` loops on the Music bus).
 34. **Touch targets.** Buttons are 96 px in the 720-wide layout. Check on the smallest phone you have.
 
-35. **Daily Challenge.** Numbers in `tuning/daily_tuning.tres`. Rewards: 2 SP a day; streak
-    bonuses day 3 +2, day 7 +5, day 14 +8, day 30 +12, then +5 every 7th day and +12 every 30th
-    (cap 14 a day): a perfect week 21 SP, a perfect 30 days 97 SP (a career season earns ~45).
-    Check: the popup shows once a day; NEW goes away after the first kick; a miss offers the ad
-    retry once; a second miss ends the day; force-close mid-flight = a miss; Next Day keeps the
-    streak, Next Day twice offers the streak saver, Prev Day after playing locks the challenge.
-    Are Monday kicks easy enough for a new player and Saturday's boss kick hard but fair?
+35. **Daily Challenge.** Numbers in `tuning/daily_tuning.tres`. Rewards are weekly: 7 successful
+    days in a row pay 10 SP on day 7 (nothing on days 1-6); `consecutive_week_bonus` (default 0)
+    adds a bonus per consecutive week. A perfect week is 10 SP, a perfect 30 days 40 SP (a career
+    season earns ~45). Check: the popup shows once a day; NEW goes away after the first kick; a miss
+    offers the ad retry once; a second miss ends the day; force-close mid-flight = a miss; Next Day
+    7 times pays once and resets the track; Next Day twice offers the streak saver, which brings the
+    week back; Prev Day after playing locks the challenge. Is 10 SP a week enough to bring players
+    back daily? Are Monday kicks easy enough and Saturday's boss kick hard but fair?
 
 # Career Mode tuning notes
 
