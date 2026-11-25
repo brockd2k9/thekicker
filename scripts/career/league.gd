@@ -1114,10 +1114,10 @@ static func miss_reason(c: CareerData) -> String:
 	var p := player_index(c)
 	var order := division_order(lg, st, div_of(lg, p))
 	var place := order.find(p) + 1
-	return "%s in the %s" % [_ordinal(place), division_name(lg, div_of(lg, p))]
+	return "%s in the %s" % [ordinal(place), division_name(lg, div_of(lg, p))]
 
 
-static func _ordinal(n: int) -> String:
+static func ordinal(n: int) -> String:
 	var suf := "th"
 	if n % 100 < 11 or n % 100 > 13:
 		suf = {1: "st", 2: "nd", 3: "rd"}.get(n % 10, "th")
@@ -1419,7 +1419,7 @@ static func picture_line(c: CareerData) -> String:
 	for side in pic["sides"]:
 		var k := (side["out"] as Array).find(p)
 		if k >= 0:
-			return "%s: out, %s team below the line" % [when, _ordinal(k + 1)]
+			return "%s: out, %s team below the line" % [when, ordinal(k + 1)]
 	return "%s: out" % when
 
 

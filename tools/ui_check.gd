@@ -31,7 +31,9 @@ const ALL := ["main", "career_menu", "tutorial", "new", "new_web", "name_chooser
 	"hud", "hud_result", "results", "stats", "achievements", "settings", "career_stats", "people", "debug",
 	"challenge", "season", "recruiting", "recruiting_board", "recruiting_board_senior", "college_choice", "hub_college", "draft",
 	"hub_pro", "kicking_season", "kicking_hs", "kicking_total",
-	"kicking_total_sections", "kicking_season_sections", "kicking_season_misc", "contract", "hall_of_fame", "retired", "pause", "toast", "gallery"]
+	"kicking_total_sections", "kicking_season_sections", "kicking_season_misc", "contract", "hall_of_fame", "retired", "pause", "toast", "gallery",
+	"standings", "schedule", "schedule_other", "divisions", "pick_team", "standings_picture", "standings_final",
+	"standings_bracket", "standings_pro", "schedule_pro", "divisions_pro", "standings_college"]
 
 var _out := ""
 var _tag := ""
@@ -150,6 +152,7 @@ func _capture_all() -> void:
 	await _hud_shots()
 	_m.finish_game(_sim._play_game(_m))
 	await _shot("results", Screens.CAREER_RESULTS)
+	await _league_shots()
 	await _shot("career_stats", Screens.CAREER_STATS)
 	await _shot("skills", Screens.CAREER_SKILLS, func() -> void: c.skill_points = maxi(c.skill_points, 14))
 	# Perks tab: a few attributes high enough that some perks are available.
@@ -203,7 +206,14 @@ func _capture_all() -> void:
 		await _capture("toast")
 		Toast.visible = false
 
+	_advance(func() -> bool: return c.phase == CareerManager.PHASE_WEEK_START and c.week >= 8)
+	await _shot("standings_picture", Screens.CAREER_STANDINGS)
 	_advance(func() -> bool: return c.phase == CareerManager.PHASE_SEASON_END)
+	await _shot("standings_final", Screens.CAREER_STANDINGS)
+	if _want("standings_bracket"):
+		await _open(Screens.CAREER_STANDINGS)
+		await _scroll_down(6000)
+		await _capture("standings_bracket")
 	await _shot("season", Screens.CAREER_SEASON)
 	_advance(func() -> bool: return c.phase == CareerManager.PHASE_RECRUITING)
 	await _shot("recruiting", Screens.CAREER_RECRUITING)
@@ -214,11 +224,15 @@ func _capture_all() -> void:
 	_advance(func() -> bool: return c.stage == CareerData.STAGE_COLLEGE and c.week >= 3 \
 		and c.phase == CareerManager.PHASE_WEEK_START)
 	await _shot("hub_college", Screens.CAREER_HUB)
+	await _shot("standings_college", Screens.CAREER_STANDINGS)
 	_advance(func() -> bool: return c.phase == CareerManager.PHASE_DRAFT)
 	await _shot("draft", Screens.CAREER_DRAFT)
 	_advance(func() -> bool: return c.stage == CareerData.STAGE_PRO and c.week >= 3 \
 		and c.phase == CareerManager.PHASE_WEEK_START)
 	await _shot("hub_pro", Screens.CAREER_HUB)
+	await _shot("standings_pro", Screens.CAREER_STANDINGS)
+	await _shot("schedule_pro", Screens.CAREER_SCHEDULE)
+	await _shot("divisions_pro", Screens.CAREER_DIVISIONS)
 	# Stats: Season view, then Career with the HS and Total tabs.
 	var kicking: GDScript = load("res://scripts/ui/screens/career_kicking.gd")
 	await _shot("kicking_season", Screens.CAREER_KICKING, func() -> void: kicking.view = "season")
@@ -255,6 +269,26 @@ func _capture_all() -> void:
 	if c.phase == CareerManager.PHASE_HALL:
 		_m.finish_hall_of_fame()
 	await _shot("retired", Screens.CAREER_RETIRED)
+
+
+## League screens a few weeks in: standings, your schedule and another team's,
+## the divisions, the team picker.
+func _league_shots() -> void:
+	var league: GDScript = load("res://scripts/ui/screens/career_league.gd")
+	league.conf_shown = -1
+	league.team_shown = -1
+	await _shot("standings", Screens.CAREER_STANDINGS)
+	await _shot("schedule", Screens.CAREER_SCHEDULE)
+	await _shot("schedule_other", Screens.CAREER_SCHEDULE, func() -> void: league.team_shown = 0,
+		func() -> void: league.team_shown = -1)
+	await _shot("divisions", Screens.CAREER_DIVISIONS)
+	if _want("pick_team"):
+		await _open(Screens.CAREER_SCHEDULE)
+		var scr := get_tree().current_scene
+		if scr != null and scr.has_method("_pick_team"):
+			scr._pick_team()
+			await _wait(0.6)
+			await _capture("pick_team")
 
 
 ## Followers: the Hub chip and a viral notice, Results lines, the Stats

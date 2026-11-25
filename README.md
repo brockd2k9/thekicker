@@ -279,6 +279,7 @@ project.godot                 portrait 720x1280 base, canvas_items stretch, GL C
 tuning/kick_tuning.tres       ← all tunables
 tuning/leveling.tres          ← Career leveling: skill point costs, stage caps
 tuning/postseason.tres        ← Career postseason: playoffs, bowls, titles
+tuning/league.tres            ← Career leagues: sizes, schedule mix, playoff spots, game sim, drift
 scenes/field_goal.tscn        kick scene (wires the pieces together), reused by every mode
 scenes/screens/               main menu, practice, challenge, stats, achievements,
                               settings, career placeholder (thin scenes; UI built in code)
@@ -406,7 +407,9 @@ dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career
 | Relationships: the cast (8 people + Team standing), roles, tiers, name lists | `data/career/people.json` (rules: `scripts/career/relationships.gd`; numbers: `career_tuning.tres` "Relationships") |
 | Skill points, attribute upgrades (Skills screen) | `scripts/career/skill_points.gd` (earn amounts: `career_tuning.tres` "Skill Points"; cost curve: `tuning/leveling.tres`) |
 | Leveling: overall rating, upgrade cost curve, per-stage caps (HS overall 55) | `tuning/leveling.tres` (defaults + docs in `scripts/config/leveling_config.gd`; rules: `scripts/career/leveling.gd`) |
-| Postseason: qualifying records, rounds, bowl names, opponents, pressure, rewards | `tuning/postseason.tres` (defaults + docs in `scripts/config/postseason_config.gd`; rules: `scripts/career/postseason.gd`) |
+| Postseason: rounds, bowl names, opponent strength, pressure, rewards (and the record-only fallback) | `tuning/postseason.tres` (defaults + docs in `scripts/config/postseason_config.gd`; rules: `scripts/career/postseason.gd`) |
+| Leagues: conferences, divisions, teams per division, division / conference games, playoff spots, wild cards, college title games / field / bowls, simulated games, strength drift, playoff picture week | `tuning/league.tres` (defaults + docs in `scripts/config/league_config.gd`; rules: `scripts/career/league.gd`) |
+| League team names (fictional), conference and division names | `data/career/league_teams.json` (every `world.json` team of a stage is always in its league; these fill the rest) |
 | Field goal / kickoff range, game-day range, range -> launch speed | `scripts/career/kick_range.gd`, `kick_profile.gd` (numbers: "Power -> Range", "Game Day Range") |
 | Kick results -> Coach / Team, coach doubt ("too many misses") | `scripts/career/kick_trust.gd` (numbers: "Relationships", kick results + too many misses) |
 | Perks (15): cost, prerequisites, effects | `data/career/perks.json` (rules: `scripts/career/perks.gd`) |

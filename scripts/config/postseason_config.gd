@@ -3,8 +3,10 @@ extends Resource
 ## Every number for Career Mode's postseason. Edit res://tuning/postseason.tres
 ## in the Inspector (or the defaults here). Read through Postseason.config().
 ##
-## After the regular season (the schedule from CareerManager.build_schedule),
-## the regular-season record decides: win share = (W + T/2) / games.
+## Who qualifies is decided by the league's standings (League, tuning/league.tres).
+## The "Qualifying" numbers below are only the fallback when there's no league
+## decision (no league, or no league results: a test that sets the record by
+## hand): win share = (W + T/2) / games.
 ##   High school:    >= hs_playoff_min  -> playoffs, ending in the state final.
 ##   Junior college: >= juco_playoff_min -> a short playoff.
 ##   College:        >= college_playoff_min -> playoff bracket;
@@ -36,8 +38,8 @@ extends Resource
 	"Bayou Lights Bowl"])
 
 @export_group("Opponents")
-## Opponents come from the strongest teams of the stage: one of the top
-## opponent_pool teams by strength.
+## Opponents come from the seeded bracket (League). Without one (old saves
+## already in a postseason): one of the top opponent_pool teams by strength.
 @export var opponent_pool: int = 10
 ## Added to the opponent's strength in every postseason game, plus per round.
 @export var opponent_strength_bonus: float = 0.0

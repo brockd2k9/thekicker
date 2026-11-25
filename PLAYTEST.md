@@ -130,22 +130,58 @@ personality numbers in the scenario files.
 
 ## Postseason
 
-Numbers: `tuning/postseason.tres` (`PostseasonConfig`). After the regular season the record decides
-(win share, ties count half): high school >= 0.6 -> 4-round playoff ending in the State Championship;
-junior college >= 0.6 -> 2 rounds; college >= 0.7 -> 4-round playoff (National Championship), >= 0.5
--> one bowl game, else done; pro >= 0.6 -> 4 rounds ending in the Gridiron Championship. Each game is
-one more week of the normal loop, appended only after a win; a loss ends the season. Postseason
-games can't tie (overtime continues), add `pressure_bonus` 0.12 + 0.04 per round + 0.1 in the final,
-and face one of the 10 strongest teams of the stage (+2 strength per round). They don't count in the
-regular-season record (which recruiting / draft read); wins and a title add to the season's
-recruiting / draft gain or pro retention, and a title pays 6 skill points.
+Numbers: `tuning/postseason.tres` (`PostseasonConfig`). Who gets in is decided by the league (see
+"Leagues" below): the standings against every other team, with a limited number of spots. Rounds:
+high school 4 (ending in the State Championship), junior college 2, college 4 (National
+Championship) or one bowl game, pro 4 (Gridiron Championship). Each game is one more week of the
+normal loop, appended only after a win; a loss ends the season. Postseason games can't tie (overtime
+continues), add `pressure_bonus` 0.12 + 0.04 per round + 0.1 in the final, and face the bracket's
+real opponent (+2 strength per round). They don't count in the regular-season record (which
+recruiting / draft read); wins and a title add to the season's recruiting / draft gain or pro
+retention, and a title pays 6 skill points. (Without a league or league results, as in a test that
+sets the record by hand, the old record rule still applies: win share >= 0.6 / 0.7 / 0.5 bowl.)
 
 Flags for scenarios (reset each season): `made_playoffs`, `bowl_game`, `in_postseason`,
-`championship_game`, `eliminated`, `missed_postseason`, `won_championship`. Metrics (career):
-`playoff_appearances`, `championships`, `postseason_wins`.
+`championship_game`, `eliminated`, `missed_postseason`, `won_championship`, and from the league
+`division_champion`, `conference_champion` (college title game won), `conference_title_game` (this
+week). Metrics (career): `playoff_appearances`, `championships`, `postseason_wins`.
 
-**Simulator (careers=20, seed=1), share of seasons:** high school 37% playoffs (9% of those win
-state); college 13% playoff + 28% bowl (10% of playoff runs win it); pro 28% playoffs (13% win).
+## Leagues
+
+Numbers: `tuning/league.tres` (`LeagueConfig`); names: `data/career/league_teams.json` (all
+fictional; every `world.json` team of the stage is always in, these fill the rest, then made-up
+names from the pools). Rules: `scripts/career/league.gd`. One league per stage, made new when the
+stage changes; team strength drifts up to 4 a season (and 10% back toward the average).
+
+| Stage | Shape | Schedule (10 games, 1 bye) | Who gets in |
+|---|---|---|---|
+| High school | 2 regions x 4 districts x 6 = 48 | 5 district, 3 region, 2 outside | top 2 per district: 8 per region, region brackets, State Championship between region champions |
+| Junior college | 2 regions x 2 divisions x 4 = 16 | 3 division, 4 region, 3 outside | division winners: 2 per region |
+| College | 4 conferences x 2 divisions x 6 = 48 | 5 division, 3 conference, 2 outside | division winners play the conference title game; 12-team playoff (best 4 conference champions guaranteed, top 4 seeds get byes); bowls for the next 16 at .500+ |
+| Pro | 2 conferences x 4 divisions x 4 = 32 | 6 division, 2 conference, 2 outside | 4 division winners + 3 wild cards per conference; #1 seed gets a bye |
+
+Every other game is simulated at the end of its week from the two strengths (`sim_*`: about 7
+points of margin per 10 strength, 9-point spread, home edge 2, a level game stays tied 30% of the
+time where ties exist). Tiebreakers (one function, `League.break_tie`): head-to-head (only if every
+tied team played one of the others), division record (same division), conference record (same
+conference), point differential, then a fixed coin flip; once a step splits a group, each part
+starts again from head-to-head. College ranking: win share x 100 + 0.6 per point of average opponent
+strength above 50 + 5 for conference champions.
+
+Screens: Hub -> League (Standings, Schedule, Divisions) and Results -> Standings. The playoff
+picture (seeds, the line, the first 3 out) shows from week 6. The save keeps only the schedule and
+scores (2-5 KB); standings are worked out from them. Saves from before leagues get one on load,
+fitted around the schedule being played (same opponents and byes, finished weeks simulated).
+
+**Simulator (careers=12, seed=1), share of seasons:** high school 36% playoffs; college 17% playoff +
+29% bowl; pro 43% playoffs (the field sizes: 16/48, 12/48 + 16/48, 14/32).
+
+To playtest:
+- Does the playoff picture feel fair late in the season? A winning record can miss (3rd in a strong
+  district, a pro wild-card race); a weak division can let a .500 team in. That's intended.
+- Is 6 the right week for the playoff picture (`playoff_picture_from_week`)?
+- Pro top seed bye: the first postseason game is the Divisional Round (no idle week).
+- College: does a conference title game loss that still sends you to the playoff (on ranking) read well?
 
 ## Leveling: costs and stage caps
 

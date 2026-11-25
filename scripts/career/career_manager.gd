@@ -519,6 +519,7 @@ func _bench_game() -> void:
 	var opp: Dictionary = entry().get("opponent", {})
 	var ot: Dictionary = sim.summary().get("ot", {})
 	entry()["result"] = {"us": sim.score_us, "them": sim.score_them, "outcome": outcome}
+	League.after_week(data, data.week)
 	data.recent_results.append({"week": data.week, "opponent": opp.get("name", ""), "us": sim.score_us,
 		"them": sim.score_them, "outcome": outcome, "line": why, "ot": ot})
 	while data.recent_results.size() > 5:
@@ -598,6 +599,8 @@ func finish_game(summary: Dictionary) -> void:
 	if summary.has("ot"):  # overtime (GameSim): rule, rounds, two_point
 		e["result"]["ot"] = summary["ot"]
 		result["ot"] = summary["ot"]
+	# The rest of the league's week too, so Results and Standings agree.
+	League.after_week(data, data.week)
 	data.recent_results.append(result)
 	while data.recent_results.size() > 5:
 		data.recent_results.pop_front()
@@ -790,7 +793,7 @@ func end_week() -> void:
 	# Bye-week choices' game-day modifiers carry into next week's game.
 	if not is_bye():
 		data.week_modifiers.clear()
-	# The league's other games this week (League): simulated around yours.
+	# The league's week (League), if the game didn't already (a bye week).
 	League.after_week(data, data.week)
 	data.week_index += 1
 	data.week += 1

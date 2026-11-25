@@ -66,6 +66,7 @@ func _build(col: VBoxContainer) -> void:
 			["Stats & traits", "Every attribute and trait", "", "star", Screens.CAREER_STATS],
 			["People", "Coach, team, family and friends", "", "team", Screens.CAREER_PEOPLE]]:
 		nav.add_child(_nav_row(r[0], r[1], r[2], r[3], r[4]))
+	_league_rows(list)
 
 	list.add_child(BrandUi.section("Recent results"))
 	if c.recent_results.is_empty():
@@ -173,6 +174,28 @@ func _seen_key() -> String:
 	return "%d|%d" % [career.data.slot, career.data.created]
 
 
+## League (League): standings with your place, your schedule, the divisions.
+func _league_rows(list: VBoxContainer) -> void:
+	var c := career.data
+	if not League.valid(c.league, c.stage) or int(c.league.get("season", 0)) != c.season:
+		return
+	list.add_child(BrandUi.section("League"))
+	var nav := VBoxContainer.new()
+	nav.add_theme_constant_override("separation", 0)
+	list.add_child(nav)
+	var lg := c.league
+	var p := League.player_index(c)
+	var st := League.standings(lg)
+	var div := League.div_of(lg, p)
+	var place := League.division_order(lg, st, div).find(p) + 1
+	var pic := League.picture_line(c)
+	nav.add_child(_nav_row("Standings", pic if pic != "" else "%s in the %s" % [League.ordinal(place),
+		League.division_name(lg, div)], League.record_text(st[p]), "trophy", Screens.CAREER_STANDINGS))
+	nav.add_child(_nav_row("Schedule", "Every week, every team", "", "calendar", Screens.CAREER_SCHEDULE))
+	nav.add_child(_nav_row("Divisions", "%s and who gets in" % League.conference_name(lg, League.conf_of(lg, p)),
+		"", "flag", Screens.CAREER_DIVISIONS))
+
+
 func _nav_row(title: String, sub: String, value: String, icon: String, path: String) -> BrandListRow:
 	var r: BrandListRow = load("res://scenes/ui/brand/list_row.tscn").instantiate()
 	r.title = title
@@ -277,6 +300,9 @@ func _next_card() -> BrandCard:
 		big.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		vs.add_child(big)
 		card.content.add_child(vs)
+		var pl := League.picture_line(c)
+		if pl != "" and not career.is_postseason():
+			card.content.add_child(BrandUi.text(pl, "Caption", Brand.GREY))
 		card.content.add_child(_status_line())
 		return card
 	card.content.add_child(big)

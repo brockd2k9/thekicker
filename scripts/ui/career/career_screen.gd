@@ -6,7 +6,8 @@ extends MenuScreen
 
 ## Screens you can open at any step (the rest follow the career's phase).
 const FREE_SCREENS := [Screens.CAREER_HUB, Screens.CAREER_STATS, Screens.CAREER_PEOPLE,
-	Screens.CAREER_SKILLS, Screens.CAREER_KICKING, Screens.CAREER_RECRUITING_BOARD]
+	Screens.CAREER_SKILLS, Screens.CAREER_KICKING, Screens.CAREER_RECRUITING_BOARD,
+	Screens.CAREER_STANDINGS, Screens.CAREER_SCHEDULE, Screens.CAREER_DIVISIONS]
 
 var career: CareerManager
 

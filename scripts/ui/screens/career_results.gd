@@ -151,7 +151,17 @@ func _build(col: VBoxContainer) -> void:
 	var next := UiKit.button("Continue", func() -> void:
 		career.end_week()
 		go_to_current(), UiKit.PRIMARY, "next")
-	col.add_child(next)
+	if League.valid(c.league, c.stage):
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 12)
+		var table := UiKit.button("Standings", Screens.go.bind(Screens.CAREER_STANDINGS), UiKit.SECONDARY, "achievements")
+		table.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		next.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(table)
+		row.add_child(next)
+		col.add_child(row)
+	else:
+		col.add_child(next)
 	if not OS.has_feature("mobile"):
 		next.grab_focus.call_deferred()
 
