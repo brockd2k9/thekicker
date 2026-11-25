@@ -183,6 +183,11 @@ func weeks_in_season() -> int:
 	return data.schedule.size()
 
 
+## Regular-season weeks (games and byes), without the postseason.
+func regular_weeks() -> int:
+	return data.schedule.filter(func(e: Dictionary) -> bool: return not Postseason.is_postseason(e)).size()
+
+
 ## "Freshman" .. "Senior" (high school / college), "Junior college", "Year 3" (pro).
 func class_year() -> String:
 	var years := ["Freshman", "Sophomore", "Junior", "Senior"]
@@ -209,6 +214,7 @@ func stage_name() -> String:
 ## game-day modifiers carry into week 1). false for a brand-new career.
 func _start_season(continuing: bool) -> void:
 	Bench.new_season(data)
+	Postseason.new_season(data)
 	_season_flags()
 	Followers.new_season(data)
 	Fatigue.new_season(data)
@@ -259,8 +265,8 @@ func _sync_flags() -> void:
 
 
 ## games_per_season games + byes_per_season byes against this stage's teams
-## (colleges: your own tier first). Entries are typed ("regular" / "bye") so
-## playoff weeks can be appended later.
+## (colleges: your own tier first). Entries are typed ("regular" / "bye");
+## postseason weeks ("playoff") are appended by Postseason.advance().
 static func build_schedule(c: CareerData, t: CareerTuning, r: RandomNumberGenerator) -> Array:
 	var others := Progression.opponents(c)
 	Progression.shuffle(others, r)
@@ -308,7 +314,7 @@ func begin_week() -> void:
 	data.pending_scenarios = ScenarioEngine.pick(data, when, count, rng, tuning)
 	if not is_bye():
 		var e := entry()
-		var wind_max := float(Progression.game_params(data, tuning)["wind_max"])
+		var wind_max := float(game_params()["wind_max"])
 		var wind := rng.randf_range(0.0, wind_max) * (1.0 if rng.randf() < 0.5 else -1.0)
 		e["weather"] = {"wind": roundf(wind), "gusty": rng.randf() < tuning.game_gust_chance}
 		_roll_cold(e["weather"])
@@ -410,7 +416,7 @@ func new_game_sim(kt: KickTuning) -> GameSim:
 	var sim := GameSim.new()
 	var p := profile()
 	var max_fg := KickTrust.coach_limit(data, p, tuning)
-	var params := Progression.game_params(data, tuning)
+	var params := game_params()
 	params["call_random_yd"] = tuning.coach_call_random_yd
 	params["call_cap_yd"] = floori(p.fg_range + 0.001)
 	params["fan_pressure"] = Followers.fan_pressure(data, tuning)
@@ -420,6 +426,17 @@ func new_game_sim(kt: KickTuning) -> GameSim:
 		sim.backup_name = Bench.backup_name(data)
 		sim.backup_make = Bench.backup_make(data, tuning)
 	return sim
+
+
+## This week's game parameters: the stage's (Progression.game_params), plus
+## the postseason's (no ties, more pressure) in a postseason week.
+func game_params() -> Dictionary:
+	return Postseason.adjust_params(Progression.game_params(data, tuning), entry())
+
+
+## True in a postseason week (Postseason).
+func is_postseason() -> bool:
+	return Postseason.is_postseason(entry())
 
 
 ## "(OT)" / "(2OT)" for a result that went to overtime, "" otherwise.
@@ -443,7 +460,7 @@ static func ot_rule_text(rule: String, t: CareerTuning) -> String:
 
 ## The kick scene's look this week (posts, widths, team colors, the stadium).
 func kick_look() -> Dictionary:
-	var gp := Progression.game_params(data, tuning)
+	var gp := game_params()
 	var look := Progression.look(str(gp["posts"]), float(gp["width"]), data.team, entry().get("opponent", {}))
 	look["stadium"] = Stadiums.for_game(data, entry(), tuning)
 	return look
@@ -464,7 +481,7 @@ func _bench_game() -> void:
 		data.bench["this_week"] = false  # a suspension never counts as a benched week
 	var sim := GameSim.new()
 	sim.backup = true
-	sim.setup(data, entry(), tuning, rng.randi(), 0, Progression.game_params(data, tuning))
+	sim.setup(data, entry(), tuning, rng.randi(), 0, game_params())
 	var backup := RandomNumberGenerator.new()
 	backup.seed = rng.randi()
 	for i in 1000:
@@ -483,7 +500,7 @@ func _bench_game() -> void:
 					"onside":
 						sim.resolve_call({"recovered": false, "text": "Onside kick."})
 	var outcome := sim.outcome()
-	data.record[{"W": "w", "L": "l", "T": "t"}[outcome]] += 1
+	_count_result(outcome)
 	var applied := CareerStats.apply(data, {"fun": tuning.suspend_fun, "social": tuning.suspend_social}
 		if suspended else {"fun": -4.0, "social": -2.0}, tuning)
 	var team := {}
@@ -503,15 +520,23 @@ func _bench_game() -> void:
 	if suspended:
 		data.last_week["suspended"] = {"reason": str(data.suspension.get("reason", "")),
 			"left": Reputation.served(data), "team": team}
+	_tag_postseason()
 	_week_practice()
 	data.phase = PHASE_RESULTS
+
+
+## A postseason game's Results: which round, and was it the final.
+func _tag_postseason() -> void:
+	if is_postseason():
+		data.last_week["postseason"] = str(entry().get("round_name", "Postseason"))
+		data.last_week["final"] = bool(entry().get("final", false))
 
 
 ## The game is over: record, stats, life/football changes, results screen.
 func finish_game(summary: Dictionary) -> void:
 	var opp: Dictionary = entry().get("opponent", {})
 	var outcome := str(summary.get("outcome", "T"))
-	data.record[{"W": "w", "L": "l", "T": "t"}[outcome]] += 1
+	_count_result(outcome)
 	var changes := game_changes(summary)
 	var applied := CareerStats.apply(data, changes, tuning)
 	# Coach / Team from your kicks (the same steps the game screen showed),
@@ -571,6 +596,7 @@ func finish_game(summary: Dictionary) -> void:
 		"us": summary.get("us", 0), "them": summary.get("them", 0),
 		"outcome": outcome, "kicks": summary.get("kicks", []), "warmups": summary.get("warmups", []),
 		"line": line, "changes": applied, "trust": trust, "bench": bench_info, "ot": summary.get("ot", {})}
+	_tag_postseason()
 	data.game_checkpoint = {}
 	data.phase = PHASE_RESULTS
 	save()
@@ -582,6 +608,13 @@ func finish_game(summary: Dictionary) -> void:
 			"makes": int(_count(summary.get("kicks", []), true)),
 			"kicks": int(_count(summary.get("kicks", []), false)),
 			"stage": data.stage})
+
+
+## A regular-season game counts in the record; a postseason game is counted by
+## Postseason.advance() at the end of the week.
+func _count_result(outcome: String) -> void:
+	if not is_postseason():
+		data.record[{"W": "w", "L": "l", "T": "t"}[outcome]] += 1
 
 
 ## The stat changes a finished game causes (before the stat rules).
@@ -749,6 +782,14 @@ func end_week() -> void:
 		data.week_modifiers.clear()
 	data.week_index += 1
 	data.week += 1
+	# Past the schedule: the postseason decides (another game is appended, or
+	# the season is over).
+	if data.week > weeks_in_season():
+		var post := Postseason.advance(data, rng, tuning)
+		if str(post.get("text", "")) != "":
+			data.notice = str(post["text"]) if data.notice == "" else data.notice + " " + str(post["text"])
+		if str(post.get("event", "")) in ["qualified", "champion"]:
+			_event({"event": "postseason", "kind": post["event"]})
 	data.phase = PHASE_SEASON_END if data.week > weeks_in_season() else PHASE_WEEK_START
 	save()
 
@@ -782,6 +823,7 @@ func end_season() -> void:
 		"record": data.record.duplicate(), "stats": data.season_stats.duplicate(),
 		"sp": data.sp_season, "sp_bonus": bonus, "aged": aged, "sp_sources": data.sp_sources.duplicate(),
 		"overall": snappedf(Leveling.overall(data), 0.1),
+		"postseason": data.postseason.duplicate(true), "postseason_text": Postseason.summary_text(data.postseason),
 		"fg_range": snappedf(KickRange.fg_range(data, tuning), 0.1),
 		"kickoff_range": snappedf(KickRange.kickoff_range(data, tuning), 0.1),
 		"followers": data.followers, "followers_gain": int(data.social.get("season_gain", 0)),
@@ -791,7 +833,8 @@ func end_season() -> void:
 	data.history.append(h)
 	match data.stage:
 		CareerData.STAGE_HIGH_SCHOOL, CareerData.STAGE_JUCO:
-			var gain := Progression.recruiting_gain(data, tuning) + float(fans["progress"])
+			var gain := Progression.recruiting_gain(data, tuning) + float(fans["progress"]) \
+				+ Postseason.progress_bonus(data)
 			data.recruiting_score = clampf(data.recruiting_score + gain, 0.0, 100.0)
 			data.gpa = clampf(data.gpa + Progression.gpa_drift(data, tuning), 0.0, 4.0)
 			var upd := Progression.update_offers(data, rng)
@@ -808,7 +851,8 @@ func end_season() -> void:
 			h["recruiting"] = data.recruiting_score
 			data.phase = PHASE_RECRUITING
 		CareerData.STAGE_COLLEGE:
-			var gain := Progression.draft_gain(data, tuning) + float(fans["progress"])
+			var gain := Progression.draft_gain(data, tuning) + float(fans["progress"]) \
+				+ Postseason.progress_bonus(data)
 			data.draft_score = clampf(data.draft_score + gain, 0.0, 100.0)
 			data.gpa = clampf(data.gpa + Progression.gpa_drift(data, tuning), 0.0, 4.0)
 			h["draft"] = data.draft_score
@@ -830,7 +874,8 @@ func end_season() -> void:
 		CareerData.STAGE_PRO:
 			# The season's pay, after taxes and the agent's fee (Savings).
 			h["pay"] = Savings.pay_season(data, tuning)
-			data.retention_bonus += float(fans["progress"]) + tuning.retention_maintained * preserved
+			data.retention_bonus += float(fans["progress"]) + tuning.retention_maintained * preserved \
+				+ Postseason.progress_bonus(data)
 			data.retention_score = Progression.retention(data, tuning)
 			h["retention"] = data.retention_score
 			_pro_season_end()

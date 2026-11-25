@@ -139,6 +139,8 @@ func _career() -> void:
 	for r in rows:
 		var label := "S%d  %s" % [int(r["season"]), _year(r)]
 		var sub := str(r["team"]) + ("  ·  " + CareerRecords.record_text(r["record"]))
+		if str(r.get("post", "")) != "":
+			sub += "  ·  " + str(r["post"])
 		if r["current"]:
 			sub += "  ·  NOW"
 		list.add_child(_table_row(label, sub, r["stats"], false))
@@ -165,6 +167,22 @@ func _total_rows(list: VBoxContainer) -> void:
 		return
 	list.add_child(_table_row("Career total", "%d games  ·  %s" % [int(CareerRecords.total(all_rows)["games"]),
 		CareerRecords.record_text(CareerRecords.total_record(all_rows))], CareerRecords.total(all_rows), true))
+	_postseason_rows(list)
+
+
+## Career postseason: appearances, titles, bowls, record, and each title won.
+func _postseason_rows(list: VBoxContainer) -> void:
+	var car := Postseason.career(career.data)
+	list.add_child(UiKit.section("Postseason"))
+	list.add_child(UiKit.stat_row("Playoff appearances", str(int(car["appearances"])), UiKit.ACCENT))
+	list.add_child(UiKit.stat_row("Championships", str(int(car["titles"])), UiKit.GOOD))
+	if int(car["bowls"]) > 0:
+		list.add_child(UiKit.stat_row("Bowl games", "%d  (%d won)" % [int(car["bowls"]), int(car["bowl_wins"])],
+			UiKit.MUTED))
+	list.add_child(UiKit.stat_row("Postseason record", "%d-%d" % [int(car["wins"]), int(car["losses"])], UiKit.MUTED))
+	for t in car["title_list"]:
+		list.add_child(UiKit.label("Season %d: %s (%s)" % [int(t.get("season", 0)), str(t.get("name", "")),
+			str(t.get("team", ""))], 24, UiKit.GOOD))
 
 
 func _year(r: Dictionary) -> String:

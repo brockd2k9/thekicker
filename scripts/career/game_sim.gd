@@ -511,7 +511,8 @@ func _ot_round_step() -> void:
 		if score_us != score_them:
 			_ot_end()
 			return
-		var max_rounds := _t.ot_hs_rounds if rule == "hs" else 99
+		# (Postseason, params "no_tie": high school plays rounds until someone wins.)
+		var max_rounds := _t.ot_hs_rounds if rule == "hs" and not bool(_p.get("no_tie", false)) else 99
 		if int(ot["round"]) >= max_rounds:
 			_ot_end()  # high school: still tied after the last round
 			return
@@ -592,8 +593,14 @@ func _ot_pro_step() -> void:
 			_ot_end()
 			return
 	if float(ot["clock"]) <= 0.0:
-		_ot_end()
-		return
+		if score_us == score_them and bool(_p.get("no_tie", false)):
+			# Postseason: no ties. Another period, sudden death.
+			ot["clock"] = _t.ot_pro_minutes * 60.0
+			ot["round"] = int(ot["round"]) + 1
+			_text("Still tied: another overtime period. Next score wins.")
+		else:
+			_ot_end()
+			return
 	var team: String = ot["order"][n % 2]
 	ot["poss"] = n + 1
 	possession = team

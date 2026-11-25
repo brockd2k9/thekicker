@@ -128,6 +128,25 @@ Stage 6: leadership leaners 1.1 by the end of high school (3% have none, was 28%
 Knobs: `personality_change_scale` (0.30), trait thresholds in `data/career/traits.json`,
 personality numbers in the scenario files.
 
+## Postseason
+
+Numbers: `tuning/postseason.tres` (`PostseasonConfig`). After the regular season the record decides
+(win share, ties count half): high school >= 0.6 -> 4-round playoff ending in the State Championship;
+junior college >= 0.6 -> 2 rounds; college >= 0.7 -> 4-round playoff (National Championship), >= 0.5
+-> one bowl game, else done; pro >= 0.6 -> 4 rounds ending in the Gridiron Championship. Each game is
+one more week of the normal loop, appended only after a win; a loss ends the season. Postseason
+games can't tie (overtime continues), add `pressure_bonus` 0.12 + 0.04 per round + 0.1 in the final,
+and face one of the 10 strongest teams of the stage (+2 strength per round). They don't count in the
+regular-season record (which recruiting / draft read); wins and a title add to the season's
+recruiting / draft gain or pro retention, and a title pays 6 skill points.
+
+Flags for scenarios (reset each season): `made_playoffs`, `bowl_game`, `in_postseason`,
+`championship_game`, `eliminated`, `missed_postseason`, `won_championship`. Metrics (career):
+`playoff_appearances`, `championships`, `postseason_wins`.
+
+**Simulator (careers=20, seed=1), share of seasons:** high school 37% playoffs (9% of those win
+state); college 13% playoff + 28% bowl (10% of playoff runs win it); pro 28% playoffs (13% win).
+
 ## Leveling: costs and stage caps
 
 Numbers: `tuning/leveling.tres` (`LevelingConfig`). Overall rating = the average of Power, Accuracy,

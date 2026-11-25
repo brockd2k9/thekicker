@@ -62,10 +62,20 @@ var phase: String = "week_start"
 # --- team and season -------------------------------------------------------------
 ## id, name, short, league, level, colors [primary, secondary] as html strings.
 var team: Dictionary = {}
-## One entry per week: {week, type ("regular"/"bye"; "playoff" later), opponent
-## {id, name, strength}, home, result {us, them, outcome} or null}.
+## One entry per week: {week, type ("regular"/"bye"/"playoff"), opponent
+## {id, name, strength}, home, result {us, them, outcome} or null}. Postseason
+## games are appended one at a time (Postseason): postseason, round,
+## round_name, final.
 var schedule: Array = []
+## The regular-season record (postseason games are in `postseason`).
 var record: Dictionary = {"w": 0, "l": 0, "t": 0}
+## This season's postseason (Postseason): {} until the regular season ends,
+## then {kind: playoff/bowl/none, status: alive/eliminated/champion/bowl_won/
+## bowl_lost/missed, w, l, games: [...], name (bowl), text}.
+var postseason: Dictionary = {}
+## Career postseason totals: appearances, bowls, bowl_wins, titles, wins,
+## losses, by_stage {stage: appearances}, title_list [{stage, season, name, team}].
+var postseason_career: Dictionary = {}
 ## This season: fg_att, fg_made, pat_att, pat_made, long, game_winners, points.
 var season_stats: Dictionary = {}
 ## Same keys, whole career.
@@ -280,7 +290,7 @@ func stat(key: String) -> float:
 ## (a relationship value, e.g. "rel_coach"; 50 for someone not in the cast now).
 const METRICS := ["recruiting", "draft", "retention", "gpa", "age", "followers",
 	"slump_now", "benched_now", "injured_now", "fg_streak", "season_fg_pct", "pro_seasons",
-	"contract_years_left", "clubs", "savings"]
+	"contract_years_left", "clubs", "savings", "playoff_appearances", "championships", "postseason_wins"]
 
 
 func metric(key: String) -> float:
@@ -318,6 +328,13 @@ func metric(key: String) -> float:
 			return float(pro_clubs().size())
 		"savings":
 			return float(savings)
+		# Postseason (career totals).
+		"playoff_appearances":
+			return float(int(postseason_career.get("appearances", 0)))
+		"championships":
+			return float(int(postseason_career.get("titles", 0)))
+		"postseason_wins":
+			return float(int(postseason_career.get("wins", 0)))
 	if key.begins_with("rel_"):
 		return Relationships.value(self, key.substr(4))
 	return stat(key)
@@ -414,6 +431,8 @@ func to_dict() -> Dictionary:
 		"retention_score": retention_score,
 		"tryout": tryout.duplicate(true),
 		"draft_result": draft_result.duplicate(true),
+		"postseason": postseason.duplicate(true),
+		"postseason_career": postseason_career.duplicate(true),
 		"route": route.duplicate(true),
 		"retirement": retirement.duplicate(true),
 		"last_week": last_week.duplicate(true),
@@ -515,6 +534,8 @@ static func from_dict(d: Dictionary) -> CareerData:
 	c.retention_score = float(d.get("retention_score", 0.0))
 	c.tryout = _dict(d, "tryout")
 	c.draft_result = _dict(d, "draft_result")
+	c.postseason = _dict(d, "postseason")
+	c.postseason_career = _dict(d, "postseason_career")
 	c.route = _array(d, "route")
 	c.retirement = _dict(d, "retirement")
 	c.last_week = _dict(d, "last_week")

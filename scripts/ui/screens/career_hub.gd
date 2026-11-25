@@ -91,8 +91,10 @@ func _header() -> Control:
 	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	left.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	h.add_child(left)
-	var when := "Offseason" if c.week == 0 else "Week %d of %d" % [mini(c.week, career.weeks_in_season()),
-		career.weeks_in_season()]
+	var when := "Offseason" if c.week == 0 else "Week %d of %d" % [mini(c.week, career.regular_weeks()),
+		career.regular_weeks()]
+	if c.week > 0 and career.is_postseason():
+		when = str(career.entry().get("round_name", "Postseason"))
 	var top := UiKit.label("#%d  ·  %s  ·  Season %d  ·  %s  ·  %s" % [int(c.player.get("number", 0)),
 		career.stage_name(), c.season, career.class_year(), when],
 		22, UiKit.team_color(1).lightened(0.2), UiTokens.FONT_CONDENSED)
@@ -223,6 +225,9 @@ func _next_card() -> PanelContainer:
 	elif c.phase == CareerManager.PHASE_SEASON_END:
 		kicker.text = "SEASON OVER"
 		big.text = "Final record %d-%d" % [int(c.record["w"]), int(c.record["l"])]
+		var post := Postseason.summary_text(c.postseason)
+		if post != "":
+			big.text += "\n" + post
 	elif c.phase == CareerManager.PHASE_OFFSEASON:
 		kicker.text = "OFFSEASON"
 		big.text = "Get ready for next season."
@@ -234,6 +239,10 @@ func _next_card() -> PanelContainer:
 		var opp: Dictionary = e.get("opponent", {})
 		var home: bool = e.get("home", true)
 		kicker.text = "THIS WEEK"
+		if career.is_postseason():
+			kicker.text = "%s  ·  %s" % [str(e.get("round_name", "Postseason")).to_upper(),
+				"FOR THE TITLE" if e.get("final", false) else "WIN OR GO HOME"]
+			kicker.add_theme_color_override("font_color", UiKit.ACCENT)
 		head.add_child(UiKit.chip("HOME" if home else "AWAY", UiKit.GOOD if home else UiKit.ALT, false, "", 22))
 		var vs := HBoxContainer.new()
 		vs.add_theme_constant_override("separation", 12)

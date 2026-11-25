@@ -270,6 +270,10 @@ func _play_career(strat: String, n: int) -> Dictionary:
 	out["draft_season_gain"] = dg
 	ScenarioEngine.progress_tally = null
 	out["seasons"] = c.history.size()
+	# Postseason per season: [stage, status, wins].
+	out["post"] = c.history.map(func(h: Dictionary) -> Array:
+		var ps: Dictionary = h.get("postseason", {})
+		return [str(h.get("stage", "")), str(ps.get("status", "")), int(ps.get("w", 0))])
 	# Followers at the end of every season: [stage, season_in_stage, followers].
 	out["fans"] = c.history.map(func(h: Dictionary) -> Array:
 		return [str(h.get("stage", "")), int(h.get("season_in_stage", 1)), int(h.get("followers", 0))])
@@ -660,6 +664,7 @@ func _report(results: Dictionary, n: int, problems: PackedStringArray, ms: int) 
 	L.append_array(_age_section(all))
 	L.append_array(_retention_section(all))
 	L.append_array(_ot_section(all))
+	L.append_array(_post_section(all))
 	L.append_array(_fatigue_section(all))
 	L.append_array(_savings_section(all))
 	L.append_array(_hof_section(all))
@@ -1252,6 +1257,40 @@ func _count_ot(c: CareerData, out: Dictionary) -> void:
 		if k.get("made", false) and not k.get("backup", false) and str(k.get("label", "")).contains("OT") \
 				and str(k.get("label", "")).contains("GAME WINNER"):
 			out["ot_winners"] = int(out.get("ot_winners", 0)) + 1
+
+
+## Postseason by stage (Postseason): how often a season reaches it and how it ends.
+func _post_section(all: Array) -> PackedStringArray:
+	var L := PackedStringArray()
+	L.append("## Postseason by stage (all seasons played)")
+	L.append("")
+	L.append("| Stage | Seasons | Playoffs | Bowl | Missed | Titles (of seasons) | Titles (of playoff seasons) | Wins / postseason |")
+	L.append("|---|---|---|---|---|---|---|---|")
+	for st in ["high_school", "juco", "college", "pro"]:
+		var n := 0
+		var g := {"playoff": 0, "bowl": 0, "missed": 0, "champion": 0, "wins": 0}
+		for r in all:
+			for p in r.get("post", []):
+				if str(p[0]) != st or str(p[1]) == "":
+					continue
+				n += 1
+				var status := str(p[1])
+				if status in ["bowl_won", "bowl_lost"]:
+					g["bowl"] += 1
+				elif status == "missed":
+					g["missed"] += 1
+				else:
+					g["playoff"] += 1
+				if status == "champion":
+					g["champion"] += 1
+				g["wins"] += int(p[2])
+		if n == 0:
+			continue
+		L.append("| %s | %d | %s | %s | %s | %s | %s | %.2f |" % [st, n, _pct(g["playoff"], n), _pct(g["bowl"], n),
+			_pct(g["missed"], n), _pct(g["champion"], n), _pct(g["champion"], g["playoff"]),
+			float(g["wins"]) / maxi(g["playoff"] + g["bowl"], 1)])
+	L.append("")
+	return L
 
 
 func _ot_section(all: Array) -> PackedStringArray:

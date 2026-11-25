@@ -38,11 +38,17 @@ func _build(col: VBoxContainer) -> void:
 	else:
 		var o := str(w.get("outcome", "T"))
 		_banner(col, o)
+		var round_name := str(w.get("postseason", ""))
 		col.add_child(CareerUi.scoreboard(c.team, opp, str(int(w.get("us", 0))), str(int(w.get("them", 0))),
-			"FINAL", "WEEK %d" % int(w.get("week", 0)))["root"])
+			"FINAL", round_name.to_upper() if round_name != "" else "WEEK %d" % int(w.get("week", 0)))["root"])
 		col.add_child(CareerUi.centered("%s %s   ·   Record %d-%d" % [
 			"vs" if w.get("home", true) else "at", w.get("opponent", ""), int(c.record["w"]),
 			int(c.record["l"])], 24, UiKit.MUTED))
+		if round_name != "":
+			var won := o == "W"
+			var msg := ("CHAMPIONS! You won the %s." % round_name) if won and w.get("final", false) \
+				else ("You advance." if won else "Your season is over.")
+			col.add_child(CareerUi.centered(msg, 28, UiKit.GOOD if won else UiKit.BAD))
 		list = UiKit.scroll_list(col)
 		# Overtime: what happened, and (college from the third overtime) why
 		# you didn't kick.

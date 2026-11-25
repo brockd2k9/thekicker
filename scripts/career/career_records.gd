@@ -59,10 +59,11 @@ static func seasons(c: CareerData, level: String) -> Array:
 		out.append({"season": int(h.get("season", 0)), "year": str(h.get("year", "")),
 			"stage": str(h.get("stage", "")), "team": str(h.get("team", "")),
 			"record": _record(h.get("record", {})), "stats": CareerData._totals(h.get("stats", {})),
-			"current": false})
+			"post": str(h.get("postseason_text", "")), "current": false})
 	if current_season_open(c) and level_of(c.stage) == level:
 		out.append({"season": c.season, "year": "", "stage": c.stage, "team": str(c.team.get("name", "")),
-			"record": _record(c.record), "stats": CareerData._totals(c.season_stats), "current": true})
+			"record": _record(c.record), "stats": CareerData._totals(c.season_stats),
+			"post": Postseason.summary_text(c.postseason), "current": true})
 	return out
 
 
