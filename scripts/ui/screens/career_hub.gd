@@ -65,9 +65,11 @@ func _build(col: VBoxContainer) -> void:
 			["Kicking stats", "This season, career and records", "FG %d/%d" % [int(st["fg_made"]), int(st["fg_att"])],
 				"football", Screens.CAREER_KICKING],
 			["Recruiting", "Who's watching, offers", "", "school", Screens.CAREER_RECRUITING_BOARD],
+			["Record book", "All-time records you can chase", "", "medal", Screens.CAREER_RECORDS],
 			["Stats & traits", "Every attribute and trait", "", "star", Screens.CAREER_STATS],
 			["People", "Coach, team, family and friends", "", "team", Screens.CAREER_PEOPLE]]:
 		nav.add_child(_nav_row(r[0], r[1], r[2], r[3], r[4]))
+	_league_rows(list)
 
 	list.add_child(BrandUi.section("Recent results"))
 	if c.recent_results.is_empty():
@@ -90,8 +92,10 @@ func _header() -> Control:
 	var team_col := Color.from_string(str((c.team.get("colors", []) as Array).front() if not
 		(c.team.get("colors", []) as Array).is_empty() else ""), Brand.GREY)
 	var card := BrandUi.card("raised", team_col)
-	var when := "Offseason" if c.week == 0 else "Week %d of %d" % [mini(c.week, career.weeks_in_season()),
-		career.weeks_in_season()]
+	var when := "Offseason" if c.week == 0 else "Week %d of %d" % [mini(c.week, career.regular_weeks()),
+		career.regular_weeks()]
+	if c.week > 0 and career.is_postseason():
+		when = str(career.entry().get("round_name", "Postseason"))
 	card.content.add_child(BrandUi.text("#%d  ·  %s  ·  Season %d  ·  %s  ·  %s" % [int(c.player.get("number", 0)),
 		career.stage_name(), c.season, career.class_year(), when], "Eyebrow"))
 	card.content.add_child(BrandUi.text(c.display_name(), "Title"))
@@ -173,6 +177,30 @@ func _seen_key() -> String:
 	return "%d|%d" % [career.data.slot, career.data.created]
 
 
+## League (League): standings with your place, your schedule, the divisions.
+func _league_rows(list: VBoxContainer) -> void:
+	var c := career.data
+	if not League.valid(c.league, c.stage) or int(c.league.get("season", 0)) != c.season:
+		return
+	list.add_child(BrandUi.section("League"))
+	var nav := VBoxContainer.new()
+	nav.add_theme_constant_override("separation", 0)
+	list.add_child(nav)
+	var lg := c.league
+	var p := League.player_index(c)
+	var st := League.standings(lg)
+	var div := League.div_of(lg, p)
+	var place := League.division_order(lg, st, div).find(p) + 1
+	var pic := League.picture_line(c)
+	var r: Dictionary = st[p]
+	var sub := "%s in the %s" % [League.ordinal(place), League.division_name(lg, div)]
+	if int(r["w"]) + int(r["l"]) + int(r["t"]) == 0:
+		sub = "The %s: no games yet" % League.division_name(lg, div)  # (no places before a game)
+	nav.add_child(_nav_row("Standings", pic if pic != "" else sub, League.record_text(r), "trophy",
+		Screens.CAREER_STANDINGS))
+	nav.add_child(_nav_row("Schedule", "Every week, every team", "", "calendar", Screens.CAREER_SCHEDULE))
+	nav.add_child(_nav_row("Divisions", "%s and who gets in" % League.conference_name(lg, League.conf_of(lg, p)),
+		"", "flag", Screens.CAREER_DIVISIONS))
 ## Daily Challenge: skill points for this career every day ("NEW" until
 ## today's kick is tried, otherwise the streak).
 func _daily_row() -> BrandListRow:
@@ -249,6 +277,9 @@ func _next_card() -> BrandCard:
 	elif c.phase == CareerManager.PHASE_SEASON_END:
 		kicker.text = "Season over"
 		big.text = "Final record %d-%d" % [int(c.record["w"]), int(c.record["l"])]
+		var post := Postseason.summary_text(c.postseason)
+		if post != "":
+			big.text += "\n" + post
 	elif c.phase == CareerManager.PHASE_OFFSEASON:
 		kicker.text = "Offseason"
 		big.text = "Get ready for next season."
@@ -260,6 +291,10 @@ func _next_card() -> BrandCard:
 		var opp: Dictionary = e.get("opponent", {})
 		var home: bool = e.get("home", true)
 		kicker.text = "This week"
+		if career.is_postseason():
+			kicker.text = "%s  ·  %s" % [str(e.get("round_name", "Postseason")),
+				"For the title" if e.get("final", false) else "Win or go home"]
+			kicker.add_theme_color_override("font_color", Brand.RED_HOT)
 		head.add_child(BrandUi.chip("Home" if home else "Away", "outline"))
 		var sp := Control.new()
 		sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -283,6 +318,9 @@ func _next_card() -> BrandCard:
 		big.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		vs.add_child(big)
 		card.content.add_child(vs)
+		var pl := League.picture_line(c)
+		if pl != "" and not career.is_postseason():
+			card.content.add_child(BrandUi.text(pl, "Caption", Brand.GREY))
 		card.content.add_child(_status_line())
 		return card
 	card.content.add_child(big)

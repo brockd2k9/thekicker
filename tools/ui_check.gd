@@ -30,8 +30,11 @@ const ALL := ["main", "career_menu", "tutorial", "new", "new_web", "name_chooser
 	"kick_fg", "kick_fg_result", "game_field", "game_field_kick",
 	"hud", "hud_result", "results", "stats", "achievements", "settings", "career_stats", "people", "debug",
 	"challenge", "season", "recruiting", "recruiting_board", "recruiting_board_senior", "college_choice", "hub_college", "draft",
-	"hub_pro", "kicking_season", "kicking_hs", "kicking_total",
+	"hub_pro", "records", "records_league_career", "records_college", "records_hs", "records_scope_picker",
+	"records_team_picker", "records_cat_picker", "results_records", "kicking_season", "kicking_hs", "kicking_total",
 	"kicking_total_sections", "kicking_season_sections", "kicking_season_misc", "contract", "hall_of_fame", "retired", "pause", "toast", "gallery",
+	"standings", "schedule", "schedule_other", "divisions", "pick_team", "standings_picture", "standings_final",
+	"standings_bracket", "standings_pro", "schedule_pro", "divisions_pro", "standings_college",
 	"daily", "daily_popup", "daily_intro", "daily_kick", "daily_result", "daily_done", "daily_miss", "daily_missed",
 	"daily_miss_no_ad", "daily_failed", "daily_saver", "daily_locked"]
 
@@ -87,7 +90,7 @@ func _capture_all() -> void:
 	var ach := GameState.achievements
 	for i in mini(4, AchievementDefs.ALL.size()):
 		ach.unlocked[str(AchievementDefs.ALL[i]["id"])] = int(Time.get_unix_time_from_system()) - i * 86400
-	_m = CareerManager.create(3, "Jordan Reyes", 7, {"skin": 2, "hair": 1}, "ridgeline")
+	_m = CareerManager.create(3, "Jordan Reyes", 7, {"skin": 2, "hair": 1})
 	_m.rng.seed = 5
 	GameState.career = _m
 	var c := _m.data
@@ -154,6 +157,7 @@ func _capture_all() -> void:
 	await _hud_shots()
 	_m.finish_game(_sim._play_game(_m))
 	await _shot("results", Screens.CAREER_RESULTS)
+	await _league_shots()
 	await _shot("career_stats", Screens.CAREER_STATS)
 	await _shot("skills", Screens.CAREER_SKILLS, func() -> void: c.skill_points = maxi(c.skill_points, 14))
 	# Perks tab: a few attributes high enough that some perks are available.
@@ -208,7 +212,14 @@ func _capture_all() -> void:
 		await _capture("toast")
 		Toast.visible = false
 
+	_advance(func() -> bool: return c.phase == CareerManager.PHASE_WEEK_START and c.week >= 8)
+	await _shot("standings_picture", Screens.CAREER_STANDINGS)
 	_advance(func() -> bool: return c.phase == CareerManager.PHASE_SEASON_END)
+	await _shot("standings_final", Screens.CAREER_STANDINGS)
+	if _want("standings_bracket"):
+		await _open(Screens.CAREER_STANDINGS)
+		await _scroll_down(6000)
+		await _capture("standings_bracket")
 	await _shot("season", Screens.CAREER_SEASON)
 	_advance(func() -> bool: return c.phase == CareerManager.PHASE_RECRUITING)
 	await _shot("recruiting", Screens.CAREER_RECRUITING)
@@ -219,11 +230,16 @@ func _capture_all() -> void:
 	_advance(func() -> bool: return c.stage == CareerData.STAGE_COLLEGE and c.week >= 3 \
 		and c.phase == CareerManager.PHASE_WEEK_START)
 	await _shot("hub_college", Screens.CAREER_HUB)
+	await _shot("standings_college", Screens.CAREER_STANDINGS)
 	_advance(func() -> bool: return c.phase == CareerManager.PHASE_DRAFT)
 	await _shot("draft", Screens.CAREER_DRAFT)
 	_advance(func() -> bool: return c.stage == CareerData.STAGE_PRO and c.week >= 3 \
 		and c.phase == CareerManager.PHASE_WEEK_START)
 	await _shot("hub_pro", Screens.CAREER_HUB)
+	await _shot("standings_pro", Screens.CAREER_STANDINGS)
+	await _shot("schedule_pro", Screens.CAREER_SCHEDULE)
+	await _shot("divisions_pro", Screens.CAREER_DIVISIONS)
+	await _records_shots()
 	# Stats: Season view, then Career with the HS and Total tabs.
 	var kicking: GDScript = load("res://scripts/ui/screens/career_kicking.gd")
 	await _shot("kicking_season", Screens.CAREER_KICKING, func() -> void: kicking.view = "season")
@@ -260,6 +276,86 @@ func _capture_all() -> void:
 	if c.phase == CareerManager.PHASE_HALL:
 		_m.finish_hall_of_fame()
 	await _shot("retired", Screens.CAREER_RETIRED)
+
+
+## League screens a few weeks in: standings, your schedule and another team's,
+## the divisions, the team picker.
+func _league_shots() -> void:
+	var league: GDScript = load("res://scripts/ui/screens/career_league.gd")
+	league.conf_shown = -1
+	league.team_shown = -1
+	await _shot("standings", Screens.CAREER_STANDINGS)
+	await _shot("schedule", Screens.CAREER_SCHEDULE)
+	await _shot("schedule_other", Screens.CAREER_SCHEDULE, func() -> void: league.team_shown = 0,
+		func() -> void: league.team_shown = -1)
+	await _shot("divisions", Screens.CAREER_DIVISIONS)
+	if _want("pick_team"):
+		await _open(Screens.CAREER_SCHEDULE)
+		var scr := get_tree().current_scene
+		if scr != null and scr.has_method("_pick_team"):
+			scr._pick_team()
+			await _wait(0.6)
+			await _capture("pick_team")
+## Records Book: your pro team's list, the pro league's career top 50, your
+## college team, the high school league, the scope / team / category pickers,
+## and new records on the Results screen.
+func _records_shots() -> void:
+	var rec: GDScript = load("res://scripts/ui/screens/career_records.gd")
+	rec.level = ""
+	rec.scope = {}
+	rec.span = RecordBook.SEASON
+	rec.cat = "fg_made"
+	await _shot("records", Screens.CAREER_RECORDS, Callable(), Callable(), 1.5)
+	await _shot("records_league_career", Screens.CAREER_RECORDS, func() -> void:
+		rec.scope[RecordBook.LEVEL_PRO] = "level"
+		rec.span = RecordBook.CAREER, Callable(), 1.5)
+	await _shot("records_college", Screens.CAREER_RECORDS, func() -> void:
+		rec.level = RecordBook.LEVEL_COLLEGE
+		rec.cat = "points", Callable(), 1.5)
+	await _shot("records_hs", Screens.CAREER_RECORDS, func() -> void:
+		rec.level = RecordBook.LEVEL_HS
+		rec.scope[RecordBook.LEVEL_HS] = "level"
+		rec.span = RecordBook.SEASON
+		rec.cat = "long", Callable(), 1.5)
+	rec.level = RecordBook.LEVEL_PRO
+	rec.cat = "fg_made"
+	if _want("records_scope_picker"):
+		await _open(Screens.CAREER_RECORDS, 1.5)
+		get_tree().current_scene._pick_scope()
+		await _wait(0.6)
+		await _capture("records_scope_picker")
+	if _want("records_team_picker"):
+		rec.level = RecordBook.LEVEL_COLLEGE
+		rec.scope[RecordBook.LEVEL_COLLEGE] = "team:" + str(RecordBook.record_teams(RecordBook.LEVEL_COLLEGE)[0]["id"])
+		await _open(Screens.CAREER_RECORDS, 1.5)
+		get_tree().current_scene._pick_scope()
+		await _wait(0.6)
+		await _capture("records_team_picker")
+		rec.level = RecordBook.LEVEL_PRO
+	if _want("records_cat_picker"):
+		await _open(Screens.CAREER_RECORDS, 1.5)
+		get_tree().current_scene._pick_cat()
+		await _wait(0.6)
+		await _capture("records_cat_picker")
+	rec.level = ""
+	rec.scope = {}
+	rec.span = RecordBook.SEASON
+	rec.cat = "fg_made"
+	if _want("results_records"):
+		var c := _m.data
+		var keep := {"phase": c.phase, "pending": c.records.get("pending", [])}
+		var key := "team:" + str(c.team.get("id", ""))
+		var ev := {"kind": "record", "headline": "NEW RECORD", "level": RecordBook.LEVEL_PRO, "scope": key,
+			"scope_name": str(c.team.get("name", "")), "scope_kind": "team", "span": RecordBook.SEASON,
+			"cat": "long", "value": 61.0, "value_text": "61 yd", "rank": 1}
+		var ent := ev.duplicate()
+		ent.merge({"kind": "entered", "headline": "Entered top 25", "cat": "fg_made", "value_text": "28",
+			"rank": 7}, true)
+		c.records["pending"] = [ev, ent]
+		c.phase = CareerManager.PHASE_RESULTS
+		await _shot("results_records", Screens.CAREER_RESULTS)
+		c.phase = keep["phase"]
+		c.records["pending"] = keep["pending"]
 
 
 ## Followers: the Hub chip and a viral notice, Results lines, the Stats

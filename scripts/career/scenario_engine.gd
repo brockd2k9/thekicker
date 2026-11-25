@@ -324,6 +324,12 @@ static func apply_effects(c: CareerData, ch: Dictionary, tuning: CareerTuning, r
 	var sp := SkillPoints.from_choice(c, float(ch.get("skill_points", 0)), tuning) \
 		if ch.has("skill_points") else 0
 	var progress := progress_changes(ch, tuning)
+	# In-season choices come every week: a longer season has more of them, so
+	# their progress counts season_scale as much (offseason ones don't change).
+	if c.phase != "offseason":
+		var sc := tuning.season_scale(c.stage)
+		for k in progress:
+			progress[k] = float(progress[k]) * sc
 	if progress_tally is Dictionary:
 		for k in progress:
 			progress_tally[k] = float(progress_tally.get(k, 0.0)) + float(progress[k])

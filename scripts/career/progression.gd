@@ -58,8 +58,8 @@ static func recruiting_gain(c: CareerData, t: CareerTuning) -> float:
 	var pct := (fg_pct(s) - 0.65) * 100.0 if int(s.get("fg_att", 0)) > 0 else -5.0
 	var g := t.recruiting_base + t.recruiting_fg_pct * pct \
 		+ t.recruiting_long * maxf(float(s.get("long", 0)) - 35.0, 0.0) \
-		+ t.recruiting_record * (int(c.record["w"]) - int(c.record["l"])) \
-		+ t.recruiting_leg * (_leg(c) - 50.0) \
+		+ t.recruiting_record * (int(c.record["w"]) - int(c.record["l"])) * t.season_scale(c.stage) \
+		+ t.recruiting_leg * (_leg(c) - t.recruiting_leg_from) \
 		+ t.recruiting_range * maxf(KickRange.fg_range(c, t) - t.recruiting_range_from, 0.0)
 	return w * g + trait_bonus(c, "recruiting") + coach_rec(c, t)
 
@@ -78,7 +78,7 @@ static func draft_gain(c: CareerData, t: CareerTuning) -> float:
 	var pct := (fg_pct(s) - 0.7) * 100.0 if int(s.get("fg_att", 0)) > 0 else -5.0
 	var g := t.draft_base + t.draft_fg_pct * pct \
 		+ t.draft_long * maxf(float(s.get("long", 0)) - 40.0, 0.0) \
-		+ t.draft_record * (int(c.record["w"]) - int(c.record["l"])) \
+		+ t.draft_record * (int(c.record["w"]) - int(c.record["l"])) * t.season_scale(c.stage) \
 		+ t.draft_leg * (_leg(c) - t.draft_leg_from) \
 		+ t.draft_range * maxf(KickRange.fg_range(c, t) - t.draft_range_from, 0.0)
 	var exposure := float(tier(str(c.team.get("tier", "mid"))).get("exposure", 1.0))
@@ -88,10 +88,11 @@ static func draft_gain(c: CareerData, t: CareerTuning) -> float:
 ## Pro retention (0-100) for the season just played.
 static func retention(c: CareerData, t: CareerTuning) -> float:
 	var s := c.season_stats
-	var pct := (fg_pct(s) - t.retention_fg_ref) * 100.0 if int(s.get("fg_att", 0)) > 0 else 0.0
+	var pct := (fg_pct(s) - t.retention_fg_ref) * 100.0 * t.season_pct_weight(c.stage) \
+		if int(s.get("fg_att", 0)) > 0 else 0.0
 	var r := 50.0 + t.retention_fg_pct * pct \
 		+ t.retention_long * maxf(float(s.get("long", 0)) - 45.0, 0.0) \
-		+ t.retention_clutch * int(s.get("game_winners", 0)) \
+		+ t.retention_clutch * int(s.get("game_winners", 0)) * t.season_scale(c.stage) \
 		- t.retention_age * maxf(float(c.age) - 32.0, 0.0) \
 		+ t.retention_range * maxf(KickRange.fg_range(c, t) - t.retention_range_from, 0.0) \
 		+ c.retention_bonus + trait_bonus(c, "retention") + Reputation.retention_adjust(c, t)
@@ -161,7 +162,7 @@ static func update_offers(c: CareerData, rng: RandomNumberGenerator) -> Dictiona
 		if not gpa_ok(c, tier_id):
 			out["blocked_by_gpa"].append(tier_id)
 			continue
-		var schools := CareerContent.colleges().filter(func(s: Dictionary) -> bool:
+		var schools := TeamDatabase.colleges().filter(func(s: Dictionary) -> bool:
 			return s.get("tier", "") == tier_id and not have.has(str(s["id"])))
 		# The most interested schools offer first (school_interest), so the
 		# Recruiting screen's order and the offers agree. The shuffle only
@@ -232,7 +233,7 @@ static func fallback_options(c: CareerData, t: CareerTuning) -> Array:
 	for tier_id in ["mid", "small"]:
 		if not gpa_ok(c, tier_id):
 			continue
-		var schools := CareerContent.colleges().filter(func(s: Dictionary) -> bool:
+		var schools := TeamDatabase.colleges().filter(func(s: Dictionary) -> bool:
 			return s.get("tier", "") == tier_id and not offered.has(str(s["id"])) \
 				and not (str(s["id"]) in c.flags.get("failed_tryouts", [])))
 		if not schools.is_empty():
@@ -248,7 +249,7 @@ static func fallback_options(c: CareerData, t: CareerTuning) -> Array:
 ## {round (0 = undrafted), kind: drafted / camp / open, team, team_name}.
 static func draft(c: CareerData, rng: RandomNumberGenerator) -> Dictionary:
 	var d: Dictionary = rules().get("draft", {})
-	var clubs := CareerContent.pro_clubs()
+	var clubs := TeamDatabase.pro_teams()
 	var club: Dictionary = clubs[rng.randi_range(0, clubs.size() - 1)]
 	# Character on draft day (Reputation): concerns cost stock; rebuilt clears it.
 	var adj := Reputation.draft_adjust(c, CareerTuning.get_default())
@@ -268,7 +269,7 @@ static func draft(c: CareerData, rng: RandomNumberGenerator) -> Dictionary:
 ## A contract dict: {team, team_name, years_left, salary, how}.
 static func contract(team_id: String, how: String, round_n: int = 0, years := 0, salary := 0) -> Dictionary:
 	var k: Dictionary = rules().get("contracts", {})
-	var club := CareerContent.team_by_id(team_id)
+	var club := TeamDatabase.team(team_id)
 	match how:
 		"drafted":
 			years = int(k.get("rookie_years", {}).get(str(round_n), 3))
@@ -299,12 +300,14 @@ static func money(n: int) -> String:
 
 # --- teams and games ------------------------------------------------------------------
 
-## A team dict for CareerData.team / opponents from any world.json entry.
+## A team dict for CareerData.team / opponents from a TeamDatabase team
+## record (saved with the career, so it stays readable if the data changes).
 static func team_from(s: Dictionary, level: String) -> Dictionary:
 	var out := {"id": s.get("id", ""), "name": s.get("name", "Team"), "mascot": s.get("mascot", ""),
 		"short": s.get("short", "???"), "town": s.get("town", ""),
 		"colors": s.get("colors", ["#1f3a8a", "#f2b632"]), "strength": float(s.get("strength", 50)),
-		"tier": s.get("tier", ""), "level": level}
+		"tier": s.get("tier", ""), "division": s.get("division", ""), "conference": s.get("conference", ""),
+		"level": level}
 	# Optional (story data): stadium capacity and name (Stadiums).
 	for k in ["capacity", "stadium"]:
 		if s.has(k):
@@ -318,13 +321,13 @@ static func opponents(c: CareerData) -> Array:
 	match c.stage:
 		CareerData.STAGE_COLLEGE:
 			# Mostly your own tier, a few from the others.
-			pool = CareerContent.colleges()
+			pool = TeamDatabase.colleges()
 		CareerData.STAGE_JUCO:
-			pool = CareerContent.jucos()
+			pool = TeamDatabase.jucos()
 		CareerData.STAGE_PRO:
-			pool = CareerContent.pro_clubs()
+			pool = TeamDatabase.pro_teams()
 		_:
-			pool = CareerContent.high_schools()
+			pool = TeamDatabase.high_schools()
 	return pool.filter(func(s: Dictionary) -> bool: return s.get("id", "") != c.team.get("id", ""))
 
 

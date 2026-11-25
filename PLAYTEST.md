@@ -135,6 +135,87 @@ Stage 6: leadership leaners 1.1 by the end of high school (3% have none, was 28%
 Knobs: `personality_change_scale` (0.30), trait thresholds in `data/career/traits.json`,
 personality numbers in the scenario files.
 
+## Postseason
+
+Numbers: `tuning/postseason.tres` (`PostseasonConfig`). Who gets in is decided by the league (see
+"Leagues" below): the standings against every other team, with a limited number of spots. Rounds:
+high school 4 (ending in the State Championship), junior college 2, college 4 (National
+Championship) or one bowl game, pro 4 (Gridiron Championship). Each game is one more week of the
+normal loop, appended only after a win; a loss ends the season. Postseason games can't tie (overtime
+continues), add `pressure_bonus` 0.12 + 0.04 per round + 0.1 in the final, and face the bracket's
+real opponent (+2 strength per round). They don't count in the regular-season record (which
+recruiting / draft read); wins and a title add to the season's recruiting / draft gain or pro
+retention, and a title pays 6 skill points. (Without a league or league results, as in a test that
+sets the record by hand, the old record rule still applies: win share >= 0.6 / 0.7 / 0.5 bowl.)
+
+Flags for scenarios (reset each season): `made_playoffs`, `bowl_game`, `in_postseason`,
+`championship_game`, `eliminated`, `missed_postseason`, `won_championship`, and from the league
+`division_champion`, `conference_champion` (college title game won), `conference_title_game` (this
+week). Metrics (career): `playoff_appearances`, `championships`, `postseason_wins`.
+
+## Leagues
+
+Numbers: `tuning/league.tres` (`LeagueConfig`). Rules: `scripts/career/league.gd`. The teams are
+the team database's only (`data/teams/`, `TeamDatabase`): no made-up teams. One league per stage,
+made new when the stage changes (or a college player moves to another level); team strength
+drifts up to 4 a season (and 10% back toward the average).
+
+| Stage | Teams | Schedule (games + 1 bye) | Who gets in |
+|---|---|---|---|
+| High school | your 21 schools, one conference | 10 games, all in the conference (21 is odd: one school sits each week) | top 8: state quarterfinal, semifinal, State Championship |
+| Junior college | the 6 junior colleges | 10 games: twice through the other five | top 4: Region Playoff, Junior College Championship |
+| College | the player's level only: FBS 138, FCS 128 or D2 160, in its conferences (the conference is the division) | 12 games: 8 in the conference (fewer in small ones), the rest outside it | top two of each conference (6+ teams, not "Independents") play its title game; playoff by level: FBS 24 (best 5 conference champions guaranteed; top 8 seeds skip the First Round, then Second Round, Quarterfinal, Semifinal, National Championship), FCS 8 and D2 8 (best 3 champions guaranteed; Quarterfinal on); bowls for the next 32 at .500+ |
+| Pro | the 32 clubs: AFC / NFC, 8 divisions of 4 | 17 games: 6 in the division (home and away), 6 in the conference, 5 outside | 4 division winners + 3 wild cards per conference; #1 seed gets a bye |
+
+Schedules are built each season for every team: division round robins first, then pairings by need
+(no repeat opponents outside the division), then weeks found by a min-conflicts search that also
+moves byes into weeks 4-8 (Kempe-chain swaps). Every other game is simulated at the end of its week
+from the two strengths (`sim_*`: about 7 points of margin per 10 strength, 9-point spread, home edge
+2, a level game stays tied 30% of the time where ties exist). Tiebreakers (one function,
+`League.break_tie`): head-to-head (only if every tied team played one of the others), division
+record (same division), conference record (same conference), point differential, then a fixed coin
+flip; once a step splits a group, each part starts again from head-to-head. College ranking: win
+share x 100 + 0.6 per point of average opponent strength above 50 + 5 for conference champions.
+
+Screens: Hub -> League (Standings, Schedule, Divisions) and Results -> Standings. The playoff
+picture (seeds, the line, the first 3 out) shows from week 6. The save keeps only the schedule and
+scores, packed as base64 bytes (high school about 1 KB, pro about 3 KB, a 160-team D2 league about
+10 KB); standings are worked out from them. Saves from before leagues get one on load, fitted
+around the schedule being played (same opponents and byes, finished weeks simulated).
+
+**Simulator (careers=8, seed=1), share of seasons:** high school 24% playoffs; college 10% playoff +
+18% bowl; pro 32% playoffs.
+
+To playtest:
+- Does the playoff picture feel fair late in the season? A winning record can miss (a strong
+  conference, a pro wild-card race); a weak division can let a .500 team in. That's intended.
+- Playoff sizes (set): high school top 8, junior college top 4, FBS 24, FCS 8, D2 8
+  (`hs_qualifiers_per_division`, `juco_qualifiers_per_division`, `college_playoff_field_fbs/fcs/d2`).
+- College: guaranteed conference champions (FBS 5, FCS 3, D2 3: `college_auto_bids_*`) and 32 bowl
+  slots per level are first guesses.
+- Pro top seed bye: the first postseason game is the Divisional Round (no idle week).
+
+## Leveling: costs and stage caps
+
+Numbers: `tuning/leveling.tres` (`LevelingConfig`). Overall rating = the average of Power, Accuracy,
+Resilience and Toughness. An upgrade costs `ceil(cost_base + cost_scale * (L/100)^cost_exponent)`:
+the defaults 2 / 36 / 2.6 give 4 SP at 30, 8 at 50, 17 at 70, 30 at 90 (the old curve: 2 / 3 / 6 / 12).
+Caps (overall / one attribute): high school 55 / 65, college and JUCO 78 / 88, pro 100 / 100. They
+stop upgrades and every stat gain, and are clamped again at each season end. Saves over the caps are
+clamped when they load, the removed points are refunded at today's prices (`clamp_refund_mult`), and
+the Hub shows a notice. Grants all go through `SkillPoints.earn()` (`purchase()` for bought points);
+prices only through `SkillPoints.cost_at()`.
+
+Thresholds recentred for the lower stats (`career_tuning.tres`): `recruiting_leg_from` 50 -> 42 (new),
+`recruiting_range_from` 45 -> 41, `draft_leg_from` 50 -> 42, `draft_range_from` 50 -> 44,
+`draft_base` 9.5 -> 11, `retention_range_from` 55 -> 49, `retention_fg_ref` 0.66 -> 0.60. Draft
+rounds and `udfa_min` (`progression.json`) are unchanged.
+
+**Simulator (careers=20, seed=1), before -> after:** pro 69% -> 47%, drafted 33% -> 21%, pro
+seasons per pro career 6.8 -> 4.7, draft score at the end of college 52 -> ~45, FG range end of HS /
+college 49 / 54 -> 45 / 48.5, pro career FG% 61% -> 54%. Harder by design. If the pros feel out of
+reach, lower `cost_scale` first, then `draft_base` / the round minimums.
+
 ## Skill points, range and kick trust (Step 2)
 
 Built: skill points (earned on the field and in practice, spent on the Skills screen), field goal

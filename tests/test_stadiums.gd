@@ -72,10 +72,12 @@ func test_night_share_and_stable() -> void:
 func test_away_games_at_the_opponents_stadium() -> void:
 	var small: Dictionary = {}
 	var big: Dictionary = {}
+	# The smallest small-tier stadium and the biggest top-tier one (stadiums are
+	# placed by capacity when a team has one).
 	for s in CareerContent.colleges():
-		if s.get("tier", "") == "small" and small.is_empty():
+		if s.get("tier", "") == "small" and (small.is_empty() or Stadiums._capacity(s) < Stadiums._capacity(small)):
 			small = s
-		if s.get("tier", "") == "top" and big.is_empty():
+		if s.get("tier", "") == "top" and (big.is_empty() or Stadiums._capacity(s) > Stadiums._capacity(big)):
 			big = s
 	var c := _career(CareerData.STAGE_COLLEGE, small)
 	var opp := Progression.team_from(big, CareerData.STAGE_COLLEGE)

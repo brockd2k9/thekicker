@@ -96,15 +96,27 @@ static func world() -> Dictionary:
 	return file("world.json")
 
 
+# Team lists: pass-throughs to the team database (TeamDatabase, data/teams),
+# which holds every team. Kept for the systems and tests written against them.
+
 static func high_schools() -> Array:
-	return world().get("high_school", {}).get("schools", [])
+	return TeamDatabase.high_schools()
 
 
-static func school(id: String) -> Dictionary:
-	for s in high_schools():
-		if s.get("id", "") == id:
-			return s
-	return {}
+static func colleges() -> Array:
+	return TeamDatabase.colleges()
+
+
+static func jucos() -> Array:
+	return TeamDatabase.jucos()
+
+
+static func pro_clubs() -> Array:
+	return TeamDatabase.pro_teams()
+
+
+static func team_by_id(id: String) -> Dictionary:
+	return TeamDatabase.team(id)
 
 
 static func stats_info() -> Dictionary:
@@ -113,27 +125,6 @@ static func stats_info() -> Dictionary:
 
 static func progression() -> Dictionary:
 	return file("progression.json")
-
-
-static func colleges() -> Array:
-	return world().get("college", {}).get("schools", [])
-
-
-static func jucos() -> Array:
-	return world().get("juco", {}).get("schools", [])
-
-
-static func pro_clubs() -> Array:
-	return world().get("pro", {}).get("clubs", [])
-
-
-## Any team by id: high school, college, junior college or pro club.
-static func team_by_id(id: String) -> Dictionary:
-	for list in [high_schools(), colleges(), jucos(), pro_clubs()]:
-		for s in list:
-			if s.get("id", "") == id:
-				return s
-	return {}
 
 
 static func game_day() -> Dictionary:
@@ -406,6 +397,11 @@ const ENGINE_FLAGS := ["walk_on", "juco", "failed_tryouts", "fa_attempts", "recr
 	"traits_reported", "kicking_slump", "kick_slumps", "coach_lost_faith", "benched", "benched_for_tyler",
 	"won_job_back", "lost_audition", "contract_year", "re_signed", "released", "signed_new_club", "pro_clubs",
 	"was_dismissed", "reputation_week", "reputation_text",
+	# Postseason (Postseason): reset each season.
+	"made_playoffs", "bowl_game", "in_postseason", "championship_game", "eliminated", "missed_postseason",
+	"won_championship",
+	# League (League.qualification): reset each season.
+	"division_champion", "conference_champion", "conference_title_game",
 	# Set at retirement for the closing scenes (CareerManager._retirement_flags, HallOfFame.set_flags).
 	"retired_by_choice", "retired_out_of_football", "retired_released", "retired_unsigned",
 	"hall_of_fame_earned", "hall_of_fame_tier", "hof_ring_of_honor", "hof_finalist", "hof_inducted",

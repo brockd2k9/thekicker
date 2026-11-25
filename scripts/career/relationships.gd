@@ -322,9 +322,9 @@ static func advance_tyler(c: CareerData, next_stage: String) -> void:
 	if next_stage == CareerData.STAGE_COLLEGE:
 		var talent := r.randf()
 		var tier_id := "top" if talent > 0.75 else ("mid" if talent > 0.25 else "small")
-		pool = CareerContent.colleges().filter(func(s: Dictionary) -> bool: return s.get("tier", "") == tier_id)
+		pool = TeamDatabase.colleges().filter(func(s: Dictionary) -> bool: return s.get("tier", "") == tier_id)
 	else:
-		pool = CareerContent.pro_clubs()
+		pool = TeamDatabase.pro_teams()
 	if pool.is_empty():
 		return
 	var s: Dictionary = pool[r.randi_range(0, pool.size() - 1)]
@@ -367,7 +367,7 @@ static func schedule_tyler(c: CareerData, schedule: Array) -> void:
 		if str(schedule[i].get("opponent", {}).get("id", "")) == str(tt["id"]):
 			return
 		last = i
-	var team := CareerContent.team_by_id(str(tt["id"]))
+	var team := TeamDatabase.team(str(tt["id"]))
 	if last >= 0 and not team.is_empty():
 		schedule[last]["opponent"] = Progression.team_from(team, c.stage)
 

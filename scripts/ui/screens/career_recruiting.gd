@@ -88,7 +88,7 @@ func _choice(col: VBoxContainer) -> void:
 		match str(opt["kind"]):
 			"offer":
 				var off: Dictionary = opt["offer"]
-				var s := CareerContent.team_by_id(str(off["school"]))
+				var s := TeamDatabase.team(str(off["school"]))
 				v.add_child(_stripe(s))
 				v.add_child(UiKit.label("%s %s" % [s.get("name", ""), s.get("mascot", "")], 32, UiKit.TEXT, UiTokens.FONT_DISPLAY))
 				v.add_child(UiKit.label("%s  -  %s" % [Progression.OFFER_NAMES.get(str(off["type"]), ""),
@@ -127,7 +127,7 @@ static func _stripe(s: Dictionary) -> HBoxContainer:
 
 
 func _offer_panel(off: Dictionary) -> PanelContainer:
-	var s := CareerContent.team_by_id(str(off.get("school", "")))
+	var s := TeamDatabase.team(str(off.get("school", "")))
 	var cols: Array = s.get("colors", [])
 	var parts := UiKit.card(Color.from_string(str(cols[0]), UiKit.ACCENT) if not cols.is_empty() else UiKit.ACCENT, 6)
 	var p: PanelContainer = parts[0]
@@ -147,6 +147,7 @@ func _offer_panel(off: Dictionary) -> PanelContainer:
 	tags.add_child(UiKit.chip(str(Progression.OFFER_NAMES.get(str(off.get("type", "")), "")), UiKit.GOOD if full else UiKit.ACCENT,
 		full, "", 22))
 	tags.add_child(UiKit.chip(str(Progression.tier(str(off.get("tier", ""))).get("name", "")), UiKit.MUTED, false, "", 22))
+	tags.add_child(UiKit.chip(CareerUi.league_line(s), UiKit.MUTED, false, "", 22))
 	return p
 
 

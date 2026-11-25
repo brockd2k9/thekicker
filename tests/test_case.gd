@@ -24,3 +24,23 @@ func eq(actual: Variant, expected: Variant, msg: String) -> void:
 static func fixture(name: String) -> Dictionary:
 	var d: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://tests/fixtures/" + name))
 	return d if d is Dictionary else {}
+
+
+## `people` as JSON without Tyler's team: save version 10 moves old team ids to
+## the team database (test_team_database.gd checks that part), so frozen-save
+## tests compare the rest of the cast exactly.
+static func people_json(people: Dictionary) -> String:
+	var p := people.duplicate(true)
+	for k in p:
+		if p[k] is Dictionary:
+			(p[k] as Dictionary).erase("team")
+	return JSON.stringify(p)
+
+
+## `history` as JSON without each season's team_id (added by save version 12).
+static func history_json(history: Array) -> String:
+	var h := history.duplicate(true)
+	for row in h:
+		if row is Dictionary:
+			(row as Dictionary).erase("team_id")
+	return JSON.stringify(h)

@@ -12,7 +12,17 @@ func _build(col: VBoxContainer) -> void:
 	var list := UiKit.scroll_list(col)
 	list.add_child(UiKit.stat_row("Record", "%d-%d%s" % [int(c.record["w"]), int(c.record["l"]),
 		("-%d" % int(c.record["t"])) if int(c.record["t"]) > 0 else ""], UiKit.ACCENT))
+	var post := Postseason.summary_text(c.postseason)
+	if post != "":
+		var ps := c.postseason
+		var rec := " (%d-%d)" % [int(ps.get("w", 0)), int(ps.get("l", 0))] if not (ps.get("games", []) as Array).is_empty() else ""
+		list.add_child(UiKit.stat_row("Postseason", post + rec,
+			UiKit.GOOD if str(ps.get("status", "")) in ["champion", "bowl_won"] else UiKit.MUTED))
 	_stat_rows(list, c.season_stats)
+	var rec := CareerUi.record_events(c)
+	if rec != null:
+		list.add_child(rec)
+		career.save()
 	if Reputation.is_dismissed(c):
 		list.add_child(UiKit.label(Reputation.dismissed_text(c), 26, UiKit.BAD))
 	if Progression.is_poor_season(c, career.tuning):
