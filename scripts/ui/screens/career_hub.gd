@@ -88,8 +88,10 @@ func _header() -> Control:
 	var team_col := Color.from_string(str((c.team.get("colors", []) as Array).front() if not
 		(c.team.get("colors", []) as Array).is_empty() else ""), Brand.GREY)
 	var card := BrandUi.card("raised", team_col)
-	var when := "Offseason" if c.week == 0 else "Week %d of %d" % [mini(c.week, career.weeks_in_season()),
-		career.weeks_in_season()]
+	var when := "Offseason" if c.week == 0 else "Week %d of %d" % [mini(c.week, career.regular_weeks()),
+		career.regular_weeks()]
+	if c.week > 0 and career.is_postseason():
+		when = str(career.entry().get("round_name", "Postseason"))
 	card.content.add_child(BrandUi.text("#%d  ·  %s  ·  Season %d  ·  %s  ·  %s" % [int(c.player.get("number", 0)),
 		career.stage_name(), c.season, career.class_year(), when], "Eyebrow"))
 	card.content.add_child(BrandUi.text(c.display_name(), "Title"))
@@ -234,6 +236,9 @@ func _next_card() -> BrandCard:
 	elif c.phase == CareerManager.PHASE_SEASON_END:
 		kicker.text = "Season over"
 		big.text = "Final record %d-%d" % [int(c.record["w"]), int(c.record["l"])]
+		var post := Postseason.summary_text(c.postseason)
+		if post != "":
+			big.text += "\n" + post
 	elif c.phase == CareerManager.PHASE_OFFSEASON:
 		kicker.text = "Offseason"
 		big.text = "Get ready for next season."
@@ -245,6 +250,10 @@ func _next_card() -> BrandCard:
 		var opp: Dictionary = e.get("opponent", {})
 		var home: bool = e.get("home", true)
 		kicker.text = "This week"
+		if career.is_postseason():
+			kicker.text = "%s  ·  %s" % [str(e.get("round_name", "Postseason")),
+				"For the title" if e.get("final", false) else "Win or go home"]
+			kicker.add_theme_color_override("font_color", Brand.RED_HOT)
 		head.add_child(BrandUi.chip("Home" if home else "Away", "outline"))
 		var sp := Control.new()
 		sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL

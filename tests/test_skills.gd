@@ -130,9 +130,10 @@ func test_touchback_check() -> void:
 # --- skill points ---------------------------------------------------------------------
 
 func test_upgrade_costs_and_purchase() -> void:
+	var g := Leveling.config()
 	for lvl in [30, 50, 70, 90]:
-		eq(SkillPoints.cost_at(lvl, t), int(ceilf(t.upgrade_cost_base + t.upgrade_cost_scale
-			* pow(lvl / 100.0, t.upgrade_cost_exp))), "cost at %d" % lvl)
+		eq(SkillPoints.cost_at(lvl, t), int(ceilf(g.cost_base + g.cost_scale
+			* pow(lvl / 100.0, g.cost_exponent))), "cost at %d" % lvl)
 	check(SkillPoints.cost_at(90, t) > SkillPoints.cost_at(70, t) and SkillPoints.cost_at(70, t) > SkillPoints.cost_at(30, t),
 		"cost rises with the level")
 	var c := _career()

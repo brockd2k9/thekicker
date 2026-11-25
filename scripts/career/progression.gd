@@ -59,7 +59,7 @@ static func recruiting_gain(c: CareerData, t: CareerTuning) -> float:
 	var g := t.recruiting_base + t.recruiting_fg_pct * pct \
 		+ t.recruiting_long * maxf(float(s.get("long", 0)) - 35.0, 0.0) \
 		+ t.recruiting_record * (int(c.record["w"]) - int(c.record["l"])) \
-		+ t.recruiting_leg * (_leg(c) - 50.0) \
+		+ t.recruiting_leg * (_leg(c) - t.recruiting_leg_from) \
 		+ t.recruiting_range * maxf(KickRange.fg_range(c, t) - t.recruiting_range_from, 0.0)
 	return w * g + trait_bonus(c, "recruiting") + coach_rec(c, t)
 

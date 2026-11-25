@@ -16,7 +16,11 @@ func _build(col: VBoxContainer) -> void:
 	var kt: KickTuning = load(KICK_TUNING)
 	var home: bool = e.get("home", true)
 
-	col.add_child(UiKit.title_block("Game Day", "Week %d  ·  %s" % [c.week, "Home" if home else "Away"]))
+	var post := career.is_postseason()
+	var sub := "Week %d  ·  %s" % [c.week, "Home" if home else "Away"]
+	if post:
+		sub = "%s  ·  %s" % [str(e.get("round_name", "Postseason")), "Home" if home else "Away"]
+	col.add_child(UiKit.title_block("Game Day", sub))
 	var board := CareerUi.scoreboard(c.team, opp, "%d-%d" % [int(c.record["w"]), int(c.record["l"])],
 		CareerScreen.strength_word(float(opp.get("strength", 50))).to_upper(), "VS" if home else "AT",
 		"KICKOFF", 52)
@@ -30,6 +34,10 @@ func _build(col: VBoxContainer) -> void:
 		false, "home" if home else "next", 24))
 	col.add_child(chips)
 
+	if post:
+		col.add_child(UiKit.label("%s Win and you %s. Lose and your season is over. Every kick counts more: no ties." % [
+			"POSTSEASON." if not e.get("final", false) else "THE FINAL.",
+			"are champions" if e.get("final", false) else "advance"], 24, UiKit.ACCENT))
 	var bb := CareerUi.bench_banner(c, career.tuning, false)
 	if bb != null:
 		col.add_child(bb)
@@ -54,7 +62,7 @@ func _build(col: VBoxContainer) -> void:
 	var base := floori(p.fg_range_base + 0.001)
 	var fg_text := "%d yd" % fg if fg == base else "%d yd  (%+d today)" % [fg, fg - base]
 	list.add_child(UiKit.stat_row("Field goal range", fg_text, UiKit.ACCENT, "range"))
-	var params := Progression.game_params(c, career.tuning)
+	var params := career.game_params()
 	list.add_child(UiKit.stat_row("Kickoff range", "%d yd%s" % [floori(p.kickoff_range + 0.001),
 		"  (touchback)" if KickRange.touchback_possible(p.kickoff_range, params, career.tuning) else ""],
 		Color(0, 0, 0, 0), "power"))
@@ -71,7 +79,8 @@ func _build(col: VBoxContainer) -> void:
 			w.get("cuts", []), w.get("words", ["?"])), Color(0, 0, 0, 0), key[2]))
 	list.add_child(UiKit.label(str(words.get("tip", "")), 22, UiKit.MUTED))
 	# This stage's overtime rule (a tie after four quarters).
-	list.add_child(UiKit.label(CareerManager.ot_rule_text(str(params.get("ot", "hs")), career.tuning), 22, UiKit.MUTED))
+	list.add_child(UiKit.label("Overtime: until someone wins (postseason)." if post else
+		CareerManager.ot_rule_text(str(params.get("ot", "hs")), career.tuning), 22, UiKit.MUTED))
 	UiKit.stagger(list, 0.04)
 
 	var play := UiKit.primary("Play Game", func() -> void:
