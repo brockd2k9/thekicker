@@ -450,7 +450,8 @@ func test_ad_service_selection() -> void:
 	t.ad_mode = "auto"
 	t.no_ads_platform = true
 	check(AdService.create(t) is NoAdService, "no-ads platform flag")
-	check(not MobileAdService.new().is_ready(AdService.RETRY), "the mobile placeholder reports not ready")
+	t.no_ads_platform = false
+	check(AdService.create(t) is ManagedAdService, "auto goes through AdManager")
 
 
 # --- saves ---------------------------------------------------------------------------------------

@@ -40,6 +40,7 @@ const UI_GALLERY := "res://scenes/screens/ui_gallery.tscn"
 ## Daily Challenge: streak, reward track and today's kick; and the kick itself.
 const DAILY := "res://scenes/screens/daily_challenge.tscn"
 const DAILY_KICK := "res://scenes/screens/daily_kick.tscn"
+const STORE := "res://scenes/screens/store.tscn"
 
 
 static func go(path: String) -> void:

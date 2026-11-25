@@ -258,4 +258,5 @@ func _create() -> void:
 	var m := CareerManager.create(slot, _name.text.strip_edges(), _number,
 		{"skin": _skin, "hair": _hair}, _school)
 	GameState.career = m
+	GameState.store_deliver()  # skill points bought before this career existed
 	Screens.go(Screens.CAREER_HUB)

@@ -3,6 +3,14 @@ extends CareerScreen
 ## projected stat changes (CareerStats.preview: the same rules that apply them)
 ## and the game-day modifiers it sets. Picking applies it, saves a checkpoint,
 ## and shows what happened.
+## A choice gated by an ad (MonetizationConfig.PRACTICE_50_CHOICES, e.g. "Stay
+## for all 50") says so on its card ("Watch an ad to choose this"), asks
+## before playing the ad, and is applied only when the reward is earned. With
+## no ad available it's free (PRACTICE_50_FREE_IF_NO_AD), decided when the
+## screen opens so it never flips from free to ad while you look at it.
+
+## Choice index -> AdManager.choice_gate() result, fixed when the screen is built.
+var _gates := {}
 
 
 func _build(col: VBoxContainer) -> void:
@@ -40,16 +48,26 @@ func _build(col: VBoxContainer) -> void:
 	var list := UiKit.scroll_list(col)
 	list.add_theme_constant_override("separation", 14)
 	var choices: Array = s.get("choices", [])
+	var sid := str(s.get("id", ""))
 	for i in choices.size():
 		var ch: Dictionary = choices[i]
 		var lock := ScenarioEngine.choice_lock(c, ch)
-		var parts := CareerUi.card(_pick.bind(i), lock == "")
+		var ad_gate := AdManager.choice_gate(sid, i)
+		_gates[i] = ad_gate
+		if lock == "" and ad_gate == "unavailable":
+			lock = "No ad available right now"
+		var parts := CareerUi.card(_pick_gated.bind(i) if ad_gate == "ad" else _pick.bind(i), lock == "")
 		var v: VBoxContainer = parts[1]
 		v.add_child(UiKit.label(CareerContent.fill(str(ch.get("label", "")), vars), 32,
 			UiKit.TEXT if lock == "" else UiKit.MUTED, UiTokens.FONT_DISPLAY))
 		if lock != "":
 			var req := UiKit.chip(CareerContent.fill(lock, vars), UiKit.WARN, false, "lock", 22)
 			v.add_child(req)
+		if ad_gate == "ad":
+			v.add_child(UiKit.chip("WATCH AN AD TO CHOOSE THIS", UiKit.ACCENT, true, "play", 22))
+			v.add_child(UiKit.label("Optional: the other choices are free.", 22, UiKit.MUTED))
+		elif ad_gate == "free" and AdManager.platform_has_ads() and not AdManager.ads_removed:
+			v.add_child(UiKit.chip("FREE TODAY: NO AD AVAILABLE", UiKit.GOOD, false, "check", 22))
 		var preview := CareerStats.preview(c, ScenarioEngine.scaled_stats(ch.get("stats", {}), career.tuning), career.tuning)
 		v.add_child(CareerUi.change_chips(preview))
 		var sp := roundi(float(ch.get("skill_points", 0)) * career.tuning.sp_scenario_scale)
@@ -73,6 +91,45 @@ func _build(col: VBoxContainer) -> void:
 	var left := c.pending_scenarios.size()
 	col.add_child(CareerUi.centered("%d more this week" % (left - 1) if left > 1 else "Tap a choice", 24,
 		UiKit.MUTED))
+
+
+## An ad-gated choice: ask first, play the rewarded ad, and apply the choice
+## only if the reward was earned. If the ad can't play and the free fallback
+## is on, the choice is applied anyway (a failed ad never blocks progress).
+func _pick_gated(index: int) -> void:
+	if get_node_or_null("Modal") != null:
+		return
+	var choice: Dictionary = career.current_scenario().get("choices", [])[index]
+	var label := CareerContent.fill(str(choice.get("label", "")), Relationships.text_vars(career.data))
+	var v := UiKit.modal(self, "Watch an ad?")
+	var t := UiKit.label("Watch a short ad to choose \"%s\". The other choices are free." % label, 30)
+	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(t)
+	var modal := UiKit.modal_root(v)
+	var note := UiKit.label("", 24, UiKit.MUTED)
+	note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	var watch := UiKit.primary("Watch an Ad to Choose This", func() -> void: pass, "play")
+	var back := UiKit.button("Not Now", func() -> void:
+		if modal != null:
+			modal.queue_free())
+	watch.pressed.connect(func() -> void:
+		watch.disabled = true
+		back.disabled = true
+		var ok: bool = await AdManager.show_rewarded(AdManager.PRACTICE_50)
+		# Closed early = no reward, no choice. Couldn't play = free fallback.
+		var failed := AdManager.last_rewarded_result == AdBackend.FAILED
+		if ok or (failed and MonetizationConfig.PRACTICE_50_FREE_IF_NO_AD):
+			if modal != null:
+				modal.name = "ClosingModal"  # _pick opens a new "Modal"
+				modal.queue_free()
+			_pick(index)
+			return
+		back.disabled = false
+		watch.disabled = not AdManager.is_rewarded_ready()
+		note.text = "No reward this time, so nothing was chosen. Pick again when you're ready.")
+	v.add_child(watch)
+	v.add_child(note)
+	v.add_child(back)
 
 
 func _pick(index: int) -> void:

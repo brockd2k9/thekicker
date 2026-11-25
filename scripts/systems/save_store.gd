@@ -6,9 +6,11 @@ extends RefCounted
 ##  Linux: ~/.local/share/godot/app_userdata/Kicker. macOS: ~/Library/Application
 ##  Support/Godot/app_userdata/Kicker.)
 ##
-## Layout (version 3):
-##   { "version": 3, "stats": {...}, "achievements": {...}, "settings": {...},
-##     "career": {"last_slot": 0}, "daily": {...} }
+## Layout (version 4):
+##   { "version": 4, "stats": {...}, "achievements": {...}, "settings": {...},
+##     "career": {"last_slot": 0}, "daily": {...}, "monetization": {...} }
+## "monetization" is app-wide ad / purchase state (AdManager.to_dict():
+## {"ads_removed": bool}); it never depends on a career.
 ## "daily" is the Daily Challenge (streak, today's attempt, claimed days,
 ## rewards waiting for a career, clock guard; see DailyChallenge.to_dict()).
 ## "career" only remembers the last-played career slot (for "Continue Career").
@@ -17,7 +19,7 @@ extends RefCounted
 ## When the layout changes: bump VERSION and add a step to _migrate().
 ## read_json() / write_json() are shared with CareerSave.
 
-const VERSION := 3
+const VERSION := 4
 const PATH := "user://kicker_save.json"
 
 
@@ -68,7 +70,7 @@ static func write_json(path: String, data: Dictionary) -> bool:
 
 func _empty() -> Dictionary:
 	return {"version": VERSION, "stats": {}, "achievements": {}, "settings": {},
-		"career": {"last_slot": 0}, "daily": {}}
+		"career": {"last_slot": 0}, "daily": {}, "monetization": {}}
 
 
 func _migrate(d: Dictionary) -> Dictionary:
@@ -86,9 +88,15 @@ func _migrate(d: Dictionary) -> Dictionary:
 		if not (d.get("daily") is Dictionary):
 			d["daily"] = {}
 		v = 3
+	# Version 3 -> 4: "monetization" (ads removed, later purchases). Older
+	# saves start with nothing bought.
+	if v < 4:
+		if not (d.get("monetization") is Dictionary):
+			d["monetization"] = {}
+		v = 4
 	if v > VERSION:
 		push_warning("SaveStore: save is from a newer version (%d)" % v)
-	for key in ["stats", "achievements", "settings", "daily"]:
+	for key in ["stats", "achievements", "settings", "daily", "monetization"]:
 		if not (d.get(key) is Dictionary):
 			d[key] = {}
 	if not (d.get("career") is Dictionary):

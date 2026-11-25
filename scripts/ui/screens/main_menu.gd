@@ -21,13 +21,16 @@ func _build(col: VBoxContainer) -> void:
 		["Achievements", Screens.ACHIEVEMENTS, "achievements"],
 		["Settings", Screens.SETTINGS, "settings"],
 	]
+	if StoreManager.is_available():  # hidden on Steam / builds without a store
+		items.insert(items.size() - 1, ["Store", Screens.STORE, "skill"])
 	if OS.is_debug_build():
 		items.append(["UI Gallery", Screens.UI_GALLERY, "settings"])  # the design system, for review
 	var buttons := VBoxContainer.new()
 	buttons.add_theme_constant_override("separation", 14)
 	col.add_child(buttons)
 	for it in items:
-		var b := UiKit.button(it[0], Screens.go.bind(it[1]), UiKit.SECONDARY, it[2])
+		var go := StoreScreen.open.bind(Screens.MAIN_MENU) if it[1] == Screens.STORE else Screens.go.bind(it[1])
+		var b := UiKit.button(it[0], go, UiKit.SECONDARY, it[2])
 		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		b.custom_minimum_size.y = 92
 		buttons.add_child(b)

@@ -174,6 +174,10 @@ func load_game() -> void:
 	var c: Variant = d.get("career")
 	career_data = c if c is Dictionary else {"last_slot": 0}
 	daily.from_dict(d.get("daily", {}) if d.get("daily") is Dictionary else {})
+	# App-wide ad / purchase state (AdManager and StoreManager load before this).
+	var mon: Dictionary = d.get("monetization", {}) if d.get("monetization") is Dictionary else {}
+	AdManager.from_dict(mon)
+	StoreManager.from_dict(mon.get("store", {}) if mon.get("store") is Dictionary else {})
 
 
 func save_game() -> void:
@@ -183,7 +187,41 @@ func save_game() -> void:
 		"settings": settings.to_dict(),
 		"career": career_data,
 		"daily": daily.to_dict(),
+		"monetization": _monetization_dict(),
 	})
+
+
+func _monetization_dict() -> Dictionary:
+	var m := AdManager.to_dict()
+	m["store"] = StoreManager.to_dict()
+	return m
+
+
+# --- store: bought skill points ---------------------------------------------------------
+
+## Adds bought skill points (StoreManager) to the open career, else the last
+## played one (never a retired one), and saves it. They're kept apart from the
+## points earned by playing (sp_sources "Store"; not in season / career
+## earned totals). Returns the career's name, or "" if there is none (then
+## StoreManager banks them).
+func store_grant_skill_points(n: int) -> String:
+	var c := _daily_career()
+	if c == null or n <= 0:
+		return ""
+	c.skill_points += n
+	c.sp_sources["Store"] = int(c.sp_sources.get("Store", 0)) + n
+	var ok := career.save() if career != null and career.data == c else CareerSave.save(c)
+	if not ok:
+		c.skill_points -= n
+		c.sp_sources["Store"] = int(c.sp_sources.get("Store", 0)) - n
+		return ""
+	return c.display_name()
+
+
+## Banked skill points (bought with no career) go to the career now open.
+## Call when a career is opened or created.
+func store_deliver() -> int:
+	return StoreManager.deliver_banked()
 
 
 # --- Daily Challenge -------------------------------------------------------------
@@ -194,6 +232,7 @@ func daily_refresh() -> void:
 	if daily.refresh(daily_tier()):
 		save_game()
 	daily_deliver()
+	store_deliver()
 
 
 ## The player's skill tier for a new day's challenge (DailyScenario.TIERS):

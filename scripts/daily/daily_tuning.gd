@@ -37,9 +37,10 @@ static var _cached: DailyTuning
 @export_group("Retry, ads and streak saver")
 ## Rewarded-ad retries per day after a miss.
 @export var ad_retries_per_day: int = 1
-## "auto": mobile -> the mobile ad SDK (unavailable until one is plugged in),
-## Steam (feature tag "steam") or no_ads_platform -> no ads, other debug
-## builds -> the stub; "stub": always the stub; "none": never ads.
+## "auto": through the AdManager autoload (AdMob on phones, Mock in the editor
+## and desktop debug, None on Steam / desktop release; rules and IDs in
+## MonetizationConfig); "stub": always the instant stub (no AdManager);
+## "none": never ads.
 @export_enum("auto", "stub", "none") var ad_mode: String = "auto"
 ## Force the "no ads" platform behavior (e.g. a Steam build without the tag).
 @export var no_ads_platform: bool = false
@@ -49,8 +50,8 @@ static var _cached: DailyTuning
 ## The streak saver: after ONE missed day, restore the streak with a rewarded
 ## ad on the day you come back (once per streak).
 @export var streak_saver_enabled: bool = true
-## Stub ad (desktop / debug): how long the placeholder shows, and whether it
-## "fills" (false = behave like offline / no fill).
+## Stub ad (ad_mode "stub" only; the editor's normal mock is AdManager's):
+## how long the placeholder shows, and whether it "fills" (false = offline).
 @export var stub_ad_seconds: float = 1.5
 @export var stub_ad_fill: bool = true
 
