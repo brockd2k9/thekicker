@@ -48,20 +48,18 @@ func _build(col: VBoxContainer) -> void:
 
 
 ## Daily Challenge: the button, with a NEW badge (today's kick not tried yet)
-## or the current streak on its right.
+## or today's state, and the day of the week ("Day 3/7").
 func _daily_button() -> Button:
 	var d := GameState.daily
 	var b := UiKit.button("Daily Challenge", _open_daily.bind(Screens.DAILY), UiKit.SECONDARY, "calendar")
 	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	b.custom_minimum_size.y = 96
-	var tag := ""
-	if d.is_new():
-		tag = "New"
-	elif d.status() == "done":
-		tag = "Done"
-	if d.streak > 0:
-		tag = ("%s  ·  " % tag if tag != "" else "") + "Streak %d" % d.streak
-	if tag != "":
+	if not d.is_locked():
+		var tag := "Day %d/%d" % [d.week_day_today(), d.tuning.week_days]
+		if d.is_new():
+			tag = "New  ·  " + tag
+		elif d.status() == "done":
+			tag = "Done  ·  " + tag
 		var chip := DailyUi.new_badge() if d.is_new() else BrandUi.chip(tag, "outline", "flame")
 		chip.text = tag
 		chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
