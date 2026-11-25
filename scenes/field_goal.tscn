@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3]
+[gd_scene load_steps=23 format=3]
 
 [ext_resource type="Script" path="res://scripts/game/field_goal_game.gd" id="1_game"]
 [ext_resource type="Resource" path="res://tuning/kick_tuning.tres" id="2_tuning"]
@@ -15,6 +15,8 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="13_hud"]
 [ext_resource type="Shader" path="res://shaders/sky.gdshader" id="14_sky"]
 [ext_resource type="Script" path="res://scripts/kick/snap_animator.gd" id="15_snap"]
+
+[ext_resource type="Script" path="res://scripts/visual/stage_look.gd" id="16_look"]
 
 [sub_resource type="ShaderMaterial" id="sky_mat"]
 shader = ExtResource("14_sky")
@@ -45,6 +47,9 @@ transform = Transform3D(0.866, -0.383, 0.321, 0, 0.643, 0.766, -0.5, -0.663, 0.5
 light_energy = 1.15
 shadow_enabled = true
 directional_shadow_max_distance = 140.0
+
+[node name="StageLook" type="Node" parent="."]
+script = ExtResource("16_look")
 
 [node name="Field" type="Node3D" parent="."]
 script = ExtResource("3_field")

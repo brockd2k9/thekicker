@@ -15,6 +15,8 @@ var haptics: bool = true
 var aim_assist: bool = true
 ## Career Mode: the first-time tutorial has been shown (or skipped).
 var career_tutorial_seen: bool = false
+## Graphics quality for the 3D kick scene (preset, per-feature switches, FPS readout).
+var graphics := VisualQuality.new()
 
 
 func apply() -> void:
@@ -50,6 +52,7 @@ func to_dict() -> Dictionary:
 		"haptics": haptics,
 		"aim_assist": aim_assist,
 		"career_tutorial_seen": career_tutorial_seen,
+		"graphics": graphics.to_dict(),
 	}
 
 
@@ -59,3 +62,6 @@ func from_dict(d: Dictionary) -> void:
 	haptics = bool(d.get("haptics", haptics))
 	aim_assist = bool(d.get("aim_assist", aim_assist))
 	career_tutorial_seen = bool(d.get("career_tutorial_seen", career_tutorial_seen))
+	var g: Variant = d.get("graphics")
+	if g is Dictionary:
+		graphics.from_dict(g)

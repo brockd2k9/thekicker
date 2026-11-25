@@ -1,6 +1,9 @@
 extends MenuScreen
-## Settings: volumes, haptics, aim assist, reset stats. Changes apply at once
-## and are saved (sliders save when you let go).
+## Settings: volumes, haptics, aim assist, graphics, reset stats. Changes apply
+## at once and are saved (sliders save when you let go). Graphics options are
+## used the next time a kick scene opens.
+
+var _feature_toggles := {}
 
 
 func _build(col: VBoxContainer) -> void:
@@ -24,6 +27,8 @@ func _build(col: VBoxContainer) -> void:
 	list.add_child(UiKit.label("Aim Assist shows the ring above the crossbar where a straight "
 		+ "swipe would go. It doesn't change the kick.", 24, UiKit.MUTED))
 
+	_build_graphics(list)
+
 	list.add_child(UiKit.section("DATA"))
 	list.add_child(UiKit.button("Reset Stats", _confirm_reset, UiKit.DANGER))
 
@@ -32,6 +37,45 @@ func _build(col: VBoxContainer) -> void:
 	ver.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	list.add_child(ver)
 	add_back_button(col)
+
+
+## Graphics: the quality preset, one switch per visual feature (so each one's
+## frame-rate cost can be checked on this device), the FPS readout and the
+## benchmark.
+func _build_graphics(list: VBoxContainer) -> void:
+	var g := GameState.settings.graphics
+	list.add_child(UiKit.section("GRAPHICS"))
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 12)
+	list.add_child(row)
+	var group := ButtonGroup.new()
+	for id in [VisualQuality.LOW, VisualQuality.HIGH]:
+		var b := UiKit.button("%s Quality" % id.capitalize(), func() -> void: _set_preset(id))
+		b.toggle_mode = true
+		b.button_group = group
+		b.set_pressed_no_signal(g.preset == id)
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(b)
+	list.add_child(UiKit.label("Low is made for phones, High for desktop. Each effect below can be "
+		+ "switched on its own to see what it costs. Changes show on the next kick.", 24, UiKit.MUTED))
+	for f in VisualQuality.FEATURES:
+		var t := _toggle(str(VisualQuality.LABELS[f]), g.enabled(f), func(on: bool) -> void:
+			GameState.settings.graphics.set_enabled(f, on))
+		_feature_toggles[f] = t
+		list.add_child(t)
+	list.add_child(_toggle("Show Frame Rate", g.show_fps, func(on: bool) -> void:
+		GameState.settings.graphics.show_fps = on))
+	list.add_child(UiKit.button("Graphics Benchmark", func() -> void:
+		GameState.settings_updated(true)
+		Screens.go(Screens.GRAPHICS_BENCHMARK)))
+
+
+func _set_preset(id: String) -> void:
+	var g := GameState.settings.graphics
+	g.set_preset(id)
+	for f in _feature_toggles:
+		(_feature_toggles[f] as CheckButton).set_pressed_no_signal(g.enabled(f))
+	GameState.settings_updated(true)
 
 
 func go_back() -> void:
