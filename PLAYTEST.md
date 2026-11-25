@@ -157,7 +157,7 @@ drifts up to 4 a season (and 10% back toward the average).
 |---|---|---|---|
 | High school | your 21 schools, one conference | 10 games, all in the conference (21 is odd: one school sits each week) | top 8: state quarterfinal, semifinal, State Championship |
 | Junior college | the 6 junior colleges | 10 games: twice through the other five | top 4: Region Playoff, Junior College Championship |
-| College | the player's level only: FBS 138, FCS 128 or D2 160, in its conferences (the conference is the division) | 12 games: 8 in the conference (fewer in small ones), the rest outside it | top two of each conference (6+ teams, not "Independents") play its title game; 12-team playoff (the best 5 conference champions guaranteed, top 4 seeds get byes); bowls for the next 32 at .500+ |
+| College | the player's level only: FBS 138, FCS 128 or D2 160, in its conferences (the conference is the division) | 12 games: 8 in the conference (fewer in small ones), the rest outside it | top two of each conference (6+ teams, not "Independents") play its title game; playoff by level: FBS 24 (best 5 conference champions guaranteed; top 8 seeds skip the First Round, then Second Round, Quarterfinal, Semifinal, National Championship), FCS 8 and D2 8 (best 3 champions guaranteed; Quarterfinal on); bowls for the next 32 at .500+ |
 | Pro | the 32 clubs: AFC / NFC, 8 divisions of 4 | 17 games: 6 in the division (home and away), 6 in the conference, 5 outside | 4 division winners + 3 wild cards per conference; #1 seed gets a bye |
 
 Schedules are built each season for every team: division round robins first, then pairings by need
@@ -182,9 +182,10 @@ around the schedule being played (same opponents and byes, finished weeks simula
 To playtest:
 - Does the playoff picture feel fair late in the season? A winning record can miss (a strong
   conference, a pro wild-card race); a weak division can let a .500 team in. That's intended.
-- High school: is top 8 of 21 the right size for the state playoffs (`hs_qualifiers_per_division`)?
-- Junior college: 4 of 6 teams make it; 2 (a final only) may be better (`juco_qualifiers_per_division`).
-- College: 32 bowl slots per level, and the 5 auto bids, are first guesses.
+- Playoff sizes (set): high school top 8, junior college top 4, FBS 24, FCS 8, D2 8
+  (`hs_qualifiers_per_division`, `juco_qualifiers_per_division`, `college_playoff_field_fbs/fcs/d2`).
+- College: guaranteed conference champions (FBS 5, FCS 3, D2 3: `college_auto_bids_*`) and 32 bowl
+  slots per level are first guesses.
 - Pro top seed bye: the first postseason game is the Divisional Round (no idle week).
 
 ## Leveling: costs and stage caps

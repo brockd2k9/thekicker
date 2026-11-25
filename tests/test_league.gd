@@ -470,8 +470,8 @@ func test_college_conference_title_game_then_playoff() -> void:
 	check(c.flags.get("made_playoffs", false), "made_playoffs")
 	eq(int(c.postseason["w"]), 1, "the title game counts as a postseason win")
 	check(str(c.postseason["text"]).contains("champions"), "text: " + str(c.postseason["text"]))
-	check(int(c.postseason["seed"]) >= 1 and int(c.postseason["seed"]) <= 4, "a top-4 seed: bye")
-	eq(str(m.entry()["round_name"]), Postseason.rounds(c, "playoff")[1], "a top-4 seed starts in the quarterfinal")
+	check(int(c.postseason["seed"]) >= 1 and int(c.postseason["seed"]) <= 8, "a top-8 seed: bye")
+	eq(str(m.entry()["round_name"]), "Playoff: Second Round", "a top-8 seed starts in the second round")
 
 
 func test_college_title_game_loss_can_still_go_bowling() -> void:
@@ -500,7 +500,7 @@ func test_college_field_and_bowls() -> void:
 	var lg := c.league
 	var st := League.standings(lg)
 	var f := League.field(lg, st)
-	var s := League.config().structure(CareerData.STAGE_COLLEGE)
+	var s := League.rules(lg)
 	eq((f["sides"][0] as Array).size(), int(s["field"]), "a full field")
 	eq((f["bowls"] as Array).size() % 2, 0, "bowl teams in pairs")
 	check((f["bowls"] as Array).size() <= int(s["bowl_slots"]), "no more than the bowl slots")
@@ -689,3 +689,36 @@ func test_hub_line_and_picture() -> void:
 		eq((sd["in"] as Array).size(), 8, "the top 8")
 		eq((sd["out"] as Array).size(), League.config().playoff_picture_bubble, "the bubble")
 	check(League.picture_line(c).begins_with("Playoff picture: in"), League.picture_line(c))
+
+
+## Playoff fields: high school 8, junior college 4, FBS 24 (top 8 byes, five
+## rounds), FCS 8, D2 8.
+func test_playoff_field_sizes() -> void:
+	var want := {"high_school": 8, "juco": 4, "FBS": 24, "FCS": 8, "D2": 8}
+	for key in want:
+		var m: CareerManager
+		if key in ["FBS", "FCS", "D2"]:
+			var c := CareerData.create("Field %s" % key, t)
+			var pool: Array = TeamDatabase.colleges().filter(func(x: Dictionary) -> bool: return x["division"] == key)
+			c.team = Progression.team_from(pool[0], CareerData.STAGE_COLLEGE)
+			c.stage = CareerData.STAGE_COLLEGE
+			m = CareerManager.new(c)
+			m._start_season(false)
+		else:
+			m = _manager(key)
+		_play_regular(m, func(w: int) -> String: return "W" if w % 2 == 0 else "L")
+		var lg := m.data.league
+		var f := League.field(lg, League.standings(lg))
+		var count := 0
+		for side in f["sides"]:
+			count += (side as Array).size()
+		eq(count, int(want[key]), "%s: playoff field" % key)
+	# FBS: 24 teams fill a 32-team bracket, so five rounds; the top 8 have byes.
+	var br := League.make_bracket([range(24)])
+	eq(League.bracket_rounds(br), 5, "FBS: five rounds")
+	var byes := 0
+	for k in range(0, 32, 2):
+		if int(br["slots"][k]) < 0 or int(br["slots"][k + 1]) < 0:
+			byes += 1
+			check(maxi(int(br["slots"][k]), int(br["slots"][k + 1])) < 8, "only the top 8 seeds have byes")
+	eq(byes, 8, "8 byes")

@@ -93,7 +93,7 @@ func _standings() -> void:
 			conf_shown = posmod(conf + step, n)
 			_show()))
 	var list := BrandUi.scroll_list(_body, Brand.SPACE_2)
-	var s := League.config().structure(career.data.stage)
+	var s := League.rules(_lg)
 	var q := int(s.get("qualifiers_per_division", 0))
 	var pic := League.picture(career.data)
 	var seeds := _seeds(pic)
@@ -552,7 +552,7 @@ func _divisions() -> void:
 
 ## The league's shape and who gets in, from the team database and league.tres.
 func _format_text() -> String:
-	var s := League.config().structure(career.data.stage)
+	var s := League.rules(_lg)
 	var t := career.tuning
 	var n := League.conference_count(_lg)
 	var flat := League.flat(_lg)

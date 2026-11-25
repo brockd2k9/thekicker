@@ -48,6 +48,11 @@ static func use_config(cfg: LeagueConfig) -> void:
 	_cached = cfg
 
 
+## This league's rules (LeagueConfig.structure, with the college level).
+static func rules(lg: Dictionary) -> Dictionary:
+	return config().structure(str(lg.get("stage", "")), str(lg.get("scope", "")))
+
+
 static func has_league(stage: String) -> bool:
 	return not config().structure(stage).is_empty()
 
@@ -397,7 +402,7 @@ static func _ensure_player(c: CareerData, lg: Dictionary) -> void:
 # --- the schedule ----------------------------------------------------------------------
 
 static func _build_season(lg: Dictionary, t: CareerTuning) -> void:
-	var st := config().structure(str(lg["stage"]))
+	var st := rules(lg)
 	var rng := _rng(lg, "schedule")
 	var divs: Array = []
 	var confs: Array = []
@@ -1103,7 +1108,7 @@ static func division_order(lg: Dictionary, st: Array, div: int) -> Array:
 ## champions: {conf: slot} (college)}.
 ## champions: college conference champions already decided (else projected).
 static func field(lg: Dictionary, st: Array, champions := {}) -> Dictionary:
-	var s := config().structure(str(lg["stage"]))
+	var s := rules(lg)
 	if str(lg["stage"]) == CareerData.STAGE_COLLEGE:
 		return _college_field(lg, st, s, champions)
 	var groups: Array = []
@@ -1224,7 +1229,7 @@ static func qualification(c: CareerData) -> Dictionary:
 	var lg := c.league
 	var st := standings(lg)
 	var p := player_index(c)
-	var s := config().structure(c.stage)
+	var s := rules(c.league)
 	var post := _post(lg)
 	var div_champ: bool = division_order(lg, st, div_of(lg, p))[0] == p
 	var base := {"division_champion": div_champ, "conference_champion": false}
@@ -1293,7 +1298,7 @@ static func ordinal(n: int) -> String:
 ## each conference with at least title_min teams (not independents): its top
 ## two (results appended as [.., home pts, away pts] once played).
 static func _title_pairs(lg: Dictionary, st: Array) -> Array:
-	var s := config().structure(str(lg["stage"]))
+	var s := rules(lg)
 	var out: Array = []
 	for c in conference_count(lg):
 		var teams := conference_teams(lg, c)
@@ -1389,7 +1394,18 @@ static func round_names(c: CareerData) -> PackedStringArray:
 	var extra := bracket_rounds(br) - names.size()
 	if br.is_empty() or extra <= 0:
 		return names
+	# A bigger bracket than there are names: after a "First Round" the extra
+	# rounds are "Second Round", "Third Round"...; otherwise numbered rounds go first.
 	var out := PackedStringArray()
+	var first := names[0] if not names.is_empty() else ""
+	if first.ends_with("First Round"):
+		var stem := first.trim_suffix("First Round")
+		out.append(first)
+		var words := ["Second", "Third", "Fourth", "Fifth"]
+		for i in extra:
+			out.append("%s%s Round" % [stem, words[i] if i < words.size() else str(i + 2)])
+		out.append_array(names.slice(1))
+		return out
 	for i in extra:
 		out.append("Playoffs: Round %d" % (i + 1))
 	out.append_array(names)
@@ -1544,7 +1560,7 @@ static func picture(c: CareerData) -> Dictionary:
 	else:
 		f = field(lg, st)
 	var sides: Array = []
-	var s := config().structure(c.stage)
+	var s := rules(c.league)
 	for k in (f["sides"] as Array).size():
 		var name := "Playoff field"
 		if bool(s.get("by_conference", false)) and c.stage != CareerData.STAGE_COLLEGE and conference_count(lg) > 1:

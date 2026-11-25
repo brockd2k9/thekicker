@@ -30,8 +30,8 @@ extends Resource
 ##                            in the final (pro: AFC / NFC)
 ## College: each conference's top two play a title game (conferences with at
 ## least college_title_game_min_teams teams; an independents group has no
-## champion), then a playoff field of college_playoff_field (the best
-## college_auto_bids conference champions are guaranteed a spot, the rest by
+## champion), then a playoff field per level (FBS 24, FCS 8, D2 8: the best
+## college_auto_bids_* conference champions are guaranteed a spot, the rest by
 ## ranking), then bowls for the next college_bowl_slots teams with at least
 ## college_bowl_min_win_share. The postseason rounds themselves are
 ## PostseasonConfig's; the top seeds get byes when the bracket isn't full.
@@ -63,10 +63,15 @@ extends Resource
 @export var college_title_game_min_teams: int = 6
 ## A conference whose name ends with this has no champion or title game.
 @export var college_independent_suffix: String = "Independents"
-## Teams in the national playoff (the top seeds get byes if it isn't 2, 4, 8, 16...).
-@export var college_playoff_field: int = 12
+## Teams in each level's national playoff (the top seeds get byes if it isn't
+## 2, 4, 8, 16, 32...). FBS 24: the top 8 seeds skip the first round.
+@export var college_playoff_field_fbs: int = 24
+@export var college_playoff_field_fcs: int = 8
+@export var college_playoff_field_d2: int = 8
 ## The best this many conference champions get a playoff spot whatever their rank.
-@export var college_auto_bids: int = 5
+@export var college_auto_bids_fbs: int = 5
+@export var college_auto_bids_fcs: int = 3
+@export var college_auto_bids_d2: int = 3
 ## Bowl games: the next this many ranked teams (outside the playoff) with at
 ## least this win share.
 @export var college_bowl_slots: int = 32
@@ -116,7 +121,8 @@ extends Resource
 
 
 ## One stage's rules as a dictionary (League reads this); {} = no league.
-func structure(stage: String) -> Dictionary:
+## scope: the college level ("FBS", "FCS", "D2") for the playoff field.
+func structure(stage: String, scope := "") -> Dictionary:
 	var p := _prefix(stage)
 	if p == "":
 		return {}
@@ -132,8 +138,9 @@ func structure(stage: String) -> Dictionary:
 		s["title_game"] = college_conference_title_game
 		s["title_min"] = maxi(college_title_game_min_teams, 2)
 		s["independent"] = college_independent_suffix
-		s["field"] = maxi(college_playoff_field, 2)
-		s["auto_bids"] = maxi(college_auto_bids, 0)
+		var lvl := scope.to_lower() if scope.to_lower() in ["fbs", "fcs", "d2"] else "fbs"
+		s["field"] = maxi(int(get("college_playoff_field_" + lvl)), 2)
+		s["auto_bids"] = maxi(int(get("college_auto_bids_" + lvl)), 0)
 		s["bowl_slots"] = maxi(college_bowl_slots, 0)
 		s["bowl_min"] = college_bowl_min_win_share
 	return s
