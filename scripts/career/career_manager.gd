@@ -539,7 +539,7 @@ func finish_game(summary: Dictionary) -> void:
 	var sat := Bench.this_week(data)
 	# Benched weeks earn no game skill points (practice and choices still do).
 	for pair in ([] if sat else SkillPoints.from_game(summary.get("kicks", []), range, tuning)):
-		SkillPoints.earn(data, int(pair[1]), str(pair[0]))
+		SkillPoints.earn_weekly(data, int(pair[1]), str(pair[0]), tuning)
 	# Sideline warmups: at most sp_warmup_max_per_game skill points a game day.
 	var warm_res: Dictionary = CareerContent.game_day().get("warmup", {}).get("results", {})
 	var warm_sp := 0
@@ -724,10 +724,10 @@ func _finish_bye() -> void:
 ## practice (less when Energy is low) and a rival Tyler pushing you.
 func _week_practice() -> void:
 	var tired := data.stat("energy") < tuning.low_energy_threshold
-	SkillPoints.earn(data, tuning.sp_weekly_practice_tired if tired else tuning.sp_weekly_practice,
-		"Practice" + (" (tired)" if tired else ""))
-	SkillPoints.earn(data, Relationships.rival_sp(data, tuning),
-		"%s pushing you" % Relationships.name_of(data, Relationships.TYLER))
+	SkillPoints.earn_weekly(data, tuning.sp_weekly_practice_tired if tired else tuning.sp_weekly_practice,
+		"Practice" + (" (tired)" if tired else ""), tuning)
+	SkillPoints.earn_weekly(data, Relationships.rival_sp(data, tuning),
+		"%s pushing you" % Relationships.name_of(data, Relationships.TYLER), tuning)
 
 
 # --- end of week / season -----------------------------------------------------------

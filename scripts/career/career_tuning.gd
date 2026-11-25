@@ -431,7 +431,9 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## + long * yards past 45 + clutch * game winners - age * years past 32,
 ## plus this season's choices ("retention" in the data) and trait bonuses.
 ## FG% that keeps standing at 50 (neutral); retention_fg_pct points per % above.
-@export_range(0.5, 1.0) var retention_fg_ref: float = 0.66
+## 0.67 since the 17-game pro season (was 0.66 with 10 games): longer seasons
+## run a little more accurate (steadier, fewer long tries under coach doubt).
+@export_range(0.5, 1.0) var retention_fg_ref: float = 0.67
 @export var retention_fg_pct: float = 1.2
 @export var retention_long: float = 0.6
 @export var retention_clutch: float = 4.0
@@ -883,6 +885,31 @@ func goal_width_for(stage: String) -> float:
 		CareerData.STAGE_COLLEGE, CareerData.STAGE_JUCO:
 			return goal_width_college
 	return goal_width_pro
+
+
+## How much one game or game week counts this season: games_per_season (the
+## 10-game high school season the per-game numbers were tuned on) / this
+## stage's games. 1 in high school, 10/12 in college, 10/17 in pro. Per-game
+## and per-week amounts that add up over a season (skill points from games,
+## practice and choices; the win-loss and game-winner terms of the draft and
+## pro retention scores) are multiplied by it, so a season is worth the same
+## whatever its length.
+func season_scale(stage: String) -> float:
+	return float(games_per_season) / float(maxi(games_for(stage), 1))
+
+
+## Weight of a season's FG% (points above / below the reference) in the pro
+## retention score: sqrt(games / 10). A 17-game FG% is steadier
+## than a 10-game one; this keeps good and bad seasons as common as they were
+## (1 in high school, 1.10 in college, 1.30 in pro).
+func season_pct_weight(stage: String) -> float:
+	return sqrt(1.0 / season_scale(stage))
+
+
+## A "this season, after at least n attempts" threshold tuned for 10 games,
+## for this stage's season: n / season_scale (12 -> 14 in college, 20 in pro).
+func season_attempts(n: int, stage: String) -> int:
+	return roundi(n / season_scale(stage))
 
 
 ## Regular-season games for a stage (high school 10, college 12, pro 17).

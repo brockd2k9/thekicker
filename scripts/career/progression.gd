@@ -58,7 +58,7 @@ static func recruiting_gain(c: CareerData, t: CareerTuning) -> float:
 	var pct := (fg_pct(s) - 0.65) * 100.0 if int(s.get("fg_att", 0)) > 0 else -5.0
 	var g := t.recruiting_base + t.recruiting_fg_pct * pct \
 		+ t.recruiting_long * maxf(float(s.get("long", 0)) - 35.0, 0.0) \
-		+ t.recruiting_record * (int(c.record["w"]) - int(c.record["l"])) \
+		+ t.recruiting_record * (int(c.record["w"]) - int(c.record["l"])) * t.season_scale(c.stage) \
 		+ t.recruiting_leg * (_leg(c) - 50.0) \
 		+ t.recruiting_range * maxf(KickRange.fg_range(c, t) - t.recruiting_range_from, 0.0)
 	return w * g + trait_bonus(c, "recruiting") + coach_rec(c, t)
@@ -78,7 +78,7 @@ static func draft_gain(c: CareerData, t: CareerTuning) -> float:
 	var pct := (fg_pct(s) - 0.7) * 100.0 if int(s.get("fg_att", 0)) > 0 else -5.0
 	var g := t.draft_base + t.draft_fg_pct * pct \
 		+ t.draft_long * maxf(float(s.get("long", 0)) - 40.0, 0.0) \
-		+ t.draft_record * (int(c.record["w"]) - int(c.record["l"])) \
+		+ t.draft_record * (int(c.record["w"]) - int(c.record["l"])) * t.season_scale(c.stage) \
 		+ t.draft_leg * (_leg(c) - t.draft_leg_from) \
 		+ t.draft_range * maxf(KickRange.fg_range(c, t) - t.draft_range_from, 0.0)
 	var exposure := float(tier(str(c.team.get("tier", "mid"))).get("exposure", 1.0))
@@ -88,10 +88,11 @@ static func draft_gain(c: CareerData, t: CareerTuning) -> float:
 ## Pro retention (0-100) for the season just played.
 static func retention(c: CareerData, t: CareerTuning) -> float:
 	var s := c.season_stats
-	var pct := (fg_pct(s) - t.retention_fg_ref) * 100.0 if int(s.get("fg_att", 0)) > 0 else 0.0
+	var pct := (fg_pct(s) - t.retention_fg_ref) * 100.0 * t.season_pct_weight(c.stage) \
+		if int(s.get("fg_att", 0)) > 0 else 0.0
 	var r := 50.0 + t.retention_fg_pct * pct \
 		+ t.retention_long * maxf(float(s.get("long", 0)) - 45.0, 0.0) \
-		+ t.retention_clutch * int(s.get("game_winners", 0)) \
+		+ t.retention_clutch * int(s.get("game_winners", 0)) * t.season_scale(c.stage) \
 		- t.retention_age * maxf(float(c.age) - 32.0, 0.0) \
 		+ t.retention_range * maxf(KickRange.fg_range(c, t) - t.retention_range_from, 0.0) \
 		+ c.retention_bonus + trait_bonus(c, "retention") + Reputation.retention_adjust(c, t)

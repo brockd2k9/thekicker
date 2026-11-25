@@ -10,7 +10,9 @@ extends RefCounted
 ##      missed bench_week_misses field goals in that game (one is enough when
 ##      the season is going badly) and trust is at or below bench_trust.
 ##      Never before bench_min_week, at most bench_max_per_season a season.
-##      1 week, or 2 when trust is at or below bench_long_trust.
+##      1 week, or 2 when trust is at or below bench_long_trust (the same share
+##      of a longer season: pro 2 or 3; college and pro benches can start in
+##      the season's last 8 weeks, min_week).
 ##   3. While benched: the backup kicks your field goals (GameSim); you still kick
 ##      extra points and kickoffs. No game skill points that week (practice and
 ##      choices still count). Each benched week costs a little progress score.
@@ -114,7 +116,7 @@ static func warned_this_week(c: CareerData) -> bool:
 ## After a game you kicked in: bench if the warning came first, you missed
 ## bench_week_misses field goals, and trust is low enough. Returns true if benched.
 static func check_after_game(c: CareerData, t: CareerTuning, kicks: Array) -> bool:
-	if this_week(c) or not warned_this_week(c) or c.week < t.bench_min_week:
+	if this_week(c) or not warned_this_week(c) or c.week < min_week(c, t):
 		return false
 	if _benches_this_season(c) >= t.bench_max_per_season:
 		return false
@@ -126,17 +128,27 @@ static func check_after_game(c: CareerData, t: CareerTuning, kicks: Array) -> bo
 	return true
 
 
+## The first week you can be benched: bench_min_week in a 10-game season,
+## later in longer ones, so every season has as many weeks a bench can start
+## in (8 of 10; college weeks 5-12, pro weeks 10-17).
+static func min_week(c: CareerData, t: CareerTuning) -> int:
+	return t.bench_min_week + maxi(t.games_for(c.stage) - t.games_per_season, 0)
+
+
 ## Field goals you'd have to miss this week to be benched: bench_week_misses,
 ## or 1 when the season is going badly (FG% under bench_poor_season_pct).
 static func misses_needed(c: CareerData, t: CareerTuning) -> int:
 	var s := c.season_stats
-	if int(s.get("fg_att", 0)) >= t.bench_poor_season_min_att and Progression.fg_pct(s) < t.bench_poor_season_pct:
+	if int(s.get("fg_att", 0)) >= t.season_attempts(t.bench_poor_season_min_att, c.stage) \
+			and Progression.fg_pct(s) < t.bench_poor_season_pct:
 		return 1
 	return t.bench_week_misses
 
 
 static func start(c: CareerData, t: CareerTuning) -> void:
-	var weeks := 2 if trust(c, t) <= t.bench_long_trust else 1
+	# 1 or 2 weeks of a 10-game season: the same share of a longer one
+	# (pro 2 or 3); bench_weeks() keeps the progress cost per bench the same.
+	var weeks := roundi((2 if trust(c, t) <= t.bench_long_trust else 1) / t.season_scale(c.stage))
 	var id := Relationships.TYLER if tyler_is_teammate(c) else BACKUP
 	c.bench["weeks_left"] = weeks
 	c.bench["weeks"] = weeks
@@ -171,8 +183,9 @@ static func end_week(c: CareerData, t: CareerTuning) -> void:
 	c.bench["weeks_total"] = int(c.bench.get("weeks_total", 0)) + 1
 	c.bench["season_weeks"] = (int(c.bench.get("season_weeks", 0)) if int(c.bench.get("weeks_season", -1)) == c.season else 0) + 1
 	c.bench["weeks_season"] = c.season
-	_progress(c, t.bench_progress_per_week)
-	c.bench["progress_lost"] = float(c.bench.get("progress_lost", 0.0)) + t.bench_progress_per_week
+	var cost := t.bench_progress_per_week * t.season_scale(c.stage)
+	_progress(c, cost)
+	c.bench["progress_lost"] = float(c.bench.get("progress_lost", 0.0)) + cost
 	if int(c.bench["weeks_left"]) == 0:
 		c.bench["audition_due"] = true
 

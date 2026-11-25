@@ -35,12 +35,28 @@ static func earn(c: CareerData, n: int, text: String) -> void:
 	c.sp_week.append({"text": text, "sp": n})
 
 
+## Skill points that come every game or week (kicks, practice, the rival,
+## choices), scaled by the season's length (CareerTuning.season_scale). The
+## fraction left over carries to the next award (CareerData.flags
+## "_sp_carry"), so a long season earns what a 10-game one did. Returns the
+## points given.
+static func earn_weekly(c: CareerData, n: int, text: String, t: CareerTuning) -> int:
+	if n <= 0:
+		return 0
+	var v := n * t.season_scale(c.stage) + float(c.flags.get("_sp_carry", 0.0))
+	var k := floori(v + 0.000001)
+	c.flags["_sp_carry"] = maxf(v - k, 0.0)
+	if k > 0:
+		earn(c, k, text)
+	return k
+
+
 ## A scenario choice's skill points (negative = practice skipped). Returns the
 ## change applied.
 static func from_choice(c: CareerData, n: float, t: CareerTuning) -> int:
 	var v := roundi(n * t.sp_scenario_scale)
 	if v > 0:
-		earn(c, v, "Choices")
+		v = earn_weekly(c, v, "Choices", t)
 	elif v < 0:
 		v = -mini(-v, c.skill_points)
 		c.skill_points += v

@@ -57,7 +57,7 @@ func test_choice_progress_scales() -> void:
 func test_standing_reference_and_preserving() -> void:
 	var m := _pro(31)
 	var c := m.data
-	c.season_stats = {"fg_att": 20, "fg_made": roundi(20 * t.retention_fg_ref), "long": 45}
+	c.season_stats = {"fg_att": 25, "fg_made": roundi(25 * t.retention_fg_ref), "long": 45}
 	c.retention_bonus = 0.0
 	check(absf(Progression.retention(c, t) - 50.0) < 3.0, "kicking at the reference FG%% keeps standing near 50")
 	# Preserving attributes at 30+ adds standing at season end.
