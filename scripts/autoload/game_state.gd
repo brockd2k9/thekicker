@@ -174,6 +174,8 @@ func load_game() -> void:
 	var c: Variant = d.get("career")
 	career_data = c if c is Dictionary else {"last_slot": 0}
 	daily.from_dict(d.get("daily", {}) if d.get("daily") is Dictionary else {})
+	# App-wide ad / purchase state (AdManager is the autoload before this one).
+	AdManager.from_dict(d.get("monetization", {}) if d.get("monetization") is Dictionary else {})
 
 
 func save_game() -> void:
@@ -183,6 +185,7 @@ func save_game() -> void:
 		"settings": settings.to_dict(),
 		"career": career_data,
 		"daily": daily.to_dict(),
+		"monetization": AdManager.to_dict(),
 	})
 
 

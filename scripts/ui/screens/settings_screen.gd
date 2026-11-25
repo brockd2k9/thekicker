@@ -1,7 +1,9 @@
 extends MenuScreen
-## Settings: volumes, haptics, aim assist, graphics, reset stats. Changes apply
-## at once and are saved (sliders save when you let go). Graphics options are
-## used the next time a kick scene opens.
+## Settings: volumes, haptics, aim assist, graphics, privacy, reset stats.
+## Changes apply at once and are saved (sliders save when you let go). Graphics
+## options are used the next time a kick scene opens.
+## PRIVACY appears only when Google's consent SDK says the player must be able
+## to change their ad choices (EEA / UK). ADS (DEBUG) is debug builds only.
 
 var _feature_toggles := {}
 
@@ -28,6 +30,14 @@ func _build(col: VBoxContainer) -> void:
 		+ "swipe would go. It doesn't change the kick.", 24, UiKit.MUTED))
 
 	_build_graphics(list)
+
+	if AdManager.privacy_options_required():
+		list.add_child(UiKit.section("PRIVACY"))
+		list.add_child(UiKit.button("Privacy Options", AdManager.show_privacy_options))
+		list.add_child(UiKit.label("Change how ads may use your data.", 24, UiKit.MUTED))
+
+	if OS.is_debug_build():
+		_build_ads_debug(list)
 
 	list.add_child(UiKit.section("DATA"))
 	list.add_child(UiKit.button("Reset Stats", _confirm_reset, UiKit.DANGER))
@@ -76,6 +86,45 @@ func _set_preset(id: String) -> void:
 	for f in _feature_toggles:
 		(_feature_toggles[f] as CheckButton).set_pressed_no_signal(g.enabled(f))
 	GameState.settings_updated(true)
+
+
+## Debug builds: the ad mode and state, and buttons to try each kind of ad
+## (Stage 1 testing on a device, before the game has ad offers).
+func _build_ads_debug(list: VBoxContainer) -> void:
+	list.add_child(UiKit.section("ADS (DEBUG)"))
+	var status := UiKit.label("", 24, UiKit.MUTED)
+	list.add_child(status)
+	var refresh := func() -> void:
+		status.text = "%s\nRewarded ready: %s\nForced ad: %s" % [AdManager.status_text(),
+			"yes" if AdManager.is_rewarded_ready() else "no",
+			AdManager.forced_skip_reason() if AdManager.forced_skip_reason() != "" else "would show"]
+	refresh.call()
+	AdManager.ads_changed.connect(refresh)
+	tree_exiting.connect(func() -> void:
+		if AdManager.ads_changed.is_connected(refresh):
+			AdManager.ads_changed.disconnect(refresh))
+	list.add_child(UiKit.button("Test Rewarded Ad", func() -> void:
+		var ok: bool = await AdManager.show_rewarded(AdManager.REDO_KICK)
+		Toast.show_message("ADS", "Reward earned" if ok else "No reward")))
+	list.add_child(UiKit.button("Test Forced Ad (ignores the gap)", func() -> void:
+		AdManager.last_ad_end_msec = -1
+		var shown: bool = await AdManager.show_interstitial(AdManager.POST_GAME_FORCED)
+		Toast.show_message("ADS", "Forced ad shown" if shown else "Forced ad skipped: see log")))
+	list.add_child(_toggle_plain("Ads Removed (debug)", AdManager.ads_removed, AdManager.set_ads_removed))
+	list.add_child(UiKit.button("Reset Ad Consent", func() -> void:
+		AdManager.backend.reset_consent()
+		Toast.show_message("ADS", "Consent reset. Restart the app to see the form.")))
+
+
+## A switch that isn't a GameSettings field (no settings save).
+func _toggle_plain(text: String, on: bool, set_value: Callable) -> CheckButton:
+	var b := CheckButton.new()
+	b.text = text
+	b.button_pressed = on
+	b.custom_minimum_size.y = UiKit.BUTTON_HEIGHT
+	b.add_theme_font_size_override("font_size", 32)
+	b.toggled.connect(set_value)
+	return b
 
 
 func go_back() -> void:

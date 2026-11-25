@@ -134,12 +134,13 @@ the first time the menu opens each day). Code: `scripts/daily/`; screens:
   already seen locks the challenge (no kicks, no claims) until it catches up.
 - **Kept apart:** daily kicks report with mode `daily`, in `GameState.UNRECORDED_MODES`: never in
   My Stats, career stats, records, streaks of made kicks or achievements.
-- **Ads:** `AdService` (`scripts/daily/ad_service.gd`): `is_ready(placement)`,
-  `await show_rewarded(placement) -> bool`. `StubAdService` (desktop / debug: a placeholder screen,
-  then success), `NoAdService` (Steam: feature tag `steam` or `no_ads_platform`), `MobileAdService`
-  (**plug the real SDK in here**; until then it reports "not ready" and the game shows a friendly
-  message instead of the button). On a no-ads platform `no_ads_rule` decides: `"none"` (default: no
-  retry, no saver) or `"free"` (both without an ad).
+- **Ads:** the Daily Challenge's `AdService` (`scripts/daily/ad_service.gd`: `is_ready(placement)`,
+  `await show_rewarded(placement) -> bool`) goes through the **AdManager** autoload
+  (`ManagedAdService`, placements `DAILY_RETRY` / `STREAK_SAVER`), so it follows the same rules as
+  every other ad (see "Ads" below). `StubAdService` (instant, no AdManager) is for tests and
+  `ad_mode = "stub"`; `NoAdService` for `ad_mode = "none"` / `no_ads_platform`. On a platform
+  without ads `no_ads_rule` decides: `"none"` (default: no retry, no saver) or `"free"` (both
+  without an ad).
 - **Debug:** in debug builds the Daily Challenge screen has **Prev Day / Next Day** (shifts the
   clock a day; Prev after playing shows the clock-moved-back lock) and **Reset Daily Data**.
 
@@ -155,10 +156,12 @@ One JSON file in the user data folder: **`user://kicker_save.json`**
 | Linux | `~/.local/share/godot/app_userdata/Kicker/` |
 
 ```json
-{ "version": 3, "stats": {...}, "achievements": {"unlocked": {"first_make": 1794983149}},
-  "settings": {...}, "career": {"last_slot": 1}, "daily": {...} }
+{ "version": 4, "stats": {...}, "achievements": {"unlocked": {"first_make": 1794983149}},
+  "settings": {...}, "career": {"last_slot": 1}, "daily": {...},
+  "monetization": {"ads_removed": false} }
 ```
 `"daily"` is the Daily Challenge (version 3; older saves get an empty one).
+`"monetization"` is app-wide ad / purchase state (version 4; AdManager.to_dict()).
 Career Mode saves each career in its own file, **`user://career_slot_1.json`** .. `_3.json`
 (same folder, same temp-file safety, own `"career_version"`; see `scripts/career/career_save.gd`).
 The main save only remembers the last career slot, so a broken career file can't touch
@@ -167,6 +170,65 @@ Saved after every kick, run and settings change, and when the app is paused/clos
 Writes go to a temp file first and are then swapped in. A corrupt file is copied to
 `kicker_save.json.bad` and the game starts fresh. To change the layout, bump
 `SaveStore.VERSION` and add a step in `SaveStore._migrate()`. Delete the file to start over.
+
+## Ads (AdManager)
+
+Game code never calls an ad SDK. It calls the **AdManager** autoload (`scripts/autoload/ad_manager.gd`):
+
+| Call | What it does |
+|---|---|
+| `AdManager.is_rewarded_ready()` | enable / disable an ad button |
+| `await AdManager.show_rewarded(placement)` | opt-in rewarded ad; `true` only if the reward was earned |
+| `await AdManager.show_interstitial(placement)` | the forced post-game ad; skipped silently when the rules say no |
+| `AdManager.platform_has_ads()` | `false` on Steam: hide ad offers |
+| signals | `ad_rewarded`, `ad_dismissed_without_reward`, `ad_failed` (exactly one per rewarded call), `interstitial_finished`, `ads_changed` |
+
+Placements: rewarded (opt-in only) `REDO_KICK`, `REDO_GAME`, `PRACTICE_50`, `DAILY_RETRY`, `STREAK_SAVER`;
+forced (interstitial only) `POST_GAME_FORCED`. A forced placement can't be shown as a rewarded ad
+(AdMob policy: rewarded ads must be opt-in).
+
+**Rules (every placement):** forced ads never show when `ads_removed`, within
+`MIN_SECONDS_BETWEEN_ADS` of the end of any ad, while another ad shows, or when none is loaded.
+Rewarded ads stay available to ad-free buyers. Game audio is muted while an ad plays.
+
+**Backends** (`scripts/monetization/ads/`, chosen by `AdManager.pick_mode()`):
+- `AdMobAdBackend`: Android + iOS through the Poing Studios AdMob plugin **v5.1.0**. Consent first
+  (Google UMP: consent form if required; on iOS Google's IDFA explainer + the App Tracking
+  Transparency prompt come from this flow when the IDFA message is set up in AdMob > Privacy &
+  messaging), then SDK init, then one rewarded + one interstitial preloaded, reloaded after each
+  show and retried with backoff after a failed load. The plugin's classes are looked up at runtime,
+  so the project runs without the plugin installed.
+- `MockAdBackend`: editor / desktop debug. Full-screen "Ad playing..." for 3 s, then the reward;
+  **Skip (No Reward)** tests the no-reward path.
+- `NoneAdBackend`: Steam (export feature tag `steam`) and desktop release builds: no SDK, no ad UI.
+
+**Config, one file:** `scripts/monetization/monetization_config.gd` (`MonetizationConfig`): `USE_TEST_IDS`
+(default `true`; real IDs are never read while it's on, and test slots must hold Google test IDs),
+test and real IDs per platform, mock timings, consent debug geography, the ad rules. Real mode is
+refused (badge **ADS: BLOCKED**, error in the log) while a platform's real app ID / rewarded unit is
+empty (iOS today) or Project Settings `admob/general/<platform>/app_id` doesn't match.
+
+**Seeing the mode:** a small top-right badge, **ADS: MOCK / TEST IDS / REAL / BLOCKED** (debug builds
+and any test-ID build; never a release build with real ads). Log lines start with `[AdManager]`.
+Debug builds also get **Settings > ADS (DEBUG)**: status, Test Rewarded Ad, Test Forced Ad, an
+Ads Removed switch and Reset Ad Consent. **Settings > PRIVACY > Privacy Options** appears when
+Google's consent SDK requires it (EEA / UK).
+
+**Setup on your machine (not in the repo):**
+1. Install the plugin: AssetLib "AdMob" by Poing Studios v5.1.0 (or the release zip from
+   github.com/poingstudios/godot-admob-plugin) into `res://addons/admob`, enable it in Project
+   Settings > Plugins; it downloads the Android / iOS binaries for your exact Godot version (4.7.0-4.7.2).
+2. The app IDs are already in `project.godot` (`[admob]`, the test app IDs); the plugin writes them into
+   the Android manifest / iOS Info.plist at export. Change them together with `USE_TEST_IDS`.
+3. Android: Project > Install Android Build Template, export preset > Use Gradle Build, min SDK 24.
+4. iOS: paste `platform/ios/additional_plist_content.xml` into the iOS export preset's
+   **Application > Additional Plist Content** (the App Tracking Transparency text). The plugin adds
+   `GADApplicationIdentifier` and Google's `SKAdNetworkItems` itself. iOS 15+, Xcode 15+.
+
+**Godot 4.7.2 crash to know about:** calling a method that `await`s through a variable typed as a
+base class whose own version doesn't `await` corrupts the caller's locals after the await (segfault).
+AdManager calls its backend's async methods through an untyped reference (`_async_backend()`) for
+this reason; keep that pattern when adding a backend.
 
 ## Achievements (data)
 
