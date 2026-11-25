@@ -192,8 +192,12 @@ func _league_rows(list: VBoxContainer) -> void:
 	var div := League.div_of(lg, p)
 	var place := League.division_order(lg, st, div).find(p) + 1
 	var pic := League.picture_line(c)
-	nav.add_child(_nav_row("Standings", pic if pic != "" else "%s in the %s" % [League.ordinal(place),
-		League.division_name(lg, div)], League.record_text(st[p]), "trophy", Screens.CAREER_STANDINGS))
+	var r: Dictionary = st[p]
+	var sub := "%s in the %s" % [League.ordinal(place), League.division_name(lg, div)]
+	if int(r["w"]) + int(r["l"]) + int(r["t"]) == 0:
+		sub = "The %s: no games yet" % League.division_name(lg, div)  # (no places before a game)
+	nav.add_child(_nav_row("Standings", pic if pic != "" else sub, League.record_text(r), "trophy",
+		Screens.CAREER_STANDINGS))
 	nav.add_child(_nav_row("Schedule", "Every week, every team", "", "calendar", Screens.CAREER_SCHEDULE))
 	nav.add_child(_nav_row("Divisions", "%s and who gets in" % League.conference_name(lg, League.conf_of(lg, p)),
 		"", "flag", Screens.CAREER_DIVISIONS))
