@@ -1,15 +1,19 @@
 class_name DailyChallenge
 extends RefCounted
-## The Daily Challenge: one kick a day, a streak of successful days, skill
-## point rewards. Pure rules + saved state (GameState owns one, saves it in
+## The Daily Challenge: one kick a day, a streak of successful days, and a
+## weekly skill point payout. Pure rules + saved state (GameState owns one, saves it in
 ## the main save under "daily" and delivers rewards to the career).
 ##
 ## Day rules (DailyClock.day_number is the only definition of a day):
 ##   * one scenario per day (DailyScenario, seeded by the day), one attempt;
 ##     after a miss, ad_retries_per_day retries with a rewarded ad;
-##   * success: the streak grows (or starts at 1) and the day's reward is
-##     claimed right away, in the same save as the result (no double claims:
-##     claimed_days remembers every claimed day);
+##   * success: the streak grows (or starts at 1) and the day is claimed right
+##     away, in the same save as the result (claimed_days remembers every
+##     claimed day). Days 1-6 of a week pay nothing; the success that completes
+##     a week (every week_days-th day of the streak) pays the week's skill
+##     points at once (payout_days: never twice). The week is the streak mod
+##     week_days, so a payout starts the next week at day 1, a broken streak
+##     resets it to 0 and the streak saver brings it back;
 ##   * a day without a success breaks the streak when the next day starts;
 ##     after exactly one missed day the streak saver can restore it (rewarded
 ##     ad, once per streak, only on the day you come back);
@@ -43,11 +47,13 @@ var today: Dictionary = {}
 var saver_offer: Dictionary = {}
 var saver_used: bool = false
 var claimed_days: Array = []
+## Days whose success completed a week and paid it (save v4).
+var payout_days: Array = []
 ## Claimed skill points not yet in a career: [{id, sp, day}].
 var pending: Array = []
 ## Totals: days played (at least one kick), days completed, kicks, makes,
-## skill points earned.
-var stats: Dictionary = {"played": 0, "completed": 0, "kicks": 0, "makes": 0, "sp": 0}
+## skill points earned, weeks completed.
+var stats: Dictionary = {"played": 0, "completed": 0, "kicks": 0, "makes": 0, "sp": 0, "weeks": 0}
 var last_seen_unix: int = 0
 var max_day_seen: int = NO_DAY
 ## The day the "today's challenge" popup was last shown.
@@ -227,27 +233,74 @@ func _judge(success: bool) -> int:
 	return claim()
 
 
-## Grants today's reward once: marks the day claimed and queues the skill
-## points for the career (GameState delivers them). Returns the amount
-## (0 = already claimed or nothing to claim).
+## Claims today's success once (the day is marked claimed) and, if it
+## completes a week, pays the week. Returns the skill points paid (0 on days
+## 1-6, or when already claimed).
 func claim() -> int:
 	var day := int(today.get("day", NO_DAY))
 	if str(today.get("result", "")) != "success" or bool(today.get("claimed", false)) or day in claimed_days:
 		return 0
-	var sp := tuning.reward_for(streak)
 	today["claimed"] = true
-	today["reward"] = sp
+	today["reward"] = 0
 	claimed_days.append(day)
 	while claimed_days.size() > KEEP_CLAIMS:
 		claimed_days.pop_front()
+	return _pay_week_if_due(day)
+
+
+## The week's payout when today's success made the streak a full week: queued
+## for the career (GameState delivers it), once per day (payout_days).
+func _pay_week_if_due(day: int) -> int:
+	if not tuning.is_week_end(streak) or day in payout_days:
+		return 0
+	var sp := tuning.reward_for(streak)
+	payout_days.append(day)
+	while payout_days.size() > KEEP_CLAIMS:
+		payout_days.pop_front()
+	today["reward"] = sp
+	today["week_paid"] = true
 	if sp > 0:
-		pending.append({"id": claim_id(day), "sp": sp, "day": day})
+		pending.append({"id": week_id(day), "sp": sp, "day": day})
 	stats["sp"] = int(stats.get("sp", 0)) + sp
+	stats["weeks"] = int(stats.get("weeks", 0)) + 1
 	return sp
 
 
-static func claim_id(day: int) -> String:
-	return "daily-%d" % day
+## The payout's claim id (the career remembers it). Old per-day rewards used
+## "daily-<day>"; those still deliver.
+static func week_id(day: int) -> String:
+	return "week-%d" % day
+
+
+## Did today's success pay a week?
+func week_paid_today() -> bool:
+	return status() == "done" and bool(today.get("week_paid", false))
+
+
+# --- the week --------------------------------------------------------------------------------
+
+## Successful days in the current week (0..week_days-1): the streak mod
+## week_days. Right after a payout it's 0 (a new week starts).
+func week_progress() -> int:
+	return streak % maxi(tuning.week_days, 1)
+
+
+## Days still to make (today included if not done) to earn the week's points.
+func days_to_payout() -> int:
+	return tuning.week_days - week_progress()
+
+
+## The payout the current week is working toward.
+func next_payout() -> int:
+	return tuning.week_reward(streak / maxi(tuning.week_days, 1) + 1)
+
+
+## Which day of the week today's kick is (1..week_days), done or not.
+func week_day_today() -> int:
+	if status() == "done":
+		var p := week_progress()
+		return tuning.week_days if p == 0 else p
+	return week_progress() + 1
 
 
 # --- retry (rewarded ad) ------------------------------------------------------------------
@@ -300,6 +353,9 @@ func restore_streak() -> int:
 	longest = maxi(longest, streak)
 	saver_used = true
 	saver_offer = {}
+	# Restored on top of today's success: if that completes a week, pay it now.
+	if done_today and str(today.get("result", "")) == "success":
+		_pay_week_if_due(day)
 	changed.emit()
 	return streak
 
@@ -342,33 +398,27 @@ func clear_delivered(c: CareerData) -> void:
 	pending = pending.filter(func(p: Dictionary) -> bool: return not (str(p.get("id", "")) in c.daily_claims))
 
 
-## The reward track: track_days days around the current streak, as
-## [{n (streak day), sp, bonus, state}] with state "claimed" / "today" /
-## "next" (still to come). The track starts at 1 + a multiple of track_days.
+## The week track: week_days slots, the prize on the last one, as
+## [{n (day of the week), state, prize, sp}]. state: "done" (made, filled red),
+## "today" (today's kick, not made yet), "next". After a payout the track is a
+## fresh week (nothing done; tomorrow is day 1).
 func track() -> Array:
-	var len := maxi(tuning.track_days, 1)
-	var done_today := status() == "done"
-	# The streak day today's success is (or would be).
-	var today_n := streak if done_today else streak + 1
-	var start := ((today_n - 1) / len) * len + 1
+	var len := maxi(tuning.week_days, 1)
+	var done := week_progress()
 	var out: Array = []
-	for n in range(start, start + len):
+	for n in range(1, len + 1):
 		var state := "next"
-		if n < today_n or (n == today_n and done_today):
-			state = "claimed"
-		elif n == today_n:
+		if n <= done:
+			state = "done"
+		elif n == done + 1 and can_kick_today():
 			state = "today"
-		out.append({"n": n, "sp": tuning.reward_for(n), "bonus": tuning.bonus_for(n), "state": state})
+		out.append({"n": n, "state": state, "prize": n == len, "sp": next_payout() if n == len else 0})
 	return out
 
 
-## The next milestone after the current streak: {n, bonus} ({} = none).
-func next_milestone() -> Dictionary:
-	var from := streak + (0 if status() == "done" else 1)
-	for n in range(maxi(from, 1), from + 400):
-		if tuning.bonus_for(n) > 0 and not (n == streak and status() == "done"):
-			return {"n": n, "bonus": tuning.bonus_for(n)}
-	return {}
+## Today's kick is still to be made (ready, missed with a retry, or retry).
+func can_kick_today() -> bool:
+	return status() in ["ready", "retry", "missed"]
 
 
 func success_rate() -> int:
@@ -390,7 +440,8 @@ func mark_popup() -> void:
 func to_dict() -> Dictionary:
 	return {"streak": streak, "longest": longest, "last_completed_day": last_completed_day,
 		"today": today.duplicate(true), "saver_offer": saver_offer.duplicate(), "saver_used": saver_used,
-		"claimed_days": claimed_days.duplicate(), "pending": pending.duplicate(true),
+		"claimed_days": claimed_days.duplicate(), "payout_days": payout_days.duplicate(),
+		"pending": pending.duplicate(true),
 		"stats": stats.duplicate(), "last_seen_unix": last_seen_unix, "max_day_seen": max_day_seen,
 		"popup_day": popup_day, "debug_shift_days": debug_shift_days}
 
@@ -406,12 +457,16 @@ func from_dict(d: Dictionary) -> void:
 	if d.get("claimed_days") is Array:
 		for x in d["claimed_days"]:
 			claimed_days.append(int(x))
+	payout_days = []
+	if d.get("payout_days") is Array:
+		for x in d["payout_days"]:
+			payout_days.append(int(x))
 	pending = []
 	if d.get("pending") is Array:
 		for p in d["pending"]:
 			if p is Dictionary and str(p.get("id", "")) != "":
 				pending.append({"id": str(p["id"]), "sp": int(p.get("sp", 0)), "day": int(p.get("day", 0))})
-	stats = {"played": 0, "completed": 0, "kicks": 0, "makes": 0, "sp": 0}
+	stats = {"played": 0, "completed": 0, "kicks": 0, "makes": 0, "sp": 0, "weeks": 0}
 	if d.get("stats") is Dictionary:
 		for k in stats:
 			stats[k] = int(_num(d["stats"], k, 0))

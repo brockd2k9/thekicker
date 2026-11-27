@@ -1,8 +1,9 @@
 extends Node
 ## The Daily Challenge kick: a broadcast-style intro card (situation, kick,
-## wind, weather, field, pressure, reward), then the kick scene with DailyMode,
-## then the result card: success (red flash, the reward counting up, CLAIMED)
-## or a miss (Watch Ad to Retry once a day, or done for today).
+## wind, weather, field, pressure, day of the week), then the kick scene with
+## DailyMode, then the result card: "Day X of 7 complete" (days 1-6), the
+## week's payout (day 7: red flash, skill points counting up, CLAIMED), or a
+## miss (Watch Ad to Retry once a day, or done for today).
 ## The kick counts the moment it's struck (DailyChallenge.begin_kick, saved),
 ## so closing the game mid-flight is a miss, not a free retry. Its result is
 ## judged here and claimed and saved in one write. Daily kicks report with
@@ -125,10 +126,20 @@ func _on_attempt_finished(_o: KickResult.Outcome) -> void:
 
 # --- result cards --------------------------------------------------------------------------
 
+## Days 1-6: "Day X of 7 complete", no reward. The week's last day: the
+## payout celebration (red flash, the skill points counting up, CLAIMED).
 func _success_card(sp: int, delivered: Dictionary) -> void:
 	Sfx.play(&"good")
+	var w := daily.tuning.week_days
+	if sp <= 0 and not daily.week_paid_today():
+		var v0 := BrandUi.modal(_overlay.root, "Day %d of %d Complete" % [daily.week_day_today(), w])
+		v0.add_child(_week_dots())
+		v0.add_child(BrandUi.text(DailyUi.week_line(daily), "BodyStrong"))
+		v0.add_child(UiKit.stat_row("Streak", "%d day%s" % [daily.streak, "" if daily.streak == 1 else "s"], UiKit.ACCENT))
+		_result_buttons(v0)
+		return
 	UiKit.feedback(&"achievement")
-	var v := BrandUi.modal(_overlay.root, "Challenge Complete")
+	var v := BrandUi.modal(_overlay.root, "Week Complete!")
 	var modal := UiKit.modal_root(v)
 	BrandMotion.flash(modal)
 	var row := HBoxContainer.new()
@@ -148,15 +159,22 @@ func _success_card(sp: int, delivered: Dictionary) -> void:
 	var chips := BrandUi.chip_flow()
 	chips.alignment = FlowContainer.ALIGNMENT_CENTER
 	chips.add_child(BrandUi.chip("Claimed", "outline", "check"))
-	var bonus := daily.tuning.bonus_for(daily.streak)
-	if bonus > 0:
-		chips.add_child(BrandUi.chip("Day %d bonus +%d" % [daily.streak, bonus], "red", "star"))
+	chips.add_child(BrandUi.chip("%d of %d days" % [w, w], "red", "trophy"))
 	v.add_child(chips)
 	v.add_child(UiKit.stat_row("Streak", "%d day%s" % [daily.streak, "" if daily.streak == 1 else "s"], UiKit.ACCENT))
 	v.add_child(UiKit.stat_row("Longest", "%d day%s" % [daily.longest, "" if daily.longest == 1 else "s"]))
-	var where := "Added to %s's skill points." % str(delivered["name"]) if not delivered.is_empty() \
-		else "Banked: they go to your next career."
+	var where := "Added to %s's skill points. A new week starts tomorrow." % str(delivered["name"]) \
+		if not delivered.is_empty() else "Banked for your next career. A new week starts tomorrow."
 	v.add_child(BrandUi.text(where, "Caption", Brand.GREY))
+	_result_buttons(v)
+
+
+## This week's days as a row of slots (made days filled red).
+func _week_dots() -> Control:
+	return DailyUi.track(daily)
+
+
+func _result_buttons(v: VBoxContainer) -> void:
 	var menu := BrandUi.button("Menu", Screens.go.bind(Screens.MAIN_MENU), "secondary", "home")
 	var track := BrandUi.button("Streak", Screens.go.bind(Screens.DAILY), "primary", "flame")
 	v.add_child(BrandUi.button_row([menu, track]))

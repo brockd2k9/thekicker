@@ -1,7 +1,8 @@
 class_name DailyScreen
 extends MenuScreen
-## Daily Challenge: today's kick (play / retry / claimed), the streak saver,
-## current and longest streak, the reward track, and the challenge stats.
+## Daily Challenge: today's kick (play / retry / done), the streak saver,
+## current and longest streak, the week track (7 days in a row pay the
+## week's skill points on day 7), and the challenge stats.
 ## Debug builds add day controls (advance a day, step the clock back, reset).
 ## Back returns to where it was opened from (main menu or Career hub).
 
@@ -35,12 +36,11 @@ func _build(col: VBoxContainer) -> void:
 
 	list.add_child(BrandUi.section("Streak"))
 	list.add_child(DailyUi.streak_tiles(daily))
-	list.add_child(BrandUi.section("Reward track"))
+	list.add_child(BrandUi.section("This week"))
 	list.add_child(DailyUi.track(daily))
-	var nm := daily.next_milestone()
-	if not nm.is_empty():
-		list.add_child(BrandUi.text("Next bonus: day %d of a streak, +%d skill points." % [int(nm["n"]), int(nm["bonus"])],
-			"Caption", Brand.GREY))
+	list.add_child(BrandUi.text(DailyUi.week_line(daily), "BodyStrong"))
+	list.add_child(BrandUi.text("Make %d days in a row to earn the week's skill points. Miss a day and the week starts over." %
+		daily.tuning.week_days, "Caption", Brand.GREY))
 	list.add_child(BrandUi.text(_where_text(), "Caption", Brand.GREY))
 
 	list.add_child(BrandUi.section("Your challenges"))
@@ -48,7 +48,7 @@ func _build(col: VBoxContainer) -> void:
 	list.add_child(strip)
 	strip.set_cells([["Done", str(int(daily.stats.get("completed", 0)))],
 		["Success", "%d%%" % daily.success_rate() if int(daily.stats.get("played", 0)) > 0 else "-"],
-		["Longest", str(daily.longest)], ["SP won", str(int(daily.stats.get("sp", 0)))]])
+		["Longest", str(daily.longest)], ["Weeks", str(int(daily.stats.get("weeks", 0)))]])
 	list.add_child(BrandUi.text("Daily kicks never count in My Stats, career stats or records.", "Caption", Brand.GREY_DIM))
 
 	if OS.is_debug_build():
@@ -82,14 +82,17 @@ func _today_box() -> VBoxContainer:
 		"failed":
 			v.add_child(BrandUi.banner("info", "Out of kicks today", "%s %s" % [_streak_risk_text(), wait]))
 		"done":
-			var row := HBoxContainer.new()
-			row.add_theme_constant_override("separation", Brand.SPACE_3)
-			row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			row.add_child(BrandUi.chip("Claimed", "outline", "check"))
-			var l := BrandUi.text("+%d skill points" % int(daily.today.get("reward", 0)), "Subhead")
-			l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			row.add_child(l)
-			v.add_child(row)
+			if daily.week_paid_today():
+				var row := HBoxContainer.new()
+				row.add_theme_constant_override("separation", Brand.SPACE_3)
+				row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				row.add_child(BrandUi.chip("Claimed", "outline", "check"))
+				var l := BrandUi.text("+%d skill points" % int(daily.today.get("reward", 0)), "Subhead")
+				l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+				row.add_child(l)
+				v.add_child(row)
+			else:
+				v.add_child(BrandUi.text("Day %d of %d complete" % [daily.week_day_today(), daily.tuning.week_days], "Subhead"))
 			v.add_child(BrandUi.text("Done for today. " + wait, "Caption", Brand.GREY))
 	return v
 
@@ -145,10 +148,10 @@ func _where_text() -> String:
 	var who := GameState.daily_reward_target()
 	var banked := daily.pending_sp()
 	if who != "":
-		return "Skill points go straight to your career: %s." % who
+		return "Weekly skill points go straight to your career: %s." % who
 	if banked > 0:
 		return "%d skill points banked. They go to your next career (not a retired one)." % banked
-	return "Skill points go to your Career Mode player. No career yet? They wait for your next one."
+	return "Weekly skill points go to your Career Mode player. No career yet? They wait for your next one."
 
 
 func _play() -> void:

@@ -201,14 +201,19 @@ func _league_rows(list: VBoxContainer) -> void:
 	nav.add_child(_nav_row("Schedule", "Every week, every team", "", "calendar", Screens.CAREER_SCHEDULE))
 	nav.add_child(_nav_row("Divisions", "%s and who gets in" % League.conference_name(lg, League.conf_of(lg, p)),
 		"", "flag", Screens.CAREER_DIVISIONS))
-## Daily Challenge: skill points for this career every day ("NEW" until
-## today's kick is tried, otherwise the streak).
+
+
+## Daily Challenge: 7 days in a row pay this career the week's skill points
+## ("NEW" until today's kick is tried, otherwise the day of the week).
 func _daily_row() -> BrandListRow:
 	var d := GameState.daily
-	var sub := "One kick a day for skill points"
-	if d.status() == "done":
-		sub = "Done today: +%d skill points" % int(d.today.get("reward", 0))
-	var r := _nav_row("Daily Challenge", sub, "NEW" if d.is_new() else ("Streak %d" % d.streak if d.streak > 0 else ""),
+	var w := d.tuning.week_days
+	var sub := "Day %d of %d  ·  %d skill points on day %d" % [d.week_day_today(), w, d.next_payout(), w]
+	if d.week_paid_today():
+		sub = "Week complete: +%d skill points" % int(d.today.get("reward", 0))
+	elif d.status() == "done":
+		sub = "Done today  ·  day %d of %d" % [d.week_day_today(), w]
+	var r := _nav_row("Daily Challenge", sub, "NEW" if d.is_new() else "Day %d/%d" % [d.week_day_today(), w],
 		"calendar", Screens.DAILY)
 	r.pressed.connect(func() -> void: DailyScreen.return_to = Screens.CAREER_HUB, CONNECT_ONE_SHOT)
 	return r
