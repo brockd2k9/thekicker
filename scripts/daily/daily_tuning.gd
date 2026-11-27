@@ -6,32 +6,22 @@ extends Resource
 ## Reward scale, for comparison (tools/career_sim_baseline.md): a career season
 ## earns about 45 skill points (practice 9, field goals 9, choices 8, offseason
 ## 6, warmups 5...). One attribute point costs 1-15 SP (about 3 at 50, 6 at 70,
-## 12 at 90). With these defaults a perfect week of dailies pays 21 SP and a
-## perfect 30 days 97 SP (about 3 a day), so dailies help without replacing
-## the season grind.
+## 12 at 90). Daily rewards are weekly only: 10 SP for 7 successful days in a
+## row, so a perfect 30 days pays 40 SP (4 weeks), a bit under one season.
 
 const DEFAULT_PATH := "res://tuning/daily_tuning.tres"
 static var _cached: DailyTuning
 
 @export_group("Rewards")
-## Skill points for every successful daily challenge.
-@export var sp_daily: int = 2
-## Streak milestones: on these streak days, this bonus on top of sp_daily.
-@export var milestone_days: Array[int] = [3, 7, 14, 30]
-@export var milestone_bonus: Array[int] = [2, 5, 8, 12]
-## Past the listed milestones the bonuses keep coming: every repeat_week_days
-## (21, 28, 35...) a repeat_week_bonus, every repeat_month_days (60, 90...)
-## a repeat_month_bonus (the bigger one wins when both land on a day).
-@export var repeat_week_days: int = 7
-@export var repeat_week_bonus: int = 5
-@export var repeat_month_days: int = 30
-@export var repeat_month_bonus: int = 12
-## Hard cap on one day's total (base + bonus).
-@export var max_reward_per_day: int = 14
-## Days shown on the reward track (the login calendar).
-@export var track_days: int = 7
-## Where skill points go: the last-played career (not retired). With no such
-## career they're banked and added to the next career that opens.
+## Days of successful challenges in a row that make a week (the track's slots).
+@export var week_days: int = 7
+## Skill points paid on the last day of each completed week (as soon as that
+## day's kick is made). Days before it pay nothing.
+@export var sp_weekly: int = 10
+## Optional: extra skill points for each consecutive completed week in the same
+## streak (week 2 pays sp_weekly + this, week 3 + 2x...). 0 = off.
+@export var consecutive_week_bonus: int = 0
+## Source line for the career's skill points (Results, season history).
 @export var sp_source_text: String = "Daily Challenge"
 
 @export_group("Retry, ads and streak saver")
@@ -106,26 +96,19 @@ static func get_default() -> DailyTuning:
 	return _cached
 
 
-## Skill points for the day that takes the streak to `streak_day` (1 = the
-## first day of a streak): sp_daily plus that day's milestone bonus, capped.
-func reward_for(streak_day: int) -> int:
-	return mini(sp_daily + bonus_for(streak_day), max_reward_per_day)
+## True when streak day n (1 = the first day of a streak) completes a week.
+func is_week_end(n: int) -> bool:
+	return n > 0 and week_days > 0 and n % week_days == 0
 
 
-## The milestone bonus on streak day n (0 = none).
-func bonus_for(n: int) -> int:
-	if n <= 0:
-		return 0
-	var i := milestone_days.find(n)
-	if i >= 0 and i < milestone_bonus.size():
-		return milestone_bonus[i]
-	var last: int = milestone_days.max() if not milestone_days.is_empty() else 0
-	var b := 0
-	if repeat_week_days > 0 and n % repeat_week_days == 0 and n > mini(last, repeat_week_days):
-		b = repeat_week_bonus
-	if repeat_month_days > 0 and n % repeat_month_days == 0 and n > last:
-		b = maxi(b, repeat_month_bonus)
-	return b
+## The payout for the n-th consecutive completed week of a streak (1 = first).
+func week_reward(week: int) -> int:
+	return maxi(sp_weekly + maxi(consecutive_week_bonus, 0) * maxi(week - 1, 0), 0)
+
+
+## What streak day n pays: the week's payout on a week's last day, else 0.
+func reward_for(n: int) -> int:
+	return week_reward(n / week_days) if is_week_end(n) else 0
 
 
 ## Total skill points for a perfect run of `days` (for docs and tests).
