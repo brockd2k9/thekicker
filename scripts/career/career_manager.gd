@@ -241,6 +241,7 @@ func _start_season(continuing: bool) -> void:
 	_season_flags()
 	Followers.new_season(data)
 	Fatigue.new_season(data)
+	data.flags["_recruit_credit"] = 0.0
 	if continuing:
 		data.team["strength"] = clampf(float(data.team.get("strength", 50)) +
 			rng.randf_range(-tuning.team_strength_drift, tuning.team_strength_drift), 20.0, 90.0)
@@ -609,12 +610,21 @@ func _bench_game() -> void:
 	if suspended:
 		data.last_week["suspended"] = {"reason": str(data.suspension.get("reason", "")),
 			"left": Reputation.served(data), "team": team}
+	_recruiting_week()
 	_tag_postseason()
 	_week_practice()
 	data.phase = PHASE_RESULTS
 
 
 ## A postseason game's Results: which round, and was it the final.
+## Recruiting points move after every regular-season game (Progression),
+## shown on the Results screen.
+func _recruiting_week() -> void:
+	if is_postseason() or not (data.stage in [CareerData.STAGE_HIGH_SCHOOL, CareerData.STAGE_JUCO]):
+		return
+	data.last_week["recruiting"] = snappedf(Progression.credit_recruiting(data, tuning), 0.01)
+
+
 func _tag_postseason() -> void:
 	if is_postseason():
 		data.last_week["postseason"] = str(entry().get("round_name", "Postseason"))
@@ -687,6 +697,7 @@ func finish_game(summary: Dictionary) -> void:
 		"us": summary.get("us", 0), "them": summary.get("them", 0),
 		"outcome": outcome, "kicks": summary.get("kicks", []), "warmups": summary.get("warmups", []),
 		"line": line, "changes": applied, "trust": trust, "bench": bench_info, "ot": summary.get("ot", {})}
+	_recruiting_week()
 	_tag_postseason()
 	data.game_checkpoint = {}
 	data.phase = PHASE_RESULTS
@@ -932,9 +943,13 @@ func end_season() -> void:
 	data.history.append(h)
 	match data.stage:
 		CareerData.STAGE_HIGH_SCHOOL, CareerData.STAGE_JUCO:
+			# The season's games already moved the points (Progression.credit_recruiting);
+			# the rest comes now: the coach's recommendation, followers, the postseason.
 			var gain := Progression.recruiting_gain(data, tuning) + float(fans["progress"]) \
 				+ Postseason.progress_bonus(data)
-			data.recruiting_score = clampf(data.recruiting_score + gain, 0.0, 100.0)
+			var rest := gain - float(data.flags.get("_recruit_credit", 0.0))
+			data.flags["_recruit_credit"] = 0.0
+			data.recruiting_score = clampf(data.recruiting_score + rest, 0.0, 100.0)
 			data.gpa = clampf(data.gpa + Progression.gpa_drift(data, tuning), 0.0, 4.0)
 			var upd := Progression.update_offers(data, rng)
 			for off in upd["new"]:

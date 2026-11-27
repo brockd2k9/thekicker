@@ -1,11 +1,17 @@
 extends CareerScreen
-## Recruiting (Hub → Recruiting): your recruiting points and the colleges
-## interested in you, most interested first, with each school's interest
-## level and any offer it has made. Interest comes from the same rules that
+## Recruiting (Hub → Recruiting): your recruiting points and every college
+## (FBS / FCS / D2 tabs), most interested first, with each school's interest
+## level and any offer it has made. Points move after every game. Interest comes from the same rules that
 ## make offers (CareerRecords.school_interest): your points against each
 ## school tier's bar. After you sign, it shows the final picture.
 ## (The recruiting update and signing day after each season stay on their
 ## own screen, career_recruiting.gd.)
+
+
+## The level shown (FBS / FCS / D2), while the game runs ("" = where the
+## most interested school is).
+static var division_shown := ""
+const DIVISIONS := [["FBS", "FBS"], ["FCS", "FCS"], ["D2", "Division II"]]
 
 
 func _build(col: VBoxContainer) -> void:
@@ -21,18 +27,13 @@ func _build(col: VBoxContainer) -> void:
 		v.add_child(UiKit.label(_signed_text(), 24, UiKit.MUTED))
 		list.add_child(done[0])
 	else:
-		var schools := CareerRecords.interested_schools(c)
-		list.add_child(UiKit.section("Interested schools (%d)" % schools.size()))
-		if schools.is_empty():
-			list.add_child(UiKit.label("No college is watching yet. Make kicks, win games and pick choices "
-				+ "that build recruiting points.", 26, UiKit.MUTED))
-		for s in schools:
-			list.add_child(_school_row(s))
-		UiKit.stagger(list, 0.03)
-	list.add_child(UiKit.label("Recruiting points grow after each season with your kicking (accuracy, long "
-		+ "makes), your team's record, your leg and choices like camps, highlight films and visits. Schools "
-		+ "start offering at 50 interest, the most interested school in each tier first (one new offer per "
-		+ "tier a season, none as a freshman); better schools also need a higher GPA.", 22, UiKit.MUTED))
+		_all_schools(col, list)
+	list.add_child(UiKit.label("Recruiting points move after every game with your kicking (accuracy, long "
+		+ "makes), your team's record, your leg and range, and choices like camps, highlight films and visits; "
+		+ "the coach's word, your followers and the playoffs add theirs after the season. Schools start "
+		+ "offering at 50 interest, after the season, the most interested school in each tier first (one new "
+		+ "offer per tier a season, none as a freshman); better schools also need a higher GPA. Junior colleges "
+		+ "(%d) take any kicker a four-year school doesn't sign." % TeamDatabase.jucos().size(), 22, UiKit.MUTED))
 	col.add_child(UiKit.button("Back", go_back, UiKit.SECONDARY, "back"))
 
 
@@ -68,6 +69,80 @@ func _points_card(active: bool) -> PanelContainer:
 		chips.add_child(UiKit.chip("%d offer%s" % [n, "" if n == 1 else "s"], UiKit.GOOD if n > 0 else UiKit.MUTED,
 			n > 0, "", 22))
 	return parts[0]
+
+
+## Every college of the chosen level, most interested first.
+func _all_schools(col: VBoxContainer, list: VBoxContainer) -> void:
+	var c := career.data
+	if division_shown == "":
+		var best := CareerRecords.all_schools(c)
+		division_shown = str(best[0]["school"].get("division", "FBS")) if not best.is_empty() else "FBS"
+	var seg: BrandSegmented = load("res://scenes/ui/brand/segmented_toggle.tscn").instantiate()
+	seg.options = PackedStringArray(DIVISIONS.map(func(d: Array) -> String: return str(d[0])))
+	seg.selected = maxi(DIVISIONS.map(func(d: Array) -> String: return str(d[0])).find(division_shown), 0)
+	seg.option_selected.connect(func(i: int) -> void:
+		division_shown = str(DIVISIONS[i][0])
+		Screens.go(Screens.CAREER_RECRUITING_BOARD))
+	col.add_child(seg)
+	col.move_child(seg, list.get_parent().get_parent().get_index())
+	var schools := CareerRecords.all_schools(c, division_shown)
+	var watching := schools.filter(func(e: Dictionary) -> bool:
+		return float(e["interest"]) >= CareerRecords.LIST_MIN_INTEREST or not e["offer"].is_empty()).size()
+	var name := ""
+	for d in DIVISIONS:
+		if d[0] == division_shown:
+			name = d[1]
+	list.add_child(UiKit.section("%s schools (%d)  ·  %d watching you" % [name, schools.size(), watching]))
+	for e in schools:
+		list.add_child(_compact_row(e))
+
+
+## One school in a line: name, conference and where they stand; interest on
+## the right with a thin bar.
+func _compact_row(e: Dictionary) -> Control:
+	var s: Dictionary = e["school"]
+	var interest := float(e["interest"])
+	var colr := _interest_color(interest)
+	var v := VBoxContainer.new()
+	v.add_theme_constant_override("separation", 2)
+	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var h := HBoxContainer.new()
+	h.add_theme_constant_override("separation", 12)
+	h.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	v.add_child(h)
+	var left := VBoxContainer.new()
+	left.add_theme_constant_override("separation", 0)
+	left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	left.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	h.add_child(left)
+	left.add_child(UiKit.label(str(s.get("name", "")), 28, UiKit.TEXT))
+	var sub := "%s  ·  %s" % [str(s.get("conference", "")), str(e["word"])]
+	var off: Dictionary = e["offer"]
+	var sub_col := UiKit.MUTED
+	if not off.is_empty():
+		sub += "  ·  OFFER: " + str(Progression.OFFER_NAMES.get(str(off.get("type", "")), "Offer"))
+		sub_col = UiKit.GOOD
+	elif e["gpa_short"]:
+		sub += "  ·  needs GPA %.1f" % float(Progression.tier(str(s.get("tier", ""))).get("min_gpa", 0))
+		sub_col = UiKit.BAD
+	elif e["no_offer_yet"]:
+		sub += "  ·  could offer after the season"
+		sub_col = UiKit.WARN
+	left.add_child(UiKit.label(sub, 22, sub_col))
+	var num := UiKit.line("%d" % roundi(interest), 34, colr, UiTokens.FONT_BANNER)
+	num.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	h.add_child(num)
+	var bar := ProgressBar.new()
+	bar.show_percentage = false
+	bar.max_value = 100
+	bar.value = interest
+	bar.custom_minimum_size.y = 6
+	bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var fill := UiKit._box(colr, 0)
+	fill.set_content_margin_all(0)
+	bar.add_theme_stylebox_override("fill", fill)
+	v.add_child(bar)
+	return v
 
 
 func _school_row(e: Dictionary) -> PanelContainer:

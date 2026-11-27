@@ -64,6 +64,32 @@ static func recruiting_gain(c: CareerData, t: CareerTuning) -> float:
 	return w * g + trait_bonus(c, "recruiting") + coach_rec(c, t)
 
 
+## Recruiting points this season's games have earned so far: the season
+## formula (recruiting_gain, without the coach's final-season recommendation)
+## times the share of the regular season played. Points move after every game
+## and add up to the same season total.
+static func recruiting_so_far(c: CareerData, t: CareerTuning) -> float:
+	if not (c.stage in [CareerData.STAGE_HIGH_SCHOOL, CareerData.STAGE_JUCO]):
+		return 0.0
+	var played := int(c.record["w"]) + int(c.record["l"]) + int(c.record["t"])
+	var frac := clampf(float(played) / float(maxi(t.games_for(c.stage), 1)), 0.0, 1.0)
+	return (recruiting_gain(c, t) - coach_rec(c, t)) * frac
+
+
+## After a game: moves recruiting points to recruiting_so_far (they can drop
+## after a bad game). Returns the change. What's been credited this season is
+## kept in flags "_recruit_credit"; the season end adds the rest.
+static func credit_recruiting(c: CareerData, t: CareerTuning) -> float:
+	if not (c.stage in [CareerData.STAGE_HIGH_SCHOOL, CareerData.STAGE_JUCO]):
+		return 0.0
+	var target := recruiting_so_far(c, t)
+	var d := target - float(c.flags.get("_recruit_credit", 0.0))
+	var before := c.recruiting_score
+	c.recruiting_score = clampf(c.recruiting_score + d, 0.0, 100.0)
+	c.flags["_recruit_credit"] = target
+	return c.recruiting_score - before
+
+
 ## The coach's recommendation (relationship), final HS / junior college season only.
 static func coach_rec(c: CareerData, t: CareerTuning) -> float:
 	var final := (c.stage == CareerData.STAGE_HIGH_SCHOOL and c.season_in_stage >= t.high_school_seasons) \
