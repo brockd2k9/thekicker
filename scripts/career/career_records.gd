@@ -164,6 +164,28 @@ static func interested_schools(c: CareerData) -> Array:
 	return out
 
 
+## Every four-year college of one level ("FBS", "FCS", "D2"; "" = all), most
+## interested first, each with its interest (the Recruiting screen lists them
+## all). Same entries as interested_schools().
+static func all_schools(c: CareerData, division := "") -> Array:
+	var out: Array = []
+	for s in TeamDatabase.colleges():
+		if division != "" and str(s.get("division", "")) != division:
+			continue
+		var v := school_interest(c, s)
+		var off := offer_from(c, str(s.get("id", "")))
+		var gpa_short := off.is_empty() and not Progression.gpa_ok(c, str(s.get("tier", "")))
+		out.append({"school": s, "interest": v, "word": interest_word(v), "offer": off,
+			"gpa_short": gpa_short, "no_offer_yet": off.is_empty() and not gpa_short and v >= OFFER_INTEREST})
+	out.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		if not is_equal_approx(float(a["interest"]), float(b["interest"])):
+			return float(a["interest"]) > float(b["interest"])
+		if a["offer"].is_empty() != b["offer"].is_empty():
+			return not a["offer"].is_empty()
+		return str(a["school"].get("name", "")) < str(b["school"].get("name", "")))
+	return out
+
+
 # --- kick log: distances, streaks, misc (save version 6) --------------------------------
 # Built from CareerData.kick_log (every game kick since version 6). Totals that
 # the season lines already keep (FG, XP, long, points, game winners, games)

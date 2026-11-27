@@ -146,6 +146,10 @@ func _build(col: VBoxContainer) -> void:
 		if str(fl[1]) != "":
 			list.add_child(UiKit.label(str(fl[1]), 22, UiKit.MUTED))
 	list.add_child(UiKit.label("Recovery is added when you continue.", 22, UiKit.MUTED))
+	if w.has("recruiting"):
+		var rp := float(w["recruiting"])
+		list.add_child(UiKit.stat_row("Recruiting points", "%s%.1f  (now %d)" % ["+" if rp >= 0.0 else "", rp,
+			roundi(c.recruiting_score)], UiKit.GOOD if rp > 0.0 else (UiKit.BAD if rp < 0.0 else UiKit.MUTED), "school"))
 	list.add_child(UiKit.section("SEASON"))
 	var s := c.season_stats
 	list.add_child(UiKit.stat_row("Field goals", "%d / %d" % [int(s["fg_made"]), int(s["fg_att"])]))

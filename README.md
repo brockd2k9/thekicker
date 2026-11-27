@@ -644,7 +644,12 @@ there and leveling off toward 6..94, plus a fixed -6..+6 lean per school; at lea
 level once a school has offered, and capped when your GPA is below the tier's minimum. Each tier's
 offer goes to its most interested school without one, so a school without an offer never outranks
 an offering school of its tier; schools at offer-level interest (50+) that are still waiting (one
-new offer per tier a season, none as a freshman) say "Interest high, no offer yet this season".
+new offer per tier a season, none as a freshman) say "could offer after the season". The screen lists
+every four-year college (FBS / FCS / D2 tabs, `CareerRecords.all_schools`), most interested first.
+**Recruiting points move after every game** (`Progression.credit_recruiting`): the season formula
+(`recruiting_gain` without the coach's recommendation) times the share of the regular season played,
+so a bad game can lower them; the season end adds the rest (coach, followers, postseason), and the
+season total is what it was before. The Results screen shows each game's change.
 Old career saves load and are upgraded (format versions and steps in
 `scripts/career/career_save.gd`); content that was renamed or removed since a save was made is
 dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career Mode".
@@ -674,7 +679,7 @@ dropped on load. Design decisions and values to playtest: `PLAYTEST.md`, "Career
 | Weekly loop / saves | `scripts/career/career_manager.gd`, `career_save.gd` (3 slots: `user://career_slot_N.json`) |
 | Stats + traits -> kick | `scripts/career/kick_profile.gd` (`KickProfile.build()` -> `KickModifiers`) |
 | Scenario engine | `scripts/career/scenario_engine.gd` |
-| Hub → **Stats** (kicking record: Season view; Career view with HS / College / Pro / Career Total tabs, season rows and totals; distance, extra point, streak and misc sections; per-kick log `CareerData.kick_log`) and Hub → **Recruiting** (recruiting points, interested colleges with interest level and offers) | `scripts/career/career_records.gd` (`CareerRecords`, read-only), screens `career_kicking.gd`, `career_recruiting_board.gd` |
+| Hub → **Stats** (kicking record: Season view; Career view with HS / College / Pro / Career Total tabs, season rows and totals; distance, extra point, streak and misc sections; per-kick log `CareerData.kick_log`) and Hub → **Recruiting** (recruiting points, every college by level with its interest and offers) | `scripts/career/career_records.gd` (`CareerRecords`, read-only), screens `career_kicking.gd`, `career_recruiting_board.gd` |
 | Hub → **Records** (Records Book: High School / College / Pro, then League / Conference / Division / Team with a team picker, Single Season / Career, ◀ category ▶; your entries highlighted and "Your best" with the gap to the next rank and to #1). New records, ties and lists entered show on the Results and Season screens | `scripts/ui/screens/career_records.gd`, row scene `scenes/ui/record_row.tscn`, `CareerUi.record_events` |
 
 Goalposts and uniforms: `field_goal_game.gd` `set_look()` (called before the scene enters the
