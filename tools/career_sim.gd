@@ -133,6 +133,10 @@ func _play_career(strat: String, n: int) -> Dictionary:
 	# Every career starts at Hoboken High School, as in the game.
 	var c := CareerData.create("Sim %d" % n, CareerTuning.get_default())
 	c.team = Progression.team_from(TeamDatabase.start_team(), CareerData.STAGE_HIGH_SCHOOL)
+	# The creation time seeds the league, relationships and recruiting interest:
+	# take it from the run's seed, not the clock, so the same seed gives the
+	# same careers (and the same report).
+	c.created = 1_700_000_000 + (_rng.randi() % 100_000_000)
 	var m := CareerManager.new(c)
 	m.rng.seed = _rng.randi()
 	m._start_season(false)

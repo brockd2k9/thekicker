@@ -10,7 +10,7 @@ func _build(col: VBoxContainer) -> void:
 	col.add_child(UiKit.expanding_spacer())
 
 	var first := UiKit.primary("Career Mode", Screens.go.bind(Screens.CAREER), "career")
-	first.custom_minimum_size.y = 108
+	first.custom_minimum_size.y = 96
 	col.add_child(first)
 	GameState.daily_refresh()
 	col.add_child(_daily_button())
@@ -26,13 +26,15 @@ func _build(col: VBoxContainer) -> void:
 	if OS.is_debug_build():
 		items.append(["UI Gallery", Screens.UI_GALLERY, "settings"])  # the design system, for review
 	var buttons := VBoxContainer.new()
-	buttons.add_theme_constant_override("separation", 14)
+	# Tight enough for the stats line to stay on a 720x1280 screen with every
+	# entry (Daily Challenge, Store, and UI Gallery in debug builds).
+	buttons.add_theme_constant_override("separation", 8)
 	col.add_child(buttons)
 	for it in items:
 		var go := StoreScreen.open.bind(Screens.MAIN_MENU) if it[1] == Screens.STORE else Screens.go.bind(it[1])
 		var b := UiKit.button(it[0], go, UiKit.SECONDARY, it[2])
 		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		b.custom_minimum_size.y = 92
+		b.custom_minimum_size.y = UiTokens.TAP_MIN
 		buttons.add_child(b)
 	UiKit.stagger(buttons, 0.04)
 
@@ -53,7 +55,7 @@ func _daily_button() -> Button:
 	var d := GameState.daily
 	var b := UiKit.button("Daily Challenge", _open_daily.bind(Screens.DAILY), UiKit.SECONDARY, "calendar")
 	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
-	b.custom_minimum_size.y = 96
+	b.custom_minimum_size.y = UiTokens.TAP_MIN
 	if not d.is_locked():
 		var tag := "Day %d/%d" % [d.week_day_today(), d.tuning.week_days]
 		if d.is_new():
@@ -83,7 +85,7 @@ func _logo() -> Control:
 	var top := UiKit.label("FIELD GOAL UNIT", 28, Brand.GREY, UiTokens.FONT_CONDENSED)
 	top.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(top)
-	var logo := UiKit.label("KICKER", 150, UiKit.TEXT, UiTokens.FONT_BANNER)
+	var logo := UiKit.label("KICKER", 128, UiKit.TEXT, UiTokens.FONT_BANNER)
 	logo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	logo.autowrap_mode = TextServer.AUTOWRAP_OFF
 	v.add_child(logo)
