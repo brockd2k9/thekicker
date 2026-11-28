@@ -77,7 +77,7 @@ Things that are built but **untuned**. Every value named here is in `tuning/kick
 31. **Reset Stats** clears stats and best streak but keeps achievements and settings. Confirm
     that's the behavior you want.
 32. **Aim Assist off** hides the aim ring only. Does the game still feel readable without it?
-33. **Volume sliders** work once real sounds/music are in `audio/` (`music.ogg` loops on the Music bus).
+33. **Volume sliders** work once real sounds/music are in `audio/` (music cues go in `audio/music/`, see README "Sound").
 34. **Touch targets.** Buttons are 96 px in the 720-wide layout. Check on the smallest phone you have.
 
 35. **Daily Challenge.** Numbers in `tuning/daily_tuning.tres`. Rewards are weekly: 7 successful

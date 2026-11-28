@@ -94,6 +94,7 @@ func _ready() -> void:
 	_build_ui()
 	_set_score(0, 0, 0.0)
 	_timer = 0.6
+	AudioManager.play_music(_game_music())
 	# A loss left on its replay offer: show that offer again (no replay).
 	var pending := career.pending_final()
 	if not pending.is_empty():
@@ -103,6 +104,12 @@ func _ready() -> void:
 		bug.set_final()
 		_add_line("Final.")
 		_show_final(pending)
+
+
+## The game track (AudioManager.career_game_cue: level, playoffs), or the
+## benched music while the backup kicks your field goals.
+func _game_music() -> StringName:
+	return &"benched" if Bench.this_week(career.data) else AudioManager.career_game_cue(career)
 
 
 func _exit_tree() -> void:
@@ -310,6 +317,8 @@ func _launch_kick(e: Dictionary) -> void:
 	_kick_kind = str(e.get("kind", "fg"))
 	_kick_yards = int(e.get("yards", 0))
 	_last_call = e
+	if AudioManager.is_clutch_call(e):
+		AudioManager.play_music(&"clutch_kick")
 	var rules: KickoffRules = null
 	if _kick_kind in ["kickoff", "onside"]:
 		rules = CareerGameMode.kickoff_rules_for(career.tuning, Progression.game_params(career.data, career.tuning), prof)
@@ -409,6 +418,7 @@ func _resolve_kick() -> void:
 
 
 func _resume_play() -> void:
+	AudioManager.play_music(_game_music())  # back from a clutch kick (no-op otherwise)
 	_update_status()
 	_busy = false
 	_timer = 0.3
@@ -497,7 +507,19 @@ func _end_game() -> void:
 	_set_score(sim.score_us, sim.score_them, 4.0 * career.tuning.quarter_minutes * 60.0)
 	bug.set_possession("")
 	bug.set_final()
+	_final_music(str(sim.summary().get("outcome", "T")))
 	_show_final(sim.summary())
+
+
+## At the final whistle: championship_win for a won final (a bracket title or
+## a bowl), else the win / loss stinger. Both return to the music before them.
+func _final_music(outcome: String) -> void:
+	if outcome == "W" and career.is_postseason() and bool(career.entry().get("final", false)):
+		AudioManager.play_music(&"championship_win")
+	elif outcome == "W":
+		AudioManager.play_music(&"win")
+	elif outcome == "L":
+		AudioManager.play_music(&"loss")
 
 
 ## The Final card. A loss with a replay offer is saved as pending (not

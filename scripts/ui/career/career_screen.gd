@@ -28,6 +28,12 @@ func go_back() -> void:
 	Screens.go(Screens.CAREER_HUB)
 
 
+## The hub and the week's screens (scenarios, outlook, skills, stats ...)
+## share the training music.
+func music_cue() -> StringName:
+	return &"training"
+
+
 ## Career look: the stage's palette (Friday night / Saturday / Sunday) and
 ## the player's team colors.
 func _apply_look() -> void:

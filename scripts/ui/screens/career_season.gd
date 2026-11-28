@@ -4,6 +4,13 @@ extends CareerScreen
 ## step (recruiting update, offseason, draft day or contract review).
 
 
+## Training music, with the season_end stinger over it on arrival (not after
+## a title: championship_win, started at the final whistle, plays on).
+func _play_music() -> void:
+	AudioManager.play_music(&"training")
+	if not (str(career.data.postseason.get("status", "")) in ["champion", "bowl_won"]):
+		AudioManager.play_music(&"season_end")
+
 func _build(col: VBoxContainer) -> void:
 	var c := career.data
 	col.add_child(UiKit.title_block("SEASON %d COMPLETE" % c.season))

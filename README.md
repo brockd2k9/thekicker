@@ -535,7 +535,8 @@ scripts/
                               owns KickStats / AchievementTracker / GameSettings / SaveStore
   autoload/sfx.gd             Sfx: sound hook (plays on the "SFX" bus)
   autoload/haptics.gd         Haptics: phone vibration
-  autoload/music.gd           Music: loops audio/music.ogg on the "Music" bus if present
+  autoload/audio_manager.gd   AudioManager: situation music (cues in audio/music/), crossfades,
+                              one-shot stingers, optional clutch-kick stems ("Music" bus)
   core/kick_report.gd         KickReport: the kick-result event payload
   systems/kick_stats.gd       all-time stats (streaks, longest FG, misses by type, best streak)
   systems/achievement_defs.gd achievements as data
@@ -893,7 +894,33 @@ UI hooks (`UiKit.feedback`, also a haptic pulse; see `UiKit.FEEDBACK`): `ui_conf
 (primary buttons, picking a choice), `ui_locked` (tapping a locked choice), `ui_transition`,
 `stat_up`, `trait_unlock`, `week_result`, `result_good` / `result_miss` (HUD banner, on top
 of `good` / `miss`) and `game_winner`.
-`audio/music.ogg` (or .mp3/.wav), if present, loops on the Music bus.
+**Music** (`AudioManager`, `scripts/autoload/audio_manager.gd`): one file per cue in
+`audio/music/`, named after the cue (`audio/music/hs_game.ogg`, or .mp3/.wav):
+
+| Cue | Kind | Plays |
+|---|---|---|
+| `menu` | loop | main menu and the other menus (falls back to the old `audio/music.ogg`) |
+| `training` | loop | Career Hub and the week's screens (scenarios, outlook, skills, stats, results) |
+| `hs_game` / `college_game` / `pro_game` | loop | a career game, by level (junior college = college) |
+| `playoffs` | loop | any postseason game (playoffs, bowls, conference title games) |
+| `clutch_kick` | loop | a GAME WINNER / TO TIE field goal or extra point, back to the game track after |
+| `benched` | loop | a game you watch from the bench, and its Results |
+| `draft_day` | loop | Draft Day (Free Agency keeps `training`) |
+| `championship_win` | one-shot | the final whistle of a won title game or bowl |
+| `win` / `loss` | one-shot | the final whistle of any other game |
+| `season_end` | one-shot | Season Summary (not after a title) |
+
+`AudioManager.play_music(cue)` crossfades and never restarts the cue that's playing. One-shots
+play once, then the music before them comes back where it left off; a loop asked for during a
+one-shot comes in when it ends. Game tracks resume where they were after a clutch kick.
+`AudioManager.game_cue(stage, postseason)` / `career_game_cue(career)` pick the game track.
+Screens pick their cue with `MenuScreen.music_cue()` (career screens: `training`).
+A cue with no file logs one warning and the current music keeps playing; debug builds print
+the cues still missing a file at startup.
+**Stems (optional):** `audio/music/clutch_kick_drums.ogg`, `_bass`, `_lead`, `_choir` play in
+sync with `clutch_kick.ogg` (itself optional once a stem exists);
+`AudioManager.set_stem_level(&"drums", 0.0 .. 1.0)` brings a layer in or out. Add stem names
+to `CUES` in `audio_manager.gd`.
 Drop `audio/kick.ogg` (or `.wav`/`.mp3`) etc. into `audio/` and they play automatically.
 Until then the events are printed to the Output panel in debug builds.
 

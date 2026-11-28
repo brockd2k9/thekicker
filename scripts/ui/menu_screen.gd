@@ -8,6 +8,7 @@ extends Control
 
 func _ready() -> void:
 	_apply_look()
+	_play_music()
 	var col := BrandUi.frame(self, title) if _uses_brand() else UiKit.build_frame(self, title)
 	_build(col)
 
@@ -20,6 +21,20 @@ func _uses_brand() -> bool:
 
 func _build(_col: VBoxContainer) -> void:
 	pass
+
+
+## This screen's music cue (AudioManager.CUES); &"" keeps whatever plays.
+## Menus play the menu music; career screens override.
+func music_cue() -> StringName:
+	return &"menu"
+
+
+## Asks AudioManager for this screen's music (no restart if it's already
+## playing). Screens with a one-shot on arrival override this.
+func _play_music() -> void:
+	var cue := music_cue()
+	if cue != &"":
+		AudioManager.play_music(cue)
 
 
 ## Palette for this screen. Menus use the default; career screens override.

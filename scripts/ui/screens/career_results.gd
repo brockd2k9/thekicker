@@ -5,6 +5,11 @@ extends CareerScreen
 ## Continue = end of week: weekly recovery, autosave, next week.
 
 
+## A week you sat out (benched, grades, suspension) keeps the benched music.
+func music_cue() -> StringName:
+	return &"benched" if str(career.data.last_week.get("type", "")) == "benched" else &"training"
+
+
 func _build(col: VBoxContainer) -> void:
 	var c := career.data
 	var w := c.last_week
