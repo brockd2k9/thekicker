@@ -317,6 +317,12 @@ static func validate() -> PackedStringArray:
 		_check_requires(problems, "scenario %s" % id, sc.get("requires", {}))
 		if sc.has("once_per_club") and not (sc["once_per_club"] is bool):
 			problems.append("scenario %s: once_per_club must be true or false" % id)
+		if sc.has("impact") and not (str(sc["impact"]) in ScenarioEngine.IMPACTS):
+			problems.append("scenario %s: impact must be minor, normal or major" % id)
+		if sc.has("speaker") and str(sc["speaker"]) != "" and not (str(sc["speaker"]) in Relationships.ids()):
+			problems.append("scenario %s: speaker '%s' isn't a cast id" % [id, sc["speaker"]])
+		if sc.has("key") and not str(sc.get("text", "")).contains(str(sc["key"])):
+			problems.append("scenario %s: key must be a phrase copied from the text" % id)
 		if sc.get("draft", false):
 			# No text or choices yet: only the graph data is checked.
 			if str(sc.get("title", "")) == "":
@@ -351,6 +357,11 @@ static func validate() -> PackedStringArray:
 				n_stats += 1 if ch.has(k) else 0
 			n_stats += 1 if ch.has("kick_challenge") else 0
 			_check_followers(problems, "scenario %s choice '%s'" % [id, ch.get("label", "")], ch)
+			if ch.has("callback") and (not (ch["callback"] is String) or str(ch["callback"]).length() > 90
+					or str(ch["callback"]).to_lower().begins_with("because")):
+				problems.append("scenario %s: choice '%s' callback must be a short line that follows \"Because you\" (90 characters at most)" % [id, ch.get("label", "")])
+			if ch.has("risky") and not (ch["risky"] is bool):
+				problems.append("scenario %s: choice '%s' risky must be true or false" % [id, ch.get("label", "")])
 			if n_stats == 0:
 				problems.append("scenario %s: choice '%s' changes no stats" % [id, ch.get("label", "")])
 			_check_requires(problems, "scenario %s choice" % id, ch.get("requires", {}))

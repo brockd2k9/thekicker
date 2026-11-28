@@ -290,7 +290,17 @@ static func apply_choice(c: CareerData, id: String, index: int, tuning: CareerTu
 	if choice_lock(c, ch) != "":
 		push_warning("ScenarioEngine: choice %d of '%s' is locked" % [index, id])
 		return {}
-	var out := apply_effects(c, ch, tuning, CareerContent.fill(str(s.get("title", "")), Relationships.text_vars(c)))
+	var imp := impact(s)
+	var vars := Relationships.text_vars(c)
+	var title := CareerContent.fill(str(s.get("title", "")), vars)
+	var tier_before := Followers.tier(c, tuning)
+	var out := apply_effects(c, ch, tuning, title, imp)
+	out["impact"] = imp
+	out["tier_up"] = Followers.tier(c, tuning) > tier_before
+	if ch.get("kick_challenge") is Dictionary:
+		out["challenge"] = true
+	out["reasons"] = result_reasons(ch, out, imp, tuning)
+	_remember(c, s, ch, out, vars, tuning)
 	# Wrong (or good) decisions feed the kick nerves (crooked swipes cost more).
 	KickNerves.on_choice(c, ch, tuning)
 	var log: Dictionary = c.scenario_log.get(id, {"times": 0})
@@ -308,10 +318,8 @@ static func apply_choice(c: CareerData, id: String, index: int, tuning: CareerTu
 	var cats: Dictionary = c.season_log["cats"]
 	var cat := str(s.get("category", ""))
 	cats[cat] = int(cats.get(cat, 0)) + 1
-	# A kick challenge: the top-level effects apply now; on_pass / on_fail after
-	# the kicks (KickChallenge, CareerManager.start_challenge).
-	if ch.get("kick_challenge") is Dictionary:
-		out["challenge"] = true
+	# A kick challenge (out["challenge"], above): the top-level effects apply
+	# now; on_pass / on_fail after the kicks (KickChallenge, CareerManager.start_challenge).
 	return out
 
 
@@ -319,8 +327,10 @@ static func apply_choice(c: CareerData, id: String, index: int, tuning: CareerTu
 ## on_fail): stats, skill points, progress, game-day modifiers, relationships,
 ## followers, flags and a follow-up. Returns what happened (apply_choice's keys).
 ## reason: what a suspension notice names (the scenario's title).
-static func apply_effects(c: CareerData, ch: Dictionary, tuning: CareerTuning, reason := "") -> Dictionary:
-	var applied := CareerStats.apply(c, scaled_stats(ch.get("stats", {}), tuning), tuning)
+## imp: the scene's impact (scales the stat changes, impact_scale_*).
+static func apply_effects(c: CareerData, ch: Dictionary, tuning: CareerTuning, reason := "",
+		imp := "normal") -> Dictionary:
+	var applied := CareerStats.apply(c, scaled_stats(ch.get("stats", {}), tuning, imp), tuning)
 	var sp := SkillPoints.from_choice(c, float(ch.get("skill_points", 0)), tuning) \
 		if ch.has("skill_points") else 0
 	var progress := progress_changes(ch, tuning)
@@ -367,15 +377,273 @@ static func apply_effects(c: CareerData, ch: Dictionary, tuning: CareerTuning, r
 
 
 ## A choice's stat changes with the football ones scaled by
-## scenario_football_scale (skill points are the main football growth now).
-static func scaled_stats(stats: Dictionary, tuning: CareerTuning) -> Dictionary:
-	if is_equal_approx(tuning.scenario_football_scale, 1.0) or not stats.has(CareerData.FOOTBALL):
+## scenario_football_scale (skill points are the main football growth now),
+## then every stat by the scene's impact (impact_scale_minor / normal / major).
+static func scaled_stats(stats: Dictionary, tuning: CareerTuning, imp := "normal") -> Dictionary:
+	var fb_scale := tuning.scenario_football_scale
+	var all := impact_scale(imp, tuning)
+	if (is_equal_approx(fb_scale, 1.0) or not stats.has(CareerData.FOOTBALL)) and is_equal_approx(all, 1.0):
 		return stats
 	var out := stats.duplicate(true)
-	var fb: Dictionary = out[CareerData.FOOTBALL]
-	for k in fb:
-		fb[k] = float(fb[k]) * tuning.scenario_football_scale
+	for g in out:
+		if not (out[g] is Dictionary):
+			continue
+		var grp: Dictionary = out[g]
+		for k in grp:
+			grp[k] = float(grp[k]) * all * (fb_scale if g == CareerData.FOOTBALL else 1.0)
 	return out
+
+
+# --- impact, results and callbacks ------------------------------------------------------
+
+const IMPACTS := ["minor", "normal", "major"]
+## Dev hook for the balance simulator: true = scenes with no "impact" tag get
+## guess_impact() instead of "normal" (an estimate of the story session's tags).
+static var impact_guess := false
+
+
+## A scene's impact: its "impact" field ("minor" / "normal" / "major"), default "normal".
+static func impact(s: Dictionary) -> String:
+	var v := str(s.get("impact", ""))
+	if v in IMPACTS:
+		return v
+	return guess_impact(s) if impact_guess else "normal"
+
+
+static func impact_scale(imp: String, t: CareerTuning) -> float:
+	match imp:
+		"minor":
+			return t.impact_scale_minor
+		"major":
+			return t.impact_scale_major
+	return t.impact_scale_normal
+
+
+## A rough impact for an untagged scene (the simulator's estimate; the data's
+## own tag always wins): major = a story beat or a scene where a choice can
+## suspend, cause a scandal, move draft stock or set character flags; minor =
+## a repeatable scene whose choices set no flags, move no money or draft /
+## recruiting points, carry no conduct and move no one by result_rel_min.
+static func guess_impact(s: Dictionary) -> String:
+	if s.has("beat"):
+		return "major"
+	var t := CareerTuning.get_default()
+	var minor := not bool(s.get("once", false)) and not bool(s.get("story", false))
+	for ch in s.get("choices", []):
+		if ch.has("suspend_weeks") or str(ch.get("conduct", "")) == "scandal" or ch.has("draft") \
+				or (ch.get("set_flags", {}) as Dictionary).has(Reputation.CONCERNS):
+			return "major"
+		if not (ch.get("set_flags", {}) as Dictionary).is_empty() or ch.has("money") or ch.has("conduct") \
+				or ch.has("recruiting") or ch.has("follow_up") or ch.has("kick_challenge"):
+			minor = false
+		for p in (ch.get("rel", {}) as Dictionary):
+			if absf(float(ch["rel"][p])) >= t.result_rel_min:
+				minor = false
+	return "minor" if minor else "normal"
+
+
+## Why the full result screen shows for a choice (empty = a quick toast only):
+## always for a major scene; never for a minor one (except a suspension, a new
+## trait or a kick challenge, which always show); for a normal scene, when the
+## choice crosses one of CareerTuning's "Scenario Impact" thresholds.
+## out: apply_effects' result (with "tier_up" when followers reached a new tier).
+static func result_reasons(ch: Dictionary, out: Dictionary, imp: String, t: CareerTuning) -> Array:
+	var r: Array = []
+	if ch.has("suspend_weeks"):
+		r.append("suspension")
+	if not (out.get("new_traits", []) as Array).is_empty():
+		r.append("trait")
+	if ch.get("kick_challenge") is Dictionary:
+		r.append("challenge")
+	if imp == "major":
+		r.append("major")
+	if imp != "normal":
+		return r
+	if not (ch.get("set_flags", {}) as Dictionary).is_empty():
+		r.append("flag")
+	if ch.has("conduct"):
+		r.append("conduct")
+	if float(ch.get("draft", 0.0)) != 0.0:
+		r.append("draft")
+	if absf(float(ch.get("recruiting", 0.0))) >= t.result_recruiting_min:
+		r.append("recruiting")
+	if absi(int(out.get("money", 0))) >= t.result_money_min:
+		r.append("money")
+	for p in (ch.get("rel", {}) as Dictionary):
+		if absf(float(ch["rel"][p])) >= t.result_rel_min:
+			r.append("relationship")
+			break
+	if absf(Followers.choice_buzz(ch, t)) >= t.result_followers_min or bool(out.get("tier_up", false)):
+		r.append("followers")
+	if ch.get("deal") is Dictionary:
+		r.append("deal")
+	if str(out.get("follow_up", "")) != "":
+		r.append("follow_up")
+	return r
+
+
+## A choice with a real downside (its card shows direction only, no numbers):
+## "risky": true / false in the data decides; otherwise any choice in a major
+## scene, a kick challenge, bad conduct or a scandal, a suspension, character
+## concerns, a money loss of result_money_min or more, someone dropping by
+## result_rel_min or more, or followers buzz of -result_followers_min or worse.
+static func is_risky(ch: Dictionary, imp: String, t: CareerTuning) -> bool:
+	if ch.has("risky"):
+		return bool(ch["risky"])
+	if imp == "major" or ch.get("kick_challenge") is Dictionary or ch.has("suspend_weeks"):
+		return true
+	if str(ch.get("conduct", "")) in ["bad", "scandal"]:
+		return true
+	if bool((ch.get("set_flags", {}) as Dictionary).get(Reputation.CONCERNS, false)):
+		return true
+	if int(ch.get("money", 0)) <= -t.result_money_min:
+		return true
+	for p in (ch.get("rel", {}) as Dictionary):
+		if float(ch["rel"][p]) <= -t.result_rel_min:
+			return true
+	return Followers.choice_buzz(ch, t) <= -t.result_followers_min
+
+
+## The stakes chips for a choice card: [{kind, label, icon, dir, value}], dir
+## 1 = gain, -1 = loss, 0 = both; value = exact text ("+5", "$50K") or "" (mixed,
+## or hidden on a risky choice). Kinds, in order: football (football stats,
+## skill points, recruiting / draft / pro standing, game-day modifiers), life,
+## personality, grades, relationships (one per person), money, fans, conduct.
+static func stakes(c: CareerData, ch: Dictionary, imp: String, t: CareerTuning) -> Array:
+	var hide := is_risky(ch, imp, t)
+	var out: Array = []
+	var pv := CareerStats.preview(c, scaled_stats(ch.get("stats", {}), t, imp), t)
+	# Football: attribute changes, skill points, progress and game-day modifiers.
+	var fb: Array = []
+	for k in pv.get(CareerData.FOOTBALL, {}):
+		fb.append(float(pv[CareerData.FOOTBALL][k]))
+	var sp := roundi(float(ch.get("skill_points", 0)) * t.sp_scenario_scale)
+	if sp != 0:
+		fb.append(float(sp))
+	var prog := progress_changes(ch, t)
+	for k in ["recruiting", "draft", "retention"]:
+		if prog.has(k):
+			fb.append(float(prog[k]))
+	for m in ch.get("modifiers", []):
+		var fx: Dictionary = CareerContent.modifier(str(m)).get("effects", {})
+		if not fx.is_empty():
+			fb.append(1.0 if KickProfile.net_good(fx) else -1.0)
+	_add_stake(out, "football", "Football", "ball", fb, "", hide)
+	for g in [CareerData.LIFE, CareerData.PERSONALITY]:
+		var vals: Array = []
+		var sum := 0.0
+		for k in pv.get(g, {}):
+			vals.append(float(pv[g][k]))
+			sum += float(pv[g][k])
+		var single := vals.size() == 1
+		_add_stake(out, g, "Life" if g == CareerData.LIFE else "Personality",
+			"health" if g == CareerData.LIFE else "charisma", vals, ("%+d" % roundi(sum)) if single else "", hide)
+	if prog.has("grades"):
+		_add_stake(out, "grades", "Grades", "book", [float(prog["grades"])], "%+.2f GPA" % float(prog["grades"]), hide)
+	var rel: Dictionary = ch.get("rel", {})
+	for p in rel:
+		var d := float(rel[p])
+		if absf(d) < 0.5:
+			continue
+		_add_stake(out, "rel", Relationships.name_of(c, str(p)),
+			str(Relationships.def(str(p)).get("icon", "social")), [d], "%+d" % roundi(d), hide)
+	var money := Savings.preview(c, ch)
+	if money != 0:
+		_add_stake(out, "money", "Money", "money", [float(money)],
+			("+" if money > 0 else "−") + Savings.text(absi(money)), hide)
+	var fans := Followers.choice_preview(c, ch, t)
+	if fans != 0:
+		_add_stake(out, "fans", "Fans", "social", [float(fans)],
+			("+" if fans > 0 else "−") + Followers.round_count(absi(fans)), hide)
+	var cond: Array = []
+	match str(ch.get("conduct", "")):
+		"good":
+			cond.append(1.0)
+		"bad", "scandal":
+			cond.append(-1.0)
+	if ch.has("suspend_weeks"):
+		cond.append(-1.0)
+	var flags: Dictionary = ch.get("set_flags", {})
+	if bool(flags.get(Reputation.CONCERNS, false)):
+		cond.append(-1.0)
+	if bool(flags.get(Reputation.REBUILT, false)):
+		cond.append(1.0)
+	_add_stake(out, "conduct", "Conduct", "resilience", cond, "", true)
+	return out
+
+
+static func _add_stake(out: Array, kind: String, label: String, icon: String, vals: Array, exact: String,
+		hide: bool) -> void:
+	var up := vals.any(func(v: Variant) -> bool: return float(v) > 0.0)
+	var down := vals.any(func(v: Variant) -> bool: return float(v) < 0.0)
+	if not up and not down:
+		return
+	var dir := 0 if (up and down) else (1 if up else -1)
+	out.append({"kind": kind, "label": label, "icon": icon, "dir": dir,
+		"value": "" if (hide or dir == 0) else exact.replace("-", "\u2212")})
+
+
+## Remembers a choice: the Hub's "Recent choices" (CareerData.choice_log, newest
+## last, choice_log_size kept) and, for each flag it sets and its follow-up,
+## where it came from (CareerData.choice_sources: the "Because you..." line).
+static func _remember(c: CareerData, s: Dictionary, ch: Dictionary, out: Dictionary, vars: Dictionary,
+		t: CareerTuning) -> void:
+	c.choice_sources.erase("@" + str(s.get("id", "")))  # this follow-up has fired
+	var title := CareerContent.fill(str(s.get("title", "")), vars)
+	var label := CareerContent.fill(str(ch.get("label", "")), vars)
+	var applied: Dictionary = (out.get("applied", {}) as Dictionary).duplicate(true)
+	applied.erase("new_traits")
+	c.choice_log.append({"id": str(s.get("id", "")), "title": title, "label": label,
+		"result": CareerContent.fill(str(ch.get("result", "")), vars), "stage": c.stage,
+		"season": c.season, "week": c.week, "phase": c.phase, "impact": str(out.get("impact", "normal")),
+		"shown": not (out.get("reasons", []) as Array).is_empty(), "applied": applied,
+		"rel": (out.get("relationships", {}) as Dictionary).duplicate(), "money": int(out.get("money", 0)),
+		"followers": int(out.get("followers", 0)), "skill_points": int(out.get("skill_points", 0))})
+	while c.choice_log.size() > maxi(t.choice_log_size, 1):
+		c.choice_log.pop_front()
+	var src := {"title": title, "label": label, "callback": CareerContent.fill(str(ch.get("callback", "")), vars),
+		"week_index": c.week_index}
+	var flags: Dictionary = ch.get("set_flags", {})
+	for f in flags:
+		if flags[f] is bool and not flags[f]:
+			c.choice_sources.erase(str(f))
+		else:
+			c.choice_sources[str(f)] = src.duplicate()
+	if str(out.get("follow_up", "")) != "":
+		c.choice_sources["@" + str(out["follow_up"])] = src.duplicate()
+
+
+## The "Because you..." line for a scene that fires from an earlier choice: a
+## follow-up of that choice, or a scene that requires a flag it set (requires
+## flags / any_flags, also inside any_of). The most recent matching choice
+## wins. Its "callback" text ("put homework first") reads "Because you put
+## homework first."; without one: Because you chose "Finish the assignment
+## first" in Homework or the Field. "" = no earlier choice behind it.
+static func because(c: CareerData, s: Dictionary) -> String:
+	var keys: Array = ["@" + str(s.get("id", ""))]
+	_flag_keys(s.get("requires", {}), keys)
+	var best: Dictionary = {}
+	for k in keys:
+		var src: Variant = c.choice_sources.get(str(k))
+		if src is Dictionary and c.flags.get(str(k), true) and (best.is_empty()
+				or int(src.get("week_index", 0)) > int(best.get("week_index", 0))):
+			best = src
+	if best.is_empty():
+		return ""
+	var cb := str(best.get("callback", "")).strip_edges().trim_suffix(".")
+	if cb != "":
+		return "Because you %s." % cb
+	return "Because you chose \"%s\" in %s." % [str(best.get("label", "")), str(best.get("title", ""))]
+
+
+static func _flag_keys(req: Variant, keys: Array) -> void:
+	if not (req is Dictionary):
+		return
+	for f in req.get("flags", []) + req.get("any_flags", []):
+		if not (str(f) in keys):
+			keys.append(str(f))
+	for r in req.get("any_of", []):
+		_flag_keys(r, keys)
 
 
 ## A choice's progression changes: {"recruiting": 4, "grades": 0.2, ...},

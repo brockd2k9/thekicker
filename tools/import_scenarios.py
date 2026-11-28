@@ -106,12 +106,17 @@ EPILOGUE_FLAGS = {"hall_of_fame_earned", "hall_of_fame_tier", "hof_first_ballot"
                   "retired_unsigned", "was_dismissed"}
 CHOICE_FIELDS = {"label", "result", "stats", "modifiers", "set_flags", "rel", "requires", "lock_text",
                  "follow_up", "recruiting", "grades", "draft", "retention", "skill_points",
-                 "followers", "followers_exact", "conduct", "deal", "suspend_weeks", "recast", "money"}
+                 "followers", "followers_exact", "conduct", "deal", "suspend_weeks", "recast", "money",
+                 "callback", "risky"}
 SCENARIO_FIELDS = {"id", "title", "_info", "category", "text", "choices", "weight", "cooldown", "when",
-                   "follow_up_only", "stages", "seasons", "weeks", "once", "once_per_club", "_note", "order"}
+                   "follow_up_only", "stages", "seasons", "weeks", "once", "once_per_club", "_note", "order",
+                   "impact", "speaker", "key"}
+# How a scene reads and how hard it hits (docs/story_note_scenario_impact.md).
+IMPACT_VALUES = {"minor", "normal", "major"}
+CALLBACK_MAX = 90
 # Fields a template may set on a scenario that already exists (graph fields stay
 # with tools/convert_hs_graph.py).
-WRITABLE = ["category", "text", "choices", "weight", "cooldown", "when"]
+WRITABLE = ["category", "text", "choices", "weight", "cooldown", "when", "impact", "speaker", "key"]
 
 
 def load(path):
@@ -176,6 +181,10 @@ def clean_choice(ch):
         out["rel"] = rel
     if ch.get("follow_up"):
         out["follow_up"] = ch["follow_up"]
+    if ch.get("callback") not in (None, ""):
+        out["callback"] = ch["callback"]
+    if isinstance(ch.get("risky"), bool):
+        out["risky"] = ch["risky"]
     return out
 
 
@@ -340,6 +349,12 @@ def main(argv=None):
         is_epilogue = "epilogue" in when_now or "retired" in stages_now
         if is_epilogue and (when_now != EPILOGUE_WHEN or stages_now != EPILOGUE_STAGES):
             rep.add(sid, "ERROR", "a closing scene needs exactly \"when\": [\"epilogue\"] and \"stages\": [\"retired\"]")
+        if "impact" in e and e["impact"] not in IMPACT_VALUES:
+            rep.add(sid, "ERROR", "impact must be minor, normal or major (\"weight\" is the pick weight, a number)")
+        if "speaker" in e and e["speaker"] != "" and e["speaker"] not in placeholders:
+            rep.add(sid, "ERROR", f"speaker '{e['speaker']}' must be a cast id ({', '.join(sorted(placeholders))}) or \"\"")
+        if "key" in e and str(e["key"]) not in text:
+            rep.add(sid, "ERROR", "key must be a phrase copied exactly from the text")
         if "order" in e and (isinstance(e["order"], bool) or not isinstance(e["order"], (int, float))):
             rep.add(sid, "ERROR", "order must be a number (closing scenes play by order, then id)")
         choices = [c for c in e.get("choices", []) if isinstance(c, dict)]
@@ -361,6 +376,14 @@ def main(argv=None):
                 rep.add(sid, "ERROR", f"{w}: result is empty")
             for k in ("label", "result", "lock_text"):
                 check_text(rep, sid, f"{w} {k}", str(ch.get(k, "")), blocked, placeholders)
+            if "callback" in raw:
+                cb = raw["callback"]
+                if not isinstance(cb, str) or not cb.strip() or len(cb) > CALLBACK_MAX \
+                        or cb.strip().lower().startswith("because"):
+                    rep.add(sid, "ERROR", f"{w}: callback is the rest of \"Because you ...\" "
+                            f"(e.g. \"skipped the party\"), {CALLBACK_MAX} characters at most")
+            if "risky" in raw and not isinstance(raw["risky"], bool):
+                rep.add(sid, "ERROR", f"{w}: risky must be true or false")
             n_stats = 0
             for g, d in ch["stats"].items():
                 if g not in GROUP_KEYS:

@@ -785,6 +785,14 @@ little standing. A choice's `suspend_weeks` (1-3) sits the player out games like
 ineligibility. Rules: `scripts/career/reputation.gd`; notes for writers:
 `docs/story_note_reputation_suspensions.md`.
 
+**Scenario popup and impact:** the setup reads in short beats (tap to continue) under a headline,
+with the key phrase highlighted, a speaker strip for the person it features and a "Because you..."
+line when an earlier choice brought the scene. Choice cards show a short label and stakes chips
+(exact numbers only on safe choices). A scene's `"impact"` (minor / normal / major) decides whether
+the full result shows or only a toast, and scales its stat swings; every choice is kept in the Hub's
+"Recent choices". Rules: `ScenarioEngine` ("impact, results and callbacks"), `ScenarioText`; numbers:
+`career_tuning.tres` "Scenario Impact"; for writers: `docs/story_note_scenario_impact.md`.
+
 **Career state for scenarios:** "right now" values (`slump_now`, `benched_now`, `fg_streak`, `clubs`, ...),
 game-set flags (`contract_year`, `re_signed`, `signed_new_club`, `released`), `{club}` / `{town}`,
 `once_per_club`, and a season-end `dismissed` flag: `docs/story_note_career_state.md`.

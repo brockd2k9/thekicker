@@ -108,6 +108,14 @@ var week_modifiers: Array = []
 var pending_scenarios: Array = []
 ## Follow-ups waiting to fire: [{id, due}] (due = week_index).
 var queued_scenarios: Array = []
+## The last scenario choices, newest last (the Hub's "Recent choices"; a
+## minor choice's result is only a toast, so it can be read here later):
+## [{id, title, label, result, stage, season, week, phase, impact, shown,
+## applied, rel, money, followers, skill_points}] (ScenarioEngine._remember).
+var choice_log: Array = []
+## Where a flag (or "@<follow-up id>") came from: {title, label, callback,
+## week_index}, for the "Because you..." line (ScenarioEngine.because).
+var choice_sources: Dictionary = {}
 ## This season's scenario counts for the repetition guard:
 ## {"ids": {id: n}, "cats": {category: n}}. Reset every season.
 var season_log: Dictionary = {"ids": {}, "cats": {}}
@@ -430,6 +438,8 @@ func to_dict() -> Dictionary:
 		"week_modifiers": week_modifiers.duplicate(),
 		"pending_scenarios": pending_scenarios.duplicate(),
 		"queued_scenarios": queued_scenarios.duplicate(true),
+		"choice_log": choice_log.duplicate(true),
+		"choice_sources": choice_sources.duplicate(true),
 		"season_log": season_log.duplicate(true),
 		"injury": injury.duplicate(),
 		"recruiting_score": recruiting_score,
@@ -532,6 +542,10 @@ static func from_dict(d: Dictionary) -> CareerData:
 	for q in _array(d, "queued_scenarios"):
 		if q is Dictionary and q.has("id"):
 			c.queued_scenarios.append({"id": str(q["id"]), "due": int(q.get("due", 0))})
+	for e in _array(d, "choice_log"):
+		if e is Dictionary:
+			c.choice_log.append(e)
+	c.choice_sources = _dict(d, "choice_sources")
 	var sl := _dict(d, "season_log")
 	c.season_log = {"ids": sl.get("ids", {}) if sl.get("ids") is Dictionary else {},
 		"cats": sl.get("cats", {}) if sl.get("cats") is Dictionary else {}}

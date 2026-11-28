@@ -13,6 +13,7 @@ var _panel: PanelContainer
 var _title: Label
 var _body: Label
 var _icon: TextureRect
+var _extra: VBoxContainer
 
 
 func _ready() -> void:
@@ -49,6 +50,10 @@ func _ready() -> void:
 	v.add_child(_title)
 	_body = UiKit.label("", 36, Color.WHITE, UiTokens.FONT_BANNER)
 	v.add_child(_body)
+	_extra = VBoxContainer.new()
+	_extra.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_extra.custom_minimum_size.x = 460
+	v.add_child(_extra)
 	# Fixed text width so the wrapped height is right when the panel is sized.
 	_title.custom_minimum_size.x = 460
 	_body.custom_minimum_size.x = 460
@@ -59,9 +64,22 @@ func _ready() -> void:
 
 ## icon: a UiIcons id ("achievements", "charisma"...).
 func show_message(title: String, body: String, icon := "info") -> void:
-	_queue.append([title, body, icon])
+	_queue.append([title, body, icon, null, SHOW_TIME])
 	if not _busy:
 		_next()
+
+
+## A toast with something under the body (e.g. a minor scenario choice's
+## stat chips), held for `hold` seconds. `extra` is freed when it's done.
+func show_with(title: String, body: String, extra: Control, icon := "info", hold := SHOW_TIME) -> void:
+	_queue.append([title, body, icon, extra, hold])
+	if not _busy:
+		_next()
+
+
+## How many toasts are showing or waiting (tests).
+func pending() -> int:
+	return _queue.size() + (1 if _busy else 0)
 
 
 func _on_achievement(def: Dictionary) -> void:
@@ -78,6 +96,14 @@ func _next() -> void:
 	var item: Array = _queue.pop_front()
 	_title.text = item[0]
 	_body.text = item[1]
+	_body.visible = str(item[1]) != ""
+	for ch in _extra.get_children():
+		ch.queue_free()
+	var extra: Variant = item[3] if item.size() > 3 else null
+	if extra is Control:
+		_ignore_mouse(extra)
+		_extra.add_child(extra)
+	_extra.visible = extra is Control
 	# Colors follow the current palette (Career stage or default).
 	# Broadcast style: black, a red stripe, a clipped corner, white title.
 	var box := ClippedBox.new()
@@ -104,7 +130,14 @@ func _next() -> void:
 	var tw := create_tween().set_ignore_time_scale(true)
 	tw.tween_property(_panel, "position:x", x, SLIDE_TIME) \
 		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	tw.tween_interval(SHOW_TIME)
+	tw.tween_interval(float(item[4]) if item.size() > 4 else SHOW_TIME)
 	tw.tween_property(_panel, "position:x", vw + 40.0, SLIDE_TIME) \
 		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	tw.tween_callback(_next)
+
+
+static func _ignore_mouse(n: Node) -> void:
+	if n is Control:
+		(n as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
+	for ch in n.get_children():
+		_ignore_mouse(ch)

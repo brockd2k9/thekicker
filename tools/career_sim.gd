@@ -67,6 +67,8 @@ var _scen_count := {}  # id -> appearances
 var _ret_by_scen := {}
 var _practice := "normal"  # scenario id -> [standing applied by choices, times]
 var _scen_careers := {}  # id -> careers that saw it
+## impact -> [choices, full results shown] (ScenarioEngine.result_reasons).
+var _impact_count := {}
 
 
 func _ready() -> void:
@@ -88,6 +90,9 @@ func _ready() -> void:
 		var pair := kv.split(":")
 		if pair.size() == 2:
 			CareerTuning.get_default().set(pair[0], float(pair[1]))
+	# impact=guess: untagged scenes get ScenarioEngine.guess_impact() (an
+	# estimate of the story session's minor / major tags); default: their tag.
+	ScenarioEngine.impact_guess = str(args.get("impact", "")) == "guess"
 	Followers.effects_off = str(args.get("fans", "1")) == "0"
 	Followers.sim_choice_buzz = float(args.get("tag", 0.0))
 	# rep=0: character reputation and suspensions have no effect.
@@ -168,7 +173,7 @@ func _play_career(strat: String, n: int) -> Dictionary:
 				_track_life(c, m.tuning, out)
 			CareerManager.PHASE_EPILOGUE:
 				_count_scen(str(c.pending_scenarios[0]), out)
-				m.choose(_choose(c, m.current_scenario(), strat, m.tuning))
+				_count_impact(m.choose(_choose(c, m.current_scenario(), strat, m.tuning)))
 			CareerManager.PHASE_HALL:
 				m.finish_hall_of_fame()
 			CareerManager.PHASE_SCENARIO, CareerManager.PHASE_OFFSEASON:
@@ -181,6 +186,7 @@ func _play_career(strat: String, n: int) -> Dictionary:
 				# The choice's own standing change (not retention_bonus before /
 				# after: the last offseason choice starts a season, which resets it).
 				var co := m.choose(_choose(c, m.current_scenario(), strat, m.tuning))
+				_count_impact(co)
 				var dr := float((co.get("progress", {}) as Dictionary).get("retention", 0.0))
 				if dr != 0.0:
 					var a: Array = _ret_by_scen.get(sid, [0.0, 0])
@@ -350,6 +356,16 @@ func _snapshot(m: CareerManager, out: Dictionary) -> void:
 	out[tag + "_bought"] = bought
 	out[tag + "_direct"] = total - bought
 	out[tag + "_range"] = KickRange.fg_range(c, m.tuning)
+
+
+func _count_impact(co: Dictionary) -> void:
+	if co.is_empty():
+		return
+	var imp := str(co.get("impact", "normal"))
+	var a: Array = _impact_count.get(imp, [0, 0])
+	a[0] += 1
+	a[1] += 0 if (co.get("reasons", []) as Array).is_empty() else 1
+	_impact_count[imp] = a
 
 
 func _count_scen(id: String, out: Dictionary) -> void:
@@ -704,6 +720,23 @@ func _report(results: Dictionary, n: int, problems: PackedStringArray, ms: int) 
 				hist[int(b)] += int(h[b])
 		var tot: int = hist.reduce(func(a, x): return a + x, 0)
 		L.append("| %s | %s |" % [CareerData.STAT_NAMES[k], " | ".join(PackedStringArray(hist.map(func(x): return _pct(x, tot))))])
+	L.append("")
+	# --- scenario impact
+	L.append("## Scenario impact (choices made; full result shown vs a quick toast)")
+	L.append("")
+	L.append("Tags: %s. Stat scale minor / normal / major: %.2f / %.2f / %.2f." % [
+		"estimated (impact=guess)" if ScenarioEngine.impact_guess else "from the data",
+		CareerTuning.get_default().impact_scale_minor, CareerTuning.get_default().impact_scale_normal,
+		CareerTuning.get_default().impact_scale_major])
+	L.append("")
+	L.append("| Impact | Choices | Share | Full result | Toast only |")
+	L.append("|---|---|---|---|---|")
+	var all_ch := 0
+	for imp in ScenarioEngine.IMPACTS:
+		all_ch += int(_impact_count.get(imp, [0, 0])[0])
+	for imp in ScenarioEngine.IMPACTS:
+		var a: Array = _impact_count.get(imp, [0, 0])
+		L.append("| %s | %d | %s | %s | %s |" % [imp, a[0], _pct(a[0], all_ch), _pct(a[1], a[0]), _pct(a[0] - a[1], a[0])])
 	L.append("")
 	# --- scenarios
 	L.append("## Scenario appearances (all strategies; per career, and share of careers that saw it)")

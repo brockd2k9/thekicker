@@ -30,6 +30,7 @@ const FEEDBACK := {
 	&"ui_open": 0, &"ui_transition": 0,
 	&"stat_up": 10, &"stat_down": 16, &"trait_unlock": 45, &"achievement": 50,
 	&"result_good": 30, &"result_miss": 60, &"game_winner": 140, &"week_result": 20,
+	&"major_scene": 70,
 }
 
 # Palette colors (the broadcast palette; static so older code keeps reading
@@ -449,7 +450,8 @@ static func section(text: String, _color := Color(0, 0, 0, 0)) -> Control:
 static func chip(text: String, color: Color, filled := false, icon := "", size := 22) -> PanelContainer:
 	var red := _text_color(color) == Brand.RED_HOT
 	var kind := ("red" if red else "neutral") if filled else "outline"
-	var c := BrandUi.chip(text, kind, icon)
+	# Game icon names ("fun", "ball", "health") -> the brand icon set's names.
+	var c := BrandUi.chip(text, kind, UiIcons.brand_name(icon) if icon != "" else "")
 	if not filled and red:
 		c.ready.connect(func() -> void:
 			for l in c.find_children("*", "Label", true, false):

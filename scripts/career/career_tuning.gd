@@ -261,6 +261,28 @@ const DEFAULT_PATH := "res://tuning/career_tuning.tres"
 ## cap wait a week; random picks still fill up to the week's normal count.
 @export var max_forced_per_week: int = 2
 
+@export_group("Scenario Impact")
+## A scene's "impact" in the data: "minor", "normal" (default) or "major"
+## (ScenarioEngine.impact). It scales the choice's stat changes (life,
+## football, personality; after scenario_football_scale) and decides whether
+## the full result screen shows (ScenarioEngine.result_reasons).
+@export_range(0.0, 3.0) var impact_scale_minor: float = 0.75
+@export_range(0.0, 3.0) var impact_scale_normal: float = 1.0
+@export_range(0.0, 3.0) var impact_scale_major: float = 1.35
+## A normal scene shows its full result only when the choice crosses one of
+## these (a minor scene never does, a major one always does): any flag set or
+## cleared, any conduct tag, a suspension, draft points, recruiting points of
+## at least result_recruiting_min, a money change of at least result_money_min
+## (either way), one relationship moving by result_rel_min or more, followers
+## buzz of result_followers_min or more (either way) or a new follower tier, a
+## brand deal, a new trait, a follow-up scene, or a kick challenge.
+@export var result_money_min: int = 100000
+@export var result_rel_min: float = 6.0
+@export var result_followers_min: float = 4.0
+@export var result_recruiting_min: float = 3.0
+## How many past choices the Hub's "Recent choices" keeps (CareerData.choice_log).
+@export var choice_log_size: int = 30
+
 @export_group("Game Sim")
 ## Drives per team per half. More drives = more kicks per game.
 @export var drives_per_half: int = 4

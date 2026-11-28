@@ -25,8 +25,8 @@ const SIM := preload("res://tools/career_sim.gd")
 const SKILLS := preload("res://scripts/ui/screens/career_skills.gd")
 const MIN_TAP := UiTokens.TAP_MIN
 ## Every screen this tool knows, in the order it captures them.
-const ALL := ["main", "career_menu", "tutorial", "new", "new_web", "name_chooser", "hub", "scenario",
-	"scenario_result", "outlook", "game", "warmup", "warmup_result", "kickoff", "kickoff_result", "onside",
+const ALL := ["main", "career_menu", "tutorial", "new", "new_web", "name_chooser", "hub", "scenario_beats", "scenario",
+	"scenario_result", "scenario_major", "scenario_toast", "hub_choices", "outlook", "game", "warmup", "warmup_result", "kickoff", "kickoff_result", "onside",
 	"kick_fg", "kick_fg_result", "game_field", "game_field_kick",
 	"hud", "hud_result", "results", "stats", "achievements", "settings", "career_stats", "people", "debug",
 	"challenge", "season", "recruiting", "recruiting_board", "recruiting_board_senior", "college_choice", "hub_college", "draft",
@@ -123,7 +123,15 @@ func _capture_all() -> void:
 	_force_locked_scenario("hs_teammate_conflict")
 	await _shot("hub", Screens.CAREER_HUB, func() -> void: c.phase = CareerManager.PHASE_WEEK_START,
 		func() -> void: c.phase = CareerManager.PHASE_SCENARIO)
-	await _shot("scenario", Screens.CAREER_SCENARIO)
+	# The setup's first beat (TAP TO CONTINUE), then tapped through to the choices.
+	if _want("scenario_beats"):
+		await _open(Screens.CAREER_SCENARIO, 2.5)
+		await _capture("scenario_beats")
+	if _want("scenario"):
+		await _open(Screens.CAREER_SCENARIO, 0.3)
+		await _read_through()
+		await _capture("scenario")
+	await _impact_shots()
 	if _want("scenario_result"):
 		await _open(Screens.CAREER_SCENARIO)
 		var scr := get_tree().current_scene
@@ -553,6 +561,79 @@ func _advance(done: Callable) -> void:
 	if not done.call():
 		_problems.append("[%s] state: could not reach the wanted career state (phase %s, stage %s)"
 			% [_tag, c.phase, c.stage])
+
+
+## Taps the open scenario's setup through to its choices.
+func _read_through() -> void:
+	var scr := get_tree().current_scene
+	var n := 0
+	while scr != null and scr.has_method("advance") and not scr.reading_done() and n < 20:
+		scr.advance()
+		await _wait(0.05)
+		n += 1
+	await _wait(0.6)
+
+
+## A major moment (dark red frame, speaker strip, "Because you..."), a minor
+## choice's toast, and the Hub's Recent choices.
+func _impact_shots() -> void:
+	if not (_want("scenario_major") or _want("scenario_toast") or _want("hub_choices")):
+		return
+	var c := _m.data
+	var keep := {"phase": c.phase, "pending": c.pending_scenarios.duplicate(), "flags": c.flags.duplicate(),
+		"src": c.choice_sources.duplicate(true), "log": c.choice_log.duplicate(true)}
+	var big := {"id": "ui_major", "title": "Coach's Office", "category": "team", "stages": [c.stage],
+		"impact": "major", "requires": {"flags": ["ui_extra_reps"]},
+		"text": "{coach} closes the door behind you and slides a folder across the desk. A scout from a big program called this morning and asked about your work ethic. The coach wants to know what to tell him, and whatever you say now goes straight into that report.",
+		"choices": [
+			{"label": "Tell the truth about the missed lift", "result": "x", "stats": {"personality": {"leadership": 3}},
+				"rel": {"coach": 6}, "recruiting": -2, "modifiers": ["focused"], "conduct": "good"},
+			{"label": "Say you never miss a session", "result": "x", "stats": {"personality": {"charisma": 2}},
+				"rel": {"coach": -8}, "recruiting": 3, "modifiers": ["stressed"], "conduct": "bad",
+				"set_flags": {"ui_lied": true}},
+			{"label": "Ask the coach to speak for you", "result": "x", "stats": {"life": {"social": 2}},
+				"rel": {"coach": 3}, "modifiers": ["confident"]}]}
+	var small := {"id": "ui_minor", "title": "Lunch Line", "category": "social", "stages": [c.stage],
+		"impact": "minor", "text": "The lunch line is long and {best_friend} is saving you a seat.",
+		"choices": [{"label": "Grab a seat with {best_friend}", "result": "You trade jokes all lunch.",
+			"stats": {"life": {"social": 3, "fun": 2}}, "rel": {"best_friend": 2}, "modifiers": ["loose"]},
+			{"label": "Eat fast and hit the film room", "result": "x", "stats": {"life": {"social": -2}},
+				"skill_points": 1, "modifiers": ["focused"]}]}
+	var all := CareerContent.scenarios().duplicate()
+	all.append(big)
+	all.append(small)
+	CareerContent.use_scenarios(all)
+	c.flags["ui_extra_reps"] = true
+	c.choice_sources["ui_extra_reps"] = {"title": "Extra Reps", "label": "Stay after practice",
+		"callback": "stayed after practice for extra reps", "week_index": c.week_index}
+	c.phase = CareerManager.PHASE_SCENARIO
+	if _want("scenario_major"):
+		c.pending_scenarios = ["ui_major"]
+		await _open(Screens.CAREER_SCENARIO, 0.3)
+		await _read_through()
+		await _capture("scenario_major")
+	if _want("scenario_toast") or _want("hub_choices"):
+		c.pending_scenarios = ["ui_minor", "ui_minor"]
+		await _open(Screens.CAREER_SCENARIO, 0.3)
+		await _read_through()
+		var scr := get_tree().current_scene
+		Toast.visible = true
+		scr._pick(0)
+		await _wait(1.2)
+		await _capture("scenario_toast")
+		Toast.visible = false
+		if _want("hub_choices"):
+			await _open(Screens.CAREER_HUB, 0.6)
+			for n in get_tree().current_scene.find_children("*", "ScrollContainer", true, false):
+				(n as ScrollContainer).scroll_vertical = 100000
+			await _wait(0.4)
+			await _capture("hub_choices")
+	CareerContent.reload()
+	c.phase = keep["phase"]
+	c.pending_scenarios = keep["pending"]
+	c.flags = keep["flags"]
+	c.choice_sources = keep["src"]
+	c.choice_log = keep["log"]
 
 
 ## Shows a scenario that has a locked choice (for the locked-card look).

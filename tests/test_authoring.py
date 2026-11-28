@@ -84,6 +84,36 @@ class ImportTests(unittest.TestCase):
             self.assertEqual(g["HS_003"]["choices"][0]["follow_up"], {"id": "HS_003F", "weeks": 2})
             self.assertNotIn("rel", g["HS_014"]["choices"][0])  # empty slots dropped
 
+    def test_impact_and_callback_import(self):
+        g = {s["id"]: s for s in json.load(open(os.path.join(ROOT, "data", "career", "scenarios_hs_graph.json")))["scenarios"]}
+        e = {k: g["HS_001"][k] for k in ("id", "title", "category", "text", "choices")}
+        e = json.loads(json.dumps(e))
+        e["impact"] = "minor"
+        e["speaker"] = ""
+        e["choices"][0]["callback"] = "sat with the team on day one"
+        e["choices"][1]["risky"] = False
+        with tempfile.TemporaryDirectory() as d:
+            data = os.path.join(d, "data")
+            shutil.copytree(os.path.join(ROOT, "data", "career"), data)
+            path = os.path.join(d, "one.json")
+            with open(path, "w") as f:
+                json.dump({"scenarios": [e]}, f)
+            code, out = run(path, "--data-dir", data)
+            self.assertEqual(code, 0, out)
+            w = {s["id"]: s for s in json.load(open(os.path.join(data, "scenarios_hs_graph.json")))["scenarios"]}
+            self.assertEqual(w["HS_001"]["impact"], "minor")
+            self.assertEqual(w["HS_001"]["choices"][0]["callback"], "sat with the team on day one")
+            self.assertIs(w["HS_001"]["choices"][1]["risky"], False)
+            bad = json.loads(json.dumps(e))
+            bad["impact"] = 2
+            bad["choices"][0]["callback"] = "Because you sat down"
+            with open(path, "w") as f:
+                json.dump({"scenarios": [bad]}, f)
+            code, out = run(path, "--data-dir", data)
+            self.assertEqual(code, 1)
+            self.assertIn("impact must be minor, normal or major", out)
+            self.assertIn("callback is the rest of", out)
+
     def test_templates_match_graph(self):
         graph = [s for s in json.load(open(os.path.join(ROOT, "data", "career", "scenarios_hs_graph.json")))
                  ["scenarios"] if not s.get("added_by_import")]
@@ -137,6 +167,18 @@ class LintTests(unittest.TestCase):
         self.assertEqual(self.codes({"text": "x", "choices": [a, b]}), [])
         c = self.choice(stats={"life": {"energy": -1, "social": 2}}, skill_points=2)
         self.assertIn("dominated", self.codes({"text": "x", "choices": [a, c]}))
+
+    def test_best_choice_wins_on_every_number(self):
+        a = self.choice(stats={"life": {"energy": -1, "social": 2}}, skill_points=2, followers=2)
+        b = self.choice(stats={"life": {"energy": -2}}, skill_points=1)
+        c = self.choice(stats={"life": {"energy": -2, "social": 1}})
+        e = {"text": "x", "impact": "minor", "choices": [a, b, c]}
+        found = [m for code, _, m in scenario_lint.lint_entry(e, self.NAMES) if code == "best_choice"]
+        self.assertEqual(len(found), 1)
+        self.assertTrue(found[0].startswith("minor scene"))
+        # A real trade (the other choice wins on followers or conduct) is fine.
+        b2 = self.choice(stats={"life": {"energy": -2}}, conduct="good")
+        self.assertNotIn("best_choice", self.codes({"text": "x", "choices": [a, b2]}))
 
     def test_pronoun_for_an_npc_is_not_flagged(self):
         e = {"text": "A trainer at the park says he coached college kickers. {coach} has never heard of him.",

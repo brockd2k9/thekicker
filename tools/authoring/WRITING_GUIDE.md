@@ -233,6 +233,21 @@ scenario's id plus `F`, e.g. `HS_003F`); give it a title, category, text and 2-3
 follow-ups for direct consequences of one choice. To open a *graph* scenario (one with its own id
 in the template), set the flag it requires instead.
 
+## Impact, callbacks and how the popup reads
+
+Full details and thresholds: `docs/story_note_scenario_impact.md`. In short:
+
+* Scene `"impact"`: `"minor"` (toast only, stats x0.75), `"normal"` (default; full result only
+  when a choice sets a flag, has conduct, suspends, moves draft points, recruiting 3+, money
+  $100K+, a relationship 6+, followers buzz 4+), `"major"` (full result always, stats x1.35,
+  darker look, numbers hidden). Not `weight`: that is the pick weight.
+* Scene `"key"` (a phrase from the text to highlight) and `"speaker"` (a cast id, or `""`).
+* Choice `"callback"`: the rest of "Because you ...", shown when a later scene fires from this
+  choice's flag or follow-up (`"callback": "skipped the party for extra reps"`).
+* Choice `"risky": true` hides the card's numbers (direction only).
+* Setup text is read in beats of about 120 characters: end sentences cleanly. Labels carry the
+  whole choice now: keep them short and concrete.
+
 ## College (the COL_* story graph)
 
 College scenarios are storylines from college life, not sequels to high school. Templates:

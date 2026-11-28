@@ -15,6 +15,10 @@ tools/lint_scenarios.py (scenarios already in the game data). Each finding is
   dominated      a choice at least as good as another in every number
                  (stats, skill points, recruiting, grades, rel) and better in one
   near_dominated the same except for a single number: probably too one-sided
+  best_choice    one choice beats every other open choice on every number (the
+                 above, plus followers buzz and conduct): an obviously best
+                 choice; marked "minor scene" when the scene has "impact": "minor",
+                 where it is never allowed (a minor scene's only point is the trade)
   conduct_cost   a choice with conduct bad / scandal must cost something that lasts:
                  negative draft or retention points, suspend_weeks, a negative {coach} or
                  Team change, or a flag
@@ -158,6 +162,45 @@ def dominance_findings(choices):
     return found
 
 
+CONDUCT_SCORE = {"good": 1, "bad": -1, "scandal": -2}
+
+
+def _numbers_full(ch):
+    v = _numbers(ch)
+    if ch.get("followers"):
+        v["followers"] = ch["followers"]
+    if ch.get("conduct") in CONDUCT_SCORE:
+        v["conduct"] = CONDUCT_SCORE[ch["conduct"]]
+    if ch.get("suspend_weeks"):
+        v["suspend_weeks"] = -ch["suspend_weeks"]
+    return v
+
+
+def best_choice_findings(entry):
+    """A choice that wins on every number against every other open choice."""
+    chs = [(i, c) for i, c in enumerate(entry.get("choices") or [])
+           if isinstance(c, dict) and not c.get("requires") and not c.get("kick_challenge")]
+    if len(chs) < 2:
+        return []
+    found = []
+    for i, a in chs:
+        va = _numbers_full(a)
+        wins = True
+        for j, b in chs:
+            if i == j:
+                continue
+            vb = _numbers_full(b)
+            keys = set(va) | set(vb)
+            if any(va.get(k, 0) < vb.get(k, 0) for k in keys) or not any(va.get(k, 0) > vb.get(k, 0) for k in keys):
+                wins = False
+                break
+        if wins:
+            minor = entry.get("impact") == "minor"
+            found.append(("best_choice", f"choice {i + 1}", ("minor scene: " if minor else "") +
+                          "wins on every number against every other choice; give each other choice a real upside"))
+    return found
+
+
 PRESSURE = re.compile(r"\b(party|parties|drinking|something stronger|prescription|initiation|hazing|"
                       r"dare|everybody does it|everybody uses|sneak(ing)? out|go out tonight)\b", re.I)
 PLAYER_USE = re.compile(r"\byou (drink|chug|smoke|vape|get (drunk|high|wasted)|black out|"
@@ -217,6 +260,7 @@ def lint_entry(entry, names):
         if m:
             found.append(("hardcoded_name", where, f"'{m.group(0)}' looks like a cast name; use its placeholder"))
     found += dominance_findings(entry.get("choices") or [])
+    found += best_choice_findings(entry)
     found += conduct_findings(entry)
     found += writing_findings(entry)
     return found

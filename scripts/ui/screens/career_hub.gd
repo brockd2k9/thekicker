@@ -77,6 +77,20 @@ func _build(col: VBoxContainer) -> void:
 	for i in range(c.recent_results.size() - 1, -1, -1):
 		list.add_child(_result_row(c.recent_results[i]))
 
+	# Recent choices: every scenario answer, including the ones that only got a
+	# toast, newest first; tap one to read what happened.
+	if not c.choice_log.is_empty():
+		list.add_child(BrandUi.section("Recent choices"))
+		var shown := 0
+		for i in range(c.choice_log.size() - 1, -1, -1):
+			list.add_child(_choice_row(c.choice_log[i]))
+			shown += 1
+			if shown >= RECENT_CHOICES:
+				break
+		if c.choice_log.size() > RECENT_CHOICES:
+			var more := BrandUi.button("All recent choices (%d)" % c.choice_log.size(), _all_choices, "secondary")
+			list.add_child(more)
+
 	var main := BrandUi.button(_main_text(), _main_action, "primary", "play")
 	var menu := BrandUi.button("Menu", go_back, "secondary", "home")
 	col.add_child(BrandUi.button_row([menu, main]))
@@ -227,6 +241,70 @@ func _nav_row(title: String, sub: String, value: String, icon: String, path: Str
 	r.icon_name = icon
 	r.pressed.connect(Screens.go.bind(path))
 	return r
+
+
+## Rows of "Recent choices" on the Hub (the rest behind "All recent choices").
+const RECENT_CHOICES := 3
+
+
+## A past choice (CareerData.choice_log entry): when, the scene, what you
+## picked; tap to open what happened and what it changed.
+func _choice_row(e: Dictionary) -> Control:
+	var r: BrandListRow = load("res://scenes/ui/brand/list_row.tscn").instantiate()
+	r.name = "ChoiceRow"
+	r.title = str(e.get("label", ""))
+	r.subtitle = "%s  %s" % [_choice_when(e), str(e.get("title", ""))]
+	r.icon_name = "clipboard"
+	r.pressed.connect(_open_choice.bind(e))
+	return r
+
+
+static func _choice_when(e: Dictionary) -> String:
+	match str(e.get("phase", "")):
+		CareerManager.PHASE_OFFSEASON:
+			return "Offseason"
+		CareerManager.PHASE_EPILOGUE:
+			return "After the game"
+	return "Wk %d" % int(e.get("week", 0))
+
+
+## One past choice: the scene, your pick, the result text and the changes.
+func _open_choice(e: Dictionary) -> void:
+	if get_node_or_null("Modal") != null:
+		return
+	var v := UiKit.modal(self, str(e.get("label", "")))
+	v.add_child(CareerUi.centered("%s  %s" % [_choice_when(e), str(e.get("title", ""))], 24, UiKit.MUTED))
+	var r := UiKit.label(str(e.get("result", "")), 30)
+	r.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(r)
+	var out := {"applied": e.get("applied", {}), "relationships": e.get("rel", {}), "money": e.get("money", 0),
+		"followers": e.get("followers", 0), "skill_points": e.get("skill_points", 0)}
+	v.add_child(preload("res://scripts/ui/screens/career_scenario.gd").change_flow(career.data, out))
+	var root := UiKit.modal_root(v)
+	v.add_child(UiKit.primary("Close", func() -> void: root.queue_free(), "check"))
+
+
+## Every choice kept (choice_log_size), newest first, in a scrolling popup.
+func _all_choices() -> void:
+	if get_node_or_null("Modal") != null:
+		return
+	var v := UiKit.modal(self, "Recent choices")
+	var sc := ScrollContainer.new()
+	sc.custom_minimum_size.y = 760
+	sc.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	v.add_child(sc)
+	var list := VBoxContainer.new()
+	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	list.add_theme_constant_override("separation", 14)
+	sc.add_child(list)
+	var c := career.data
+	for i in range(c.choice_log.size() - 1, -1, -1):
+		var e: Dictionary = c.choice_log[i]
+		list.add_child(UiKit.label("%s  %s" % [_choice_when(e), str(e.get("title", ""))], 22, UiKit.MUTED))
+		list.add_child(UiKit.label(str(e.get("label", "")), 28, UiKit.TEXT, UiTokens.FONT_DISPLAY))
+		list.add_child(UiKit.label(str(e.get("result", "")), 24))
+	var root := UiKit.modal_root(v)
+	v.add_child(UiKit.primary("Close", func() -> void: root.queue_free(), "check"))
 
 
 ## A result: W / L / T, the week and opponent (with the game line), the score.
