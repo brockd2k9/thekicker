@@ -5,6 +5,11 @@ extends CareerScreen
 ## option when you don't have a contract.
 
 
+## Draft day music (free agency keeps the training music).
+func music_cue() -> StringName:
+	return &"training" if str(career.data.draft_result.get("kind", "")) == "free_agency" else &"draft_day"
+
+
 func _build(col: VBoxContainer) -> void:
 	var c := career.data
 	var d := c.draft_result
